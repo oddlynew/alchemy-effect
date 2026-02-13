@@ -1,11 +1,10 @@
+import * as Kinesis from "distilled-aws/kinesis";
 import * as Effect from "effect/Effect";
 
-import * as Kinesis from "distilled-aws/kinesis";
-import { Binding } from "../../../lib/Binding.ts";
-import type { Capability } from "../../../lib/Capability.ts";
-import { declare, type To } from "../../../lib/Capability.ts";
-import { toEnvKey } from "../../../lib/internal/util/env.ts";
-import { Function } from "../Lambda/Function.ts";
+import { Binding } from "../../Binding.ts";
+import type { Capability } from "../../Capability.ts";
+import { declare, type To } from "../../Capability.ts";
+import { toEnvKey } from "../../Env.ts";
 import { Stream } from "./Stream.ts";
 
 export interface PutRecord<S = Stream> extends Capability<
@@ -13,9 +12,9 @@ export interface PutRecord<S = Stream> extends Capability<
   S
 > {}
 
-export const PutRecord = Binding<
-  <S extends Stream>(stream: S) => Binding<Function, PutRecord<To<S>>>
->(Function, "AWS.Kinesis.PutRecord");
+export const PutRecord = Binding("AWS.Kinesis.PutRecord")<
+  <S extends Stream>(stream: S) => PutRecord<To<S>>
+>();
 
 export interface PutRecordOptions {
   /**

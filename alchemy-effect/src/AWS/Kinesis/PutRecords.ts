@@ -3,7 +3,6 @@ import * as Effect from "effect/Effect";
 import { Binding } from "../../Binding.ts";
 import { declare, type Capability, type To } from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
-import { Function } from "../Lambda/Function.ts";
 import { Stream } from "./Stream.ts";
 
 export interface PutRecords<S = Stream> extends Capability<
@@ -11,9 +10,9 @@ export interface PutRecords<S = Stream> extends Capability<
   S
 > {}
 
-export const PutRecords = Binding<
-  <S extends Stream>(stream: S) => Binding<Function, PutRecords<To<S>>>
->(Function, "AWS.Kinesis.PutRecords");
+export const PutRecords = Binding("AWS.Kinesis.PutRecords")<
+  <S extends Stream>(stream: S) => PutRecords<To<S>>
+>();
 
 export interface PutRecordsEntry<Data> {
   /**

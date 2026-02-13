@@ -1,7 +1,14 @@
+import type { HttpServerRequest } from "@effect/platform/HttpServerRequest";
+import type { HttpServerResponse } from "@effect/platform/HttpServerResponse";
+import * as Effect from "effect/Effect";
 import type { ContentType } from "../ContentType.ts";
 import { STag, type STagClass } from "../STag.ts";
 import type * as Route from "./Operation.ts";
 import type { Protocol } from "./Protocol.ts";
+
+export interface EndpointService {
+  fetch: (request: HttpServerRequest) => Effect.Effect<HttpServerResponse>;
+}
 
 export interface EndpointClass<
   Name extends string = any,
@@ -11,9 +18,7 @@ export interface EndpointClass<
 > extends STagClass<
   EndpointClass<Name, Routes, Protocols, Accepts>,
   `Endpoint<${Name}>`,
-  {
-    // TODO
-  },
+  EndpointService,
   {
     routes: Routes;
     protocols: Protocols;
@@ -42,9 +47,4 @@ export const Endpoint = <
     routes: props.routes,
     protocols: props.protocols,
     accepts: props.accepts,
-  })<
-    EndpointClass<Name, Routes, Protocols, Accepts>,
-    {
-      /* TODO */
-    }
-  >() as any;
+  })<EndpointClass<Name, Routes, Protocols, Accepts>, EndpointService>() as any;

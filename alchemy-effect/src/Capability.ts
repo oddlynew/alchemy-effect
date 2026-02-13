@@ -26,6 +26,10 @@ export interface Capability<
   new (): {};
 }
 
+export interface Satisfied<Cap extends Capability> {
+  satisfied: Cap;
+}
+
 export declare namespace Capability {
   export type Simplify<C> = [C] extends [
     {

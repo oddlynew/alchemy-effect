@@ -94,9 +94,6 @@ export const QueueEventSourceProvider = () =>
           schedule: Schedule.exponential(100),
         });
 
-        // TODO(sam): return an accepted error
-        // const orDie = Effect.catchAll((e) => Effect.die(e));
-
         const mappings = yield* lambda
           .listEventSourceMappings({
             FunctionName: functionName,

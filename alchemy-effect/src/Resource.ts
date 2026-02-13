@@ -1,145 +1,28 @@
-import * as Context from "effect/Context";
-import type { Effect } from "effect/Effect";
-import * as Layer from "effect/Layer";
-import type { Pipeable } from "effect/Pipeable";
-import type { InstanceId } from "./InstanceId.ts";
-import type { Provider, ProviderService } from "./Provider.ts";
+import type { Environment } from "./Environment.ts";
 
-export const isResource = (r: any): r is Resource => {
-  return (
-    r && typeof r === "function" && "id" in r && "type" in r && "props" in r
-  );
-};
-
-export type AnyResource = Resource<string, string, any, any>;
-
-export interface IResource<
-  Type extends string = string,
-  ID extends string = string,
-  Props = unknown,
-  Attrs = unknown,
-  Base = unknown,
-  Binding = unknown,
-> extends Pipeable {
-  id: ID;
+export interface ResourceClass<
+  Type extends ResourceClass = any,
+  Props extends any = any,
+  Req = any,
+> extends Environment<Type, Props, never, Req> {
   type: Type;
-  Props: unknown;
+  /** @internal */
   props: Props;
-  base: Base;
-  /** @internal phantom */
-  attr: Attrs;
-  binding: Binding;
+  new (): Resource<Type, Props>;
 }
 
-export interface Resource<
-  Type extends string = string,
-  ID extends string = string,
-  Props = unknown,
-  Attrs = unknown,
-  Base = unknown,
-  Binding = unknown,
-> extends IResource<Type, ID, Props, Attrs, Base, Binding> {
-  new (): Resource<Type, ID, Props, Attrs, Base, Binding>;
+export interface Resource<Type, Props extends any> {
+  type: Type;
+  id: Id;
+  props: Props;
 }
 
-export interface ResourceTags<R extends Resource<string, string, any, any>> {
-  of<S extends ProviderService<R>>(service: S): S;
-  tag: Provider<R>;
-  effect<
-    Err,
-    Req,
-    ReadReq = never,
-    DiffReq = never,
-    PrecreateReq = never,
-    CreateReq = never,
-    UpdateReq = never,
-    DeleteReq = never,
-  >(
-    eff: Effect<
-      ProviderService<
-        R,
-        ReadReq,
-        DiffReq,
-        PrecreateReq,
-        CreateReq,
-        UpdateReq,
-        DeleteReq
-      >,
-      Err,
-      Req
-    >,
-  ): Layer.Layer<
-    Provider<R>,
-    Err,
-    Exclude<
-      | Req
-      | ReadReq
-      | DiffReq
-      | PrecreateReq
-      | CreateReq
-      | UpdateReq
-      | DeleteReq,
-      InstanceId
-    >
-  >;
-  succeed<
-    ReadReq = never,
-    DiffReq = never,
-    PrecreateReq = never,
-    CreateReq = never,
-    UpdateReq = never,
-    DeleteReq = never,
-  >(
-    service: ProviderService<
-      R,
-      ReadReq,
-      DiffReq,
-      PrecreateReq,
-      CreateReq,
-      UpdateReq,
-      DeleteReq
-    >,
-  ): Layer.Layer<
-    Provider<R>,
-    never,
-    Exclude<
-      ReadReq | DiffReq | PrecreateReq | CreateReq | UpdateReq | DeleteReq,
-      InstanceId
-    >
-  >;
-}
-
-export const Resource = <Ctor extends (id: string, props: any) => Resource>(
-  type: ReturnType<Ctor>["type"],
-) => {
-  const Tag = Context.Tag(type)();
-  const provider: ResourceTags<ReturnType<Ctor>> = {
-    tag: Tag as any,
-    effect: (eff) => Layer.effect(Tag, eff),
-    succeed: (service: ProviderService<ReturnType<Ctor>>) =>
-      Layer.succeed(Tag, service),
-    of: (service) => service,
-  } as ResourceTags<ReturnType<Ctor>>;
-  return Object.assign(
-    function (id: string, props: any) {
-      return class Resource {
-        static readonly id = id;
-        static readonly type = type;
-        static readonly props = props;
-        static readonly provider = provider;
-      };
-    } as unknown as Ctor &
-      Pipeable & {
-        type: ReturnType<Ctor>["type"];
-        parent: ReturnType<Ctor>;
-        new (): ReturnType<Ctor> & {
-          parent: ReturnType<Ctor>;
-        };
-        provider: typeof provider;
-      },
-    {
-      type: type,
-      provider,
-    },
-  );
-};
+export const Resource = <
+  const Type extends string,
+  const Id extends string,
+  const Props extends any = never,
+>(
+  type: Type,
+  id: Id,
+  props?: Props,
+): ResourceClass<Type, Id, Props> => undefined!;

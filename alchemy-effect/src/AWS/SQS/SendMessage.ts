@@ -4,7 +4,6 @@ import { Binding } from "../../Binding.ts";
 import type { Capability } from "../../Capability.ts";
 import { declare, type To } from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
-import { Function } from "../Lambda/Function.ts";
 import { Queue } from "./Queue.ts";
 
 export interface SendMessage<Q = Queue> extends Capability<
@@ -12,9 +11,9 @@ export interface SendMessage<Q = Queue> extends Capability<
   Q
 > {}
 
-export const SendMessage = Binding<
-  <Q extends Queue>(queue: Q) => Binding<Function, SendMessage<To<Q>>>
->(Function, "AWS.SQS.SendMessage");
+export const SendMessage = Binding("AWS.SQS.SendMessage")<
+  <Q extends Queue>(queue: Q) => SendMessage<To<Q>>
+>();
 
 export const sendMessage = Effect.fnUntraced(function* <Q extends Queue>(
   queue: Q,

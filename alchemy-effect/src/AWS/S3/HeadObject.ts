@@ -1,10 +1,14 @@
 import * as Effect from "effect/Effect";
 
 import * as S3 from "distilled-aws/s3";
-import { Binding } from "../../../lib/Binding.ts";
-import { declare, type Capability, type To } from "../../../lib/Capability.ts";
-import { toEnvKey } from "../../../lib/internal/util/env.ts";
-import { Function } from "../Lambda/Function.ts";
+import { Binding } from "../../Binding.ts";
+import {
+  declare,
+  type Capability,
+  type In,
+  type To,
+} from "../../Capability.ts";
+import { toEnvKey } from "../../Env.ts";
 import { Bucket } from "./Bucket.ts";
 
 export interface HeadObject<B = Bucket> extends Capability<
@@ -12,9 +16,10 @@ export interface HeadObject<B = Bucket> extends Capability<
   B
 > {}
 
-export const HeadObject = Binding<
-  <B extends Bucket>(bucket: B) => Binding<Function, HeadObject<To<B>>>
->(Function, "AWS.S3.HeadObject");
+export const HeadObject =
+  Binding("AWS.S3.HeadObject")<
+    <B extends Bucket>(bucket: B) => HeadObject<In<B>>
+  >();
 
 export interface HeadObjectOptions {
   key: string;

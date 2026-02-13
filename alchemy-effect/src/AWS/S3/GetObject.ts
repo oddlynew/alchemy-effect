@@ -2,9 +2,13 @@ import * as Effect from "effect/Effect";
 
 import * as S3 from "distilled-aws/s3";
 import { Binding } from "../../Binding.ts";
-import { declare, type Capability, type To } from "../../Capability.ts";
+import {
+  declare,
+  type Capability,
+  type From,
+  type To,
+} from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
-import { Function } from "../Lambda/Function.ts";
 import { Bucket } from "./Bucket.ts";
 
 export interface GetObject<B = Bucket> extends Capability<
@@ -12,9 +16,10 @@ export interface GetObject<B = Bucket> extends Capability<
   B
 > {}
 
-export const GetObject = Binding<
-  <B extends Bucket>(bucket: B) => Binding<Function, GetObject<To<B>>>
->(Function, "AWS.S3.GetObject");
+export const GetObject =
+  Binding("AWS.S3.GetObject")<
+    <B extends Bucket>(bucket: B) => GetObject<From<B>>
+  >();
 
 export interface GetObjectOptions {
   key: string;

@@ -1,10 +1,14 @@
 import * as Effect from "effect/Effect";
 
 import * as S3 from "distilled-aws/s3";
-import { Binding } from "../../../lib/Binding.ts";
-import { declare, type Capability, type To } from "../../../lib/Capability.ts";
-import { toEnvKey } from "../../../lib/internal/util/env.ts";
-import { Function } from "../Lambda/Function.ts";
+import { Binding } from "../../Binding.ts";
+import {
+  declare,
+  type Capability,
+  type From,
+  type To,
+} from "../../Capability.ts";
+import { toEnvKey } from "../../Env.ts";
 import { Bucket } from "./Bucket.ts";
 
 export interface ListObjectsV2<B = Bucket> extends Capability<
@@ -12,9 +16,9 @@ export interface ListObjectsV2<B = Bucket> extends Capability<
   B
 > {}
 
-export const ListObjectsV2 = Binding<
-  <B extends Bucket>(bucket: B) => Binding<Function, ListObjectsV2<To<B>>>
->(Function, "AWS.S3.ListObjectsV2");
+export const ListObjectsV2 = Binding("AWS.S3.ListObjectsV2")<
+  <B extends Bucket>(bucket: B) => ListObjectsV2<From<B>>
+>();
 
 export interface ListObjectsV2Options {
   prefix?: string;

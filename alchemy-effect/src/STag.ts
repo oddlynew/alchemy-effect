@@ -6,6 +6,8 @@ import type { Instance } from "./Util/instance.ts";
 import type { ExtractReq, WidenReq } from "./Util/requirements.ts";
 import type { ExcludeAny } from "./Util/types.ts";
 
+export type AnyService = STagClass<any, any, any>;
+
 export type STagClass<
   Self,
   Tag extends string,

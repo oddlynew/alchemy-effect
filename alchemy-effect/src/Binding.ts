@@ -1,276 +1,44 @@
-import * as Context from "effect/Context";
-import type { Effect } from "effect/Effect";
-import * as Layer from "effect/Layer";
-import type { Capability, ICapability } from "./Capability.ts";
-import type { Diff } from "./Diff.ts";
-import type { IResource, Resource } from "./Resource.ts";
-import type { IRuntime } from "./Runtime.ts";
-import type { Hosted } from "./SLayer.ts";
+import * as Effect from "effect/Effect";
+import type { Capability, Satisfied } from "./Capability.ts";
+import type { Environment, EnvironmentClass } from "./Environment.ts";
 
-export const bind =
-  <B extends AnyBinding[]>(...capabilities: B) =>
-  <F extends IRuntime, A, Err, Req>(
-    layer: Hosted<F, A, Err, B[number]["capability"]>,
-  ): Effect<A, Err, Req> =>
-    undefined!;
-
-export interface BindingProps {
-  [key: string]: any;
-}
-
-export const isBinding = (b: any): b is AnyBinding =>
-  "runtime" in b && "capability" in b && "tag" in b && "output" in b;
-
-export type AnyBinding<F extends IRuntime = any> = Binding<
-  F,
-  any,
-  any,
-  any,
-  string,
-  boolean
->;
-
-export interface Binding<
-  Run extends IRuntime<any, any, any>,
-  Cap extends Capability = Capability,
-  Props = any,
-  Attr extends Run["binding"] = any,
-  Tag extends string = Cap["type"],
-  IsCustom extends boolean = Cap["type"] extends Tag ? false : true,
-> {
-  runtime: Run;
+export interface Binding<Cap extends Capability, Props extends object> {
   capability: Cap;
-  tag: Tag;
   props: Props;
-  attr: Attr;
-  isCustom: IsCustom;
 }
 
-/** Tag for a Service that can bind a Capability to a Runtime */
-export interface Bind<
-  F extends IRuntime,
-  Cap extends Capability,
+export const Binding = <
+  Fn extends (target: any, props?: any) => Binding<Capability, any>,
+>(
+  tag: string,
+  fn: Fn,
+): Fn & {
+  Tag: string;
+} => Object.assign(fn, { Tag: tag });
+
+export interface BindingFn<
+  Tag extends string = string,
+  Fn extends (...args: any[]) => any = any,
+> {
+  tag: `${Tag}`;
+  fn: Fn;
+  new (): BindingFn<Tag, Fn>;
+}
+
+export const fn = <
   Tag extends string,
-> extends Context.Tag<
-  `${F["type"]}(${Cap["type"]}, ${Tag})`,
-  BindingProvider<
-    F,
-    Extract<Extract<Cap["resource"], Resource>["base"], Resource>,
-    F["props"]
-  >
-> {
-  /** @internal phantom */
-  name: Tag;
-}
+  Fn extends (...args: any[]) => Effect.Effect<void, any, any>,
+>(
+  tag: Tag,
+  fn: Fn,
+): BindingFn<Tag, Fn> => class {};
 
-export const Binding: {
-  <F extends (resource: any, props?: any) => AnyBinding & { isCustom: true }>(
-    runtime: ReturnType<F>["runtime"],
-    // resource: new () => ReturnType<F>["capability"]["resource"],
-    type: ReturnType<F>["capability"]["type"],
-    tag: ReturnType<F>["tag"],
-  ): F & BindingDeclaration<ReturnType<F>["runtime"], F>;
-  <F extends (resource: any, props?: any) => AnyBinding & { isCustom: false }>(
-    runtime: ReturnType<F>["runtime"],
-    // resource: new () => ReturnType<F>["capability"]["resource"],
-    type: ReturnType<F>["capability"]["type"],
-  ): F & BindingDeclaration<ReturnType<F>["runtime"], F>;
-} = (runtime: any, cap: string, tag?: string) => {
-  const Tag = Context.Tag(`${runtime.type}(${cap}, ${tag ?? cap})`)();
-  return Object.assign(
-    (resource: any, props?: any) =>
-      ({
-        runtime,
-        capability: {
-          type: cap,
-          resource,
-          constraint: undefined!,
-          sid: `${cap}${resource.id}`.replace(/[^a-zA-Z0-9]/g, ""),
-          label: `${cap}(${resource.id})`,
-        } satisfies ICapability,
-        props,
-        isCustom: false,
-        tag: tag ?? cap,
-        // @ts-expect-error - we smuggle this property because it interacts poorly with inference
-        Tag,
-      }) satisfies Binding<any, any, any, any, string, false>,
-    {
-      provider: {
-        effect: (eff) => Layer.effect(Tag, eff),
-        succeed: (service) => Layer.succeed(Tag, service),
-      },
-    } satisfies BindingDeclaration<IRuntime, any>,
-  );
-};
+export const call = <B extends BindingFn>(tag: B["tag"]): B["fn"] => undefined!;
 
-export interface BindingDeclaration<
-  Run extends IRuntime,
-  F extends (target: any, props?: any) => AnyBinding<Run>,
-  Tag extends string = ReturnType<F>["tag"],
-  Cap extends Capability = ReturnType<F>["capability"],
-> {
-  provider: {
-    effect<
-      Err,
-      Req,
-      DiffReq = never,
-      PreReattachReq = never,
-      AttachReq = never,
-      ReattachReq = never,
-      DetachReq = never,
-      PostAttachReq = never,
-    >(
-      eff: Effect<
-        BindingProvider<
-          Run,
-          Parameters<F>[0],
-          Parameters<F>[1],
-          ReturnType<F>["attr"],
-          DiffReq,
-          PreReattachReq,
-          AttachReq,
-          ReattachReq,
-          DetachReq,
-          PostAttachReq
-        >,
-        Err,
-        Req
-      >,
-    ): Layer.Layer<Bind<Run, Cap, Tag>, Err, Req>;
-    succeed<
-      DiffReq = never,
-      PreReattachReq = never,
-      AttachReq = never,
-      ReattachReq = never,
-      DetachReq = never,
-      PostAttachReq = never,
-    >(
-      service: BindingProvider<
-        Run,
-        Parameters<F>[0],
-        Parameters<F>[1],
-        ReturnType<F>["attr"],
-        DiffReq,
-        PreReattachReq,
-        AttachReq,
-        ReattachReq,
-        DetachReq,
-        PostAttachReq
-      >,
-    ): Layer.Layer<Bind<Run, Cap, Tag>>;
-  };
-}
-
-export interface BindingDiffProps<
-  Source extends IResource = IResource,
-  Target extends IResource = IResource,
-  Props = any,
-  Attr = any,
-> {
-  source: {
-    id: string;
-    props: Source["props"];
-    oldProps?: Source["props"];
-    oldAttr?: Source["attr"];
-  };
-  props: Props;
-  attr: Attr | undefined;
-  target: {
-    id: string;
-    props: Target["props"];
-    oldProps?: Target["props"];
-    oldAttr?: Target["attr"];
-  };
-}
-
-export interface BindingAttachProps<
-  Source extends IResource,
-  Target extends IResource,
-  Props,
-  Attr,
-> {
-  source: {
-    id: string;
-    attr: Source["attr"];
-    props: Source["props"];
-  };
-  props: Props;
-  attr: Attr | undefined;
-  target: {
-    id: string;
-    props: Target["props"];
-    attr: Target["attr"];
-  };
-}
-
-export interface BindingReattachProps<
-  Source extends IResource,
-  Target extends IResource,
-  Props,
-  Attr,
-> {
-  source: {
-    id: string;
-    attr: Source["attr"];
-    props: Source["props"];
-  };
-  props: Props;
-  attr: Attr;
-  target: {
-    id: string;
-    props: Target["props"];
-    attr: Target["attr"];
-  };
-}
-
-export interface BindingDetachProps<
-  Source extends IResource,
-  Target extends IResource,
-  Props,
-  Attr,
-> {
-  source: {
-    id: string;
-    attr: Source["attr"];
-    props: Source["props"];
-  };
-  props: Props;
-  attr: Attr | undefined;
-  target: {
-    id: string;
-    props: Target["props"];
-    attr: Target["attr"];
-  };
-}
-
-export type BindingProvider<
-  Target extends IRuntime = any,
-  Source extends IResource = IResource,
-  Props = any,
-  Attr extends Target["binding"] = any,
-  DiffReq = never,
-  PreReattachReq = never,
-  AttachReq = never,
-  ReattachReq = never,
-  DetachReq = never,
-  PostAttachReq = never,
-> = {
-  diff?: (
-    props: BindingDiffProps<Source, Target, Props>,
-  ) => Effect<Diff, never, DiffReq>;
-  preattach?: (
-    props: BindingAttachProps<Source, Target, Props, Attr>,
-  ) => Effect<Partial<Target["attr"]>, never, PreReattachReq>;
-  attach: (
-    props: BindingAttachProps<Source, Target, Props, Attr>,
-  ) => Effect<Attr, never, AttachReq> | Attr;
-  postattach?: (
-    props: BindingAttachProps<Source, Target, Props, Attr>,
-  ) => Effect<Omit<Attr, keyof Target["binding"]>, never, PostAttachReq>;
-  reattach?: (
-    props: BindingReattachProps<Source, Target, Props, Attr>,
-  ) => Effect<Attr, never, ReattachReq> | Attr;
-  detach?: (
-    props: BindingDetachProps<Source, Target, Props, Attr>,
-  ) => Effect<void, never, DetachReq> | void;
-};
+export const satisfy =
+  <Cap extends Capability>() =>
+  <Env extends EnvironmentClass<any, any>>(
+    env: Env,
+    props: Environment.BindingProps<Env>,
+  ): Effect.Effect<void, never, Satisfied<Cap>> =>
+    undefined!;

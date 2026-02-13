@@ -1,10 +1,9 @@
 import * as Effect from "effect/Effect";
 
 import * as S3 from "distilled-aws/s3";
-import { Binding } from "../../../lib/Binding.ts";
-import { declare, type Capability, type To } from "../../../lib/Capability.ts";
-import { toEnvKey } from "../../../lib/internal/util/env.ts";
-import { Function } from "../Lambda/Function.ts";
+import { Binding } from "../../Binding.ts";
+import { declare, type Capability, type To } from "../../Capability.ts";
+import { toEnvKey } from "../../Env.ts";
 import { Bucket } from "./Bucket.ts";
 
 export interface CopyObject<B = Bucket> extends Capability<
@@ -12,9 +11,10 @@ export interface CopyObject<B = Bucket> extends Capability<
   B
 > {}
 
-export const CopyObject = Binding<
-  <B extends Bucket>(bucket: B) => Binding<Function, CopyObject<To<B>>>
->(Function, "AWS.S3.CopyObject");
+export const CopyObject =
+  Binding("AWS.S3.CopyObject")<
+    <B extends Bucket>(bucket: B) => CopyObject<To<B>>
+  >();
 
 export interface CopyObjectOptions {
   /** The key for the destination object */

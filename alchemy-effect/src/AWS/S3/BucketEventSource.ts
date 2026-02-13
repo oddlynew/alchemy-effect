@@ -3,16 +3,31 @@ import type { Event } from "distilled-aws/s3";
 import * as s3 from "distilled-aws/s3";
 import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
+import * as Stream from "effect/Stream";
 
-import { Binding } from "../../Binding.ts";
-import { type From } from "../../Capability.ts";
+import type { Binding } from "../../Binding.ts";
+import type { Capability, From, On } from "../../Capability.ts";
+import type { Input } from "../../Input.ts";
+import { Resource } from "../../Resource.ts";
 import { Account } from "../Account.ts";
-import { Bucket } from "../S3/Bucket.ts";
-import type { ConsumeBucketNotifications } from "../S3/BucketNotification.ts";
-import type { S3EventType } from "../S3/S3Event.ts";
-import { Function, type FunctionBinding } from "./Function.ts";
+import { Function, type FunctionBinding } from "../Lambda/Function.ts";
+import { Bucket, type BucketArn } from "./Bucket.ts";
+import type { S3Event, S3EventType } from "./S3Event.ts";
+
+/**
+ * Capability for handling S3 bucket events.
+ */
+export interface ConsumeBucketEvents<B = Bucket> extends Capability<
+  "AWS.S3.ConsumeBucketEvents",
+  B
+> {}
+
+export const consumeBucketEvents = <B extends Bucket>(
+  bucket: B,
+): Stream.Stream<S3Event, never, ConsumeBucketEvents<From<B>>> => undefined!;
 
 export interface BucketEventSourceProps {
+  bucketArn: Input<BucketArn>;
   /**
    * S3 event types to trigger the Lambda function.
    * @default - ["s3:ObjectCreated:*"]
@@ -36,25 +51,27 @@ export interface BucketEventSourceAttr extends FunctionBinding {
 }
 
 export interface BucketEventSource<
+  Id extends string,
   B extends Bucket,
   Props extends BucketEventSourceProps,
-> extends Binding<
-  Function,
-  ConsumeBucketNotifications<B>,
-  Props,
-  BucketEventSourceAttr,
-  "BucketEventSource"
-> {}
+>
+  extends
+    Resource<"BucketEventSource", Id, Props, BucketEventSourceAttr>,
+    Binding<ConsumeBucketEvents<From<B>>> {}
 
-export const BucketEventSource = Binding<
-  <B extends Bucket, const Props extends BucketEventSourceProps>(
-    bucket: B,
+export const BucketEventSource = Resource("AWS.Lambda.BucketEventSource")<
+  <
+    Id extends string,
+    B extends Bucket,
+    const Props extends BucketEventSourceProps,
+  >(
+    id: Id,
     props?: Props,
-  ) => BucketEventSource<From<B>, Props>
->(Function, "AWS.S3.OnBucketEvent", "BucketEventSource");
+  ) => BucketEventSource<On<B>, Props>
+>();
 
-export const BucketEventSourceProvider = () =>
-  BucketEventSource.provider.effect(
+export const BucketEventSourceBind = () =>
+  bind(BucketEventSource, { to: Function }).effect(
     Effect.gen(function* () {
       const accountId = yield* Account;
 

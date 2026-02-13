@@ -1,10 +1,9 @@
 import * as Effect from "effect/Effect";
 
 import * as S3 from "distilled-aws/s3";
-import { Binding } from "../../../lib/Binding.ts";
-import { declare, type Capability, type To } from "../../../lib/Capability.ts";
-import { toEnvKey } from "../../../lib/internal/util/env.ts";
-import { Function } from "../Lambda/Function.ts";
+import { Binding } from "../../Binding.ts";
+import { declare, type Capability, type To } from "../../Capability.ts";
+import { toEnvKey } from "../../Env.ts";
 import { Bucket } from "./Bucket.ts";
 
 export interface CreateMultipartUpload<B = Bucket> extends Capability<
@@ -12,11 +11,9 @@ export interface CreateMultipartUpload<B = Bucket> extends Capability<
   B
 > {}
 
-export const CreateMultipartUpload = Binding<
-  <B extends Bucket>(
-    bucket: B,
-  ) => Binding<Function, CreateMultipartUpload<To<B>>>
->(Function, "AWS.S3.CreateMultipartUpload");
+export const CreateMultipartUpload = Binding("AWS.S3.CreateMultipartUpload")<
+  <B extends Bucket>(bucket: B) => CreateMultipartUpload<To<B>>
+>();
 
 export interface CreateMultipartUploadOptions {
   key: string;

@@ -9,7 +9,6 @@ import {
   type To,
 } from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
-import { Function } from "../Lambda/Function.ts";
 import { Bucket } from "./Bucket.ts";
 
 export interface PutObject<B = Bucket> extends Capability<
@@ -17,9 +16,10 @@ export interface PutObject<B = Bucket> extends Capability<
   B
 > {}
 
-export const PutObject = Binding<
-  <B extends Bucket>(bucket: B) => Binding<Function, PutObject<In<B>>>
->(Function, "AWS.S3.PutObject");
+export const PutObject =
+  Binding("AWS.S3.PutObject")<
+    <B extends Bucket>(bucket: B) => PutObject<In<B>>
+  >();
 
 export interface PutObjectOptions {
   key: string;

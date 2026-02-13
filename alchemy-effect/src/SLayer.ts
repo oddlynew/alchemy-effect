@@ -31,14 +31,14 @@ export declare namespace Unbound {
 
 export const HostedTypeId: unique symbol = Symbol.for("alchemy/HostedLayer");
 
-export interface Hosted<
-  F extends IRuntime,
+export interface Bound<
+  F,
   in ROut,
   out E = never,
   in out Capabilities = never,
 > {}
 
-export declare namespace Hosted {
+export declare namespace Bound {
   export interface Variance<
     F extends IRuntime,
     in ROut,

@@ -1,6 +1,6 @@
 export * from "./AbortMultipartUpload.ts";
 export * from "./Bucket.ts";
-export * from "./BucketNotification.ts";
+export * from "./BucketNotifications.ts";
 export * from "./BucketPolicy.ts";
 export * from "./CompleteMultipartUpload.ts";
 export * from "./CopyObject.ts";

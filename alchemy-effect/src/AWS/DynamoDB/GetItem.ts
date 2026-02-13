@@ -18,7 +18,6 @@ import { Binding } from "../../Binding.ts";
 import type { Capability, From } from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
 import * as Policy from "../../Policy/index.ts";
-import { Function } from "../Lambda/Function.ts";
 import { fromAttributeValue } from "./AttributeValue.ts";
 import type { Identifier } from "./Expr.ts";
 import type { ParseProjectionExpression } from "./ProjectionExpression.ts";
@@ -82,7 +81,7 @@ export interface GetItem<
   >;
 }
 
-export const GetItem = Binding<
+export const GetItem = Binding("AWS.DynamoDB.GetItem")<
   <
     T extends Table,
     const LeadingKeys extends Policy.AnyOf<any> = Policy.AnyOf<string>,
@@ -95,18 +94,15 @@ export const GetItem = Binding<
       Attributes,
       ReturnConsumedCapacity
     >,
-  ) => Binding<
-    Function,
-    GetItem<
-      From<T>,
-      Policy.Constraint<{
-        leadingKeys: LeadingKeys;
-        attributes: Attributes;
-        returnConsumedCapacity: ReturnConsumedCapacity;
-      }>
-    >
+  ) => GetItem<
+    From<T>,
+    Policy.Constraint<{
+      leadingKeys: LeadingKeys;
+      attributes: Attributes;
+      returnConsumedCapacity: ReturnConsumedCapacity;
+    }>
   >
->(Function, "AWS.DynamoDB.GetItem");
+>();
 
 // Error type for getItem operations
 type GetItemError =

@@ -1,6 +1,6 @@
 export * from "./InvokeFunction.ts";
 
-export * from "./BucketEventSource.ts";
+export * from "../S3/BucketEventSource.ts";
 export * from "./Function.ts";
 export * from "./QueueEventSource.ts";
 export * from "./StreamEventSource.ts";
