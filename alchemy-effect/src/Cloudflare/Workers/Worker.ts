@@ -11,7 +11,6 @@ import type { Capability } from "../../Capability.ts";
 import type { ScopedPlanStatusSession } from "../../Cli/index.ts";
 import { DotAlchemy } from "../../Config.ts";
 import { createPhysicalName } from "../../PhysicalName.ts";
-import { Runtime } from "../../Runtime.ts";
 import { Account } from "../Account.ts";
 import { CloudflareApi } from "../CloudflareApi.ts";
 import { CloudflareContext } from "../CloudflareContext.ts";

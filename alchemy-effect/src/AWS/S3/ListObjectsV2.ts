@@ -1,7 +1,6 @@
 import * as Effect from "effect/Effect";
 
 import * as S3 from "distilled-aws/s3";
-import { Binding } from "../../Binding.ts";
 import {
   declare,
   type Capability,

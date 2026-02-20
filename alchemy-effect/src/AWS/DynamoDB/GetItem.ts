@@ -14,7 +14,6 @@ import * as DynamoDB from "distilled-aws/dynamodb";
 import type { CommonErrors } from "distilled-aws/Errors";
 import type { Region } from "distilled-aws/Region";
 import { Effect } from "effect";
-import { Binding } from "../../Binding.ts";
 import type { Capability, From } from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
 import * as Policy from "../../Policy/index.ts";

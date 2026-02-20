@@ -1,16 +1,8 @@
-import { defineStack, defineStages } from "alchemy-effect";
-import * as Layer from "effect/Layer";
+import { defineStack } from "alchemy-effect";
 import JobFunction from "./src/JobFunction.ts";
 
 // group into stack
-export default defineStack({
-  name: "job-service",
-  resources: [JobFunction],
-  providers: Layer.empty,
-  stages: defineStages(() => ({
-    aws: {
-      profile: "default",
-      region: "us-east-1",
-    },
-  })),
-});
+export default defineStack((stage) => ({
+  name: "job-service-prod",
+  resources: stage === "prod" ? [JobFunction, CDN] : [JobFunction],
+}));

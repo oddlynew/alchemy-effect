@@ -1,7 +1,6 @@
 import * as Effect from "effect/Effect";
 
 import * as Lambda from "distilled-aws/lambda";
-import { Binding } from "../../Binding.ts";
 import { declare, type Capability, type On } from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
 import { Function } from "./Function.ts";

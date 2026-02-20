@@ -152,9 +152,6 @@
   "devDependencies": {
     "@clack/prompts": "^0.11.0",
     "@cloudflare/workers-types": "catalog:",
-    "@effect/cli": "catalog:",
-    "@effect/cluster": "catalog:",
-    "@effect/platform": "catalog:",
     "@effect/platform-node": "catalog:",
     "@types/aws-lambda": "catalog:",
     "@types/bun": "catalog:",
@@ -170,14 +167,10 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@effect/platform": "*",
     "@effect/platform-node": "*",
     "effect": "*"
   },
   "peerDependenciesMeta": {
-    "@effect/platform": {
-      "optional": true
-    },
     "@effect/platform-node": {
       "optional": true
     },

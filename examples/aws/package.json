@@ -14,7 +14,6 @@
     "destroy": "alchemy destroy"
   },
   "dependencies": {
-    "@effect/platform": "catalog:",
     "alchemy-effect": "workspace:*",
     "effect": "catalog:"
   }

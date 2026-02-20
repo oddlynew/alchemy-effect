@@ -1,10 +1,11 @@
 import * as Effect from "effect/Effect";
-import type { AnyResource, Resource } from "../Resource.ts";
-import type { Output } from "./Output.ts";
+import type { YieldWrap } from "effect/Utils";
+import type { ResourceLike } from "../Resource.ts";
+import type { Output, Value } from "./Output.ts";
 
 export const ExprSymbol = Symbol.for("alchemy/Expr");
 
-export type ObjectExpr<A, Src extends Resource, Req = any> = Output<
+export type ObjectExpr<A, Src extends ResourceLike, Req = any> = Output<
   A,
   Src,
   Req
@@ -18,7 +19,7 @@ export type ObjectExpr<A, Src extends Resource, Req = any> = Output<
 
 export type ArrayExpr<
   A extends any[],
-  Src extends Resource,
+  Src extends ResourceLike,
   Req = any,
 > = Output<A, Src, Req> & {
   [i in Extract<keyof A, number>]: Output.Of<A[i], Src, Req>;
@@ -29,7 +30,7 @@ export const isExpr = (value: any): value is Expr<any> =>
   (typeof value === "object" || typeof value === "function") &&
   ExprSymbol in value;
 
-export type Expr<A = any, Src extends AnyResource = AnyResource, Req = any> =
+export type Expr<A = any, Src extends ResourceLike = ResourceLike, Req = any> =
   | AllExpr<Expr<A, Src, Req>[]>
   | ApplyExpr<any, A, Src, Req>
   | EffectExpr<any, A, Src, Req>
@@ -75,7 +76,7 @@ const proxy = (self: any): any => {
 
 export abstract class BaseExpr<
   A = any,
-  Src extends Resource = any,
+  Src extends ResourceLike = any,
   Req = any,
 > implements Output<A, Src, Req> {
   declare readonly kind: any;
@@ -83,6 +84,13 @@ export abstract class BaseExpr<
   declare readonly req: Req;
   // we use a kind tag instead of instanceof to protect ourselves from duplicate alchemy-effect module imports
   constructor() {}
+  [Symbol.iterator](): Iterator<
+    YieldWrap<Effect.Effect<void, never, this>>,
+    Value<A, Src>,
+    void
+  > {
+    throw new Error("Method not implemented.");
+  }
   public apply<B>(fn: (value: A) => B): Output.Of<B, Src> {
     return new ApplyExpr(this as Expr<A, Src, Req>, fn) as any;
   }
@@ -102,7 +110,7 @@ export abstract class BaseExpr<
 
 export const isResourceExpr = <
   Value = any,
-  Src extends AnyResource = AnyResource,
+  Src extends ResourceLike = ResourceLike,
   Req = any,
 >(
   node: Expr<Value, Src, Req> | any,
@@ -110,7 +118,7 @@ export const isResourceExpr = <
 
 export class ResourceExpr<
   Value,
-  Src extends AnyResource,
+  Src extends ResourceLike,
   Req = never,
 > extends BaseExpr<Value, Src, Req> {
   readonly kind = "ResourceExpr";
@@ -126,7 +134,7 @@ export class ResourceExpr<
 export const isPropExpr = <
   A = any,
   Prop extends keyof A = keyof A,
-  Src extends AnyResource = AnyResource,
+  Src extends ResourceLike = ResourceLike,
   Req = any,
 >(
   node: any,
@@ -135,7 +143,7 @@ export const isPropExpr = <
 export class PropExpr<
   A = any,
   Id extends keyof A = keyof A,
-  Src extends AnyResource = AnyResource,
+  Src extends ResourceLike = ResourceLike,
   Req = any,
 > extends BaseExpr<A[Id], Src, Req> {
   readonly kind = "PropExpr";
@@ -161,11 +169,11 @@ export class LiteralExpr<A> extends BaseExpr<A, never> {
   }
 }
 
-//Output.ApplyExpr<any, any, AnyResource, any>
+//Output.ApplyExpr<any, any, ResourceLike, any>
 export const isApplyExpr = <
   In = any,
   Out = any,
-  Src extends AnyResource = AnyResource,
+  Src extends ResourceLike = ResourceLike,
   Req = any,
 >(
   node: Output<Out, Src, Req>,
@@ -174,7 +182,7 @@ export const isApplyExpr = <
 export class ApplyExpr<
   A,
   B,
-  Src extends AnyResource,
+  Src extends ResourceLike,
   Req = never,
 > extends BaseExpr<B, Src, Req> {
   readonly kind = "ApplyExpr";
@@ -190,7 +198,7 @@ export class ApplyExpr<
 export const isEffectExpr = <
   In = any,
   Out = any,
-  Src extends AnyResource = AnyResource,
+  Src extends ResourceLike = ResourceLike,
   Req = any,
   Req2 = any,
 >(
@@ -200,7 +208,7 @@ export const isEffectExpr = <
 export class EffectExpr<
   A,
   B,
-  Src extends AnyResource,
+  Src extends ResourceLike,
   Req = never,
   Req2 = never,
 > extends BaseExpr<B, Src, Req> {

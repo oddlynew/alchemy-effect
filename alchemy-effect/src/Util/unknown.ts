@@ -15,3 +15,5 @@ export type IsUnknown<T> = unknown extends T
 export type UnknownKeys<T> = {
   [K in keyof T]: IsUnknown<T[K]> extends true ? K : never;
 }[keyof T];
+
+export type ExcludeUnknown<T> = IsUnknown<T> extends true ? never : T;

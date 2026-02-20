@@ -1,7 +1,7 @@
 import * as Effect from "effect/Effect";
-import type { From } from "../Capability.ts";
+import type { YieldWrap } from "effect/Utils";
 import { getRefMetadata, isRef, ref as stageRef, type Ref } from "../Ref.ts";
-import type { Resource } from "../Resource.ts";
+import type { Resource, ResourceLike } from "../Resource.ts";
 import {
   AllExpr,
   ExprSymbol,
@@ -22,7 +22,7 @@ export const isOutput = (value: any): value is Output<any> =>
 
 export const of = <R extends Resource>(
   resource: Ref<R> | R,
-): Output.Of<R["attr"], From<R>> => {
+): Output.Of<R["attr"], R> => {
   if (isRef(resource)) {
     const metadata = getRefMetadata(resource);
     return new RefExpr(
@@ -34,7 +34,7 @@ export const of = <R extends Resource>(
   return new ResourceExpr(resource) as any;
 };
 
-export const ref = <R extends Resource<string, string, any, any>>(
+export const ref = <R extends Resource>(
   resourceId: R["id"],
   options?: {
     stage?: string;
@@ -42,7 +42,7 @@ export const ref = <R extends Resource<string, string, any, any>>(
   },
 ) => of(stageRef({ resourceId, ...options }));
 
-export interface Output<A = any, Src extends Resource = any, Req = any> {
+export interface Output<A = any, Src extends ResourceLike = any, Req = any> {
   readonly kind: string;
   readonly src: Src;
   readonly req: Req;
@@ -51,11 +51,21 @@ export interface Output<A = any, Src extends Resource = any, Req = any> {
     // Outputs are not allowed to fail, so we use never for the error type
     fn: (value: A) => Effect.Effect<B, never, Req2>,
   ): Output.Of<B, Src, Req | Req2>;
+  [Symbol.iterator](): Iterator<
+    YieldWrap<Effect.Effect<void, never, this>>,
+    Value<A, Src>,
+    void
+  >;
 }
+
+export type Value<A, Src extends ResourceLike = any> = A & {
+  /** @internal phantom */
+  __brand: Src;
+};
 
 export declare namespace Output {
   // TODO(sam): doesn't support disjunct unions very well
-  export type Of<A, Src extends Resource = any, Req = never> = [
+  export type Of<A, Src extends ResourceLike = any, Req = never> = [
     Extract<A, object>,
   ] extends [never]
     ? Output<A, Src, Req>
@@ -98,7 +108,7 @@ export type All<Outs extends (Output | Expr)[]> = number extends Outs["length"]
 export type Tuple<
   Outs extends (Output | Expr)[],
   Values extends any[] = [],
-  Src extends Resource = never,
+  Src extends ResourceLike = never,
   Req = never,
 > = Outs extends [infer H, ...infer Tail extends (Output | Expr)[]]
   ? H extends Output<infer V, infer Src2, infer Req2>
@@ -120,7 +130,7 @@ export type Filter<Outs extends any[]> = number extends Outs["length"]
 export type FilterTuple<
   Outs extends (Output | Expr)[],
   Values extends any[] = [],
-  Src extends Resource = never,
+  Src extends ResourceLike = never,
 > = Outs extends [infer H, ...infer Tail extends (Output | Expr)[]]
   ? H extends Output<infer V, infer Src2>
     ? FilterTuple<Tail, [...Values, V], Src | Src2>

@@ -1,7 +1,6 @@
 import * as Kinesis from "distilled-aws/kinesis";
 import * as Effect from "effect/Effect";
 
-import { Binding } from "../../Binding.ts";
 import type { Capability } from "../../Capability.ts";
 import { declare, type To } from "../../Capability.ts";
 import { toEnvKey } from "../../Env.ts";
