@@ -1,47 +1,90 @@
 import type * as runtime from "@cloudflare/workers-types";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
+import * as Binding from "../../Binding.ts";
+import { CloudflareContext } from "../CloudflareContext.ts";
 import { replaceEffectStream } from "../stream.ts";
 import type { Bucket } from "./Bucket.ts";
-import {
-  getR2BucketFromEnv,
-  type UploadValue,
-} from "./util/getR2BucketFromEnv.ts";
+import { BucketBinding } from "./BucketBinding.js";
 
-export const resumeMultipartUpload = Effect.fnUntraced(function* <
-  R2Bucket extends Bucket,
->(bucket: R2Bucket, key: string, uploadId: string) {
-  const client = yield* getR2BucketFromEnv(bucket);
-  return yield* Effect.sync(() =>
-    makeMultipartUploadEffectClient(
-      client.resumeMultipartUpload(key, uploadId),
-    ),
-  );
-});
+export type UploadValue =
+  | string
+  | ArrayBuffer
+  | ArrayBufferView
+  | runtime.Blob
+  | runtime.ReadableStream
+  | Stream.Stream<any>;
 
-const makeMultipartUploadEffectClient = (
-  multipartUpload: runtime.R2MultipartUpload,
-) => ({
-  key: multipartUpload.key,
-  uploadId: multipartUpload.uploadId,
-  uploadPart: Effect.fnUntraced(function* (
+export interface MultipartUploadClient {
+  key: string;
+  uploadId: string;
+  uploadPart: (
     partNumber: number,
     value: UploadValue,
     options?: runtime.R2UploadPartOptions,
-  ) {
-    return yield* Effect.promise(() =>
+  ) => Effect.Effect<runtime.R2UploadedPart>;
+  abort: () => Effect.Effect<void>;
+  complete: (
+    uploadedParts: runtime.R2UploadedPart[],
+  ) => Effect.Effect<runtime.R2Object>;
+}
+
+export class ResumeMultipartUpload extends Binding.Service<
+  ResumeMultipartUpload,
+  (
+    bucket: Bucket,
+  ) => Effect.Effect<
+    (key: string, uploadId: string) => Effect.Effect<MultipartUploadClient>
+  >
+>()("Cloudflare.R2.ResumeMultipartUpload") {}
+
+export const ResumeMultipartUploadLive = Layer.effect(
+  ResumeMultipartUpload,
+  Effect.gen(function* () {
+    const Policy = yield* ResumeMultipartUploadPolicy;
+    const { env } = yield* CloudflareContext;
+
+    return Effect.fn(function* (bucket: Bucket) {
+      yield* Policy(bucket);
+      const r2Bucket = (env as Record<string, runtime.R2Bucket>)[bucket.id];
+
+      return Effect.fn(function* (key: string, uploadId: string) {
+        const multipartUpload = r2Bucket.resumeMultipartUpload(key, uploadId);
+        return makeMultipartUploadClient(multipartUpload);
+      });
+    });
+  }),
+);
+
+const makeMultipartUploadClient = (
+  multipartUpload: runtime.R2MultipartUpload,
+): MultipartUploadClient => ({
+  key: multipartUpload.key,
+  uploadId: multipartUpload.uploadId,
+  uploadPart: (
+    partNumber: number,
+    value: UploadValue,
+    options?: runtime.R2UploadPartOptions,
+  ) =>
+    Effect.promise(() =>
       multipartUpload.uploadPart(
         partNumber,
         replaceEffectStream(value),
         options,
       ),
-    );
-  }),
-  abort: Effect.fnUntraced(function* () {
-    return yield* Effect.promise(() => multipartUpload.abort());
-  }),
-  complete: Effect.fnUntraced(function* (
-    uploadedParts: runtime.R2UploadedPart[],
-  ) {
-    return yield* Effect.promise(() => multipartUpload.complete(uploadedParts));
-  }),
+    ),
+  abort: () => Effect.promise(() => multipartUpload.abort()),
+  complete: (uploadedParts: runtime.R2UploadedPart[]) =>
+    Effect.promise(() => multipartUpload.complete(uploadedParts)),
 });
+
+export class ResumeMultipartUploadPolicy extends Binding.Policy<
+  ResumeMultipartUploadPolicy,
+  (bucket: Bucket) => Effect.Effect<void>
+>()("Cloudflare.R2.ResumeMultipartUpload") {}
+
+export const ResumeMultipartUploadPolicyLive = Layer.effect(
+  ResumeMultipartUploadPolicy,
+  BucketBinding,
+);

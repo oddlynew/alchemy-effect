@@ -1,7 +1,7 @@
 import { Account } from "@/Cloudflare/Account";
-import { CloudflareApi } from "@/cloudflare/api";
-import * as CloudflareLive from "@/cloudflare/live";
-import * as R2 from "@/cloudflare/r2";
+import { CloudflareApi } from "@/Cloudflare/CloudflareApi";
+import * as CloudflareLive from "@/Cloudflare/Live";
+import * as R2 from "@/Cloudflare/R2/index";
 import { apply, destroy } from "@/index";
 import { test } from "@/Test/Vitest";
 import { expect } from "@effect/vitest";
@@ -60,7 +60,7 @@ test(
     yield* destroy();
 
     yield* waitForBucketToBeDeleted(stack.TestBucket.bucketName, accountId);
-  }).pipe(Effect.provide(CloudflareLive.providers()), logLevel),
+  }).pipe(Effect.provide(CloudflareLive.default), logLevel),
 );
 
 const waitForBucketToBeDeleted = Effect.fn(function* (

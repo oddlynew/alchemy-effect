@@ -28,6 +28,7 @@ export interface ResourceLike<
   Binding = any,
 > extends Pipeable {
   kind: "Resource";
+  id: string;
   type: Type;
   props: Props;
   attr: Attributes;

@@ -1,18 +1,31 @@
-import type { R2 } from "cloudflare/resources";
+import * as r2 from "distilled-cloudflare/r2";
 import * as Effect from "effect/Effect";
 
 import { createPhysicalName } from "../../PhysicalName.ts";
 import { Resource } from "../../Resource.ts";
 import { Account } from "../Account.ts";
-import { CloudflareApi } from "../CloudflareApi.ts";
-import { Worker } from "../Workers/Worker.ts";
 
 export type BucketName = string;
 
 export type BucketProps = {
+  /**
+   * Name of the bucket. If omitted, a unique name will be generated.
+   * @default ${app}-${stage}-${id}
+   */
   name?: string;
+  /**
+   * Storage class for newly uploaded objects.
+   * @default "Standard"
+   */
   storageClass?: Bucket.StorageClass;
+  /**
+   * Jurisdiction where objects in this bucket are guaranteed to be stored.
+   * @default "default"
+   */
   jurisdiction?: Bucket.Jurisdiction;
+  /**
+   * Location hint for the bucket.
+   */
   locationHint?: Bucket.Location;
 };
 
@@ -26,8 +39,7 @@ export interface Bucket extends Resource<
     jurisdiction: Bucket.Jurisdiction;
     location: Bucket.Location | undefined;
     accountId: string;
-  },
-  Bucket
+  }
 > {}
 
 export const Bucket = Resource<Bucket>("Cloudflare.R2.Bucket");
@@ -41,8 +53,11 @@ export declare namespace Bucket {
 export const BucketProvider = () =>
   Bucket.provider.effect(
     Effect.gen(function* () {
-      const api = yield* CloudflareApi;
       const accountId = yield* Account;
+      const createBucket = yield* r2.createBucket;
+      const patchBucket = yield* r2.patchBucket;
+      const deleteBucket = yield* r2.deleteBucket;
+      const getBucket = yield* r2.getBucket;
 
       const createBucketName = (id: string, name: string | undefined) =>
         Effect.gen(function* () {
@@ -53,18 +68,15 @@ export const BucketProvider = () =>
           })).toLowerCase();
         });
 
-      const mapResult = <Props extends BucketProps>(
-        bucket: R2.Bucket,
-      ): Bucket["attr"] =>
-        ({
-          bucketName: bucket.name,
-          storageClass: bucket.storage_class ?? "Standard",
-          jurisdiction: bucket.jurisdiction ?? "default",
-          location: bucket.location,
-          accountId,
-        }) as Bucket["attr"];
+      const normalizeLocation = (
+        location: string | undefined,
+      ): Bucket.Location | undefined => {
+        if (!location) return undefined;
+        return location.toLowerCase() as Bucket.Location;
+      };
 
       return {
+        stables: ["bucketName", "accountId"],
         diff: Effect.fn(function* ({ id, olds, news, output }) {
           const name = yield* createBucketName(id, news.name);
           if (
@@ -73,88 +85,81 @@ export const BucketProvider = () =>
             output.jurisdiction !== (news.jurisdiction ?? "default") ||
             olds.locationHint !== news.locationHint
           ) {
-            return { action: "replace" };
+            return { action: "replace" } as const;
           }
           if (output.storageClass !== (news.storageClass ?? "Standard")) {
             return {
               action: "update",
-              stables: output.bucketName === name ? ["name"] : undefined,
-            };
+              stables: output.bucketName === name ? ["bucketName"] : undefined,
+            } as const;
           }
         }),
-        create: Effect.fnUntraced(function* ({ id, news }) {
+        create: Effect.fn(function* ({ id, news }) {
           const name = yield* createBucketName(id, news.name);
-          const bucket = yield* api.r2.buckets
-            .create({
-              account_id: accountId,
-              name,
-              storageClass: news.storageClass,
-              jurisdiction: news.jurisdiction,
-              locationHint: news.locationHint,
-            })
-            .pipe(
-              // Handle idempotency: if bucket already exists and we own it, adopt it
-              Effect.catchTag("Conflict", () =>
-                api.r2.buckets.get(name, { account_id: accountId }),
-              ),
-            );
-          return mapResult<BucketProps>(bucket);
+          const bucket = yield* createBucket({
+            accountId,
+            name,
+            storageClass: news.storageClass,
+            jurisdiction: news.jurisdiction,
+            locationHint: news.locationHint,
+          }).pipe(
+            Effect.catchTag("BucketAlreadyExists", () =>
+              getBucket({
+                accountId,
+                bucketName: name,
+                jurisdiction: news.jurisdiction,
+              }),
+            ),
+          );
+          return {
+            bucketName: bucket.name!,
+            storageClass: bucket.storageClass ?? "Standard",
+            jurisdiction: bucket.jurisdiction ?? "default",
+            location: normalizeLocation(bucket.location),
+            accountId,
+          };
         }),
-        update: Effect.fnUntraced(function* ({ news, output }) {
-          const bucket = yield* api.r2.buckets.edit(output.bucketName, {
-            account_id: output.accountId,
-            storage_class: news.storageClass ?? output.storageClass,
+        update: Effect.fn(function* ({ news, output }) {
+          const bucket = yield* patchBucket({
+            accountId: output.accountId,
+            bucketName: output.bucketName,
+            storageClass: news.storageClass ?? output.storageClass,
             jurisdiction: output.jurisdiction,
           });
-          return mapResult<BucketProps>(bucket);
+          return {
+            bucketName: bucket.name!,
+            storageClass: bucket.storageClass ?? "Standard",
+            jurisdiction: bucket.jurisdiction ?? "default",
+            location: normalizeLocation(bucket.location),
+            accountId: output.accountId,
+          };
         }),
-        delete: Effect.fnUntraced(function* ({ output }) {
-          yield* api.r2.buckets
-            .delete(output.bucketName, {
-              account_id: output.accountId,
-            })
-            .pipe(Effect.catchTag("NotFound", () => Effect.void));
+        delete: Effect.fn(function* ({ output }) {
+          yield* deleteBucket({
+            accountId: output.accountId,
+            bucketName: output.bucketName,
+            jurisdiction: output.jurisdiction,
+          }).pipe(Effect.catchTag("NoSuchBucket", () => Effect.void));
         }),
-        read: Effect.fnUntraced(function* ({ id, output, olds }) {
+        read: Effect.fn(function* ({ id, output, olds }) {
           const name =
             output?.bucketName ?? (yield* createBucketName(id, olds?.name));
-          const params = {
-            account_id: output?.accountId ?? accountId,
-            name,
-          };
-          return yield* api.r2.buckets
-            .get(params.name, { account_id: params.account_id })
-            .pipe(
-              Effect.map(mapResult<BucketProps>),
-              Effect.catchTag("NotFound", () => Effect.succeed(undefined)),
-            );
+          const acct = output?.accountId ?? accountId;
+          return yield* getBucket({
+            accountId: acct,
+            bucketName: name,
+            jurisdiction: output?.jurisdiction ?? olds?.jurisdiction,
+          }).pipe(
+            Effect.map((bucket) => ({
+              bucketName: bucket.name!,
+              storageClass: bucket.storageClass ?? "Standard",
+              jurisdiction: bucket.jurisdiction ?? "default",
+              location: normalizeLocation(bucket.location),
+              accountId: acct,
+            })),
+            Effect.catchTag("NoSuchBucket", () => Effect.succeed(undefined)),
+          );
         }),
       };
     }),
   );
-
-export interface Bind<B = Bucket> extends Capability<
-  "Cloudflare.R2.Bucket.Bind",
-  B
-> {}
-
-export const Bind = Binding<
-  <B extends Bucket>(bucket: B) => Binding<Worker, Bind<To<B>>>
->(Worker, "Cloudflare.R2.Bucket.Bind");
-
-export const bindFromWorker = () =>
-  Bind.provider.succeed({
-    attach: ({ source }) => ({
-      bindings: [
-        {
-          type: "r2_bucket",
-          name: source.id,
-          bucket_name: source.attr.bucketName,
-          jurisdiction:
-            source.attr.jurisdiction === "default"
-              ? undefined
-              : source.attr.jurisdiction,
-        },
-      ],
-    }),
-  });

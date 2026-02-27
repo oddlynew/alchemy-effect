@@ -1,47 +1,101 @@
 import type * as runtime from "@cloudflare/workers-types";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
+import * as Binding from "../../Binding.ts";
+import { CloudflareContext } from "../CloudflareContext.ts";
 import { replaceEffectStream } from "../stream.ts";
 import type { Bucket } from "./Bucket.ts";
-import {
-  getR2BucketFromEnv,
-  type UploadValue,
-} from "./util/getR2BucketFromEnv.ts";
+import { BucketBinding } from "./BucketBinding.ts";
 
-export const createMultipartUpload = Effect.fnUntraced(function* <
-  R2Bucket extends Bucket,
->(bucket: R2Bucket, key: string, options?: runtime.R2MultipartOptions) {
-  const client = yield* getR2BucketFromEnv(bucket);
-  return yield* Effect.promise(async () =>
-    makeMultipartUploadEffectClient(
-      await client.createMultipartUpload(key, options),
-    ),
-  );
-});
+export type UploadValue =
+  | string
+  | ArrayBuffer
+  | ArrayBufferView
+  | runtime.Blob
+  | runtime.ReadableStream
+  | Stream.Stream<any>;
 
-const makeMultipartUploadEffectClient = (
-  multipartUpload: runtime.R2MultipartUpload,
-) => ({
-  key: multipartUpload.key,
-  uploadId: multipartUpload.uploadId,
-  uploadPart: Effect.fnUntraced(function* (
+export interface MultipartUploadClient {
+  key: string;
+  uploadId: string;
+  uploadPart: (
     partNumber: number,
     value: UploadValue,
     options?: runtime.R2UploadPartOptions,
-  ) {
-    return yield* Effect.promise(() =>
+  ) => Effect.Effect<runtime.R2UploadedPart>;
+  abort: () => Effect.Effect<void>;
+  complete: (
+    uploadedParts: runtime.R2UploadedPart[],
+  ) => Effect.Effect<runtime.R2Object>;
+}
+
+export interface CreateMultipartUploadOptions
+  extends runtime.R2MultipartOptions {}
+
+export class CreateMultipartUpload extends Binding.Service<
+  CreateMultipartUpload,
+  (
+    bucket: Bucket,
+  ) => Effect.Effect<
+    (
+      key: string,
+      options?: CreateMultipartUploadOptions,
+    ) => Effect.Effect<MultipartUploadClient>
+  >
+>()("Cloudflare.R2.CreateMultipartUpload") {}
+
+export const CreateMultipartUploadLive = Layer.effect(
+  CreateMultipartUpload,
+  Effect.gen(function* () {
+    const Policy = yield* CreateMultipartUploadPolicy;
+    const { env } = yield* CloudflareContext;
+
+    return Effect.fn(function* (bucket: Bucket) {
+      yield* Policy(bucket);
+      const r2Bucket = (env as Record<string, runtime.R2Bucket>)[bucket.id];
+
+      return Effect.fn(function* (
+        key: string,
+        options?: CreateMultipartUploadOptions,
+      ) {
+        const multipartUpload = yield* Effect.promise(() =>
+          r2Bucket.createMultipartUpload(key, options),
+        );
+        return makeMultipartUploadClient(multipartUpload);
+      });
+    });
+  }),
+);
+
+const makeMultipartUploadClient = (
+  multipartUpload: runtime.R2MultipartUpload,
+): MultipartUploadClient => ({
+  key: multipartUpload.key,
+  uploadId: multipartUpload.uploadId,
+  uploadPart: (
+    partNumber: number,
+    value: UploadValue,
+    options?: runtime.R2UploadPartOptions,
+  ) =>
+    Effect.promise(() =>
       multipartUpload.uploadPart(
         partNumber,
         replaceEffectStream(value),
         options,
       ),
-    );
-  }),
-  abort: Effect.fnUntraced(function* () {
-    return yield* Effect.promise(() => multipartUpload.abort());
-  }),
-  complete: Effect.fnUntraced(function* (
-    uploadedParts: runtime.R2UploadedPart[],
-  ) {
-    return yield* Effect.promise(() => multipartUpload.complete(uploadedParts));
-  }),
+    ),
+  abort: () => Effect.promise(() => multipartUpload.abort()),
+  complete: (uploadedParts: runtime.R2UploadedPart[]) =>
+    Effect.promise(() => multipartUpload.complete(uploadedParts)),
 });
+
+export class CreateMultipartUploadPolicy extends Binding.Policy<
+  CreateMultipartUploadPolicy,
+  (bucket: Bucket) => Effect.Effect<void>
+>()("Cloudflare.R2.CreateMultipartUpload") {}
+
+export const CreateMultipartUploadPolicyLive = Layer.effect(
+  CreateMultipartUploadPolicy,
+  BucketBinding,
+);

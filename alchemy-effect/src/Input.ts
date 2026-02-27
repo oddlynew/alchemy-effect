@@ -4,14 +4,15 @@ import type { Output } from "./Output.ts";
 
 export type Function = (...args: any[]) => any;
 export type Constructor = new (...args: any[]) => any;
-export type PolicyLike = { kind: "alchemy/Policy" };
+type PolicyLike = { kind: "alchemy/Policy" };
 
 export type Input<T> =
   | T
+  | Output<T>
   | (T extends S.Schema<any>
       ? never
       :
-          | Output<T, any, any>
+          | Output<T, any>
           | (T extends Primitive
               ? never
               : T extends any[]

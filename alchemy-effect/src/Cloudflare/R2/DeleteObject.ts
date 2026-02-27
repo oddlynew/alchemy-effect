@@ -1,11 +1,41 @@
+import type * as runtime from "@cloudflare/workers-types";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Binding from "../../Binding.ts";
+import { CloudflareContext } from "../CloudflareContext.ts";
 import type { Bucket } from "./Bucket.ts";
-import { getR2BucketFromEnv } from "./util/getR2BucketFromEnv.ts";
+import { BucketBinding } from "./BucketBinding.ts";
 
-export const deleteObject = Effect.fnUntraced(function* <B extends Bucket>(
-  bucket: B,
-  keys: string | string[],
-) {
-  const client = yield* getR2BucketFromEnv(bucket);
-  return yield* Effect.promise(() => client.delete(keys));
-});
+export class DeleteObject extends Binding.Service<
+  DeleteObject,
+  (
+    bucket: Bucket,
+  ) => Effect.Effect<(keys: string | string[]) => Effect.Effect<void>>
+>()("Cloudflare.R2.DeleteObject") {}
+
+export const DeleteObjectLive = Layer.effect(
+  DeleteObject,
+  Effect.gen(function* () {
+    const Policy = yield* DeleteObjectPolicy;
+    const { env } = yield* CloudflareContext;
+
+    return Effect.fn(function* (bucket: Bucket) {
+      yield* Policy(bucket);
+      const r2Bucket = (env as Record<string, runtime.R2Bucket>)[bucket.id];
+
+      return Effect.fn(function* (keys: string | string[]) {
+        return yield* Effect.promise(() => r2Bucket.delete(keys));
+      });
+    });
+  }),
+);
+
+export class DeleteObjectPolicy extends Binding.Policy<
+  DeleteObjectPolicy,
+  (bucket: Bucket) => Effect.Effect<void>
+>()("Cloudflare.R2.DeleteObject") {}
+
+export const DeleteObjectPolicyLive = Layer.effect(
+  DeleteObjectPolicy,
+  BucketBinding,
+);

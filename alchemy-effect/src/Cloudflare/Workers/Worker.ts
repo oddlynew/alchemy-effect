@@ -4,13 +4,13 @@ import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import * as ServiceMap from "effect/ServiceMap";
 
-import { sha256 } from "../..//Util/sha256.ts";
 import * as ESBuild from "../../Bundle/ESBuild.ts";
 import type { ScopedPlanStatusSession } from "../../Cli/index.ts";
 import { DotAlchemy } from "../../Config.ts";
 import type { FunctionExecutionContext } from "../../ExecutionContext.ts";
 import { createPhysicalName } from "../../PhysicalName.ts";
 import { Resource } from "../../Resource.ts";
+import { sha256 } from "../../Util/sha256.ts";
 import { Account } from "../Account.ts";
 import { CloudflareApi } from "../CloudflareApi.ts";
 import * as Assets from "./Assets.ts";
@@ -18,6 +18,15 @@ import * as Assets from "./Assets.ts";
 export class WorkerRuntime extends ServiceMap.Service<WorkerRuntime, Worker>()(
   "Cloudflare.Workers.WorkerRuntime",
 ) {}
+
+export const isWorker = <T>(value: T): value is T & Worker => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "type" in value &&
+    value.type === "Cloudflare.Worker"
+  );
+};
 
 export interface WorkerExecutionContext extends FunctionExecutionContext<"Cloudflare.Worker"> {
   /**

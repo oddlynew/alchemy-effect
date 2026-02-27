@@ -1,9 +1,9 @@
-import { Account } from "@/Cloudflare/Account";
-import { CloudflareApi } from "@/cloudflare/api";
-import * as KV from "@/cloudflare/kv";
-import * as CloudflareLive from "@/cloudflare/live";
-import { apply, destroy } from "@/index";
-import { test } from "@/Test/Vitest";
+import { Account } from "@/Cloudflare/Account.ts";
+import { CloudflareApi } from "@/Cloudflare/CloudflareApi.ts";
+import * as KV from "@/Cloudflare/KV/index.ts";
+import * as CloudflareLive from "@/Cloudflare/Live.ts";
+import { apply, destroy } from "@/index.ts";
+import { test } from "@/Test/Vitest.ts";
 import { expect } from "@effect/vitest";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -61,7 +61,7 @@ test(
       stack.TestNamespace.namespaceId,
       accountId,
     );
-  }).pipe(Effect.provide(CloudflareLive.providers()), logLevel),
+  }).pipe(Effect.provide(CloudflareLive.default), logLevel),
 );
 
 const waitForNamespaceToBeDeleted = Effect.fn(function* (
