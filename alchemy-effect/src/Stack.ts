@@ -17,25 +17,42 @@ export type StackServices =
 
 export class Stack extends ServiceMap.Service<
   Stack,
-  {
-    name: string;
-    stage: string;
-    // @internal
-    resources: {
-      [logicalId: string]: ResourceLike;
-    };
-    bindings: {
-      [logicalId: string]: any[];
-    };
-  }
+  Omit<StackSpec, "output">
 >()("Stack") {}
+
+export interface StackSpec<Output = any> {
+  name: string;
+  stage: string;
+  // @internal
+  resources: {
+    [logicalId: string]: ResourceLike;
+  };
+  bindings: {
+    [logicalId: string]: any[];
+  };
+  output: Output;
+}
 
 export const StackName = Stack.use((stack) => Effect.succeed(stack.name));
 
 export const make =
   <const Name extends string>(name: Name) =>
-  <A, Err = never>(effect: Effect.Effect<A, Err, StackServices>) =>
+  <A, Err = never>(
+    effect: Effect.Effect<A, Err, StackServices>,
+  ): Effect.Effect<
+    StackSpec<A>,
+    Err,
+    Stage | FileSystem | Path | DotAlchemy | HttpClient
+  > =>
     effect.pipe(
+      Effect.flatMap((output) =>
+        Stack.asEffect().pipe(
+          Effect.map((stack) => ({
+            output,
+            ...stack,
+          })),
+        ),
+      ),
       Effect.provideServiceEffect(
         Stack,
         Stage.asEffect().pipe(

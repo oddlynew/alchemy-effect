@@ -7,11 +7,11 @@ import {
   CLI,
 } from "./Cli/CLI.ts";
 import type { ApplyStatus } from "./Cli/CLIEvent.ts";
+import type { Input } from "./Input.ts";
 import { generateInstanceId, InstanceId } from "./InstanceId.ts";
 import * as Output from "./Output.ts";
-import { type Apply, type Delete, type Plan, plan } from "./Plan.ts";
+import { type Apply, type Delete, type Plan } from "./Plan.ts";
 import { getProviderByType } from "./Provider.ts";
-import type { ResourceLike } from "./Resource.ts";
 import { Stack } from "./Stack.ts";
 import { Stage } from "./Stage.ts";
 import {
@@ -48,11 +48,13 @@ export type AppliedPlan<P extends Plan> = {
     : Simplify<P["resources"][id]["resource"]["attr"]>;
 };
 
-export const apply = <const Resources extends ResourceLike[] = never>(
-  ...resources: Resources
-) => plan(...resources).pipe(Effect.flatMap(applyPlan));
-
-export const applyPlan = <P extends Plan>(plan: P) =>
+export const apply = <P extends Plan>(
+  plan: P,
+): Effect.Effect<
+  Input.Resolve<P["output"]>,
+  Output.InvalidReferenceError | Output.MissingSourceError | StateStoreError,
+  CLI | State | Stack | Stage
+> =>
   Effect.gen(function* () {
     const cli = yield* CLI;
     const session = yield* cli.startApplySession(plan);
@@ -72,9 +74,10 @@ export const applyPlan = <P extends Plan>(plan: P) =>
       // all resources are deleted, return undefined
       return undefined;
     }
-    return resources as {
-      [k in keyof AppliedPlan<P>]: AppliedPlan<P>[k];
-    };
+    return yield* Output.evaluate(plan.output, resources);
+    // return resources as {
+    //   [k in keyof AppliedPlan<P>]: AppliedPlan<P>[k];
+    // };
   });
 
 const expandAndPivot = Effect.fnUntraced(function* (

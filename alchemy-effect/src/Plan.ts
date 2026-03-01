@@ -1,7 +1,6 @@
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import { asEffect } from ".//Util/types.ts";
 import type { NoopDiff, UpdateDiff } from "./Diff.ts";
 import { InstanceId } from "./InstanceId.ts";
@@ -12,11 +11,9 @@ import {
   type ProviderService,
 } from "./Provider.ts";
 import type { ResourceLike } from "./Resource.ts";
-import { Stack, StackName } from "./Stack.ts";
-import { Stage } from "./Stage.ts";
+import { type StackSpec } from "./Stack.ts";
 import {
   State,
-  StateStoreError,
   type CreatedResourceState,
   type CreatingResourceState,
   type ReplacedResourceState,
@@ -114,27 +111,28 @@ export interface Replace<
     | ReplacedResourceState;
 }
 
-export type Plan = {
+export type Plan<Output = any> = {
   resources: {
     [id in string]: Apply<any>;
   };
   deletions: {
     [id in string]?: Delete<ResourceLike>;
   };
+  output: Output;
 };
 
-export const plan = <const Resources extends ResourceLike[]>(
-  ..._resources: Resources
-) =>
+export const make = <A>(
+  stack: StackSpec<A>,
+): Effect.Effect<Plan<A>, never, State> =>
+  // @ts-expect-error
   Effect.gen(function* () {
     const state = yield* State;
-    const stack = yield* Stack;
 
     const resources = Object.values(stack.resources);
 
     // TODO(sam): rename terminology to Stack
-    const stackName = yield* StackName;
-    const stage = yield* Stage;
+    const stackName = stack.name;
+    const stage = stack.stage;
 
     const resourceIds = yield* state.list({
       stack: stackName,
@@ -147,31 +145,18 @@ export const plan = <const Resources extends ResourceLike[]>(
       { concurrency: "unbounded" },
     );
 
-    type ResolveEffect<T> = Effect.Effect<T, ResolveErr, ResolveReq>;
-    type ResolveErr = StateStoreError;
-    type ResolveReq =
-      | ServiceMap.ServiceClass<Provider, string, ProviderService>
-      | State;
+    const resolvedResources: Record<string, Effect.Effect<any>> = {};
 
-    const resolvedResources: Record<
-      string,
-      Effect.Effect<
-        | {
-            [attr in string]: any;
-          }
-        | undefined,
-        any,
-        any
-      >
-    > = {};
-
-    const resolveResource = (resourceExpr: Output.ResourceExpr<any, any>) =>
+    const resolveResource = (
+      resourceExpr: Output.ResourceExpr<any, any>,
+    ): Effect.Effect<any> =>
       Effect.gen(function* () {
         return yield* (resolvedResources[resourceExpr.src.LogicalId] ??=
           yield* Effect.cached(
             Effect.gen(function* () {
               const resource = resourceExpr.src;
-              const provider = yield* resource.Provider;
+              const provider =
+                yield* resource.Provider as any as Effect.Effect<ProviderService>;
               const props = yield* resolveInput(resource.Props);
               const oldState = yield* state.get({
                 stack: stackName,
@@ -255,7 +240,7 @@ export const plan = <const Resources extends ResourceLike[]>(
           ));
       });
 
-    const resolveInput = (input: any): ResolveEffect<any> =>
+    const resolveInput = (input: any): Effect.Effect<any> =>
       Effect.gen(function* () {
         if (!input) {
           return input;
@@ -278,7 +263,7 @@ export const plan = <const Resources extends ResourceLike[]>(
         return input;
       });
 
-    const resolveOutput = (expr: Output.Expr<any>): ResolveEffect<any> =>
+    const resolveOutput = (expr: Output.Expr<any>): Effect.Effect<any> =>
       Effect.gen(function* () {
         if (Output.isResourceExpr(expr)) {
           return yield* resolveResource(expr);
@@ -665,7 +650,7 @@ export const plan = <const Resources extends ResourceLike[]>(
     return {
       resources: resourceGraph,
       deletions,
-    } satisfies Plan;
+    } as Plan;
   });
 
 export class CannotReplacePartiallyReplacedResource extends Data.TaggedError(

@@ -39,6 +39,10 @@ export interface ResourceLike<
   Provider: Provider<this>;
 }
 
+export const isResource = (value: any): value is ResourceLike => {
+  return typeof value === "object" && value !== null && "Type" in value;
+};
+
 export type Resource<
   Type extends string = any,
   Props extends object = any,
@@ -149,6 +153,32 @@ export interface ResourceProviders<Resource extends ResourceLike> {
       InstanceId
     >
   >;
+  succeed: <
+    ReadReq = never,
+    DiffReq = never,
+    PrecreateReq = never,
+    CreateReq = never,
+    UpdateReq = never,
+    DeleteReq = never,
+  >(
+    service: ProviderService<
+      Resource,
+      ReadReq,
+      DiffReq,
+      PrecreateReq,
+      CreateReq,
+      UpdateReq,
+      DeleteReq
+    >,
+  ) => Layer.Layer<
+    Provider<Resource>,
+    never,
+    Exclude<
+      ReadReq | DiffReq | PrecreateReq | CreateReq | UpdateReq | DeleteReq,
+      InstanceId
+    >
+  >;
+
   of: <
     ReadReq = never,
     DiffReq = never,

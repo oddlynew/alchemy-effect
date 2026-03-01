@@ -1,3 +1,3 @@
 import { apply } from "./Apply.ts";
 
-export const destroy = () => apply();
+export const destroy = (stack: string, stage: string) => apply();

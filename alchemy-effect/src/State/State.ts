@@ -49,6 +49,7 @@ import type { ReplacedResourceState, ResourceState } from "./ResourceState.ts";
 
 export class StateStoreError extends Data.TaggedError("StateStoreError")<{
   message: string;
+  cause?: Error;
 }> {}
 
 export class State extends ServiceMap.Service<State, StateService>()(

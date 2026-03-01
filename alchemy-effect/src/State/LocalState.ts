@@ -18,16 +18,18 @@ export const LocalState = Layer.effect(
     const fail = (err: PlatformError) =>
       Effect.fail(
         new StateStoreError({
-          message: err.description ?? err.message,
+          message: err.message,
+          cause: err,
         }),
       );
 
     const recover = <T>(effect: Effect.Effect<T, PlatformError, never>) =>
       effect.pipe(
-        Effect.catchTag("SystemError", (e) =>
-          e.reason._tag === "NotFound" ? Effect.succeed(undefined) : fail(e),
+        Effect.catchTag("PlatformError", (e) =>
+          e.reason._tag === "SystemError" && e.reason.kind === "NotFound"
+            ? Effect.succeed(undefined)
+            : fail(e),
         ),
-        Effect.catchTag("BadArgument", (e) => fail(e)),
       );
 
     const stage = ({ stack, stage }: { stack: string; stage: string }) =>
@@ -43,9 +45,14 @@ export const LocalState = Layer.effect(
       logicalId: string;
     }) => path.join(stateDir, stack, stage, `${logicalId}.json`);
 
-    const ensure = yield* Effect.cachedFunction((dir: string) =>
-      fs.makeDirectory(dir, { recursive: true }),
-    );
+    const created = new Set<string>();
+
+    const ensure = (dir: string) =>
+      created.has(dir)
+        ? Effect.succeed(void 0)
+        : fs
+            .makeDirectory(dir, { recursive: true })
+            .pipe(Effect.tap(() => Effect.sync(() => created.add(dir))));
 
     const state: StateService = {
       listStacks: () =>
@@ -84,10 +91,10 @@ export const LocalState = Layer.effect(
                 (k, v) => {
                   if (isResource(v)) {
                     return {
-                      id: v.id,
-                      type: v.type,
-                      props: v.props,
-                      attr: v.attr,
+                      id: v.LogicalId,
+                      type: v.Type,
+                      props: v.Props,
+                      attr: v.Attributes,
                     };
                   }
                   return v;

@@ -1,4 +1,5 @@
-import { Credentials, Region } from "distilled-aws";
+import * as Credentials from "distilled-aws/Credentials";
+import * as Region from "distilled-aws/Region";
 import * as Config from "effect/Config";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";

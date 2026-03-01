@@ -19,7 +19,7 @@ import {
   apply as _apply,
   applyPlan,
   destroy,
-  plan,
+  make,
   printPlan,
   type AnyResource,
   type AnyService,
@@ -41,7 +41,7 @@ const logLevel = Effect.provideService(
 const apply = (<const Resources extends (AnyService | AnyResource)[] = never>(
   ...resources: Resources
 ) =>
-  plan(...resources).pipe(
+  make(...resources).pipe(
     Effect.tap((plan) => Effect.log(printPlan(plan))),
     Effect.flatMap(applyPlan),
   )) as typeof _apply;
