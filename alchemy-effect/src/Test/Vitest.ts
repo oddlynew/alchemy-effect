@@ -15,10 +15,13 @@ import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as NodePath from "node:path";
 import * as AWS from "../AWS/index.ts";
 
+import { apply } from "../Apply.ts";
 import * as Credentials from "../AWS/Credentials.ts";
 import * as Region from "../AWS/Region.ts";
 import type { CLI } from "../Cli/index.ts";
 import { DotAlchemy, dotAlchemy } from "../Config.ts";
+import { ExecutionContext } from "../Executable.ts";
+import * as Plan from "../Plan.ts";
 import * as Stack from "../Stack.ts";
 import * as Stage from "../Stage.ts";
 import * as State from "../State/index.ts";
@@ -58,7 +61,9 @@ type Provided =
   | Path.Path
   | aws.Credentials.Credentials
   | aws.Region.Region
-  | CLI;
+  | CLI
+  | ExecutionContext
+  | AWS.StageConfig;
 
 export function test(
   name: string,
@@ -103,27 +108,25 @@ export function test(
     FetchHttpClient.layer,
     Logger.layer([Logger.consolePretty()]),
   );
-  const aws = Layer.mergeAll(
-    Credentials.fromStageConfig(),
-    Region.fromStageConfig(),
+  const aws = Layer.provideMerge(
+    AWS.providers(),
+    Layer.mergeAll(Credentials.fromStageConfig(), Region.fromStageConfig()),
   );
 
   const awsStageConfig = Layer.effect(
     AWS.StageConfig,
     Effect.gen(function* () {
       const AWS_PROFILE = yield* Config.string("AWS_PROFILE").pipe(
-        Config.withDefault(() => "default"),
+        Config.withDefault("default"),
       );
 
       const LOCAL = yield* Config.boolean("LOCAL").pipe(
-        Config.withDefault(() => false),
+        Config.withDefault(false),
       );
 
       const LOCALSTACK_ENDPOINT = yield* Config.string(
         "LOCALSTACK_ENDPOINT",
-      ).pipe(
-        Config.withDefault(() => "http://localhost.localstack.cloud:4566"),
-      );
+      ).pipe(Config.withDefault("http://localhost.localstack.cloud:4566"));
 
       return AWS.StageConfig.of({
         profile: LOCAL ? undefined : AWS_PROFILE,
@@ -171,6 +174,15 @@ export function test(
       Layer.provideMerge(aws, Layer.provideMerge(alchemy, platform)),
     ),
     Effect.provideService(Stage.Stage, "test"),
+    Effect.provideService(ExecutionContext, {
+      type: "function",
+      listen: () => {
+        return Effect.void;
+      },
+      get: <T>(key: string) => {
+        return Effect.succeed<T>(undefined as T);
+      },
+    }),
     Effect.provideService(
       MinimumLogLevel,
       process.env.DEBUG ? "Debug" : "Info",
@@ -267,6 +279,17 @@ export namespace test {
         },
         ...other,
       }),
+    );
+
+  export const deploy = <A, Err = never, Req = never>(
+    effect: Effect.Effect<A, Err, Req>,
+  ) =>
+    Stack.Stack.use((stack) =>
+      effect.pipe(
+        Stack.make(stack.name),
+        Effect.flatMap(Plan.make),
+        Effect.flatMap(apply),
+      ),
     );
 }
 

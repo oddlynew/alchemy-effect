@@ -1,6 +1,7 @@
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as ESBuild from "../Bundle/ESBuild.ts";
+import type { Provider } from "../Provider.ts";
 import * as Account from "./Account.ts";
 import * as Assets from "./Assets.ts";
 import * as Credentials from "./Credentials.ts";
@@ -12,6 +13,11 @@ import * as Lambda from "./Lambda/index.ts";
 import * as Region from "./Region.ts";
 import * as S3 from "./S3/index.ts";
 import * as SQS from "./SQS/index.ts";
+
+export type Providers = Extract<
+  Layer.Success<ReturnType<typeof providers>>,
+  Provider<any>
+>;
 
 /**
  * AWS providers with optional Assets layer for S3-based code deployment.
@@ -69,20 +75,20 @@ export const bindings = () =>
     Kinesis.PutRecordPolicyLive,
     Kinesis.PutRecordsPolicyLive,
     S3.AbortMultipartUploadPolicyLive,
-    S3.BucketEventSourcePolicyLive,
-    S3.CompleteMultipartUploadBinding,
+    // S3.BucketEventSourcePolicyLive,
+    // S3.CompleteMultipartUploadBinding,
     S3.CompleteMultipartUploadPolicyLive,
     S3.CreateMultipartUploadPolicyLive,
-    S3.DeleteObjectBinding,
+    // S3.DeleteObjectBinding,
     S3.DeleteObjectPolicyLive,
-    S3.HeadObjectBinding,
+    // S3.HeadObjectBinding,
     S3.HeadObjectPolicyLive,
     S3.PutObjectPolicyLive,
     S3.UploadPartPolicyLive,
     SQS.SendMessageBatchPolicyLive,
     SQS.SendMessagePolicyLive,
     SQS.DeleteMessageBatchPolicyLive,
-    SQS.QueueEventSourcePolicyLive,
+    // SQS.QueueEventSourcePolicyLive,
   );
 
 const utils = () => Layer.mergeAll(ESBuild.esBuild());

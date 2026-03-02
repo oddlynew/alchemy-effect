@@ -1,11 +1,13 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import { pipeArguments, type Pipeable } from "effect/Pipeable";
 import { SingleShotGen } from "effect/Utils";
 import type { Input } from "./Input.ts";
 import type { InstanceId } from "./InstanceId.ts";
 import * as Output from "./Output.ts";
 import { Provider, type ProviderService } from "./Provider.ts";
+import { RemovalPolicy } from "./RemovalPolicy.ts";
 import { Stack } from "./Stack.ts";
 
 export type ResourceConstructor<R extends ResourceLike, Req = never> = (
@@ -37,6 +39,7 @@ export interface ResourceLike<
   /** @internal phantom */
   Binding: Binding;
   Provider: Provider<this>;
+  RemovalPolicy: RemovalPolicy["Service"];
 }
 
 export const isResource = (value: any): value is ResourceLike => {
@@ -76,6 +79,9 @@ export const Resource = <R extends ResourceLike>(
         LogicalId: id,
         Props: props,
         Provider: ProviderTag,
+        RemovalPolicy: yield* Effect.serviceOption(RemovalPolicy).pipe(
+          Effect.map(Option.getOrElse(() => "destroy" as const)),
+        ),
         // Attributes: undefined!,
         // Binding: undefined!,
         bind: (data: any) => (stack.bindings[id] ??= []).push(data),
@@ -108,6 +114,7 @@ export const Resource = <R extends ResourceLike>(
     },
     provider: {
       tag: ProviderTag,
+      of: ProviderTag.of,
       effect: Layer.effect(ProviderTag),
       succeed: Layer.succeed(ProviderTag),
     },

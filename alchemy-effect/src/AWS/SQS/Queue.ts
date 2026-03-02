@@ -4,7 +4,7 @@ import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
 
 import { createPhysicalName } from "../../PhysicalName.ts";
-import { Resource, type ResourceBinding } from "../../Resource.ts";
+import { Resource } from "../../Resource.ts";
 import { Account, type AccountID } from "../Account.ts";
 import type { PolicyStatement } from "../IAM/Policy.ts";
 import type { RegionID } from "../Region.ts";
@@ -110,7 +110,7 @@ export const QueueProvider = () =>
         });
       const createAttributes = (
         props: QueueProps,
-        bindings: ResourceBinding<Queue>[],
+        bindings: Queue["Binding"][],
       ) => {
         const baseAttributes: Record<string, string | undefined> = {
           DelaySeconds: props.delaySeconds?.toString(),

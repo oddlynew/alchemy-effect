@@ -1,5 +1,5 @@
-import * as AWS from "@/aws";
-import { Bucket } from "@/aws/s3";
+import * as AWS from "@/AWS";
+import { Bucket } from "@/AWS/S3";
 import { apply, destroy } from "@/index";
 import { test } from "@/Test/Vitest";
 import { expect } from "@effect/vitest";
