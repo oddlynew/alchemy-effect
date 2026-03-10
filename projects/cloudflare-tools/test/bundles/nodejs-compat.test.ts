@@ -8,8 +8,8 @@
  * - Buffer from node:buffer
  * - process global
  */
+import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
-import { beforeAll, describe, expect, it } from "vitest";
 import { bundleWithDistilled } from "../harness/distilled-bundler.js";
 import { loadFixture } from "../harness/fixture.js";
 import { withRunner } from "../harness/miniflare-runner.js";
@@ -18,157 +18,75 @@ import { bundleWithWrangler } from "../harness/wrangler-bundler.js";
 
 describe("nodejs-compat", () => {
   let config: BundleConfig;
-  let wranglerBundle: BundleResult;
 
-  beforeAll(async () => {
+  it.beforeAll(async () => {
     config = await Effect.runPromise(loadFixture("nodejs-compat"));
-    wranglerBundle = await Effect.runPromise(bundleWithWrangler(config));
   });
 
-  describe("wrangler baseline", () => {
+  describe.each([
+    {
+      name: "wrangler",
+      bundler: bundleWithWrangler,
+    },
+    {
+      name: "distilled-bundler",
+      bundler: bundleWithDistilled,
+    },
+  ])("$name", ({ bundler }) => {
+    let bundle: BundleResult;
+
+    it.beforeAll(async () => {
+      bundle = await Effect.runPromise(bundler(config));
+    });
+
     it("builds successfully", () => {
-      expect(wranglerBundle.main).toBeTruthy();
-      expect(wranglerBundle.type).toBe("esm");
+      expect(bundle.main).toBeTruthy();
+      expect(bundle.type).toBe("esm");
     });
 
-    it("crypto.getRandomValues works", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: wranglerBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-random");
-          expect(res.status).toBe(200);
-          const body = await res.text();
-          const arr = JSON.parse(body);
-          expect(arr).toHaveLength(4);
-          for (const item of arr) {
-            expect(typeof item).toBe("number");
-          }
-        }),
-      );
-    });
+    it.effect("crypto.getRandomValues works", () =>
+      withRunner({ bundle, config }, async (runner) => {
+        const res = await runner.fetch("http://localhost/test-random");
+        expect(res.status).toBe(200);
+        const body = await res.text();
+        const arr = JSON.parse(body);
+        expect(arr).toHaveLength(4);
+        for (const item of arr) {
+          expect(typeof item).toBe("number");
+        }
+      }),
+    );
 
-    it("Buffer.from works and encodes to base64", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: wranglerBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-buffer");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("aGVsbG8=");
-        }),
-      );
-    });
+    it.effect("Buffer.from works and encodes to base64", () =>
+      withRunner({ bundle, config }, async (runner) => {
+        const res = await runner.fetch("http://localhost/test-buffer");
+        expect(res.status).toBe(200);
+        expect(await res.text()).toBe("aGVsbG8=");
+      }),
+    );
 
-    it("process global is defined", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: wranglerBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-process");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("OK");
-        }),
-      );
-    });
+    it.effect("process global is defined", () =>
+      withRunner({ bundle, config }, async (runner) => {
+        const res = await runner.fetch("http://localhost/test-process");
+        expect(res.status).toBe(200);
+        expect(await res.text()).toBe("OK");
+      }),
+    );
 
-    it("Buffer.isBuffer works", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: wranglerBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-buffer-is-buffer");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("OK");
-        }),
-      );
-    });
+    it.effect("Buffer.isBuffer works", () =>
+      withRunner({ bundle, config }, async (runner) => {
+        const res = await runner.fetch("http://localhost/test-buffer-is-buffer");
+        expect(res.status).toBe(200);
+        expect(await res.text()).toBe("OK");
+      }),
+    );
 
-    it("responds to fetch /", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: wranglerBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("ok");
-        }),
-      );
-    });
-  });
-
-  describe("distilled-bundler", () => {
-    let distilledBundle: BundleResult;
-
-    beforeAll(async () => {
-      distilledBundle = await Effect.runPromise(bundleWithDistilled(config));
-    });
-
-    it("builds successfully with ESM output", () => {
-      expect(distilledBundle.main).toBeTruthy();
-      expect(distilledBundle.type).toBe("esm");
-    });
-
-    it("crypto.getRandomValues works", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: distilledBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-random");
-          expect(res.status).toBe(200);
-          const body = await res.text();
-          const arr = JSON.parse(body);
-          expect(arr).toHaveLength(4);
-          for (const item of arr) {
-            expect(typeof item).toBe("number");
-          }
-        }),
-      );
-    });
-
-    it("Buffer.from works and encodes to base64", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: distilledBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-buffer");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("aGVsbG8=");
-        }),
-      );
-    });
-
-    it("process global is defined", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: distilledBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-process");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("OK");
-        }),
-      );
-    });
-
-    it("Buffer.isBuffer works", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: distilledBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/test-buffer-is-buffer");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("OK");
-        }),
-      );
-    });
-
-    it("responds to fetch /", async () => {
-      await Effect.runPromise(
-        withRunner({ bundle: distilledBundle, config }, async (runner) => {
-          const res = await runner.fetch("http://localhost/");
-          expect(res.status).toBe(200);
-          expect(await res.text()).toBe("ok");
-        }),
-      );
-    });
-
-    it("matches wrangler behavior for /test-buffer", async () => {
-      await Effect.runPromise(
-        Effect.gen(function* () {
-          const wranglerRes = yield* withRunner({ bundle: wranglerBundle, config }, async (r) => {
-            const res = await r.fetch("http://localhost/test-buffer");
-            return { status: res.status, body: await res.text() };
-          });
-          const distilledRes = yield* withRunner({ bundle: distilledBundle, config }, async (r) => {
-            const res = await r.fetch("http://localhost/test-buffer");
-            return { status: res.status, body: await res.text() };
-          });
-          expect(distilledRes.status).toBe(wranglerRes.status);
-          expect(distilledRes.body).toBe(wranglerRes.body);
-        }),
-      );
-    });
+    it.effect("responds to fetch /", () =>
+      withRunner({ bundle, config }, async (runner) => {
+        const res = await runner.fetch("http://localhost/");
+        expect(res.status).toBe(200);
+        expect(await res.text()).toBe("ok");
+      }),
+    );
   });
 });
