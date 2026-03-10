@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@cloudflare/unenv-preset": "^2.15.0",
+    "glob-to-regexp": "^0.4.1",
     "unenv": "^2.0.0-rc.24"
   },
   "devDependencies": {

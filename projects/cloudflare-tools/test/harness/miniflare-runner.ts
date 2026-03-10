@@ -118,10 +118,10 @@ export function createRunner(
  * })
  * ```
  */
-export function withRunner(
+export function withRunner<A>(
   options: MiniflareRunnerOptions,
-  fn: (runner: RunningWorker) => Promise<void>,
-): Effect.Effect<void, Error> {
+  fn: (runner: RunningWorker) => Promise<A>,
+): Effect.Effect<A, Error> {
   return Effect.acquireUseRelease(
     createRunner(options),
     (runner) => Effect.promise(() => fn(runner)),
