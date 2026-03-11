@@ -1,5 +1,6 @@
 // Verify JSX syntax is supported in .js files (esbuild loader: jsx)
 // Using classic transform via tsconfig: jsxFactory=h
+// oxlint-disable-next-line no-unused-vars
 function h(tag, props, ...children) {
   return { tag, props: props || {}, children };
 }
