@@ -52,7 +52,7 @@ export function bundleWithDistilled(
     };
 
     // Run the bundle
-    const result = yield* bundle.bundle(options).pipe(
+    const result = yield* bundle.build(options).pipe(
       Effect.mapError(
         (error) =>
           new BundleError({
