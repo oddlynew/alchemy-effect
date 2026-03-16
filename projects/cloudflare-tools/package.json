@@ -51,6 +51,11 @@
       "bun": "./src/rolldown/index.ts",
       "types": "./dist/rolldown/index.d.ts",
       "import": "./dist/rolldown/index.js"
+    },
+    "./rspack": {
+      "bun": "./src/rspack/index.ts",
+      "types": "./dist/rspack/index.d.ts",
+      "import": "./dist/rspack/index.js"
     }
   },
   "publishConfig": {
@@ -85,12 +90,16 @@
     "wrangler": "^4.72.0"
   },
   "peerDependencies": {
+    "@rspack/core": "^1.7.8",
     "effect": "^4.0.0-beta.30",
     "esbuild": "catalog:",
     "rolldown": "^1.0.0-rc.9",
     "typescript": "^5.9.3"
   },
   "peerDependenciesMeta": {
+    "@rspack/core": {
+      "optional": true
+    },
     "esbuild": {
       "optional": true
     },

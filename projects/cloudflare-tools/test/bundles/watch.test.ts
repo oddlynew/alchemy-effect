@@ -23,6 +23,7 @@ import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
 import { Bundle, type CloudflareOptions } from "../../src/bundle.js";
 import { EsbuildBundleLive } from "../../src/esbuild/index.js";
+import { RspackBundleLive } from "../../src/rspack/index.js";
 import { RolldownBundleLive } from "../../src/rolldown/index.js";
 import { fixtureDir } from "../harness/fixture.js";
 
@@ -35,6 +36,10 @@ const backends = [
   {
     name: "rolldown",
     layer: Layer.provideMerge(RolldownBundleLive, platformLayer),
+  },
+  {
+    name: "rspack",
+    layer: Layer.provideMerge(RspackBundleLive, platformLayer),
   },
 ] as const;
 

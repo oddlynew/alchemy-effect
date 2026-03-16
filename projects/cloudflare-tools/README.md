@@ -8,6 +8,8 @@ Effect-native bundler for Cloudflare Workers with explicit backend adapters.
 bun add @distilled.cloud/cloudflare-bundler effect@beta esbuild
 # or:
 bun add @distilled.cloud/cloudflare-bundler effect@beta rolldown
+# or:
+bun add @distilled.cloud/cloudflare-bundler effect@beta @rspack/core
 ```
 
 ## Usage
@@ -20,6 +22,7 @@ import * as Layer from "effect/Layer";
 import { Bundle } from "@distilled.cloud/cloudflare-bundler";
 import { EsbuildBundleLive } from "@distilled.cloud/cloudflare-bundler/esbuild";
 // or: import { RolldownBundleLive } from "@distilled.cloud/cloudflare-bundler/rolldown";
+// or: import { RspackBundleLive } from "@distilled.cloud/cloudflare-bundler/rspack";
 
 const program = Effect.gen(function* () {
   const bundle = yield* Bundle;
