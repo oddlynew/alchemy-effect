@@ -173,13 +173,6 @@ import {
 } from "../../src/services/ec2.ts";
 import { test } from "../test.ts";
 
-// ============================================================================
-// EC2 API Tests
-//
-// These tests call read-only EC2 APIs to verify response parsing works
-// correctly. They don't create any resources.
-// ============================================================================
-
 // ----------------------------------------------------------------------------
 // Account & Region
 // ----------------------------------------------------------------------------
@@ -659,6 +652,8 @@ test(
     expect(result.InstanceCreditSpecifications).toBeDefined();
   }),
 );
+
+
 
 // ----------------------------------------------------------------------------
 // Images & AMIs
