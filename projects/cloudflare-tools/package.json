@@ -47,13 +47,14 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "tsc",
+    "build:clean": "rm -rf dist && rm tsconfig.tsbuildinfo && tsc",
     "format": "oxfmt",
     "lint": "oxlint",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "bun run scripts/typecheck.ts",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build:clean"
   },
   "dependencies": {
     "@cloudflare/unenv-preset": "^2.15.0",
