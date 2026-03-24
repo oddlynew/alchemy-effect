@@ -6,12 +6,14 @@
  */
 import * as Effect from "effect/Effect";
 import * as fs from "node:fs";
-import { bundleWithEsbuild } from "./harness/esbuild-bundler.js";
+import * as path from "node:path";
+// import { bundleWithEsbuild } from "./harness/esbuild-bundler.js";
 import { bundleWithRolldown } from "./harness/rolldown-bundler.js";
-import { bundleWithRspack } from "./harness/rspack-bundler.js";
+// import { bundleWithRspack } from "./harness/rspack-bundler.js";
 import { loadFixture } from "./harness/fixture.js";
-import { bundleWithWrangler } from "./harness/wrangler-bundler.js";
 import type { BundleConfig, BundleResult } from "./harness/types.js";
+// import { bundleWithWrangler } from "./harness/bundler.js";
+// import type { BundleConfig, BundleResult } from "./harness/types.js";
 
 const fixtures = [
   "additional-modules",
@@ -35,10 +37,10 @@ const fixtures = [
 ];
 
 const bundlers = [
-  { name: "wrangler", fn: bundleWithWrangler },
-  { name: "esbuild", fn: bundleWithEsbuild },
+  // { name: "wrangler", fn: bundleWithWrangler },
+  //  { name: "esbuild", fn: bundleWithEsbuild },
   { name: "rolldown", fn: bundleWithRolldown },
-  { name: "rspack", fn: bundleWithRspack },
+  // { name: "rspack", fn: bundleWithRspack },
 ] as const;
 
 interface BenchmarkEntry {
@@ -61,10 +63,11 @@ function measureOutputSize(result: BundleResult): {
   let fileCount = 1;
 
   for (const mod of result.modules) {
+    const filePath = path.join(result.directory, mod.name);
     const size = mod.content
       ? mod.content.byteLength
-      : fs.existsSync(mod.path)
-        ? fs.statSync(mod.path).size
+      : fs.existsSync(filePath)
+        ? fs.statSync(filePath).size
         : 0;
     totalBytes += size;
     fileCount++;
@@ -118,9 +121,9 @@ async function main() {
   console.log("Warming up...\n");
   try {
     const warmupConfig = await Effect.runPromise(loadFixture("node-env"));
-    await Effect.runPromise(bundleWithEsbuild(warmupConfig));
+    // await Effect.runPromise(bundleWithEsbuild(warmupConfig));
     await Effect.runPromise(bundleWithRolldown(warmupConfig));
-    await Effect.runPromise(bundleWithRspack(warmupConfig));
+    // await Effect.runPromise(bundleWithRspack(warmupConfig));
   } catch {
     /* ignore */
   }
