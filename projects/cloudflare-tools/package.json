@@ -71,6 +71,11 @@
     "typecheck": "bun run scripts/typecheck.ts",
     "prepublishOnly": "bun run build"
   },
+  "dependencies": {
+    "@cloudflare/unenv-preset": "^2.15.0",
+    "glob-to-regexp": "^0.4.1",
+    "unenv": "^2.0.0-rc.24"
+  },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260310.1",
     "@effect/language-service": "^0.82.0",
@@ -86,11 +91,6 @@
     "rolldown": "^1.0.0-rc.10",
     "vitest": "^4.1.1",
     "wrangler": "^4.75.0"
-  },
-  "dependencies": {
-    "@cloudflare/unenv-preset": "^2.15.0",
-    "glob-to-regexp": "^0.4.1",
-    "unenv": "^2.0.0-rc.24"
   },
   "peerDependencies": {
     "@rspack/core": "^1.7.8",
