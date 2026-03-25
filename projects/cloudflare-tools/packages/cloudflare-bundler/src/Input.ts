@@ -38,7 +38,7 @@ export interface AdditionalModulesOptions {
 }
 
 export interface AdditionalModuleRule {
-  readonly type: ModuleType;
+  readonly type: Exclude<ModuleType, "SourceMap">;
   readonly globs: ReadonlyArray<string>;
   readonly fallthrough?: boolean;
 }
