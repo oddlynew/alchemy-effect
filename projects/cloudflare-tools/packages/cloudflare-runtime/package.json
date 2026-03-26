@@ -5,7 +5,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "bun run build:clean"
+    "prepublishOnly": "bun run build:clean",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "capnp-es": "^0.0.14",
