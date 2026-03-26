@@ -1,7 +1,7 @@
 {
-  "name": "distilled-cloudflare",
+  "name": "cloudflare-tools",
   "private": true,
-  "description": "Monorepo for Effect-native Cloudflare developer tools.",
+  "description": "Effect-native developer tooling for Cloudflare Workers.",
   "license": "MIT",
   "author": {
     "name": "John Royal",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alchemy-run/cloudflare-bundler.git"
+    "url": "git+https://github.com/alchemy-run/cloudflare-tools.git"
   },
   "workspaces": {
     "packages": [

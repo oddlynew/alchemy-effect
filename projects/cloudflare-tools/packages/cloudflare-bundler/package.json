@@ -9,9 +9,9 @@
     "esbuild",
     "workers"
   ],
-  "homepage": "https://github.com/alchemy-run/cloudflare-bundler/tree/main/packages/cloudflare-bundler#readme",
+  "homepage": "https://github.com/alchemy-run/cloudflare-tools/tree/main/packages/cloudflare-bundler#readme",
   "bugs": {
-    "url": "https://github.com/alchemy-run/cloudflare-bundler/issues"
+    "url": "https://github.com/alchemy-run/cloudflare-tools/issues"
   },
   "license": "MIT",
   "author": {
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alchemy-run/cloudflare-bundler.git",
+    "url": "git+https://github.com/alchemy-run/cloudflare-tools.git",
     "directory": "packages/cloudflare-bundler"
   },
   "files": [
