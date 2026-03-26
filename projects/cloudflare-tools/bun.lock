@@ -58,6 +58,19 @@
         "effect": "catalog:",
       },
     },
+    "packages/cloudflare-vite-plugin": {
+      "name": "@distilled.cloud/cloudflare-vite-plugin",
+      "version": "0.0.0",
+      "devDependencies": {
+        "@cloudflare/workers-types": "catalog:",
+        "@effect/platform-node": "catalog:",
+        "@effect/vitest": "catalog:",
+        "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
   },
   "catalog": {
     "@cloudflare/workers-types": "^4.20260310.1",
@@ -89,6 +102,8 @@
     "@distilled.cloud/cloudflare-bundler": ["@distilled.cloud/cloudflare-bundler@workspace:packages/cloudflare-bundler"],
 
     "@distilled.cloud/cloudflare-runtime": ["@distilled.cloud/cloudflare-runtime@workspace:packages/cloudflare-runtime"],
+
+    "@distilled.cloud/cloudflare-vite-plugin": ["@distilled.cloud/cloudflare-vite-plugin@workspace:packages/cloudflare-vite-plugin"],
 
     "@effect/platform-bun": ["@effect/platform-bun@4.0.0-beta.38", "", { "dependencies": { "@effect/platform-node-shared": "^4.0.0-beta.38" }, "peerDependencies": { "effect": "^4.0.0-beta.38" } }, "sha512-KHf4uUOgHhJ4AbquUmr+j1jBFKZ38AgTOSzLi3ifAArjJ5G8iUfvthqDn8Kbr4y4eyedcWoDwOHoOsxfryS87A=="],
 
