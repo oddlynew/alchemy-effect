@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.7.4](https://github.com/alchemy-run/distilled/releases/tag/v0.7.4) (2026-03-31)
+
+### Features
+
+- add CHANGELOG.md and auto-update it on bump - by Michael K in [#171](https://github.com/alchemy-run/distilled/pull/171) [(74dfeaa)](https://github.com/alchemy-run/distilled/commit/74dfeaa3d69a59fe8e8ff6eed28fb739c2ffae1f)
+
+### Bug Fixes
+
+- **cloudflare**: add containers property to Workers.putScript - by sam in [#174](https://github.com/alchemy-run/distilled/pull/174) [(614eb83)](https://github.com/alchemy-run/distilled/commit/614eb83f119753c1f60398a0739880d4f5e46837)
+
 ## [v0.7.3](https://github.com/alchemy-run/distilled/releases/tag/v0.7.3) (2026-03-25)
 
 ### Bug Fixes
