@@ -36,6 +36,14 @@ export class DomainNotFound extends Schema.TaggedErrorClass<DomainNotFound>()(
 ) {}
 T.applyErrorMatchers(DomainNotFound, [{ code: 100114 }]);
 
+export class DurableObjectMustBeSqlite extends Schema.TaggedErrorClass<DurableObjectMustBeSqlite>()(
+  "DurableObjectMustBeSqlite",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(DurableObjectMustBeSqlite, [
+  { code: 10074, message: { includes: "not a SQLite Durable Object" } },
+]);
+
 export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
   { code: Schema.Number, message: Schema.String },
@@ -7761,7 +7769,10 @@ export const PutScriptResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.ResponsePath("result"),
   ) as unknown as Schema.Schema<PutScriptResponse>;
 
-export type PutScriptError = DefaultErrors | InvalidRoute;
+export type PutScriptError =
+  | DefaultErrors
+  | InvalidRoute
+  | DurableObjectMustBeSqlite;
 
 export const putScript: API.OperationMethod<
   PutScriptRequest,
@@ -7771,7 +7782,7 @@ export const putScript: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScriptRequest,
   output: PutScriptResponse,
-  errors: [InvalidRoute],
+  errors: [InvalidRoute, DurableObjectMustBeSqlite],
 }));
 
 export interface DeleteScriptRequest {
