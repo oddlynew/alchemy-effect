@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.7.6](https://github.com/alchemy-run/distilled/releases/tag/v0.7.6) (2026-04-01)
+
+### Features
+
+- **cloudflare**: DurableObjectNotContainerEnabled and DurableObjectMustBeSqlite errors - by sam in [#177](https://github.com/alchemy-run/distilled/pull/177) [(3e211ce)](https://github.com/alchemy-run/distilled/commit/3e211ce7de3a342c5abfe77c814045b42ac7d3d5)
+
 ## [v0.7.5](https://github.com/alchemy-run/distilled/releases/tag/v0.7.5) (2026-03-31)
 
 *No significant changes*
