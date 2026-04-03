@@ -106,7 +106,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -164,7 +164,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -222,7 +222,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -280,7 +280,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -338,7 +338,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -396,7 +396,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -454,7 +454,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -512,7 +512,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -570,7 +570,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -628,7 +628,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -686,7 +686,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -744,7 +744,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -802,7 +802,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -860,7 +860,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
@@ -918,7 +918,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: 22
+          node-version: 24
 
       - name: Upgrade npm for OIDC trusted publishing
         run: |
