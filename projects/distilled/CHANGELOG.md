@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.7.7](https://github.com/alchemy-run/distilled/releases/tag/v0.7.7) (2026-04-03)
+
+### Bug Fixes
+
+- **cloudflare**: support worker_loader binding in putScript - by sam in [#180](https://github.com/alchemy-run/distilled/pull/180) [(9c1243f)](https://github.com/alchemy-run/distilled/commit/9c1243f995781ccee07af0a49afad544a2e2ee0b)
+- **cloudflare**: add InvalidWorkerScript error tag for Workers.putScript - by sam in [#178](https://github.com/alchemy-run/distilled/pull/178) [(34a176b)](https://github.com/alchemy-run/distilled/commit/34a176b7081bed3f1cdcfebe5b8694c73b6eac7c)
+
 ## [v0.7.6](https://github.com/alchemy-run/distilled/releases/tag/v0.7.6) (2026-04-01)
 
 ### Features
