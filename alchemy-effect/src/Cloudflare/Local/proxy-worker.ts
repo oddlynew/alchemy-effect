@@ -10,21 +10,42 @@
 import { DurableObject } from "cloudflare:workers";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
-import { RpcClient, RpcServer } from "effect/unstable/rpc";
+import { RpcClient, RpcSerialization, RpcServer } from "effect/unstable/rpc";
+import { R2Rpcs, makeR2Handlers } from "./Bindings/r2.ts";
 import {
   type HibernatableProtocols,
   makeHibernatableProtocols,
   routeMessage,
 } from "./rpc-protocol.ts";
 import { LocalRpcs, RemoteRpcs } from "./rpc-schema.ts";
+import { serveWebRequest } from "../Workers/HttpServer.ts";
 
 interface Env {
   SESSION: DurableObjectNamespace<Session>;
+  [key: string]: unknown;
+}
+
+function makeRpcHandler(env: Env) {
+  return RpcServer.toHttpEffect(R2Rpcs).pipe(
+    Effect.provide(makeR2Handlers(env)),
+    Effect.provide(RpcSerialization.layerJson),
+  );
 }
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.pathname === "/rpc" || url.pathname === "/rpc/") {
+      return Effect.runPromise(
+        makeRpcHandler(env).pipe(
+          Effect.flatMap((handler) =>
+            serveWebRequest(request as any, handler),
+          ),
+          Effect.scoped,
+        ),
+      );
+    }
 
     if (url.pathname === "/ws") {
       const id = env.SESSION.idFromName("default");
