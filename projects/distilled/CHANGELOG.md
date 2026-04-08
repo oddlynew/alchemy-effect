@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.7.11](https://github.com/alchemy-run/distilled/releases/tag/v0.7.11) (2026-04-08)
+
+### Bug Fixes
+
+- **cloudflare**: patch ServiceBindingConflict in Workers.putScript - by sam in [#184](https://github.com/alchemy-run/distilled/pull/184) [(5d7b3f4)](https://github.com/alchemy-run/distilled/commit/5d7b3f4f7ab80d354d01d60e6d7295bb7b88571e)
+- **cloudflare**: patch QueueConsumerConflict error for Workers.putScript - by sam in [#183](https://github.com/alchemy-run/distilled/pull/183) [(b3e4b7d)](https://github.com/alchemy-run/distilled/commit/b3e4b7d77b75477aa7a2b98f7f70db8940d00414)
+
 ## [v0.7.10](https://github.com/alchemy-run/distilled/releases/tag/v0.7.10) (2026-04-07)
 
 *No significant changes*
