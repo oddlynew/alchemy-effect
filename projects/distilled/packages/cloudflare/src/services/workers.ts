@@ -48,7 +48,10 @@ export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
+T.applyErrorMatchers(InvalidRoute, [
+  { code: 7003 },
+  { code: 7003, message: { includes: "Could not route" } },
+]);
 
 export class InvalidRoutePattern extends Schema.TaggedErrorClass<InvalidRoutePattern>()(
   "InvalidRoutePattern",
@@ -9606,7 +9609,7 @@ export const CreateScriptEdgePreviewRequest =
     Schema.encodeKeys({
       metadata: "metadata",
       files: "files",
-      wranglerSessionConfig: "wrangler_session_config",
+      wranglerSessionConfig: "wrangler-session-config",
     }),
     T.Http({
       method: "POST",
@@ -9634,7 +9637,7 @@ export const CreateScriptEdgePreviewResponse =
       T.ResponsePath("result"),
     ) as unknown as Schema.Schema<CreateScriptEdgePreviewResponse>;
 
-export type CreateScriptEdgePreviewError = DefaultErrors;
+export type CreateScriptEdgePreviewError = DefaultErrors | InvalidRoute;
 
 export const createScriptEdgePreview: API.OperationMethod<
   CreateScriptEdgePreviewRequest,
@@ -9644,7 +9647,7 @@ export const createScriptEdgePreview: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateScriptEdgePreviewRequest,
   output: CreateScriptEdgePreviewResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -15125,7 +15128,7 @@ export const CreateServiceEdgePreviewRequest =
     Schema.encodeKeys({
       metadata: "metadata",
       files: "files",
-      wranglerSessionConfig: "wrangler_session_config",
+      wranglerSessionConfig: "wrangler-session-config",
     }),
     T.Http({
       method: "POST",
@@ -15153,7 +15156,7 @@ export const CreateServiceEdgePreviewResponse =
       T.ResponsePath("result"),
     ) as unknown as Schema.Schema<CreateServiceEdgePreviewResponse>;
 
-export type CreateServiceEdgePreviewError = DefaultErrors;
+export type CreateServiceEdgePreviewError = DefaultErrors | InvalidRoute;
 
 export const createServiceEdgePreview: API.OperationMethod<
   CreateServiceEdgePreviewRequest,
@@ -15163,7 +15166,7 @@ export const createServiceEdgePreview: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateServiceEdgePreviewRequest,
   output: CreateServiceEdgePreviewResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -15310,7 +15313,9 @@ export const CreateSubdomainEdgePreviewSessionResponse =
       T.ResponsePath("result"),
     ) as unknown as Schema.Schema<CreateSubdomainEdgePreviewSessionResponse>;
 
-export type CreateSubdomainEdgePreviewSessionError = DefaultErrors;
+export type CreateSubdomainEdgePreviewSessionError =
+  | DefaultErrors
+  | InvalidRoute;
 
 export const createSubdomainEdgePreviewSession: API.OperationMethod<
   CreateSubdomainEdgePreviewSessionRequest,
@@ -15320,7 +15325,7 @@ export const createSubdomainEdgePreviewSession: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateSubdomainEdgePreviewSessionRequest,
   output: CreateSubdomainEdgePreviewSessionResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -15355,7 +15360,7 @@ export const CreateZoneEdgePreviewSessionResponse =
       T.ResponsePath("result"),
     ) as unknown as Schema.Schema<CreateZoneEdgePreviewSessionResponse>;
 
-export type CreateZoneEdgePreviewSessionError = DefaultErrors;
+export type CreateZoneEdgePreviewSessionError = DefaultErrors | InvalidRoute;
 
 export const createZoneEdgePreviewSession: API.OperationMethod<
   CreateZoneEdgePreviewSessionRequest,
@@ -15365,5 +15370,5 @@ export const createZoneEdgePreviewSession: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateZoneEdgePreviewSessionRequest,
   output: CreateZoneEdgePreviewSessionResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));

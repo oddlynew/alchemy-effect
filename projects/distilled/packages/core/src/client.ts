@@ -325,12 +325,8 @@ function buildFormData(body: Record<string, unknown>): FormData {
         }
       }
     } else if (typeof value === "object" && value !== null) {
-      // Object → append as JSON blob
-      formData.append(
-        key,
-        new Blob([JSON.stringify(value)], { type: "application/json" }),
-        key,
-      );
+      // Object → append as JSON string (matches wrangler's formData.set(key, JSON.stringify(value)))
+      formData.append(key, JSON.stringify(value));
     } else {
       // Primitive → append as string
       formData.append(key, String(value));

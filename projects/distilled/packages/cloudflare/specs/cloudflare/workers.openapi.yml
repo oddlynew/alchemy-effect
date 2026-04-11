@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Cloudflare Workers API
+  title: Cloudflare WORKERS API
   version: 0.0.0
 servers:
   - url: https://api.cloudflare.com/client/v4
@@ -9166,7 +9166,7 @@ paths:
                     type: string
                     format: binary
                   description: Module files comprising the worker script.
-                wrangler_session_config:
+                wrangler-session-config:
                   oneOf:
                     - type: object
                       properties:
@@ -9207,6 +9207,11 @@ paths:
                   - preview_token
                   - tail_url
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route
   /accounts/{account_id}/workers/scripts/{scriptName}/schedules:
     get:
       operationId: getScriptSchedule
@@ -15454,7 +15459,7 @@ paths:
                     type: string
                     format: binary
                   description: Module files comprising the worker script.
-                wrangler_session_config:
+                wrangler-session-config:
                   oneOf:
                     - type: object
                       properties:
@@ -15495,6 +15500,11 @@ paths:
                   - preview_token
                   - tail_url
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route
   /accounts/{account_id}/workers/subdomain:
     get:
       operationId: getSubdomain
@@ -15610,6 +15620,11 @@ paths:
                 required:
                   - token
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route
   /zones/{zone_id}/workers/edge-preview:
     get:
       operationId: createZoneEdgePreviewSession
@@ -15638,3 +15653,8 @@ paths:
                 required:
                   - token
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route

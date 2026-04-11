@@ -10,6 +10,11 @@ paths:
     get:
       operationId: createZoneEdgePreviewSession
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route
       summary: Create an edge preview session scoped to a zone
       parameters:
         - $ref: "#/components/parameters/ZoneId"
@@ -25,6 +30,11 @@ paths:
     get:
       operationId: createSubdomainEdgePreviewSession
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route
       summary: Create an edge preview session on the workers.dev subdomain
       parameters:
         - $ref: "#/components/parameters/AccountId"
@@ -40,6 +50,11 @@ paths:
     post:
       operationId: createScriptEdgePreview
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route
       summary: Upload a worker script and create an edge preview token
       parameters:
         - $ref: "#/components/parameters/AccountId"
@@ -65,7 +80,7 @@ paths:
                   items:
                     type: string
                     format: binary
-                wrangler_session_config:
+                wrangler-session-config:
                   $ref: "#/components/schemas/PreviewSessionConfig"
       responses:
         "200":
@@ -79,6 +94,11 @@ paths:
     post:
       operationId: createServiceEdgePreview
       x-distilled-response-path: result
+      x-distilled-errors:
+        InvalidRoute:
+          - code: 7003
+            message:
+              includes: Could not route
       summary: Upload a worker to a service environment and create an edge preview token
       parameters:
         - $ref: "#/components/parameters/AccountId"
@@ -105,7 +125,7 @@ paths:
                   items:
                     type: string
                     format: binary
-                wrangler_session_config:
+                wrangler-session-config:
                   $ref: "#/components/schemas/PreviewSessionConfig"
       responses:
         "200":
