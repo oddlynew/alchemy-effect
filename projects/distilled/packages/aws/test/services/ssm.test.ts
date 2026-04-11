@@ -216,7 +216,7 @@ test(
       ),
       Effect.retry(
         Schedule.exponential("500 millis").pipe(
-          Schedule.compose(Schedule.recurs(10)),
+          Schedule.both(Schedule.recurs(10)),
         ),
       ),
     );
