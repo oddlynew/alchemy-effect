@@ -125,8 +125,8 @@ export function Resource<R extends ResourceLike>(
   const constructor = (
     id: string,
     props: Props | Effect.Effect<Props> | undefined,
-  ) =>
-    Effect.gen(function* () {
+  ) => {
+    const effect = Effect.gen(function* () {
       const stack = yield* Stack;
       const namespace = yield* CurrentNamespace;
       const fqn = toFqn(namespace, id);
@@ -254,6 +254,13 @@ export function Resource<R extends ResourceLike>(
         : props;
       return Resource;
     });
+    // Attach LogicalId and Type to the Effect so they're accessible without
+    // yielding. This is critical for runtime bindings (KV, R2) that need the
+    // binding name but can't yield the Resource Effect at runtime.
+    (effect as any).LogicalId = id;
+    (effect as any).Type = type;
+    return effect;
+  };
 
   const ProviderTag = Provider(type);
 

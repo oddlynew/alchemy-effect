@@ -35,21 +35,24 @@ export const PutLive = Layer.effect(
   Effect.gen(function* () {
     const Policy = yield* PutPolicy;
 
-    return Effect.fn(function* (namespace: KVNamespace) {
-      yield* Policy(namespace);
+    return (namespace: KVNamespace) => {
+      const bindingName = namespace.LogicalId;
+      return Effect.gen(function* () {
+        yield* Policy(namespace);
 
-      return (key: string, value: PutValue, options?: PutOptions) =>
-        WorkerEnvironment.asEffect().pipe(
-          Effect.flatMap((env) => {
-            const kvNamespace = (
-              env as Record<string, runtime.KVNamespace>
-            )[namespace.LogicalId];
-            return Effect.promise(() =>
-              kvNamespace.put(key, replaceEffectStream(value), options),
-            );
-          }),
-        );
-    });
+        return (key: string, value: PutValue, options?: PutOptions) =>
+          WorkerEnvironment.asEffect().pipe(
+            Effect.flatMap((env) => {
+              const kvNamespace = (
+                env as Record<string, runtime.KVNamespace>
+              )[bindingName];
+              return Effect.promise(() =>
+                kvNamespace.put(key, replaceEffectStream(value), options),
+              );
+            }),
+          );
+      });
+    };
   }),
 );
 

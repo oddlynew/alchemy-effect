@@ -29,24 +29,27 @@ export const GetWithMetadataLive = Layer.effect(
   Effect.gen(function* () {
     const Policy = yield* GetWithMetadataPolicy;
 
-    return Effect.fn(function* (namespace: KVNamespace) {
-      yield* Policy(namespace);
+    return (namespace: KVNamespace) => {
+      const bindingName = namespace.LogicalId;
+      return Effect.gen(function* () {
+        yield* Policy(namespace);
 
-      return <Metadata = unknown>(
-        key: string,
-        options?: GetWithMetadataOptions,
-      ) =>
-        WorkerEnvironment.asEffect().pipe(
-          Effect.flatMap((env) => {
-            const kvNamespace = (
-              env as Record<string, runtime.KVNamespace>
-            )[namespace.LogicalId];
-            return Effect.promise(() =>
-              kvNamespace.getWithMetadata<Metadata>(key, options),
-            );
-          }),
-        );
-    });
+        return <Metadata = unknown>(
+          key: string,
+          options?: GetWithMetadataOptions,
+        ) =>
+          WorkerEnvironment.asEffect().pipe(
+            Effect.flatMap((env) => {
+              const kvNamespace = (
+                env as Record<string, runtime.KVNamespace>
+              )[bindingName];
+              return Effect.promise(() =>
+                kvNamespace.getWithMetadata<Metadata>(key, options),
+              );
+            }),
+          );
+      });
+    };
   }),
 );
 

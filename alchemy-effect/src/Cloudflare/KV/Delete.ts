@@ -20,19 +20,22 @@ export const DeleteLive = Layer.effect(
   Effect.gen(function* () {
     const Policy = yield* DeletePolicy;
 
-    return Effect.fn(function* (namespace: KVNamespace) {
-      yield* Policy(namespace);
+    return (namespace: KVNamespace) => {
+      const bindingName = namespace.LogicalId;
+      return Effect.gen(function* () {
+        yield* Policy(namespace);
 
-      return (key: string) =>
-        WorkerEnvironment.asEffect().pipe(
-          Effect.flatMap((env) => {
-            const kvNamespace = (
-              env as Record<string, runtime.KVNamespace>
-            )[namespace.LogicalId];
-            return Effect.promise(() => kvNamespace.delete(key));
-          }),
-        );
-    });
+        return (key: string) =>
+          WorkerEnvironment.asEffect().pipe(
+            Effect.flatMap((env) => {
+              const kvNamespace = (
+                env as Record<string, runtime.KVNamespace>
+              )[bindingName];
+              return Effect.promise(() => kvNamespace.delete(key));
+            }),
+          );
+      });
+    };
   }),
 );
 

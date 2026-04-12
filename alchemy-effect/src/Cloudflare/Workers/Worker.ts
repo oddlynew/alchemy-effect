@@ -412,7 +412,15 @@ export const Worker: Platform<
               const eff = handler(event);
               if (Effect.isEffect(eff)) {
                 return eff.pipe(
-                  Effect.provide(Layer.succeed(ExecutionContext, context)),
+                  Effect.provide(
+                    Layer.mergeAll(
+                      Layer.succeed(ExecutionContext, context),
+                      Layer.succeed(
+                        WorkerEnvironment,
+                        env as Record<string, any>,
+                      ),
+                    ),
+                  ),
                   Effect.runPromise,
                 );
               }
