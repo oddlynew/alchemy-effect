@@ -402,229 +402,234 @@ export const CfAuthLive = Layer.effect(
       name: "Cloudflare",
 
       configure: (profileName, isReconfigure = false) =>
-        Effect.orDie(provide(
-          Effect.gen(function* () {
-            const options: {
-              value: "oauth" | "env" | "stored" | "remove";
-              label: string;
-              hint?: string;
-            }[] = [
-              {
-                value: "oauth",
-                label: "OAuth (SSO)",
-                hint: "recommended — browser-based login with automatic token refresh",
-              },
-              {
-                value: "env",
-                label: "Environment Variables",
-                hint: "CLOUDFLARE_API_TOKEN or CLOUDFLARE_API_KEY + CLOUDFLARE_EMAIL",
-              },
-              {
-                value: "stored",
-                label: "Stored",
-                hint: "stored in ~/.alchemy/credentials",
-              },
-            ];
-            if (isReconfigure) {
-              options.push({
-                value: "remove",
-                label: "Remove",
-                hint: "remove Cloudflare from this profile",
-              });
-            }
+        Effect.orDie(
+          provide(
+            Effect.gen(function* () {
+              const options: {
+                value: "oauth" | "env" | "stored" | "remove";
+                label: string;
+                hint?: string;
+              }[] = [
+                {
+                  value: "oauth",
+                  label: "OAuth",
+                  hint: "recommended — browser-based login with automatic token refresh",
+                },
+                {
+                  value: "env",
+                  label: "Environment Variables",
+                  hint: "CLOUDFLARE_API_TOKEN or CLOUDFLARE_API_KEY + CLOUDFLARE_EMAIL",
+                },
+                {
+                  value: "stored",
+                  label: "Stored",
+                  hint: "stored in ~/.alchemy/credentials",
+                },
+              ];
+              if (isReconfigure) {
+                options.push({
+                  value: "remove",
+                  label: "Remove",
+                  hint: "remove Cloudflare from this profile",
+                });
+              }
 
-            const method = yield* Effect.promise(() =>
-              p.select({
-                message: "Cloudflare authentication method",
-                options,
-              }),
-            );
-            if (p.isCancel(method)) return undefined;
-
-            return yield* Match.value(method).pipe(
-              Match.when("remove", () => Effect.succeed("remove" as const)),
-              Match.when("oauth", () =>
-                Effect.gen(function* () {
-                  const scopes = yield* promptOAuthScopes();
-                  if (scopes === undefined) return undefined;
-
-                  const oauthCreds = yield* oauthLogin(profileName, scopes);
-                  if (!oauthCreds) return undefined;
-
-                  const accountId = yield* selectAccount(
-                    oauthCreds.access,
-                  ).pipe(
-                    Effect.catch((err) => {
-                      p.log.warn(
-                        `Could not list accounts: ${err}. You can set CLOUDFLARE_ACCOUNT_ID instead.`,
-                      );
-                      return Effect.succeed(undefined);
-                    }),
-                  );
-                  if (accountId === undefined) return undefined;
-                  return {
-                    method: "oauth" as const,
-                    scopes,
-                    ...(accountId ? { accountId } : {}),
-                  };
+              const method = yield* Effect.promise(() =>
+                p.select({
+                  message: "Cloudflare authentication method",
+                  options,
                 }),
-              ),
-              Match.when("env", () =>
-                Effect.gen(function* () {
-                  const accountId = yield* promptAccountId();
-                  if (accountId === undefined) return undefined;
-                  return {
-                    method: "env" as const,
-                    ...(accountId ? { accountId } : {}),
-                  };
-                }),
-              ),
-              Match.when("stored", () =>
-                Effect.gen(function* () {
-                  const credentialType = yield* Effect.promise(() =>
-                    p.select({
-                      message: "Cloudflare credential type",
-                      options: [
-                        {
-                          value: "apiToken" as const,
-                          label: "API Token",
-                          hint: "recommended",
-                        },
-                        { value: "apiKey" as const, label: "API Key + Email" },
-                      ],
-                    }),
-                  );
-                  if (p.isCancel(credentialType)) return undefined;
+              );
+              if (p.isCancel(method)) return undefined;
 
-                  return yield* Match.value(credentialType).pipe(
-                    Match.when("apiToken", () =>
-                      Effect.gen(function* () {
-                        const apiToken = yield* Effect.promise(() =>
-                          p.password({
-                            message: "Cloudflare API Token",
-                            validate: (v) =>
-                              v.length === 0 ? "Required" : undefined,
-                          }),
-                        );
-                        if (p.isCancel(apiToken)) return undefined;
+              return yield* Match.value(method).pipe(
+                Match.when("remove", () => Effect.succeed("remove" as const)),
+                Match.when("oauth", () =>
+                  Effect.gen(function* () {
+                    const scopes = yield* promptOAuthScopes();
+                    if (scopes === undefined) return undefined;
 
-                        yield* writeCredentials<CloudflareStoredCredentials>(
-                          profileName,
-                          "cloudflare",
-                          { type: "apiToken", apiToken },
+                    const oauthCreds = yield* oauthLogin(profileName, scopes);
+                    if (!oauthCreds) return undefined;
+
+                    const accountId = yield* selectAccount(
+                      oauthCreds.access,
+                    ).pipe(
+                      Effect.catch((err) => {
+                        p.log.warn(
+                          `Could not list accounts: ${err}. You can set CLOUDFLARE_ACCOUNT_ID instead.`,
                         );
-                        p.log.success("Cloudflare credentials saved.");
-                        const accountId = yield* promptAccountId();
-                        if (accountId === undefined) return undefined;
-                        return {
-                          method: "stored" as const,
-                          credentialType: "apiToken" as const,
-                          ...(accountId ? { accountId } : {}),
-                        };
+                        return Effect.succeed(undefined);
                       }),
-                    ),
-                    Match.when("apiKey", () =>
-                      Effect.gen(function* () {
-                        const apiKey = yield* Effect.promise(() =>
-                          p.text({
-                            message: "Cloudflare API Key",
-                            validate: (v) =>
-                              v.length === 0 ? "Required" : undefined,
-                          }),
-                        );
-                        if (p.isCancel(apiKey)) return undefined;
-
-                        const email = yield* Effect.promise(() =>
-                          p.text({
-                            message: "Cloudflare Email",
-                            validate: (v) =>
-                              v.length === 0 ? "Required" : undefined,
-                          }),
-                        );
-                        if (p.isCancel(email)) return undefined;
-
-                        yield* writeCredentials<CloudflareStoredCredentials>(
-                          profileName,
-                          "cloudflare",
-                          { type: "apiKey", apiKey, email },
-                        );
-                        p.log.success("Cloudflare credentials saved.");
-                        const accountId = yield* promptAccountId();
-                        if (accountId === undefined) return undefined;
-                        return {
-                          method: "stored" as const,
-                          credentialType: "apiKey" as const,
-                          ...(accountId ? { accountId } : {}),
-                        };
+                    );
+                    if (accountId === undefined) return undefined;
+                    return {
+                      method: "oauth" as const,
+                      scopes,
+                      ...(accountId ? { accountId } : {}),
+                    };
+                  }),
+                ),
+                Match.when("env", () =>
+                  Effect.gen(function* () {
+                    const accountId = yield* promptAccountId();
+                    if (accountId === undefined) return undefined;
+                    return {
+                      method: "env" as const,
+                      ...(accountId ? { accountId } : {}),
+                    };
+                  }),
+                ),
+                Match.when("stored", () =>
+                  Effect.gen(function* () {
+                    const credentialType = yield* Effect.promise(() =>
+                      p.select({
+                        message: "Cloudflare credential type",
+                        options: [
+                          {
+                            value: "apiToken" as const,
+                            label: "API Token",
+                            hint: "recommended",
+                          },
+                          {
+                            value: "apiKey" as const,
+                            label: "API Key + Email",
+                          },
+                        ],
                       }),
-                    ),
-                    Match.exhaustive,
-                  );
-                }),
-              ),
-              Match.exhaustive,
-            );
-          }),
-        )),
+                    );
+                    if (p.isCancel(credentialType)) return undefined;
+
+                    return yield* Match.value(credentialType).pipe(
+                      Match.when("apiToken", () =>
+                        Effect.gen(function* () {
+                          const apiToken = yield* Effect.promise(() =>
+                            p.password({
+                              message: "Cloudflare API Token",
+                              validate: (v) =>
+                                v.length === 0 ? "Required" : undefined,
+                            }),
+                          );
+                          if (p.isCancel(apiToken)) return undefined;
+
+                          yield* writeCredentials<CloudflareStoredCredentials>(
+                            profileName,
+                            "cloudflare",
+                            { type: "apiToken", apiToken },
+                          );
+                          p.log.success("Cloudflare credentials saved.");
+                          const accountId = yield* promptAccountId();
+                          if (accountId === undefined) return undefined;
+                          return {
+                            method: "stored" as const,
+                            credentialType: "apiToken" as const,
+                            ...(accountId ? { accountId } : {}),
+                          };
+                        }),
+                      ),
+                      Match.when("apiKey", () =>
+                        Effect.gen(function* () {
+                          const apiKey = yield* Effect.promise(() =>
+                            p.text({
+                              message: "Cloudflare API Key",
+                              validate: (v) =>
+                                v.length === 0 ? "Required" : undefined,
+                            }),
+                          );
+                          if (p.isCancel(apiKey)) return undefined;
+
+                          const email = yield* Effect.promise(() =>
+                            p.text({
+                              message: "Cloudflare Email",
+                              validate: (v) =>
+                                v.length === 0 ? "Required" : undefined,
+                            }),
+                          );
+                          if (p.isCancel(email)) return undefined;
+
+                          yield* writeCredentials<CloudflareStoredCredentials>(
+                            profileName,
+                            "cloudflare",
+                            { type: "apiKey", apiKey, email },
+                          );
+                          p.log.success("Cloudflare credentials saved.");
+                          const accountId = yield* promptAccountId();
+                          if (accountId === undefined) return undefined;
+                          return {
+                            method: "stored" as const,
+                            credentialType: "apiKey" as const,
+                            ...(accountId ? { accountId } : {}),
+                          };
+                        }),
+                      ),
+                      Match.exhaustive,
+                    );
+                  }),
+                ),
+                Match.exhaustive,
+              );
+            }),
+          ),
+        ),
 
       login: (profileName, config) =>
-        Effect.orDie(provide(
-          Match.value(config).pipe(
-            matchMethod("env", () =>
-              Effect.sync(() =>
-                p.log.info(
-                  "Cloudflare: using environment variables — no login required.",
-                ),
-              ),
-            ),
-            matchMethod("stored", () =>
-              Effect.sync(() =>
-                p.log.info(
-                  "Cloudflare: using stored credentials — no login required.",
-                ),
-              ),
-            ),
-            matchMethod("oauth", (c) =>
-              Effect.gen(function* () {
-                const creds =
-                  yield* readCredentials<OAuthClient.OAuthCredentials>(
-                    profileName,
-                    "cloudflare",
-                  );
-                if (
-                  creds?.type === "oauth" &&
-                  creds.expires > Date.now() + 10_000
-                ) {
+        Effect.orDie(
+          provide(
+            Match.value(config).pipe(
+              matchMethod("env", () =>
+                Effect.sync(() =>
                   p.log.info(
-                    "Cloudflare: OAuth credentials are still valid.",
-                  );
-                  return;
-                }
-                if (creds?.type === "oauth") {
-                  p.log.info("Cloudflare: refreshing OAuth credentials...");
-                  const refreshed = yield* OAuthClient.refresh(creds).pipe(
-                    Effect.catchTag("OAuthError", () =>
-                      Effect.succeed(undefined),
-                    ),
-                  );
-                  if (refreshed) {
-                    yield* writeCredentials(
+                    "Cloudflare: using environment variables — no login required.",
+                  ),
+                ),
+              ),
+              matchMethod("stored", () =>
+                Effect.sync(() =>
+                  p.log.info(
+                    "Cloudflare: using stored credentials — no login required.",
+                  ),
+                ),
+              ),
+              matchMethod("oauth", (c) =>
+                Effect.gen(function* () {
+                  const creds =
+                    yield* readCredentials<OAuthClient.OAuthCredentials>(
                       profileName,
                       "cloudflare",
-                      refreshed,
                     );
-                    p.log.success(
-                      "Cloudflare OAuth credentials refreshed.",
+                  if (
+                    creds?.type === "oauth" &&
+                    creds.expires > Date.now() + 10_000
+                  ) {
+                    p.log.info(
+                      "Cloudflare: OAuth credentials are still valid.",
                     );
                     return;
                   }
-                }
-                yield* oauthLogin(profileName, c.scopes);
-              }),
+                  if (creds?.type === "oauth") {
+                    p.log.info("Cloudflare: refreshing OAuth credentials...");
+                    const refreshed = yield* OAuthClient.refresh(creds).pipe(
+                      Effect.catchTag("OAuthError", () =>
+                        Effect.succeed(undefined),
+                      ),
+                    );
+                    if (refreshed) {
+                      yield* writeCredentials(
+                        profileName,
+                        "cloudflare",
+                        refreshed,
+                      );
+                      p.log.success("Cloudflare OAuth credentials refreshed.");
+                      return;
+                    }
+                  }
+                  yield* oauthLogin(profileName, c.scopes);
+                }),
+              ),
+              Match.exhaustive,
             ),
-            Match.exhaustive,
           ),
-        )),
+        ),
 
       logout: (profileName, config) =>
         provide(

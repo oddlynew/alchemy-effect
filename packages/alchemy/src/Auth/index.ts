@@ -389,21 +389,21 @@ export const viewAuth = (
 
     console.log(`\nAlchemy Effect — View Auth (profile: ${profileName})\n`);
 
-    if (!profile.aws) {
-      console.log("AWS: not configured");
-    } else {
+    if (profile.aws) {
       const aws = yield* AWS.AwsAuth;
       yield* aws.viewAuth(profileName, profile.aws);
+      console.log();
     }
 
-    console.log();
-
-    if (!profile.cloudflare) {
-      console.log("Cloudflare: not configured");
-    } else {
+    if (profile.cloudflare) {
       const cf = yield* Cloudflare.CfAuth;
       yield* cf.viewAuth(profileName, profile.cloudflare);
+      console.log();
     }
 
-    console.log();
+    if (!profile.aws && !profile.cloudflare) {
+      console.log(
+        `No providers configured for "${profileName}". Run: alchemy-effect login`,
+      );
+    }
   });
