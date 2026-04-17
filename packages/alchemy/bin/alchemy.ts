@@ -571,7 +571,7 @@ const loginCommand = Command.make(
     yield* Effect.gen(function* () {
       const stack = yield* stackEffect;
 
-      const providers = [...stack.services.mapUnsafe.values()].filter(
+      const providers = Array.from(stack.services.mapUnsafe.values()).filter(
         (s): s is AuthProvider => s?.kind === "AuthProvider",
       );
 
@@ -591,7 +591,7 @@ const loginCommand = Command.make(
             if (configure || stored == null) {
               cfg = yield* provider.configure(profile);
               yield* setProfile(profile, {
-                ...(existing ?? {}),
+                ...existing,
                 [provider.name]: cfg,
               });
             } else {
@@ -612,7 +612,7 @@ const loginCommand = Command.make(
       ),
       Effect.provideService(ConfigProvider.ConfigProvider, configProvider),
       Effect.scoped,
-    ) as Effect.Effect<void, any, never>;
+    );
   }),
 );
 

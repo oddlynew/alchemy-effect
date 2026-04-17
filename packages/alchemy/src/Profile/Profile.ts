@@ -89,16 +89,10 @@ export const loadOrConfigure = <Config extends { method: string }>(
   auth: AuthProvider<Config>,
   profileName: string,
 ) =>
-  getProfile(profileName).pipe(
-    Effect.flatMap((existing) =>
-      existing?.[auth.name]
-        ? Effect.succeed(existing?.[auth.name])
-        : auth
-            .configure(profileName)
-            .pipe(
-              Effect.tap((config) =>
-                setProfile(profileName, { ...existing, [auth.name]: config }),
-              ),
-            ),
-    ),
+  Effect.flatMap(getProfile(profileName), (existing) =>
+    existing?.[auth.name]
+      ? Effect.succeed(existing?.[auth.name])
+      : Effect.tap(auth.configure(profileName), (config) =>
+          setProfile(profileName, { ...existing, [auth.name]: config }),
+        ),
   );
