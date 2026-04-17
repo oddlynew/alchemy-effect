@@ -18,15 +18,20 @@ import {
   readCredentials,
   writeCredentials,
 } from "../../Profile/Credentials.ts";
-import { getEnv, getEnvRedacted, retryOnce } from "../../Profile/Env.ts";
+import {
+  getEnv,
+  getEnvRedacted,
+  getEnvRequired,
+  retryOnce,
+} from "../../Profile/Env.ts";
 import * as Clank from "../../Util/Clank.ts";
 import * as OAuthClient from "./OAuthClient.ts";
 
 export type CloudflareAuthConfig =
-  | { method: "env"; accountId?: string }
-  | { method: "stored"; credentialType: "apiToken"; accountId?: string }
-  | { method: "stored"; credentialType: "apiKey"; accountId?: string }
-  | { method: "oauth"; scopes: string[]; accountId?: string };
+  | { method: "env" }
+  | { method: "stored"; credentialType: "apiToken" }
+  | { method: "stored"; credentialType: "apiKey" }
+  | { method: "oauth"; scopes: string[] };
 
 const options: Array<{
   value: CloudflareAuthConfig["method"];
@@ -51,25 +56,28 @@ const options: Array<{
 ];
 
 export type CloudflareStoredCredentials =
-  | { type: "apiToken"; apiToken: string }
-  | { type: "apiKey"; apiKey: string; email: string };
+  | { type: "apiToken"; apiToken: string; accountId: string }
+  | { type: "apiKey"; apiKey: string; email: string; accountId: string };
 
 export type CloudflareResolvedCredentials =
   | {
       type: "apiToken";
       apiToken: Redacted.Redacted<string>;
+      accountId: string;
       source: { type: CloudflareAuthConfig["method"]; details?: string };
     }
   | {
       type: "apiKey";
       apiKey: Redacted.Redacted<string>;
       email: Redacted.Redacted<string>;
+      accountId: string;
       source: { type: CloudflareAuthConfig["method"]; details?: string };
     }
   | {
       type: "oauth";
       accessToken: Redacted.Redacted<string>;
       expires: number;
+      accountId: string;
       source: { type: CloudflareAuthConfig["method"]; details?: string };
     };
 
@@ -102,18 +110,24 @@ export const CloudflareAuth = Effect.gen(function* () {
 const resolveCredentials = (
   profileName: string,
   config: CloudflareAuthConfig,
-) =>
+): Effect.Effect<
+  CloudflareResolvedCredentials,
+  AuthError,
+  FileSystem.FileSystem
+> =>
   Match.value(config).pipe(
     Match.when(
       { method: "env" },
       Effect.fnUntraced(function* () {
+        const accountId = yield* getEnvRequired("CLOUDFLARE_ACCOUNT_ID");
         const apiToken = yield* getEnvRedacted("CLOUDFLARE_API_TOKEN");
         if (apiToken) {
           return {
             type: "apiToken" as const,
             apiToken,
-            source: { type: "env" },
-          } as CloudflareResolvedCredentials;
+            accountId,
+            source: { type: "env" as const },
+          };
         }
         const apiKey = yield* getEnvRedacted("CLOUDFLARE_API_KEY");
         const email = yield* getEnvRedacted("CLOUDFLARE_EMAIL");
@@ -122,8 +136,9 @@ const resolveCredentials = (
             type: "apiKey" as const,
             apiKey,
             email,
-            source: { type: "env" },
-          } as CloudflareResolvedCredentials;
+            accountId,
+            source: { type: "env" as const },
+          };
         }
         return yield* new AuthError({
           message:
@@ -149,16 +164,18 @@ const resolveCredentials = (
                   Match.when({ type: "apiToken" }, (c) => ({
                     type: "apiToken" as const,
                     apiToken: Redacted.make(c.apiToken),
+                    accountId: c.accountId,
                     source: { type: "stored" as const },
                   })),
                   Match.when({ type: "apiKey" }, (c) => ({
                     type: "apiKey" as const,
                     apiKey: Redacted.make(c.apiKey),
                     email: Redacted.make(c.email),
+                    accountId: c.accountId,
                     source: { type: "stored" as const },
                   })),
                   Match.exhaustive,
-                ) as CloudflareResolvedCredentials,
+                ),
               ),
         ),
       ),
@@ -180,8 +197,9 @@ const resolveCredentials = (
                 type: "oauth" as const,
                 accessToken: Redacted.make(creds.access),
                 expires: creds.expires,
+                accountId: "",
                 source: { type: "oauth" as const },
-              } as CloudflareResolvedCredentials),
+              }),
         ),
       ),
     ),
@@ -336,18 +354,17 @@ const loginStored = Effect.fnUntraced(function* (profileName: string) {
           message: "Cloudflare API Token",
           validate: (v) => (v.length === 0 ? "Required" : undefined),
         }).pipe(retryOnce);
+        const accountId = yield* promptAccountId();
 
         yield* writeCredentials<CloudflareStoredCredentials>(
           profileName,
           "cf-stored",
-          { type: "apiToken", apiToken },
+          { type: "apiToken", apiToken, accountId },
         );
         yield* Clank.success("Cloudflare: credentials saved.");
-        const accountId = yield* promptAccountId();
         return {
           method: "stored" as const,
           credentialType: "apiToken" as const,
-          ...(accountId ? { accountId } : {}),
         };
       }),
     ),
@@ -362,18 +379,17 @@ const loginStored = Effect.fnUntraced(function* (profileName: string) {
           message: "Cloudflare Email",
           validate: (v) => (v.length === 0 ? "Required" : undefined),
         }).pipe(retryOnce);
+        const accountId = yield* promptAccountId();
 
         yield* writeCredentials<CloudflareStoredCredentials>(
           profileName,
           "cf-stored",
-          { type: "apiKey", apiKey, email },
+          { type: "apiKey", apiKey, email, accountId },
         );
         yield* Clank.success("Cloudflare: credentials saved.");
-        const accountId = yield* promptAccountId();
         return {
           method: "stored" as const,
           credentialType: "apiKey" as const,
-          ...(accountId ? { accountId } : {}),
         };
       }),
     ),
@@ -496,6 +512,7 @@ const prettyPrint = (profileName: string, config: CloudflareAuthConfig) =>
         Match.when({ type: "apiToken" }, (c) =>
           Effect.all([
             Console.log(`  apiToken: ${displayRedacted(c.apiToken, 9)}`),
+            Console.log(`  accountId: ${c.accountId}`),
             Console.log(`  source: ${sourceStr}`),
           ]),
         ),
@@ -503,6 +520,7 @@ const prettyPrint = (profileName: string, config: CloudflareAuthConfig) =>
           Effect.all([
             Console.log(`  apiKey: ${displayRedacted(c.apiKey)}`),
             Console.log(`  email:  ${displayRedacted(c.email)}`),
+            Console.log(`  accountId: ${c.accountId}`),
             Console.log(`  source: ${sourceStr}`),
           ]),
         ),
@@ -516,22 +534,13 @@ const prettyPrint = (profileName: string, config: CloudflareAuthConfig) =>
           return Effect.all([
             Console.log(`  accessToken: ${displayRedacted(c.accessToken)}`),
             Console.log(`  expires: ${expiresStr}`),
+            Console.log(`  accountId: ${c.accountId}`),
             Console.log(`  source: ${sourceStr}`),
           ]);
         }),
         Match.exhaustive,
       );
     }),
-    Effect.andThen(
-      getEnv("CLOUDFLARE_ACCOUNT_ID").pipe(
-        Effect.flatMap((envAccountId) => {
-          const resolved = config.accountId ?? envAccountId;
-          return Console.log(
-            `  accountId: ${resolved ?? "(not set — configure or set CLOUDFLARE_ACCOUNT_ID)"}`,
-          );
-        }),
-      ),
-    ),
     Effect.catch((e) =>
       Console.error(`  Failed to retrieve credentials: ${e}`),
     ),
