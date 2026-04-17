@@ -61,7 +61,7 @@ export type StoreSecret = Resource<
  * @example Basic Secret
  * ```typescript
  * const store = yield* Cloudflare.SecretsStore("MyStore");
- * const apiKey = yield* Cloudflare.Secret("ApiKey", {
+ * const apiKey = yield* Cloudflare.StoreSecret("ApiKey", {
  *   store,
  *   value: Redacted.make(process.env.API_KEY!),
  * });
@@ -70,7 +70,10 @@ export type StoreSecret = Resource<
  * @section Binding to a Worker
  * @example Reading a secret at runtime
  * ```typescript
- * const apiKey = yield* Cloudflare.Secret.bind(ApiKey);
+ * const apiKey = yield* Cloudflare.StoreSecret.bind(ApiKey);
+ * // `apiKey` is itself an Effect that resolves to the secret value:
+ * const value = yield* apiKey;
+ * // Or call `.get()` explicitly:
  * const value = yield* apiKey.get();
  * ```
  */

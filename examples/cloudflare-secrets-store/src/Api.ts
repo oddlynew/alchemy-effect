@@ -8,39 +8,32 @@ export default class Api extends Cloudflare.Worker<Api>()(
   "Api",
   {
     main: import.meta.path,
-    compatibility: {
-      flags: ["nodejs_compat"],
-      date: "2026-03-17",
-    },
   },
   Effect.gen(function* () {
-    const secret = yield* Cloudflare.StoreSecret.bind(ApiKey);
+    const apiKey = yield* Cloudflare.StoreSecret.bind(ApiKey);
 
     return {
       fetch: Effect.gen(function* () {
         const request = yield* HttpServerRequest;
 
         if (request.url === "/secret") {
-          return yield* secret.get().pipe(
-            Effect.map((value) => {
-              const masked = value.slice(0, 4) + "****";
-              return HttpServerResponse.text(`Secret (masked): ${masked}`);
-            }),
-            Effect.catchTag("SecretError", (err) =>
-              Effect.succeed(
-                HttpServerResponse.text(
-                  `Failed to read secret: ${err.message}`,
-                  { status: 500 },
-                ),
-              ),
-            ),
-          );
+          const value = yield* apiKey;
+          const masked = value.slice(0, 4) + "****";
+          return HttpServerResponse.text(`Secret (masked): ${masked}`);
         }
 
         return HttpServerResponse.text(
           "Hello from Cloudflare Secrets Store example!",
         );
-      }),
+      }).pipe(
+        Effect.catchTag("SecretError", (err) =>
+          Effect.succeed(
+            HttpServerResponse.text(`Failed to read secret: ${err.message}`, {
+              status: 500,
+            }),
+          ),
+        ),
+      ),
     };
   }).pipe(Effect.provide(Cloudflare.SecretBindingLive)),
 ) {}

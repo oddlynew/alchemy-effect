@@ -12,7 +12,14 @@ export class SecretError extends Data.TaggedError("SecretError")<{
   cause: Error;
 }> {}
 
-export interface SecretClient {
+/**
+ * A bound secret. The client itself is an `Effect` that resolves to the
+ * secret's current value, so you can `yield* apiKey` directly. Use `.get()`
+ * for the same thing as a callable, or `.raw` for the underlying
+ * `SecretsStoreSecret` binding.
+ */
+export interface SecretClient
+  extends Effect.Effect<string, SecretError, WorkerEnvironment> {
   /**
    * Effect that resolves to the raw Cloudflare `SecretsStoreSecret` binding.
    */
@@ -56,10 +63,13 @@ export const SecretBindingLive = Layer.effect(
             }),
         });
 
-      return {
+      const getEffect: Effect.Effect<string, SecretError, WorkerEnvironment> =
+        raw.pipe(Effect.flatMap((raw) => tryPromise(() => raw.get())));
+
+      return Object.assign(Effect.suspend(() => getEffect), {
         raw,
-        get: () => raw.pipe(Effect.flatMap((raw) => tryPromise(() => raw.get()))),
-      } satisfies SecretClient;
+        get: () => getEffect,
+      }) as SecretClient;
     });
   }),
 );
