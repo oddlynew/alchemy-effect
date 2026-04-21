@@ -2,13 +2,12 @@ import * as Alchemy from "alchemy";
 import * as AWS from "alchemy/AWS";
 import * as Output from "alchemy/Output";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import JobFunction from "./src/JobFunction.ts";
 
-// Loads account, region, and credentials from the SSO profile named by
-// $AWS_PROFILE (defaults to "default"). To pin a different profile per
-// stage, swap in your own `AWS.makeEnvironment({...})` layer here.
-const aws = AWS.providers().pipe(Layer.provide(AWS.Default));
+// AWS.providers() already provides AWSEnvironment from the SSO profile
+// named by $AWS_PROFILE (defaults to "default"). To pin a different
+// profile per stage, wrap with `Layer.provide(AWS.makeEnvironment({...}))`.
+const aws = AWS.providers();
 const dashboardRegion = process.env.AWS_REGION ?? "us-west-2";
 
 export default Alchemy.Stack(

@@ -5,7 +5,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import JobFunction from "./src/JobFunction.ts";
 
-const aws = AWS.providers().pipe(Layer.provide(AWS.Default));
+const aws = AWS.providers();
 const dashboardRegion = process.env.AWS_REGION ?? "us-west-2";
 
 export default Alchemy.Stack(

@@ -2,11 +2,10 @@ import * as Alchemy from "alchemy";
 import * as AWS from "alchemy/AWS";
 import * as Output from "alchemy/Output";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import QueueConsumerTask from "./src/QueueConsumerTask.ts";
 import ApiTask from "./src/Task.ts";
 
-const aws = AWS.providers().pipe(Layer.provide(AWS.Default));
+const aws = AWS.providers();
 
 export default Alchemy.Stack(
   "AwsEcsExample",
