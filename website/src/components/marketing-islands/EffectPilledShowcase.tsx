@@ -21,15 +21,30 @@ type Tab = "iam" | "stream";
 
 const CYCLE_MS = 7000;
 
-const IAM_CODE = `Effect.gen(function* () {
-  const getPhoto = yield* S3.GetObject.bind(Photos);
-  const putJob   = yield* DynamoDB.PutItem.bind(Jobs);
-  // handler uses getPhoto / putJob …
-});`;
+const IAM_CODE = `export default AWS.Lambda.Function(
+  "JobApi",
+  Effect.gen(function* () {
+    const getPhoto = yield* S3.GetObject.bind(Photos);
+    const putJob   = yield* DynamoDB.PutItem.bind(Jobs);
 
-const STREAM_CODE = `Effect.gen(function* () {
-  yield* DynamoDB.stream(Jobs).process(handler);
-});`;
+    return {
+      fetch: Effect.gen(function* () {
+        const req = yield* HttpServerRequest;
+        const key = req.url.split("/").pop()!;
+        const photo = yield* getPhoto({ key });
+        yield* putJob({ id: key, photo });
+        return HttpServerResponse.text("ok");
+      }),
+    };
+  }),
+);`;
+
+const STREAM_CODE = `export default AWS.Lambda.Function(
+  "JobsConsumer",
+  Effect.gen(function* () {
+    yield* DynamoDB.stream(Jobs).process(handler);
+  }),
+);`;
 
 interface Permission {
   icon: string;
