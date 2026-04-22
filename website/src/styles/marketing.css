@@ -687,7 +687,11 @@ body.alc-root,
 }
 
 /* ------------------------------------------------------------
-   Layer tab — unified diff renderer + breathing transitions.
+   Layer tab — diff renderer with overlay variant crossfade.
+   Common lines render statically. Each diff segment is a "slot"
+   that overlays both variants in the same grid cell so only the
+   active one is visible — the inactive fades to opacity 0 and is
+   replaced by the active in a long ease-in-out crossfade.
    ------------------------------------------------------------ */
 
 .eff-showcase__diff {
@@ -703,19 +707,36 @@ body.alc-root,
   flex-direction: column;
 }
 
+.eff-diff__common {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Slot: a CSS grid with one cell. Both variants share that cell, so the
+   slot's height is the max of the two variants and the panel never jumps
+   when the impl swaps. */
+.eff-diff__slot {
+  display: grid;
+  grid-template-areas: "stack";
+}
+.eff-diff__variant {
+  grid-area: stack;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.eff-diff__variant[data-active="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .eff-diff__line {
   display: grid;
-  grid-template-columns: 16px minmax(0, 1fr);
+  grid-template-columns: 14px minmax(0, 1fr);
   align-items: baseline;
   gap: 6px;
-  padding: 0 6px;
-  border-radius: 3px;
-  /* Long, eased transitions on every property that flips between
-     active/inactive — the "breathing" effect the design calls for. */
-  transition:
-    background-color 1100ms cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 1100ms cubic-bezier(0.4, 0, 0.2, 1),
-    color 1100ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .eff-diff__line--common {
   color: var(--alc-code-var);
@@ -726,7 +747,7 @@ body.alc-root,
   text-align: center;
   font-weight: 700;
   user-select: none;
-  transition: color 1100ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--alc-accent-bright);
 }
 .eff-diff__content {
   display: block;
@@ -734,52 +755,35 @@ body.alc-root,
   min-width: 0;
 }
 
-/* Resting state for diff lines: softly visible. The active impl pulls them
-   to full brightness with a green tint; the inactive impl drops them to a
-   dim red tint. */
-.eff-diff__line--ddb,
-.eff-diff__line--d1 {
-  opacity: 0.45;
-  background-color: transparent;
-}
-
-/* Active impl (data-impl on parent) — bright green "+" lines. */
-.eff-showcase__diff[data-impl="ddb"] .eff-diff__line--ddb,
-.eff-showcase__diff[data-impl="d1"] .eff-diff__line--d1 {
-  opacity: 1;
-  background-color: rgba(143, 177, 94, 0.12);
-}
-.eff-showcase__diff[data-impl="ddb"] .eff-diff__line--ddb .eff-diff__marker::before,
-.eff-showcase__diff[data-impl="d1"] .eff-diff__line--d1 .eff-diff__marker::before {
+/* The "+" marker only appears on diff lines (the active variant); common
+   lines have an empty marker so the gutter alignment matches. */
+.eff-diff__line--ddb .eff-diff__marker::before,
+.eff-diff__line--d1 .eff-diff__marker::before {
   content: "+";
-  color: var(--alc-accent-bright);
 }
 
-/* Inactive impl — faded red "-" lines. */
-.eff-showcase__diff[data-impl="ddb"] .eff-diff__line--d1,
-.eff-showcase__diff[data-impl="d1"] .eff-diff__line--ddb {
-  opacity: 0.35;
-  background-color: rgba(179, 70, 46, 0.07);
-}
-.eff-showcase__diff[data-impl="ddb"] .eff-diff__line--d1 .eff-diff__marker::before,
-.eff-showcase__diff[data-impl="d1"] .eff-diff__line--ddb .eff-diff__marker::before {
-  content: "-";
-  color: var(--alc-danger);
-}
+/* ------------------------------------------------------------
+   Layer tab — artifact panel uses the same overlay pattern for
+   the "Composed from" group so the ddb / d1 feature-row stacks
+   crossfade in place rather than competing for visual weight.
+   ------------------------------------------------------------ */
 
-/* Feature rows that opt into the same breathing pattern (Layer artifact). */
-.eff-showcase__feature[data-active] {
-  transition:
-    opacity 1100ms cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 1100ms cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 1100ms cubic-bezier(0.4, 0, 0.2, 1);
+.eff-showcase__variant-stack {
+  display: grid;
+  grid-template-areas: "stack";
 }
-.eff-showcase__feature[data-active="false"] {
-  opacity: 0.35;
+.eff-showcase__variant {
+  grid-area: stack;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1100ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.eff-showcase__feature[data-active="true"] {
+.eff-showcase__variant[data-active="true"] {
   opacity: 1;
-  border-color: var(--alc-accent-bright);
+  pointer-events: auto;
 }
 
 /* Mobile: stack code above artifact with a "↓ generates" cue. The flow

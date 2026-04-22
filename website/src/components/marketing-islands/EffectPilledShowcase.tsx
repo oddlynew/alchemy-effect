@@ -118,39 +118,63 @@ const WORKFLOW_CODE = `export default class Notifier extends Cloudflare.Workflow
 type LayerImpl = "ddb" | "d1";
 
 /**
- * The Layer tab renders a unified diff between JobStorageDynamoDB and
- * JobStorageD1. Lines marked "ddb" / "d1" belong to one side or the other;
- * "common" lines are unchanged between impls. The active impl pulses bright
- * green ("+") while the other dims to red ("-") on a long breathing fade.
+ * The Layer tab renders a structural diff between JobStorageDynamoDB and
+ * JobStorageD1. The two snippets are split into segments: "common" lines
+ * stay static; each "diff" segment overlays the ddb and d1 variants in the
+ * same grid cell so the inactive one fully hides (opacity 0) and the active
+ * one occupies that space — crossfading smoothly between them.
  *
- * The two snippets are deliberately structurally parallel so the diff lines
- * up cleanly column-for-column.
+ * Structurally parallel layout keeps the diff readable column-for-column.
  */
-type LayerLine =
-  | { kind: "common"; text: string }
-  | { kind: "ddb"; text: string }
-  | { kind: "d1"; text: string };
+type LayerSegment =
+  | { kind: "common"; lines: string[] }
+  | { kind: "diff"; ddb: string[]; d1: string[] };
 
-const LAYER_LINES: LayerLine[] = [
-  { kind: "common", text: "export class JobStorage extends Context.Service<JobStorage, {" },
-  { kind: "common", text: "  putJob: (job: Job) => Effect.Effect<Job, PutJobError>;" },
-  { kind: "common", text: "  getJob: (id: string) => Effect.Effect<Job | undefined, GetJobError>;" },
-  { kind: "common", text: "}>()(\"JobStorage\") {}" },
-  { kind: "common", text: "" },
-  { kind: "ddb",    text: "export const JobStorageDynamoDB = Layer.effect(JobStorage, Effect.gen(function* () {" },
-  { kind: "d1",     text: "export const JobStorageD1       = Layer.effect(JobStorage, Effect.gen(function* () {" },
-  { kind: "ddb",    text: "  const table   = yield* DynamoDB.Table(\"JobsTable\", { partitionKey: \"id\" });" },
-  { kind: "ddb",    text: "  const putItem = yield* DynamoDB.PutItem.bind(table);" },
-  { kind: "ddb",    text: "  const getItem = yield* DynamoDB.GetItem.bind(table);" },
-  { kind: "d1",     text: "  const db   = yield* Cloudflare.D1Database(\"JobsDB\");" },
-  { kind: "d1",     text: "  const conn = yield* Cloudflare.D1Connection.bind(db);" },
-  { kind: "common", text: "  return JobStorage.of({" },
-  { kind: "ddb",    text: "    putJob: (job) => putItem({ Item: { id: { S: job.id } } })," },
-  { kind: "ddb",    text: "    getJob: (id)  => getItem({ Key:  { id: { S: id     } } })," },
-  { kind: "d1",     text: "    putJob: (job) => conn.exec(`INSERT INTO jobs (id) VALUES ('${job.id}')`)," },
-  { kind: "d1",     text: "    getJob: (id)  => conn.exec(`SELECT * FROM jobs WHERE id = '${id}'`)," },
-  { kind: "common", text: "  });" },
-  { kind: "common", text: "}));" },
+const LAYER_SEGMENTS: LayerSegment[] = [
+  {
+    kind: "common",
+    lines: [
+      "export class JobStorage extends Context.Service<JobStorage, {",
+      "  putJob: (job: Job) => Effect.Effect<Job, PutJobError>;",
+      "  getJob: (id: string) => Effect.Effect<Job | undefined, GetJobError>;",
+      "}>()(\"JobStorage\") {}",
+      "",
+    ],
+  },
+  {
+    kind: "diff",
+    ddb: [
+      "export const JobStorageDynamoDB = Layer.effect(JobStorage, Effect.gen(function* () {",
+      "  const table   = yield* DynamoDB.Table(\"JobsTable\", { partitionKey: \"id\" });",
+      "  const putItem = yield* DynamoDB.PutItem.bind(table);",
+      "  const getItem = yield* DynamoDB.GetItem.bind(table);",
+    ],
+    d1: [
+      "export const JobStorageD1 = Layer.effect(JobStorage, Effect.gen(function* () {",
+      "  const db   = yield* Cloudflare.D1Database(\"JobsDB\");",
+      "  const conn = yield* Cloudflare.D1Connection.bind(db);",
+      "",
+    ],
+  },
+  {
+    kind: "common",
+    lines: ["  return JobStorage.of({"],
+  },
+  {
+    kind: "diff",
+    ddb: [
+      "    putJob: (job) => putItem({ Item: { id: { S: job.id } } }),",
+      "    getJob: (id)  => getItem({ Key:  { id: { S: id     } } }),",
+    ],
+    d1: [
+      "    putJob: (job) => conn.exec(`INSERT INTO jobs (id) VALUES ('${job.id}')`),",
+      "    getJob: (id)  => conn.exec(`SELECT * FROM jobs WHERE id = '${id}'`),",
+    ],
+  },
+  {
+    kind: "common",
+    lines: ["  });", "}));"],
+  },
 ];
 
 const CODE_BY_TAB: Record<Exclude<Tab, "layer">, string> = {
@@ -484,9 +508,9 @@ function WorkflowPanel() {
 /* ───────────────────────── Layers ───────────────────────── */
 
 function LayerPanel({ impl }: { impl: LayerImpl }) {
-  // Render BOTH ddb and d1 feature rows. The active impl is full-opacity;
-  // the other dims via CSS transition (data-active="false"). Same breathing
-  // cadence as the code-diff panel on the left.
+  // The "Composed from" group overlays the ddb and d1 row-stacks in the
+  // same grid cell so only the active variant is visible. Same crossfade
+  // pattern as the code diff on the left.
   return (
     <>
       <div className="eff-showcase__group">
@@ -500,74 +524,111 @@ function LayerPanel({ impl }: { impl: LayerImpl }) {
       </div>
       <div className="eff-showcase__group">
         <div className="eff-showcase__group-title">Composed from</div>
-        <FeatureRow
-          icon="logos:aws-dynamodb"
-          label="DynamoDB.Table"
-          sub='"JobsTable" · partitionKey: "id"'
-          delay={240}
-          active={impl === "ddb"}
-        />
-        <FeatureRow
-          icon="mdi:key"
-          label="GetItem · PutItem"
-          sub="bound capabilities · IAM auto-generated"
-          delay={340}
-          active={impl === "ddb"}
-        />
-        <FeatureRow
-          icon="logos:cloudflare-icon"
-          label="Cloudflare.D1Database"
-          sub='"JobsDB" · serverless SQL'
-          delay={240}
-          active={impl === "d1"}
-        />
-        <FeatureRow
-          icon="mdi:database-cog"
-          label="D1Connection"
-          sub="bound capability · prepare · exec · batch"
-          delay={340}
-          active={impl === "d1"}
-        />
+        <div className="eff-showcase__variant-stack">
+          <div
+            className="eff-showcase__variant"
+            data-active={impl === "ddb"}
+            aria-hidden={impl !== "ddb"}
+          >
+            <FeatureRow
+              icon="logos:aws-dynamodb"
+              label="DynamoDB.Table"
+              sub='"JobsTable" · partitionKey: "id"'
+              delay={240}
+            />
+            <FeatureRow
+              icon="mdi:key"
+              label="GetItem · PutItem"
+              sub="bound capabilities · IAM auto-generated"
+              delay={340}
+            />
+          </div>
+          <div
+            className="eff-showcase__variant"
+            data-active={impl === "d1"}
+            aria-hidden={impl !== "d1"}
+          >
+            <FeatureRow
+              icon="logos:cloudflare-icon"
+              label="Cloudflare.D1Database"
+              sub='"JobsDB" · serverless SQL'
+              delay={240}
+            />
+            <FeatureRow
+              icon="mdi:database-cog"
+              label="D1Connection"
+              sub="bound capability · prepare · exec · batch"
+              delay={340}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
 /**
- * Unified diff renderer for the Layer tab. Common lines are static; ddb/d1
- * lines are always present but their "+" / "-" markers, background tint, and
- * opacity breathe between active and dim states via CSS transitions on the
- * parent container's data-impl attribute.
+ * Layer-tab code panel. Common lines render statically; each diff segment is
+ * an overlay (CSS grid with both variants in the same grid cell) so only the
+ * active variant is visible while the inactive one fades to opacity 0. The
+ * slot's height is the max of both variants, so the panel stays stable as
+ * the active impl swaps.
  */
 function LayerCodeDiff({ impl }: { impl: LayerImpl }) {
   return (
-    <div className="eff-showcase__diff" data-impl={impl}>
-      {LAYER_LINES.map((line, i) => {
-        const html = highlightTS(line.text) || "&nbsp;";
-        if (line.kind === "common") {
+    <div className="eff-showcase__diff">
+      {LAYER_SEGMENTS.map((seg, i) => {
+        if (seg.kind === "common") {
           return (
-            <div key={i} className="eff-diff__line eff-diff__line--common">
-              <span className="eff-diff__marker" aria-hidden />
-              <span
-                className="eff-diff__content"
-                dangerouslySetInnerHTML={{ __html: html }}
-              />
+            <div key={i} className="eff-diff__common">
+              {seg.lines.map((line, j) => (
+                <CodeLine key={j} text={line} kind="common" />
+              ))}
             </div>
           );
         }
         return (
-          <div
-            key={i}
-            className={`eff-diff__line eff-diff__line--${line.kind}`}
-          >
-            <span className="eff-diff__marker" aria-hidden />
-            <span
-              className="eff-diff__content"
-              dangerouslySetInnerHTML={{ __html: html }}
-            />
+          <div key={i} className="eff-diff__slot">
+            <div
+              className="eff-diff__variant"
+              data-active={impl === "ddb"}
+              aria-hidden={impl !== "ddb"}
+            >
+              {seg.ddb.map((line, j) => (
+                <CodeLine key={j} text={line} kind="ddb" />
+              ))}
+            </div>
+            <div
+              className="eff-diff__variant"
+              data-active={impl === "d1"}
+              aria-hidden={impl !== "d1"}
+            >
+              {seg.d1.map((line, j) => (
+                <CodeLine key={j} text={line} kind="d1" />
+              ))}
+            </div>
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function CodeLine({
+  text,
+  kind,
+}: {
+  text: string;
+  kind: "common" | "ddb" | "d1";
+}) {
+  const html = highlightTS(text) || "&nbsp;";
+  return (
+    <div className={`eff-diff__line eff-diff__line--${kind}`}>
+      <span className="eff-diff__marker" aria-hidden />
+      <span
+        className="eff-diff__content"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </div>
   );
 }
@@ -579,21 +640,14 @@ function FeatureRow({
   label,
   sub,
   delay = 0,
-  active,
 }: {
   icon: string;
   label: string;
   sub: string;
   delay?: number;
-  /** Optional. When provided, the row toggles dim/full via CSS transitions. */
-  active?: boolean;
 }) {
   return (
-    <div
-      className="eff-showcase__feature"
-      style={{ animationDelay: `${delay}ms` }}
-      data-active={active === undefined ? undefined : active}
-    >
+    <div className="eff-showcase__feature" style={{ animationDelay: `${delay}ms` }}>
       <Icon
         icon={icon}
         width={22}
