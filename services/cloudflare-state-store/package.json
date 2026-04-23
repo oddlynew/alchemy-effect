@@ -16,6 +16,7 @@
     "test": "bun test --env-file=../../.env test/integ.test.ts"
   },
   "dependencies": {
+    "@distilled.cloud/cloudflare": "catalog:",
     "@effect/platform-bun": "catalog:",
     "@effect/platform-node": "catalog:",
     "alchemy": "workspace:*",

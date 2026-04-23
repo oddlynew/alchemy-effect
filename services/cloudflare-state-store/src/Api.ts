@@ -3,9 +3,10 @@ import type { ResourceState } from "alchemy/State";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as HttpRouter from "effect/unstable/http/HttpRouter";
 import { HttpServerRequest } from "effect/unstable/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
-import * as HttpRouter from "effect/unstable/http/HttpRouter";
+import { STATE_STORE_SCRIPT_NAME } from "./Constants.ts";
 import StateStore from "./StateStore.ts";
 import { AuthToken } from "./Token.ts";
 
@@ -127,14 +128,13 @@ const wrap = <R>(
     Effect.catchTag("BadRequest", (e) =>
       errorResponse("bad_request", e.message, 400),
     ),
-    Effect.catchCause((cause) =>
-      errorResponse("internal", String(cause), 500),
-    ),
+    Effect.catchCause((cause) => errorResponse("internal", String(cause), 500)),
   );
 
 export default class Api extends Cloudflare.Worker<Api>()(
   "Api",
   {
+    name: STATE_STORE_SCRIPT_NAME,
     main: import.meta.path,
     url: true,
     compatibility: {
@@ -146,17 +146,8 @@ export default class Api extends Cloudflare.Worker<Api>()(
     const secret = yield* Cloudflare.Secret.bind(AuthToken);
     const stateStore = yield* StateStore;
 
-    // Module-scoped cache of the bearer token. The secret value is
-    // immutable for the lifetime of a worker isolate (it only changes
-    // when `Random` is replaced), so the Secrets Store API only needs
-    // to be hit once per isolate boot.
     let cachedToken: string | undefined;
 
-    /**
-     * Runs before every route: verifies the `Authorization: Bearer …`
-     * header against the cached secret. Fails with `Unauthorized` so
-     * the per-route `wrap` helper can map it to a 401.
-     */
     const authenticate = Effect.gen(function* () {
       const request = yield* HttpServerRequest;
       const authHeader = request.headers.authorization ?? "";
@@ -166,21 +157,19 @@ export default class Api extends Cloudflare.Worker<Api>()(
       }
       const presented = authHeader.slice(prefix.length).trim();
       if (cachedToken === undefined) {
-        cachedToken = yield* secret.get().pipe(
-          Effect.catchTag("SecretError", () =>
-            Effect.fail(new Unauthorized()),
-          ),
-        );
+        cachedToken = yield* secret
+          .get()
+          .pipe(
+            Effect.catchTag("SecretError", () =>
+              Effect.fail(new Unauthorized()),
+            ),
+          );
       }
       if (!cachedToken || !timingSafeEqual(presented, cachedToken)) {
         return yield* Effect.fail(new Unauthorized());
       }
     });
 
-    // One Layer per route. Composed via `Layer.mergeAll` and fed into
-    // `HttpRouter.toHttpEffect` below — that call discharges the
-    // router's phantom `Request<"Requires", …>` markers so the
-    // resulting fetch effect slots cleanly into the Worker shape.
     const routes = Layer.mergeAll(
       HttpRouter.add(
         "POST",

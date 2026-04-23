@@ -1,6 +1,7 @@
 import { Random } from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
+import { STATE_STORE_AUTH_TOKEN_SECRET_NAME } from "./Constants.ts";
 
 /**
  * The account-wide Secrets Store that backs every secret used by the
@@ -25,7 +26,7 @@ export const TokenValue = Random("StateStoreAuthTokenValue");
 export const AuthToken = Effect.gen(function* () {
   const store = yield* Store;
   const random = yield* TokenValue;
-  return yield* Cloudflare.Secret("StateStoreAuthToken", {
+  return yield* Cloudflare.Secret(STATE_STORE_AUTH_TOKEN_SECRET_NAME, {
     store,
     value: random.text,
   });
