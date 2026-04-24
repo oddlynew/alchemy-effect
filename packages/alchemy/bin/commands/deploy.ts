@@ -58,7 +58,7 @@ const execStack = Effect.fn(function* ({
     CLI.inkCLI(),
     Logger.layer([fileLogger("out")]),
     Layer.succeed(Stage, stage),
-    State.LocalState,
+    State.localState(),
   );
 
   yield* Effect.gen(function* () {

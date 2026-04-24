@@ -14,6 +14,7 @@ import * as Output from "./Output.ts";
 import { ref } from "./Ref.ts";
 import type { ResourceBinding, ResourceLike } from "./Resource.ts";
 import { Stage } from "./Stage.ts";
+import type { State } from "./State/State.ts";
 import { taggedFunction } from "./Util/effect.ts";
 
 export type StackServices =
@@ -77,6 +78,7 @@ export const Stack: Context.ServiceClass<
     stackName: string,
     options: {
       providers: Layer.Layer<NoInfer<Req>, never, StackServices>;
+      state: Layer.Layer<State, never, StackServices>;
     },
     eff: Effect.Effect<A, never, Req | StackServices>,
   ): Effect.Effect<CompiledStack<A>>;

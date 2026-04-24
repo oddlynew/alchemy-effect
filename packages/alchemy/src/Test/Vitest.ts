@@ -176,7 +176,7 @@ const runWithContext = <A, Err>(
   );
 
   const alchemy = Layer.provideMerge(
-    Layer.mergeAll(options.state ?? State.LocalState, TestCli),
+    Layer.mergeAll(options.state ?? State.localState(), TestCli),
     Layer.mergeAll(stack, dotAlchemy),
   );
 

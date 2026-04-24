@@ -55,7 +55,7 @@ const run = <A>(effect: TestEffect<A>) =>
     );
   }).pipe(
     Effect.provideService(AuthProviders, {}),
-    Effect.provide(State.LocalState),
+    Effect.provide(State.localState),
     Effect.provide(Layer.provideMerge(alchemy, platform)),
     Effect.scoped,
     Effect.runPromise,

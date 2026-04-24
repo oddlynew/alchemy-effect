@@ -7,7 +7,7 @@ type StackId = string;
 type StageId = string;
 type Fqn = string;
 
-export const InMemory = (
+export const inMemoryState = (
   initialState: Record<
     StackId,
     Record<StageId, Record<Fqn, ResourceState>>

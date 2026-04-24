@@ -1,3 +1,4 @@
+export * from "./CopyState.ts";
 export * from "./HttpStateApi.ts";
 export * from "./HttpStateStore.ts";
 export * from "./HttpStateStoreAuth.ts";

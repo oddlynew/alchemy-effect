@@ -30,7 +30,7 @@ export default class Api extends Cloudflare.Worker<Api>()(
   },
   Effect.gen(function* () {
     const secret = yield* Cloudflare.Secret.bind(AuthToken);
-    const stateStore = yield* Store;
+    const store = yield* Store;
 
     const bearerTokenValidator = Layer.effect(
       BearerTokenValidator,
@@ -49,23 +49,23 @@ export default class Api extends Cloudflare.Worker<Api>()(
     const stateApi = HttpApiBuilder.group(StateApi, "state", (handlers) =>
       handlers
         .handle("listStacks", () =>
-          stateStore.getByName(Store.ROOT_DO_NAME).listStacks(),
+          store.getByName(Store.ROOT_DO_NAME).listStacks(),
         )
         .handle("listStages", ({ payload }) =>
-          stateStore.getByName(payload.stack).listStages(),
+          store.getByName(payload.stack).listStages(),
         )
         .handle("listResources", ({ payload }) =>
-          stateStore
+          store
             .getByName(payload.stack)
             .listResources({ stage: payload.stage }),
         )
         .handle("getState", ({ payload }) =>
-          stateStore
+          store
             .getByName(payload.stack)
             .get({ stage: payload.stage, fqn: payload.fqn }),
         )
         .handle("setState", ({ payload }) =>
-          stateStore
+          store
             .getByName(payload.stack)
             .set({
               stage: payload.stage,
@@ -74,7 +74,7 @@ export default class Api extends Cloudflare.Worker<Api>()(
             })
             .pipe(
               Effect.tap(() =>
-                stateStore
+                store
                   .getByName(Store.ROOT_DO_NAME)
                   .registerStack({ stack: payload.stack }),
               ),
@@ -83,12 +83,13 @@ export default class Api extends Cloudflare.Worker<Api>()(
         .handle("deleteState", ({ payload }) =>
           // The DO method is `remove`, not `delete` — `delete` is
           // reserved by Cloudflare's RPC stub proxy.
-          stateStore
+          store
             .getByName(payload.stack)
-            .remove({ stage: payload.stage, fqn: payload.fqn }),
+            .remove({ stage: payload.stage, fqn: payload.fqn })
+            .pipe(Effect.asVoid),
         )
         .handle("getReplacedResources", ({ payload }) =>
-          stateStore
+          store
             .getByName(payload.stack)
             .getReplacedResources({ stage: payload.stage }),
         ),

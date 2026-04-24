@@ -2,6 +2,7 @@ import * as Cloudflare from "alchemy/Cloudflare";
 import type { ReplacedResourceState, ResourceState } from "alchemy/State";
 import { encodeState } from "alchemy/State";
 import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
 import { EncryptionKey } from "./Token.ts";
 
 export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
@@ -68,17 +69,16 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
         /**
          * (Root DO only) List every stack name ever registered.
          */
-        listStacks: () =>
-          Effect.gen(function* () {
-            const entries = yield* storage.list<number>({
-              prefix: STACK_INDEX_PREFIX,
-            });
-            const stacks: string[] = [];
-            for (const key of entries.keys()) {
-              stacks.push(key.slice(STACK_INDEX_PREFIX.length));
-            }
-            return stacks;
-          }),
+        listStacks: Effect.fnUntraced(function* () {
+          const entries = yield* storage.list<number>({
+            prefix: STACK_INDEX_PREFIX,
+          });
+          const stacks: string[] = [];
+          for (const key of entries.keys()) {
+            stacks.push(key.slice(STACK_INDEX_PREFIX.length));
+          }
+          return stacks;
+        }),
 
         /**
          * (Root DO only) Register a stack name. Idempotent — safe to
@@ -91,42 +91,50 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
 
         /** (Stack DO only) List stages with at least one resource. */
         listStages: () =>
-          Effect.gen(function* () {
-            const entries = yield* storage.list<string>({
+          storage
+            .list<string>({
               prefix: RESOURCE_PREFIX,
-            });
-            const stages = new Set<string>();
-            for (const key of entries.keys()) {
-              const parsed = parseResourceKey(key);
-              if (parsed) stages.add(parsed.stage);
-            }
-            return [...stages];
-          }),
+            })
+            .pipe(
+              Effect.map((entries) => {
+                const stages = new Set<string>();
+                for (const key of entries.keys()) {
+                  const parsed = parseResourceKey(key);
+                  if (parsed) stages.add(parsed.stage);
+                }
+                return [...stages];
+              }),
+            ),
 
         /** (Stack DO only) List every resource FQN in a stage. */
         listResources: ({ stage }: { stage: string }) =>
-          Effect.gen(function* () {
-            const entries = yield* storage.list<string>({
+          storage
+            .list<string>({
               prefix: stagePrefix(stage),
-            });
-            const fqns: string[] = [];
-            for (const key of entries.keys()) {
-              const parsed = parseResourceKey(key);
-              if (parsed) fqns.push(parsed.fqn);
-            }
-            return fqns;
-          }),
+            })
+            .pipe(
+              Effect.map((entries) => {
+                const fqns: string[] = [];
+                for (const key of entries.keys()) {
+                  const parsed = parseResourceKey(key);
+                  if (parsed) fqns.push(parsed.fqn);
+                }
+                return fqns;
+              }),
+            ),
 
         /**
          * (Stack DO only) Get a resource by (stage, fqn). Returns
          * null if missing.
          */
         get: ({ stage, fqn }: { stage: string; fqn: string }) =>
-          Effect.gen(function* () {
-            const entry = yield* storage.get<string>(resourceKey(stage, fqn));
-            if (!entry) return null;
-            return yield* decryptEntry(entry);
-          }),
+          storage
+            .get<string>(resourceKey(stage, fqn))
+            .pipe(
+              Effect.map((entry) =>
+                entry == null ? undefined : decryptEntry(entry),
+              ),
+            ),
 
         /**
          * (Stack DO only) Persist a resource. Returns the stored
@@ -141,11 +149,14 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
           fqn: string;
           value: ResourceState;
         }) =>
-          Effect.gen(function* () {
-            const encrypted = yield* encryptValue(value);
-            yield* storage.put<string>(resourceKey(stage, fqn), encrypted);
-            return value;
-          }),
+          encryptValue(value).pipe(
+            Effect.flatMap((encrypted) =>
+              storage
+                .put<string>(resourceKey(stage, fqn), encrypted)
+                .pipe(Effect.asVoid),
+            ),
+            Effect.map(() => value),
+          ),
 
         /**
          * (Stack DO only) Delete a resource. Idempotent.
@@ -156,33 +167,28 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
          * implement the method 'delete'".
          */
         remove: ({ stage, fqn }: { stage: string; fqn: string }) =>
-          Effect.gen(function* () {
-            yield* storage.delete(resourceKey(stage, fqn));
-          }),
+          storage.delete(resourceKey(stage, fqn)),
 
         /**
          * (Stack DO only) Return every resource in a stage whose
          * `status === "replaced"`. Each entry is decrypted so the
          * `status` field can be inspected.
          */
-        getReplacedResources: Effect.fnUntraced(function* ({
-          stage,
-        }: {
-          stage: string;
-        }) {
-          const entries = yield* storage.list<string>({
-            prefix: stagePrefix(stage),
-          });
-          const replaced: ReplacedResourceState[] = [];
-          for (const entry of entries.values()) {
-            if (!entry) continue;
-            const decoded = yield* decryptEntry(entry);
-            if (decoded?.status === "replaced") {
-              replaced.push(decoded as ReplacedResourceState);
-            }
-          }
-          return replaced;
-        }),
+        getReplacedResources: ({ stage }: { stage: string }) =>
+          pipe(
+            storage.list<string>({ prefix: stagePrefix(stage) }),
+            Effect.map((entries) =>
+              [...entries.values()].filter((e): e is string => !!e),
+            ),
+            Effect.flatMap(
+              Effect.forEach(decryptEntry, { concurrency: "unbounded" }),
+            ),
+            Effect.map((decoded) =>
+              decoded.filter(
+                (d): d is ReplacedResourceState => d?.status === "replaced",
+              ),
+            ),
+          ),
       };
     });
   }),
