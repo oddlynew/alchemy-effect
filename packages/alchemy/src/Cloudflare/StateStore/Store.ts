@@ -19,55 +19,47 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
       const storage = doState.storage;
 
       const keyHex = yield* encryptionSecret.get().pipe(Effect.orDie);
-      const cryptoKey = yield* Effect.tryPromise({
-        try: () =>
-          crypto.subtle.importKey(
-            "raw",
-            hexToBytes(keyHex),
-            { name: "AES-CTR" },
-            false,
-            ["encrypt", "decrypt"],
-          ),
-        catch: (e) => e as Error,
-      }).pipe(Effect.orDie);
+      const cryptoKey = yield* Effect.tryPromise(() =>
+        crypto.subtle.importKey(
+          "raw",
+          hexToBytes(keyHex),
+          { name: "AES-CTR" },
+          false,
+          ["encrypt", "decrypt"],
+        ),
+      ).pipe(Effect.orDie);
 
       const encryptValue = (value: ResourceState) =>
-        Effect.tryPromise({
-          try: async (): Promise<string> => {
-            const plaintext = new TextEncoder().encode(
-              JSON.stringify(encodeState(value)),
-            );
-            const counter = crypto.getRandomValues(allocBytes(NONCE_BYTES));
-            const ct = new Uint8Array(
-              await crypto.subtle.encrypt(
-                { name: "AES-CTR", counter, length: 64 },
-                cryptoKey,
-                plaintext,
-              ),
-            );
-            // Frame as a single base64 string: nonce || ciphertext.
-            const framed = allocBytes(counter.byteLength + ct.byteLength);
-            framed.set(counter, 0);
-            framed.set(ct, counter.byteLength);
-            return toB64(framed);
-          },
-          catch: (e) => e as Error,
+        Effect.tryPromise(async () => {
+          const plaintext = new TextEncoder().encode(
+            JSON.stringify(encodeState(value)),
+          );
+          const counter = crypto.getRandomValues(allocBytes(NONCE_BYTES));
+          const ct = new Uint8Array(
+            await crypto.subtle.encrypt(
+              { name: "AES-CTR", counter, length: 64 },
+              cryptoKey,
+              plaintext,
+            ),
+          );
+          // Frame as a single base64 string: nonce || ciphertext.
+          const framed = allocBytes(counter.byteLength + ct.byteLength);
+          framed.set(counter, 0);
+          framed.set(ct, counter.byteLength);
+          return toB64(framed);
         }).pipe(Effect.orDie);
 
       const decryptEntry = (entry: string) =>
-        Effect.tryPromise({
-          try: async (): Promise<ResourceState> => {
-            const framed = fromB64(entry);
-            const counter = framed.slice(0, NONCE_BYTES);
-            const ciphertext = framed.slice(NONCE_BYTES);
-            const pt = await crypto.subtle.decrypt(
-              { name: "AES-CTR", counter, length: 64 },
-              cryptoKey,
-              ciphertext,
-            );
-            return JSON.parse(new TextDecoder().decode(pt)) as ResourceState;
-          },
-          catch: (e) => e as Error,
+        Effect.tryPromise(async () => {
+          const framed = fromB64(entry);
+          const counter = framed.slice(0, NONCE_BYTES);
+          const ciphertext = framed.slice(NONCE_BYTES);
+          const pt = await crypto.subtle.decrypt(
+            { name: "AES-CTR", counter, length: 64 },
+            cryptoKey,
+            ciphertext,
+          );
+          return JSON.parse(new TextDecoder().decode(pt)) as ResourceState;
         }).pipe(Effect.orDie);
 
       return {
