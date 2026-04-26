@@ -1,64 +1,26 @@
-import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as Schedule from "effect/Schedule";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as HttpApiClient from "effect/unstable/httpapi/HttpApiClient";
-import {
-  ALCHEMY_PROFILE,
-  getAuthProvider,
-  loadOrConfigure,
-} from "../Auth/index.ts";
 import { StateApi } from "./HttpStateApi.ts";
-import {
-  HTTP_STATE_STORE_AUTH_PROVIDER_NAME,
-  type HttpStateStoreAuthConfig,
-  type HttpStateStoreResolvedCredentials,
-} from "./HttpStateStoreAuth.ts";
+
 import type { ReplacedResourceState, ResourceState } from "./ResourceState.ts";
-import { State, StateStoreError, type StateService } from "./State.ts";
+import { StateStoreError, type StateService } from "./State.ts";
 import { encodeState, reviveStateRecursive } from "./StateEncoding.ts";
 
-/**
- * Layer that implements {@link State} by issuing requests against an
- * HTTP state-store server through Effect's `HttpApiClient` derived
- * from {@link StateApi}. Credentials (URL, bearer token) are resolved
- * through the {@link HttpStateStoreAuth} provider.
- *
- * Build {@link HttpStateStoreAuth} alongside this layer so the
- * provider is registered before the state-store resolves its config.
- * A `FetchHttpClient.layer` is provided for the underlying transport
- * so consumers don't need to wire one up themselves.
- *
- * `Redacted<T>` values inside arbitrary `props`/`attr` records
- * round-trip via a `{ __redacted__: ... }` envelope handled here at
- * the client boundary. The state-store wire itself treats
- * `ResourceState` as opaque JSON.
- */
-export const HttpStateStore = Layer.effect(
-  State,
+export interface HttpStateStoreProps {
+  url: string;
+  /** Bearer token used to authenticate every request. */
+  authToken: string;
+}
+
+export const makeHttpStateStore = ({ url, authToken }: HttpStateStoreProps) =>
   Effect.gen(function* () {
-    const auth = yield* getAuthProvider<
-      HttpStateStoreAuthConfig,
-      HttpStateStoreResolvedCredentials
-    >(HTTP_STATE_STORE_AUTH_PROVIDER_NAME);
-    const profileName = yield* ALCHEMY_PROFILE;
-    const ci = yield* Config.boolean("CI").pipe(Config.withDefault(false));
-    const config = yield* loadOrConfigure(auth, profileName, { ci });
-    const creds = yield* auth.read(
-      profileName,
-      config as HttpStateStoreAuthConfig,
-    );
-
-    const baseUrl = creds.url.replace(/\/+$/, "");
-    const token = Redacted.value(creds.token);
-
     const apiClient = yield* HttpApiClient.make(StateApi, {
-      baseUrl,
+      baseUrl: url,
       transformClient: HttpClient.mapRequest(
-        HttpClientRequest.bearerToken(token),
+        HttpClientRequest.bearerToken(authToken),
       ),
     });
     const state = apiClient.state;
@@ -70,18 +32,28 @@ export const HttpStateStore = Layer.effect(
           mapStateStoreError,
         ),
       listStages: (stack) =>
-        state.listStages({ payload: { stack } }).pipe(mapStateStoreError),
+        state.listStages({ params: { stack } }).pipe(mapStateStoreError),
       list: (request) =>
-        state.listResources({ payload: request }).pipe(mapStateStoreError),
+        state.listResources({ params: request }).pipe(mapStateStoreError),
       get: (request) =>
-        state.getState({ payload: request }).pipe(
-          Effect.map((s) =>
-            s == null ? undefined : (reviveStateRecursive(s) as ResourceState),
+        state
+          .getState({
+            params: {
+              stack: request.stack,
+              stage: request.stage,
+              fqn: encodeURIComponent(request.fqn),
+            },
+          })
+          .pipe(
+            Effect.map((s) =>
+              s == null
+                ? undefined
+                : (reviveStateRecursive(s) as ResourceState),
+            ),
+            mapStateStoreError,
           ),
-          mapStateStoreError,
-        ),
       getReplacedResources: (request) =>
-        state.getReplacedResources({ payload: request }).pipe(
+        state.getReplacedResources({ params: request }).pipe(
           Effect.map((resources) =>
             resources.map(
               (s) => reviveStateRecursive(s) as ReplacedResourceState,
@@ -97,12 +69,12 @@ export const HttpStateStore = Layer.effect(
       }) =>
         state
           .setState({
-            payload: {
+            params: {
               stack: request.stack,
               stage: request.stage,
-              fqn: request.fqn,
-              value: encodeState(request.value),
+              fqn: encodeURIComponent(request.fqn),
             },
+            payload: encodeState(request.value),
           })
           .pipe(
             // Server echoes the stored value, but the client already
@@ -113,20 +85,48 @@ export const HttpStateStore = Layer.effect(
           ),
       delete: (request) =>
         state
-          .deleteState({ payload: request })
+          .deleteState({
+            params: {
+              stack: request.stack,
+              stage: request.stage,
+              fqn: encodeURIComponent(request.fqn),
+            },
+          })
+          .pipe(Effect.asVoid, mapStateStoreError),
+      deleteStack: (request) =>
+        state
+          .deleteStack({
+            params: { stack: request.stack },
+            query: request.stage === undefined ? {} : { stage: request.stage },
+          })
           .pipe(Effect.asVoid, mapStateStoreError),
     };
     return service;
-  }),
-).pipe(Layer.provide(FetchHttpClient.layer));
+  });
+
+const retryTransient = <A, Err, Req>(eff: Effect.Effect<A, Err, Req>) =>
+  Effect.retry(eff, {
+    while: (e: any) =>
+      e._tag === "HttpClientError" &&
+      (e.response?.status === 500 ||
+        e.response?.status === 502 ||
+        // not founds are usually after the worker has just been created
+        e.response?.status === 404),
+    schedule: Schedule.exponential(100).pipe(
+      Schedule.both(Schedule.recurs(10)),
+    ),
+  });
 
 /** Collapse any client failure into a {@link StateStoreError}. */
 const mapStateStoreError = <A, E, R>(eff: Effect.Effect<A, E, R>) =>
-  Effect.catch(eff, (e: E) =>
-    Effect.fail(
-      new StateStoreError({
-        message: e instanceof Error ? e.message : String(e),
-        cause: e instanceof Error ? e : undefined,
-      }),
+  eff.pipe(
+    retryTransient,
+    Effect.catch((e: E) =>
+      Effect.fail(
+        new StateStoreError({
+          message: e instanceof Error ? e.message : String(e),
+          cause: e instanceof Error ? e : undefined,
+        }),
+      ),
     ),
   ) as Effect.Effect<A, StateStoreError, R>;

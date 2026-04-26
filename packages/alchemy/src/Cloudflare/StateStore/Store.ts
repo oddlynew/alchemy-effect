@@ -87,6 +87,12 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
         registerStack: ({ stack }: { stack: string }) =>
           storage.put(`${STACK_INDEX_PREFIX}${stack}`, 1),
 
+        /**
+         * (Root DO only) Remove a stack name from the global index.
+         */
+        unregisterStack: ({ stack }: { stack: string }) =>
+          storage.delete(`${STACK_INDEX_PREFIX}${stack}`),
+
         // -- Stack DO methods ----------------------------------------
 
         /** (Stack DO only) List stages with at least one resource. */
@@ -131,8 +137,8 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
           storage
             .get<string>(resourceKey(stage, fqn))
             .pipe(
-              Effect.map((entry) =>
-                entry == null ? undefined : decryptEntry(entry),
+              Effect.flatMap((entry) =>
+                entry == null ? Effect.succeed(undefined) : decryptEntry(entry),
               ),
             ),
 
@@ -168,6 +174,23 @@ export default class Store extends Cloudflare.DurableObjectNamespace<Store>()(
          */
         remove: ({ stage, fqn }: { stage: string; fqn: string }) =>
           storage.delete(resourceKey(stage, fqn)),
+
+        /**
+         * (Stack DO only) Delete every resource in this stack, or every
+         * resource in a single stage when specified.
+         */
+        deleteStack: ({ stage }: { stage?: string } = {}) =>
+          stage === undefined
+            ? storage.deleteAll()
+            : storage
+                .list<string>({ prefix: stagePrefix(stage) })
+                .pipe(
+                  Effect.flatMap((entries) =>
+                    entries.size === 0
+                      ? Effect.void
+                      : storage.delete([...entries.keys()]).pipe(Effect.asVoid),
+                  ),
+                ),
 
         /**
          * (Stack DO only) Return every resource in a stage whose

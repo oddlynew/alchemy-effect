@@ -4,7 +4,6 @@ import {
   StateApi,
   StateAuthLive,
 } from "alchemy/State/HttpStateApi";
-import { STATE_STORE_SCRIPT_NAME } from "alchemy/State/HttpStateStoreConstants";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
@@ -17,7 +16,9 @@ import crypto from "node:crypto";
 import Store from "./Store.ts";
 import { AuthToken } from "./Token.ts";
 
-export default class Api extends Cloudflare.Worker<Api>()(
+export const STATE_STORE_SCRIPT_NAME = "alchemy-state-store" as const;
+
+export default Cloudflare.Worker(
   "Api",
   {
     name: STATE_STORE_SCRIPT_NAME,
@@ -34,16 +35,17 @@ export default class Api extends Cloudflare.Worker<Api>()(
 
     const bearerTokenValidator = Layer.effect(
       BearerTokenValidator,
-      Effect.gen(function* () {
-        const expected = yield* secret.get().pipe(Effect.orDie);
-
-        return BearerTokenValidator.of({
-          validate: (token) =>
-            !!expected && timingSafeEqual(token, expected)
-              ? Effect.void
-              : Effect.fail(new HttpApiError.Unauthorized()),
-        });
-      }),
+      secret.get().pipe(
+        Effect.map((expected) =>
+          BearerTokenValidator.of({
+            validate: (token) =>
+              !!expected && timingSafeEqual(token, expected)
+                ? Effect.void
+                : Effect.fail(new HttpApiError.Unauthorized()),
+          }),
+        ),
+        Effect.orDie,
+      ),
     );
 
     const stateApi = HttpApiBuilder.group(StateApi, "state", (handlers) =>
@@ -51,52 +53,70 @@ export default class Api extends Cloudflare.Worker<Api>()(
         .handle("listStacks", () =>
           store.getByName(Store.ROOT_DO_NAME).listStacks(),
         )
-        .handle("listStages", ({ payload }) =>
-          store.getByName(payload.stack).listStages(),
+        .handle("listStages", ({ params }) =>
+          store.getByName(params.stack).listStages(),
         )
-        .handle("listResources", ({ payload }) =>
-          store
-            .getByName(payload.stack)
-            .listResources({ stage: payload.stage }),
+        .handle("listResources", ({ params }) =>
+          store.getByName(params.stack).listResources({ stage: params.stage }),
         )
-        .handle("getState", ({ payload }) =>
+        .handle("getState", ({ params }) =>
           store
-            .getByName(payload.stack)
-            .get({ stage: payload.stage, fqn: payload.fqn }),
+            .getByName(params.stack)
+            .get({ stage: params.stage, fqn: decodeURIComponent(params.fqn) }),
         )
-        .handle("setState", ({ payload }) =>
+        .handle("setState", ({ params, payload }) =>
           store
-            .getByName(payload.stack)
+            .getByName(params.stack)
             .set({
-              stage: payload.stage,
-              fqn: payload.fqn,
-              value: payload.value as any,
+              stage: params.stage,
+              fqn: decodeURIComponent(params.fqn),
+              value: payload as any,
             })
             .pipe(
               Effect.tap(() =>
                 store
                   .getByName(Store.ROOT_DO_NAME)
-                  .registerStack({ stack: payload.stack }),
+                  .registerStack({ stack: params.stack }),
               ),
             ),
         )
-        .handle("deleteState", ({ payload }) =>
+        .handle("deleteState", ({ params }) =>
           // The DO method is `remove`, not `delete` — `delete` is
           // reserved by Cloudflare's RPC stub proxy.
           store
-            .getByName(payload.stack)
-            .remove({ stage: payload.stage, fqn: payload.fqn })
+            .getByName(params.stack)
+            .remove({
+              stage: params.stage,
+              fqn: decodeURIComponent(params.fqn),
+            })
             .pipe(Effect.asVoid),
         )
-        .handle("getReplacedResources", ({ payload }) =>
+        .handle("getReplacedResources", ({ params }) =>
           store
-            .getByName(payload.stack)
-            .getReplacedResources({ stage: payload.stage }),
+            .getByName(params.stack)
+            .getReplacedResources({ stage: params.stage }),
+        )
+        .handle("deleteStack", ({ params, query }) =>
+          store
+            .getByName(params.stack)
+            .deleteStack(
+              query.stage === undefined ? {} : { stage: query.stage },
+            )
+            .pipe(
+              Effect.flatMap(() =>
+                query.stage === undefined
+                  ? store
+                      .getByName(Store.ROOT_DO_NAME)
+                      .unregisterStack({ stack: params.stack })
+                  : Effect.void,
+              ),
+              Effect.asVoid,
+            ),
         ),
     );
 
     return {
-      fetch: yield* HttpApiBuilder.layer(StateApi).pipe(
+      fetch: HttpApiBuilder.layer(StateApi).pipe(
         Layer.provide(stateApi),
         Layer.provide(StateAuthLive),
         Layer.provide(bearerTokenValidator),
@@ -107,7 +127,7 @@ export default class Api extends Cloudflare.Worker<Api>()(
       ),
     };
   }).pipe(Effect.provide(Layer.mergeAll(Cloudflare.SecretBindingLive))),
-) {}
+);
 
 /**
  * Stub `HttpPlatform` for the worker. The state-store API never

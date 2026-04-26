@@ -69,6 +69,14 @@ export const InMemoryService = (
       stage: string;
       fqn: string;
     }) => Effect.succeed(delete state[stack]?.[stage]?.[fqn]),
+    deleteStack: ({ stack, stage }: { stack: string; stage?: string }) =>
+      Effect.sync(() => {
+        if (stage === undefined) {
+          delete state[stack];
+        } else {
+          delete state[stack]?.[stage];
+        }
+      }),
     list: ({ stack, stage }: { stack: string; stage: string }) =>
       Effect.succeed(
         Array.from(Object.keys(state[stack]?.[stage] ?? {}) ?? []),
