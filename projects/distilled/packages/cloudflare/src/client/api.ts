@@ -24,9 +24,11 @@ import {
 import { getPath, type RequestParts } from "@distilled.cloud/core/traits";
 import {
   CloudflareHttpError,
+  Forbidden,
   HTTP_STATUS_MAP,
   InternalServerError,
   TooManyRequests,
+  Unauthorized,
   UnknownCloudflareError,
 } from "../errors.ts";
 import { Credentials, formatHeaders } from "../credentials.ts";
@@ -43,6 +45,20 @@ import { type ErrorMatcher, getErrorMatchers } from "../traits.ts";
 const GLOBAL_ERROR_CODE_MAP: Record<number, (message: string) => unknown> = {
   // "Please wait and consider throttling your request speed"
   971: (message) => new TooManyRequests({ message }),
+  // Authentication-related error codes — surfaced regardless of HTTP status
+  // (Cloudflare frequently returns these inside a 400 envelope rather than 401).
+  // 6003: Invalid request headers (e.g. missing/invalid auth headers)
+  6003: (message) => new Unauthorized({ message }),
+  // 9103: Unknown X-Auth-Key
+  9103: (message) => new Unauthorized({ message }),
+  // 9106: X-Auth-Key header missing
+  9106: (message) => new Unauthorized({ message }),
+  // 9109: Unauthorized to access requested resource / Max auth failures reached
+  9109: (message) => new Unauthorized({ message }),
+  // 10000: Authentication error / Authentication failed
+  10000: (message) => new Unauthorized({ message }),
+  // 10001: Method not allowed for token (authorization, not authentication)
+  10001: (message) => new Forbidden({ message }),
 };
 
 /**
@@ -290,6 +306,15 @@ const matchError = (
   // Check global error codes before falling through to unknown
   if (errorCode !== undefined && errorCode in GLOBAL_ERROR_CODE_MAP) {
     return Effect.fail(GLOBAL_ERROR_CODE_MAP[errorCode](errorMessage));
+  }
+
+  // Heuristic fallback: 
+  // Map by HTTP status as a last resort (e.g. envelope with status 401/403).
+  if (status === 401) {
+    return Effect.fail(new Unauthorized({ message: errorMessage }));
+  }
+  if (status === 403) {
+    return Effect.fail(new Forbidden({ message: errorMessage }));
   }
 
   // No match — return unknown Cloudflare error
