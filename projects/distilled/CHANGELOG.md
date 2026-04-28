@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.13.1](https://github.com/alchemy-run/distilled/releases/tag/v0.13.1) (2026-04-28)
+
+### Features
+
+- **posthog**: experimental posthog sdk - by Michael K in [#198](https://github.com/alchemy-run/distilled/pull/198) [(f73df6b)](https://github.com/alchemy-run/distilled/commit/f73df6bf39f7c2fe7a93e6abb146d3f9e96bad32)
+
+### Bug Fixes
+
+- add credential type to all OperationMethod requirements - by Sam Goodwin [(0ef7e30)](https://github.com/alchemy-run/distilled/commit/0ef7e30346bfc991f2503720dd96ea1f281bf3e9)
+
 ## [v0.13.0](https://github.com/alchemy-run/distilled/releases/tag/v0.13.0) (2026-04-28)
 
 ### Features
