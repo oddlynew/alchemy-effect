@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.13.0](https://github.com/alchemy-run/distilled/releases/tag/v0.13.0) (2026-04-28)
+
+### Features
+
+- **axiom**: move around exports for better dx - by Michael (Pear) [(7425e30)](https://github.com/alchemy-run/distilled/commit/7425e302c789b9f273e2e483e206a9a5adf83c51)
+
 ## [v0.12.7](https://github.com/alchemy-run/distilled/releases/tag/v0.12.7) (2026-04-28)
 
 *No significant changes*
