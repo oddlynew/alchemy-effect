@@ -88,7 +88,7 @@ const distilledTheme: ThemeRegistration = {
 // ============================================================================
 
 const codeExamples: Record<string, string> = {
-  hero: `import * as S3 from "distilled-aws/s3"
+  hero: `import * as S3 from "@distilled.cloud/aws/s3"
 
 const bucket = yield* S3.getBucket({
   Bucket: "my-bucket"
