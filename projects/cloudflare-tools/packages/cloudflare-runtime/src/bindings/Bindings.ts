@@ -1,3 +1,4 @@
+import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
@@ -37,22 +38,35 @@ export const layer = Layer.effect(
 
     const address = httpServer.address as HttpServer.TcpAddress;
 
-    const createSession = Effect.fn(function* (options: SessionOptions) {
-      const fiber = prewarms.get(options.name);
-      if (fiber) {
-        prewarms.delete(options.name);
-        return yield* Fiber.join(fiber);
-      }
-      const session = yield* remoteSession.create(options);
-      return session;
-    });
+    const createSession = Effect.fn(
+      function* (options: SessionOptions) {
+        const fiber = prewarms.get(options.name);
+        if (fiber) {
+          prewarms.delete(options.name);
+          return yield* Fiber.join(fiber);
+        }
+        const session = yield* remoteSession.create(options);
+        return session;
+      },
+      (effect) =>
+        effect.pipe(
+          Effect.exit,
+          Effect.flatMap((exit) => {
+            return exit._tag === "Success"
+              ? HttpServerResponse.json({ success: true, session: exit.value })
+              : HttpServerResponse.json(
+                  { success: false, error: { message: Cause.pretty(exit.cause) } },
+                  { status: 500 },
+                );
+          }),
+        ),
+    );
 
     yield* httpServer.serve(
       Effect.gen(function* () {
         const request = yield* HttpServerRequest.HttpServerRequest;
         const json = (yield* request.json) as unknown as SessionOptions;
-        const session = yield* createSession(json);
-        return yield* HttpServerResponse.json({ success: true, session });
+        return yield* createSession(json);
       }),
     );
 
