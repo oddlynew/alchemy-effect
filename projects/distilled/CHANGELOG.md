@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.14.0](https://github.com/alchemy-run/distilled/releases/tag/v0.14.0) (2026-04-29)
+
+### Features
+
+- **typesense**: typesense sdk - by Michael K in [#201](https://github.com/alchemy-run/distilled/pull/201) [(85fd8f0)](https://github.com/alchemy-run/distilled/commit/85fd8f0aa9cd8d406663da3ab874f910fdba29e7)
+
+### Bug Fixes
+
+- Add missing extensions on module imports - by Lucas Thevenet in [#199](https://github.com/alchemy-run/distilled/pull/199) [(d949a11)](https://github.com/alchemy-run/distilled/commit/d949a11b678934d89eddff50b0a005856276994e)
+
 ## [v0.13.1](https://github.com/alchemy-run/distilled/releases/tag/v0.13.1) (2026-04-28)
 
 ### Features
