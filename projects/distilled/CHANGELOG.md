@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.15.0](https://github.com/alchemy-run/distilled/releases/tag/v0.15.0) (2026-04-30)
+
+### Features
+
+- **workos**: create workos sdk - by Michael K in [#203](https://github.com/alchemy-run/distilled/pull/203) [(af98ed2)](https://github.com/alchemy-run/distilled/commit/af98ed2b31d6c1724b71683a44720f762e7be06f)
+
 ## [v0.14.0](https://github.com/alchemy-run/distilled/releases/tag/v0.14.0) (2026-04-29)
 
 ### Features
