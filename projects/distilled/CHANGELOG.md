@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.15.1](https://github.com/alchemy-run/distilled/releases/tag/v0.15.1) (2026-04-30)
+
+### Bug Fixes
+
+- **cloudflare**: patch errors: TunnelNotFound, DuplicateTunnelName, TunnelTokenNotFound, TunnelConfigurationNotFound, VpcServiceNotFound, VpcServiceNameAlreadyExists, VpcTunnelNotFound - by Sam Goodwin [(bc41009)](https://github.com/alchemy-run/distilled/commit/bc4100940bd7e14893335c996b8b4072324ffbcc)
+- **cloudflare**: patch InvalidWorkerScript, ScriptStartupError, ScriptModuleNotFound - by Sam Goodwin [(d0e60b4)](https://github.com/alchemy-run/distilled/commit/d0e60b44a794ab842ee43720d2551e3ac746dfbd)
+
 ## [v0.15.0](https://github.com/alchemy-run/distilled/releases/tag/v0.15.0) (2026-04-30)
 
 ### Features
