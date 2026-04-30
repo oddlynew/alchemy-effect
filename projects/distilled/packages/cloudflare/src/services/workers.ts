@@ -54,6 +54,12 @@ T.applyErrorMatchers(DurableObjectMustBeSqlite, [
   { code: 10074, message: { includes: "not a SQLite Durable Object" } },
 ]);
 
+export class HostnameAlreadyInUse extends Schema.TaggedErrorClass<HostnameAlreadyInUse>()(
+  "HostnameAlreadyInUse",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(HostnameAlreadyInUse, [{ code: 100116 }]);
+
 export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
   "InvalidRoute",
   { code: Schema.Number, message: Schema.String },
@@ -86,6 +92,20 @@ export class RouteNotFound extends Schema.TaggedErrorClass<RouteNotFound>()(
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(RouteNotFound, [{ code: 10009 }]);
+
+export class ScriptStartupError extends Schema.TaggedErrorClass<ScriptStartupError>()(
+  "ScriptStartupError",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ScriptStartupError, [{ code: 10021 }]);
+
+export class ScriptModuleNotFound extends Schema.TaggedErrorClass<ScriptModuleNotFound>()(
+  "ScriptModuleNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ScriptModuleNotFound, [
+  { code: 10021, message: { includes: "No such module" } },
+]);
 
 export class SecretNotFound extends Schema.TaggedErrorClass<SecretNotFound>()(
   "SecretNotFound",
@@ -4034,7 +4054,11 @@ export const PutDomainResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.ResponsePath("result"),
   ) as unknown as Schema.Schema<PutDomainResponse>;
 
-export type PutDomainError = DefaultErrors | WorkerNotFound | InvalidRoute;
+export type PutDomainError =
+  | DefaultErrors
+  | WorkerNotFound
+  | InvalidRoute
+  | HostnameAlreadyInUse;
 
 export const putDomain: API.OperationMethod<
   PutDomainRequest,
@@ -4044,7 +4068,7 @@ export const putDomain: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutDomainRequest,
   output: PutDomainResponse,
-  errors: [WorkerNotFound, InvalidRoute],
+  errors: [WorkerNotFound, InvalidRoute, HostnameAlreadyInUse],
 }));
 
 export interface DeleteDomainRequest {
@@ -7520,7 +7544,9 @@ export type PutScriptError =
   | InvalidRoute
   | InvalidWorkerScript
   | DurableObjectMustBeSqlite
-  | DuplicateMigrationTarget;
+  | DuplicateMigrationTarget
+  | ScriptStartupError
+  | ScriptModuleNotFound;
 
 export const putScript: API.OperationMethod<
   PutScriptRequest,
@@ -7535,6 +7561,8 @@ export const putScript: API.OperationMethod<
     InvalidWorkerScript,
     DurableObjectMustBeSqlite,
     DuplicateMigrationTarget,
+    ScriptStartupError,
+    ScriptModuleNotFound,
   ],
 }));
 
@@ -8144,7 +8172,9 @@ export const PutScriptContentResponse =
 export type PutScriptContentError =
   | DefaultErrors
   | WorkerNotFound
-  | InvalidWorkerScript;
+  | InvalidWorkerScript
+  | ScriptStartupError
+  | ScriptModuleNotFound;
 
 export const putScriptContent: API.OperationMethod<
   PutScriptContentRequest,
@@ -8154,7 +8184,12 @@ export const putScriptContent: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PutScriptContentRequest,
   output: PutScriptContentResponse,
-  errors: [WorkerNotFound, InvalidWorkerScript],
+  errors: [
+    WorkerNotFound,
+    InvalidWorkerScript,
+    ScriptStartupError,
+    ScriptModuleNotFound,
+  ],
 }));
 
 // =============================================================================

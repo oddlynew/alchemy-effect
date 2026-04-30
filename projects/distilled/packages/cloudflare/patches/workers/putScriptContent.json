@@ -1,6 +1,13 @@
 {
   "errors": {
     "WorkerNotFound": [{ "code": 10007 }],
-    "InvalidWorkerScript": [{ "code": 10068 }]
+    "InvalidWorkerScript": [{ "code": 10068 }],
+    "ScriptStartupError": [{ "code": 10021 }],
+    "ScriptModuleNotFound": [
+      {
+        "code": 10021,
+        "message": { "includes": "No such module" }
+      }
+    ]
   }
 }

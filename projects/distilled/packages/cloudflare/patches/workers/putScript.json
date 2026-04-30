@@ -13,6 +13,13 @@
         "code": 10074,
         "message": { "includes": "cannot be the target of more than one migration" }
       }
+    ],
+    "ScriptStartupError": [{ "code": 10021 }],
+    "ScriptModuleNotFound": [
+      {
+        "code": 10021,
+        "message": { "includes": "No such module" }
+      }
     ]
   },
   "request": {

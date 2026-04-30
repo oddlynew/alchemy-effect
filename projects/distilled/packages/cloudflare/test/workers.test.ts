@@ -1019,6 +1019,32 @@ describe("Workers", () => {
         Effect.map((e) => expect(e._tag).toBe("InvalidWorkerScript")),
       ));
 
+    test("error - ScriptModuleNotFound for script importing a missing module", () =>
+      Workers.putScript({
+        accountId: accountId(),
+        scriptName: scriptName("put-missing-module"),
+        metadata: {
+          mainModule: "index.mjs",
+          compatibilityDate: "2024-01-01",
+        },
+        files: [
+          new File(
+            [
+              `import "@effect/platform-node";\nexport default { async fetch() { return new Response("ok"); } };`,
+            ],
+            "index.mjs",
+            { type: "application/javascript+module" },
+          ),
+        ],
+      }).pipe(
+        Effect.flip,
+        Effect.map((e: any) => {
+          expect(e._tag).toBe("ScriptModuleNotFound");
+          expect(e.code).toBe(10021);
+          expect(e.message).toContain("No such module");
+        }),
+      ));
+
     test(
       "error - DurableObjectMustBeSqlite when enabling containers on a non-SQLite durable object",
       () =>
@@ -2461,5 +2487,58 @@ describe("Workers", () => {
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
+
+    if (hasZoneId()) {
+      test(
+        "error - HostnameAlreadyInUse when hostname is bound to another worker",
+        { timeout: 180_000 },
+        () =>
+          Effect.gen(function* () {
+            const a = scriptName("dom-conflict-a");
+            const b = scriptName("dom-conflict-b");
+            const hostname = `distilled-test-${testRunId}.alchemy-test-2.us`;
+            const hostZone = zoneId();
+
+            yield* withScript(a, () =>
+              withScript(b, () =>
+                Effect.gen(function* () {
+                  // Bind hostname to worker A, then try to bind it to B
+                  yield* Workers.putDomain({
+                    accountId: accountId(),
+                    hostname,
+                    service: a,
+                    zoneId: hostZone,
+                  });
+                  const err: any = yield* Workers.putDomain({
+                    accountId: accountId(),
+                    hostname,
+                    service: b,
+                    zoneId: hostZone,
+                  }).pipe(Effect.flip);
+
+                  expect(err._tag).toBe("HostnameAlreadyInUse");
+                  expect(err.code).toBe(100116);
+                  expect(err.message).toMatch(/already in use/i);
+
+                  // Cleanup: detach the domain from A so withScript can delete it
+                  const list = yield* Workers.listDomains({
+                    accountId: accountId(),
+                    hostname,
+                    zoneId: hostZone,
+                  });
+                  for (const d of list.result) {
+                    if (d.id) {
+                      yield* Workers.deleteDomain({
+                        accountId: accountId(),
+                        domainId: d.id,
+                      }).pipe(Effect.catch(() => Effect.void));
+                    }
+                  }
+                }),
+              ),
+            );
+          }),
+      );
+    }
   });
 });
