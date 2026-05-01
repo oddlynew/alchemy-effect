@@ -233,7 +233,7 @@ describe("SecretsStore", () => {
     test("error - MaximumStoresExceeded when creating a store", () =>
       SecretsStore.createStore({
         accountId: accountId(),
-        body: [{ name: "distilled-cf-secrets-store-create-test" }],
+        name: "distilled-cf-secrets-store-create-test",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("MaximumStoresExceeded")),
@@ -242,7 +242,7 @@ describe("SecretsStore", () => {
     test("error - invalid accountId", () =>
       SecretsStore.createStore({
         accountId: "invalid-account-id-000",
-        body: [{ name: "distilled-cf-secrets-store-create-invalid-acct" }],
+        name: "distilled-cf-secrets-store-create-invalid-acct",
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidAccountId")),

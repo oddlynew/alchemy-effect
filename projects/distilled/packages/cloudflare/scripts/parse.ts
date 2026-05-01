@@ -1994,7 +1994,13 @@ function mergeServices(...serviceGroups: ServiceInfo[][]): ServiceInfo[] {
     for (const service of services) {
       const existing = merged.get(service.name);
       if (existing) {
-        existing.operations.push(...service.operations);
+        // Dedupe by operationName: later groups override earlier ones.
+        // This lets `cloudflare-patch/*.openapi.yml` override the auto-generated
+        // operations when the upstream SDK has the wrong shape.
+        const byName = new Map<string, ParsedOperation>();
+        for (const op of existing.operations) byName.set(op.operationName, op);
+        for (const op of service.operations) byName.set(op.operationName, op);
+        existing.operations = [...byName.values()];
         existing.title ??= service.title;
         existing.version ??= service.version;
         existing.description ??= service.description;

@@ -216,19 +216,15 @@ export const listStores: API.PaginatedOperationMethod<
 }));
 
 export interface CreateStoreRequest {
-  /** Path param: Account Identifier */
+  /** Account identifier */
   accountId: string;
-  /** Body param: */
-  body: { name: string }[];
+  /** The name of the store */
+  name: string;
 }
 
 export const CreateStoreRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  body: Schema.Array(
-    Schema.Struct({
-      name: Schema.String,
-    }),
-  ).pipe(T.HttpBody()),
+  name: Schema.String,
 }).pipe(
   T.Http({
     method: "POST",
@@ -237,38 +233,39 @@ export const CreateStoreRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 ) as unknown as Schema.Schema<CreateStoreRequest>;
 
 export interface CreateStoreResponse {
-  result: { id: string; created: string; modified: string; name: string }[];
+  /** Store identifier */
+  id: string;
+  /** When the store was created */
+  created: string;
+  /** When the store was modified */
+  modified: string;
+  /** The name of the store */
+  name: string;
 }
 
 export const CreateStoreResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  result: Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      created: Schema.String,
-      modified: Schema.String,
-      name: Schema.String,
-    }),
-  ),
-}) as unknown as Schema.Schema<CreateStoreResponse>;
+  id: Schema.String,
+  created: Schema.String,
+  modified: Schema.String,
+  name: Schema.String,
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreateStoreResponse>;
 
 export type CreateStoreError =
   | DefaultErrors
   | InvalidAccountId
   | MaximumStoresExceeded;
 
-export const createStore: API.PaginatedOperationMethod<
+export const createStore: API.OperationMethod<
   CreateStoreRequest,
   CreateStoreResponse,
   CreateStoreError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateStoreRequest,
   output: CreateStoreResponse,
   errors: [InvalidAccountId, MaximumStoresExceeded],
-  pagination: {
-    mode: "single",
-    items: "result",
-  } as const,
 }));
 
 export interface DeleteStoreRequest {
