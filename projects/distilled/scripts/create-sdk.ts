@@ -1322,6 +1322,8 @@ export { SensitiveString, SensitiveNullableString } from "./sensitive.ts";
  * actual spec format found in the specs/ submodule(s).
  *
  * If the spec is OpenAPI, use generateFromOpenAPI from @distilled.cloud/core/openapi/generate.
+ * If the spec is GraphQL (introspection JSON), use generateFromGraphQL from
+ * @distilled.cloud/core/graphql/generate.
  * If it's another format (TypeScript SDK, Smithy, protobuf, Go types, etc.),
  * write a custom generator. See packages/cloudflare/ and packages/aws/ for examples
  * of non-OpenAPI generators.
@@ -1409,6 +1411,146 @@ const updateTestYml = (
 
     yield* fs.writeFileString(testYmlPath, content);
     yield* Console.log(`  ✅ Added ci-${name} job to test.yml`);
+  });
+
+// ============================================================================
+// Post-agent: Wire test env vars
+// ============================================================================
+//
+// After the Claude agent finishes credentials.ts, we know which environment
+// variables the SDK reads. Append a `bun run test` step + matching `env:`
+// block to the ci-{name} job so CI runs the integration tests with the
+// secrets piped in.
+//
+// `process.env.DEBUG` is universal noise — skip it. Anything else gets wired.
+
+const ENV_VARS_TO_IGNORE = new Set(["DEBUG", "NODE_ENV", "CI"]);
+
+const wireTestEnvVars = (
+  root: string,
+  name: string,
+): Effect.Effect<
+  void,
+  PlatformError.PlatformError,
+  FileSystem.FileSystem | Path.Path
+> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+
+    const credentialsPath = path.join(
+      root,
+      "packages",
+      name,
+      "src",
+      "credentials.ts",
+    );
+
+    const credentialsExists = yield* fs.exists(credentialsPath);
+    if (!credentialsExists) {
+      yield* Console.log(
+        `\n⚠️  credentials.ts not found for ${name}, skipping test env wiring`,
+      );
+      return;
+    }
+
+    const credentialsContent = yield* fs.readFileString(credentialsPath);
+
+    // Also pick up env vars referenced from the package's test setup file(s),
+    // since some SDKs (e.g. posthog) need POSTHOG_PROJECT_ID at runtime
+    // beyond the auth token.
+    const envSources = [credentialsContent];
+    for (const dir of ["test", "tests"]) {
+      for (const file of ["test.ts", "setup.ts"]) {
+        const p = path.join(root, "packages", name, dir, file);
+        if (yield* fs.exists(p)) {
+          envSources.push(yield* fs.readFileString(p));
+        }
+      }
+    }
+
+    const envVars = new Set<string>();
+    const re = /process\.env\.([A-Z][A-Z0-9_]*)/g;
+    for (const source of envSources) {
+      let match: RegExpExecArray | null;
+      while ((match = re.exec(source)) !== null) {
+        const varName = match[1];
+        if (!ENV_VARS_TO_IGNORE.has(varName)) {
+          envVars.add(varName);
+        }
+      }
+    }
+
+    if (envVars.size === 0) {
+      yield* Console.log(
+        `\n⚠️  No env vars found in ${name}/src/credentials.ts — skipping test env wiring`,
+      );
+      return;
+    }
+
+    const testYmlPath = path.join(root, ".github", "workflows", "test.yml");
+    let content = yield* fs.readFileString(testYmlPath);
+
+    // Find the `ci-{name}:` job block. It runs from `  ci-{name}:` (2-space
+    // indent at start of line) up to the next `  ci-` line or end of file.
+    const jobHeader = `  ci-${name}:`;
+    const headerIdx = content.indexOf(`\n${jobHeader}\n`);
+    if (headerIdx === -1) {
+      yield* Console.log(
+        `\n⚠️  ci-${name} block not found in test.yml — skipping test env wiring`,
+      );
+      return;
+    }
+
+    // Find the end of the ci-{name} block (next `  ci-` or EOF).
+    const blockStart = headerIdx + 1;
+    const nextJobMatch = content.slice(blockStart + jobHeader.length).match(
+      /\n  ci-[a-z0-9-]+:\n/,
+    );
+    const blockEnd = nextJobMatch
+      ? blockStart + jobHeader.length + nextJobMatch.index!
+      : content.length;
+    const block = content.slice(blockStart, blockEnd);
+
+    if (block.includes("bun run test")) {
+      yield* Console.log(
+        `\n⚠️  ci-${name} already has a test step, skipping test env wiring`,
+      );
+      return;
+    }
+
+    yield* Console.log(
+      `\n📝 Wiring test env vars into ci-${name}: ${Array.from(envVars).sort().join(", ")}`,
+    );
+
+    const sortedVars = Array.from(envVars).sort();
+    const envLines = sortedVars
+      .map((v) => `          ${v}: \${{ secrets.${v} }}`)
+      .join("\n");
+
+    const testStep = `      - run: bun run test
+        working-directory: packages/${name}
+        env:
+${envLines}`;
+
+    // Append the test step at the end of the block, preserving any trailing
+    // blank line that separates jobs.
+    const trimmedBlock = block.replace(/\n+$/, "");
+    const newBlock = `${trimmedBlock}\n${testStep}\n`;
+    const trailingBlanks = block.length - trimmedBlock.length;
+    const replacement =
+      newBlock + (trailingBlanks > 0 ? "\n".repeat(trailingBlanks - 1) : "");
+
+    content =
+      content.slice(0, blockStart) + replacement + content.slice(blockEnd);
+
+    yield* fs.writeFileString(testYmlPath, content);
+    yield* Console.log(
+      `  ✅ Added test step to ci-${name} with env: ${sortedVars.join(", ")}`,
+    );
+    yield* Console.log(
+      `  ⚠️  Make sure these secrets exist in GitHub Actions: ${sortedVars.join(", ")}`,
+    );
   });
 
 const updatePkgPrYml = (
@@ -1683,6 +1825,7 @@ Each submodule is a cloned git repo that IS the authoritative source for this SD
 
 The submodule could contain ANY of these formats:
 - An OpenAPI 3.x or Swagger 2.0 spec (JSON or YAML)
+- A GraphQL schema — either an introspection JSON (the result of \`__schema\` query, has top-level \`data.__schema\` or \`__schema\`) OR an SDL file (.graphql / .gql)
 - A TypeScript SDK source (like packages/cloudflare/ uses)
 - Smithy models (like packages/aws/ uses)
 - Go types, protobuf definitions, or other IDL formats
@@ -1691,10 +1834,11 @@ The submodule could contain ANY of these formats:
 
 **CRITICAL: Do NOT assume OpenAPI. Do NOT try to fetch an OpenAPI spec from the internet.** The submodule IS the spec source. Your job is to figure out what format it's in and write a generator that works with THAT format.
 
-Your FIRST action must be to recursively list the contents of every submodule directory under packages/${name}/specs/ to understand the structure. Use \`find\` or \`ls -R\` on each submodule. Look for .json, .yaml, .yml, .ts, .go, .proto, .smithy, and .md files. Read the first few lines of candidates to understand what they contain.
+Your FIRST action must be to recursively list the contents of every submodule directory under packages/${name}/specs/ to understand the structure. Use \`find\` or \`ls -R\` on each submodule. Look for .json, .yaml, .yml, .ts, .go, .proto, .graphql, .gql, .smithy, and .md files. Read the first few lines of candidates to understand what they contain.
 
 After you understand the format:
 - If it's OpenAPI → use \`generateFromOpenAPI\` from \`@distilled.cloud/core/openapi/generate\`
+- If it's a GraphQL introspection JSON or live endpoint → use \`generateFromGraphQL\` from \`@distilled.cloud/core/graphql/generate\` (one operation per Query field + one per Mutation field). If the submodule only has SDL (.graphql), use \`introspectEndpoint\` from the same module against a live endpoint to produce introspection JSON, OR pre-convert SDL to introspection JSON via any GraphQL tool — the generator only consumes introspection JSON.
 - If it's a TypeScript SDK → study packages/cloudflare/scripts/generate.ts for how to extract types from TS source
 - If it's Smithy models → study packages/aws/scripts/generate.ts
 - If it's something else → write a custom generator that parses the format and generates Effect operations
@@ -1720,6 +1864,7 @@ After you figure out the spec format in Step 0:
 The scaffolded generate.ts is a placeholder that throws an error. Based on what you found in Step 0, **rewrite it entirely** with a working generator for the spec format you found.
 
 - If OpenAPI: use \`generateFromOpenAPI\` from \`@distilled.cloud/core/openapi/generate\` (see packages/neon/scripts/generate.ts for an example)
+- If GraphQL: use \`generateFromGraphQL\` from \`@distilled.cloud/core/graphql/generate\`. Pass \`schemaPath\` pointing to an introspection JSON file. The generator emits one operation file per Query field and per Mutation field, baking the GraphQL document into the input schema via the \`T.GraphQLOp\` trait — the runtime client wraps variables and unwraps \`data.<operationName>\` automatically.
 - If TypeScript SDK: study packages/cloudflare/scripts/generate.ts
 - If Smithy: study packages/aws/scripts/generate.ts
 - If something else: write a custom generator
@@ -1930,6 +2075,9 @@ const createSdk = Command.make(
       // Step 6: Refine with Claude agent
       const stats = new AgentStatsAccumulator();
       yield* refineWithClaude(root, config.name, specInfo, stats, note);
+
+      // Step 7: Wire test env vars into test.yml now that credentials.ts is final
+      yield* wireTestEnvVars(root, config.name);
 
       yield* Console.log(`
 ✨ SDK package created successfully!
