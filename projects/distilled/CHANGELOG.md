@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.15.2](https://github.com/alchemy-run/distilled/releases/tag/v0.15.2) (2026-05-01)
+
+### Bug Fixes
+
+- **cloudflare**: fix secrets store name property - by Sam Goodwin [(a64d16b)](https://github.com/alchemy-run/distilled/commit/a64d16b9eba3d4e09e93736e336a319f0ec7e8a1)
+
 ## [v0.15.1](https://github.com/alchemy-run/distilled/releases/tag/v0.15.1) (2026-04-30)
 
 ### Bug Fixes
