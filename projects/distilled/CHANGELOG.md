@@ -1,5 +1,26 @@
 # Changelog
 
+## [v0.16.0](https://github.com/alchemy-run/distilled/releases/tag/v0.16.0) (2026-05-02)
+
+### Features
+
+- **core**: debug logging and per-operation spans - by Michael K in [#223](https://github.com/alchemy-run/distilled/pull/223) [(1b6e0de)](https://github.com/alchemy-run/distilled/commit/1b6e0de931653005123661c00012fc3e95a3574b)
+- **expo-eas**: expo-eas sdk - by Michael K in [#204](https://github.com/alchemy-run/distilled/pull/204) [(d8a2f11)](https://github.com/alchemy-run/distilled/commit/d8a2f1197b384145fa61deed8dfb4ff4fe4bbdb7)
+- **ci**: pass with no tests across every package + scaffold - by Michael K in [#205](https://github.com/alchemy-run/distilled/pull/205) [(dd1a110)](https://github.com/alchemy-run/distilled/commit/dd1a110cdc50e17260d77f869f3e3fa17b2239d5)
+
+### Bug Fixes
+
+- **tests**: repair CI failures across aws, axiom, posthog, workos - by Michael K in [#219](https://github.com/alchemy-run/distilled/pull/219) [(276d324)](https://github.com/alchemy-run/distilled/commit/276d324cac49a11eef38a996991752e08b2a7121)
+- **core**: preserve File/Blob/builtins in unwrapRedactedDeep - by Michael K in [#218](https://github.com/alchemy-run/distilled/pull/218) [(a19249e)](https://github.com/alchemy-run/distilled/commit/a19249ecad055745629b24f2440a4b1f70752561)
+- **core**: add T.NoFollowRedirect for ops that return result via Location header - by Michael K in [#214](https://github.com/alchemy-run/distilled/pull/214) [(d274af2)](https://github.com/alchemy-run/distilled/commit/d274af27ac0c46303ab45dec6d9b6de0db32f388)
+- **core**: unwrap Redacted values during request input encoding - by Michael K in [#213](https://github.com/alchemy-run/distilled/pull/213) [(20a112f)](https://github.com/alchemy-run/distilled/commit/20a112fe6763504d46cc02ad8e6f9c8cfa2746d1)
+- **posthog**: drop 18 dashboard-only endpoints from the SDK surface - by Michael K in [#210](https://github.com/alchemy-run/distilled/pull/210) [(c123364)](https://github.com/alchemy-run/distilled/commit/c123364072182c899de3a520741164f7bd2142e5)
+- **workos**: strip required arrays from all 124 response schemas - by Michael K in [#211](https://github.com/alchemy-run/distilled/pull/211) [(337cfe0)](https://github.com/alchemy-run/distilled/commit/337cfe0af7107fc67587bbeaf33cc1ed030abf75)
+- **posthog**: drop `required` everywhere + nullable user-like fields - by Michael K in [#209](https://github.com/alchemy-run/distilled/pull/209) [(f7693da)](https://github.com/alchemy-run/distilled/commit/f7693da5637082b9d4d1d9bc71aa84198a1fb966)
+- **core**: auto-retry HTTP 429 with capped exponential backoff - by Michael K in [#207](https://github.com/alchemy-run/distilled/pull/207) [(d748e91)](https://github.com/alchemy-run/distilled/commit/d748e91afd9ef979bb136d9283fbac6e53d9ad53)
+- **core**: resolve single-element allOf with $ref through to inner type - by Michael K in [#208](https://github.com/alchemy-run/distilled/pull/208) [(9b1cdfd)](https://github.com/alchemy-run/distilled/commit/9b1cdfd184d08a94748dabf8adac53e766f285eb)
+- **posthog**: declare @effect/platform-node + @effect/vitest devDeps - by Michael K in [#206](https://github.com/alchemy-run/distilled/pull/206) [(56b093e)](https://github.com/alchemy-run/distilled/commit/56b093e45e1c3e29a988f08c483b6a2b373ef561)
+
 ## [v0.15.2](https://github.com/alchemy-run/distilled/releases/tag/v0.15.2) (2026-05-01)
 
 ### Bug Fixes
