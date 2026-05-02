@@ -14,6 +14,7 @@ import type * as Plugin from "../Plugin.ts";
 import type * as Worker from "../Worker.ts";
 import * as Config from "../workerd/Config.ts";
 import * as WorkerModule from "../WorkerModule.ts";
+import type * as Access from "./Access.ts";
 import type { OutboundConfig, RemoteBinding, SessionOptions } from "./RemoteConfig.ts";
 import * as RemoteSession from "./RemoteSession.ts";
 
@@ -34,7 +35,10 @@ export const layer = Layer.effect(
   Effect.gen(function* () {
     const httpServer = yield* HttpServer.HttpServer;
     const remoteSession = yield* RemoteSession.RemoteSession;
-    const prewarms = new Map<string, Fiber.Fiber<OutboundConfig, RemoteSession.SessionError>>();
+    const prewarms = new Map<
+      string,
+      Fiber.Fiber<OutboundConfig, RemoteSession.SessionError | Access.AccessError>
+    >();
 
     const address = httpServer.address as HttpServer.TcpAddress;
 
