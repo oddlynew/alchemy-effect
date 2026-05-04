@@ -16,10 +16,12 @@ const { test, beforeAll, afterAll } = Test.make(testOptions);
 const sharedStack = Core.scratchStack(testOptions, "DynamoDBBindings");
 
 // Lambda function URL cold-start (DNS, IAM propagation, init) can take
-// well over 30s on a fresh deploy under parallel-suite load. Budget ~60s
-// of readiness polling so we don't fail the whole suite on a slow init.
+// well over 60s on a fresh deploy under parallel-suite load — observed
+// up to ~90s when S3 throttling delays the Lambda code upload too.
+// Budget ~150s of readiness polling so we don't fail the whole suite on
+// a slow init.
 const readinessPolicy = Schedule.fixed("2 seconds").pipe(
-  Schedule.both(Schedule.recurs(30)),
+  Schedule.both(Schedule.recurs(75)),
 );
 
 let baseUrl: string;
@@ -68,7 +70,7 @@ describe("DynamoDB Bindings", () => {
         Effect.retry({ schedule: readinessPolicy }),
       );
     }),
-    { timeout: 120_000 },
+    { timeout: 240_000 },
   );
 
   afterAll(sharedStack.destroy(), { timeout: 60_000 });

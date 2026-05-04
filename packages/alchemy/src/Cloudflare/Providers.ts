@@ -1,5 +1,10 @@
 import { Retry } from "@distilled.cloud/cloudflare";
+import * as Duration from "effect/Duration";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
+import * as Ref from "effect/Ref";
+import * as Schedule from "effect/Schedule";
 import { Command } from "../Build/Command.ts";
 import * as Build from "../Build/index.ts";
 import * as Provider from "../Provider.ts";
@@ -100,13 +105,63 @@ export const providers = () =>
     Layer.provideMerge(CloudflareEnvironment.fromProfile()),
     Layer.provideMerge(CloudflareAuth),
     Layer.provideMerge(Access.AccessLive),
-    // Apply a blanket retry policy to every Cloudflare API call issued by
-    // any resource provider. `Retry.makeDefault` (from
-    // @distilled.cloud/cloudflare 0.16.x) retries transient errors
-    // (throttling, 5xx, network) with exponential backoff, jitter,
-    // `Retry-After` header awareness, and a cap of 5 attempts. Without
-    // this, brief transient-auth/throttling blips during a deploy surface
-    // as test failures and resource leaks.
-    Layer.provideMerge(Layer.succeed(Retry.Retry, Retry.makeDefault)),
+    // Apply a blanket retry policy to every Cloudflare API call. Extends
+    // `Retry.makeDefault`'s transient detection (throttling / 5xx /
+    // network) with Cloudflare's known "misleadingly-tagged" transient
+    // errors — see `cloudflareRetryFactory` below. Without this, brief
+    // auth-edge / internal blips during a deploy surface as test
+    // failures and resource leaks.
+    //
+    // TODO(distilled): mark these cases with `withRetryable` upstream in
+    // `@distilled.cloud/cloudflare/src/client/api.ts` so consumers don't
+    // need to override the retry predicate.
+    Layer.provideMerge(Layer.succeed(Retry.Retry, cloudflareRetryFactory)),
     Layer.orDie,
   );
+
+const isMisleadinglyTaggedTransient = (error: unknown): boolean => {
+  if (!error || typeof error !== "object") return false;
+  const tag = (error as { _tag?: unknown })._tag;
+  const message = ((error as { message?: unknown }).message ?? "") as string;
+  // 10000: "Authentication error" — CF auth-edge blip; the token is
+  // valid, the edge node returned 401 transiently.
+  if (tag === "Unauthorized" && /authentication error/i.test(message))
+    return true;
+  // 10001: "internal error" — CF internal hiccup mistagged as 403.
+  if (tag === "Forbidden" && /internal error/i.test(message)) return true;
+  // Workers API sometimes wraps 5xx as WorkerNotFound.
+  if (
+    tag === "WorkerNotFound" &&
+    /unknown error has occurred/i.test(message)
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const cloudflareRetryFactory: Retry.Factory = (lastError) => {
+  const defaults = Retry.makeDefault(lastError);
+  return {
+    while: (error) =>
+      defaults.while?.(error) === true || isMisleadinglyTaggedTransient(error),
+    schedule: pipe(
+      Schedule.exponential(Duration.millis(250), 2),
+      Schedule.modifyDelay(
+        Effect.fnUntraced(function* (duration) {
+          const error = yield* Ref.get(lastError);
+          // Throttling errors (429): honor a 500ms floor matching the
+          // distilled default.
+          const isThrottling =
+            (error as { _tag?: unknown })?._tag === "TooManyRequests";
+          if (isThrottling && Duration.toMillis(duration) < 500) {
+            return Duration.toMillis(Duration.millis(500));
+          }
+          return Duration.toMillis(duration);
+        }),
+      ),
+      Retry.capped(Duration.seconds(5)),
+      Retry.jittered,
+      Schedule.both(Schedule.recurs(8)),
+    ),
+  };
+};
