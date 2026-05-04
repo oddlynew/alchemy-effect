@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.16.4](https://github.com/alchemy-run/distilled/releases/tag/v0.16.4) (2026-05-04)
+
+### Bug Fixes
+
+- **cloudflare**: sort Schema.Union variants by specificity - by sam in [#232](https://github.com/alchemy-run/distilled/pull/232) [(1e12c92)](https://github.com/alchemy-run/distilled/commit/1e12c9244f6696fa1dd1b3e65d034f7f551c5e22)
+
 ## [v0.16.3](https://github.com/alchemy-run/distilled/releases/tag/v0.16.3) (2026-05-04)
 
 ### Features
