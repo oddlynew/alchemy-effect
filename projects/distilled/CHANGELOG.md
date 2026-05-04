@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.16.2](https://github.com/alchemy-run/distilled/releases/tag/v0.16.2) (2026-05-04)
+
+### Bug Fixes
+
+- **cloudflare/connectivity**: make listDirectoryServices result_info optional - by sam in [#229](https://github.com/alchemy-run/distilled/pull/229) [(cfde7ce)](https://github.com/alchemy-run/distilled/commit/cfde7ceef9e21ac350d96b49ad3de6b15a9bdeb9)
+
 ## [v0.16.1](https://github.com/alchemy-run/distilled/releases/tag/v0.16.1) (2026-05-04)
 
 ### Bug Fixes
