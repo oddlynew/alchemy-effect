@@ -42,6 +42,7 @@
     "eslint/no-console": "off",
     "eslint/no-var": "error",
     "eslint/no-shadow": "off",
+    "eslint/no-underscore-dangle": "off",
     "eslint/no-useless-constructor": "error",
     "unicorn/no-abusive-eslint-disable": "error",
     "eslint/no-unneeded-ternary": "error",

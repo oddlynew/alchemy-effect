@@ -5,8 +5,8 @@ import * as WorkerModule from "../WorkerModule.ts";
 
 export const EntryPlugin: Plugin = {
   name: "entry",
-  make: Effect.fn(function* () {
-    return {
+  make: Effect.fn(() =>
+    Effect.succeed({
       middlewares: [
         {
           name: "plugin:entry",
@@ -22,6 +22,6 @@ export const EntryPlugin: Plugin = {
           upstreamBindingName: "USER_WORKER",
         },
       ],
-    };
-  }),
+    }),
+  ),
 };
