@@ -62,23 +62,15 @@ export const serveWebRequest = <Req = never>(
           }),
       });
 
-      // Run the handler through `toHandled` so any `preResponseHandler`s that
-      // middleware (e.g. `HttpMiddleware.cors()`) registered on the request
-      // are applied to the final response. Without this drain, only OPTIONS
-      // preflights — which `cors()` short-circuits — get CORS headers; real
-      // GET/POST/etc. responses don't.
-      const httpApp = HttpEffectModule.toHandled(
-        handler,
-        (_req, response) => {
-          const transferred = HttpEffectModule.scopeTransferToStream(response);
-          resume(
-            Effect.succeed(
-              HttpServerResponse.toWeb(transferred, { context: parentContext }),
-            ),
-          );
-          return Effect.void;
-        },
-      );
+      const httpApp = HttpEffectModule.toHandled(handler, (_req, response) => {
+        const transferred = HttpEffectModule.scopeTransferToStream(response);
+        resume(
+          Effect.succeed(
+            HttpServerResponse.toWeb(transferred, { context: parentContext }),
+          ),
+        );
+        return Effect.void;
+      });
 
       const fiber = httpApp.pipe(
         Effect.provideService(HttpServerRequest.HttpServerRequest, request),
