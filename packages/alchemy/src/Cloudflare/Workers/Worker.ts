@@ -1175,6 +1175,12 @@ export const LiveWorkerProvider = () =>
           // simply be out of date. Without this we PUT domains that are
           // already registered to this same Worker and Cloudflare
           // returns a confusing "hostname already in use" error.
+          //
+          // No blanket `Effect.catch` here: a list failure (auth,
+          // throttling, 5xx) must surface so the engine can retry or
+          // report cleanly. Treating any failure as "no domains live"
+          // would silently re-PUT every desired domain and drop us
+          // straight into 409 conflicts.
           const liveAll = yield* listDomains({
             accountId,
             service: scriptName,
@@ -1193,7 +1199,6 @@ export const LiveWorkerProvider = () =>
                   : [],
               ),
             ),
-            Effect.catch(() => Effect.succeed([])),
           );
 
           const desiredSet = new Set(desired);
@@ -1232,7 +1237,9 @@ export const LiveWorkerProvider = () =>
 
             // Not attached to this Worker — but it could still belong
             // to another Worker. Check before we try to PUT so we can
-            // emit a helpful error instead of the raw 409.
+            // emit a helpful error instead of the raw 409. Surface
+            // listDomains failures so transient auth/throttling/5xx
+            // errors don't masquerade as "no other owner".
             const otherOwner = yield* listDomains({
               accountId,
               hostname,
@@ -1242,7 +1249,6 @@ export const LiveWorkerProvider = () =>
                   (d) => d.hostname === hostname && d.service !== scriptName,
                 ),
               ),
-              Effect.catch(() => Effect.succeed(undefined)),
             );
             if (otherOwner?.id) {
               return yield* Effect.die(
@@ -1719,7 +1725,11 @@ export const LiveWorkerProvider = () =>
         const bundleSize = `${sizeKB > 1024 ? `${sizeMB.toFixed(2)} MB` : `${sizeKB.toFixed(2)} KB`}`;
         yield* session.note(`Uploading worker (${bundleSize}) ...`);
 
-        // Read existing worker settings for migration tracking
+        // Read existing worker settings for migration tracking. Only
+        // swallow `WorkerNotFound` (script doesn't exist yet — i.e.
+        // greenfield create); auth, throttling, and 5xx errors must
+        // surface so we don't silently lose old migration tags and
+        // generate a bogus migration plan.
         const oldSettings =
           existingSettings ??
           (yield* getScriptSettings({
@@ -1727,7 +1737,7 @@ export const LiveWorkerProvider = () =>
             scriptName: name,
           }).pipe(
             Effect.map((s) => s as typeof s | undefined),
-            Effect.catch(() => Effect.succeed(undefined)),
+            Effect.catchTag("WorkerNotFound", () => Effect.succeed(undefined)),
           ));
 
         const oldTags = Array.from(new Set(oldSettings?.tags ?? []));

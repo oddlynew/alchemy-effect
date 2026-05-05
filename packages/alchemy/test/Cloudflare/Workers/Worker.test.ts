@@ -1,6 +1,7 @@
 import { adopt } from "@/AdoptPolicy";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
 import * as Cloudflare from "@/Cloudflare/index.ts";
+import * as KV from "@/Cloudflare/KV";
 import * as R2 from "@/Cloudflare/R2";
 import { Stack } from "@/Stack";
 import { State } from "@/State";
@@ -595,5 +596,340 @@ test.provider("adopt(true) takes over a foreign-tagged worker", (stack) =>
 
     yield* stack.destroy();
     yield* waitForWorkerToBeDeleted(physicalName, accountId);
+  }).pipe(logLevel),
+);
+
+// ─────────────────────────────────────────────────────────────────────
+// Lifecycle convergence
+//
+// Reconcile must converge from any starting state — pristine, drifted,
+// out-of-band-deleted, or replaced — without leaning on `olds` as a
+// source of truth. The tests below pin down each of those starting
+// states.
+// ─────────────────────────────────────────────────────────────────────
+
+test.provider(
+  "redeploy with same code is idempotent — script identity preserved",
+  (stack) =>
+    Effect.gen(function* () {
+      const { accountId } = yield* CloudflareEnvironment;
+
+      yield* stack.destroy();
+
+      const v1 = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("IdempotentWorker", {
+            main,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+      const v1Settings = yield* workers.getScriptScriptAndVersionSetting({
+        accountId,
+        scriptName: v1.workerName,
+      });
+
+      const v2 = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("IdempotentWorker", {
+            main,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+
+      // Same physical name — reconciler did not replace.
+      expect(v2.workerName).toEqual(v1.workerName);
+      // Bundle hash stable for byte-identical source.
+      expect(v2.hash?.bundle).toEqual(v1.hash?.bundle);
+      // Worker still has its alchemy ownership tags.
+      const v2Settings = yield* workers.getScriptScriptAndVersionSetting({
+        accountId,
+        scriptName: v2.workerName,
+      });
+      expect(v2Settings.tags).toEqual(v1Settings.tags);
+
+      yield* stack.destroy();
+      yield* waitForWorkerToBeDeleted(v1.workerName, accountId);
+    }).pipe(logLevel),
+);
+
+test.provider(
+  "reconcile resets bindings mutated out-of-band via the Cloudflare API",
+  (stack) =>
+    Effect.gen(function* () {
+      const { accountId } = yield* CloudflareEnvironment;
+
+      yield* stack.destroy();
+
+      const deploy = () =>
+        stack.deploy(
+          Effect.gen(function* () {
+            const kv = yield* KV.KVNamespace("DriftKV", {
+              title: "alchemy-test-worker-drift-kv",
+            });
+            return yield* Cloudflare.Worker("DriftWorker", {
+              main,
+              url: false,
+              compatibility: { date: "2024-01-01" },
+              bindings: { KV: kv },
+              env: { GREETING: "hello" },
+            });
+          }),
+        );
+
+      const v1 = yield* deploy();
+
+      // Mutate environment vars out-of-band — patch the script settings
+      // to drop GREETING and replace it with a foreign plain_text. This
+      // is the kind of drift you'd see from someone editing the worker
+      // in the Cloudflare dashboard.
+      yield* workers.patchScriptScriptAndVersionSetting({
+        accountId,
+        scriptName: v1.workerName,
+        settings: {
+          bindings: [
+            { type: "plain_text", name: "GREETING", text: "tampered" },
+            { type: "plain_text", name: "FOREIGN", text: "leaked" },
+          ],
+        },
+      });
+
+      // Re-deploy with the original desired props — reconcile must
+      // overwrite the drifted bindings rather than keep the foreign
+      // values. (The provider does a full PUT on every reconcile, so
+      // FOREIGN must disappear and GREETING must come back.)
+      const v2 = yield* deploy();
+      expect(v2.workerName).toEqual(v1.workerName);
+
+      const settings = yield* workers.getScriptScriptAndVersionSetting({
+        accountId,
+        scriptName: v2.workerName,
+      });
+      const bindingNames = (settings.bindings ?? []).map((b) => b.name);
+      expect(bindingNames).toContain("GREETING");
+      expect(bindingNames).toContain("KV");
+      expect(bindingNames).not.toContain("FOREIGN");
+      const greeting = (settings.bindings ?? []).find(
+        (b) => b.name === "GREETING",
+      );
+      expect(greeting && "text" in greeting && greeting.text).toEqual("hello");
+
+      yield* stack.destroy();
+      yield* waitForWorkerToBeDeleted(v1.workerName, accountId);
+    }).pipe(logLevel),
+);
+
+test.provider(
+  "reconcile re-creates a worker that was deleted out-of-band",
+  (stack) =>
+    Effect.gen(function* () {
+      const { accountId } = yield* CloudflareEnvironment;
+
+      yield* stack.destroy();
+
+      const physicalName = `alchemy-test-worker-recreate-${Math.random()
+        .toString(36)
+        .slice(2, 8)}`;
+
+      const v1 = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("RecreateWorker", {
+            main,
+            name: physicalName,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+      expect(v1.workerName).toEqual(physicalName);
+
+      // Delete the script out-of-band — local state still says it
+      // exists, but Cloudflare disagrees.
+      yield* workers.deleteScript({
+        accountId,
+        scriptName: physicalName,
+      });
+      yield* waitForWorkerToBeDeleted(physicalName, accountId);
+
+      // Reconcile must observe the missing script via getScriptSettings
+      // (which now returns WorkerNotFound), fall back to a fresh
+      // putScript, and converge.
+      const v2 = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("RecreateWorker", {
+            main,
+            name: physicalName,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+      expect(v2.workerName).toEqual(physicalName);
+      yield* expectWorkerExists(physicalName, accountId);
+
+      yield* stack.destroy();
+      yield* waitForWorkerToBeDeleted(physicalName, accountId);
+    }).pipe(logLevel),
+);
+
+test.provider(
+  "changing physical name triggers replace; old worker is deleted",
+  (stack) =>
+    Effect.gen(function* () {
+      const { accountId } = yield* CloudflareEnvironment;
+
+      yield* stack.destroy();
+
+      const suffix = Math.random().toString(36).slice(2, 8);
+      const nameA = `alchemy-test-worker-replace-a-${suffix}`;
+      const nameB = `alchemy-test-worker-replace-b-${suffix}`;
+
+      const a = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("RenameWorker", {
+            main,
+            name: nameA,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+      expect(a.workerName).toEqual(nameA);
+
+      const b = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("RenameWorker", {
+            main,
+            name: nameB,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+      expect(b.workerName).toEqual(nameB);
+      expect(b.workerName).not.toEqual(a.workerName);
+
+      // The previous physical name must be gone after replace. (The
+      // provider's diff returns `{ action: "replace" }` when the
+      // physical name changes; the engine creates B, retags it, and
+      // deletes A.)
+      yield* waitForWorkerToBeDeleted(nameA, accountId);
+      yield* expectWorkerExists(nameB, accountId);
+
+      yield* stack.destroy();
+      yield* waitForWorkerToBeDeleted(nameB, accountId);
+    }).pipe(logLevel),
+);
+
+test.provider(
+  "adding then removing a KV binding propagates to the live worker",
+  (stack) =>
+    Effect.gen(function* () {
+      const { accountId } = yield* CloudflareEnvironment;
+
+      yield* stack.destroy();
+
+      // Phase 1: deploy without the KV binding.
+      const v1 = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("BindingChurnWorker", {
+            main,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+      const v1Settings = yield* workers.getScriptScriptAndVersionSetting({
+        accountId,
+        scriptName: v1.workerName,
+      });
+      expect(
+        (v1Settings.bindings ?? []).some((b) => b.type === "kv_namespace"),
+      ).toBe(false);
+
+      // Phase 2: add the KV binding.
+      const v2 = yield* stack.deploy(
+        Effect.gen(function* () {
+          const kv = yield* KV.KVNamespace("ChurnKV", {
+            title: "alchemy-test-worker-churn-kv",
+          });
+          return yield* Cloudflare.Worker("BindingChurnWorker", {
+            main,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+            bindings: { CACHE: kv },
+          });
+        }),
+      );
+      expect(v2.workerName).toEqual(v1.workerName);
+      const v2Settings = yield* workers.getScriptScriptAndVersionSetting({
+        accountId,
+        scriptName: v2.workerName,
+      });
+      const v2Kv = (v2Settings.bindings ?? []).find(
+        (b) => b.type === "kv_namespace" && b.name === "CACHE",
+      );
+      expect(v2Kv).toBeDefined();
+
+      // Phase 3: drop the KV binding. Reconcile must observe the
+      // binding still attached on Cloudflare and overwrite it with the
+      // new desired metadata.
+      const v3 = yield* stack.deploy(
+        Effect.gen(function* () {
+          return yield* Cloudflare.Worker("BindingChurnWorker", {
+            main,
+            url: false,
+            compatibility: { date: "2024-01-01" },
+          });
+        }),
+      );
+      const v3Settings = yield* workers.getScriptScriptAndVersionSetting({
+        accountId,
+        scriptName: v3.workerName,
+      });
+      expect(
+        (v3Settings.bindings ?? []).some((b) => b.name === "CACHE"),
+      ).toBe(false);
+
+      yield* stack.destroy();
+      yield* waitForWorkerToBeDeleted(v1.workerName, accountId);
+    }).pipe(logLevel),
+);
+
+test.provider("destroying an already-deleted worker is a no-op", (stack) =>
+  Effect.gen(function* () {
+    const { accountId } = yield* CloudflareEnvironment;
+
+    yield* stack.destroy();
+
+    const worker = yield* stack.deploy(
+      Effect.gen(function* () {
+        return yield* Cloudflare.Worker("DoubleDestroyWorker", {
+          main,
+          url: false,
+          compatibility: { date: "2024-01-01" },
+        });
+      }),
+    );
+
+    // Delete the script out-of-band so the next destroy hits the
+    // `WorkerNotFound` path inside provider.delete. It must succeed.
+    yield* workers.deleteScript({
+      accountId,
+      scriptName: worker.workerName,
+    });
+    yield* waitForWorkerToBeDeleted(worker.workerName, accountId);
+
+    // First destroy: the engine still has state for this resource;
+    // delete should idempotently succeed because the underlying
+    // `deleteScript` call catches WorkerNotFound.
+    yield* stack.destroy();
+
+    // Second destroy: state is gone; this is a true no-op. Repeated
+    // destroys must never throw.
+    yield* stack.destroy();
   }).pipe(logLevel),
 );
