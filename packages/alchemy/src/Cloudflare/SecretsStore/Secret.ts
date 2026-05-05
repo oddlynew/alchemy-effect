@@ -148,6 +148,10 @@ export const StoreSecretProvider = () =>
                 Effect.succeed(undefined),
               ),
               Effect.catchTag("StoreNotFound", () => Effect.succeed(undefined)),
+              // Cloudflare also surfaces a generic 404 as `NotFound` (e.g.
+              // when both the store and secret are missing simultaneously),
+              // so treat that as "observed nothing" too.
+              Effect.catchTag("NotFound", () => Effect.succeed(undefined)),
             );
           }
           if (!observed) {
@@ -230,9 +234,13 @@ export const StoreSecretProvider = () =>
               scopes: scopesChanged ? scopes : undefined,
               comment: commentChanged ? news.comment : undefined,
             }).pipe(
+              // PATCH races where the secret/store was deleted out-of-band
+              // between observe and patch fall back to the observed
+              // attrs. The next reconcile will re-create from scratch.
               Effect.catchTag("SecretNotFound", () =>
                 Effect.succeed(undefined),
               ),
+              Effect.catchTag("StoreNotFound", () => Effect.succeed(undefined)),
             );
             if (patched) {
               return {
@@ -288,6 +296,7 @@ export const StoreSecretProvider = () =>
                 Effect.succeed(undefined),
               ),
               Effect.catchTag("StoreNotFound", () => Effect.succeed(undefined)),
+              Effect.catchTag("NotFound", () => Effect.succeed(undefined)),
             );
           }
           if (!olds?.store) return undefined;
