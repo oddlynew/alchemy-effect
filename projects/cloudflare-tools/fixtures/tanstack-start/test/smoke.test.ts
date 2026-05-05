@@ -43,12 +43,16 @@ test("renders the homepage", async ({ page }) => {
   expect(response?.status()).toBe(200);
   await page.waitForLoadState("networkidle");
 
-  const index = await page.content();
-  expect(index).toMatchSnapshot("index.html");
+  await expect(page).toHaveScreenshot("index.png", {
+    animations: "disabled",
+    fullPage: true,
+  });
 
-  page.click("a[href='/about']");
+  await page.click("a[href='/about']");
   await page.waitForURL("**/about");
 
-  const about = await page.content();
-  expect(about).toMatchSnapshot("about.html");
+  await expect(page).toHaveScreenshot("about.png", {
+    animations: "disabled",
+    fullPage: true,
+  });
 });
