@@ -1,9 +1,17 @@
 import * as ssoAdmin from "@distilled.cloud/aws/sso-admin";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
+import { Unowned } from "../../AdoptPolicy.ts";
 import { isResolved } from "../../Diff.ts";
 import * as Provider from "../../Provider.ts";
 import { Resource } from "../../Resource.ts";
+import {
+  createInternalTags,
+  createTagsList,
+  diffTags,
+  hasAlchemyTags,
+} from "../../Tags.ts";
 import type { Providers } from "../Providers.ts";
 import { resolveInstance, retryIdentityCenter } from "./common.ts";
 
@@ -14,7 +22,7 @@ export interface PermissionSetProps {
    */
   instanceArn?: string;
   /**
-   * Permission set name.
+   * Permission set name. Stable — changing this triggers a replace.
    */
   name: string;
   /**
@@ -29,6 +37,11 @@ export interface PermissionSetProps {
    * Optional relay state passed to supported applications.
    */
   relayState?: string;
+  /**
+   * Optional tags. Internal `alchemy::*` ownership tags are merged in
+   * automatically and used for adoption gating.
+   */
+  tags?: Record<string, string>;
 }
 
 export interface PermissionSet extends Resource<
@@ -42,10 +55,19 @@ export interface PermissionSet extends Resource<
     sessionDuration: string | undefined;
     relayState: string | undefined;
     createdDate: Date | undefined;
+    tags: Record<string, string>;
   },
   never,
   Providers
 > {}
+
+class PermissionSetMissingAfterCreate extends Data.TaggedError(
+  "PermissionSetMissingAfterCreate",
+)<{ readonly name: string }> {}
+
+class PermissionSetMissingAfterUpdate extends Data.TaggedError(
+  "PermissionSetMissingAfterUpdate",
+)<{ readonly permissionSetArn: string }> {}
 
 /**
  * An IAM Identity Center permission set.
@@ -79,27 +101,40 @@ export const PermissionSetProvider = () =>
             return { action: "replace" } as const;
           }
         }),
-        read: Effect.fn(function* ({ olds, output }) {
-          if (output?.permissionSetArn && output.instanceArn) {
-            return yield* readPermissionSetByArn({
-              instanceArn: output.instanceArn,
-              permissionSetArn: output.permissionSetArn,
-            });
-          }
+        read: Effect.fn(function* ({ id, olds, output }) {
+          const observed = output?.permissionSetArn && output.instanceArn
+            ? yield* readPermissionSetByArn({
+                instanceArn: output.instanceArn,
+                permissionSetArn: output.permissionSetArn,
+              })
+            : olds
+              ? yield* readPermissionSetByName(olds)
+              : undefined;
 
-          if (!olds) {
+          if (!observed) {
             return undefined;
           }
 
-          return yield* readPermissionSetByName(olds);
+          // Ownership gate — adoption is the engine's call. If the
+          // resource lacks our alchemy tags, signal `Unowned` so the
+          // engine refuses to take it over without `--adopt`.
+          return (yield* hasAlchemyTags(id, observed.tags))
+            ? observed
+            : Unowned(observed);
         }),
-        reconcile: Effect.fn(function* ({ news, output, session }) {
+        reconcile: Effect.fn(function* ({ id, news, output, session }) {
           const instance = yield* resolveInstance(
             output?.instanceArn ?? news.instanceArn,
           );
 
+          const desiredTags = {
+            ...(yield* createInternalTags(id)),
+            ...news.tags,
+          };
+
           // Observe — find the permission set by ARN (when we already
-          // have one) or by name on the resolved instance.
+          // have one) or by name on the resolved instance. Cloud state is
+          // authoritative; `output` is just a cached identifier hint.
           let existing =
             (output?.permissionSetArn
               ? yield* readPermissionSetByArn({
@@ -112,7 +147,9 @@ export const PermissionSetProvider = () =>
               instanceArn: instance.InstanceArn,
             }));
 
-          // Ensure — create the permission set if missing.
+          // Ensure — create the permission set if missing. Tags are
+          // applied in-band so a crash before sync still leaves an
+          // owned-looking resource for the next reconcile.
           if (!existing) {
             const response = yield* retryIdentityCenter(
               ssoAdmin.createPermissionSet({
@@ -121,6 +158,7 @@ export const PermissionSetProvider = () =>
                 Description: news.description,
                 SessionDuration: news.sessionDuration,
                 RelayState: news.relayState,
+                Tags: createTagsList(desiredTags),
               }),
             );
 
@@ -139,9 +177,7 @@ export const PermissionSetProvider = () =>
 
             if (!existing) {
               return yield* Effect.fail(
-                new Error(
-                  `permission set '${news.name}' not found after create`,
-                ),
+                new PermissionSetMissingAfterCreate({ name: news.name }),
               );
             }
 
@@ -151,8 +187,8 @@ export const PermissionSetProvider = () =>
 
           // Sync mutable attributes — `updatePermissionSet` overwrites
           // description, sessionDuration, relayState. Diff against
-          // observed cloud state so adoption converges; only call when
-          // there's a real delta.
+          // observed cloud state (not olds) so adoption converges; only
+          // call when there's a real delta.
           if (
             (existing.description ?? undefined) !== news.description ||
             (existing.sessionDuration ?? undefined) !== news.sessionDuration ||
@@ -174,14 +210,22 @@ export const PermissionSetProvider = () =>
             });
             if (!updated) {
               return yield* Effect.fail(
-                new Error(
-                  `permission set '${existing.permissionSetArn}' not found after update`,
-                ),
+                new PermissionSetMissingAfterUpdate({
+                  permissionSetArn: existing.permissionSetArn,
+                }),
               );
             }
-            yield* session.note(updated.permissionSetArn);
-            return updated;
+            existing = updated;
           }
+
+          // Sync tags — diff against OBSERVED cloud tags so adoption
+          // re-tags a foreign resource and out-of-band drift converges.
+          existing = yield* syncPermissionSetTags({
+            instanceArn: existing.instanceArn,
+            permissionSetArn: existing.permissionSetArn,
+            observedTags: existing.tags,
+            desiredTags,
+          });
 
           yield* session.note(existing.permissionSetArn);
           return existing;
@@ -227,6 +271,11 @@ const readPermissionSetByArn = Effect.fn(function* ({
     return undefined;
   }
 
+  const tags = yield* readPermissionSetTags({
+    instanceArn,
+    permissionSetArn: permissionSet.PermissionSetArn,
+  });
+
   return {
     instanceArn,
     permissionSetArn: permissionSet.PermissionSetArn,
@@ -235,6 +284,7 @@ const readPermissionSetByArn = Effect.fn(function* ({
     sessionDuration: permissionSet.SessionDuration,
     relayState: permissionSet.RelayState,
     createdDate: permissionSet.CreatedDate,
+    tags,
   } satisfies PermissionSet["Attributes"];
 });
 
@@ -261,4 +311,106 @@ const readPermissionSetByName = Effect.fn(function* ({
   }
 
   return undefined;
+});
+
+const readPermissionSetTags = Effect.fn(function* ({
+  instanceArn,
+  permissionSetArn,
+}: {
+  instanceArn: string;
+  permissionSetArn: string;
+}) {
+  // listTagsForResource is non-paginated in our usage — Permission Sets
+  // ship with a small fixed tag budget, but iterate NextToken just in
+  // case to be safe.
+  const tags: Record<string, string> = {};
+  let nextToken: string | undefined;
+  do {
+    const response: ssoAdmin.ListTagsForResourceResponse =
+      yield* retryIdentityCenter(
+        ssoAdmin
+          .listTagsForResource({
+            InstanceArn: instanceArn,
+            ResourceArn: permissionSetArn,
+            NextToken: nextToken,
+          })
+          .pipe(
+            Effect.catchTag("ResourceNotFoundException", () =>
+              Effect.succeed({
+                Tags: [],
+                NextToken: undefined,
+              } as ssoAdmin.ListTagsForResourceResponse),
+            ),
+          ),
+      );
+    for (const tag of response.Tags ?? []) {
+      if (tag.Key !== undefined && tag.Value !== undefined) {
+        tags[tag.Key] = tag.Value;
+      }
+    }
+    nextToken = response.NextToken;
+  } while (nextToken);
+  return tags;
+});
+
+const syncPermissionSetTags = Effect.fn(function* ({
+  instanceArn,
+  permissionSetArn,
+  observedTags,
+  desiredTags,
+}: {
+  instanceArn: string;
+  permissionSetArn: string;
+  observedTags: Record<string, string>;
+  desiredTags: Record<string, string>;
+}) {
+  const { added, updated, removed } = diffTags(observedTags, desiredTags);
+  const upsert = [...added, ...updated];
+
+  if (upsert.length > 0) {
+    yield* retryIdentityCenter(
+      ssoAdmin.tagResource({
+        InstanceArn: instanceArn,
+        ResourceArn: permissionSetArn,
+        Tags: upsert,
+      }),
+    );
+  }
+
+  if (removed.length > 0) {
+    yield* retryIdentityCenter(
+      ssoAdmin.untagResource({
+        InstanceArn: instanceArn,
+        ResourceArn: permissionSetArn,
+        TagKeys: removed,
+      }),
+    );
+  }
+
+  if (upsert.length === 0 && removed.length === 0) {
+    return yield* readPermissionSetByArn({
+      instanceArn,
+      permissionSetArn,
+    }).pipe(
+      Effect.flatMap((value) =>
+        value
+          ? Effect.succeed(value)
+          : Effect.fail(
+              new PermissionSetMissingAfterUpdate({ permissionSetArn }),
+            ),
+      ),
+    );
+  }
+
+  // Re-read so the returned attributes reflect the actual cloud state.
+  const refreshed = yield* readPermissionSetByArn({
+    instanceArn,
+    permissionSetArn,
+  });
+  if (!refreshed) {
+    return yield* Effect.fail(
+      new PermissionSetMissingAfterUpdate({ permissionSetArn }),
+    );
+  }
+  return refreshed;
 });
