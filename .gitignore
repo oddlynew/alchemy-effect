@@ -7,8 +7,8 @@ dist/
 .DS_Store
 .env
 *.tsbuildinfo
-.claude/worktrees
-.worktrees
+.claude/
+.worktrees/
 .alchemy/
 # !.alchemy/github:alchemy/
 # examples/*/.alchemy
@@ -24,7 +24,6 @@ wrangler.jsonc
 .smoke.logs
 smoke
 .svelte-kit
-.claude/*.local.json
 .astro
 .wrangler
 
