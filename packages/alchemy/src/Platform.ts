@@ -224,18 +224,11 @@ export const Platform = <
       //
       // The user's default export is the wrapped function. At deploy
       // time `yield* MyWorker(...args)` runs the inner Effect and
-      // stamps the args under a reserved key in `Props.env` so the
-      // existing env-binding lifecycle persists them as a `plain_text`
-      // binding on the deployed worker. At runtime, the generated
-      // entrypoint detects the `__alchemyFactory` marker, reads the
-      // serialized args back from `env`, and calls the function before
-      // treating the result as a Layer/Effect.
-      //
-      // v1 limitation: args must be JSON-serializable. `Output` /
-      // `Redacted` args are not yet supported — they would need
-      // per-arg bindings (so secrets can use `secret_text`) and a
-      // matching marker-aware decode on the runtime side.
-      // TODO(sam): support Output/Redacted factory args.
+      // stamps each arg as its own env binding. At runtime, the
+      // generated entrypoint detects the `__alchemyFactory` marker,
+      // reads the args back from `env`, and calls the function before
+      // treating the result as a Layer/Effect. See `Factory.ts` for
+      // the encoding details (Redacted args ride `secret_text`).
       return Object.assign(makeFactory(id), { Type: type });
     } else if (!id) {
       // impl was not provided inline, this is a tagged instance

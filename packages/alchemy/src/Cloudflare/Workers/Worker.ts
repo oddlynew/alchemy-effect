@@ -1395,6 +1395,7 @@ import * as Layer from "effect/Layer";
 import * as Logger from "effect/Logger";
 import * as Context from "effect/Context";
 import * as Stream from "effect/Stream";
+import * as Redacted from "effect/Redacted";
 
 import { env, DurableObject${hasWfClasses ? ", WorkflowEntrypoint" : ""} } from "cloudflare:workers";
 import { MinimumLogLevel } from "effect/References";
@@ -1406,15 +1407,43 @@ import entry from "${importPath}";
 
 // If \`entry\` is a factory-form default export (Worker((args) => Worker(...))),
 // re-apply the args persisted at deploy time before treating the
-// result as a Layer/Effect. The factory marker and reserved env-var
-// name are duplicated here verbatim because this script is emitted
-// as a string and bundled in the worker; importing the constants
-// directly from \`alchemy/Factory\` would force-bundle the rest of the
-// package.
-const __alchemyFactoryArgs = env.__ALCHEMY_FACTORY_ARGS__;
+// result as a Layer/Effect. Each arg lives in its own env binding —
+// \`secret_text\` for top-level Redacted args, \`plain_text\` for
+// everything else — encoded as JSON with a \`_tag: "Redacted"\`
+// marker so the wrapper can be rebuilt here. The marker name and
+// env-key shape are duplicated verbatim from \`alchemy/Factory\`
+// because this file is emitted as a string and bundled into the
+// worker; importing the constants directly would force-bundle the
+// rest of the package.
+const __decodeFactoryArg = (raw) => {
+  if (raw === undefined || raw === null) return raw;
+  const text = typeof raw === "string" ? raw : String(raw);
+  try {
+    const parsed = JSON.parse(text);
+    if (
+      parsed !== null &&
+      typeof parsed === "object" &&
+      parsed._tag === "Redacted" &&
+      "value" in parsed
+    ) {
+      return Redacted.make(parsed.value);
+    }
+    return parsed;
+  } catch {
+    return text;
+  }
+};
+const __alchemyFactoryArgsCount = parseInt(
+  env.__ALCHEMY_FACTORY_ARG_COUNT__ ?? "0",
+  10,
+);
+const __alchemyFactoryArgs = Array.from(
+  { length: Number.isFinite(__alchemyFactoryArgsCount) ? __alchemyFactoryArgsCount : 0 },
+  (_, i) => __decodeFactoryArg(env["__ALCHEMY_FACTORY_ARG_" + i + "__"]),
+);
 const resolved =
   entry && typeof entry === "function" && entry.__alchemyFactory
-    ? entry(...JSON.parse(__alchemyFactoryArgs ?? "[]"))
+    ? entry(...__alchemyFactoryArgs)
     : entry;
 
 const tag = Context.Service("${Self.key}")
