@@ -9,6 +9,7 @@ import * as HttpServer from "effect/unstable/http/HttpServer";
 import * as HttpServerRequest from "effect/unstable/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
 import * as ClientWorker from "worker:./workers/client.worker.ts";
+import * as HyperdriveBindingWorker from "worker:./workers/hyperdrive-binding.worker.ts";
 import * as OutboundWorker from "worker:./workers/outbound.worker.ts";
 import type * as Plugin from "../Plugin.ts";
 import type * as Worker from "../Worker.ts";
@@ -125,27 +126,35 @@ export const layer = Layer.effect(
     return Bindings.of({
       name: "bindings",
       make: Effect.fn(function* (worker) {
-        const { workerBindings, remoteBindings } = yield* buildBindings(worker.bindings);
-        let services: Array<Config.Service> | undefined;
+        const { workerBindings, remoteBindings, extensions, services } = yield* buildBindings(
+          worker.bindings,
+          worker.hyperdrives ?? {},
+        );
         if (remoteBindings.length > 0) {
           const options = {
             name: worker.name,
             bindings: remoteBindings,
           };
           prewarms.set(worker.name, yield* Effect.forkDetach(remoteSession.create(options)));
-          services = makeServices(options);
+          services.push(...makeServices(options));
         }
         return {
           bindings: workerBindings,
           services,
+          extensions,
         };
       }),
     });
   }),
 );
 
-const buildBindings = Effect.fn(function* (bindings: ReadonlyArray<Worker.Binding>) {
+const buildBindings = Effect.fn(function* (
+  bindings: ReadonlyArray<Worker.Binding>,
+  hyperdrives: Record<string, Worker.HyperdriveOrigin>,
+) {
   const remoteBindings: Array<RemoteBinding> = [];
+  const extensions: Array<Config.Extension> = [];
+  const services: Array<Config.Service> = [];
   const workerBindings = yield* Effect.forEach(
     bindings,
     Effect.fn(function* (binding): Effect.fn.Return<
@@ -231,22 +240,38 @@ const buildBindings = Effect.fn(function* (bindings: ReadonlyArray<Worker.Bindin
           };
         }
         case "hyperdrive": {
-          // TODO: implement custom websocket transport
-          // remoteBindings.push({
-          //   name: binding.name,
-          //   type: "hyperdrive",
-          //   id: binding.id,
-          // });
-          // return {
-          //   name: binding.name,
-          //   hyperdrive: {
-          //     designator: makeRemoteBindingServiceDesignator(binding.name),
-          //     database: "",
-          //     user: "",
-          //     password: "",
-          //     scheme: "",
-          //   },
-          // };
+          const origin = hyperdrives[binding.id];
+          if (origin) {
+            if (
+              !extensions.some((extension) =>
+                extension.modules?.some(
+                  (module) => module.name === "cloudflare-internal:hyperdrive",
+                ),
+              )
+            ) {
+              extensions.push({
+                modules: [
+                  {
+                    name: "cloudflare-internal:hyperdrive",
+                    internal: true,
+                    esModule: HyperdriveBindingWorker.modules[0].content as string,
+                  },
+                ],
+              });
+            }
+            return {
+              name: binding.name,
+              wrapped: {
+                moduleName: "cloudflare-internal:hyperdrive",
+                innerBindings: [
+                  {
+                    name: "ORIGIN",
+                    json: JSON.stringify(origin),
+                  },
+                ],
+              },
+            };
+          }
           return yield* makeUnsupportedBindingError(binding);
         }
         case "images": {
@@ -398,6 +423,8 @@ const buildBindings = Effect.fn(function* (bindings: ReadonlyArray<Worker.Bindin
   );
   return {
     remoteBindings,
+    extensions,
+    services,
     workerBindings: workerBindings.filter((b) => b !== undefined),
   };
 });
