@@ -22,6 +22,18 @@ class DistributionPendingDeployment extends Data.TaggedError(
   message: string;
 }> {}
 
+class DistributionStaleEtag extends Data.TaggedError(
+  "DistributionStaleEtag",
+)<{
+  message: string;
+}> {}
+
+class DistributionMissing extends Data.TaggedError(
+  "DistributionMissing",
+)<{
+  message: string;
+}> {}
+
 export interface DistributionOrigin {
   /**
    * Unique origin identifier inside the distribution.
@@ -319,14 +331,35 @@ export const DistributionProvider = () =>
         yield* Effect.logInfo(
           `CloudFront Distribution read: loading config and tags for ${distributionId}`,
         );
-        const config = yield* cloudfront.getDistributionConfig({
-          Id: distributionId,
-        });
+        // Distribution can disappear between calls. Treat NoSuchDistribution
+        // as "missing" so observation falls through to the create branch.
+        const config = yield* cloudfront
+          .getDistributionConfig({
+            Id: distributionId,
+          })
+          .pipe(
+            Effect.catchTag("NoSuchDistribution", () =>
+              Effect.succeed(undefined),
+            ),
+          );
+        if (!config?.DistributionConfig) {
+          yield* Effect.logInfo(
+            `CloudFront Distribution read: distribution ${distributionId} disappeared between getDistribution and getDistributionConfig`,
+          );
+          return undefined;
+        }
         const tags = yield* cloudfront
           .listTagsForResource({
             Resource: distribution.ARN,
           })
-          .pipe(Effect.map((response) => toTagsRecord(response.Tags.Items)));
+          .pipe(
+            Effect.map((response) => toTagsRecord(response.Tags.Items)),
+            // Same race: tags can fail with NoSuchResource if the dist was
+            // just deleted. Empty object is a fine baseline for diff.
+            Effect.catchTag("NoSuchResource", () =>
+              Effect.succeed({} as Record<string, string>),
+            ),
+          );
 
         yield* Effect.logInfo(
           `CloudFront Distribution read: loaded ${distributionId} status=${distribution.Status} enabled=${config.DistributionConfig?.Enabled ?? "unknown"} etag=${config.ETag ?? "missing"} tags=${Object.keys(tags).length}`,
@@ -504,39 +537,42 @@ export const DistributionProvider = () =>
                 },
               })
               .pipe(
-                Effect.catch((error) =>
-                  isAccessDenied(error)
-                    ? Effect.gen(function* () {
-                        yield* Effect.logInfo(
-                          `CloudFront Distribution reconcile: createDistributionWithTags denied, retrying without tags for callerReference=${callerReference}`,
-                        );
-                        const created = yield* cloudfront.createDistribution({
-                          DistributionConfig: config,
-                        });
+                // Only fall back to create-then-tag for the documented
+                // AccessDenied case where the caller has cloudfront:Create
+                // but lacks cloudfront:TagResource. All other errors must
+                // surface — never blanket-catch.
+                Effect.catchTag("AccessDenied", () =>
+                  Effect.gen(function* () {
+                    yield* Effect.logInfo(
+                      `CloudFront Distribution reconcile: createDistributionWithTags denied, retrying without tags for callerReference=${callerReference}`,
+                    );
+                    const created = yield* cloudfront.createDistribution({
+                      DistributionConfig: config,
+                    });
 
-                        if (
-                          created.Distribution?.ARN &&
-                          Object.keys(desiredTags).length > 0
-                        ) {
-                          yield* Effect.logInfo(
-                            `CloudFront Distribution reconcile: tagging distribution ${created.Distribution.Id} after fallback`,
-                          );
-                          yield* cloudfront.tagResource({
-                            Resource: created.Distribution.ARN,
-                            Tags: {
-                              Items: createTagsList(desiredTags),
-                            },
-                          });
-                        }
-
-                        return created;
-                      })
-                    : Effect.gen(function* () {
-                        yield* Effect.logInfo(
-                          `CloudFront Distribution reconcile: createDistributionWithTags failed for callerReference=${callerReference} error=${String(error)}`,
+                    if (
+                      created.Distribution?.ARN &&
+                      Object.keys(desiredTags).length > 0
+                    ) {
+                      yield* Effect.logInfo(
+                        `CloudFront Distribution reconcile: tagging distribution ${created.Distribution.Id} after fallback`,
+                      );
+                      yield* cloudfront
+                        .tagResource({
+                          Resource: created.Distribution.ARN,
+                          Tags: {
+                            Items: createTagsList(desiredTags),
+                          },
+                        })
+                        // Tagging may also be denied; we still own the
+                        // dist and the tag-sync step below will retry.
+                        .pipe(
+                          Effect.catchTag("AccessDenied", () => Effect.void),
                         );
-                        return yield* Effect.fail(error);
-                      }),
+                    }
+
+                    return created;
+                  }),
                 ),
               )
               .pipe(
@@ -621,52 +657,99 @@ export const DistributionProvider = () =>
           // via `updateDistribution` with the freshly observed ETag. We
           // keep the observed `CallerReference` because CloudFront does
           // not allow it to change.
-          yield* Effect.logInfo(
-            `CloudFront Distribution reconcile: updating config for ${observed.distribution.Id} with etag=${observed.etag ?? "missing"}`,
-          );
-          const updated = yield* cloudfront
-            .updateDistribution({
-              Id: observed.distribution.Id,
-              IfMatch: observed.etag,
+          //
+          // Updates require IfMatch (ETag) and CloudFront returns
+          // PreconditionFailed/InvalidIfMatchVersion if it has been bumped
+          // by a concurrent writer. Re-fetch the ETag and retry on those —
+          // these are not blanket-retryable, only retryable in this
+          // read-modify-write context.
+          const distributionId = observed.distribution.Id;
+          const doUpdate = Effect.gen(function* () {
+            const fresh = yield* getCurrent(distributionId);
+            if (!fresh) {
+              return yield* Effect.fail(
+                new DistributionMissing({
+                  message: `CloudFront distribution ${distributionId} disappeared during reconcile`,
+                }),
+              );
+            }
+            yield* Effect.logInfo(
+              `CloudFront Distribution reconcile: updating config for ${distributionId} with etag=${fresh.etag ?? "missing"}`,
+            );
+            return yield* cloudfront.updateDistribution({
+              Id: distributionId,
+              IfMatch: fresh.etag,
               DistributionConfig: toConfig(
-                observed.config.CallerReference,
+                fresh.config.CallerReference,
                 news,
               ),
-            })
-            .pipe(
-              Effect.catchTag(
-                "InvalidArgument",
-                (
-                  error,
-                ): Effect.Effect<
-                  never,
-                  | cloudfront.InvalidArgument
-                  | DistributionFunctionAssociationPending
-                > =>
-                  isFunctionAssociationPending(error)
-                    ? Effect.logInfo(
-                        "CloudFront Distribution reconcile: function association not yet ready, retrying",
-                      ).pipe(
-                        Effect.andThen(
-                          Effect.fail(
-                            new DistributionFunctionAssociationPending({
-                              message:
-                                error.Message ??
-                                "CloudFront function association pending",
-                            }),
-                          ),
+            });
+          });
+
+          const updated = yield* doUpdate.pipe(
+            Effect.catchTag(
+              "InvalidArgument",
+              (
+                error,
+              ): Effect.Effect<
+                never,
+                | cloudfront.InvalidArgument
+                | DistributionFunctionAssociationPending
+              > =>
+                isFunctionAssociationPending(error)
+                  ? Effect.logInfo(
+                      "CloudFront Distribution reconcile: function association not yet ready, retrying",
+                    ).pipe(
+                      Effect.andThen(
+                        Effect.fail(
+                          new DistributionFunctionAssociationPending({
+                            message:
+                              error.Message ??
+                              "CloudFront function association pending",
+                          }),
                         ),
-                      )
-                    : Effect.fail(error),
-              ),
-              Effect.retry({
-                while: (error) =>
-                  error instanceof DistributionFunctionAssociationPending,
-                schedule: Schedule.fixed("5 seconds").pipe(
-                  Schedule.both(Schedule.recurs(24)),
+                      ),
+                    )
+                  : Effect.fail(error),
+            ),
+            // Re-read ETag and retry on stale-ETag races. Bounded so a
+            // genuinely diverged config (which keeps reproducing
+            // PreconditionFailed) eventually surfaces.
+            Effect.catchTag("InvalidIfMatchVersion", (error) =>
+              Effect.logInfo(
+                `CloudFront Distribution reconcile: stale ETag for ${distributionId}, retrying with fresh read`,
+              ).pipe(
+                Effect.andThen(
+                  Effect.fail(
+                    new DistributionStaleEtag({
+                      message: error.Message ?? "Stale ETag",
+                    }),
+                  ),
                 ),
-              }),
-            );
+              ),
+            ),
+            Effect.catchTag("PreconditionFailed", (error) =>
+              Effect.logInfo(
+                `CloudFront Distribution reconcile: precondition failed for ${distributionId}, retrying with fresh read`,
+              ).pipe(
+                Effect.andThen(
+                  Effect.fail(
+                    new DistributionStaleEtag({
+                      message: error.Message ?? "PreconditionFailed",
+                    }),
+                  ),
+                ),
+              ),
+            ),
+            Effect.retry({
+              while: (error) =>
+                error instanceof DistributionFunctionAssociationPending ||
+                error instanceof DistributionStaleEtag,
+              schedule: Schedule.fixed("5 seconds").pipe(
+                Schedule.both(Schedule.recurs(24)),
+              ),
+            }),
+          );
 
           if (!updated.Distribution?.Id) {
             return yield* Effect.fail(
@@ -732,14 +815,44 @@ export const DistributionProvider = () =>
             yield* Effect.logInfo(
               `CloudFront Distribution delete: disabling ${output.distributionId} before delete`,
             );
-            yield* cloudfront.updateDistribution({
-              Id: output.distributionId,
-              IfMatch: current.etag,
-              DistributionConfig: {
-                ...current.config,
-                Enabled: false,
-              },
+            // Disable as a read-modify-write; on stale ETag re-read and
+            // retry. Tolerate NoSuchDistribution as already-deleted.
+            const doDisable = Effect.gen(function* () {
+              const fresh = yield* getCurrent(output.distributionId);
+              if (!fresh) return;
+              if (!fresh.config.Enabled) return;
+              yield* cloudfront.updateDistribution({
+                Id: output.distributionId,
+                IfMatch: fresh.etag,
+                DistributionConfig: {
+                  ...fresh.config,
+                  Enabled: false,
+                },
+              });
             });
+            yield* doDisable.pipe(
+              Effect.catchTag("NoSuchDistribution", () => Effect.void),
+              Effect.catchTag("InvalidIfMatchVersion", (error) =>
+                Effect.fail(
+                  new DistributionStaleEtag({
+                    message: error.Message ?? "Stale ETag",
+                  }),
+                ),
+              ),
+              Effect.catchTag("PreconditionFailed", (error) =>
+                Effect.fail(
+                  new DistributionStaleEtag({
+                    message: error.Message ?? "PreconditionFailed",
+                  }),
+                ),
+              ),
+              Effect.retry({
+                while: (error) => error instanceof DistributionStaleEtag,
+                schedule: Schedule.fixed("5 seconds").pipe(
+                  Schedule.both(Schedule.recurs(12)),
+                ),
+              }),
+            );
           }
 
           const latest = yield* waitForDeletionReady(output.distributionId);
@@ -753,12 +866,40 @@ export const DistributionProvider = () =>
           yield* Effect.logInfo(
             `CloudFront Distribution delete: deleting ${output.distributionId} with etag=${latest.etag ?? "missing"}`,
           );
-          yield* cloudfront
-            .deleteDistribution({
+          // Final delete is also a read-modify-write. If the ETag has been
+          // bumped since `waitForDeletionReady` returned (e.g. AWS internal
+          // refresh), re-read and retry.
+          const doDelete = Effect.gen(function* () {
+            const fresh = yield* getCurrent(output.distributionId);
+            if (!fresh) return;
+            yield* cloudfront.deleteDistribution({
               Id: output.distributionId,
-              IfMatch: latest.etag,
-            })
-            .pipe(Effect.catchTag("NoSuchDistribution", () => Effect.void));
+              IfMatch: fresh.etag,
+            });
+          });
+          yield* doDelete.pipe(
+            Effect.catchTag("NoSuchDistribution", () => Effect.void),
+            Effect.catchTag("InvalidIfMatchVersion", (error) =>
+              Effect.fail(
+                new DistributionStaleEtag({
+                  message: error.Message ?? "Stale ETag",
+                }),
+              ),
+            ),
+            Effect.catchTag("PreconditionFailed", (error) =>
+              Effect.fail(
+                new DistributionStaleEtag({
+                  message: error.Message ?? "PreconditionFailed",
+                }),
+              ),
+            ),
+            Effect.retry({
+              while: (error) => error instanceof DistributionStaleEtag,
+              schedule: Schedule.fixed("5 seconds").pipe(
+                Schedule.both(Schedule.recurs(12)),
+              ),
+            }),
+          );
         }),
       };
     }),
@@ -773,19 +914,6 @@ const toTagsRecord = (tags: cloudfront.Tag[] | undefined) =>
       )
       .map((tag) => [tag.Key, tag.Value]),
   );
-
-const isAccessDenied = (error: unknown) => {
-  const tag = (error as { _tag?: string; name?: string })?._tag;
-  const name = (error as { _tag?: string; name?: string })?.name;
-  const text = String(error);
-  return (
-    tag === "AccessDenied" ||
-    tag === "AccessDeniedException" ||
-    name === "AccessDenied" ||
-    name === "AccessDeniedException" ||
-    text.includes("AccessDenied")
-  );
-};
 
 const toBehavior = (
   behavior: DistributionBehavior & {
