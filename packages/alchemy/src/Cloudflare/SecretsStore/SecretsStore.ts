@@ -36,13 +36,6 @@ export type SecretsStore = Resource<
  * ```typescript
  * const store = yield* Cloudflare.SecretsStore("MyStore");
  * ```
- *
- * @example Adopt a specific named store
- * ```typescript
- * const store = yield* Cloudflare.SecretsStore("MyStore", {
- *   name: "production-secrets",
- * });
- * ```
  */
 export const SecretsStore = Resource<SecretsStore>("Cloudflare.SecretsStore");
 
