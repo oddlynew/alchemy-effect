@@ -5,6 +5,7 @@ export * from "./CloudflareEnvironment.ts";
 export * from "./Container/index.ts";
 export * from "./D1/index.ts";
 export * from "./EdgeSession.ts";
+export * as GitHub from "./GitHub/index.ts";
 export * from "./Hyperdrive/index.ts";
 export * from "./KV/index.ts";
 export * from "./Providers.ts";

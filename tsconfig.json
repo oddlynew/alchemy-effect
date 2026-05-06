@@ -70,6 +70,9 @@
     },
     {
       "path": "./packages/pr-package/tsconfig.json"
+    },
+    {
+      "path": "./services/builder/tsconfig.json"
     }
   ],
   "compilerOptions": {

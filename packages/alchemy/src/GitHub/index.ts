@@ -1,7 +1,15 @@
 export * as Auth from "./AuthProvider.ts";
+export * from "./Capabilities.ts";
 export * from "./Comment.ts";
 export { GitHubCredentials, fromEnv, fromToken } from "./Credentials.ts";
+export * from "./Events.ts";
+export * from "./EventSources.ts";
+export * as Octokit from "./Octokit.ts";
+export { RuntimeOctokit } from "./Octokit.ts";
 export * from "./Providers.ts";
+export * from "./Repository.ts";
 export * from "./Secret.ts";
 export * from "./Secrets.ts";
 export * from "./Variable.ts";
+export * from "./Webhook.ts";
+export * from "./Webhooks.ts";

@@ -57,7 +57,8 @@
     "packages": [
       "website",
       "packages/*",
-      "examples/*"
+      "examples/*",
+      "services/*"
     ],
     "catalog": {
       "@aws-sdk/credential-providers": "^3.0.0",
