@@ -43,14 +43,14 @@ export class RemoteBindingProxy extends DurableObject<Env> {
         body: JSON.stringify(this.env.OPTIONS),
       });
       const json = await response.json<
-        | { success: true; session: RemoteWorkerResult }
+        | { success: true; result: RemoteWorkerResult }
         | { success: false; error: { message: string } }
       >();
       if (!json.success) {
         throw new Error(`Failed to fetch config: ${response.statusText}`, { cause: json.error });
       }
-      this.config = json.session;
-      return json.session;
+      this.config = json.result;
+      return json.result;
     });
   }
 
