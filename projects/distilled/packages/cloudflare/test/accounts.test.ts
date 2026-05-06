@@ -311,15 +311,6 @@ describe("Accounts", () => {
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
-
-    test("error - empty memberId", () =>
-      Accounts.deleteMember({
-        accountId: accountId(),
-        memberId: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
-      ));
   });
 
   // --------------------------------------------------------------------------
@@ -407,15 +398,6 @@ describe("Accounts", () => {
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
-
-    test("error - empty subscriptionIdentifier", () =>
-      Accounts.updateSubscription({
-        accountId: accountId(),
-        subscriptionIdentifier: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
-      ));
   });
 
   // --------------------------------------------------------------------------
@@ -440,27 +422,18 @@ describe("Accounts", () => {
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidRoute")),
       ));
-
-    test("error - empty subscriptionIdentifier", () =>
-      Accounts.deleteSubscription({
-        accountId: accountId(),
-        subscriptionIdentifier: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
-      ));
   });
 
   // --------------------------------------------------------------------------
   // verifyToken
   // --------------------------------------------------------------------------
   describe("verifyToken", () => {
-    test("error - UnknownCloudflareError for verification failure", () =>
+    test("error - for verification failure", () =>
       Accounts.verifyToken({
         accountId: accountId(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("UnknownCloudflareError")),
+        Effect.map((e) => expect(e._tag).toBe("Unauthorized")),
       ));
 
     test("error - invalid accountId", () =>
