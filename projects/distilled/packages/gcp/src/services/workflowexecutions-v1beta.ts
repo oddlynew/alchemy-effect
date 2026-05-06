@@ -234,7 +234,7 @@ export const ListProjectsLocationsWorkflowsExecutionsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/executions" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/executions" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsWorkflowsExecutionsRequest>;
 
@@ -278,7 +278,7 @@ export const CreateProjectsLocationsWorkflowsExecutionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{parent}/executions",
+      path: "v1beta/{+parent}/executions",
       hasBody: true,
     }),
     svc,
@@ -319,7 +319,7 @@ export const GetProjectsLocationsWorkflowsExecutionsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsWorkflowsExecutionsRequest>;
 
@@ -356,7 +356,7 @@ export const CancelProjectsLocationsWorkflowsExecutionsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelExecutionRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsLocationsWorkflowsExecutionsRequest>;
 

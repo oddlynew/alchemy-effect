@@ -466,7 +466,7 @@ export const DecodeIntegrityTokenV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{packageName}:decodeIntegrityToken",
+      path: "v1/{+packageName}:decodeIntegrityToken",
       hasBody: true,
     }),
     svc,
@@ -509,7 +509,7 @@ export const DecodePcIntegrityTokenV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{packageName}:decodePcIntegrityToken",
+      path: "v1/{+packageName}:decodePcIntegrityToken",
       hasBody: true,
     }),
     svc,
@@ -552,7 +552,7 @@ export const WriteDeviceRecallRequest_Op =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{packageName}/deviceRecall:write",
+      path: "v1/{+packageName}/deviceRecall:write",
       hasBody: true,
     }),
     svc,

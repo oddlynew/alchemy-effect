@@ -962,7 +962,7 @@ export const GetProjectsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -993,7 +993,7 @@ export const GetConfigProjectsSitesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetConfigProjectsSitesRequest>;
 
@@ -1030,7 +1030,7 @@ export const UpdateConfigProjectsSitesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SiteConfig).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateConfigProjectsSitesRequest>;
 
@@ -1077,7 +1077,7 @@ export const CreateProjectsSitesRequest =
     ),
     body: Schema.optional(Site).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{parent}/sites", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+parent}/sites", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsSitesRequest>;
 
@@ -1118,7 +1118,7 @@ export const PatchProjectsSitesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Site).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsSitesRequest>;
 
@@ -1153,7 +1153,7 @@ export const GetProjectsSitesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesRequest>;
 
@@ -1189,7 +1189,7 @@ export const ListProjectsSitesRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/sites" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/sites" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesRequest>;
 
@@ -1224,7 +1224,7 @@ export const DeleteProjectsSitesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsSitesRequest>;
 
@@ -1274,7 +1274,7 @@ export const CreateProjectsSitesCustomDomainsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/customDomains",
+      path: "v1beta1/{+parent}/customDomains",
       hasBody: true,
     }),
     svc,
@@ -1328,7 +1328,7 @@ export const PatchProjectsSitesCustomDomainsRequest =
     ),
     body: Schema.optional(CustomDomain).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsSitesCustomDomainsRequest>;
 
@@ -1364,7 +1364,7 @@ export const GetProjectsSitesCustomDomainsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesCustomDomainsRequest>;
 
@@ -1409,7 +1409,7 @@ export const ListProjectsSitesCustomDomainsRequest =
       T.HttpQuery("showDeleted"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/customDomains" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/customDomains" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesCustomDomainsRequest>;
 
@@ -1460,7 +1460,7 @@ export const DeleteProjectsSitesCustomDomainsRequest =
     ),
     etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsSitesCustomDomainsRequest>;
 
@@ -1499,7 +1499,7 @@ export const UndeleteProjectsSitesCustomDomainsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(UndeleteCustomDomainRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:undelete", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:undelete", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UndeleteProjectsSitesCustomDomainsRequest>;
 
@@ -1549,7 +1549,7 @@ export const ListProjectsSitesCustomDomainsOperationsRequest =
       T.HttpQuery("returnPartialSuccess"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesCustomDomainsOperationsRequest>;
 
@@ -1588,7 +1588,7 @@ export const GetProjectsSitesCustomDomainsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesCustomDomainsOperationsRequest>;
 
@@ -1628,7 +1628,7 @@ export const ListProjectsSitesDomainsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/domains" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/domains" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesDomainsRequest>;
 
@@ -1666,7 +1666,7 @@ export const GetProjectsSitesDomainsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesDomainsRequest>;
 
@@ -1700,7 +1700,11 @@ export const CreateProjectsSitesDomainsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Domain).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{parent}/domains", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1beta1/{+parent}/domains",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsSitesDomainsRequest>;
 
@@ -1739,7 +1743,7 @@ export const UpdateProjectsSitesDomainsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(Domain).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PUT", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PUT", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateProjectsSitesDomainsRequest>;
 
@@ -1775,7 +1779,7 @@ export const DeleteProjectsSitesDomainsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsSitesDomainsRequest>;
 
@@ -1822,7 +1826,7 @@ export const CreateProjectsSitesVersionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/versions",
+      path: "v1beta1/{+parent}/versions",
       hasBody: true,
     }),
     svc,
@@ -1866,7 +1870,7 @@ export const PatchProjectsSitesVersionsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Version).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsSitesVersionsRequest>;
 
@@ -1902,7 +1906,7 @@ export const DeleteProjectsSitesVersionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsSitesVersionsRequest>;
 
@@ -1943,7 +1947,7 @@ export const PopulateFilesProjectsSitesVersionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}:populateFiles",
+      path: "v1beta1/{+parent}:populateFiles",
       hasBody: true,
     }),
     svc,
@@ -1991,7 +1995,7 @@ export const ListProjectsSitesVersionsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/versions" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/versions" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesVersionsRequest>;
 
@@ -2029,7 +2033,7 @@ export const GetProjectsSitesVersionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesVersionsRequest>;
 
@@ -2068,7 +2072,7 @@ export const CloneProjectsSitesVersionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/versions:clone",
+      path: "v1beta1/{+parent}/versions:clone",
       hasBody: true,
     }),
     svc,
@@ -2115,7 +2119,7 @@ export const ListProjectsSitesVersionsFilesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/files" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/files" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesVersionsFilesRequest>;
 
@@ -2159,7 +2163,7 @@ export const ListProjectsSitesReleasesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/releases" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/releases" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesReleasesRequest>;
 
@@ -2197,7 +2201,7 @@ export const GetProjectsSitesReleasesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesReleasesRequest>;
 
@@ -2241,7 +2245,7 @@ export const CreateProjectsSitesReleasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/releases",
+      path: "v1beta1/{+parent}/releases",
       hasBody: true,
     }),
     svc,
@@ -2285,7 +2289,7 @@ export const ListProjectsSitesChannelsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/channels" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/channels" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesChannelsRequest>;
 
@@ -2331,7 +2335,7 @@ export const CreateProjectsSitesChannelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/channels",
+      path: "v1beta1/{+parent}/channels",
       hasBody: true,
     }),
     svc,
@@ -2369,7 +2373,7 @@ export const GetProjectsSitesChannelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesChannelsRequest>;
 
@@ -2409,7 +2413,7 @@ export const PatchProjectsSitesChannelsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Channel).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsSitesChannelsRequest>;
 
@@ -2445,7 +2449,7 @@ export const DeleteProjectsSitesChannelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsSitesChannelsRequest>;
 
@@ -2487,7 +2491,7 @@ export const ListProjectsSitesChannelsReleasesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/releases" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/releases" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsSitesChannelsReleasesRequest>;
 
@@ -2525,7 +2529,7 @@ export const GetProjectsSitesChannelsReleasesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsSitesChannelsReleasesRequest>;
 
@@ -2569,7 +2573,7 @@ export const CreateProjectsSitesChannelsReleasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/releases",
+      path: "v1beta1/{+parent}/releases",
       hasBody: true,
     }),
     svc,
@@ -2606,7 +2610,7 @@ export interface GetConfigSitesRequest {
 export const GetConfigSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{name}" }),
+  T.Http({ method: "GET", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetConfigSitesRequest>;
 
@@ -2642,7 +2646,7 @@ export const UpdateConfigSitesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SiteConfig).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateConfigSitesRequest>;
 
@@ -2683,7 +2687,7 @@ export const ListSitesDomainsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/domains" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/domains" }),
     svc,
   ) as unknown as Schema.Schema<ListSitesDomainsRequest>;
 
@@ -2719,7 +2723,7 @@ export const GetSitesDomainsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     name: Schema.String.pipe(T.HttpPath("name")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{name}" }),
+  T.Http({ method: "GET", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetSitesDomainsRequest>;
 
@@ -2752,7 +2756,11 @@ export const CreateSitesDomainsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Domain).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{parent}/domains", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1beta1/{+parent}/domains",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateSitesDomainsRequest>;
 
@@ -2790,7 +2798,7 @@ export const UpdateSitesDomainsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(Domain).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PUT", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PUT", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateSitesDomainsRequest>;
 
@@ -2825,7 +2833,7 @@ export const DeleteSitesDomainsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteSitesDomainsRequest>;
 
@@ -2871,7 +2879,7 @@ export const CreateSitesVersionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/versions",
+      path: "v1beta1/{+parent}/versions",
       hasBody: true,
     }),
     svc,
@@ -2914,7 +2922,7 @@ export const PatchSitesVersionsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Version).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchSitesVersionsRequest>;
 
@@ -2949,7 +2957,7 @@ export const DeleteSitesVersionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteSitesVersionsRequest>;
 
@@ -2989,7 +2997,7 @@ export const PopulateFilesSitesVersionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}:populateFiles",
+      path: "v1beta1/{+parent}:populateFiles",
       hasBody: true,
     }),
     svc,
@@ -3036,7 +3044,7 @@ export const ListSitesVersionsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/versions" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/versions" }),
     svc,
   ) as unknown as Schema.Schema<ListSitesVersionsRequest>;
 
@@ -3071,7 +3079,7 @@ export const GetSitesVersionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSitesVersionsRequest>;
 
@@ -3106,7 +3114,7 @@ export const CloneSitesVersionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/versions:clone",
+      path: "v1beta1/{+parent}/versions:clone",
       hasBody: true,
     }),
     svc,
@@ -3152,7 +3160,7 @@ export const ListSitesVersionsFilesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/files" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/files" }),
     svc,
   ) as unknown as Schema.Schema<ListSitesVersionsFilesRequest>;
 
@@ -3193,7 +3201,7 @@ export const ListSitesReleasesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/releases" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/releases" }),
     svc,
   ) as unknown as Schema.Schema<ListSitesReleasesRequest>;
 
@@ -3228,7 +3236,7 @@ export const GetSitesReleasesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSitesReleasesRequest>;
 
@@ -3268,7 +3276,7 @@ export const CreateSitesReleasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/releases",
+      path: "v1beta1/{+parent}/releases",
       hasBody: true,
     }),
     svc,
@@ -3311,7 +3319,7 @@ export const ListSitesChannelsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/channels" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/channels" }),
     svc,
   ) as unknown as Schema.Schema<ListSitesChannelsRequest>;
 
@@ -3354,7 +3362,7 @@ export const CreateSitesChannelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/channels",
+      path: "v1beta1/{+parent}/channels",
       hasBody: true,
     }),
     svc,
@@ -3391,7 +3399,7 @@ export const GetSitesChannelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSitesChannelsRequest>;
 
@@ -3427,7 +3435,7 @@ export const PatchSitesChannelsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Channel).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchSitesChannelsRequest>;
 
@@ -3462,7 +3470,7 @@ export const DeleteSitesChannelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteSitesChannelsRequest>;
 
@@ -3503,7 +3511,7 @@ export const ListSitesChannelsReleasesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/releases" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/releases" }),
     svc,
   ) as unknown as Schema.Schema<ListSitesChannelsReleasesRequest>;
 
@@ -3541,7 +3549,7 @@ export const GetSitesChannelsReleasesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSitesChannelsReleasesRequest>;
 
@@ -3585,7 +3593,7 @@ export const CreateSitesChannelsReleasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/releases",
+      path: "v1beta1/{+parent}/releases",
       hasBody: true,
     }),
     svc,

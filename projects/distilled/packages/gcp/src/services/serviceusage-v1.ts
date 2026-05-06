@@ -2462,7 +2462,7 @@ export const CancelOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -2496,7 +2496,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
@@ -2526,7 +2526,7 @@ export const DeleteOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteOperationsRequest>;
 
@@ -2565,7 +2565,7 @@ export const DisableServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     body: Schema.optional(DisableServiceRequest).pipe(T.HttpBody()),
   },
 ).pipe(
-  T.Http({ method: "POST", path: "v1/{name}:disable", hasBody: true }),
+  T.Http({ method: "POST", path: "v1/{+name}:disable", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<DisableServicesRequest>;
 
@@ -2605,7 +2605,7 @@ export const BatchEnableServicesRequest_Op =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/services:batchEnable",
+      path: "v1/{+parent}/services:batchEnable",
       hasBody: true,
     }),
     svc,
@@ -2648,7 +2648,7 @@ export const BatchGetServicesRequest =
     ),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/services:batchGet" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/services:batchGet" }),
     svc,
   ) as unknown as Schema.Schema<BatchGetServicesRequest>;
 
@@ -2681,7 +2681,7 @@ export const EnableServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EnableServiceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/{name}:enable", hasBody: true }),
+  T.Http({ method: "POST", path: "v1/{+name}:enable", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<EnableServicesRequest>;
 
@@ -2724,7 +2724,7 @@ export const ListServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{parent}/services" }),
+  T.Http({ method: "GET", path: "v1/{+parent}/services" }),
   svc,
 ) as unknown as Schema.Schema<ListServicesRequest>;
 
@@ -2758,7 +2758,7 @@ export interface GetServicesRequest {
 export const GetServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetServicesRequest>;
 

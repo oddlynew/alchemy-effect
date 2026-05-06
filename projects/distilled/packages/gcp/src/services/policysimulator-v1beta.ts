@@ -1047,7 +1047,7 @@ export const CreateProjectsLocationsReplaysRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta/{parent}/replays", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta/{+parent}/replays", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsReplaysRequest>;
 
@@ -1083,7 +1083,7 @@ export const GetProjectsLocationsReplaysRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsReplaysRequest>;
 
@@ -1124,7 +1124,7 @@ export const ListProjectsLocationsReplaysRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/replays" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/replays" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsReplaysRequest>;
 
@@ -1169,7 +1169,7 @@ export const ListProjectsLocationsReplaysResultsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/results" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/results" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsReplaysResultsRequest>;
 
@@ -1222,7 +1222,7 @@ export const ListProjectsLocationsReplaysOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsReplaysOperationsRequest>;
 
@@ -1261,7 +1261,7 @@ export const GetProjectsLocationsReplaysOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsReplaysOperationsRequest>;
 
@@ -1296,7 +1296,7 @@ export const GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
 
@@ -1331,7 +1331,7 @@ export const GetProjectsLocationsAccessPolicySimulationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsAccessPolicySimulationsOperationsRequest>;
 
@@ -1366,7 +1366,7 @@ export const GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest>;
 
@@ -1408,7 +1408,7 @@ export const GenerateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{parent}/orgPolicyViolationsPreviews:generate",
+      path: "v1beta/{+parent}/orgPolicyViolationsPreviews:generate",
       hasBody: true,
     }),
     svc,
@@ -1459,7 +1459,7 @@ export const CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{parent}/orgPolicyViolationsPreviews",
+      path: "v1beta/{+parent}/orgPolicyViolationsPreviews",
       hasBody: true,
     }),
     svc,
@@ -1498,7 +1498,7 @@ export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
 
@@ -1541,7 +1541,7 @@ export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1beta/{parent}/orgPolicyViolationsPreviews",
+      path: "v1beta/{+parent}/orgPolicyViolationsPreviews",
     }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>;
@@ -1581,7 +1581,7 @@ export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsReque
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
 
@@ -1623,7 +1623,7 @@ export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViola
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/orgPolicyViolations" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/orgPolicyViolations" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest>;
 
@@ -1669,7 +1669,7 @@ export const CreateOrganizationsLocationsReplaysRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta/{parent}/replays", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta/{+parent}/replays", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateOrganizationsLocationsReplaysRequest>;
 
@@ -1706,7 +1706,7 @@ export const GetOrganizationsLocationsReplaysRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsLocationsReplaysRequest>;
 
@@ -1747,7 +1747,7 @@ export const ListOrganizationsLocationsReplaysRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/replays" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/replays" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsLocationsReplaysRequest>;
 
@@ -1800,7 +1800,7 @@ export const ListOrganizationsLocationsReplaysOperationsRequest =
     ),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsLocationsReplaysOperationsRequest>;
 
@@ -1839,7 +1839,7 @@ export const GetOrganizationsLocationsReplaysOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsLocationsReplaysOperationsRequest>;
 
@@ -1880,7 +1880,7 @@ export const ListOrganizationsLocationsReplaysResultsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/results" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/results" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsLocationsReplaysResultsRequest>;
 
@@ -1932,7 +1932,7 @@ export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/{name}" }),
+  T.Http({ method: "GET", path: "v1beta/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
@@ -1966,7 +1966,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta/{name}" }),
+  T.Http({ method: "GET", path: "v1beta/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
@@ -1997,7 +1997,7 @@ export const GetFoldersLocationsAccessPolicySimulationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetFoldersLocationsAccessPolicySimulationsOperationsRequest>;
 
@@ -2032,7 +2032,7 @@ export const GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest>;
 
@@ -2072,7 +2072,7 @@ export const CreateFoldersLocationsReplaysRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta/{parent}/replays", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta/{+parent}/replays", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateFoldersLocationsReplaysRequest>;
 
@@ -2108,7 +2108,7 @@ export const GetFoldersLocationsReplaysRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetFoldersLocationsReplaysRequest>;
 
@@ -2149,7 +2149,7 @@ export const ListFoldersLocationsReplaysRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/replays" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/replays" }),
     svc,
   ) as unknown as Schema.Schema<ListFoldersLocationsReplaysRequest>;
 
@@ -2194,7 +2194,7 @@ export const ListFoldersLocationsReplaysResultsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/results" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/results" }),
     svc,
   ) as unknown as Schema.Schema<ListFoldersLocationsReplaysResultsRequest>;
 
@@ -2247,7 +2247,7 @@ export const ListFoldersLocationsReplaysOperationsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<ListFoldersLocationsReplaysOperationsRequest>;
 
@@ -2286,7 +2286,7 @@ export const GetFoldersLocationsReplaysOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetFoldersLocationsReplaysOperationsRequest>;
 

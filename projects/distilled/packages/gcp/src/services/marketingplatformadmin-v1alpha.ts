@@ -314,7 +314,7 @@ export const GetOrganizationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsRequest>;
 
@@ -388,7 +388,7 @@ export const ReportPropertyUsageOrganizationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{organization}:reportPropertyUsage",
+      path: "v1alpha/{+organization}:reportPropertyUsage",
       hasBody: true,
     }),
     svc,
@@ -434,7 +434,7 @@ export const FindSalesPartnerManagedClientsOrganizationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{organization}:findSalesPartnerManagedClients",
+      path: "v1alpha/{+organization}:findSalesPartnerManagedClients",
       hasBody: true,
     }),
     svc,
@@ -473,7 +473,7 @@ export const DeleteOrganizationsAnalyticsAccountLinksRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteOrganizationsAnalyticsAccountLinksRequest>;
 
@@ -515,7 +515,7 @@ export const ListOrganizationsAnalyticsAccountLinksRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/analyticsAccountLinks" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/analyticsAccountLinks" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsAnalyticsAccountLinksRequest>;
 
@@ -559,7 +559,7 @@ export const CreateOrganizationsAnalyticsAccountLinksRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}/analyticsAccountLinks",
+      path: "v1alpha/{+parent}/analyticsAccountLinks",
       hasBody: true,
     }),
     svc,
@@ -605,7 +605,7 @@ export const SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{analyticsAccountLink}:setPropertyServiceLevel",
+      path: "v1alpha/{+analyticsAccountLink}:setPropertyServiceLevel",
       hasBody: true,
     }),
     svc,

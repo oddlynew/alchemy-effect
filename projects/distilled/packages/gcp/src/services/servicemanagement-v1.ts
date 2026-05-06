@@ -2132,7 +2132,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
@@ -2424,7 +2424,7 @@ export const SetIamPolicyServicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2466,7 +2466,7 @@ export const GetIamPolicyServicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:getIamPolicy",
+      path: "v1/{+resource}:getIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2508,7 +2508,7 @@ export const TestIamPermissionsServicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -2840,7 +2840,7 @@ export const SetIamPolicyServicesConsumersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2883,7 +2883,7 @@ export const GetIamPolicyServicesConsumersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:getIamPolicy",
+      path: "v1/{+resource}:getIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2926,7 +2926,7 @@ export const TestIamPermissionsServicesConsumersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,

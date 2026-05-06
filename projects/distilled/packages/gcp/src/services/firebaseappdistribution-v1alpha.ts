@@ -1429,7 +1429,7 @@ export const GetTestQuotaProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetTestQuotaProjectsRequest>;
 
@@ -1466,7 +1466,7 @@ export const GetUdidsProjectsTestersRequest =
       T.HttpQuery("mobilesdkAppId"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{project}/testers:udids" }),
+    T.Http({ method: "GET", path: "v1alpha/{+project}/testers:udids" }),
     svc,
   ) as unknown as Schema.Schema<GetUdidsProjectsTestersRequest>;
 
@@ -1506,7 +1506,7 @@ export const UpdateTestConfigProjectsAppsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateTestConfigProjectsAppsRequest>;
 
@@ -1543,7 +1543,7 @@ export const GetTestConfigProjectsAppsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetTestConfigProjectsAppsRequest>;
 
@@ -1588,7 +1588,7 @@ export const CreateProjectsAppsReleasesTestsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha/{parent}/tests", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha/{+parent}/tests", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsAppsReleasesTestsRequest>;
 
@@ -1638,7 +1638,7 @@ export const ListProjectsAppsReleasesTestsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/tests" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/tests" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsAppsReleasesTestsRequest>;
 
@@ -1677,7 +1677,7 @@ export const CancelProjectsAppsReleasesTestsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}:cancel" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}:cancel" }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsAppsReleasesTestsRequest>;
 
@@ -1712,7 +1712,7 @@ export const GetProjectsAppsReleasesTestsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsAppsReleasesTestsRequest>;
 
@@ -1754,7 +1754,7 @@ export const ClearTestCaseCacheProjectsAppsTestCasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{testCase}:clearTestCaseCache",
+      path: "v1alpha/{+testCase}:clearTestCaseCache",
       hasBody: true,
     }),
     svc,
@@ -1793,7 +1793,7 @@ export const DeleteProjectsAppsTestCasesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsAppsTestCasesRequest>;
 
@@ -1829,7 +1829,7 @@ export const GetProjectsAppsTestCasesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsAppsTestCasesRequest>;
 
@@ -1871,7 +1871,7 @@ export const BatchUpdateProjectsAppsTestCasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}/testCases:batchUpdate",
+      path: "v1alpha/{+parent}/testCases:batchUpdate",
       hasBody: true,
     }),
     svc,
@@ -1920,7 +1920,7 @@ export const CreateProjectsAppsTestCasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}/testCases",
+      path: "v1alpha/{+parent}/testCases",
       hasBody: true,
     }),
     svc,
@@ -1965,7 +1965,7 @@ export const ListProjectsAppsTestCasesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/testCases" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/testCases" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsAppsTestCasesRequest>;
 
@@ -2014,7 +2014,7 @@ export const PatchProjectsAppsTestCasesRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsAppsTestCasesRequest>;
 
@@ -2058,7 +2058,7 @@ export const BatchDeleteProjectsAppsTestCasesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}/testCases:batchDelete",
+      path: "v1alpha/{+parent}/testCases:batchDelete",
       hasBody: true,
     }),
     svc,

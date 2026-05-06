@@ -7199,7 +7199,7 @@ export const BatchCreatePrintServersCustomersChromePrintServersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "admin/directory/v1/{parent}/chrome/printServers:batchCreatePrintServers",
+      path: "admin/directory/v1/{+parent}/chrome/printServers:batchCreatePrintServers",
       hasBody: true,
     }),
     svc,
@@ -7255,7 +7255,7 @@ export const ListCustomersChromePrintServersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "admin/directory/v1/{parent}/chrome/printServers",
+      path: "admin/directory/v1/{+parent}/chrome/printServers",
     }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersChromePrintServersRequest>;
@@ -7294,7 +7294,7 @@ export const GetCustomersChromePrintServersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "admin/directory/v1/{name}" }),
+    T.Http({ method: "GET", path: "admin/directory/v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersChromePrintServersRequest>;
 
@@ -7336,7 +7336,7 @@ export const PatchCustomersChromePrintServersRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "admin/directory/v1/{name}",
+      path: "admin/directory/v1/{+name}",
       hasBody: true,
     }),
     svc,
@@ -7379,7 +7379,7 @@ export const CreateCustomersChromePrintServersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "admin/directory/v1/{parent}/chrome/printServers",
+      path: "admin/directory/v1/{+parent}/chrome/printServers",
       hasBody: true,
     }),
     svc,
@@ -7422,7 +7422,7 @@ export const BatchDeletePrintServersCustomersChromePrintServersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "admin/directory/v1/{parent}/chrome/printServers:batchDeletePrintServers",
+      path: "admin/directory/v1/{+parent}/chrome/printServers:batchDeletePrintServers",
       hasBody: true,
     }),
     svc,
@@ -7461,7 +7461,7 @@ export const DeleteCustomersChromePrintServersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "admin/directory/v1/{name}" }),
+    T.Http({ method: "DELETE", path: "admin/directory/v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteCustomersChromePrintServersRequest>;
 
@@ -7497,7 +7497,7 @@ export const DeleteCustomersChromePrintersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "admin/directory/v1/{name}" }),
+    T.Http({ method: "DELETE", path: "admin/directory/v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteCustomersChromePrintersRequest>;
 
@@ -7538,7 +7538,7 @@ export const CreateCustomersChromePrintersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "admin/directory/v1/{parent}/chrome/printers",
+      path: "admin/directory/v1/{+parent}/chrome/printers",
       hasBody: true,
     }),
     svc,
@@ -7587,7 +7587,7 @@ export const ListPrinterModelsCustomersChromePrintersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "admin/directory/v1/{parent}/chrome/printers:listPrinterModels",
+      path: "admin/directory/v1/{+parent}/chrome/printers:listPrinterModels",
     }),
     svc,
   ) as unknown as Schema.Schema<ListPrinterModelsCustomersChromePrintersRequest>;
@@ -7638,7 +7638,7 @@ export const PatchCustomersChromePrintersRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "admin/directory/v1/{name}",
+      path: "admin/directory/v1/{+name}",
       hasBody: true,
     }),
     svc,
@@ -7681,7 +7681,7 @@ export const BatchDeletePrintersCustomersChromePrintersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "admin/directory/v1/{parent}/chrome/printers:batchDeletePrinters",
+      path: "admin/directory/v1/{+parent}/chrome/printers:batchDeletePrinters",
       hasBody: true,
     }),
     svc,
@@ -7720,7 +7720,7 @@ export const GetCustomersChromePrintersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "admin/directory/v1/{name}" }),
+    T.Http({ method: "GET", path: "admin/directory/v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersChromePrintersRequest>;
 
@@ -7759,7 +7759,7 @@ export const BatchCreatePrintersCustomersChromePrintersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "admin/directory/v1/{parent}/chrome/printers:batchCreatePrinters",
+      path: "admin/directory/v1/{+parent}/chrome/printers:batchCreatePrinters",
       hasBody: true,
     }),
     svc,
@@ -7815,7 +7815,7 @@ export const ListCustomersChromePrintersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "admin/directory/v1/{parent}/chrome/printers",
+      path: "admin/directory/v1/{+parent}/chrome/printers",
     }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersChromePrintersRequest>;
@@ -7858,7 +7858,7 @@ export const DeleteOrgunitsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "DELETE",
-    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgUnitPath}",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{+orgUnitPath}",
   }),
   svc,
 ) as unknown as Schema.Schema<DeleteOrgunitsRequest>;
@@ -7904,7 +7904,7 @@ export const PatchOrgunitsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgUnitPath}",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{+orgUnitPath}",
     hasBody: true,
   }),
   svc,
@@ -7945,7 +7945,7 @@ export const GetOrgunitsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgUnitPath}",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{+orgUnitPath}",
   }),
   svc,
 ) as unknown as Schema.Schema<GetOrgunitsRequest>;
@@ -8024,7 +8024,7 @@ export const UpdateOrgunitsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "admin/directory/v1/customer/{customerId}/orgunits/{orgUnitPath}",
+    path: "admin/directory/v1/customer/{customerId}/orgunits/{+orgUnitPath}",
     hasBody: true,
   }),
   svc,

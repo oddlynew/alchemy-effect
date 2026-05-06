@@ -551,7 +551,7 @@ export const PatchSubscriptionsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Subscription).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchSubscriptionsRequest>;
 
@@ -589,7 +589,7 @@ export const ReactivateSubscriptionsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(ReactivateSubscriptionRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:reactivate", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:reactivate", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<ReactivateSubscriptionsRequest>;
 
@@ -625,7 +625,7 @@ export const GetSubscriptionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSubscriptionsRequest>;
 
@@ -710,7 +710,7 @@ export const DeleteSubscriptionsRequest =
       T.HttpQuery("validateOnly"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteSubscriptionsRequest>;
 
@@ -828,7 +828,7 @@ export const GetTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("historyLength"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetTasksRequest>;
 
@@ -860,7 +860,7 @@ export const CancelTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(CancelTaskRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+  T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<CancelTasksRequest>;
 
@@ -897,7 +897,7 @@ export const SubscribeTasksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}:subscribe" }),
+  T.Http({ method: "GET", path: "v1/{+name}:subscribe" }),
   svc,
 ) as unknown as Schema.Schema<SubscribeTasksRequest>;
 
@@ -931,7 +931,7 @@ export const GetTasksPushNotificationConfigsRequest =
     tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetTasksPushNotificationConfigsRequest>;
 
@@ -975,7 +975,7 @@ export const ListTasksPushNotificationConfigsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/pushNotificationConfigs" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/pushNotificationConfigs" }),
     svc,
   ) as unknown as Schema.Schema<ListTasksPushNotificationConfigsRequest>;
 
@@ -1023,7 +1023,7 @@ export const CreateTasksPushNotificationConfigsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(TaskPushNotificationConfig).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateTasksPushNotificationConfigsRequest>;
 
@@ -1063,7 +1063,7 @@ export const DeleteTasksPushNotificationConfigsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     tenant: Schema.optional(Schema.String).pipe(T.HttpQuery("tenant")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteTasksPushNotificationConfigsRequest>;
 
@@ -1098,7 +1098,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 

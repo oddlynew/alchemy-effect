@@ -219,7 +219,7 @@ export interface GetDomainsRequest {
 export const GetDomainsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetDomainsRequest>;
 
@@ -286,7 +286,7 @@ export const GetDomainsTrafficStatsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetDomainsTrafficStatsRequest>;
 
@@ -353,7 +353,7 @@ export const ListDomainsTrafficStatsRequest =
     ),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/trafficStats" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/trafficStats" }),
     svc,
   ) as unknown as Schema.Schema<ListDomainsTrafficStatsRequest>;
 

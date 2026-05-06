@@ -3915,7 +3915,7 @@ export const ListProjectsOperationsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
 
@@ -3951,7 +3951,7 @@ export const GetProjectsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -3982,7 +3982,7 @@ export const DeleteProjectsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsOperationsRequest>;
 
@@ -4018,7 +4018,7 @@ export const CancelProjectsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}:cancel" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}:cancel" }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsOperationsRequest>;
 
@@ -4059,7 +4059,7 @@ export const CreateProjectsDatasetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/datasets",
+      path: "v1beta1/{+parent}/datasets",
       hasBody: true,
     }),
     svc,
@@ -4098,7 +4098,7 @@ export const GetProjectsDatasetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsRequest>;
 
@@ -4138,7 +4138,7 @@ export const ListProjectsDatasetsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/datasets" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/datasets" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDatasetsRequest>;
 
@@ -4174,7 +4174,7 @@ export const DeleteProjectsDatasetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsDatasetsRequest>;
 
@@ -4217,7 +4217,7 @@ export const ImportDataProjectsDatasetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{name}:importData",
+      path: "v1beta1/{+name}:importData",
       hasBody: true,
     }),
     svc,
@@ -4262,7 +4262,7 @@ export const ExportDataProjectsDatasetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{name}:exportData",
+      path: "v1beta1/{+name}:exportData",
       hasBody: true,
     }),
     svc,
@@ -4300,7 +4300,7 @@ export const GetProjectsDatasetsDataItemsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsDataItemsRequest>;
 
@@ -4344,7 +4344,7 @@ export const ListProjectsDatasetsDataItemsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/dataItems" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/dataItems" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDatasetsDataItemsRequest>;
 
@@ -4383,7 +4383,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsRequest>;
 
@@ -4427,7 +4427,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/annotatedDatasets" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/annotatedDatasets" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsRequest>;
 
@@ -4466,7 +4466,7 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsRequest>;
 
@@ -4503,7 +4503,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest>;
 
@@ -4547,7 +4547,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/dataItems" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/dataItems" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest>;
 
@@ -4589,7 +4589,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsExamplesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsExamplesRequest>;
 
@@ -4633,7 +4633,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsExamplesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/examples" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/examples" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsExamplesRequest>;
 
@@ -4672,7 +4672,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
 
@@ -4713,7 +4713,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/feedbackThreads" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/feedbackThreads" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
 
@@ -4752,7 +4752,7 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest>;
 
@@ -4796,7 +4796,7 @@ export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/feedbackMessages",
+      path: "v1beta1/{+parent}/feedbackMessages",
       hasBody: true,
     }),
     svc,
@@ -4837,7 +4837,7 @@ export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
 
@@ -4880,7 +4880,7 @@ export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessage
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/feedbackMessages" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/feedbackMessages" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
 
@@ -4921,7 +4921,7 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest>;
 
@@ -4967,7 +4967,7 @@ export const LabelProjectsDatasetsImageRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/image:label",
+      path: "v1beta1/{+parent}/image:label",
       hasBody: true,
     }),
     svc,
@@ -5012,7 +5012,7 @@ export const LabelProjectsDatasetsVideoRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/video:label",
+      path: "v1beta1/{+parent}/video:label",
       hasBody: true,
     }),
     svc,
@@ -5057,7 +5057,7 @@ export const LabelProjectsDatasetsTextRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/text:label",
+      path: "v1beta1/{+parent}/text:label",
       hasBody: true,
     }),
     svc,
@@ -5095,7 +5095,7 @@ export const GetProjectsDatasetsEvaluationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDatasetsEvaluationsRequest>;
 
@@ -5137,7 +5137,7 @@ export const SearchProjectsDatasetsEvaluationsExampleComparisonsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/exampleComparisons:search",
+      path: "v1beta1/{+parent}/exampleComparisons:search",
       hasBody: true,
     }),
     svc,
@@ -5183,7 +5183,7 @@ export const CreateProjectsAnnotationSpecSetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/annotationSpecSets",
+      path: "v1beta1/{+parent}/annotationSpecSets",
       hasBody: true,
     }),
     svc,
@@ -5222,7 +5222,7 @@ export const GetProjectsAnnotationSpecSetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsAnnotationSpecSetsRequest>;
 
@@ -5266,7 +5266,7 @@ export const ListProjectsAnnotationSpecSetsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/annotationSpecSets" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/annotationSpecSets" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsAnnotationSpecSetsRequest>;
 
@@ -5305,7 +5305,7 @@ export const DeleteProjectsAnnotationSpecSetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsAnnotationSpecSetsRequest>;
 
@@ -5348,7 +5348,7 @@ export const CreateProjectsInstructionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/instructions",
+      path: "v1beta1/{+parent}/instructions",
       hasBody: true,
     }),
     svc,
@@ -5386,7 +5386,7 @@ export const GetProjectsInstructionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsInstructionsRequest>;
 
@@ -5427,7 +5427,7 @@ export const ListProjectsInstructionsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/instructions" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/instructions" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsInstructionsRequest>;
 
@@ -5466,7 +5466,7 @@ export const DeleteProjectsInstructionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsInstructionsRequest>;
 
@@ -5511,7 +5511,7 @@ export const SearchProjectsEvaluationsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/evaluations:search" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/evaluations:search" }),
     svc,
   ) as unknown as Schema.Schema<SearchProjectsEvaluationsRequest>;
 
@@ -5557,7 +5557,7 @@ export const CreateProjectsEvaluationJobsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/evaluationJobs",
+      path: "v1beta1/{+parent}/evaluationJobs",
       hasBody: true,
     }),
     svc,
@@ -5604,7 +5604,7 @@ export const PatchProjectsEvaluationJobsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsEvaluationJobsRequest>;
 
@@ -5641,7 +5641,7 @@ export const GetProjectsEvaluationJobsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsEvaluationJobsRequest>;
 
@@ -5681,7 +5681,7 @@ export const PauseProjectsEvaluationJobsRequest =
       GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:pause", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:pause", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PauseProjectsEvaluationJobsRequest>;
 
@@ -5722,7 +5722,7 @@ export const ResumeProjectsEvaluationJobsRequest =
       GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:resume", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:resume", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<ResumeProjectsEvaluationJobsRequest>;
 
@@ -5758,7 +5758,7 @@ export const DeleteProjectsEvaluationJobsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsEvaluationJobsRequest>;
 
@@ -5803,7 +5803,7 @@ export const ListProjectsEvaluationJobsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/evaluationJobs" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/evaluationJobs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsEvaluationJobsRequest>;
 

@@ -2145,7 +2145,7 @@ export const ListProjectsLocationsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}/locations" }),
+    T.Http({ method: "GET", path: "v2/{+name}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -2180,7 +2180,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -2225,7 +2225,7 @@ export const ListProjectsLocationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}/operations" }),
+    T.Http({ method: "GET", path: "v2/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -2263,7 +2263,7 @@ export const GetProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -2300,7 +2300,7 @@ export const CancelProjectsLocationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v2/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v2/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -2348,7 +2348,7 @@ export const ListProjectsLocationsMembershipsFeaturesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/features" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/features" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsMembershipsFeaturesRequest>;
 
@@ -2396,7 +2396,7 @@ export const CreateProjectsLocationsMembershipsFeaturesRequest =
     featureId: Schema.optional(Schema.String).pipe(T.HttpQuery("featureId")),
     body: Schema.optional(MembershipFeature).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v2/{parent}/features", hasBody: true }),
+    T.Http({ method: "POST", path: "v2/{+parent}/features", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsMembershipsFeaturesRequest>;
 
@@ -2432,7 +2432,7 @@ export const GetProjectsLocationsMembershipsFeaturesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsMembershipsFeaturesRequest>;
 
@@ -2469,7 +2469,7 @@ export const DeleteProjectsLocationsMembershipsFeaturesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsMembershipsFeaturesRequest>;
 
@@ -2519,7 +2519,7 @@ export const PatchProjectsLocationsMembershipsFeaturesRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     body: Schema.optional(MembershipFeature).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsMembershipsFeaturesRequest>;
 

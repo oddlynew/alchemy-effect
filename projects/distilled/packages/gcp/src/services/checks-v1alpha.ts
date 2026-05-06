@@ -1500,7 +1500,7 @@ export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "v1alpha/{parent}/reports:analyzeUpload",
+    path: "v1alpha/{+parent}/reports:analyzeUpload",
     hasBody: true,
   }),
   svc,
@@ -1543,7 +1543,7 @@ export const ListAccountsAppsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/apps" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/apps" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsAppsRequest>;
 
@@ -1580,7 +1580,7 @@ export const GetAccountsAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     name: Schema.String.pipe(T.HttpPath("name")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "v1alpha/{name}" }),
+  T.Http({ method: "GET", path: "v1alpha/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsAppsRequest>;
 
@@ -1625,7 +1625,7 @@ export const ListAccountsAppsReportsRequest =
       T.HttpQuery("checksFilter"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/reports" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/reports" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsAppsReportsRequest>;
 
@@ -1666,7 +1666,7 @@ export const GetAccountsAppsReportsRequest =
       T.HttpQuery("checksFilter"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsAppsReportsRequest>;
 
@@ -1700,7 +1700,7 @@ export const WaitAccountsAppsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(WaitOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha/{name}:wait", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha/{+name}:wait", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<WaitAccountsAppsOperationsRequest>;
 
@@ -1736,7 +1736,7 @@ export const GetAccountsAppsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsAppsOperationsRequest>;
 
@@ -1784,7 +1784,7 @@ export const ListAccountsAppsOperationsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsAppsOperationsRequest>;
 
@@ -1822,7 +1822,7 @@ export const DeleteAccountsAppsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsAppsOperationsRequest>;
 
@@ -1861,7 +1861,7 @@ export const CancelAccountsAppsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelAccountsAppsOperationsRequest>;
 
@@ -1897,7 +1897,7 @@ export const GetAccountsReposOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsReposOperationsRequest>;
 
@@ -1938,7 +1938,7 @@ export const GenerateAccountsReposScansRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}/scans:generate",
+      path: "v1alpha/{+parent}/scans:generate",
       hasBody: true,
     }),
     svc,
@@ -1976,7 +1976,7 @@ export const GetAccountsReposScansRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsReposScansRequest>;
 
@@ -2016,7 +2016,7 @@ export const ListAccountsReposScansRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/scans" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/scans" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsReposScansRequest>;
 

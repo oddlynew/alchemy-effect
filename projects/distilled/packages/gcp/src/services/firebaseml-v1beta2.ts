@@ -235,7 +235,7 @@ export const GetProjectsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta2/{name}" }),
+    T.Http({ method: "GET", path: "v1beta2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -266,7 +266,7 @@ export const DownloadProjectsModelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta2/{name}:download" }),
+    T.Http({ method: "GET", path: "v1beta2/{+name}:download" }),
     svc,
   ) as unknown as Schema.Schema<DownloadProjectsModelsRequest>;
 
@@ -300,7 +300,7 @@ export const CreateProjectsModelsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Model).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta2/{parent}/models", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta2/{+parent}/models", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsModelsRequest>;
 
@@ -345,7 +345,7 @@ export const ListProjectsModelsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta2/{parent}/models" }),
+    T.Http({ method: "GET", path: "v1beta2/{+parent}/models" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsModelsRequest>;
 
@@ -386,7 +386,7 @@ export const PatchProjectsModelsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Model).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsModelsRequest>;
 
@@ -422,7 +422,7 @@ export const GetProjectsModelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta2/{name}" }),
+    T.Http({ method: "GET", path: "v1beta2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsModelsRequest>;
 
@@ -452,7 +452,7 @@ export const DeleteProjectsModelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta2/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsModelsRequest>;
 

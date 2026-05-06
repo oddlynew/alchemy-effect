@@ -557,7 +557,7 @@ export const SynthesizeLongAudioProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}:synthesizeLongAudio",
+      path: "v1beta1/{+parent}:synthesizeLongAudio",
       hasBody: true,
     }),
     svc,
@@ -595,7 +595,7 @@ export const GetProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -643,7 +643,7 @@ export const ListProjectsLocationsOperationsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 

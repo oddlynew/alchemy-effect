@@ -2646,7 +2646,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{name}" }),
+  T.Http({ method: "GET", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
@@ -2728,7 +2728,7 @@ export const DisableServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     body: Schema.optional(DisableServiceRequest).pipe(T.HttpBody()),
   },
 ).pipe(
-  T.Http({ method: "POST", path: "v1beta1/{name}:disable", hasBody: true }),
+  T.Http({ method: "POST", path: "v1beta1/{+name}:disable", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<DisableServicesRequest>;
 
@@ -2765,7 +2765,7 @@ export const EnableServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(EnableServiceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/{name}:enable", hasBody: true }),
+  T.Http({ method: "POST", path: "v1beta1/{+name}:enable", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<EnableServicesRequest>;
 
@@ -2802,7 +2802,7 @@ export const GenerateServiceIdentityServicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}:generateServiceIdentity",
+      path: "v1beta1/{+parent}:generateServiceIdentity",
       hasBody: true,
     }),
     svc,
@@ -2839,7 +2839,7 @@ export interface GetServicesRequest {
 export const GetServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{name}" }),
+  T.Http({ method: "GET", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetServicesRequest>;
 
@@ -2877,7 +2877,7 @@ export const ListServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{parent}/services" }),
+  T.Http({ method: "GET", path: "v1beta1/{+parent}/services" }),
   svc,
 ) as unknown as Schema.Schema<ListServicesRequest>;
 
@@ -2917,7 +2917,7 @@ export const BatchEnableServicesRequest_Op =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/services:batchEnable",
+      path: "v1beta1/{+parent}/services:batchEnable",
       hasBody: true,
     }),
     svc,
@@ -2964,7 +2964,7 @@ export const ListServicesConsumerQuotaMetricsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/consumerQuotaMetrics" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/consumerQuotaMetrics" }),
     svc,
   ) as unknown as Schema.Schema<ListServicesConsumerQuotaMetricsRequest>;
 
@@ -3006,7 +3006,7 @@ export const GetServicesConsumerQuotaMetricsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetServicesConsumerQuotaMetricsRequest>;
 
@@ -3045,7 +3045,7 @@ export const ImportAdminOverridesServicesConsumerQuotaMetricsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/consumerQuotaMetrics:importAdminOverrides",
+      path: "v1beta1/{+parent}/consumerQuotaMetrics:importAdminOverrides",
       hasBody: true,
     }),
     svc,
@@ -3089,7 +3089,7 @@ export const ImportConsumerOverridesServicesConsumerQuotaMetricsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/consumerQuotaMetrics:importConsumerOverrides",
+      path: "v1beta1/{+parent}/consumerQuotaMetrics:importConsumerOverrides",
       hasBody: true,
     }),
     svc,
@@ -3131,7 +3131,7 @@ export const GetServicesConsumerQuotaMetricsLimitsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetServicesConsumerQuotaMetricsLimitsRequest>;
 
@@ -3182,7 +3182,7 @@ export const CreateServicesConsumerQuotaMetricsLimitsAdminOverridesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/adminOverrides",
+      path: "v1beta1/{+parent}/adminOverrides",
       hasBody: true,
     }),
     svc,
@@ -3227,7 +3227,7 @@ export const ListServicesConsumerQuotaMetricsLimitsAdminOverridesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/adminOverrides" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/adminOverrides" }),
     svc,
   ) as unknown as Schema.Schema<ListServicesConsumerQuotaMetricsLimitsAdminOverridesRequest>;
 
@@ -3278,7 +3278,7 @@ export const DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesRequest =
     ),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesRequest>;
 
@@ -3333,7 +3333,7 @@ export const PatchServicesConsumerQuotaMetricsLimitsAdminOverridesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(QuotaOverride).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchServicesConsumerQuotaMetricsLimitsAdminOverridesRequest>;
 
@@ -3388,7 +3388,7 @@ export const PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest =
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
     body: Schema.optional(QuotaOverride).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest>;
 
@@ -3437,7 +3437,7 @@ export const DeleteServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest =
     ),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest>;
 
@@ -3491,7 +3491,7 @@ export const CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/consumerOverrides",
+      path: "v1beta1/{+parent}/consumerOverrides",
       hasBody: true,
     }),
     svc,
@@ -3536,7 +3536,7 @@ export const ListServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/consumerOverrides" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/consumerOverrides" }),
     svc,
   ) as unknown as Schema.Schema<ListServicesConsumerQuotaMetricsLimitsConsumerOverridesRequest>;
 

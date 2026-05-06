@@ -2087,7 +2087,7 @@ export const CancelOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -2122,7 +2122,7 @@ export const DeleteOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteOperationsRequest>;
 
@@ -2170,7 +2170,7 @@ export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("returnPartialSuccess"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
@@ -2204,7 +2204,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
@@ -2242,7 +2242,7 @@ export const SearchServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{parent}:search" }),
+  T.Http({ method: "GET", path: "v1/{+parent}:search" }),
   svc,
 ) as unknown as Schema.Schema<SearchServicesRequest>;
 
@@ -2280,7 +2280,7 @@ export const DeleteProjectServicesTenancyUnitsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(DeleteTenantProjectRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:deleteProject", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:deleteProject", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectServicesTenancyUnitsRequest>;
 
@@ -2321,7 +2321,7 @@ export const ApplyProjectConfigServicesTenancyUnitsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}:applyProjectConfig",
+      path: "v1/{+name}:applyProjectConfig",
       hasBody: true,
     }),
     svc,
@@ -2362,7 +2362,7 @@ export const AttachProjectServicesTenancyUnitsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(AttachTenantProjectRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:attachProject", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:attachProject", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<AttachProjectServicesTenancyUnitsRequest>;
 
@@ -2398,7 +2398,7 @@ export const DeleteServicesTenancyUnitsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteServicesTenancyUnitsRequest>;
 
@@ -2437,7 +2437,11 @@ export const CreateServicesTenancyUnitsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(CreateTenancyUnitRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/tenancyUnits", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1/{+parent}/tenancyUnits",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateServicesTenancyUnitsRequest>;
 
@@ -2476,7 +2480,7 @@ export const AddProjectServicesTenancyUnitsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(AddTenantProjectRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}:addProject", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}:addProject", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<AddProjectServicesTenancyUnitsRequest>;
 
@@ -2515,7 +2519,7 @@ export const RemoveProjectServicesTenancyUnitsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(RemoveTenantProjectRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:removeProject", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:removeProject", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<RemoveProjectServicesTenancyUnitsRequest>;
 
@@ -2556,7 +2560,7 @@ export const UndeleteProjectServicesTenancyUnitsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}:undeleteProject",
+      path: "v1/{+name}:undeleteProject",
       hasBody: true,
     }),
     svc,
@@ -2603,7 +2607,7 @@ export const ListServicesTenancyUnitsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/tenancyUnits" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/tenancyUnits" }),
     svc,
   ) as unknown as Schema.Schema<ListServicesTenancyUnitsRequest>;
 

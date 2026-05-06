@@ -5920,7 +5920,7 @@ export const DeleteDatasetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "DELETE",
-    path: "projects/{projectId}/datasets/{datasetId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}",
   }),
   svc,
 ) as unknown as Schema.Schema<DeleteDatasetsRequest>;
@@ -5974,7 +5974,10 @@ export const GetDatasetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   datasetView: Schema.optional(Schema.String).pipe(T.HttpQuery("datasetView")),
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
 }).pipe(
-  T.Http({ method: "GET", path: "projects/{projectId}/datasets/{datasetId}" }),
+  T.Http({
+    method: "GET",
+    path: "projects/{+projectId}/datasets/{+datasetId}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetDatasetsRequest>;
 
@@ -6013,7 +6016,7 @@ export const InsertDatasetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "projects/{projectId}/datasets",
+    path: "projects/{+projectId}/datasets",
     hasBody: true,
   }),
   svc,
@@ -6061,7 +6064,7 @@ export const ListDatasetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
 }).pipe(
-  T.Http({ method: "GET", path: "projects/{projectId}/datasets" }),
+  T.Http({ method: "GET", path: "projects/{+projectId}/datasets" }),
   svc,
 ) as unknown as Schema.Schema<ListDatasetsRequest>;
 
@@ -6115,7 +6118,7 @@ export const PatchDatasetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "projects/{projectId}/datasets/{datasetId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}",
     hasBody: true,
   }),
   svc,
@@ -6160,7 +6163,7 @@ export const UndeleteDatasetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "projects/{projectId}/datasets/{datasetId}:undelete",
+      path: "projects/{+projectId}/datasets/{+datasetId}:undelete",
       hasBody: true,
     }),
     svc,
@@ -6217,7 +6220,7 @@ export const UpdateDatasetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "projects/{projectId}/datasets/{datasetId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}",
     hasBody: true,
   }),
   svc,
@@ -6261,7 +6264,7 @@ export const CancelJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "projects/{projectId}/jobs/{jobId}/cancel",
+    path: "projects/{+projectId}/jobs/{+jobId}/cancel",
     hasBody: true,
   }),
   svc,
@@ -6305,7 +6308,7 @@ export const DeleteJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "DELETE",
-    path: "projects/{projectId}/jobs/{jobId}/delete",
+    path: "projects/{+projectId}/jobs/{+jobId}/delete",
   }),
   svc,
 ) as unknown as Schema.Schema<DeleteJobsRequest>;
@@ -6349,7 +6352,7 @@ export const GetJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   location: Schema.optional(Schema.String).pipe(T.HttpQuery("location")),
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
 }).pipe(
-  T.Http({ method: "GET", path: "projects/{projectId}/jobs/{jobId}" }),
+  T.Http({ method: "GET", path: "projects/{+projectId}/jobs/{+jobId}" }),
   svc,
 ) as unknown as Schema.Schema<GetJobsRequest>;
 
@@ -6412,7 +6415,7 @@ export const GetQueryResultsJobsRequest =
     startIndex: Schema.optional(Schema.String).pipe(T.HttpQuery("startIndex")),
     timeoutMs: Schema.optional(Schema.Number).pipe(T.HttpQuery("timeoutMs")),
   }).pipe(
-    T.Http({ method: "GET", path: "projects/{projectId}/queries/{jobId}" }),
+    T.Http({ method: "GET", path: "projects/{+projectId}/queries/{+jobId}" }),
     svc,
   ) as unknown as Schema.Schema<GetQueryResultsJobsRequest>;
 
@@ -6445,7 +6448,7 @@ export const InsertJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   projectId: Schema.String.pipe(T.HttpPath("projectId")),
   body: Schema.optional(Job).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "projects/{projectId}/jobs", hasBody: true }),
+  T.Http({ method: "POST", path: "projects/{+projectId}/jobs", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<InsertJobsRequest>;
 
@@ -6509,7 +6512,7 @@ export const ListJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("stateFilter"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "projects/{projectId}/jobs" }),
+  T.Http({ method: "GET", path: "projects/{+projectId}/jobs" }),
   svc,
 ) as unknown as Schema.Schema<ListJobsRequest>;
 
@@ -6547,7 +6550,7 @@ export const QueryJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "projects/{projectId}/queries",
+    path: "projects/{+projectId}/queries",
     hasBody: true,
   }),
   svc,
@@ -6591,7 +6594,7 @@ export const DeleteModelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "DELETE",
-    path: "projects/{projectId}/datasets/{datasetId}/models/{modelId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/models/{+modelId}",
   }),
   svc,
 ) as unknown as Schema.Schema<DeleteModelsRequest>;
@@ -6637,7 +6640,7 @@ export const GetModelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "projects/{projectId}/datasets/{datasetId}/models/{modelId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/models/{+modelId}",
   }),
   svc,
 ) as unknown as Schema.Schema<GetModelsRequest>;
@@ -6678,7 +6681,7 @@ export const ListModelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "projects/{projectId}/datasets/{datasetId}/models",
+    path: "projects/{+projectId}/datasets/{+datasetId}/models",
   }),
   svc,
 ) as unknown as Schema.Schema<ListModelsRequest>;
@@ -6724,7 +6727,7 @@ export const PatchModelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "projects/{projectId}/datasets/{datasetId}/models/{modelId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/models/{+modelId}",
     hasBody: true,
   }),
   svc,
@@ -6761,7 +6764,7 @@ export const GetServiceAccountProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     projectId: Schema.String.pipe(T.HttpPath("projectId")),
   }).pipe(
-    T.Http({ method: "GET", path: "projects/{projectId}/serviceAccount" }),
+    T.Http({ method: "GET", path: "projects/{+projectId}/serviceAccount" }),
     svc,
   ) as unknown as Schema.Schema<GetServiceAccountProjectsRequest>;
 
@@ -6838,7 +6841,7 @@ export const DeleteRoutinesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "DELETE",
-    path: "projects/{projectId}/datasets/{datasetId}/routines/{routineId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/routines/{+routineId}",
   }),
   svc,
 ) as unknown as Schema.Schema<DeleteRoutinesRequest>;
@@ -6887,7 +6890,7 @@ export const GetRoutinesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "projects/{projectId}/datasets/{datasetId}/routines/{routineId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/routines/{+routineId}",
   }),
   svc,
 ) as unknown as Schema.Schema<GetRoutinesRequest>;
@@ -6921,7 +6924,7 @@ export const GetIamPolicyRoutinesRequest =
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "{resource}:getIamPolicy", hasBody: true }),
+    T.Http({ method: "POST", path: "{+resource}:getIamPolicy", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyRoutinesRequest>;
 
@@ -6963,7 +6966,7 @@ export const InsertRoutinesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "projects/{projectId}/datasets/{datasetId}/routines",
+    path: "projects/{+projectId}/datasets/{+datasetId}/routines",
     hasBody: true,
   }),
   svc,
@@ -7016,7 +7019,7 @@ export const ListRoutinesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "projects/{projectId}/datasets/{datasetId}/routines",
+    path: "projects/{+projectId}/datasets/{+datasetId}/routines",
   }),
   svc,
 ) as unknown as Schema.Schema<ListRoutinesRequest>;
@@ -7055,7 +7058,7 @@ export const SetIamPolicyRoutinesRequest =
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "{resource}:setIamPolicy", hasBody: true }),
+    T.Http({ method: "POST", path: "{+resource}:setIamPolicy", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<SetIamPolicyRoutinesRequest>;
 
@@ -7095,7 +7098,7 @@ export const TestIamPermissionsRoutinesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "{resource}:testIamPermissions",
+      path: "{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -7143,7 +7146,7 @@ export const UpdateRoutinesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "projects/{projectId}/datasets/{datasetId}/routines/{routineId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/routines/{+routineId}",
     hasBody: true,
   }),
   svc,
@@ -7193,7 +7196,7 @@ export const BatchDeleteRowAccessPoliciesRequest_Op =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/rowAccessPolicies:batchDelete",
+      path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies:batchDelete",
       hasBody: true,
     }),
     svc,
@@ -7247,7 +7250,7 @@ export const DeleteRowAccessPoliciesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/rowAccessPolicies/{policyId}",
+      path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies/{+policyId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteRowAccessPoliciesRequest>;
@@ -7297,7 +7300,7 @@ export const GetRowAccessPoliciesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/rowAccessPolicies/{policyId}",
+      path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies/{+policyId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetRowAccessPoliciesRequest>;
@@ -7332,7 +7335,7 @@ export const GetIamPolicyRowAccessPoliciesRequest =
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "{resource}:getIamPolicy", hasBody: true }),
+    T.Http({ method: "POST", path: "{+resource}:getIamPolicy", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyRowAccessPoliciesRequest>;
 
@@ -7379,7 +7382,7 @@ export const InsertRowAccessPoliciesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/rowAccessPolicies",
+      path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies",
       hasBody: true,
     }),
     svc,
@@ -7431,7 +7434,7 @@ export const ListRowAccessPoliciesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/rowAccessPolicies",
+      path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies",
     }),
     svc,
   ) as unknown as Schema.Schema<ListRowAccessPoliciesRequest>;
@@ -7472,7 +7475,7 @@ export const TestIamPermissionsRowAccessPoliciesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "{resource}:testIamPermissions",
+      path: "{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -7525,7 +7528,7 @@ export const UpdateRowAccessPoliciesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/rowAccessPolicies/{policyId}",
+      path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/rowAccessPolicies/{+policyId}",
       hasBody: true,
     }),
     svc,
@@ -7574,7 +7577,7 @@ export const InsertAllTabledataRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/insertAll",
+      path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/insertAll",
       hasBody: true,
     }),
     svc,
@@ -7648,7 +7651,7 @@ export const ListTabledataRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/data",
+    path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}/data",
   }),
   svc,
 ) as unknown as Schema.Schema<ListTabledataRequest>;
@@ -7686,7 +7689,7 @@ export const DeleteTablesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "DELETE",
-    path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",
   }),
   svc,
 ) as unknown as Schema.Schema<DeleteTablesRequest>;
@@ -7745,7 +7748,7 @@ export const GetTablesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",
   }),
   svc,
 ) as unknown as Schema.Schema<GetTablesRequest>;
@@ -7779,7 +7782,7 @@ export const GetIamPolicyTablesRequest =
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "{resource}:getIamPolicy", hasBody: true }),
+    T.Http({ method: "POST", path: "{+resource}:getIamPolicy", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyTablesRequest>;
 
@@ -7821,7 +7824,7 @@ export const InsertTablesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "projects/{projectId}/datasets/{datasetId}/tables",
+    path: "projects/{+projectId}/datasets/{+datasetId}/tables",
     hasBody: true,
   }),
   svc,
@@ -7868,7 +7871,7 @@ export const ListTablesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "projects/{projectId}/datasets/{datasetId}/tables",
+    path: "projects/{+projectId}/datasets/{+datasetId}/tables",
   }),
   svc,
 ) as unknown as Schema.Schema<ListTablesRequest>;
@@ -7918,7 +7921,7 @@ export const PatchTablesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",
     hasBody: true,
   }),
   svc,
@@ -7958,7 +7961,7 @@ export const SetIamPolicyTablesRequest =
     resource: Schema.String.pipe(T.HttpPath("resource")),
     body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "{resource}:setIamPolicy", hasBody: true }),
+    T.Http({ method: "POST", path: "{+resource}:setIamPolicy", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<SetIamPolicyTablesRequest>;
 
@@ -7998,7 +8001,7 @@ export const TestIamPermissionsTablesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "{resource}:testIamPermissions",
+      path: "{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -8051,7 +8054,7 @@ export const UpdateTablesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "projects/{projectId}/datasets/{datasetId}/tables/{tableId}",
+    path: "projects/{+projectId}/datasets/{+datasetId}/tables/{+tableId}",
     hasBody: true,
   }),
   svc,

@@ -568,7 +568,7 @@ export const GetAccountsPromotionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "promotions/v1beta/{name}" }),
+    T.Http({ method: "GET", path: "promotions/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsPromotionsRequest>;
 
@@ -604,7 +604,7 @@ export const InsertAccountsPromotionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "promotions/v1beta/{parent}/promotions:insert",
+      path: "promotions/v1beta/{+parent}/promotions:insert",
       hasBody: true,
     }),
     svc,
@@ -648,7 +648,7 @@ export const ListAccountsPromotionsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "promotions/v1beta/{parent}/promotions" }),
+    T.Http({ method: "GET", path: "promotions/v1beta/{+parent}/promotions" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsPromotionsRequest>;
 

@@ -513,7 +513,7 @@ export const SearchProjectsProtectedResourcesRequest =
       T.HttpQuery("resourceTypes"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{scope}/protectedResources:search" }),
+    T.Http({ method: "GET", path: "v1/{+scope}/protectedResources:search" }),
     svc,
   ) as unknown as Schema.Schema<SearchProjectsProtectedResourcesRequest>;
 
@@ -558,7 +558,7 @@ export const ListProjectsCryptoKeysRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/cryptoKeys" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/cryptoKeys" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsCryptoKeysRequest>;
 
@@ -602,7 +602,7 @@ export const GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequ
       T.HttpQuery("fallbackScope"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}/protectedResourcesSummary" }),
+    T.Http({ method: "GET", path: "v1/{+name}/protectedResourcesSummary" }),
     svc,
   ) as unknown as Schema.Schema<GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest>;
 
@@ -652,7 +652,7 @@ export const SearchOrganizationsProtectedResourcesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{scope}/protectedResources:search" }),
+    T.Http({ method: "GET", path: "v1/{+scope}/protectedResources:search" }),
     svc,
   ) as unknown as Schema.Schema<SearchOrganizationsProtectedResourcesRequest>;
 

@@ -787,7 +787,7 @@ export const DeleteProjectsLocationsPhraseSetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsPhraseSetsRequest>;
 
@@ -829,7 +829,7 @@ export const PatchProjectsLocationsPhraseSetsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(PhraseSet).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsPhraseSetsRequest>;
 
@@ -868,7 +868,7 @@ export const CreateProjectsLocationsPhraseSetsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(CreatePhraseSetRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/phraseSets", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/phraseSets", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsPhraseSetsRequest>;
 
@@ -904,7 +904,7 @@ export const GetProjectsLocationsPhraseSetsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsPhraseSetsRequest>;
 
@@ -944,7 +944,7 @@ export const ListProjectsLocationsPhraseSetsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/phraseSets" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/phraseSets" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsPhraseSetsRequest>;
 
@@ -982,7 +982,7 @@ export const DeleteProjectsLocationsCustomClassesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsCustomClassesRequest>;
 
@@ -1024,7 +1024,7 @@ export const PatchProjectsLocationsCustomClassesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CustomClass).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsCustomClassesRequest>;
 
@@ -1065,7 +1065,7 @@ export const CreateProjectsLocationsCustomClassesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/customClasses",
+      path: "v1/{+parent}/customClasses",
       hasBody: true,
     }),
     svc,
@@ -1103,7 +1103,7 @@ export const GetProjectsLocationsCustomClassesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCustomClassesRequest>;
 
@@ -1143,7 +1143,7 @@ export const ListProjectsLocationsCustomClassesRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/customClasses" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/customClasses" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCustomClassesRequest>;
 
@@ -1229,7 +1229,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/operations/{name}" }),
+  T.Http({ method: "GET", path: "v1/operations/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 

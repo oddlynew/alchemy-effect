@@ -2518,7 +2518,7 @@ export const GetDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{name}" }),
+  T.Http({ method: "GET", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetDevicesRequest>;
 
@@ -2603,7 +2603,7 @@ export const DeleteDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+  T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteDevicesRequest>;
 
@@ -2640,7 +2640,7 @@ export const WipeDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(WipeDeviceRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1beta1/{name}:wipe", hasBody: true }),
+  T.Http({ method: "POST", path: "v1beta1/{+name}:wipe", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<WipeDevicesRequest>;
 
@@ -2714,7 +2714,7 @@ export const CancelWipeDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{name}:cancelWipe",
+      path: "v1beta1/{+name}:cancelWipe",
       hasBody: true,
     }),
     svc,
@@ -2754,7 +2754,7 @@ export const GetDevicesDeviceUsersRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetDevicesDeviceUsersRequest>;
 
@@ -2800,7 +2800,7 @@ export const ListDevicesDeviceUsersRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/deviceUsers" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/deviceUsers" }),
     svc,
   ) as unknown as Schema.Schema<ListDevicesDeviceUsersRequest>;
 
@@ -2838,7 +2838,7 @@ export const DeleteDevicesDeviceUsersRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteDevicesDeviceUsersRequest>;
 
@@ -2899,7 +2899,7 @@ export const LookupDevicesDeviceUsersRequest =
       T.HttpQuery("rawResourceId"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}:lookup" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}:lookup" }),
     svc,
   ) as unknown as Schema.Schema<LookupDevicesDeviceUsersRequest>;
 
@@ -2940,7 +2940,7 @@ export const WipeDevicesDeviceUsersRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(WipeDeviceUserRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:wipe", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:wipe", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<WipeDevicesDeviceUsersRequest>;
 
@@ -2979,7 +2979,7 @@ export const ApproveDevicesDeviceUsersRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(ApproveDeviceUserRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:approve", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:approve", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<ApproveDevicesDeviceUsersRequest>;
 
@@ -3018,7 +3018,7 @@ export const BlockDevicesDeviceUsersRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(BlockDeviceUserRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:block", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:block", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<BlockDevicesDeviceUsersRequest>;
 
@@ -3059,7 +3059,7 @@ export const CancelWipeDevicesDeviceUsersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{name}:cancelWipe",
+      path: "v1beta1/{+name}:cancelWipe",
       hasBody: true,
     }),
     svc,
@@ -3100,7 +3100,7 @@ export const GetDevicesDeviceUsersClientStatesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetDevicesDeviceUsersClientStatesRequest>;
 
@@ -3143,7 +3143,7 @@ export const PatchDevicesDeviceUsersClientStatesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(ClientState).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchDevicesDeviceUsersClientStatesRequest>;
 
@@ -3179,7 +3179,7 @@ export const GetInboundOidcSsoProfilesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetInboundOidcSsoProfilesRequest>;
 
@@ -3219,7 +3219,7 @@ export const PatchInboundOidcSsoProfilesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(InboundOidcSsoProfile).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchInboundOidcSsoProfilesRequest>;
 
@@ -3255,7 +3255,7 @@ export const DeleteInboundOidcSsoProfilesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteInboundOidcSsoProfilesRequest>;
 
@@ -3382,7 +3382,7 @@ export const PatchInboundSamlSsoProfilesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(InboundSamlSsoProfile).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchInboundSamlSsoProfilesRequest>;
 
@@ -3418,7 +3418,7 @@ export const GetInboundSamlSsoProfilesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetInboundSamlSsoProfilesRequest>;
 
@@ -3452,7 +3452,7 @@ export const DeleteInboundSamlSsoProfilesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteInboundSamlSsoProfilesRequest>;
 
@@ -3573,7 +3573,7 @@ export const DeleteInboundSamlSsoProfilesIdpCredentialsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteInboundSamlSsoProfilesIdpCredentialsRequest>;
 
@@ -3615,7 +3615,7 @@ export const ListInboundSamlSsoProfilesIdpCredentialsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/idpCredentials" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/idpCredentials" }),
     svc,
   ) as unknown as Schema.Schema<ListInboundSamlSsoProfilesIdpCredentialsRequest>;
 
@@ -3659,7 +3659,7 @@ export const AddInboundSamlSsoProfilesIdpCredentialsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/idpCredentials:add",
+      path: "v1beta1/{+parent}/idpCredentials:add",
       hasBody: true,
     }),
     svc,
@@ -3697,7 +3697,7 @@ export const GetInboundSamlSsoProfilesIdpCredentialsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetInboundSamlSsoProfilesIdpCredentialsRequest>;
 
@@ -3743,7 +3743,7 @@ export const ListCustomersUserinvitationsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/userinvitations" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/userinvitations" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersUserinvitationsRequest>;
 
@@ -3784,7 +3784,7 @@ export const CancelCustomersUserinvitationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelUserInvitationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelCustomersUserinvitationsRequest>;
 
@@ -3820,7 +3820,7 @@ export const GetCustomersUserinvitationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersUserinvitationsRequest>;
 
@@ -3857,7 +3857,7 @@ export const SendCustomersUserinvitationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SendUserInvitationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:send", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:send", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<SendCustomersUserinvitationsRequest>;
 
@@ -3893,7 +3893,7 @@ export const IsInvitableUserCustomersUserinvitationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}:isInvitableUser" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}:isInvitableUser" }),
     svc,
   ) as unknown as Schema.Schema<IsInvitableUserCustomersUserinvitationsRequest>;
 
@@ -3974,7 +3974,7 @@ export const PatchInboundSsoAssignmentsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(InboundSsoAssignment).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchInboundSsoAssignmentsRequest>;
 
@@ -4010,7 +4010,7 @@ export const GetInboundSsoAssignmentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetInboundSsoAssignmentsRequest>;
 
@@ -4044,7 +4044,7 @@ export const DeleteInboundSsoAssignmentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteInboundSsoAssignmentsRequest>;
 
@@ -4137,7 +4137,7 @@ export const ListOrgUnitsMembershipsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/memberships" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/memberships" }),
     svc,
   ) as unknown as Schema.Schema<ListOrgUnitsMembershipsRequest>;
 
@@ -4175,7 +4175,7 @@ export const MoveOrgUnitsMembershipsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(MoveOrgMembershipRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveOrgUnitsMembershipsRequest>;
 
@@ -4244,7 +4244,7 @@ export interface GetPoliciesRequest {
 export const GetPoliciesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{name}" }),
+  T.Http({ method: "GET", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetPoliciesRequest>;
 
@@ -4276,7 +4276,7 @@ export const PatchPoliciesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(Policy).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+  T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<PatchPoliciesRequest>;
 
@@ -4350,7 +4350,7 @@ export interface DeletePoliciesRequest {
 export const DeletePoliciesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+  T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<DeletePoliciesRequest>;
 
@@ -4388,7 +4388,7 @@ export const GetSecuritySettingsGroupsRequest =
     readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSecuritySettingsGroupsRequest>;
 
@@ -4464,7 +4464,7 @@ export interface DeleteGroupsRequest {
 export const DeleteGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+  T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteGroupsRequest>;
 
@@ -4542,7 +4542,7 @@ export const UpdateSecuritySettingsGroupsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SecuritySettings).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateSecuritySettingsGroupsRequest>;
 
@@ -4583,7 +4583,7 @@ export const PatchGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(Group).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+  T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<PatchGroupsRequest>;
 
@@ -4663,7 +4663,7 @@ export interface GetGroupsRequest {
 export const GetGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1beta1/{name}" }),
+  T.Http({ method: "GET", path: "v1beta1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetGroupsRequest>;
 
@@ -4741,7 +4741,7 @@ export const ModifyMembershipRolesGroupsMembershipsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{name}:modifyMembershipRoles",
+      path: "v1beta1/{+name}:modifyMembershipRoles",
       hasBody: true,
     }),
     svc,
@@ -4788,7 +4788,7 @@ export const SearchTransitiveMembershipsGroupsMembershipsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1beta1/{parent}/memberships:searchTransitiveMemberships",
+      path: "v1beta1/{+parent}/memberships:searchTransitiveMemberships",
     }),
     svc,
   ) as unknown as Schema.Schema<SearchTransitiveMembershipsGroupsMembershipsRequest>;
@@ -4828,7 +4828,7 @@ export const GetGroupsMembershipsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetGroupsMembershipsRequest>;
 
@@ -4868,7 +4868,7 @@ export const ListGroupsMembershipsRequest =
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/memberships" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/memberships" }),
     svc,
   ) as unknown as Schema.Schema<ListGroupsMembershipsRequest>;
 
@@ -4917,7 +4917,7 @@ export const SearchDirectGroupsGroupsMembershipsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1beta1/{parent}/memberships:searchDirectGroups",
+      path: "v1beta1/{+parent}/memberships:searchDirectGroups",
     }),
     svc,
   ) as unknown as Schema.Schema<SearchDirectGroupsGroupsMembershipsRequest>;
@@ -4962,7 +4962,7 @@ export const CheckTransitiveMembershipGroupsMembershipsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1beta1/{parent}/memberships:checkTransitiveMembership",
+      path: "v1beta1/{+parent}/memberships:checkTransitiveMembership",
     }),
     svc,
   ) as unknown as Schema.Schema<CheckTransitiveMembershipGroupsMembershipsRequest>;
@@ -5003,7 +5003,7 @@ export const CreateGroupsMembershipsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/memberships",
+      path: "v1beta1/{+parent}/memberships",
       hasBody: true,
     }),
     svc,
@@ -5052,7 +5052,7 @@ export const SearchTransitiveGroupsGroupsMembershipsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1beta1/{parent}/memberships:searchTransitiveGroups",
+      path: "v1beta1/{+parent}/memberships:searchTransitiveGroups",
     }),
     svc,
   ) as unknown as Schema.Schema<SearchTransitiveGroupsGroupsMembershipsRequest>;
@@ -5092,7 +5092,7 @@ export const DeleteGroupsMembershipsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteGroupsMembershipsRequest>;
 
@@ -5138,7 +5138,7 @@ export const LookupGroupsMembershipsRequest =
       T.HttpQuery("memberKey.id"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/memberships:lookup" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/memberships:lookup" }),
     svc,
   ) as unknown as Schema.Schema<LookupGroupsMembershipsRequest>;
 
@@ -5174,7 +5174,7 @@ export const GetMembershipGraphGroupsMembershipsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1beta1/{parent}/memberships:getMembershipGraph",
+      path: "v1beta1/{+parent}/memberships:getMembershipGraph",
     }),
     svc,
   ) as unknown as Schema.Schema<GetMembershipGraphGroupsMembershipsRequest>;

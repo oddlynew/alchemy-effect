@@ -5902,7 +5902,7 @@ export const AnnotateProjectsLocationsImagesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/images:annotate",
+      path: "v1p1beta1/{+parent}/images:annotate",
       hasBody: true,
     }),
     svc,
@@ -5948,7 +5948,7 @@ export const AsyncBatchAnnotateProjectsLocationsImagesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/images:asyncBatchAnnotate",
+      path: "v1p1beta1/{+parent}/images:asyncBatchAnnotate",
       hasBody: true,
     }),
     svc,
@@ -5993,7 +5993,7 @@ export const AnnotateProjectsLocationsFilesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/files:annotate",
+      path: "v1p1beta1/{+parent}/files:annotate",
       hasBody: true,
     }),
     svc,
@@ -6039,7 +6039,7 @@ export const AsyncBatchAnnotateProjectsLocationsFilesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/files:asyncBatchAnnotate",
+      path: "v1p1beta1/{+parent}/files:asyncBatchAnnotate",
       hasBody: true,
     }),
     svc,
@@ -6084,7 +6084,7 @@ export const AnnotateProjectsImagesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/images:annotate",
+      path: "v1p1beta1/{+parent}/images:annotate",
       hasBody: true,
     }),
     svc,
@@ -6130,7 +6130,7 @@ export const AsyncBatchAnnotateProjectsImagesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/images:asyncBatchAnnotate",
+      path: "v1p1beta1/{+parent}/images:asyncBatchAnnotate",
       hasBody: true,
     }),
     svc,
@@ -6175,7 +6175,7 @@ export const AnnotateProjectsFilesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/files:annotate",
+      path: "v1p1beta1/{+parent}/files:annotate",
       hasBody: true,
     }),
     svc,
@@ -6221,7 +6221,7 @@ export const AsyncBatchAnnotateProjectsFilesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1p1beta1/{parent}/files:asyncBatchAnnotate",
+      path: "v1p1beta1/{+parent}/files:asyncBatchAnnotate",
       hasBody: true,
     }),
     svc,

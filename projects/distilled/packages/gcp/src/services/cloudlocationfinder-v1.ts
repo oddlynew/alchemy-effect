@@ -158,7 +158,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -203,7 +203,7 @@ export const ListProjectsLocationsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}/locations" }),
+    T.Http({ method: "GET", path: "v1/{+name}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -247,7 +247,7 @@ export const ListProjectsLocationsCloudLocationsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/cloudLocations" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/cloudLocations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCloudLocationsRequest>;
 
@@ -286,7 +286,7 @@ export const GetProjectsLocationsCloudLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCloudLocationsRequest>;
 
@@ -334,7 +334,7 @@ export const SearchProjectsLocationsCloudLocationsRequest =
     ),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/cloudLocations:search" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/cloudLocations:search" }),
     svc,
   ) as unknown as Schema.Schema<SearchProjectsLocationsCloudLocationsRequest>;
 

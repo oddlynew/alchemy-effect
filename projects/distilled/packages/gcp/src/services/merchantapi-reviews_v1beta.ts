@@ -644,7 +644,7 @@ export const GetAccountsMerchantReviewsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "reviews/v1beta/{name}" }),
+    T.Http({ method: "GET", path: "reviews/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsMerchantReviewsRequest>;
 
@@ -678,7 +678,7 @@ export const DeleteAccountsMerchantReviewsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "reviews/v1beta/{name}" }),
+    T.Http({ method: "DELETE", path: "reviews/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsMerchantReviewsRequest>;
 
@@ -720,7 +720,7 @@ export const ListAccountsMerchantReviewsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "reviews/v1beta/{parent}/merchantReviews" }),
+    T.Http({ method: "GET", path: "reviews/v1beta/{+parent}/merchantReviews" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsMerchantReviewsRequest>;
 
@@ -766,7 +766,7 @@ export const InsertAccountsMerchantReviewsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "reviews/v1beta/{parent}/merchantReviews:insert",
+      path: "reviews/v1beta/{+parent}/merchantReviews:insert",
       hasBody: true,
     }),
     svc,
@@ -812,7 +812,7 @@ export const InsertAccountsProductReviewsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "reviews/v1beta/{parent}/productReviews:insert",
+      path: "reviews/v1beta/{+parent}/productReviews:insert",
       hasBody: true,
     }),
     svc,
@@ -856,7 +856,7 @@ export const ListAccountsProductReviewsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "reviews/v1beta/{parent}/productReviews" }),
+    T.Http({ method: "GET", path: "reviews/v1beta/{+parent}/productReviews" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsProductReviewsRequest>;
 
@@ -894,7 +894,7 @@ export const GetAccountsProductReviewsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "reviews/v1beta/{name}" }),
+    T.Http({ method: "GET", path: "reviews/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsProductReviewsRequest>;
 
@@ -928,7 +928,7 @@ export const DeleteAccountsProductReviewsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "reviews/v1beta/{name}" }),
+    T.Http({ method: "DELETE", path: "reviews/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsProductReviewsRequest>;
 

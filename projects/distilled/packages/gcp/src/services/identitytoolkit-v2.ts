@@ -2072,7 +2072,7 @@ export const GetConfigProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetConfigProjectsRequest>;
 
@@ -2111,7 +2111,7 @@ export const UpdateConfigProjectsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateConfigProjectsRequest>;
 
@@ -2153,7 +2153,7 @@ export const GetIamPolicyProjectsTenantsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{resource}:getIamPolicy",
+      path: "v2/{+resource}:getIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2198,7 +2198,7 @@ export const TestIamPermissionsProjectsTenantsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{resource}:testIamPermissions",
+      path: "v2/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -2237,7 +2237,7 @@ export const GetProjectsTenantsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsTenantsRequest>;
 
@@ -2274,7 +2274,7 @@ export const CreateProjectsTenantsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v2/{parent}/tenants", hasBody: true }),
+    T.Http({ method: "POST", path: "v2/{+parent}/tenants", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsTenantsRequest>;
 
@@ -2311,7 +2311,7 @@ export const DeleteProjectsTenantsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsTenantsRequest>;
 
@@ -2355,7 +2355,7 @@ export const PatchProjectsTenantsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsTenantsRequest>;
 
@@ -2398,7 +2398,7 @@ export const ListProjectsTenantsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/tenants" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/tenants" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsTenantsRequest>;
 
@@ -2439,7 +2439,7 @@ export const SetIamPolicyProjectsTenantsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{resource}:setIamPolicy",
+      path: "v2/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2477,7 +2477,7 @@ export const GetProjectsTenantsDefaultSupportedIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsTenantsDefaultSupportedIdpConfigsRequest>;
 
@@ -2522,7 +2522,7 @@ export const CreateProjectsTenantsDefaultSupportedIdpConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{parent}/defaultSupportedIdpConfigs",
+      path: "v2/{+parent}/defaultSupportedIdpConfigs",
       hasBody: true,
     }),
     svc,
@@ -2561,7 +2561,7 @@ export const DeleteProjectsTenantsDefaultSupportedIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsTenantsDefaultSupportedIdpConfigsRequest>;
 
@@ -2606,7 +2606,7 @@ export const PatchProjectsTenantsDefaultSupportedIdpConfigsRequest =
       GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsTenantsDefaultSupportedIdpConfigsRequest>;
 
@@ -2649,7 +2649,7 @@ export const ListProjectsTenantsDefaultSupportedIdpConfigsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/defaultSupportedIdpConfigs" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/defaultSupportedIdpConfigs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsTenantsDefaultSupportedIdpConfigsRequest>;
 
@@ -2700,7 +2700,7 @@ export const CreateProjectsTenantsInboundSamlConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{parent}/inboundSamlConfigs",
+      path: "v2/{+parent}/inboundSamlConfigs",
       hasBody: true,
     }),
     svc,
@@ -2739,7 +2739,7 @@ export const DeleteProjectsTenantsInboundSamlConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsTenantsInboundSamlConfigsRequest>;
 
@@ -2784,7 +2784,7 @@ export const PatchProjectsTenantsInboundSamlConfigsRequest =
       GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsTenantsInboundSamlConfigsRequest>;
 
@@ -2821,7 +2821,7 @@ export const GetProjectsTenantsInboundSamlConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsTenantsInboundSamlConfigsRequest>;
 
@@ -2862,7 +2862,7 @@ export const ListProjectsTenantsInboundSamlConfigsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/inboundSamlConfigs" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/inboundSamlConfigs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsTenantsInboundSamlConfigsRequest>;
 
@@ -2901,7 +2901,7 @@ export const GetProjectsTenantsOauthIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsTenantsOauthIdpConfigsRequest>;
 
@@ -2948,7 +2948,7 @@ export const CreateProjectsTenantsOauthIdpConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{parent}/oauthIdpConfigs",
+      path: "v2/{+parent}/oauthIdpConfigs",
       hasBody: true,
     }),
     svc,
@@ -2987,7 +2987,7 @@ export const DeleteProjectsTenantsOauthIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsTenantsOauthIdpConfigsRequest>;
 
@@ -3031,7 +3031,7 @@ export const PatchProjectsTenantsOauthIdpConfigsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsTenantsOauthIdpConfigsRequest>;
 
@@ -3074,7 +3074,7 @@ export const ListProjectsTenantsOauthIdpConfigsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/oauthIdpConfigs" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/oauthIdpConfigs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsTenantsOauthIdpConfigsRequest>;
 
@@ -3119,7 +3119,7 @@ export const ListProjectsOauthIdpConfigsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/oauthIdpConfigs" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/oauthIdpConfigs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsOauthIdpConfigsRequest>;
 
@@ -3170,7 +3170,7 @@ export const CreateProjectsOauthIdpConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{parent}/oauthIdpConfigs",
+      path: "v2/{+parent}/oauthIdpConfigs",
       hasBody: true,
     }),
     svc,
@@ -3209,7 +3209,7 @@ export const DeleteProjectsOauthIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsOauthIdpConfigsRequest>;
 
@@ -3253,7 +3253,7 @@ export const PatchProjectsOauthIdpConfigsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsOauthIdpConfigsRequest>;
 
@@ -3290,7 +3290,7 @@ export const GetProjectsOauthIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsOauthIdpConfigsRequest>;
 
@@ -3331,7 +3331,7 @@ export const ListProjectsDefaultSupportedIdpConfigsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/defaultSupportedIdpConfigs" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/defaultSupportedIdpConfigs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDefaultSupportedIdpConfigsRequest>;
 
@@ -3370,7 +3370,7 @@ export const GetProjectsDefaultSupportedIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDefaultSupportedIdpConfigsRequest>;
 
@@ -3415,7 +3415,7 @@ export const CreateProjectsDefaultSupportedIdpConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{parent}/defaultSupportedIdpConfigs",
+      path: "v2/{+parent}/defaultSupportedIdpConfigs",
       hasBody: true,
     }),
     svc,
@@ -3454,7 +3454,7 @@ export const DeleteProjectsDefaultSupportedIdpConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsDefaultSupportedIdpConfigsRequest>;
 
@@ -3499,7 +3499,7 @@ export const PatchProjectsDefaultSupportedIdpConfigsRequest =
       GoogleCloudIdentitytoolkitAdminV2DefaultSupportedIdpConfig,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsDefaultSupportedIdpConfigsRequest>;
 
@@ -3543,7 +3543,7 @@ export const InitializeAuthProjectsIdentityPlatformRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{project}/identityPlatform:initializeAuth",
+      path: "v2/{+project}/identityPlatform:initializeAuth",
       hasBody: true,
     }),
     svc,
@@ -3594,7 +3594,7 @@ export const CreateProjectsInboundSamlConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{parent}/inboundSamlConfigs",
+      path: "v2/{+parent}/inboundSamlConfigs",
       hasBody: true,
     }),
     svc,
@@ -3633,7 +3633,7 @@ export const DeleteProjectsInboundSamlConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsInboundSamlConfigsRequest>;
 
@@ -3677,7 +3677,7 @@ export const PatchProjectsInboundSamlConfigsRequest =
       GoogleCloudIdentitytoolkitAdminV2InboundSamlConfig,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsInboundSamlConfigsRequest>;
 
@@ -3714,7 +3714,7 @@ export const GetProjectsInboundSamlConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsInboundSamlConfigsRequest>;
 
@@ -3755,7 +3755,7 @@ export const ListProjectsInboundSamlConfigsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/inboundSamlConfigs" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/inboundSamlConfigs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsInboundSamlConfigsRequest>;
 

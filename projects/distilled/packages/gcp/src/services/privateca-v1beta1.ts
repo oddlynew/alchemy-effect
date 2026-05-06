@@ -307,7 +307,7 @@ export const ListProjectsLocationsRequest =
       T.HttpQuery("extraLocationTypes"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}/locations" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -342,7 +342,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -378,7 +378,7 @@ export const GetIamPolicyProjectsLocationsCertificateAuthoritiesRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1beta1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsCertificateAuthoritiesRequest>;
 
@@ -418,7 +418,7 @@ export const TestIamPermissionsProjectsLocationsCertificateAuthoritiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -462,7 +462,7 @@ export const SetIamPolicyProjectsLocationsCertificateAuthoritiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:setIamPolicy",
+      path: "v1beta1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -506,7 +506,7 @@ export const GetIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevoc
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1beta1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevocationListsRequest>;
 
@@ -548,7 +548,7 @@ export const TestIamPermissionsProjectsLocationsCertificateAuthoritiesCertificat
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -594,7 +594,7 @@ export const SetIamPolicyProjectsLocationsCertificateAuthoritiesCertificateRevoc
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:setIamPolicy",
+      path: "v1beta1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -649,7 +649,7 @@ export const ListProjectsLocationsOperationsRequest =
       T.HttpQuery("returnPartialSuccess"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -687,7 +687,7 @@ export const GetProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -721,7 +721,7 @@ export const DeleteProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -760,7 +760,7 @@ export const CancelProjectsLocationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -801,7 +801,7 @@ export const SetIamPolicyProjectsLocationsReusableConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:setIamPolicy",
+      path: "v1beta1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -844,7 +844,7 @@ export const TestIamPermissionsProjectsLocationsReusableConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -888,7 +888,7 @@ export const GetIamPolicyProjectsLocationsReusableConfigsRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1beta1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsReusableConfigsRequest>;
 

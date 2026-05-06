@@ -1041,7 +1041,7 @@ export const SearchAccountsReportsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "reports/v1beta/{parent}/reports:search",
+      path: "reports/v1beta/{+parent}/reports:search",
       hasBody: true,
     }),
     svc,

@@ -5516,7 +5516,7 @@ export const CreateUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "androidpublisher/v3/{parent}/users",
+    path: "androidpublisher/v3/{+parent}/users",
     hasBody: true,
   }),
   svc,
@@ -5558,7 +5558,7 @@ export const ListUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
-  T.Http({ method: "GET", path: "androidpublisher/v3/{parent}/users" }),
+  T.Http({ method: "GET", path: "androidpublisher/v3/{+parent}/users" }),
   svc,
 ) as unknown as Schema.Schema<ListUsersRequest>;
 
@@ -5600,7 +5600,7 @@ export const PatchUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "androidpublisher/v3/{name}",
+    path: "androidpublisher/v3/{+name}",
     hasBody: true,
   }),
   svc,
@@ -5636,7 +5636,7 @@ export interface DeleteUsersRequest {
 export const DeleteUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "androidpublisher/v3/{name}" }),
+  T.Http({ method: "DELETE", path: "androidpublisher/v3/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersRequest>;
 
@@ -5678,7 +5678,7 @@ export const CreateGrantsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "androidpublisher/v3/{parent}/grants",
+    path: "androidpublisher/v3/{+parent}/grants",
     hasBody: true,
   }),
   svc,
@@ -5722,7 +5722,7 @@ export const PatchGrantsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "androidpublisher/v3/{name}",
+    path: "androidpublisher/v3/{+name}",
     hasBody: true,
   }),
   svc,
@@ -5758,7 +5758,7 @@ export interface DeleteGrantsRequest {
 export const DeleteGrantsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "androidpublisher/v3/{name}" }),
+  T.Http({ method: "DELETE", path: "androidpublisher/v3/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteGrantsRequest>;
 
@@ -8458,7 +8458,7 @@ export const CreateexternaltransactionExternaltransactionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "androidpublisher/v3/{parent}/externalTransactions",
+      path: "androidpublisher/v3/{+parent}/externalTransactions",
       hasBody: true,
     }),
     svc,
@@ -8502,7 +8502,7 @@ export const RefundexternaltransactionExternaltransactionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "androidpublisher/v3/{name}:refund",
+      path: "androidpublisher/v3/{+name}:refund",
       hasBody: true,
     }),
     svc,
@@ -8541,7 +8541,7 @@ export const GetexternaltransactionExternaltransactionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "androidpublisher/v3/{name}" }),
+    T.Http({ method: "GET", path: "androidpublisher/v3/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetexternaltransactionExternaltransactionsRequest>;
 
@@ -9467,7 +9467,7 @@ export const ListApplicationsTracksReleasesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "androidpublisher/v3/{parent}/releases" }),
+    T.Http({ method: "GET", path: "androidpublisher/v3/{+parent}/releases" }),
     svc,
   ) as unknown as Schema.Schema<ListApplicationsTracksReleasesRequest>;
 

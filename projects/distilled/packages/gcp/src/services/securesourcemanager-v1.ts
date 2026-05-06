@@ -1110,7 +1110,7 @@ export const ListProjectsLocationsRequest =
       T.HttpQuery("extraLocationTypes"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}/locations" }),
+    T.Http({ method: "GET", path: "v1/{+name}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -1145,7 +1145,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1181,7 +1181,7 @@ export const SetIamPolicyProjectsLocationsInstancesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -1224,7 +1224,7 @@ export const GetIamPolicyProjectsLocationsInstancesRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsInstancesRequest>;
 
@@ -1263,7 +1263,7 @@ export const TestIamPermissionsProjectsLocationsInstancesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -1314,7 +1314,7 @@ export const ListProjectsLocationsInstancesRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/instances" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/instances" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
 
@@ -1352,7 +1352,7 @@ export const GetProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
 
@@ -1395,7 +1395,7 @@ export const CreateProjectsLocationsInstancesRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     body: Schema.optional(Instance).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/instances", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/instances", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
 
@@ -1437,7 +1437,7 @@ export const DeleteProjectsLocationsInstancesRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsInstancesRequest>;
 
@@ -1487,7 +1487,7 @@ export const ListProjectsLocationsOperationsRequest =
       T.HttpQuery("returnPartialSuccess"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1525,7 +1525,7 @@ export const GetProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1559,7 +1559,7 @@ export const DeleteProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1598,7 +1598,7 @@ export const CancelProjectsLocationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -1646,7 +1646,7 @@ export const ListProjectsLocationsRepositoriesRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     instance: Schema.optional(Schema.String).pipe(T.HttpQuery("instance")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/repositories" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/repositories" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesRequest>;
 
@@ -1685,7 +1685,7 @@ export const GetProjectsLocationsRepositoriesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesRequest>;
 
@@ -1727,7 +1727,11 @@ export const CreateProjectsLocationsRepositoriesRequest =
     ),
     body: Schema.optional(Repository).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/repositories", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1/{+parent}/repositories",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesRequest>;
 
@@ -1774,7 +1778,7 @@ export const PatchProjectsLocationsRepositoriesRequest =
     ),
     body: Schema.optional(Repository).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesRequest>;
 
@@ -1815,7 +1819,7 @@ export const DeleteProjectsLocationsRepositoriesRequest =
       T.HttpQuery("allowMissing"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesRequest>;
 
@@ -1856,7 +1860,7 @@ export const GetIamPolicyProjectsLocationsRepositoriesRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsRepositoriesRequest>;
 
@@ -1895,7 +1899,7 @@ export const SetIamPolicyProjectsLocationsRepositoriesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -1938,7 +1942,7 @@ export const TestIamPermissionsProjectsLocationsRepositoriesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -1989,7 +1993,7 @@ export const FetchTreeProjectsLocationsRepositoriesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{repository}:fetchTree" }),
+    T.Http({ method: "GET", path: "v1/{+repository}:fetchTree" }),
     svc,
   ) as unknown as Schema.Schema<FetchTreeProjectsLocationsRepositoriesRequest>;
 
@@ -2030,7 +2034,7 @@ export const FetchBlobProjectsLocationsRepositoriesRequest =
     repository: Schema.String.pipe(T.HttpPath("repository")),
     sha: Schema.optional(Schema.String).pipe(T.HttpQuery("sha")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{repository}:fetchBlob" }),
+    T.Http({ method: "GET", path: "v1/{+repository}:fetchBlob" }),
     svc,
   ) as unknown as Schema.Schema<FetchBlobProjectsLocationsRepositoriesRequest>;
 
@@ -2070,7 +2074,7 @@ export const ListProjectsLocationsRepositoriesHooksRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/hooks" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/hooks" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesHooksRequest>;
 
@@ -2108,7 +2112,7 @@ export const GetProjectsLocationsRepositoriesHooksRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesHooksRequest>;
 
@@ -2148,7 +2152,7 @@ export const CreateProjectsLocationsRepositoriesHooksRequest =
     hookId: Schema.optional(Schema.String).pipe(T.HttpQuery("hookId")),
     body: Schema.optional(Hook).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/hooks", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/hooks", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesHooksRequest>;
 
@@ -2190,7 +2194,7 @@ export const PatchProjectsLocationsRepositoriesHooksRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Hook).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesHooksRequest>;
 
@@ -2226,7 +2230,7 @@ export const DeleteProjectsLocationsRepositoriesHooksRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesHooksRequest>;
 
@@ -2268,7 +2272,7 @@ export const CreateProjectsLocationsRepositoriesBranchRulesRequest =
     ),
     body: Schema.optional(BranchRule).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/branchRules", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/branchRules", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesBranchRulesRequest>;
 
@@ -2309,7 +2313,7 @@ export const ListProjectsLocationsRepositoriesBranchRulesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/branchRules" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/branchRules" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesBranchRulesRequest>;
 
@@ -2348,7 +2352,7 @@ export const GetProjectsLocationsRepositoriesBranchRulesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesBranchRulesRequest>;
 
@@ -2393,7 +2397,7 @@ export const PatchProjectsLocationsRepositoriesBranchRulesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(BranchRule).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesBranchRulesRequest>;
 
@@ -2433,7 +2437,7 @@ export const DeleteProjectsLocationsRepositoriesBranchRulesRequest =
       T.HttpQuery("allowMissing"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesBranchRulesRequest>;
 
@@ -2472,7 +2476,11 @@ export const CreateProjectsLocationsRepositoriesPullRequestsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(PullRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/pullRequests", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1/{+parent}/pullRequests",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2508,7 +2516,7 @@ export const GetProjectsLocationsRepositoriesPullRequestsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2548,7 +2556,7 @@ export const ListProjectsLocationsRepositoriesPullRequestsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/pullRequests" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/pullRequests" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2593,7 +2601,7 @@ export const PatchProjectsLocationsRepositoriesPullRequestsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(PullRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2632,7 +2640,7 @@ export const MergeProjectsLocationsRepositoriesPullRequestsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(MergePullRequestRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:merge", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:merge", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MergeProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2671,7 +2679,7 @@ export const OpenProjectsLocationsRepositoriesPullRequestsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(OpenPullRequestRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:open", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:open", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<OpenProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2710,7 +2718,7 @@ export const CloseProjectsLocationsRepositoriesPullRequestsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(ClosePullRequestRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:close", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:close", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CloseProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2752,7 +2760,7 @@ export const ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}:listFileDiffs" }),
+    T.Http({ method: "GET", path: "v1/{+name}:listFileDiffs" }),
     svc,
   ) as unknown as Schema.Schema<ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest>;
 
@@ -2791,7 +2799,7 @@ export const GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequ
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
@@ -2833,7 +2841,7 @@ export const ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsReq
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/pullRequestComments" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/pullRequestComments" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
@@ -2879,7 +2887,7 @@ export const CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsR
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/pullRequestComments",
+      path: "v1/{+parent}/pullRequestComments",
       hasBody: true,
     }),
     svc,
@@ -2926,7 +2934,7 @@ export const PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRe
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(PullRequestComment).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
@@ -2965,7 +2973,7 @@ export const DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsR
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest>;
 
@@ -3011,7 +3019,7 @@ export const BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComm
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/pullRequestComments:batchCreate",
+      path: "v1/{+parent}/pullRequestComments:batchCreate",
       hasBody: true,
     }),
     svc,
@@ -3057,7 +3065,7 @@ export const ResolveProjectsLocationsRepositoriesPullRequestsPullRequestComments
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/pullRequestComments:resolve",
+      path: "v1/{+parent}/pullRequestComments:resolve",
       hasBody: true,
     }),
     svc,
@@ -3105,7 +3113,7 @@ export const UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommen
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/pullRequestComments:unresolve",
+      path: "v1/{+parent}/pullRequestComments:unresolve",
       hasBody: true,
     }),
     svc,
@@ -3149,7 +3157,7 @@ export const CreateProjectsLocationsRepositoriesIssuesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Issue).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/issues", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/issues", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -3185,7 +3193,7 @@ export const GetProjectsLocationsRepositoriesIssuesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -3228,7 +3236,7 @@ export const ListProjectsLocationsRepositoriesIssuesRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/issues" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/issues" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -3273,7 +3281,7 @@ export const PatchProjectsLocationsRepositoriesIssuesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Issue).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -3312,7 +3320,7 @@ export const DeleteProjectsLocationsRepositoriesIssuesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -3351,7 +3359,7 @@ export const OpenProjectsLocationsRepositoriesIssuesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(OpenIssueRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:open", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:open", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<OpenProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -3390,7 +3398,7 @@ export const CloseProjectsLocationsRepositoriesIssuesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CloseIssueRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:close", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:close", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CloseProjectsLocationsRepositoriesIssuesRequest>;
 
@@ -3431,7 +3439,7 @@ export const CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/issueComments",
+      path: "v1/{+parent}/issueComments",
       hasBody: true,
     }),
     svc,
@@ -3470,7 +3478,7 @@ export const GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
@@ -3511,7 +3519,7 @@ export const ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/issueComments" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/issueComments" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
@@ -3556,7 +3564,7 @@ export const PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(IssueComment).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 
@@ -3593,7 +3601,7 @@ export const DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest>;
 

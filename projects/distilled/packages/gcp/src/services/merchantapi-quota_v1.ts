@@ -228,7 +228,7 @@ export const ListAccountsQuotasRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "quota/v1/{parent}/quotas" }),
+    T.Http({ method: "GET", path: "quota/v1/{+parent}/quotas" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsQuotasRequest>;
 
@@ -263,7 +263,7 @@ export const GetAccountsLimitsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "quota/v1/{name}" }),
+    T.Http({ method: "GET", path: "quota/v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsLimitsRequest>;
 
@@ -303,7 +303,7 @@ export const ListAccountsLimitsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "quota/v1/{parent}/limits" }),
+    T.Http({ method: "GET", path: "quota/v1/{+parent}/limits" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsLimitsRequest>;
 

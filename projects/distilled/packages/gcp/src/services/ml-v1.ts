@@ -1817,7 +1817,7 @@ export const ExplainProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     body: Schema.optional(GoogleCloudMlV1__ExplainRequest).pipe(T.HttpBody()),
   },
 ).pipe(
-  T.Http({ method: "POST", path: "v1/{name}:explain", hasBody: true }),
+  T.Http({ method: "POST", path: "v1/{+name}:explain", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<ExplainProjectsRequest>;
 
@@ -1853,7 +1853,7 @@ export const GetConfigProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}:getConfig" }),
+    T.Http({ method: "GET", path: "v1/{+name}:getConfig" }),
     svc,
   ) as unknown as Schema.Schema<GetConfigProjectsRequest>;
 
@@ -1888,7 +1888,7 @@ export const PredictProjectsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     body: Schema.optional(GoogleCloudMlV1__PredictRequest).pipe(T.HttpBody()),
   },
 ).pipe(
-  T.Http({ method: "POST", path: "v1/{name}:predict", hasBody: true }),
+  T.Http({ method: "POST", path: "v1/{+name}:predict", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<PredictProjectsRequest>;
 
@@ -1933,7 +1933,7 @@ export const ListProjectsJobsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/jobs" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/jobs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsJobsRequest>;
 
@@ -1969,7 +1969,7 @@ export const GetProjectsJobsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     name: Schema.String.pipe(T.HttpPath("name")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetProjectsJobsRequest>;
 
@@ -2007,7 +2007,7 @@ export const TestIamPermissionsProjectsJobsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -2052,7 +2052,7 @@ export const PatchProjectsJobsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudMlV1__Job).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsJobsRequest>;
 
@@ -2093,7 +2093,7 @@ export const GetIamPolicyProjectsJobsRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsJobsRequest>;
 
@@ -2132,7 +2132,7 @@ export const SetIamPolicyProjectsJobsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2173,7 +2173,7 @@ export const CreateProjectsJobsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudMlV1__Job).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/jobs", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/jobs", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsJobsRequest>;
 
@@ -2212,7 +2212,7 @@ export const CancelProjectsJobsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudMlV1__CancelJobRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsJobsRequest>;
 
@@ -2248,7 +2248,7 @@ export const GetProjectsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsOperationsRequest>;
 
@@ -2279,7 +2279,7 @@ export const CancelProjectsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsOperationsRequest>;
 
@@ -2329,7 +2329,7 @@ export const ListProjectsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsOperationsRequest>;
 
@@ -2368,7 +2368,7 @@ export const CreateProjectsModelsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudMlV1__Model).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/models", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/models", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsModelsRequest>;
 
@@ -2411,7 +2411,7 @@ export const TestIamPermissionsProjectsModelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -2455,7 +2455,7 @@ export const SetIamPolicyProjectsModelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2502,7 +2502,7 @@ export const ListProjectsModelsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/models" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/models" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsModelsRequest>;
 
@@ -2542,7 +2542,7 @@ export const GetIamPolicyProjectsModelsRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsModelsRequest>;
 
@@ -2576,7 +2576,7 @@ export const DeleteProjectsModelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsModelsRequest>;
 
@@ -2612,7 +2612,7 @@ export const GetProjectsModelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsModelsRequest>;
 
@@ -2649,7 +2649,7 @@ export const PatchProjectsModelsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudMlV1__Model).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsModelsRequest>;
 
@@ -2691,7 +2691,7 @@ export const PatchProjectsModelsVersionsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudMlV1__Version).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsModelsVersionsRequest>;
 
@@ -2727,7 +2727,7 @@ export const GetProjectsModelsVersionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsModelsVersionsRequest>;
 
@@ -2764,7 +2764,7 @@ export const CreateProjectsModelsVersionsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudMlV1__Version).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/versions", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/versions", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsModelsVersionsRequest>;
 
@@ -2800,7 +2800,7 @@ export const DeleteProjectsModelsVersionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsModelsVersionsRequest>;
 
@@ -2845,7 +2845,7 @@ export const ListProjectsModelsVersionsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/versions" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/versions" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsModelsVersionsRequest>;
 
@@ -2889,7 +2889,7 @@ export const SetDefaultProjectsModelsVersionsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:setDefault", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:setDefault", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<SetDefaultProjectsModelsVersionsRequest>;
 
@@ -2931,7 +2931,7 @@ export const ListProjectsLocationsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/locations" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -2967,7 +2967,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -2998,7 +2998,7 @@ export const DeleteProjectsLocationsStudiesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsStudiesRequest>;
 
@@ -3034,7 +3034,7 @@ export const ListProjectsLocationsStudiesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/studies" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/studies" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsStudiesRequest>;
 
@@ -3069,7 +3069,7 @@ export const GetProjectsLocationsStudiesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsStudiesRequest>;
 
@@ -3109,7 +3109,7 @@ export const CreateProjectsLocationsStudiesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudMlV1__Study).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/studies", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/studies", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsStudiesRequest>;
 
@@ -3145,7 +3145,7 @@ export const ListProjectsLocationsStudiesTrialsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/trials" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/trials" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsStudiesTrialsRequest>;
 
@@ -3180,7 +3180,7 @@ export const DeleteProjectsLocationsStudiesTrialsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsStudiesTrialsRequest>;
 
@@ -3224,7 +3224,7 @@ export const SuggestProjectsLocationsStudiesTrialsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/trials:suggest",
+      path: "v1/{+parent}/trials:suggest",
       hasBody: true,
     }),
     svc,
@@ -3268,7 +3268,11 @@ export const AddMeasurementProjectsLocationsStudiesTrialsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:addMeasurement", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1/{+name}:addMeasurement",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<AddMeasurementProjectsLocationsStudiesTrialsRequest>;
 
@@ -3310,7 +3314,7 @@ export const CompleteProjectsLocationsStudiesTrialsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:complete", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:complete", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CompleteProjectsLocationsStudiesTrialsRequest>;
 
@@ -3354,7 +3358,7 @@ export const ListOptimalTrialsProjectsLocationsStudiesTrialsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/trials:listOptimalTrials",
+      path: "v1/{+parent}/trials:listOptimalTrials",
       hasBody: true,
     }),
     svc,
@@ -3393,7 +3397,7 @@ export const GetProjectsLocationsStudiesTrialsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsStudiesTrialsRequest>;
 
@@ -3434,7 +3438,7 @@ export const CheckEarlyStoppingStateProjectsLocationsStudiesTrialsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}:checkEarlyStoppingState",
+      path: "v1/{+name}:checkEarlyStoppingState",
       hasBody: true,
     }),
     svc,
@@ -3476,7 +3480,7 @@ export const StopProjectsLocationsStudiesTrialsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(GoogleCloudMlV1__StopTrialRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:stop", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:stop", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<StopProjectsLocationsStudiesTrialsRequest>;
 
@@ -3515,7 +3519,7 @@ export const CreateProjectsLocationsStudiesTrialsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudMlV1__Trial).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/trials", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/trials", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsStudiesTrialsRequest>;
 
@@ -3552,7 +3556,7 @@ export const GetProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -3587,7 +3591,7 @@ export const CancelProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 

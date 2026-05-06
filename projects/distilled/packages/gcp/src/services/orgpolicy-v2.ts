@@ -439,7 +439,7 @@ export const GetProjectsPoliciesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsPoliciesRequest>;
 
@@ -473,7 +473,7 @@ export const CreateProjectsPoliciesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v2/{parent}/policies", hasBody: true }),
+    T.Http({ method: "POST", path: "v2/{+parent}/policies", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsPoliciesRequest>;
 
@@ -512,7 +512,7 @@ export const DeleteProjectsPoliciesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsPoliciesRequest>;
 
@@ -548,7 +548,7 @@ export const GetEffectivePolicyProjectsPoliciesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}:getEffectivePolicy" }),
+    T.Http({ method: "GET", path: "v2/{+name}:getEffectivePolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetEffectivePolicyProjectsPoliciesRequest>;
 
@@ -589,7 +589,7 @@ export const PatchProjectsPoliciesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsPoliciesRequest>;
 
@@ -631,7 +631,7 @@ export const ListProjectsPoliciesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/policies" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/policies" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsPoliciesRequest>;
 
@@ -673,7 +673,7 @@ export const ListProjectsConstraintsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/constraints" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/constraints" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsConstraintsRequest>;
 
@@ -715,7 +715,7 @@ export const PatchFoldersPoliciesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchFoldersPoliciesRequest>;
 
@@ -757,7 +757,7 @@ export const ListFoldersPoliciesRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/policies" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/policies" }),
     svc,
   ) as unknown as Schema.Schema<ListFoldersPoliciesRequest>;
 
@@ -793,7 +793,7 @@ export const GetFoldersPoliciesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetFoldersPoliciesRequest>;
 
@@ -827,7 +827,7 @@ export const CreateFoldersPoliciesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v2/{parent}/policies", hasBody: true }),
+    T.Http({ method: "POST", path: "v2/{+parent}/policies", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateFoldersPoliciesRequest>;
 
@@ -866,7 +866,7 @@ export const DeleteFoldersPoliciesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteFoldersPoliciesRequest>;
 
@@ -902,7 +902,7 @@ export const GetEffectivePolicyFoldersPoliciesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}:getEffectivePolicy" }),
+    T.Http({ method: "GET", path: "v2/{+name}:getEffectivePolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetEffectivePolicyFoldersPoliciesRequest>;
 
@@ -943,7 +943,7 @@ export const ListFoldersConstraintsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/constraints" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/constraints" }),
     svc,
   ) as unknown as Schema.Schema<ListFoldersConstraintsRequest>;
 
@@ -985,7 +985,7 @@ export const ListOrganizationsConstraintsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/constraints" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/constraints" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsConstraintsRequest>;
 
@@ -1029,7 +1029,7 @@ export const PatchOrganizationsCustomConstraintsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchOrganizationsCustomConstraintsRequest>;
 
@@ -1072,7 +1072,7 @@ export const ListOrganizationsCustomConstraintsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/customConstraints" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/customConstraints" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsCustomConstraintsRequest>;
 
@@ -1118,7 +1118,7 @@ export const CreateOrganizationsCustomConstraintsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/{parent}/customConstraints",
+      path: "v2/{+parent}/customConstraints",
       hasBody: true,
     }),
     svc,
@@ -1157,7 +1157,7 @@ export const GetOrganizationsCustomConstraintsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsCustomConstraintsRequest>;
 
@@ -1192,7 +1192,7 @@ export const DeleteOrganizationsCustomConstraintsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteOrganizationsCustomConstraintsRequest>;
 
@@ -1228,7 +1228,7 @@ export const GetOrganizationsPoliciesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsPoliciesRequest>;
 
@@ -1265,7 +1265,7 @@ export const CreateOrganizationsPoliciesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v2/{parent}/policies", hasBody: true }),
+    T.Http({ method: "POST", path: "v2/{+parent}/policies", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateOrganizationsPoliciesRequest>;
 
@@ -1304,7 +1304,7 @@ export const DeleteOrganizationsPoliciesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     etag: Schema.optional(Schema.String).pipe(T.HttpQuery("etag")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/{name}" }),
+    T.Http({ method: "DELETE", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteOrganizationsPoliciesRequest>;
 
@@ -1340,7 +1340,7 @@ export const GetEffectivePolicyOrganizationsPoliciesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}:getEffectivePolicy" }),
+    T.Http({ method: "GET", path: "v2/{+name}:getEffectivePolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetEffectivePolicyOrganizationsPoliciesRequest>;
 
@@ -1381,7 +1381,7 @@ export const ListOrganizationsPoliciesRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{parent}/policies" }),
+    T.Http({ method: "GET", path: "v2/{+parent}/policies" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsPoliciesRequest>;
 
@@ -1426,7 +1426,7 @@ export const PatchOrganizationsPoliciesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(GoogleCloudOrgpolicyV2Policy).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v2/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v2/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchOrganizationsPoliciesRequest>;
 

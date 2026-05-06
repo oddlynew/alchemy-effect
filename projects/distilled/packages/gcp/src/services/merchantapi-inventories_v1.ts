@@ -369,7 +369,10 @@ export const ListAccountsProductsLocalInventoriesRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "inventories/v1/{parent}/localInventories" }),
+    T.Http({
+      method: "GET",
+      path: "inventories/v1/{+parent}/localInventories",
+    }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsProductsLocalInventoriesRequest>;
 
@@ -408,7 +411,7 @@ export const DeleteAccountsProductsLocalInventoriesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "inventories/v1/{name}" }),
+    T.Http({ method: "DELETE", path: "inventories/v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsProductsLocalInventoriesRequest>;
 
@@ -449,7 +452,7 @@ export const InsertAccountsProductsLocalInventoriesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "inventories/v1/{parent}/localInventories:insert",
+      path: "inventories/v1/{+parent}/localInventories:insert",
       hasBody: true,
     }),
     svc,
@@ -492,7 +495,7 @@ export const InsertAccountsProductsRegionalInventoriesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "inventories/v1/{parent}/regionalInventories:insert",
+      path: "inventories/v1/{+parent}/regionalInventories:insert",
       hasBody: true,
     }),
     svc,
@@ -539,7 +542,7 @@ export const ListAccountsProductsRegionalInventoriesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "inventories/v1/{parent}/regionalInventories",
+      path: "inventories/v1/{+parent}/regionalInventories",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsProductsRegionalInventoriesRequest>;
@@ -579,7 +582,7 @@ export const DeleteAccountsProductsRegionalInventoriesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "inventories/v1/{name}" }),
+    T.Http({ method: "DELETE", path: "inventories/v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsProductsRegionalInventoriesRequest>;
 

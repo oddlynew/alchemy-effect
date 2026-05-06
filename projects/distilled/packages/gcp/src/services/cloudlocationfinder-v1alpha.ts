@@ -172,7 +172,7 @@ export const ListProjectsLocationsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}/locations" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -207,7 +207,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -238,7 +238,7 @@ export const GetProjectsLocationsCloudLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCloudLocationsRequest>;
 
@@ -281,7 +281,7 @@ export const ListProjectsLocationsCloudLocationsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/cloudLocations" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/cloudLocations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCloudLocationsRequest>;
 
@@ -334,7 +334,7 @@ export const SearchProjectsLocationsCloudLocationsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{parent}/cloudLocations:search" }),
+    T.Http({ method: "GET", path: "v1alpha/{+parent}/cloudLocations:search" }),
     svc,
   ) as unknown as Schema.Schema<SearchProjectsLocationsCloudLocationsRequest>;
 

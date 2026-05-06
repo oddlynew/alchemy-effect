@@ -677,7 +677,7 @@ export const TranslateTextProjectsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:translateText",
+      path: "v3beta1/{+parent}:translateText",
       hasBody: true,
     }),
     svc,
@@ -720,7 +720,7 @@ export const DetectLanguageProjectsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:detectLanguage",
+      path: "v3beta1/{+parent}:detectLanguage",
       hasBody: true,
     }),
     svc,
@@ -766,7 +766,7 @@ export const GetSupportedLanguagesProjectsRequest =
     ),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{parent}/supportedLanguages" }),
+    T.Http({ method: "GET", path: "v3beta1/{+parent}/supportedLanguages" }),
     svc,
   ) as unknown as Schema.Schema<GetSupportedLanguagesProjectsRequest>;
 
@@ -800,7 +800,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{name}" }),
+    T.Http({ method: "GET", path: "v3beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -836,7 +836,7 @@ export const BatchTranslateTextProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:batchTranslateText",
+      path: "v3beta1/{+parent}:batchTranslateText",
       hasBody: true,
     }),
     svc,
@@ -879,7 +879,7 @@ export const TranslateDocumentProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:translateDocument",
+      path: "v3beta1/{+parent}:translateDocument",
       hasBody: true,
     }),
     svc,
@@ -923,7 +923,7 @@ export const DetectLanguageProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:detectLanguage",
+      path: "v3beta1/{+parent}:detectLanguage",
       hasBody: true,
     }),
     svc,
@@ -969,7 +969,7 @@ export const GetSupportedLanguagesProjectsLocationsRequest =
     model: Schema.optional(Schema.String).pipe(T.HttpQuery("model")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{parent}/supportedLanguages" }),
+    T.Http({ method: "GET", path: "v3beta1/{+parent}/supportedLanguages" }),
     svc,
   ) as unknown as Schema.Schema<GetSupportedLanguagesProjectsLocationsRequest>;
 
@@ -1008,7 +1008,7 @@ export const BatchTranslateDocumentProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:batchTranslateDocument",
+      path: "v3beta1/{+parent}:batchTranslateDocument",
       hasBody: true,
     }),
     svc,
@@ -1060,7 +1060,7 @@ export const ListProjectsLocationsRequest =
     ),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{name}/locations" }),
+    T.Http({ method: "GET", path: "v3beta1/{+name}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -1100,7 +1100,7 @@ export const RefineTextProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:refineText",
+      path: "v3beta1/{+parent}:refineText",
       hasBody: true,
     }),
     svc,
@@ -1143,7 +1143,7 @@ export const TranslateTextProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}:translateText",
+      path: "v3beta1/{+parent}:translateText",
       hasBody: true,
     }),
     svc,
@@ -1181,7 +1181,7 @@ export const GetProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{name}" }),
+    T.Http({ method: "GET", path: "v3beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1215,7 +1215,7 @@ export const DeleteProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v3beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v3beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1254,7 +1254,7 @@ export const CancelProjectsLocationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v3beta1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v3beta1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -1304,7 +1304,7 @@ export const ListProjectsLocationsOperationsRequest =
     ),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v3beta1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1345,7 +1345,7 @@ export const WaitProjectsLocationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(WaitOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v3beta1/{name}:wait", hasBody: true }),
+    T.Http({ method: "POST", path: "v3beta1/{+name}:wait", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<WaitProjectsLocationsOperationsRequest>;
 
@@ -1390,7 +1390,7 @@ export const ListProjectsLocationsGlossariesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{parent}/glossaries" }),
+    T.Http({ method: "GET", path: "v3beta1/{+parent}/glossaries" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsGlossariesRequest>;
 
@@ -1428,7 +1428,7 @@ export const GetProjectsLocationsGlossariesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v3beta1/{name}" }),
+    T.Http({ method: "GET", path: "v3beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsGlossariesRequest>;
 
@@ -1462,7 +1462,7 @@ export const DeleteProjectsLocationsGlossariesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v3beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v3beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsGlossariesRequest>;
 
@@ -1503,7 +1503,7 @@ export const CreateProjectsLocationsGlossariesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v3beta1/{parent}/glossaries",
+      path: "v3beta1/{+parent}/glossaries",
       hasBody: true,
     }),
     svc,

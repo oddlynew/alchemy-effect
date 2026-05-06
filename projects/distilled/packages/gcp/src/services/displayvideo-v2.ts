@@ -7790,7 +7790,7 @@ export const PatchAdvertisersRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}",
+      path: "v2/advertisers/{+advertiserId}",
       hasBody: true,
     }),
     svc,
@@ -7841,7 +7841,7 @@ export const ListAssignedTargetingOptionsAdvertisersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}:listAssignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}:listAssignedTargetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAssignedTargetingOptionsAdvertisersRequest>;
@@ -7880,7 +7880,7 @@ export interface GetAdvertisersRequest {
 export const GetAdvertisersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/advertisers/{advertiserId}" }),
+  T.Http({ method: "GET", path: "v2/advertisers/{+advertiserId}" }),
   svc,
 ) as unknown as Schema.Schema<GetAdvertisersRequest>;
 
@@ -7917,7 +7917,7 @@ export const EditAssignedTargetingOptionsAdvertisersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}:editAssignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}:editAssignedTargetingOptions",
       hasBody: true,
     }),
     svc,
@@ -7956,7 +7956,7 @@ export const DeleteAdvertisersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2/advertisers/{advertiserId}" }),
+    T.Http({ method: "DELETE", path: "v2/advertisers/{+advertiserId}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersRequest>;
 
@@ -8042,7 +8042,7 @@ export const AuditAdvertisersRequest =
     advertiserId: Schema.String.pipe(T.HttpPath("advertiserId")),
     readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/advertisers/{advertiserId}:audit" }),
+    T.Http({ method: "GET", path: "v2/advertisers/{+advertiserId}:audit" }),
     svc,
   ) as unknown as Schema.Schema<AuditAdvertisersRequest>;
 
@@ -8113,7 +8113,7 @@ export const CreateAdvertisersNegativeKeywordListsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists",
+      path: "v2/advertisers/{+advertiserId}/negativeKeywordLists",
       hasBody: true,
     }),
     svc,
@@ -8159,7 +8159,7 @@ export const ListAdvertisersNegativeKeywordListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists",
+      path: "v2/advertisers/{+advertiserId}/negativeKeywordLists",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersNegativeKeywordListsRequest>;
@@ -8206,7 +8206,7 @@ export const DeleteAdvertisersNegativeKeywordListsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}",
+      path: "v2/advertisers/{+advertiserId}/negativeKeywordLists/{+negativeKeywordListId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersNegativeKeywordListsRequest>;
@@ -8250,7 +8250,7 @@ export const GetAdvertisersNegativeKeywordListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}",
+      path: "v2/advertisers/{+advertiserId}/negativeKeywordLists/{+negativeKeywordListId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersNegativeKeywordListsRequest>;
@@ -8298,7 +8298,7 @@ export const PatchAdvertisersNegativeKeywordListsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}",
+      path: "v2/advertisers/{+advertiserId}/negativeKeywordLists/{negativeKeywordListId}",
       hasBody: true,
     }),
     svc,
@@ -8346,7 +8346,7 @@ export const BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}/negativeKeywords:bulkEdit",
+      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords:bulkEdit",
       hasBody: true,
     }),
     svc,
@@ -8395,7 +8395,7 @@ export const CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}/negativeKeywords",
+      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords",
       hasBody: true,
     }),
     svc,
@@ -8453,7 +8453,7 @@ export const ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}/negativeKeywords",
+      path: "v2/advertisers/{+advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest>;
@@ -8503,7 +8503,7 @@ export const ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}/negativeKeywords:replace",
+      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords:replace",
       hasBody: true,
     }),
     svc,
@@ -8552,7 +8552,7 @@ export const DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{negativeKeywordListId}/negativeKeywords/{keywordValue}",
+      path: "v2/advertisers/{advertiserId}/negativeKeywordLists/{+negativeKeywordListId}/negativeKeywords/{+keywordValue}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest>;
@@ -8601,7 +8601,7 @@ export const PatchAdvertisersLocationListsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/locationLists/{locationListId}",
+      path: "v2/advertisers/{+advertiserId}/locationLists/{locationListId}",
       hasBody: true,
     }),
     svc,
@@ -8644,7 +8644,7 @@ export const CreateAdvertisersLocationListsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/locationLists",
+      path: "v2/advertisers/{+advertiserId}/locationLists",
       hasBody: true,
     }),
     svc,
@@ -8687,7 +8687,7 @@ export const GetAdvertisersLocationListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/locationLists/{locationListId}",
+      path: "v2/advertisers/{+advertiserId}/locationLists/{+locationListId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersLocationListsRequest>;
@@ -8736,7 +8736,7 @@ export const ListAdvertisersLocationListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/locationLists",
+      path: "v2/advertisers/{+advertiserId}/locationLists",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersLocationListsRequest>;
@@ -8783,7 +8783,7 @@ export const DeleteAdvertisersLocationListsAssignedLocationsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/locationLists/{locationListId}/assignedLocations/{assignedLocationId}",
+      path: "v2/advertisers/{advertiserId}/locationLists/{locationListId}/assignedLocations/{+assignedLocationId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersLocationListsAssignedLocationsRequest>;
@@ -8885,7 +8885,7 @@ export const BulkEditAdvertisersLocationListsAssignedLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/locationLists/{locationListId}/assignedLocations:bulkEdit",
+      path: "v2/advertisers/{advertiserId}/locationLists/{+locationListId}/assignedLocations:bulkEdit",
       hasBody: true,
     }),
     svc,
@@ -8976,7 +8976,7 @@ export const GetAdvertisersCreativesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/creatives/{creativeId}",
+      path: "v2/advertisers/{+advertiserId}/creatives/{+creativeId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersCreativesRequest>;
@@ -9019,7 +9019,7 @@ export const PatchAdvertisersCreativesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/creatives/{creativeId}",
+      path: "v2/advertisers/{+advertiserId}/creatives/{+creativeId}",
       hasBody: true,
     }),
     svc,
@@ -9062,7 +9062,7 @@ export const CreateAdvertisersCreativesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/creatives",
+      path: "v2/advertisers/{+advertiserId}/creatives",
       hasBody: true,
     }),
     svc,
@@ -9112,7 +9112,7 @@ export const ListAdvertisersCreativesRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/advertisers/{advertiserId}/creatives" }),
+    T.Http({ method: "GET", path: "v2/advertisers/{+advertiserId}/creatives" }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersCreativesRequest>;
 
@@ -9155,7 +9155,7 @@ export const DeleteAdvertisersCreativesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/creatives/{creativeId}",
+      path: "v2/advertisers/{+advertiserId}/creatives/{+creativeId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersCreativesRequest>;
@@ -9197,7 +9197,7 @@ export const GetAdvertisersInsertionOrdersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/insertionOrders/{insertionOrderId}",
+      path: "v2/advertisers/{+advertiserId}/insertionOrders/{+insertionOrderId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersInsertionOrdersRequest>;
@@ -9243,7 +9243,7 @@ export const PatchAdvertisersInsertionOrdersRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/insertionOrders/{insertionOrderId}",
+      path: "v2/advertisers/{+advertiserId}/insertionOrders/{+insertionOrderId}",
       hasBody: true,
     }),
     svc,
@@ -9295,7 +9295,7 @@ export const ListAdvertisersInsertionOrdersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/insertionOrders",
+      path: "v2/advertisers/{+advertiserId}/insertionOrders",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersInsertionOrdersRequest>;
@@ -9340,7 +9340,7 @@ export const CreateAdvertisersInsertionOrdersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/insertionOrders",
+      path: "v2/advertisers/{+advertiserId}/insertionOrders",
       hasBody: true,
     }),
     svc,
@@ -9383,7 +9383,7 @@ export const DeleteAdvertisersInsertionOrdersRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/insertionOrders/{insertionOrderId}",
+      path: "v2/advertisers/{+advertiserId}/insertionOrders/{+insertionOrderId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersInsertionOrdersRequest>;
@@ -9434,7 +9434,7 @@ export const PatchAdvertisersChannelsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/channels/{channelId}",
+      path: "v2/advertisers/{+advertiserId}/channels/{channelId}",
       hasBody: true,
     }),
     svc,
@@ -9480,7 +9480,7 @@ export const CreateAdvertisersChannelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/channels",
+      path: "v2/advertisers/{+advertiserId}/channels",
       hasBody: true,
     }),
     svc,
@@ -9526,7 +9526,7 @@ export const GetAdvertisersChannelsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/channels/{channelId}",
+      path: "v2/advertisers/{+advertiserId}/channels/{+channelId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersChannelsRequest>;
@@ -9573,7 +9573,7 @@ export const ListAdvertisersChannelsRequest =
     partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/advertisers/{advertiserId}/channels" }),
+    T.Http({ method: "GET", path: "v2/advertisers/{+advertiserId}/channels" }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersChannelsRequest>;
 
@@ -9619,7 +9619,7 @@ export const DeleteAdvertisersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/channels/{channelId}/sites/{urlOrAppId}",
+      path: "v2/advertisers/{advertiserId}/channels/{+channelId}/sites/{+urlOrAppId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersChannelsSitesRequest>;
@@ -9667,7 +9667,7 @@ export const CreateAdvertisersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/channels/{channelId}/sites",
+      path: "v2/advertisers/{advertiserId}/channels/{+channelId}/sites",
       hasBody: true,
     }),
     svc,
@@ -9725,7 +9725,7 @@ export const ListAdvertisersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/channels/{channelId}/sites",
+      path: "v2/advertisers/{+advertiserId}/channels/{+channelId}/sites",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersChannelsSitesRequest>;
@@ -9772,7 +9772,7 @@ export const ReplaceAdvertisersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/channels/{channelId}/sites:replace",
+      path: "v2/advertisers/{advertiserId}/channels/{+channelId}/sites:replace",
       hasBody: true,
     }),
     svc,
@@ -9818,7 +9818,7 @@ export const BulkEditAdvertisersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/channels/{channelId}/sites:bulkEdit",
+      path: "v2/advertisers/{advertiserId}/channels/{+channelId}/sites:bulkEdit",
       hasBody: true,
     }),
     svc,
@@ -9861,7 +9861,7 @@ export const GetAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersLineItemsRequest>;
@@ -9901,7 +9901,7 @@ export const DuplicateAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}:duplicate",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}:duplicate",
       hasBody: true,
     }),
     svc,
@@ -9951,7 +9951,7 @@ export const ListAdvertisersLineItemsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/advertisers/{advertiserId}/lineItems" }),
+    T.Http({ method: "GET", path: "v2/advertisers/{+advertiserId}/lineItems" }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersLineItemsRequest>;
 
@@ -9994,7 +9994,7 @@ export const CreateAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/lineItems",
+      path: "v2/advertisers/{+advertiserId}/lineItems",
       hasBody: true,
     }),
     svc,
@@ -10043,7 +10043,7 @@ export const PatchAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}",
       hasBody: true,
     }),
     svc,
@@ -10086,7 +10086,7 @@ export const BulkUpdateAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/lineItems:bulkUpdate",
+      path: "v2/advertisers/{+advertiserId}/lineItems:bulkUpdate",
       hasBody: true,
     }),
     svc,
@@ -10144,7 +10144,7 @@ export const BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/lineItems:bulkListAssignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/lineItems:bulkListAssignedTargetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest>;
@@ -10189,7 +10189,7 @@ export const DeleteAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersLineItemsRequest>;
@@ -10233,7 +10233,7 @@ export const BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/lineItems:bulkEditAssignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/lineItems:bulkEditAssignedTargetingOptions",
       hasBody: true,
     }),
     svc,
@@ -10335,7 +10335,7 @@ export const DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReq
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}/targetingTypes/{targetingType}/assignedTargetingOptions/{assignedTargetingOptionId}",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest>;
@@ -10436,7 +10436,7 @@ export const CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReq
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}/targetingTypes/{targetingType}/assignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
       hasBody: true,
     }),
     svc,
@@ -10540,7 +10540,7 @@ export const GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReques
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}/targetingTypes/{targetingType}/assignedTargetingOptions/{assignedTargetingOptionId}",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest>;
@@ -10646,7 +10646,7 @@ export const ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsReque
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/lineItems/{lineItemId}/targetingTypes/{targetingType}/assignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/lineItems/{+lineItemId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest>;
@@ -10692,7 +10692,7 @@ export const UploadAdvertisersAssetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/assets",
+      path: "v2/advertisers/{+advertiserId}/assets",
       hasBody: true,
     }),
     svc,
@@ -10748,7 +10748,7 @@ export const ListAdvertisersInvoicesRequest =
     issueMonth: Schema.optional(Schema.String).pipe(T.HttpQuery("issueMonth")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/advertisers/{advertiserId}/invoices" }),
+    T.Http({ method: "GET", path: "v2/advertisers/{+advertiserId}/invoices" }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersInvoicesRequest>;
 
@@ -10790,7 +10790,7 @@ export const LookupInvoiceCurrencyAdvertisersInvoicesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/invoices:lookupInvoiceCurrency",
+      path: "v2/advertisers/{+advertiserId}/invoices:lookupInvoiceCurrency",
     }),
     svc,
   ) as unknown as Schema.Schema<LookupInvoiceCurrencyAdvertisersInvoicesRequest>;
@@ -10840,7 +10840,7 @@ export const ListAdvertisersManualTriggersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/manualTriggers",
+      path: "v2/advertisers/{+advertiserId}/manualTriggers",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersManualTriggersRequest>;
@@ -10884,7 +10884,7 @@ export const CreateAdvertisersManualTriggersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/manualTriggers",
+      path: "v2/advertisers/{+advertiserId}/manualTriggers",
       hasBody: true,
     }),
     svc,
@@ -10930,7 +10930,7 @@ export const ActivateAdvertisersManualTriggersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/manualTriggers/{triggerId}:activate",
+      path: "v2/advertisers/{+advertiserId}/manualTriggers/{+triggerId}:activate",
       hasBody: true,
     }),
     svc,
@@ -10976,7 +10976,7 @@ export const DeactivateAdvertisersManualTriggersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/manualTriggers/{triggerId}:deactivate",
+      path: "v2/advertisers/{+advertiserId}/manualTriggers/{+triggerId}:deactivate",
       hasBody: true,
     }),
     svc,
@@ -11019,7 +11019,7 @@ export const GetAdvertisersManualTriggersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/manualTriggers/{triggerId}",
+      path: "v2/advertisers/{+advertiserId}/manualTriggers/{+triggerId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersManualTriggersRequest>;
@@ -11065,7 +11065,7 @@ export const PatchAdvertisersManualTriggersRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/manualTriggers/{triggerId}",
+      path: "v2/advertisers/{+advertiserId}/manualTriggers/{+triggerId}",
       hasBody: true,
     }),
     svc,
@@ -11108,7 +11108,7 @@ export const DeleteAdvertisersCampaignsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/campaigns/{campaignId}",
+      path: "v2/advertisers/{+advertiserId}/campaigns/{+campaignId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersCampaignsRequest>;
@@ -11157,7 +11157,7 @@ export const ListAdvertisersCampaignsRequest =
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/advertisers/{advertiserId}/campaigns" }),
+    T.Http({ method: "GET", path: "v2/advertisers/{+advertiserId}/campaigns" }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersCampaignsRequest>;
 
@@ -11200,7 +11200,7 @@ export const CreateAdvertisersCampaignsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/campaigns",
+      path: "v2/advertisers/{+advertiserId}/campaigns",
       hasBody: true,
     }),
     svc,
@@ -11249,7 +11249,7 @@ export const PatchAdvertisersCampaignsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/advertisers/{advertiserId}/campaigns/{campaignId}",
+      path: "v2/advertisers/{+advertiserId}/campaigns/{+campaignId}",
       hasBody: true,
     }),
     svc,
@@ -11292,7 +11292,7 @@ export const GetAdvertisersCampaignsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/campaigns/{campaignId}",
+      path: "v2/advertisers/{+advertiserId}/campaigns/{+campaignId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersCampaignsRequest>;
@@ -11329,7 +11329,7 @@ export const GetAdvertisersYoutubeAdGroupAdsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/youtubeAdGroupAds/{youtubeAdGroupAdId}",
+      path: "v2/advertisers/{+advertiserId}/youtubeAdGroupAds/{+youtubeAdGroupAdId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersYoutubeAdGroupAdsRequest>;
@@ -11378,7 +11378,7 @@ export const ListAdvertisersYoutubeAdGroupAdsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/youtubeAdGroupAds",
+      path: "v2/advertisers/{+advertiserId}/youtubeAdGroupAds",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersYoutubeAdGroupAdsRequest>;
@@ -11478,7 +11478,7 @@ export const DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/advertisers/{advertiserId}/targetingTypes/{targetingType}/assignedTargetingOptions/{assignedTargetingOptionId}",
+      path: "v2/advertisers/{+advertiserId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest>;
@@ -11574,7 +11574,7 @@ export const CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/advertisers/{advertiserId}/targetingTypes/{targetingType}/assignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
       hasBody: true,
     }),
     svc,
@@ -11673,7 +11673,7 @@ export const GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/targetingTypes/{targetingType}/assignedTargetingOptions/{assignedTargetingOptionId}",
+      path: "v2/advertisers/{+advertiserId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest>;
@@ -11776,7 +11776,7 @@ export const ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/targetingTypes/{targetingType}/assignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest>;
@@ -11835,7 +11835,7 @@ export const BulkListAdGroupAssignedTargetingOptionsAdvertisersYoutubeAdGroupsRe
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/youtubeAdGroups:bulkListAdGroupAssignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/youtubeAdGroups:bulkListAdGroupAssignedTargetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<BulkListAdGroupAssignedTargetingOptionsAdvertisersYoutubeAdGroupsRequest>;
@@ -11882,7 +11882,7 @@ export const GetAdvertisersYoutubeAdGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/youtubeAdGroups/{youtubeAdGroupId}",
+      path: "v2/advertisers/{+advertiserId}/youtubeAdGroups/{+youtubeAdGroupId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersYoutubeAdGroupsRequest>;
@@ -11931,7 +11931,7 @@ export const ListAdvertisersYoutubeAdGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/youtubeAdGroups",
+      path: "v2/advertisers/{+advertiserId}/youtubeAdGroups",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersYoutubeAdGroupsRequest>;
@@ -12034,7 +12034,7 @@ export const GetAdvertisersYoutubeAdGroupsTargetingTypesAssignedTargetingOptions
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/youtubeAdGroups/{youtubeAdGroupId}/targetingTypes/{targetingType}/assignedTargetingOptions/{assignedTargetingOptionId}",
+      path: "v2/advertisers/{+advertiserId}/youtubeAdGroups/{+youtubeAdGroupId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertisersYoutubeAdGroupsTargetingTypesAssignedTargetingOptionsRequest>;
@@ -12142,7 +12142,7 @@ export const ListAdvertisersYoutubeAdGroupsTargetingTypesAssignedTargetingOption
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/advertisers/{advertiserId}/youtubeAdGroups/{youtubeAdGroupId}/targetingTypes/{targetingType}/assignedTargetingOptions",
+      path: "v2/advertisers/{+advertiserId}/youtubeAdGroups/{+youtubeAdGroupId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertisersYoutubeAdGroupsTargetingTypesAssignedTargetingOptionsRequest>;
@@ -12200,7 +12200,7 @@ export const PatchGuaranteedOrdersRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/guaranteedOrders/{guaranteedOrderId}",
+      path: "v2/guaranteedOrders/{+guaranteedOrderId}",
       hasBody: true,
     }),
     svc,
@@ -12245,7 +12245,7 @@ export const EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/guaranteedOrders/{guaranteedOrderId}:editGuaranteedOrderReadAccessors",
+      path: "v2/guaranteedOrders/{+guaranteedOrderId}:editGuaranteedOrderReadAccessors",
       hasBody: true,
     }),
     svc,
@@ -12292,7 +12292,7 @@ export const GetGuaranteedOrdersRequest =
       T.HttpQuery("advertiserId"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/guaranteedOrders/{guaranteedOrderId}" }),
+    T.Http({ method: "GET", path: "v2/guaranteedOrders/{+guaranteedOrderId}" }),
     svc,
   ) as unknown as Schema.Schema<GetGuaranteedOrdersRequest>;
 
@@ -12455,7 +12455,7 @@ export const GetSdfdownloadtasksOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/{name}" }),
+    T.Http({ method: "GET", path: "v2/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSdfdownloadtasksOperationsRequest>;
 
@@ -12588,7 +12588,7 @@ export const GetInventorySourcesRequest =
     partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
     inventorySourceId: Schema.String.pipe(T.HttpPath("inventorySourceId")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/inventorySources/{inventorySourceId}" }),
+    T.Http({ method: "GET", path: "v2/inventorySources/{+inventorySourceId}" }),
     svc,
   ) as unknown as Schema.Schema<GetInventorySourcesRequest>;
 
@@ -12635,7 +12635,7 @@ export const PatchInventorySourcesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/inventorySources/{inventorySourceId}",
+      path: "v2/inventorySources/{+inventorySourceId}",
       hasBody: true,
     }),
     svc,
@@ -12680,7 +12680,7 @@ export const EditInventorySourceReadWriteAccessorsInventorySourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/inventorySources/{inventorySourceId}:editInventorySourceReadWriteAccessors",
+      path: "v2/inventorySources/{+inventorySourceId}:editInventorySourceReadWriteAccessors",
       hasBody: true,
     }),
     svc,
@@ -12722,7 +12722,7 @@ export const GetFloodlightGroupsRequest =
     partnerId: Schema.optional(Schema.String).pipe(T.HttpQuery("partnerId")),
     floodlightGroupId: Schema.String.pipe(T.HttpPath("floodlightGroupId")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/floodlightGroups/{floodlightGroupId}" }),
+    T.Http({ method: "GET", path: "v2/floodlightGroups/{+floodlightGroupId}" }),
     svc,
   ) as unknown as Schema.Schema<GetFloodlightGroupsRequest>;
 
@@ -12812,7 +12812,7 @@ export const GetFloodlightGroupsFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/floodlightGroups/{floodlightGroupId}/floodlightActivities/{floodlightActivityId}",
+      path: "v2/floodlightGroups/{+floodlightGroupId}/floodlightActivities/{+floodlightActivityId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetFloodlightGroupsFloodlightActivitiesRequest>;
@@ -12862,7 +12862,7 @@ export const ListFloodlightGroupsFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/floodlightGroups/{floodlightGroupId}/floodlightActivities",
+      path: "v2/floodlightGroups/{+floodlightGroupId}/floodlightActivities",
     }),
     svc,
   ) as unknown as Schema.Schema<ListFloodlightGroupsFloodlightActivitiesRequest>;
@@ -13014,7 +13014,7 @@ export const DeleteInventorySourceGroupsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/inventorySourceGroups/{inventorySourceGroupId}",
+      path: "v2/inventorySourceGroups/{+inventorySourceGroupId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteInventorySourceGroupsRequest>;
@@ -13063,7 +13063,7 @@ export const GetInventorySourceGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/inventorySourceGroups/{inventorySourceGroupId}",
+      path: "v2/inventorySourceGroups/{+inventorySourceGroupId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetInventorySourceGroupsRequest>;
@@ -13171,7 +13171,7 @@ export const DeleteInventorySourceGroupsAssignedInventorySourcesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/inventorySourceGroups/{inventorySourceGroupId}/assignedInventorySources/{assignedInventorySourceId}",
+      path: "v2/inventorySourceGroups/{+inventorySourceGroupId}/assignedInventorySources/{+assignedInventorySourceId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteInventorySourceGroupsAssignedInventorySourcesRequest>;
@@ -13223,7 +13223,7 @@ export const CreateInventorySourceGroupsAssignedInventorySourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/inventorySourceGroups/{inventorySourceGroupId}/assignedInventorySources",
+      path: "v2/inventorySourceGroups/{+inventorySourceGroupId}/assignedInventorySources",
       hasBody: true,
     }),
     svc,
@@ -13286,7 +13286,7 @@ export const ListInventorySourceGroupsAssignedInventorySourcesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/inventorySourceGroups/{inventorySourceGroupId}/assignedInventorySources",
+      path: "v2/inventorySourceGroups/{+inventorySourceGroupId}/assignedInventorySources",
     }),
     svc,
   ) as unknown as Schema.Schema<ListInventorySourceGroupsAssignedInventorySourcesRequest>;
@@ -13335,7 +13335,7 @@ export const BulkEditInventorySourceGroupsAssignedInventorySourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/inventorySourceGroups/{inventorySourceGroupId}/assignedInventorySources:bulkEdit",
+      path: "v2/inventorySourceGroups/{+inventorySourceGroupId}/assignedInventorySources:bulkEdit",
       hasBody: true,
     }),
     svc,
@@ -13378,7 +13378,7 @@ export const GetCustomListsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   customListId: Schema.String.pipe(T.HttpPath("customListId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/customLists/{customListId}" }),
+  T.Http({ method: "GET", path: "v2/customLists/{+customListId}" }),
   svc,
 ) as unknown as Schema.Schema<GetCustomListsRequest>;
 
@@ -13518,7 +13518,7 @@ export const GetTargetingTypesTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/targetingTypes/{targetingType}/targetingOptions/{targetingOptionId}",
+      path: "v2/targetingTypes/{+targetingType}/targetingOptions/{+targetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetTargetingTypesTargetingOptionsRequest>;
@@ -13622,7 +13622,7 @@ export const ListTargetingTypesTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/targetingTypes/{targetingType}/targetingOptions",
+      path: "v2/targetingTypes/{+targetingType}/targetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListTargetingTypesTargetingOptionsRequest>;
@@ -13717,7 +13717,7 @@ export const SearchTargetingTypesTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/targetingTypes/{targetingType}/targetingOptions:search",
+      path: "v2/targetingTypes/{+targetingType}/targetingOptions:search",
       hasBody: true,
     }),
     svc,
@@ -13864,7 +13864,7 @@ export const UploadScriptCustomBiddingAlgorithmsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/customBiddingAlgorithms/{customBiddingAlgorithmId}:uploadScript",
+      path: "v2/customBiddingAlgorithms/{+customBiddingAlgorithmId}:uploadScript",
     }),
     svc,
   ) as unknown as Schema.Schema<UploadScriptCustomBiddingAlgorithmsRequest>;
@@ -13910,7 +13910,7 @@ export const PatchCustomBiddingAlgorithmsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/customBiddingAlgorithms/{customBiddingAlgorithmId}",
+      path: "v2/customBiddingAlgorithms/{+customBiddingAlgorithmId}",
       hasBody: true,
     }),
     svc,
@@ -13960,7 +13960,7 @@ export const GetCustomBiddingAlgorithmsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/customBiddingAlgorithms/{customBiddingAlgorithmId}",
+      path: "v2/customBiddingAlgorithms/{+customBiddingAlgorithmId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsRequest>;
@@ -14012,7 +14012,7 @@ export const GetCustomBiddingAlgorithmsScriptsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/customBiddingAlgorithms/{customBiddingAlgorithmId}/scripts/{customBiddingScriptId}",
+      path: "v2/customBiddingAlgorithms/{+customBiddingAlgorithmId}/scripts/{+customBiddingScriptId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetCustomBiddingAlgorithmsScriptsRequest>;
@@ -14068,7 +14068,7 @@ export const ListCustomBiddingAlgorithmsScriptsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/customBiddingAlgorithms/{customBiddingAlgorithmId}/scripts",
+      path: "v2/customBiddingAlgorithms/{+customBiddingAlgorithmId}/scripts",
     }),
     svc,
   ) as unknown as Schema.Schema<ListCustomBiddingAlgorithmsScriptsRequest>;
@@ -14123,7 +14123,7 @@ export const CreateCustomBiddingAlgorithmsScriptsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/customBiddingAlgorithms/{customBiddingAlgorithmId}/scripts",
+      path: "v2/customBiddingAlgorithms/{+customBiddingAlgorithmId}/scripts",
       hasBody: true,
     }),
     svc,
@@ -14169,7 +14169,7 @@ export const GetGoogleAudiencesRequest =
     ),
     googleAudienceId: Schema.String.pipe(T.HttpPath("googleAudienceId")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/googleAudiences/{googleAudienceId}" }),
+    T.Http({ method: "GET", path: "v2/googleAudiences/{+googleAudienceId}" }),
     svc,
   ) as unknown as Schema.Schema<GetGoogleAudiencesRequest>;
 
@@ -14262,7 +14262,7 @@ export const GetCombinedAudiencesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/combinedAudiences/{combinedAudienceId}",
+      path: "v2/combinedAudiences/{+combinedAudienceId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetCombinedAudiencesRequest>;
@@ -14353,7 +14353,7 @@ export const EditAssignedTargetingOptionsPartnersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/partners/{partnerId}:editAssignedTargetingOptions",
+      path: "v2/partners/{+partnerId}:editAssignedTargetingOptions",
       hasBody: true,
     }),
     svc,
@@ -14391,7 +14391,7 @@ export interface GetPartnersRequest {
 export const GetPartnersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   partnerId: Schema.String.pipe(T.HttpPath("partnerId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/partners/{partnerId}" }),
+  T.Http({ method: "GET", path: "v2/partners/{+partnerId}" }),
   svc,
 ) as unknown as Schema.Schema<GetPartnersRequest>;
 
@@ -14480,7 +14480,7 @@ export const PatchPartnersChannelsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2/partners/{partnerId}/channels/{channelId}",
+      path: "v2/partners/{+partnerId}/channels/{channelId}",
       hasBody: true,
     }),
     svc,
@@ -14528,7 +14528,7 @@ export const CreatePartnersChannelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/partners/{partnerId}/channels",
+      path: "v2/partners/{+partnerId}/channels",
       hasBody: true,
     }),
     svc,
@@ -14576,7 +14576,7 @@ export const GetPartnersChannelsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/partners/{partnerId}/channels/{channelId}",
+      path: "v2/partners/{+partnerId}/channels/{+channelId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetPartnersChannelsRequest>;
@@ -14624,7 +14624,7 @@ export const ListPartnersChannelsRequest =
     ),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2/partners/{partnerId}/channels" }),
+    T.Http({ method: "GET", path: "v2/partners/{+partnerId}/channels" }),
     svc,
   ) as unknown as Schema.Schema<ListPartnersChannelsRequest>;
 
@@ -14667,7 +14667,7 @@ export const BulkEditPartnersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/partners/{partnerId}/channels/{channelId}/sites:bulkEdit",
+      path: "v2/partners/{partnerId}/channels/{+channelId}/sites:bulkEdit",
       hasBody: true,
     }),
     svc,
@@ -14718,7 +14718,7 @@ export const DeletePartnersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/partners/{partnerId}/channels/{channelId}/sites/{urlOrAppId}",
+      path: "v2/partners/{partnerId}/channels/{+channelId}/sites/{+urlOrAppId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeletePartnersChannelsSitesRequest>;
@@ -14777,7 +14777,7 @@ export const ListPartnersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/partners/{partnerId}/channels/{channelId}/sites",
+      path: "v2/partners/{+partnerId}/channels/{+channelId}/sites",
     }),
     svc,
   ) as unknown as Schema.Schema<ListPartnersChannelsSitesRequest>;
@@ -14824,7 +14824,7 @@ export const ReplacePartnersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/partners/{partnerId}/channels/{channelId}/sites:replace",
+      path: "v2/partners/{partnerId}/channels/{+channelId}/sites:replace",
       hasBody: true,
     }),
     svc,
@@ -14875,7 +14875,7 @@ export const CreatePartnersChannelsSitesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/partners/{partnerId}/channels/{channelId}/sites",
+      path: "v2/partners/{partnerId}/channels/{+channelId}/sites",
       hasBody: true,
     }),
     svc,
@@ -14973,7 +14973,7 @@ export const GetPartnersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/partners/{partnerId}/targetingTypes/{targetingType}/assignedTargetingOptions/{assignedTargetingOptionId}",
+      path: "v2/partners/{+partnerId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetPartnersTargetingTypesAssignedTargetingOptionsRequest>;
@@ -15076,7 +15076,7 @@ export const ListPartnersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v2/partners/{partnerId}/targetingTypes/{targetingType}/assignedTargetingOptions",
+      path: "v2/partners/{+partnerId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListPartnersTargetingTypesAssignedTargetingOptionsRequest>;
@@ -15174,7 +15174,7 @@ export const CreatePartnersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/partners/{partnerId}/targetingTypes/{targetingType}/assignedTargetingOptions",
+      path: "v2/partners/{+partnerId}/targetingTypes/{+targetingType}/assignedTargetingOptions",
       hasBody: true,
     }),
     svc,
@@ -15273,7 +15273,7 @@ export const DeletePartnersTargetingTypesAssignedTargetingOptionsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "v2/partners/{partnerId}/targetingTypes/{targetingType}/assignedTargetingOptions/{assignedTargetingOptionId}",
+      path: "v2/partners/{+partnerId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeletePartnersTargetingTypesAssignedTargetingOptionsRequest>;
@@ -15310,7 +15310,7 @@ export interface DownloadMediaRequest {
 export const DownloadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceName: Schema.String.pipe(T.HttpPath("resourceName")),
 }).pipe(
-  T.Http({ method: "GET", path: "download/{resourceName}" }),
+  T.Http({ method: "GET", path: "download/{+resourceName}" }),
   svc,
 ) as unknown as Schema.Schema<DownloadMediaRequest>;
 
@@ -15343,7 +15343,7 @@ export const UploadMediaRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resourceName: Schema.String.pipe(T.HttpPath("resourceName")),
   body: Schema.optional(GoogleBytestreamMedia).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "media/{resourceName}", hasBody: true }),
+  T.Http({ method: "POST", path: "media/{+resourceName}", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<UploadMediaRequest>;
 
@@ -15384,7 +15384,7 @@ export const PatchUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
   body: Schema.optional(User).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v2/users/{userId}", hasBody: true }),
+  T.Http({ method: "PATCH", path: "v2/users/{+userId}", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<PatchUsersRequest>;
 
@@ -15424,7 +15424,7 @@ export const BulkEditAssignedUserRolesUsersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2/users/{userId}:bulkEditAssignedUserRoles",
+      path: "v2/users/{+userId}:bulkEditAssignedUserRoles",
       hasBody: true,
     }),
     svc,
@@ -15462,7 +15462,7 @@ export interface GetUsersRequest {
 export const GetUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "GET", path: "v2/users/{userId}" }),
+  T.Http({ method: "GET", path: "v2/users/{+userId}" }),
   svc,
 ) as unknown as Schema.Schema<GetUsersRequest>;
 
@@ -15491,7 +15491,7 @@ export interface DeleteUsersRequest {
 export const DeleteUsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   userId: Schema.String.pipe(T.HttpPath("userId")),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v2/users/{userId}" }),
+  T.Http({ method: "DELETE", path: "v2/users/{+userId}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteUsersRequest>;
 

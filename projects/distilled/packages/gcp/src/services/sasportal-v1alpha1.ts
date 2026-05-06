@@ -862,7 +862,7 @@ export interface GetDeploymentsRequest {
 export const GetDeploymentsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+  T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetDeploymentsRequest>;
 
@@ -893,7 +893,7 @@ export const DeleteDeploymentsDevicesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteDeploymentsDevicesRequest>;
 
@@ -932,7 +932,7 @@ export const MoveDeploymentsDevicesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SasPortalMoveDeviceRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveDeploymentsDevicesRequest>;
 
@@ -968,7 +968,7 @@ export const GetDeploymentsDevicesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetDeploymentsDevicesRequest>;
 
@@ -1005,7 +1005,7 @@ export const PatchDeploymentsDevicesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchDeploymentsDevicesRequest>;
 
@@ -1048,7 +1048,7 @@ export const UpdateSignedDeploymentsDevicesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v1alpha1/{name}:updateSigned",
+      path: "v1alpha1/{+name}:updateSigned",
       hasBody: true,
     }),
     svc,
@@ -1091,7 +1091,7 @@ export const SignDeviceDeploymentsDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{name}:signDevice",
+      path: "v1alpha1/{+name}:signDevice",
       hasBody: true,
     }),
     svc,
@@ -1274,7 +1274,7 @@ export interface GetCustomersRequest {
 export const GetCustomersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+  T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetCustomersRequest>;
 
@@ -1495,7 +1495,7 @@ export const PatchCustomersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
   body: Schema.optional(SasPortalCustomer).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+  T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<PatchCustomersRequest>;
 
@@ -1536,7 +1536,7 @@ export const CreateCustomersDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices",
+      path: "v1alpha1/{+parent}/devices",
       hasBody: true,
     }),
     svc,
@@ -1581,7 +1581,7 @@ export const CreateSignedCustomersDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices:createSigned",
+      path: "v1alpha1/{+parent}/devices:createSigned",
       hasBody: true,
     }),
     svc,
@@ -1626,7 +1626,7 @@ export const UpdateSignedCustomersDevicesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v1alpha1/{name}:updateSigned",
+      path: "v1alpha1/{+name}:updateSigned",
       hasBody: true,
     }),
     svc,
@@ -1669,7 +1669,7 @@ export const SignDeviceCustomersDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{name}:signDevice",
+      path: "v1alpha1/{+name}:signDevice",
       hasBody: true,
     }),
     svc,
@@ -1707,7 +1707,7 @@ export const GetCustomersDevicesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersDevicesRequest>;
 
@@ -1741,7 +1741,7 @@ export const MoveCustomersDevicesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SasPortalMoveDeviceRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveCustomersDevicesRequest>;
 
@@ -1783,7 +1783,7 @@ export const PatchCustomersDevicesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchCustomersDevicesRequest>;
 
@@ -1819,7 +1819,7 @@ export const DeleteCustomersDevicesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteCustomersDevicesRequest>;
 
@@ -1864,7 +1864,7 @@ export const ListCustomersDevicesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/devices" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/devices" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersDevicesRequest>;
 
@@ -1902,7 +1902,7 @@ export const CreateCustomersNodesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{parent}/nodes", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+parent}/nodes", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateCustomersNodesRequest>;
 
@@ -1944,7 +1944,7 @@ export const PatchCustomersNodesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchCustomersNodesRequest>;
 
@@ -1980,7 +1980,7 @@ export const GetCustomersNodesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersNodesRequest>;
 
@@ -2011,7 +2011,7 @@ export const DeleteCustomersNodesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteCustomersNodesRequest>;
 
@@ -2056,7 +2056,7 @@ export const ListCustomersNodesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/nodes" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/nodes" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersNodesRequest>;
 
@@ -2094,7 +2094,7 @@ export const MoveCustomersNodesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SasPortalMoveNodeRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveCustomersNodesRequest>;
 
@@ -2139,7 +2139,7 @@ export const ListCustomersNodesDevicesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/devices" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/devices" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersNodesDevicesRequest>;
 
@@ -2184,7 +2184,7 @@ export const CreateSignedCustomersNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices:createSigned",
+      path: "v1alpha1/{+parent}/devices:createSigned",
       hasBody: true,
     }),
     svc,
@@ -2227,7 +2227,7 @@ export const CreateCustomersNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices",
+      path: "v1alpha1/{+parent}/devices",
       hasBody: true,
     }),
     svc,
@@ -2268,7 +2268,7 @@ export const CreateCustomersNodesNodesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{parent}/nodes", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+parent}/nodes", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateCustomersNodesNodesRequest>;
 
@@ -2313,7 +2313,7 @@ export const ListCustomersNodesNodesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/nodes" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/nodes" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersNodesNodesRequest>;
 
@@ -2353,7 +2353,7 @@ export const CreateCustomersNodesDeploymentsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/deployments",
+      path: "v1alpha1/{+parent}/deployments",
       hasBody: true,
     }),
     svc,
@@ -2400,7 +2400,7 @@ export const ListCustomersNodesDeploymentsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/deployments" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/deployments" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersNodesDeploymentsRequest>;
 
@@ -2439,7 +2439,7 @@ export const GetCustomersDeploymentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersDeploymentsRequest>;
 
@@ -2470,7 +2470,7 @@ export const DeleteCustomersDeploymentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteCustomersDeploymentsRequest>;
 
@@ -2515,7 +2515,7 @@ export const ListCustomersDeploymentsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/deployments" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/deployments" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersDeploymentsRequest>;
 
@@ -2556,7 +2556,7 @@ export const MoveCustomersDeploymentsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SasPortalMoveDeploymentRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveCustomersDeploymentsRequest>;
 
@@ -2597,7 +2597,7 @@ export const CreateCustomersDeploymentsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/deployments",
+      path: "v1alpha1/{+parent}/deployments",
       hasBody: true,
     }),
     svc,
@@ -2641,7 +2641,7 @@ export const PatchCustomersDeploymentsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SasPortalDeployment).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchCustomersDeploymentsRequest>;
 
@@ -2684,7 +2684,7 @@ export const CreateSignedCustomersDeploymentsDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices:createSigned",
+      path: "v1alpha1/{+parent}/devices:createSigned",
       hasBody: true,
     }),
     svc,
@@ -2727,7 +2727,7 @@ export const CreateCustomersDeploymentsDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices",
+      path: "v1alpha1/{+parent}/devices",
       hasBody: true,
     }),
     svc,
@@ -2774,7 +2774,7 @@ export const ListCustomersDeploymentsDevicesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/devices" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/devices" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersDeploymentsDevicesRequest>;
 
@@ -2812,7 +2812,7 @@ export interface GetNodesRequest {
 export const GetNodesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+  T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetNodesRequest>;
 
@@ -2848,7 +2848,7 @@ export const PatchNodesDevicesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SasPortalDevice).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchNodesDevicesRequest>;
 
@@ -2884,7 +2884,7 @@ export const DeleteNodesDevicesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteNodesDevicesRequest>;
 
@@ -2929,7 +2929,7 @@ export const ListNodesDevicesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/devices" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/devices" }),
     svc,
   ) as unknown as Schema.Schema<ListNodesDevicesRequest>;
 
@@ -2971,7 +2971,7 @@ export const CreateSignedNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices:createSigned",
+      path: "v1alpha1/{+parent}/devices:createSigned",
       hasBody: true,
     }),
     svc,
@@ -3016,7 +3016,7 @@ export const UpdateSignedNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v1alpha1/{name}:updateSigned",
+      path: "v1alpha1/{+name}:updateSigned",
       hasBody: true,
     }),
     svc,
@@ -3059,7 +3059,7 @@ export const SignDeviceNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{name}:signDevice",
+      path: "v1alpha1/{+name}:signDevice",
       hasBody: true,
     }),
     svc,
@@ -3102,7 +3102,7 @@ export const CreateNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices",
+      path: "v1alpha1/{+parent}/devices",
       hasBody: true,
     }),
     svc,
@@ -3143,7 +3143,7 @@ export const MoveNodesDevicesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SasPortalMoveDeviceRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveNodesDevicesRequest>;
 
@@ -3180,7 +3180,7 @@ export const GetNodesDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     name: Schema.String.pipe(T.HttpPath("name")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+  T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetNodesDevicesRequest>;
 
@@ -3217,7 +3217,7 @@ export const PatchNodesDeploymentsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SasPortalDeployment).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchNodesDeploymentsRequest>;
 
@@ -3253,7 +3253,7 @@ export const DeleteNodesDeploymentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteNodesDeploymentsRequest>;
 
@@ -3298,7 +3298,7 @@ export const ListNodesDeploymentsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/deployments" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/deployments" }),
     svc,
   ) as unknown as Schema.Schema<ListNodesDeploymentsRequest>;
 
@@ -3336,7 +3336,7 @@ export const MoveNodesDeploymentsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SasPortalMoveDeploymentRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveNodesDeploymentsRequest>;
 
@@ -3372,7 +3372,7 @@ export const GetNodesDeploymentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetNodesDeploymentsRequest>;
 
@@ -3412,7 +3412,7 @@ export const ListNodesDeploymentsDevicesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/devices" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/devices" }),
     svc,
   ) as unknown as Schema.Schema<ListNodesDeploymentsDevicesRequest>;
 
@@ -3455,7 +3455,7 @@ export const CreateNodesDeploymentsDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices",
+      path: "v1alpha1/{+parent}/devices",
       hasBody: true,
     }),
     svc,
@@ -3500,7 +3500,7 @@ export const CreateSignedNodesDeploymentsDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices:createSigned",
+      path: "v1alpha1/{+parent}/devices:createSigned",
       hasBody: true,
     }),
     svc,
@@ -3538,7 +3538,7 @@ export const DeleteNodesNodesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteNodesNodesRequest>;
 
@@ -3582,7 +3582,7 @@ export const ListNodesNodesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/{parent}/nodes" }),
+  T.Http({ method: "GET", path: "v1alpha1/{+parent}/nodes" }),
   svc,
 ) as unknown as Schema.Schema<ListNodesNodesRequest>;
 
@@ -3619,7 +3619,7 @@ export const MoveNodesNodesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   body: Schema.optional(SasPortalMoveNodeRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1alpha1/{name}:move", hasBody: true }),
+  T.Http({ method: "POST", path: "v1alpha1/{+name}:move", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<MoveNodesNodesRequest>;
 
@@ -3654,7 +3654,7 @@ export interface GetNodesNodesRequest {
 export const GetNodesNodesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1alpha1/{name}" }),
+  T.Http({ method: "GET", path: "v1alpha1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetNodesNodesRequest>;
 
@@ -3691,7 +3691,7 @@ export const PatchNodesNodesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
   },
 ).pipe(
-  T.Http({ method: "PATCH", path: "v1alpha1/{name}", hasBody: true }),
+  T.Http({ method: "PATCH", path: "v1alpha1/{+name}", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<PatchNodesNodesRequest>;
 
@@ -3730,7 +3730,7 @@ export const CreateNodesNodesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{parent}/nodes", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+parent}/nodes", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateNodesNodesRequest>;
 
@@ -3771,7 +3771,7 @@ export const CreateNodesNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices",
+      path: "v1alpha1/{+parent}/devices",
       hasBody: true,
     }),
     svc,
@@ -3816,7 +3816,7 @@ export const CreateSignedNodesNodesDevicesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/devices:createSigned",
+      path: "v1alpha1/{+parent}/devices:createSigned",
       hasBody: true,
     }),
     svc,
@@ -3863,7 +3863,7 @@ export const ListNodesNodesDevicesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/devices" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/devices" }),
     svc,
   ) as unknown as Schema.Schema<ListNodesNodesDevicesRequest>;
 
@@ -3903,7 +3903,7 @@ export const CreateNodesNodesDeploymentsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{parent}/deployments",
+      path: "v1alpha1/{+parent}/deployments",
       hasBody: true,
     }),
     svc,
@@ -3950,7 +3950,7 @@ export const ListNodesNodesDeploymentsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/deployments" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/deployments" }),
     svc,
   ) as unknown as Schema.Schema<ListNodesNodesDeploymentsRequest>;
 
@@ -3992,7 +3992,7 @@ export const CreateNodesNodesNodesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(SasPortalNode).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha1/{parent}/nodes", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha1/{+parent}/nodes", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateNodesNodesNodesRequest>;
 
@@ -4037,7 +4037,7 @@ export const ListNodesNodesNodesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha1/{parent}/nodes" }),
+    T.Http({ method: "GET", path: "v1alpha1/{+parent}/nodes" }),
     svc,
   ) as unknown as Schema.Schema<ListNodesNodesNodesRequest>;
 

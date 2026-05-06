@@ -5785,7 +5785,7 @@ export const PointInTimeRestoreInstancesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "sql/v1beta4/{parent}:pointInTimeRestore",
+      path: "sql/v1beta4/{+parent}:pointInTimeRestore",
       hasBody: true,
     }),
     svc,
@@ -6483,7 +6483,7 @@ export const CreateBackupBackupsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "sql/v1beta4/{parent}/backups",
+      path: "sql/v1beta4/{+parent}/backups",
       hasBody: true,
     }),
     svc,
@@ -6521,7 +6521,7 @@ export const GetBackupBackupsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "sql/v1beta4/{name}" }),
+    T.Http({ method: "GET", path: "sql/v1beta4/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetBackupBackupsRequest>;
 
@@ -6560,7 +6560,7 @@ export const ListBackupsBackupsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "sql/v1beta4/{parent}/backups" }),
+    T.Http({ method: "GET", path: "sql/v1beta4/{+parent}/backups" }),
     svc,
   ) as unknown as Schema.Schema<ListBackupsBackupsRequest>;
 
@@ -6601,7 +6601,7 @@ export const UpdateBackupBackupsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Backup).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "sql/v1beta4/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "sql/v1beta4/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateBackupBackupsRequest>;
 
@@ -6637,7 +6637,7 @@ export const DeleteBackupBackupsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "sql/v1beta4/{name}" }),
+    T.Http({ method: "DELETE", path: "sql/v1beta4/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteBackupBackupsRequest>;
 

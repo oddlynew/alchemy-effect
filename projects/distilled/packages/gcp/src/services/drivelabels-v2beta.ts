@@ -1838,7 +1838,7 @@ export const GetCapabilitiesUsersRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     customer: Schema.optional(Schema.String).pipe(T.HttpQuery("customer")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2beta/{name}" }),
+    T.Http({ method: "GET", path: "v2beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCapabilitiesUsersRequest>;
 
@@ -1909,7 +1909,7 @@ export const DeleteLabelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("writeControl.requiredRevisionId"),
   ),
 }).pipe(
-  T.Http({ method: "DELETE", path: "v2beta/{name}" }),
+  T.Http({ method: "DELETE", path: "v2beta/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<DeleteLabelsRequest>;
 
@@ -1994,7 +1994,7 @@ export const DeltaLabelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     GoogleAppsDriveLabelsV2betaDeltaUpdateLabelRequest,
   ).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v2beta/{name}:delta", hasBody: true }),
+  T.Http({ method: "POST", path: "v2beta/{+name}:delta", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<DeltaLabelsRequest>;
 
@@ -2035,7 +2035,7 @@ export const PublishLabelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpBody(),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "v2beta/{name}:publish", hasBody: true }),
+  T.Http({ method: "POST", path: "v2beta/{+name}:publish", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<PublishLabelsRequest>;
 
@@ -2150,7 +2150,7 @@ export const UpdatePermissionsLabelsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2beta/{parent}/permissions",
+      path: "v2beta/{+parent}/permissions",
       hasBody: true,
     }),
     svc,
@@ -2201,7 +2201,7 @@ export const GetLabelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("languageCode"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "v2beta/{name}" }),
+  T.Http({ method: "GET", path: "v2beta/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetLabelsRequest>;
 
@@ -2236,7 +2236,7 @@ export const DisableLabelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpBody(),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "v2beta/{name}:disable", hasBody: true }),
+  T.Http({ method: "POST", path: "v2beta/{+name}:disable", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<DisableLabelsRequest>;
 
@@ -2276,7 +2276,7 @@ export const EnableLabelsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpBody(),
   ),
 }).pipe(
-  T.Http({ method: "POST", path: "v2beta/{name}:enable", hasBody: true }),
+  T.Http({ method: "POST", path: "v2beta/{+name}:enable", hasBody: true }),
   svc,
 ) as unknown as Schema.Schema<EnableLabelsRequest>;
 
@@ -2319,7 +2319,7 @@ export const UpdateLabelCopyModeLabelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{name}:updateLabelCopyMode",
+      path: "v2beta/{+name}:updateLabelCopyMode",
       hasBody: true,
     }),
     svc,
@@ -2365,7 +2365,7 @@ export const UpdateLabelEnabledAppSettingsLabelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{name}:updateLabelEnabledAppSettings",
+      path: "v2beta/{+name}:updateLabelEnabledAppSettings",
       hasBody: true,
     }),
     svc,
@@ -2411,7 +2411,7 @@ export const ListLabelsLocksRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     parent: Schema.String.pipe(T.HttpPath("parent")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "v2beta/{parent}/locks" }),
+  T.Http({ method: "GET", path: "v2beta/{+parent}/locks" }),
   svc,
 ) as unknown as Schema.Schema<ListLabelsLocksRequest>;
 
@@ -2454,7 +2454,7 @@ export const BatchUpdateLabelsPermissionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{parent}/permissions:batchUpdate",
+      path: "v2beta/{+parent}/permissions:batchUpdate",
       hasBody: true,
     }),
     svc,
@@ -2498,7 +2498,7 @@ export const DeleteLabelsPermissionsRequest =
       T.HttpQuery("useAdminAccess"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2beta/{name}" }),
+    T.Http({ method: "DELETE", path: "v2beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteLabelsPermissionsRequest>;
 
@@ -2545,7 +2545,7 @@ export const ListLabelsPermissionsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2beta/{parent}/permissions" }),
+    T.Http({ method: "GET", path: "v2beta/{+parent}/permissions" }),
     svc,
   ) as unknown as Schema.Schema<ListLabelsPermissionsRequest>;
 
@@ -2588,7 +2588,7 @@ export const BatchDeleteLabelsPermissionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{parent}/permissions:batchDelete",
+      path: "v2beta/{+parent}/permissions:batchDelete",
       hasBody: true,
     }),
     svc,
@@ -2638,7 +2638,7 @@ export const CreateLabelsPermissionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{parent}/permissions",
+      path: "v2beta/{+parent}/permissions",
       hasBody: true,
     }),
     svc,
@@ -2689,7 +2689,7 @@ export const UpdatePermissionsLabelsRevisionsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "v2beta/{parent}/permissions",
+      path: "v2beta/{+parent}/permissions",
       hasBody: true,
     }),
     svc,
@@ -2733,7 +2733,7 @@ export const DeleteLabelsRevisionsPermissionsRequest =
       T.HttpQuery("useAdminAccess"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v2beta/{name}" }),
+    T.Http({ method: "DELETE", path: "v2beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteLabelsRevisionsPermissionsRequest>;
 
@@ -2776,7 +2776,7 @@ export const BatchUpdateLabelsRevisionsPermissionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{parent}/permissions:batchUpdate",
+      path: "v2beta/{+parent}/permissions:batchUpdate",
       hasBody: true,
     }),
     svc,
@@ -2826,7 +2826,7 @@ export const ListLabelsRevisionsPermissionsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2beta/{parent}/permissions" }),
+    T.Http({ method: "GET", path: "v2beta/{+parent}/permissions" }),
     svc,
   ) as unknown as Schema.Schema<ListLabelsRevisionsPermissionsRequest>;
 
@@ -2872,7 +2872,7 @@ export const BatchDeleteLabelsRevisionsPermissionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{parent}/permissions:batchDelete",
+      path: "v2beta/{+parent}/permissions:batchDelete",
       hasBody: true,
     }),
     svc,
@@ -2922,7 +2922,7 @@ export const CreateLabelsRevisionsPermissionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{parent}/permissions",
+      path: "v2beta/{+parent}/permissions",
       hasBody: true,
     }),
     svc,
@@ -2967,7 +2967,7 @@ export const ListLabelsRevisionsLocksRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v2beta/{parent}/locks" }),
+    T.Http({ method: "GET", path: "v2beta/{+parent}/locks" }),
     svc,
   ) as unknown as Schema.Schema<ListLabelsRevisionsLocksRequest>;
 

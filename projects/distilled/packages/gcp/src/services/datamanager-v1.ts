@@ -1693,7 +1693,7 @@ export const GetAccountTypesAccountsUserListDirectLicensesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountTypesAccountsUserListDirectLicensesRequest>;
 
@@ -1737,7 +1737,7 @@ export const ListAccountTypesAccountsUserListDirectLicensesRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/userListDirectLicenses" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/userListDirectLicenses" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountTypesAccountsUserListDirectLicensesRequest>;
 
@@ -1781,7 +1781,7 @@ export const CreateAccountTypesAccountsUserListDirectLicensesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/userListDirectLicenses",
+      path: "v1/{+parent}/userListDirectLicenses",
       hasBody: true,
     }),
     svc,
@@ -1826,7 +1826,7 @@ export const PatchAccountTypesAccountsUserListDirectLicensesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(UserListDirectLicense).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchAccountTypesAccountsUserListDirectLicensesRequest>;
 
@@ -1863,7 +1863,7 @@ export const GetAccountTypesAccountsUserListGlobalLicensesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountTypesAccountsUserListGlobalLicensesRequest>;
 
@@ -1907,7 +1907,7 @@ export const ListAccountTypesAccountsUserListGlobalLicensesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/userListGlobalLicenses" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/userListGlobalLicenses" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountTypesAccountsUserListGlobalLicensesRequest>;
 
@@ -1951,7 +1951,7 @@ export const CreateAccountTypesAccountsUserListGlobalLicensesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/userListGlobalLicenses",
+      path: "v1/{+parent}/userListGlobalLicenses",
       hasBody: true,
     }),
     svc,
@@ -1996,7 +1996,7 @@ export const PatchAccountTypesAccountsUserListGlobalLicensesRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(UserListGlobalLicense).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchAccountTypesAccountsUserListGlobalLicensesRequest>;
 
@@ -2044,7 +2044,7 @@ export const ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{parent}/userListGlobalLicenseCustomerInfos",
+      path: "v1/{+parent}/userListGlobalLicenseCustomerInfos",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest>;
@@ -2091,7 +2091,7 @@ export const RetrieveAccountTypesAccountsInsightsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/insights:retrieve",
+      path: "v1/{+parent}/insights:retrieve",
       hasBody: true,
     }),
     svc,
@@ -2133,7 +2133,11 @@ export const CreateAccountTypesAccountsPartnerLinksRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(PartnerLink).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/partnerLinks", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1/{+parent}/partnerLinks",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateAccountTypesAccountsPartnerLinksRequest>;
 
@@ -2178,7 +2182,7 @@ export const SearchAccountTypesAccountsPartnerLinksRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/partnerLinks:search" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/partnerLinks:search" }),
     svc,
   ) as unknown as Schema.Schema<SearchAccountTypesAccountsPartnerLinksRequest>;
 
@@ -2217,7 +2221,7 @@ export const DeleteAccountTypesAccountsPartnerLinksRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountTypesAccountsPartnerLinksRequest>;
 
@@ -2253,7 +2257,7 @@ export const GetAccountTypesAccountsUserListsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountTypesAccountsUserListsRequest>;
 
@@ -2298,7 +2302,7 @@ export const PatchAccountTypesAccountsUserListsRequest =
     ),
     body: Schema.optional(UserList).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchAccountTypesAccountsUserListsRequest>;
 
@@ -2339,7 +2343,7 @@ export const DeleteAccountTypesAccountsUserListsRequest =
       T.HttpQuery("validateOnly"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountTypesAccountsUserListsRequest>;
 
@@ -2384,7 +2388,7 @@ export const ListAccountTypesAccountsUserListsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/userLists" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/userLists" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountTypesAccountsUserListsRequest>;
 
@@ -2430,7 +2434,7 @@ export const CreateAccountTypesAccountsUserListsRequest =
     ),
     body: Schema.optional(UserList).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/userLists", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/userLists", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateAccountTypesAccountsUserListsRequest>;
 

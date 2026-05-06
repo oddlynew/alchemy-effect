@@ -565,7 +565,7 @@ export const CreateProjectsLocationsConnectionsRequest =
     ),
     body: Schema.optional(Connection).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/connections", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/connections", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsConnectionsRequest>;
 
@@ -601,7 +601,7 @@ export const GetProjectsLocationsConnectionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsConnectionsRequest>;
 
@@ -641,7 +641,7 @@ export const ListProjectsLocationsConnectionsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/connections" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/connections" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
 
@@ -685,7 +685,7 @@ export const PatchProjectsLocationsConnectionsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Connection).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsConnectionsRequest>;
 
@@ -721,7 +721,7 @@ export const DeleteProjectsLocationsConnectionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsConnectionsRequest>;
 
@@ -762,7 +762,7 @@ export const GetIamPolicyProjectsLocationsConnectionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:getIamPolicy",
+      path: "v1/{+resource}:getIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -805,7 +805,7 @@ export const SetIamPolicyProjectsLocationsConnectionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -848,7 +848,7 @@ export const TestIamPermissionsProjectsLocationsConnectionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,

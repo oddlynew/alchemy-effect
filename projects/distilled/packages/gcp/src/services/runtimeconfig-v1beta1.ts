@@ -328,7 +328,7 @@ export const GetProjectsConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsConfigsRequest>;
 
@@ -359,7 +359,7 @@ export const DeleteProjectsConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsConfigsRequest>;
 
@@ -399,7 +399,7 @@ export const TestIamPermissionsProjectsConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -443,7 +443,7 @@ export const GetIamPolicyProjectsConfigsRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1beta1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsConfigsRequest>;
 
@@ -482,7 +482,7 @@ export const SetIamPolicyProjectsConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:setIamPolicy",
+      path: "v1beta1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -526,7 +526,11 @@ export const CreateProjectsConfigsRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     body: Schema.optional(RuntimeConfig).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{parent}/configs", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1beta1/{+parent}/configs",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsConfigsRequest>;
 
@@ -565,7 +569,7 @@ export const UpdateProjectsConfigsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(RuntimeConfig).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PUT", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PUT", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateProjectsConfigsRequest>;
 
@@ -607,7 +611,7 @@ export const ListProjectsConfigsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/configs" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/configs" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsConfigsRequest>;
 
@@ -642,7 +646,7 @@ export const GetProjectsConfigsVariablesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsConfigsVariablesRequest>;
 
@@ -679,7 +683,7 @@ export const WatchProjectsConfigsVariablesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(WatchVariableRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:watch", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:watch", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<WatchProjectsConfigsVariablesRequest>;
 
@@ -723,7 +727,7 @@ export const CreateProjectsConfigsVariablesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/variables",
+      path: "v1beta1/{+parent}/variables",
       hasBody: true,
     }),
     svc,
@@ -764,7 +768,7 @@ export const UpdateProjectsConfigsVariablesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(Variable).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PUT", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PUT", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateProjectsConfigsVariablesRequest>;
 
@@ -814,7 +818,7 @@ export const ListProjectsConfigsVariablesRequest =
     ),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/variables" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/variables" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsConfigsVariablesRequest>;
 
@@ -855,7 +859,7 @@ export const DeleteProjectsConfigsVariablesRequest =
     recursive: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("recursive")),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsConfigsVariablesRequest>;
 
@@ -896,7 +900,7 @@ export const TestIamPermissionsProjectsConfigsVariablesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -940,7 +944,7 @@ export const TestIamPermissionsProjectsConfigsWaitersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -985,7 +989,11 @@ export const CreateProjectsConfigsWaitersRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     body: Schema.optional(Waiter).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{parent}/waiters", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1beta1/{+parent}/waiters",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsConfigsWaitersRequest>;
 
@@ -1027,7 +1035,7 @@ export const ListProjectsConfigsWaitersRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/waiters" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/waiters" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsConfigsWaitersRequest>;
 
@@ -1065,7 +1073,7 @@ export const DeleteProjectsConfigsWaitersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsConfigsWaitersRequest>;
 
@@ -1101,7 +1109,7 @@ export const GetProjectsConfigsWaitersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsConfigsWaitersRequest>;
 
@@ -1135,7 +1143,7 @@ export const GetProjectsConfigsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsConfigsOperationsRequest>;
 
@@ -1174,7 +1182,7 @@ export const TestIamPermissionsProjectsConfigsOperationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,

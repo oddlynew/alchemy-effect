@@ -101,7 +101,7 @@ export const CreateProjectsLocationsExternalAccountKeysRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/externalAccountKeys",
+      path: "v1beta1/{+parent}/externalAccountKeys",
       hasBody: true,
     }),
     svc,

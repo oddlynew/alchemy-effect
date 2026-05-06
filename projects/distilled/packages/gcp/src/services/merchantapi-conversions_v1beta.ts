@@ -288,7 +288,7 @@ export const CreateAccountsConversionSourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "conversions/v1beta/{parent}/conversionSources",
+      path: "conversions/v1beta/{+parent}/conversionSources",
       hasBody: true,
     }),
     svc,
@@ -326,7 +326,7 @@ export const DeleteAccountsConversionSourcesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "conversions/v1beta/{name}" }),
+    T.Http({ method: "DELETE", path: "conversions/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsConversionSourcesRequest>;
 
@@ -362,7 +362,7 @@ export const GetAccountsConversionSourcesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "conversions/v1beta/{name}" }),
+    T.Http({ method: "GET", path: "conversions/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsConversionSourcesRequest>;
 
@@ -401,7 +401,7 @@ export const UndeleteAccountsConversionSourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "conversions/v1beta/{name}:undelete",
+      path: "conversions/v1beta/{+name}:undelete",
       hasBody: true,
     }),
     svc,
@@ -452,7 +452,7 @@ export const ListAccountsConversionSourcesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "conversions/v1beta/{parent}/conversionSources",
+      path: "conversions/v1beta/{+parent}/conversionSources",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsConversionSourcesRequest>;
@@ -500,7 +500,7 @@ export const PatchAccountsConversionSourcesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "conversions/v1beta/{name}",
+      path: "conversions/v1beta/{+name}",
       hasBody: true,
     }),
     svc,

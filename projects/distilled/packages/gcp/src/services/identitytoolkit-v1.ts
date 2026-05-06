@@ -2041,7 +2041,7 @@ export const AccountsProjectsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts",
+      path: "v1/projects/{+targetProjectId}/accounts",
       hasBody: true,
     }),
     svc,
@@ -2087,7 +2087,7 @@ export const QueryAccountsProjectsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}:queryAccounts",
+      path: "v1/projects/{+targetProjectId}:queryAccounts",
       hasBody: true,
     }),
     svc,
@@ -2133,7 +2133,7 @@ export const CreateSessionCookieProjectsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}:createSessionCookie",
+      path: "v1/projects/{+targetProjectId}:createSessionCookie",
       hasBody: true,
     }),
     svc,
@@ -2189,7 +2189,7 @@ export const BatchGetProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/projects/{targetProjectId}/accounts:batchGet",
+      path: "v1/projects/{+targetProjectId}/accounts:batchGet",
     }),
     svc,
   ) as unknown as Schema.Schema<BatchGetProjectsAccountsRequest>;
@@ -2232,7 +2232,7 @@ export const DeleteProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts:delete",
+      path: "v1/projects/{+targetProjectId}/accounts:delete",
       hasBody: true,
     }),
     svc,
@@ -2278,7 +2278,7 @@ export const SendOobCodeProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts:sendOobCode",
+      path: "v1/projects/{+targetProjectId}/accounts:sendOobCode",
       hasBody: true,
     }),
     svc,
@@ -2324,7 +2324,7 @@ export const UpdateProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts:update",
+      path: "v1/projects/{+targetProjectId}/accounts:update",
       hasBody: true,
     }),
     svc,
@@ -2370,7 +2370,7 @@ export const BatchDeleteProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts:batchDelete",
+      path: "v1/projects/{+targetProjectId}/accounts:batchDelete",
       hasBody: true,
     }),
     svc,
@@ -2416,7 +2416,7 @@ export const QueryProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts:query",
+      path: "v1/projects/{+targetProjectId}/accounts:query",
       hasBody: true,
     }),
     svc,
@@ -2462,7 +2462,7 @@ export const BatchCreateProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts:batchCreate",
+      path: "v1/projects/{+targetProjectId}/accounts:batchCreate",
       hasBody: true,
     }),
     svc,
@@ -2508,7 +2508,7 @@ export const LookupProjectsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/accounts:lookup",
+      path: "v1/projects/{+targetProjectId}/accounts:lookup",
       hasBody: true,
     }),
     svc,
@@ -2557,7 +2557,7 @@ export const CreateSessionCookieProjectsTenantsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}:createSessionCookie",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}:createSessionCookie",
       hasBody: true,
     }),
     svc,
@@ -2606,7 +2606,7 @@ export const AccountsProjectsTenantsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts",
       hasBody: true,
     }),
     svc,
@@ -2655,7 +2655,7 @@ export const UpdateProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:update",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:update",
       hasBody: true,
     }),
     svc,
@@ -2704,7 +2704,7 @@ export const BatchDeleteProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:batchDelete",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:batchDelete",
       hasBody: true,
     }),
     svc,
@@ -2760,7 +2760,7 @@ export const BatchGetProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:batchGet",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:batchGet",
     }),
     svc,
   ) as unknown as Schema.Schema<BatchGetProjectsTenantsAccountsRequest>;
@@ -2806,7 +2806,7 @@ export const DeleteProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:delete",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:delete",
       hasBody: true,
     }),
     svc,
@@ -2855,7 +2855,7 @@ export const SendOobCodeProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:sendOobCode",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:sendOobCode",
       hasBody: true,
     }),
     svc,
@@ -2904,7 +2904,7 @@ export const LookupProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:lookup",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:lookup",
       hasBody: true,
     }),
     svc,
@@ -2953,7 +2953,7 @@ export const QueryProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:query",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:query",
       hasBody: true,
     }),
     svc,
@@ -3002,7 +3002,7 @@ export const BatchCreateProjectsTenantsAccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{targetProjectId}/tenants/{tenantId}/accounts:batchCreate",
+      path: "v1/projects/{+targetProjectId}/tenants/{+tenantId}/accounts:batchCreate",
       hasBody: true,
     }),
     svc,

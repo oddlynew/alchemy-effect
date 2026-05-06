@@ -267,7 +267,7 @@ export const GetSettingsProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
 
@@ -307,7 +307,7 @@ export const UpdateSettingsProjectsLocationsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateSettingsProjectsLocationsRequest>;
 
@@ -358,7 +358,7 @@ export const ListProjectsLocationsNotificationsRequest =
     ),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/notifications" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/notifications" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsNotificationsRequest>;
 
@@ -402,7 +402,7 @@ export const GetProjectsLocationsNotificationsRequest =
       T.HttpQuery("languageCode"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsNotificationsRequest>;
 
@@ -437,7 +437,7 @@ export const GetSettingsOrganizationsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetSettingsOrganizationsLocationsRequest>;
 
@@ -477,7 +477,7 @@ export const UpdateSettingsOrganizationsLocationsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateSettingsOrganizationsLocationsRequest>;
 
@@ -528,7 +528,7 @@ export const ListOrganizationsLocationsNotificationsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/notifications" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/notifications" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsLocationsNotificationsRequest>;
 
@@ -572,7 +572,7 @@ export const GetOrganizationsLocationsNotificationsRequest =
     ),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsLocationsNotificationsRequest>;
 

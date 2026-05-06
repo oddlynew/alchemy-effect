@@ -138,7 +138,7 @@ export const DeleteDefaultBucketProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteDefaultBucketProjectsRequest>;
 
@@ -174,7 +174,7 @@ export const GetDefaultBucketProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetDefaultBucketProjectsRequest>;
 
@@ -208,7 +208,7 @@ export const GetProjectsBucketsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsBucketsRequest>;
 
@@ -244,7 +244,7 @@ export const ListProjectsBucketsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/buckets" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/buckets" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsBucketsRequest>;
 
@@ -284,7 +284,7 @@ export const AddFirebaseProjectsBucketsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{bucket}:addFirebase",
+      path: "v1beta/{+bucket}:addFirebase",
       hasBody: true,
     }),
     svc,
@@ -327,7 +327,7 @@ export const RemoveFirebaseProjectsBucketsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{bucket}:removeFirebase",
+      path: "v1beta/{+bucket}:removeFirebase",
       hasBody: true,
     }),
     svc,
@@ -370,7 +370,7 @@ export const CreateProjectsDefaultBucketRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{parent}/defaultBucket",
+      path: "v1beta/{+parent}/defaultBucket",
       hasBody: true,
     }),
     svc,

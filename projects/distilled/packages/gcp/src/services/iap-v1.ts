@@ -611,7 +611,7 @@ export const GetIapSettingsV1Request =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}:iapSettings" }),
+    T.Http({ method: "GET", path: "v1/{+name}:iapSettings" }),
     svc,
   ) as unknown as Schema.Schema<GetIapSettingsV1Request>;
 
@@ -647,7 +647,7 @@ export const UpdateIapSettingsV1Request =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(IapSettings).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}:iapSettings", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}:iapSettings", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateIapSettingsV1Request>;
 
@@ -688,7 +688,7 @@ export const ValidateAttributeExpressionV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}:validateAttributeExpression",
+      path: "v1/{+name}:validateAttributeExpression",
       hasBody: true,
     }),
     svc,
@@ -729,7 +729,11 @@ export const SetIamPolicyV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/{resource}:setIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/{+resource}:setIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<SetIamPolicyV1Request>;
 
@@ -766,7 +770,11 @@ export const GetIamPolicyV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   resource: Schema.String.pipe(T.HttpPath("resource")),
   body: Schema.optional(GetIamPolicyRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/{resource}:getIamPolicy", hasBody: true }),
+  T.Http({
+    method: "POST",
+    path: "v1/{+resource}:getIamPolicy",
+    hasBody: true,
+  }),
   svc,
 ) as unknown as Schema.Schema<GetIamPolicyV1Request>;
 
@@ -806,7 +814,7 @@ export const TestIamPermissionsV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -850,7 +858,7 @@ export const ListProjectsIap_tunnelLocationsDestGroupsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/destGroups" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/destGroups" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsIap_tunnelLocationsDestGroupsRequest>;
 
@@ -889,7 +897,7 @@ export const DeleteProjectsIap_tunnelLocationsDestGroupsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsIap_tunnelLocationsDestGroupsRequest>;
 
@@ -931,7 +939,7 @@ export const PatchProjectsIap_tunnelLocationsDestGroupsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(TunnelDestGroup).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsIap_tunnelLocationsDestGroupsRequest>;
 
@@ -968,7 +976,7 @@ export const GetProjectsIap_tunnelLocationsDestGroupsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsIap_tunnelLocationsDestGroupsRequest>;
 
@@ -1010,7 +1018,7 @@ export const CreateProjectsIap_tunnelLocationsDestGroupsRequest =
     ),
     body: Schema.optional(TunnelDestGroup).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/destGroups", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/destGroups", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsIap_tunnelLocationsDestGroupsRequest>;
 
@@ -1047,7 +1055,7 @@ export const GetProjectsBrandsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsBrandsRequest>;
 
@@ -1080,7 +1088,7 @@ export const CreateProjectsBrandsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Brand).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/brands", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/brands", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsBrandsRequest>;
 
@@ -1115,7 +1123,7 @@ export const ListProjectsBrandsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/brands" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/brands" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsBrandsRequest>;
 
@@ -1151,7 +1159,7 @@ export const CreateProjectsBrandsIdentityAwareProxyClientsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/identityAwareProxyClients",
+      path: "v1/{+parent}/identityAwareProxyClients",
       hasBody: true,
     }),
     svc,
@@ -1195,7 +1203,7 @@ export const ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:resetSecret", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:resetSecret", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest>;
 
@@ -1232,7 +1240,7 @@ export const GetProjectsBrandsIdentityAwareProxyClientsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsBrandsIdentityAwareProxyClientsRequest>;
 
@@ -1273,7 +1281,7 @@ export const ListProjectsBrandsIdentityAwareProxyClientsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/identityAwareProxyClients" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/identityAwareProxyClients" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsBrandsIdentityAwareProxyClientsRequest>;
 
@@ -1312,7 +1320,7 @@ export const DeleteProjectsBrandsIdentityAwareProxyClientsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsBrandsIdentityAwareProxyClientsRequest>;
 

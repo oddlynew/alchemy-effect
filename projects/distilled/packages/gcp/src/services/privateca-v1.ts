@@ -1392,7 +1392,7 @@ export const ListProjectsLocationsRequest =
     ),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}/locations" }),
+    T.Http({ method: "GET", path: "v1/{+name}/locations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
 
@@ -1427,7 +1427,7 @@ export const GetProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
 
@@ -1458,7 +1458,7 @@ export const DeleteProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
 
@@ -1494,7 +1494,7 @@ export const GetProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
 
@@ -1531,7 +1531,7 @@ export const CancelProjectsLocationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
 
@@ -1581,7 +1581,7 @@ export const ListProjectsLocationsOperationsRequest =
     ),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}/operations" }),
+    T.Http({ method: "GET", path: "v1/{+name}/operations" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
 
@@ -1631,7 +1631,7 @@ export const ListProjectsLocationsCertificateTemplatesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/certificateTemplates" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/certificateTemplates" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCertificateTemplatesRequest>;
 
@@ -1675,7 +1675,7 @@ export const GetIamPolicyProjectsLocationsCertificateTemplatesRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsCertificateTemplatesRequest>;
 
@@ -1712,7 +1712,7 @@ export const DeleteProjectsLocationsCertificateTemplatesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsCertificateTemplatesRequest>;
 
@@ -1748,7 +1748,7 @@ export const GetProjectsLocationsCertificateTemplatesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCertificateTemplatesRequest>;
 
@@ -1796,7 +1796,7 @@ export const CreateProjectsLocationsCertificateTemplatesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/certificateTemplates",
+      path: "v1/{+parent}/certificateTemplates",
       hasBody: true,
     }),
     svc,
@@ -1843,7 +1843,7 @@ export const PatchProjectsLocationsCertificateTemplatesRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     body: Schema.optional(CertificateTemplate).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsCertificateTemplatesRequest>;
 
@@ -1884,7 +1884,7 @@ export const SetIamPolicyProjectsLocationsCertificateTemplatesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -1927,7 +1927,7 @@ export const TestIamPermissionsProjectsLocationsCertificateTemplatesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -1966,7 +1966,7 @@ export const GetProjectsLocationsCaPoolsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCaPoolsRequest>;
 
@@ -2005,7 +2005,7 @@ export const GetIamPolicyProjectsLocationsCaPoolsRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsCaPoolsRequest>;
 
@@ -2042,7 +2042,11 @@ export const FetchCaCertsProjectsLocationsCaPoolsRequest =
     caPool: Schema.String.pipe(T.HttpPath("caPool")),
     body: Schema.optional(FetchCaCertsRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{caPool}:fetchCaCerts", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1/{+caPool}:fetchCaCerts",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<FetchCaCertsProjectsLocationsCaPoolsRequest>;
 
@@ -2087,7 +2091,7 @@ export const CreateProjectsLocationsCaPoolsRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     body: Schema.optional(CaPool).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/caPools", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/caPools", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsCaPoolsRequest>;
 
@@ -2132,7 +2136,7 @@ export const PatchProjectsLocationsCaPoolsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CaPool).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsCaPoolsRequest>;
 
@@ -2173,7 +2177,7 @@ export const SetIamPolicyProjectsLocationsCaPoolsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -2216,7 +2220,7 @@ export const TestIamPermissionsProjectsLocationsCaPoolsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -2267,7 +2271,7 @@ export const ListProjectsLocationsCaPoolsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/caPools" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/caPools" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCaPoolsRequest>;
 
@@ -2313,7 +2317,7 @@ export const DeleteProjectsLocationsCaPoolsRequest =
       T.HttpQuery("ignoreDependentResources"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsCaPoolsRequest>;
 
@@ -2349,7 +2353,7 @@ export const GetProjectsLocationsCaPoolsCertificatesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCaPoolsCertificatesRequest>;
 
@@ -2404,7 +2408,11 @@ export const CreateProjectsLocationsCaPoolsCertificatesRequest =
     requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     body: Schema.optional(Certificate).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/certificates", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1/{+parent}/certificates",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsLocationsCaPoolsCertificatesRequest>;
 
@@ -2449,7 +2457,7 @@ export const PatchProjectsLocationsCaPoolsCertificatesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(Certificate).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsCaPoolsCertificatesRequest>;
 
@@ -2488,7 +2496,7 @@ export const RevokeProjectsLocationsCaPoolsCertificatesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(RevokeCertificateRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:revoke", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:revoke", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<RevokeProjectsLocationsCaPoolsCertificatesRequest>;
 
@@ -2536,7 +2544,7 @@ export const ListProjectsLocationsCaPoolsCertificatesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/certificates" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/certificates" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCaPoolsCertificatesRequest>;
 
@@ -2575,7 +2583,7 @@ export const GetProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2610,7 +2618,7 @@ export const FetchProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}:fetch" }),
+    T.Http({ method: "GET", path: "v1/{+name}:fetch" }),
     svc,
   ) as unknown as Schema.Schema<FetchProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2650,7 +2658,7 @@ export const DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:disable", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:disable", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2700,7 +2708,7 @@ export const CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/certificateAuthorities",
+      path: "v1/{+parent}/certificateAuthorities",
       hasBody: true,
     }),
     svc,
@@ -2742,7 +2750,7 @@ export const EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(EnableCertificateAuthorityRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:enable", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:enable", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2788,7 +2796,7 @@ export const PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CertificateAuthority).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2830,7 +2838,7 @@ export const ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:activate", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:activate", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2879,7 +2887,7 @@ export const ListProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/certificateAuthorities" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/certificateAuthorities" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2923,7 +2931,7 @@ export const UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:undelete", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:undelete", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -2978,7 +2986,7 @@ export const DeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest =
       T.HttpQuery("skipGracePeriod"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest>;
 
@@ -3024,7 +3032,7 @@ export const PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoc
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CertificateRevocationList).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>;
 
@@ -3068,7 +3076,7 @@ export const SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertifica
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:setIamPolicy",
+      path: "v1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -3114,7 +3122,7 @@ export const TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCer
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{resource}:testIamPermissions",
+      path: "v1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -3155,7 +3163,7 @@ export const GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocat
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>;
 
@@ -3197,7 +3205,7 @@ export const GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertifica
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>;
 
@@ -3246,7 +3254,7 @@ export const ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoca
     parent: Schema.String.pipe(T.HttpPath("parent")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/certificateRevocationLists" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/certificateRevocationLists" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>;
 

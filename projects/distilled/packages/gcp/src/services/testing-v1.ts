@@ -1909,7 +1909,7 @@ export const ListProjectsDeviceSessionsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/deviceSessions" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/deviceSessions" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDeviceSessionsRequest>;
 
@@ -1947,7 +1947,7 @@ export const GetProjectsDeviceSessionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDeviceSessionsRequest>;
 
@@ -1984,7 +1984,7 @@ export const CancelProjectsDeviceSessionsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelDeviceSessionRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelProjectsDeviceSessionsRequest>;
 
@@ -2026,7 +2026,7 @@ export const PatchProjectsDeviceSessionsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(DeviceSession).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsDeviceSessionsRequest>;
 
@@ -2067,7 +2067,7 @@ export const CreateProjectsDeviceSessionsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/deviceSessions",
+      path: "v1/{+parent}/deviceSessions",
       hasBody: true,
     }),
     svc,

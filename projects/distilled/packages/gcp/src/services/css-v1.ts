@@ -682,7 +682,7 @@ export const ListChildAccountsAccountsRequest =
     fullName: Schema.optional(Schema.String).pipe(T.HttpQuery("fullName")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}:listChildAccounts" }),
+    T.Http({ method: "GET", path: "v1/{+parent}:listChildAccounts" }),
     svc,
   ) as unknown as Schema.Schema<ListChildAccountsAccountsRequest>;
 
@@ -722,7 +722,7 @@ export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
   parent: Schema.optional(Schema.String).pipe(T.HttpQuery("parent")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
@@ -755,7 +755,7 @@ export const UpdateLabelsAccountsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(UpdateAccountLabelsRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:updateLabels", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:updateLabels", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateLabelsAccountsRequest>;
 
@@ -796,7 +796,7 @@ export const ListAccountsLabelsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/labels" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/labels" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsLabelsRequest>;
 
@@ -834,7 +834,7 @@ export const PatchAccountsLabelsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchAccountsLabelsRequest>;
 
@@ -870,7 +870,7 @@ export const DeleteAccountsLabelsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsLabelsRequest>;
 
@@ -908,7 +908,7 @@ export const CreateAccountsLabelsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(AccountLabel).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/labels", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/labels", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateAccountsLabelsRequest>;
 
@@ -952,7 +952,7 @@ export const InsertAccountsCssProductInputsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/cssProductInputs:insert",
+      path: "v1/{+parent}/cssProductInputs:insert",
       hasBody: true,
     }),
     svc,
@@ -996,7 +996,7 @@ export const PatchAccountsCssProductInputsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(CssProductInput).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchAccountsCssProductInputsRequest>;
 
@@ -1037,7 +1037,7 @@ export const DeleteAccountsCssProductInputsRequest =
     ),
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsCssProductInputsRequest>;
 
@@ -1079,7 +1079,7 @@ export const ListAccountsQuotasRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/quotas" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/quotas" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsQuotasRequest>;
 
@@ -1114,7 +1114,7 @@ export const GetAccountsCssProductsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetAccountsCssProductsRequest>;
 
@@ -1151,7 +1151,7 @@ export const ListAccountsCssProductsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/cssProducts" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/cssProducts" }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsCssProductsRequest>;
 

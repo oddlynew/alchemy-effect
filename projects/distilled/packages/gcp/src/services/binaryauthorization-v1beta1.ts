@@ -417,7 +417,7 @@ export const GetPolicySystempolicyRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetPolicySystempolicyRequest>;
 
@@ -447,7 +447,7 @@ export const GetPolicyProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetPolicyProjectsRequest>;
 
@@ -480,7 +480,7 @@ export const UpdatePolicyProjectsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(Policy).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PUT", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PUT", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdatePolicyProjectsRequest>;
 
@@ -515,7 +515,7 @@ export const GetProjectsAttestorsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsAttestorsRequest>;
 
@@ -552,7 +552,7 @@ export const ListProjectsAttestorsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/attestors" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/attestors" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsAttestorsRequest>;
 
@@ -592,7 +592,7 @@ export const TestIamPermissionsProjectsAttestorsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -634,7 +634,7 @@ export const UpdateProjectsAttestorsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(Attestor).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PUT", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PUT", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateProjectsAttestorsRequest>;
 
@@ -678,7 +678,7 @@ export const CreateProjectsAttestorsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/attestors",
+      path: "v1beta1/{+parent}/attestors",
       hasBody: true,
     }),
     svc,
@@ -721,7 +721,7 @@ export const SetIamPolicyProjectsAttestorsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:setIamPolicy",
+      path: "v1beta1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -759,7 +759,7 @@ export const DeleteProjectsAttestorsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsAttestorsRequest>;
 
@@ -802,7 +802,7 @@ export const ValidateAttestationOccurrenceProjectsAttestorsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{attestor}:validateAttestationOccurrence",
+      path: "v1beta1/{+attestor}:validateAttestationOccurrence",
       hasBody: true,
     }),
     svc,
@@ -846,7 +846,7 @@ export const GetIamPolicyProjectsAttestorsRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1beta1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsAttestorsRequest>;
 
@@ -885,7 +885,7 @@ export const SetIamPolicyProjectsPolicyRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:setIamPolicy",
+      path: "v1beta1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -928,7 +928,7 @@ export const GetIamPolicyProjectsPolicyRequest =
       T.HttpQuery("options.requestedPolicyVersion"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{resource}:getIamPolicy" }),
+    T.Http({ method: "GET", path: "v1beta1/{+resource}:getIamPolicy" }),
     svc,
   ) as unknown as Schema.Schema<GetIamPolicyProjectsPolicyRequest>;
 
@@ -967,7 +967,7 @@ export const TestIamPermissionsProjectsPolicyRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,

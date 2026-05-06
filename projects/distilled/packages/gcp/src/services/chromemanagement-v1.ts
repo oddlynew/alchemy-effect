@@ -3541,7 +3541,7 @@ export const ListCustomersTelemetryEventsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/telemetry/events" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/telemetry/events" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersTelemetryEventsRequest>;
 
@@ -3592,7 +3592,7 @@ export const ListCustomersTelemetryDevicesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/telemetry/devices" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/telemetry/devices" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersTelemetryDevicesRequest>;
 
@@ -3634,7 +3634,7 @@ export const GetCustomersTelemetryDevicesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersTelemetryDevicesRequest>;
 
@@ -3681,7 +3681,7 @@ export const ListCustomersTelemetryUsersRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/telemetry/users" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/telemetry/users" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersTelemetryUsersRequest>;
 
@@ -3723,7 +3723,7 @@ export const GetCustomersTelemetryUsersRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     readMask: Schema.optional(Schema.String).pipe(T.HttpQuery("readMask")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersTelemetryUsersRequest>;
 
@@ -3766,7 +3766,7 @@ export const ListCustomersTelemetryNotificationConfigsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{parent}/telemetry/notificationConfigs",
+      path: "v1/{+parent}/telemetry/notificationConfigs",
     }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersTelemetryNotificationConfigsRequest>;
@@ -3813,7 +3813,7 @@ export const CreateCustomersTelemetryNotificationConfigsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}/telemetry/notificationConfigs",
+      path: "v1/{+parent}/telemetry/notificationConfigs",
       hasBody: true,
     }),
     svc,
@@ -3852,7 +3852,7 @@ export const DeleteCustomersTelemetryNotificationConfigsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteCustomersTelemetryNotificationConfigsRequest>;
 
@@ -3901,7 +3901,7 @@ export const ListCustomersProfilesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/profiles" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/profiles" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersProfilesRequest>;
 
@@ -3937,7 +3937,7 @@ export const GetCustomersProfilesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersProfilesRequest>;
 
@@ -3969,7 +3969,7 @@ export const DeleteCustomersProfilesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteCustomersProfilesRequest>;
 
@@ -4010,7 +4010,7 @@ export const CreateCustomersProfilesCommandsRequest =
       GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/commands", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/commands", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateCustomersProfilesCommandsRequest>;
 
@@ -4047,7 +4047,7 @@ export const GetCustomersProfilesCommandsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersProfilesCommandsRequest>;
 
@@ -4088,7 +4088,7 @@ export const ListCustomersProfilesCommandsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/commands" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/commands" }),
     svc,
   ) as unknown as Schema.Schema<ListCustomersProfilesCommandsRequest>;
 
@@ -4132,7 +4132,7 @@ export const MoveCustomersThirdPartyProfileUsersRequest =
       GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:move", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:move", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<MoveCustomersThirdPartyProfileUsersRequest>;
 
@@ -4183,7 +4183,7 @@ export const CountChromeAppRequestsCustomersAppsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/apps:countChromeAppRequests",
+      path: "v1/{+customer}/apps:countChromeAppRequests",
     }),
     svc,
   ) as unknown as Schema.Schema<CountChromeAppRequestsCustomersAppsRequest>;
@@ -4239,7 +4239,7 @@ export const FetchDevicesRequestingExtensionCustomersAppsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/apps:fetchDevicesRequestingExtension",
+      path: "v1/{+customer}/apps:fetchDevicesRequestingExtension",
     }),
     svc,
   ) as unknown as Schema.Schema<FetchDevicesRequestingExtensionCustomersAppsRequest>;
@@ -4295,7 +4295,7 @@ export const FetchUsersRequestingExtensionCustomersAppsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/apps:fetchUsersRequestingExtension",
+      path: "v1/{+customer}/apps:fetchUsersRequestingExtension",
     }),
     svc,
   ) as unknown as Schema.Schema<FetchUsersRequestingExtensionCustomersAppsRequest>;
@@ -4335,7 +4335,7 @@ export const GetCustomersAppsAndroidRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersAppsAndroidRequest>;
 
@@ -4367,7 +4367,7 @@ export const GetCustomersAppsChromeRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersAppsChromeRequest>;
 
@@ -4398,7 +4398,7 @@ export const GetCustomersAppsWebRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersAppsWebRequest>;
 
@@ -4440,7 +4440,7 @@ export const CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countChromeDevicesReachingAutoExpirationDate",
+      path: "v1/{+customer}/reports:countChromeDevicesReachingAutoExpirationDate",
     }),
     svc,
   ) as unknown as Schema.Schema<CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest>;
@@ -4493,7 +4493,10 @@ export const EnumeratePrintJobsCustomersReportsRequest =
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{customer}/reports:enumeratePrintJobs" }),
+    T.Http({
+      method: "GET",
+      path: "v1/{+customer}/reports:enumeratePrintJobs",
+    }),
     svc,
   ) as unknown as Schema.Schema<EnumeratePrintJobsCustomersReportsRequest>;
 
@@ -4551,7 +4554,7 @@ export const CountPrintJobsByPrinterCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countPrintJobsByPrinter",
+      path: "v1/{+customer}/reports:countPrintJobsByPrinter",
     }),
     svc,
   ) as unknown as Schema.Schema<CountPrintJobsByPrinterCustomersReportsRequest>;
@@ -4610,7 +4613,7 @@ export const CountPrintJobsByUserCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countPrintJobsByUser",
+      path: "v1/{+customer}/reports:countPrintJobsByUser",
     }),
     svc,
   ) as unknown as Schema.Schema<CountPrintJobsByUserCustomersReportsRequest>;
@@ -4661,7 +4664,10 @@ export const CountActiveDevicesCustomersReportsRequest =
       T.HttpQuery("date.month"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{customer}/reports:countActiveDevices" }),
+    T.Http({
+      method: "GET",
+      path: "v1/{+customer}/reports:countActiveDevices",
+    }),
     svc,
   ) as unknown as Schema.Schema<CountActiveDevicesCustomersReportsRequest>;
 
@@ -4726,7 +4732,7 @@ export const FindInstalledAppDevicesCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:findInstalledAppDevices",
+      path: "v1/{+customer}/reports:findInstalledAppDevices",
     }),
     svc,
   ) as unknown as Schema.Schema<FindInstalledAppDevicesCustomersReportsRequest>;
@@ -4777,7 +4783,7 @@ export const CountChromeCrashEventsCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countChromeCrashEvents",
+      path: "v1/{+customer}/reports:countChromeCrashEvents",
     }),
     svc,
   ) as unknown as Schema.Schema<CountChromeCrashEventsCustomersReportsRequest>;
@@ -4821,7 +4827,7 @@ export const CountChromeHardwareFleetDevicesCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countChromeHardwareFleetDevices",
+      path: "v1/{+customer}/reports:countChromeHardwareFleetDevices",
     }),
     svc,
   ) as unknown as Schema.Schema<CountChromeHardwareFleetDevicesCustomersReportsRequest>;
@@ -4870,7 +4876,7 @@ export const CountDevicesPerBootTypeCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countDevicesPerBootType",
+      path: "v1/{+customer}/reports:countDevicesPerBootType",
     }),
     svc,
   ) as unknown as Schema.Schema<CountDevicesPerBootTypeCustomersReportsRequest>;
@@ -4920,7 +4926,7 @@ export const CountChromeVersionsCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countChromeVersions",
+      path: "v1/{+customer}/reports:countChromeVersions",
     }),
     svc,
   ) as unknown as Schema.Schema<CountChromeVersionsCustomersReportsRequest>;
@@ -4973,7 +4979,7 @@ export const CountDevicesPerReleaseChannelCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countDevicesPerReleaseChannel",
+      path: "v1/{+customer}/reports:countDevicesPerReleaseChannel",
     }),
     svc,
   ) as unknown as Schema.Schema<CountDevicesPerReleaseChannelCustomersReportsRequest>;
@@ -5014,7 +5020,7 @@ export const CountChromeBrowsersNeedingAttentionCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countChromeBrowsersNeedingAttention",
+      path: "v1/{+customer}/reports:countChromeBrowsersNeedingAttention",
     }),
     svc,
   ) as unknown as Schema.Schema<CountChromeBrowsersNeedingAttentionCustomersReportsRequest>;
@@ -5058,7 +5064,7 @@ export const CountChromeDevicesThatNeedAttentionCustomersReportsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{customer}/reports:countChromeDevicesThatNeedAttention",
+      path: "v1/{+customer}/reports:countChromeDevicesThatNeedAttention",
     }),
     svc,
   ) as unknown as Schema.Schema<CountChromeDevicesThatNeedAttentionCustomersReportsRequest>;
@@ -5109,7 +5115,10 @@ export const CountInstalledAppsCustomersReportsRequest =
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     customer: Schema.String.pipe(T.HttpPath("customer")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{customer}/reports:countInstalledApps" }),
+    T.Http({
+      method: "GET",
+      path: "v1/{+customer}/reports:countInstalledApps",
+    }),
     svc,
   ) as unknown as Schema.Schema<CountInstalledAppsCustomersReportsRequest>;
 
@@ -5148,7 +5157,7 @@ export const GetCustomersCertificateProvisioningProcessesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersCertificateProvisioningProcessesRequest>;
 
@@ -5190,7 +5199,7 @@ export const UploadCertificateCustomersCertificateProvisioningProcessesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}:uploadCertificate",
+      path: "v1/{+name}:uploadCertificate",
       hasBody: true,
     }),
     svc,
@@ -5234,7 +5243,7 @@ export const SignDataCustomersCertificateProvisioningProcessesRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:signData", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:signData", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<SignDataCustomersCertificateProvisioningProcessesRequest>;
 
@@ -5276,7 +5285,7 @@ export const SetFailureCustomersCertificateProvisioningProcessesRequest =
       GoogleChromeManagementVersionsV1SetFailureRequest,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:setFailure", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:setFailure", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<SetFailureCustomersCertificateProvisioningProcessesRequest>;
 
@@ -5318,7 +5327,7 @@ export const ClaimCustomersCertificateProvisioningProcessesRequest =
       GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest,
     ).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:claim", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:claim", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<ClaimCustomersCertificateProvisioningProcessesRequest>;
 
@@ -5355,7 +5364,7 @@ export const GetCustomersCertificateProvisioningProcessesOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetCustomersCertificateProvisioningProcessesOperationsRequest>;
 
@@ -5403,7 +5412,7 @@ export const ListOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<ListOperationsRequest>;
 
@@ -5443,7 +5452,7 @@ export const CancelOperationsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelOperationsRequest>;
 
@@ -5479,7 +5488,7 @@ export const DeleteOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteOperationsRequest>;
 

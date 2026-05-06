@@ -228,7 +228,7 @@ export const ListPlatformsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{parent}/platforms" }),
+  T.Http({ method: "GET", path: "v1/{+parent}/platforms" }),
   svc,
 ) as unknown as Schema.Schema<ListPlatformsRequest>;
 
@@ -269,7 +269,7 @@ export const ListPlatformsChannelsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/channels" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/channels" }),
     svc,
   ) as unknown as Schema.Schema<ListPlatformsChannelsRequest>;
 
@@ -316,7 +316,7 @@ export const ListPlatformsChannelsVersionsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/versions" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/versions" }),
     svc,
   ) as unknown as Schema.Schema<ListPlatformsChannelsVersionsRequest>;
 
@@ -366,7 +366,7 @@ export const ListPlatformsChannelsVersionsReleasesRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/releases" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/releases" }),
     svc,
   ) as unknown as Schema.Schema<ListPlatformsChannelsVersionsReleasesRequest>;
 

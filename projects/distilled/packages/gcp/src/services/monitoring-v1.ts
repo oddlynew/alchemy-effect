@@ -1536,7 +1536,7 @@ export interface GetOperationsRequest {
 export const GetOperationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String.pipe(T.HttpPath("name")),
 }).pipe(
-  T.Http({ method: "GET", path: "v1/{name}" }),
+  T.Http({ method: "GET", path: "v1/{+name}" }),
   svc,
 ) as unknown as Schema.Schema<GetOperationsRequest>;
 
@@ -1566,7 +1566,7 @@ export const GetLocationsGlobalMetricsScopesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetLocationsGlobalMetricsScopesRequest>;
 
@@ -1644,7 +1644,7 @@ export const CreateLocationsGlobalMetricsScopesProjectsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(MonitoredProject).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/projects", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/projects", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateLocationsGlobalMetricsScopesProjectsRequest>;
 
@@ -1680,7 +1680,7 @@ export const DeleteLocationsGlobalMetricsScopesProjectsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteLocationsGlobalMetricsScopesProjectsRequest>;
 
@@ -1722,7 +1722,7 @@ export const ListProjectsDashboardsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/dashboards" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/dashboards" }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsDashboardsRequest>;
 
@@ -1757,7 +1757,7 @@ export const GetProjectsDashboardsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetProjectsDashboardsRequest>;
 
@@ -1796,7 +1796,7 @@ export const PatchProjectsDashboardsRequest =
     ),
     body: Schema.optional(Dashboard).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchProjectsDashboardsRequest>;
 
@@ -1840,7 +1840,7 @@ export const CreateProjectsDashboardsRequest =
     ),
     body: Schema.optional(Dashboard).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/dashboards", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/dashboards", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateProjectsDashboardsRequest>;
 
@@ -1876,7 +1876,7 @@ export const DeleteProjectsDashboardsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteProjectsDashboardsRequest>;
 
@@ -1920,7 +1920,7 @@ export const LabelsProjectsLocationPrometheusApiV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}/location/{location}/prometheus/api/v1/labels",
+      path: "v1/{+name}/location/{location}/prometheus/api/v1/labels",
       hasBody: true,
     }),
     svc,
@@ -1966,7 +1966,7 @@ export const Query_rangeProjectsLocationPrometheusApiV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}/location/{location}/prometheus/api/v1/query_range",
+      path: "v1/{+name}/location/{location}/prometheus/api/v1/query_range",
       hasBody: true,
     }),
     svc,
@@ -2012,7 +2012,7 @@ export const Query_exemplarsProjectsLocationPrometheusApiV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}/location/{location}/prometheus/api/v1/query_exemplars",
+      path: "v1/{+name}/location/{location}/prometheus/api/v1/query_exemplars",
       hasBody: true,
     }),
     svc,
@@ -2058,7 +2058,7 @@ export const QueryProjectsLocationPrometheusApiV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}/location/{location}/prometheus/api/v1/query",
+      path: "v1/{+name}/location/{location}/prometheus/api/v1/query",
       hasBody: true,
     }),
     svc,
@@ -2104,7 +2104,7 @@ export const SeriesProjectsLocationPrometheusApiV1Request =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{name}/location/{location}/prometheus/api/v1/series",
+      path: "v1/{+name}/location/{location}/prometheus/api/v1/series",
       hasBody: true,
     }),
     svc,
@@ -2153,7 +2153,7 @@ export const ListProjectsLocationPrometheusApiV1MetadataRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{name}/location/{location}/prometheus/api/v1/metadata",
+      path: "v1/{+name}/location/{location}/prometheus/api/v1/metadata",
     }),
     svc,
   ) as unknown as Schema.Schema<ListProjectsLocationPrometheusApiV1MetadataRequest>;
@@ -2205,7 +2205,7 @@ export const ValuesProjectsLocationPrometheusApiV1LabelRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{name}/location/{location}/prometheus/api/v1/label/{label}/values",
+      path: "v1/{+name}/location/{location}/prometheus/api/v1/label/{label}/values",
     }),
     svc,
   ) as unknown as Schema.Schema<ValuesProjectsLocationPrometheusApiV1LabelRequest>;

@@ -7659,7 +7659,7 @@ export interface ListRegionsRequest {
 export const ListRegionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/regions" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/regions" }),
   svc,
 ) as unknown as Schema.Schema<ListRegionsRequest>;
 
@@ -7695,7 +7695,7 @@ export const UpdateAdvertisersRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/advertisers",
+      path: "userprofiles/{+profileId}/advertisers",
       hasBody: true,
     }),
     svc,
@@ -7734,7 +7734,10 @@ export const GetAdvertisersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/advertisers/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "userprofiles/{+profileId}/advertisers/{+id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetAdvertisersRequest>;
 
@@ -7769,7 +7772,7 @@ export const InsertAdvertisersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/advertisers",
+      path: "userprofiles/{+profileId}/advertisers",
       hasBody: true,
     }),
     svc,
@@ -7814,7 +7817,7 @@ export const PatchAdvertisersRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/advertisers",
+      path: "userprofiles/{+profileId}/advertisers",
       hasBody: true,
     }),
     svc,
@@ -7898,7 +7901,7 @@ export const ListAdvertisersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     ),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/advertisers" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/advertisers" }),
   svc,
 ) as unknown as Schema.Schema<ListAdvertisersRequest>;
 
@@ -8028,7 +8031,7 @@ export const GenerateCodeDynamicProfilesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "studio/dynamicProfiles/{dynamicProfileId}/generateCode",
+      path: "studio/dynamicProfiles/{+dynamicProfileId}/generateCode",
     }),
     svc,
   ) as unknown as Schema.Schema<GenerateCodeDynamicProfilesRequest>;
@@ -8066,7 +8069,7 @@ export const GetDynamicProfilesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "studio/dynamicProfiles/{dynamicProfileId}",
+      path: "studio/dynamicProfiles/{+dynamicProfileId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetDynamicProfilesRequest>;
@@ -8136,7 +8139,7 @@ export const PublishDynamicProfilesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "studio/dynamicProfiles/{dynamicProfileId}/publish",
+      path: "studio/dynamicProfiles/{+dynamicProfileId}/publish",
       hasBody: true,
     }),
     svc,
@@ -8181,7 +8184,7 @@ export const GetPlatformTypesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/platformTypes/{id}",
+      path: "userprofiles/{+profileId}/platformTypes/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetPlatformTypesRequest>;
@@ -8213,7 +8216,7 @@ export const ListPlatformTypesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     profileId: Schema.String.pipe(T.HttpPath("profileId")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/platformTypes" }),
+    T.Http({ method: "GET", path: "userprofiles/{+profileId}/platformTypes" }),
     svc,
   ) as unknown as Schema.Schema<ListPlatformTypesRequest>;
 
@@ -8249,7 +8252,7 @@ export const GetTargetableRemarketingListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/targetableRemarketingLists/{id}",
+      path: "userprofiles/{+profileId}/targetableRemarketingLists/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetTargetableRemarketingListsRequest>;
@@ -8307,7 +8310,7 @@ export const ListTargetableRemarketingListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/targetableRemarketingLists",
+      path: "userprofiles/{+profileId}/targetableRemarketingLists",
     }),
     svc,
   ) as unknown as Schema.Schema<ListTargetableRemarketingListsRequest>;
@@ -8364,7 +8367,7 @@ export const ListCitiesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("regionDartIds"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/cities" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/cities" }),
   svc,
 ) as unknown as Schema.Schema<ListCitiesRequest>;
 
@@ -8400,7 +8403,7 @@ export const GetConnectionTypesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/connectionTypes/{id}",
+      path: "userprofiles/{+profileId}/connectionTypes/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetConnectionTypesRequest>;
@@ -8432,7 +8435,10 @@ export const ListConnectionTypesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     profileId: Schema.String.pipe(T.HttpPath("profileId")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/connectionTypes" }),
+    T.Http({
+      method: "GET",
+      path: "userprofiles/{+profileId}/connectionTypes",
+    }),
     svc,
   ) as unknown as Schema.Schema<ListConnectionTypesRequest>;
 
@@ -8471,7 +8477,7 @@ export const UpdateCreativeFieldValuesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/creativeFields/{creativeFieldId}/creativeFieldValues",
+      path: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
       hasBody: true,
     }),
     svc,
@@ -8517,7 +8523,7 @@ export const DeleteCreativeFieldValuesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "userprofiles/{profileId}/creativeFields/{creativeFieldId}/creativeFieldValues/{id}",
+      path: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteCreativeFieldValuesRequest>;
@@ -8564,7 +8570,7 @@ export const GetCreativeFieldValuesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/creativeFields/{creativeFieldId}/creativeFieldValues/{id}",
+      path: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetCreativeFieldValuesRequest>;
@@ -8604,7 +8610,7 @@ export const InsertCreativeFieldValuesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/creativeFields/{creativeFieldId}/creativeFieldValues",
+      path: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
       hasBody: true,
     }),
     svc,
@@ -8653,7 +8659,7 @@ export const PatchCreativeFieldValuesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/creativeFields/{creativeFieldId}/creativeFieldValues",
+      path: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
       hasBody: true,
     }),
     svc,
@@ -8716,7 +8722,7 @@ export const ListCreativeFieldValuesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/creativeFields/{creativeFieldId}/creativeFieldValues",
+      path: "userprofiles/{+profileId}/creativeFields/{+creativeFieldId}/creativeFieldValues",
     }),
     svc,
   ) as unknown as Schema.Schema<ListCreativeFieldValuesRequest>;
@@ -8757,7 +8763,7 @@ export const InsertDynamicTargetingKeysRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/dynamicTargetingKeys",
+      path: "userprofiles/{+profileId}/dynamicTargetingKeys",
       hasBody: true,
     }),
     svc,
@@ -8818,7 +8824,7 @@ export const ListDynamicTargetingKeysRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/dynamicTargetingKeys",
+      path: "userprofiles/{+profileId}/dynamicTargetingKeys",
     }),
     svc,
   ) as unknown as Schema.Schema<ListDynamicTargetingKeysRequest>;
@@ -8869,7 +8875,7 @@ export const DeleteDynamicTargetingKeysRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "userprofiles/{profileId}/dynamicTargetingKeys/{objectId}",
+      path: "userprofiles/{+profileId}/dynamicTargetingKeys/{+objectId}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteDynamicTargetingKeysRequest>;
@@ -8937,7 +8943,7 @@ export const ListTvCampaignSummariesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/tvCampaignSummaries",
+      path: "userprofiles/{+profileId}/tvCampaignSummaries",
     }),
     svc,
   ) as unknown as Schema.Schema<ListTvCampaignSummariesRequest>;
@@ -8974,7 +8980,7 @@ export const GetAccountActiveAdSummariesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/accountActiveAdSummaries/{summaryAccountId}",
+      path: "userprofiles/{+profileId}/accountActiveAdSummaries/{+summaryAccountId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAccountActiveAdSummariesRequest>;
@@ -9017,7 +9023,7 @@ export const PatchRemarketingListSharesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/remarketingListShares",
+      path: "userprofiles/{+profileId}/remarketingListShares",
       hasBody: true,
     }),
     svc,
@@ -9060,7 +9066,7 @@ export const UpdateRemarketingListSharesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/remarketingListShares",
+      path: "userprofiles/{+profileId}/remarketingListShares",
       hasBody: true,
     }),
     svc,
@@ -9103,7 +9109,7 @@ export const GetRemarketingListSharesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/remarketingListShares/{remarketingListId}",
+      path: "userprofiles/{+profileId}/remarketingListShares/{+remarketingListId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetRemarketingListSharesRequest>;
@@ -9137,7 +9143,7 @@ export interface ListMetrosRequest {
 export const ListMetrosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/metros" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/metros" }),
   svc,
 ) as unknown as Schema.Schema<ListMetrosRequest>;
 
@@ -9173,7 +9179,7 @@ export const DeletePlacementStrategiesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "userprofiles/{profileId}/placementStrategies/{id}",
+      path: "userprofiles/{+profileId}/placementStrategies/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeletePlacementStrategiesRequest>;
@@ -9217,7 +9223,7 @@ export const UpdatePlacementStrategiesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/placementStrategies",
+      path: "userprofiles/{+profileId}/placementStrategies",
       hasBody: true,
     }),
     svc,
@@ -9277,7 +9283,7 @@ export const ListPlacementStrategiesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/placementStrategies",
+      path: "userprofiles/{+profileId}/placementStrategies",
     }),
     svc,
   ) as unknown as Schema.Schema<ListPlacementStrategiesRequest>;
@@ -9318,7 +9324,7 @@ export const GetPlacementStrategiesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/placementStrategies/{id}",
+      path: "userprofiles/{+profileId}/placementStrategies/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetPlacementStrategiesRequest>;
@@ -9358,7 +9364,7 @@ export const PatchPlacementStrategiesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/placementStrategies",
+      path: "userprofiles/{+profileId}/placementStrategies",
       hasBody: true,
     }),
     svc,
@@ -9401,7 +9407,7 @@ export const InsertPlacementStrategiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/placementStrategies",
+      path: "userprofiles/{+profileId}/placementStrategies",
       hasBody: true,
     }),
     svc,
@@ -9441,7 +9447,7 @@ export const GetMobileAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/mobileApps/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/mobileApps/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetMobileAppsRequest>;
 
@@ -9501,7 +9507,7 @@ export const ListMobileAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   ids: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("ids")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/mobileApps" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/mobileApps" }),
   svc,
 ) as unknown as Schema.Schema<ListMobileAppsRequest>;
 
@@ -9541,7 +9547,7 @@ export const ListBillingAssignmentsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/billingProfiles/{billingProfileId}/billingAssignments",
+      path: "userprofiles/{+profileId}/billingProfiles/{+billingProfileId}/billingAssignments",
     }),
     svc,
   ) as unknown as Schema.Schema<ListBillingAssignmentsRequest>;
@@ -9581,7 +9587,7 @@ export const InsertBillingAssignmentsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/billingProfiles/{billingProfileId}/billingAssignments",
+      path: "userprofiles/{+profileId}/billingProfiles/{+billingProfileId}/billingAssignments",
       hasBody: true,
     }),
     svc,
@@ -9641,7 +9647,7 @@ export const ListContentCategoriesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/contentCategories",
+      path: "userprofiles/{+profileId}/contentCategories",
     }),
     svc,
   ) as unknown as Schema.Schema<ListContentCategoriesRequest>;
@@ -9682,7 +9688,7 @@ export const InsertContentCategoriesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/contentCategories",
+      path: "userprofiles/{+profileId}/contentCategories",
       hasBody: true,
     }),
     svc,
@@ -9728,7 +9734,7 @@ export const PatchContentCategoriesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/contentCategories",
+      path: "userprofiles/{+profileId}/contentCategories",
       hasBody: true,
     }),
     svc,
@@ -9771,7 +9777,7 @@ export const GetContentCategoriesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/contentCategories/{id}",
+      path: "userprofiles/{+profileId}/contentCategories/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetContentCategoriesRequest>;
@@ -9808,7 +9814,7 @@ export const DeleteContentCategoriesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "userprofiles/{profileId}/contentCategories/{id}",
+      path: "userprofiles/{+profileId}/contentCategories/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteContentCategoriesRequest>;
@@ -9852,7 +9858,7 @@ export const UpdateContentCategoriesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/contentCategories",
+      path: "userprofiles/{+profileId}/contentCategories",
       hasBody: true,
     }),
     svc,
@@ -9898,7 +9904,7 @@ export const PatchSubaccountsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/subaccounts",
+      path: "userprofiles/{+profileId}/subaccounts",
       hasBody: true,
     }),
     svc,
@@ -9940,7 +9946,7 @@ export const InsertSubaccountsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/subaccounts",
+      path: "userprofiles/{+profileId}/subaccounts",
       hasBody: true,
     }),
     svc,
@@ -9979,7 +9985,10 @@ export const GetSubaccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/subaccounts/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "userprofiles/{+profileId}/subaccounts/{+id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetSubaccountsRequest>;
 
@@ -10030,7 +10039,7 @@ export const ListSubaccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/subaccounts" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/subaccounts" }),
   svc,
 ) as unknown as Schema.Schema<ListSubaccountsRequest>;
 
@@ -10070,7 +10079,7 @@ export const UpdateSubaccountsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/subaccounts",
+      path: "userprofiles/{+profileId}/subaccounts",
       hasBody: true,
     }),
     svc,
@@ -10147,7 +10156,7 @@ export const ListAdvertiserLandingPagesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/advertiserLandingPages",
+      path: "userprofiles/{+profileId}/advertiserLandingPages",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertiserLandingPagesRequest>;
@@ -10192,7 +10201,7 @@ export const GetAdvertiserLandingPagesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/advertiserLandingPages/{id}",
+      path: "userprofiles/{+profileId}/advertiserLandingPages/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertiserLandingPagesRequest>;
@@ -10232,7 +10241,7 @@ export const InsertAdvertiserLandingPagesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/advertiserLandingPages",
+      path: "userprofiles/{+profileId}/advertiserLandingPages",
       hasBody: true,
     }),
     svc,
@@ -10278,7 +10287,7 @@ export const PatchAdvertiserLandingPagesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/advertiserLandingPages",
+      path: "userprofiles/{+profileId}/advertiserLandingPages",
       hasBody: true,
     }),
     svc,
@@ -10321,7 +10330,7 @@ export const UpdateAdvertiserLandingPagesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/advertiserLandingPages",
+      path: "userprofiles/{+profileId}/advertiserLandingPages",
       hasBody: true,
     }),
     svc,
@@ -10364,7 +10373,7 @@ export const GetMobileCarriersRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/mobileCarriers/{id}",
+      path: "userprofiles/{+profileId}/mobileCarriers/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetMobileCarriersRequest>;
@@ -10396,7 +10405,7 @@ export const ListMobileCarriersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     profileId: Schema.String.pipe(T.HttpPath("profileId")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/mobileCarriers" }),
+    T.Http({ method: "GET", path: "userprofiles/{+profileId}/mobileCarriers" }),
     svc,
   ) as unknown as Schema.Schema<ListMobileCarriersRequest>;
 
@@ -10438,7 +10447,7 @@ export const ListSizesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   height: Schema.optional(Schema.Number).pipe(T.HttpQuery("height")),
   ids: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("ids")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/sizes" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/sizes" }),
   svc,
 ) as unknown as Schema.Schema<ListSizesRequest>;
 
@@ -10472,7 +10481,7 @@ export const InsertSizesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "userprofiles/{profileId}/sizes",
+    path: "userprofiles/{+profileId}/sizes",
     hasBody: true,
   }),
   svc,
@@ -10511,7 +10520,7 @@ export const GetSizesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/sizes/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/sizes/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetSizesRequest>;
 
@@ -10540,7 +10549,7 @@ export interface ListBrowsersRequest {
 export const ListBrowsersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/browsers" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/browsers" }),
   svc,
 ) as unknown as Schema.Schema<ListBrowsersRequest>;
 
@@ -10570,7 +10579,7 @@ export interface ListLanguagesRequest {
 export const ListLanguagesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/languages" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/languages" }),
   svc,
 ) as unknown as Schema.Schema<ListLanguagesRequest>;
 
@@ -10603,7 +10612,7 @@ export const GetChangeLogsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/changeLogs/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/changeLogs/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetChangeLogsRequest>;
 
@@ -10734,7 +10743,7 @@ export const ListChangeLogsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("maxChangeTime"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/changeLogs" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/changeLogs" }),
   svc,
 ) as unknown as Schema.Schema<ListChangeLogsRequest>;
 
@@ -10774,7 +10783,7 @@ export const GetPlacementGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/placementGroups/{id}",
+      path: "userprofiles/{+profileId}/placementGroups/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetPlacementGroupsRequest>;
@@ -10814,7 +10823,7 @@ export const PatchPlacementGroupsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/placementGroups",
+      path: "userprofiles/{+profileId}/placementGroups",
       hasBody: true,
     }),
     svc,
@@ -10857,7 +10866,7 @@ export const InsertPlacementGroupsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/placementGroups",
+      path: "userprofiles/{+profileId}/placementGroups",
       hasBody: true,
     }),
     svc,
@@ -10992,7 +11001,10 @@ export const ListPlacementGroupsRequest =
       T.HttpQuery("placementGroupType"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/placementGroups" }),
+    T.Http({
+      method: "GET",
+      path: "userprofiles/{+profileId}/placementGroups",
+    }),
     svc,
   ) as unknown as Schema.Schema<ListPlacementGroupsRequest>;
 
@@ -11032,7 +11044,7 @@ export const UpdatePlacementGroupsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/placementGroups",
+      path: "userprofiles/{+profileId}/placementGroups",
       hasBody: true,
     }),
     svc,
@@ -11075,7 +11087,7 @@ export const GetUserRolePermissionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/userRolePermissions/{id}",
+      path: "userprofiles/{+profileId}/userRolePermissions/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetUserRolePermissionsRequest>;
@@ -11112,7 +11124,7 @@ export const ListUserRolePermissionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/userRolePermissions",
+      path: "userprofiles/{+profileId}/userRolePermissions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListUserRolePermissionsRequest>;
@@ -11148,7 +11160,7 @@ export const UpdateAdsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "userprofiles/{profileId}/ads",
+    path: "userprofiles/{+profileId}/ads",
     hasBody: true,
   }),
   svc,
@@ -11187,7 +11199,7 @@ export const GetAdsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/ads/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/ads/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetAdsRequest>;
 
@@ -11221,7 +11233,7 @@ export const InsertAdsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "userprofiles/{profileId}/ads",
+    path: "userprofiles/{+profileId}/ads",
     hasBody: true,
   }),
   svc,
@@ -11265,7 +11277,7 @@ export const PatchAdsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/ads",
+    path: "userprofiles/{+profileId}/ads",
     hasBody: true,
   }),
   svc,
@@ -11411,7 +11423,7 @@ export const ListAdsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("overriddenEventTagId"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/ads" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/ads" }),
   svc,
 ) as unknown as Schema.Schema<ListAdsRequest>;
 
@@ -11472,7 +11484,7 @@ export const ListTargetingTemplatesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/targetingTemplates",
+      path: "userprofiles/{+profileId}/targetingTemplates",
     }),
     svc,
   ) as unknown as Schema.Schema<ListTargetingTemplatesRequest>;
@@ -11516,7 +11528,7 @@ export const PatchTargetingTemplatesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/targetingTemplates",
+      path: "userprofiles/{+profileId}/targetingTemplates",
       hasBody: true,
     }),
     svc,
@@ -11559,7 +11571,7 @@ export const InsertTargetingTemplatesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/targetingTemplates",
+      path: "userprofiles/{+profileId}/targetingTemplates",
       hasBody: true,
     }),
     svc,
@@ -11602,7 +11614,7 @@ export const GetTargetingTemplatesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/targetingTemplates/{id}",
+      path: "userprofiles/{+profileId}/targetingTemplates/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetTargetingTemplatesRequest>;
@@ -11639,7 +11651,7 @@ export const UpdateTargetingTemplatesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/targetingTemplates",
+      path: "userprofiles/{+profileId}/targetingTemplates",
       hasBody: true,
     }),
     svc,
@@ -11685,7 +11697,7 @@ export const InsertCampaignCreativeAssociationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/campaigns/{campaignId}/campaignCreativeAssociations",
+      path: "userprofiles/{+profileId}/campaigns/{+campaignId}/campaignCreativeAssociations",
       hasBody: true,
     }),
     svc,
@@ -11738,7 +11750,7 @@ export const ListCampaignCreativeAssociationsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/campaigns/{campaignId}/campaignCreativeAssociations",
+      path: "userprofiles/{+profileId}/campaigns/{+campaignId}/campaignCreativeAssociations",
     }),
     svc,
   ) as unknown as Schema.Schema<ListCampaignCreativeAssociationsRequest>;
@@ -11783,7 +11795,7 @@ export const GetAdvertiserGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/advertiserGroups/{id}",
+      path: "userprofiles/{+profileId}/advertiserGroups/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAdvertiserGroupsRequest>;
@@ -11820,7 +11832,7 @@ export const InsertAdvertiserGroupsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/advertiserGroups",
+      path: "userprofiles/{+profileId}/advertiserGroups",
       hasBody: true,
     }),
     svc,
@@ -11866,7 +11878,7 @@ export const PatchAdvertiserGroupsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/advertiserGroups",
+      path: "userprofiles/{+profileId}/advertiserGroups",
       hasBody: true,
     }),
     svc,
@@ -11926,7 +11938,7 @@ export const ListAdvertiserGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/advertiserGroups",
+      path: "userprofiles/{+profileId}/advertiserGroups",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertiserGroupsRequest>;
@@ -11967,7 +11979,7 @@ export const UpdateAdvertiserGroupsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/advertiserGroups",
+      path: "userprofiles/{+profileId}/advertiserGroups",
       hasBody: true,
     }),
     svc,
@@ -12010,7 +12022,7 @@ export const DeleteAdvertiserGroupsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "userprofiles/{profileId}/advertiserGroups/{id}",
+      path: "userprofiles/{+profileId}/advertiserGroups/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteAdvertiserGroupsRequest>;
@@ -12557,7 +12569,7 @@ export const ListCreativeGroupsRequest =
     profileId: Schema.String.pipe(T.HttpPath("profileId")),
     sortField: Schema.optional(Schema.String).pipe(T.HttpQuery("sortField")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/creativeGroups" }),
+    T.Http({ method: "GET", path: "userprofiles/{+profileId}/creativeGroups" }),
     svc,
   ) as unknown as Schema.Schema<ListCreativeGroupsRequest>;
 
@@ -12597,7 +12609,7 @@ export const InsertCreativeGroupsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/creativeGroups",
+      path: "userprofiles/{+profileId}/creativeGroups",
       hasBody: true,
     }),
     svc,
@@ -12643,7 +12655,7 @@ export const PatchCreativeGroupsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/creativeGroups",
+      path: "userprofiles/{+profileId}/creativeGroups",
       hasBody: true,
     }),
     svc,
@@ -12686,7 +12698,7 @@ export const GetCreativeGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/creativeGroups/{id}",
+      path: "userprofiles/{+profileId}/creativeGroups/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetCreativeGroupsRequest>;
@@ -12723,7 +12735,7 @@ export const UpdateCreativeGroupsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/creativeGroups",
+      path: "userprofiles/{+profileId}/creativeGroups",
       hasBody: true,
     }),
     svc,
@@ -12766,7 +12778,7 @@ export const DeleteCreativeFieldsRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "userprofiles/{profileId}/creativeFields/{id}",
+      path: "userprofiles/{+profileId}/creativeFields/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteCreativeFieldsRequest>;
@@ -12810,7 +12822,7 @@ export const UpdateCreativeFieldsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/creativeFields",
+      path: "userprofiles/{+profileId}/creativeFields",
       hasBody: true,
     }),
     svc,
@@ -12873,7 +12885,7 @@ export const ListCreativeFieldsRequest =
     maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/creativeFields" }),
+    T.Http({ method: "GET", path: "userprofiles/{+profileId}/creativeFields" }),
     svc,
   ) as unknown as Schema.Schema<ListCreativeFieldsRequest>;
 
@@ -12913,7 +12925,7 @@ export const GetCreativeFieldsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/creativeFields/{id}",
+      path: "userprofiles/{+profileId}/creativeFields/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetCreativeFieldsRequest>;
@@ -12950,7 +12962,7 @@ export const InsertCreativeFieldsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/creativeFields",
+      path: "userprofiles/{+profileId}/creativeFields",
       hasBody: true,
     }),
     svc,
@@ -12996,7 +13008,7 @@ export const PatchCreativeFieldsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/creativeFields",
+      path: "userprofiles/{+profileId}/creativeFields",
       hasBody: true,
     }),
     svc,
@@ -13039,7 +13051,7 @@ export const GetUserRolePermissionGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/userRolePermissionGroups/{id}",
+      path: "userprofiles/{+profileId}/userRolePermissionGroups/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetUserRolePermissionGroupsRequest>;
@@ -13076,7 +13088,7 @@ export const ListUserRolePermissionGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/userRolePermissionGroups",
+      path: "userprofiles/{+profileId}/userRolePermissionGroups",
     }),
     svc,
   ) as unknown as Schema.Schema<ListUserRolePermissionGroupsRequest>;
@@ -13117,7 +13129,7 @@ export const UpdateAccountUserProfilesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/accountUserProfiles",
+      path: "userprofiles/{+profileId}/accountUserProfiles",
       hasBody: true,
     }),
     svc,
@@ -13188,7 +13200,7 @@ export const ListAccountUserProfilesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/accountUserProfiles",
+      path: "userprofiles/{+profileId}/accountUserProfiles",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountUserProfilesRequest>;
@@ -13229,7 +13241,7 @@ export const GetAccountUserProfilesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/accountUserProfiles/{id}",
+      path: "userprofiles/{profileId}/accountUserProfiles/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAccountUserProfilesRequest>;
@@ -13266,7 +13278,7 @@ export const InsertAccountUserProfilesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/accountUserProfiles",
+      path: "userprofiles/{+profileId}/accountUserProfiles",
       hasBody: true,
     }),
     svc,
@@ -13312,7 +13324,7 @@ export const PatchAccountUserProfilesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/accountUserProfiles",
+      path: "userprofiles/{+profileId}/accountUserProfiles",
       hasBody: true,
     }),
     svc,
@@ -13355,7 +13367,7 @@ export const UpdateRemarketingListsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/remarketingLists",
+      path: "userprofiles/{+profileId}/remarketingLists",
       hasBody: true,
     }),
     svc,
@@ -13421,7 +13433,7 @@ export const ListRemarketingListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/remarketingLists",
+      path: "userprofiles/{+profileId}/remarketingLists",
     }),
     svc,
   ) as unknown as Schema.Schema<ListRemarketingListsRequest>;
@@ -13465,7 +13477,7 @@ export const PatchRemarketingListsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/remarketingLists",
+      path: "userprofiles/{+profileId}/remarketingLists",
       hasBody: true,
     }),
     svc,
@@ -13508,7 +13520,7 @@ export const InsertRemarketingListsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/remarketingLists",
+      path: "userprofiles/{+profileId}/remarketingLists",
       hasBody: true,
     }),
     svc,
@@ -13551,7 +13563,7 @@ export const GetRemarketingListsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/remarketingLists/{id}",
+      path: "userprofiles/{+profileId}/remarketingLists/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetRemarketingListsRequest>;
@@ -13672,7 +13684,7 @@ export const ListCreativesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("renderingIds"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/creatives" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/creatives" }),
   svc,
 ) as unknown as Schema.Schema<ListCreativesRequest>;
 
@@ -13709,7 +13721,7 @@ export const GetCreativesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/creatives/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/creatives/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetCreativesRequest>;
 
@@ -13745,7 +13757,7 @@ export const InsertCreativesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "POST",
-    path: "userprofiles/{profileId}/creatives",
+    path: "userprofiles/{+profileId}/creatives",
     hasBody: true,
   }),
   svc,
@@ -13789,7 +13801,7 @@ export const PatchCreativesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/creatives",
+    path: "userprofiles/{+profileId}/creatives",
     hasBody: true,
   }),
   svc,
@@ -13832,7 +13844,7 @@ export const UpdateCreativesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "PUT",
-    path: "userprofiles/{profileId}/creatives",
+    path: "userprofiles/{+profileId}/creatives",
     hasBody: true,
   }),
   svc,
@@ -13873,7 +13885,7 @@ export const GetPostalCodesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "userprofiles/{profileId}/postalCodes/{code}",
+    path: "userprofiles/{+profileId}/postalCodes/{+code}",
   }),
   svc,
 ) as unknown as Schema.Schema<GetPostalCodesRequest>;
@@ -13905,7 +13917,7 @@ export const ListPostalCodesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     profileId: Schema.String.pipe(T.HttpPath("profileId")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/postalCodes" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/postalCodes" }),
   svc,
 ) as unknown as Schema.Schema<ListPostalCodesRequest>;
 
@@ -13991,7 +14003,7 @@ export const ListFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/floodlightActivities",
+      path: "userprofiles/{+profileId}/floodlightActivities",
     }),
     svc,
   ) as unknown as Schema.Schema<ListFloodlightActivitiesRequest>;
@@ -14035,7 +14047,7 @@ export const InsertFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/floodlightActivities",
+      path: "userprofiles/{+profileId}/floodlightActivities",
       hasBody: true,
     }),
     svc,
@@ -14081,7 +14093,7 @@ export const PatchFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/floodlightActivities",
+      path: "userprofiles/{+profileId}/floodlightActivities",
       hasBody: true,
     }),
     svc,
@@ -14124,7 +14136,7 @@ export const GetFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/floodlightActivities/{id}",
+      path: "userprofiles/{+profileId}/floodlightActivities/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetFloodlightActivitiesRequest>;
@@ -14161,7 +14173,7 @@ export const DeleteFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "userprofiles/{profileId}/floodlightActivities/{id}",
+      path: "userprofiles/{+profileId}/floodlightActivities/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<DeleteFloodlightActivitiesRequest>;
@@ -14205,7 +14217,7 @@ export const UpdateFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/floodlightActivities",
+      path: "userprofiles/{+profileId}/floodlightActivities",
       hasBody: true,
     }),
     svc,
@@ -14250,7 +14262,7 @@ export const GeneratetagFloodlightActivitiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/floodlightActivities/generatetag",
+      path: "userprofiles/{+profileId}/floodlightActivities/generatetag",
       hasBody: true,
     }),
     svc,
@@ -14294,7 +14306,7 @@ export const GetOperatingSystemVersionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/operatingSystemVersions/{id}",
+      path: "userprofiles/{+profileId}/operatingSystemVersions/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetOperatingSystemVersionsRequest>;
@@ -14331,7 +14343,7 @@ export const ListOperatingSystemVersionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/operatingSystemVersions",
+      path: "userprofiles/{+profileId}/operatingSystemVersions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListOperatingSystemVersionsRequest>;
@@ -14373,7 +14385,7 @@ export const InsertEventTagsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "POST",
-    path: "userprofiles/{profileId}/eventTags",
+    path: "userprofiles/{+profileId}/eventTags",
     hasBody: true,
   }),
   svc,
@@ -14417,7 +14429,7 @@ export const PatchEventTagsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/eventTags",
+    path: "userprofiles/{+profileId}/eventTags",
     hasBody: true,
   }),
   svc,
@@ -14456,7 +14468,7 @@ export const GetEventTagsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/eventTags/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/eventTags/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetEventTagsRequest>;
 
@@ -14527,7 +14539,7 @@ export const ListEventTagsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("eventTagTypes"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/eventTags" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/eventTags" }),
   svc,
 ) as unknown as Schema.Schema<ListEventTagsRequest>;
 
@@ -14564,7 +14576,7 @@ export const UpdateEventTagsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "PUT",
-    path: "userprofiles/{profileId}/eventTags",
+    path: "userprofiles/{+profileId}/eventTags",
     hasBody: true,
   }),
   svc,
@@ -14605,7 +14617,10 @@ export const DeleteEventTagsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     id: Schema.String.pipe(T.HttpPath("id")),
   },
 ).pipe(
-  T.Http({ method: "DELETE", path: "userprofiles/{profileId}/eventTags/{id}" }),
+  T.Http({
+    method: "DELETE",
+    path: "userprofiles/{+profileId}/eventTags/{+id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteEventTagsRequest>;
 
@@ -14648,7 +14663,7 @@ export const GetAccountPermissionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/accountPermissions/{id}",
+      path: "userprofiles/{+profileId}/accountPermissions/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAccountPermissionsRequest>;
@@ -14682,7 +14697,7 @@ export const ListAccountPermissionsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/accountPermissions",
+      path: "userprofiles/{+profileId}/accountPermissions",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountPermissionsRequest>;
@@ -14718,7 +14733,7 @@ export const GetCountriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "GET",
-    path: "userprofiles/{profileId}/countries/{dartId}",
+    path: "userprofiles/{+profileId}/countries/{+dartId}",
   }),
   svc,
 ) as unknown as Schema.Schema<GetCountriesRequest>;
@@ -14748,7 +14763,7 @@ export interface ListCountriesRequest {
 export const ListCountriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/countries" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/countries" }),
   svc,
 ) as unknown as Schema.Schema<ListCountriesRequest>;
 
@@ -14839,7 +14854,7 @@ export const ListSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("directorySiteIds"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/sites" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/sites" }),
   svc,
 ) as unknown as Schema.Schema<ListSitesRequest>;
 
@@ -14880,7 +14895,7 @@ export const PatchSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/sites",
+    path: "userprofiles/{+profileId}/sites",
     hasBody: true,
   }),
   svc,
@@ -14921,7 +14936,7 @@ export const InsertSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "POST",
-    path: "userprofiles/{profileId}/sites",
+    path: "userprofiles/{+profileId}/sites",
     hasBody: true,
   }),
   svc,
@@ -14960,7 +14975,7 @@ export const GetSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/sites/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/sites/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetSitesRequest>;
 
@@ -14994,7 +15009,7 @@ export const UpdateSitesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "userprofiles/{profileId}/sites",
+    path: "userprofiles/{+profileId}/sites",
     hasBody: true,
   }),
   svc,
@@ -15039,7 +15054,7 @@ export const InsertCreativeAssetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/creativeAssets/{advertiserId}/creativeAssets",
+      path: "userprofiles/{+profileId}/creativeAssets/{+advertiserId}/creativeAssets",
       hasBody: true,
     }),
     svc,
@@ -15082,7 +15097,7 @@ export const GetFloodlightConfigurationsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/floodlightConfigurations/{id}",
+      path: "userprofiles/{+profileId}/floodlightConfigurations/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetFloodlightConfigurationsRequest>;
@@ -15122,7 +15137,7 @@ export const UpdateFloodlightConfigurationsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/floodlightConfigurations",
+      path: "userprofiles/{+profileId}/floodlightConfigurations",
       hasBody: true,
     }),
     svc,
@@ -15168,7 +15183,7 @@ export const PatchFloodlightConfigurationsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/floodlightConfigurations",
+      path: "userprofiles/{+profileId}/floodlightConfigurations",
       hasBody: true,
     }),
     svc,
@@ -15211,7 +15226,7 @@ export const ListFloodlightConfigurationsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/floodlightConfigurations",
+      path: "userprofiles/{+profileId}/floodlightConfigurations",
     }),
     svc,
   ) as unknown as Schema.Schema<ListFloodlightConfigurationsRequest>;
@@ -15252,7 +15267,7 @@ export const UpdateFloodlightActivityGroupsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/floodlightActivityGroups",
+      path: "userprofiles/{+profileId}/floodlightActivityGroups",
       hasBody: true,
     }),
     svc,
@@ -15295,7 +15310,7 @@ export const InsertFloodlightActivityGroupsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/floodlightActivityGroups",
+      path: "userprofiles/{+profileId}/floodlightActivityGroups",
       hasBody: true,
     }),
     svc,
@@ -15341,7 +15356,7 @@ export const PatchFloodlightActivityGroupsRequest =
   }).pipe(
     T.Http({
       method: "PATCH",
-      path: "userprofiles/{profileId}/floodlightActivityGroups",
+      path: "userprofiles/{+profileId}/floodlightActivityGroups",
       hasBody: true,
     }),
     svc,
@@ -15384,7 +15399,7 @@ export const GetFloodlightActivityGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/floodlightActivityGroups/{id}",
+      path: "userprofiles/{+profileId}/floodlightActivityGroups/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetFloodlightActivityGroupsRequest>;
@@ -15454,7 +15469,7 @@ export const ListFloodlightActivityGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/floodlightActivityGroups",
+      path: "userprofiles/{+profileId}/floodlightActivityGroups",
     }),
     svc,
   ) as unknown as Schema.Schema<ListFloodlightActivityGroupsRequest>;
@@ -15499,7 +15514,7 @@ export const GetAccountPermissionGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/accountPermissionGroups/{id}",
+      path: "userprofiles/{+profileId}/accountPermissionGroups/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetAccountPermissionGroupsRequest>;
@@ -15536,7 +15551,7 @@ export const ListAccountPermissionGroupsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/accountPermissionGroups",
+      path: "userprofiles/{+profileId}/accountPermissionGroups",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountPermissionGroupsRequest>;
@@ -15576,7 +15591,10 @@ export const GetVideoFormatsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     id: Schema.Number.pipe(T.HttpPath("id")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/videoFormats/{id}" }),
+  T.Http({
+    method: "GET",
+    path: "userprofiles/{+profileId}/videoFormats/{+id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<GetVideoFormatsRequest>;
 
@@ -15606,7 +15624,7 @@ export const ListVideoFormatsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     profileId: Schema.String.pipe(T.HttpPath("profileId")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/videoFormats" }),
+    T.Http({ method: "GET", path: "userprofiles/{+profileId}/videoFormats" }),
     svc,
   ) as unknown as Schema.Schema<ListVideoFormatsRequest>;
 
@@ -15740,7 +15758,7 @@ export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("searchString"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/accounts" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/accounts" }),
   svc,
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
@@ -15779,7 +15797,7 @@ export const UpdateAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PUT",
-    path: "userprofiles/{profileId}/accounts",
+    path: "userprofiles/{+profileId}/accounts",
     hasBody: true,
   }),
   svc,
@@ -15823,7 +15841,7 @@ export const PatchAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/accounts",
+    path: "userprofiles/{+profileId}/accounts",
     hasBody: true,
   }),
   svc,
@@ -15862,7 +15880,7 @@ export const GetAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/accounts/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/accounts/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetAccountsRequest>;
 
@@ -15944,7 +15962,7 @@ export const ListCampaignsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   sortOrder: Schema.optional(Schema.String).pipe(T.HttpQuery("sortOrder")),
   archived: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("archived")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/campaigns" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/campaigns" }),
   svc,
 ) as unknown as Schema.Schema<ListCampaignsRequest>;
 
@@ -15981,7 +15999,7 @@ export const GetCampaignsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/campaigns/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/campaigns/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetCampaignsRequest>;
 
@@ -16017,7 +16035,7 @@ export const InsertCampaignsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "POST",
-    path: "userprofiles/{profileId}/campaigns",
+    path: "userprofiles/{+profileId}/campaigns",
     hasBody: true,
   }),
   svc,
@@ -16061,7 +16079,7 @@ export const PatchCampaignsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/campaigns",
+    path: "userprofiles/{+profileId}/campaigns",
     hasBody: true,
   }),
   svc,
@@ -16104,7 +16122,7 @@ export const UpdateCampaignsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "PUT",
-    path: "userprofiles/{profileId}/campaigns",
+    path: "userprofiles/{+profileId}/campaigns",
     hasBody: true,
   }),
   svc,
@@ -16143,7 +16161,7 @@ export const GetUserRolesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/userRoles/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/userRoles/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetUserRolesRequest>;
 
@@ -16180,7 +16198,7 @@ export const PatchUserRolesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/userRoles",
+    path: "userprofiles/{+profileId}/userRoles",
     hasBody: true,
   }),
   svc,
@@ -16223,7 +16241,7 @@ export const InsertUserRolesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "POST",
-    path: "userprofiles/{profileId}/userRoles",
+    path: "userprofiles/{+profileId}/userRoles",
     hasBody: true,
   }),
   svc,
@@ -16289,7 +16307,7 @@ export const ListUserRolesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/userRoles" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/userRoles" }),
   svc,
 ) as unknown as Schema.Schema<ListUserRolesRequest>;
 
@@ -16330,7 +16348,7 @@ export const UpdateUserRolesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "PUT",
-    path: "userprofiles/{profileId}/userRoles",
+    path: "userprofiles/{+profileId}/userRoles",
     hasBody: true,
   }),
   svc,
@@ -16371,7 +16389,10 @@ export const DeleteUserRolesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     id: Schema.String.pipe(T.HttpPath("id")),
   },
 ).pipe(
-  T.Http({ method: "DELETE", path: "userprofiles/{profileId}/userRoles/{id}" }),
+  T.Http({
+    method: "DELETE",
+    path: "userprofiles/{+profileId}/userRoles/{+id}",
+  }),
   svc,
 ) as unknown as Schema.Schema<DeleteUserRolesRequest>;
 
@@ -16468,7 +16489,7 @@ export const InsertDirectorySitesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/directorySites",
+      path: "userprofiles/{+profileId}/directorySites",
       hasBody: true,
     }),
     svc,
@@ -16511,7 +16532,7 @@ export const GetDirectorySitesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/directorySites/{id}",
+      path: "userprofiles/{+profileId}/directorySites/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetDirectorySitesRequest>;
@@ -16586,7 +16607,7 @@ export const ListDirectorySitesRequest =
     ),
     maxResults: Schema.optional(Schema.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/directorySites" }),
+    T.Http({ method: "GET", path: "userprofiles/{+profileId}/directorySites" }),
     svc,
   ) as unknown as Schema.Schema<ListDirectorySitesRequest>;
 
@@ -16626,7 +16647,7 @@ export const GetOperatingSystemsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/operatingSystems/{dartId}",
+      path: "userprofiles/{+profileId}/operatingSystems/{+dartId}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetOperatingSystemsRequest>;
@@ -16660,7 +16681,7 @@ export const ListOperatingSystemsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/operatingSystems",
+      path: "userprofiles/{+profileId}/operatingSystems",
     }),
     svc,
   ) as unknown as Schema.Schema<ListOperatingSystemsRequest>;
@@ -16735,7 +16756,7 @@ export const ListBillingRatesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/billingProfiles/{billingProfileId}/billingRates",
+      path: "userprofiles/{+profileId}/billingProfiles/{+billingProfileId}/billingRates",
     }),
     svc,
   ) as unknown as Schema.Schema<ListBillingRatesRequest>;
@@ -16796,7 +16817,7 @@ export const GetTvCampaignDetailsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/tvCampaignDetails/{id}",
+      path: "userprofiles/{+profileId}/tvCampaignDetails/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetTvCampaignDetailsRequest>;
@@ -16842,7 +16863,7 @@ export const ListAdvertiserInvoicesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/advertisers/{advertiserId}/invoices",
+      path: "userprofiles/{+profileId}/advertisers/{+advertiserId}/invoices",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAdvertiserInvoicesRequest>;
@@ -16916,7 +16937,10 @@ export const ListBillingProfilesRequest =
     name: Schema.optional(Schema.String).pipe(T.HttpQuery("name")),
     sortOrder: Schema.optional(Schema.String).pipe(T.HttpQuery("sortOrder")),
   }).pipe(
-    T.Http({ method: "GET", path: "userprofiles/{profileId}/billingProfiles" }),
+    T.Http({
+      method: "GET",
+      path: "userprofiles/{+profileId}/billingProfiles",
+    }),
     svc,
   ) as unknown as Schema.Schema<ListBillingProfilesRequest>;
 
@@ -16956,7 +16980,7 @@ export const UpdateBillingProfilesRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/billingProfiles",
+      path: "userprofiles/{+profileId}/billingProfiles",
       hasBody: true,
     }),
     svc,
@@ -16999,7 +17023,7 @@ export const GetBillingProfilesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "userprofiles/{profileId}/billingProfiles/{id}",
+      path: "userprofiles/{+profileId}/billingProfiles/{+id}",
     }),
     svc,
   ) as unknown as Schema.Schema<GetBillingProfilesRequest>;
@@ -17033,7 +17057,7 @@ export const PublishStudioCreativesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "studio/creatives/{studioCreativeId}/publish",
+      path: "studio/creatives/{+studioCreativeId}/publish",
       hasBody: true,
     }),
     svc,
@@ -17073,7 +17097,7 @@ export const GetStudioCreativesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     studioCreativeId: Schema.String.pipe(T.HttpPath("studioCreativeId")),
   }).pipe(
-    T.Http({ method: "GET", path: "studio/creatives/{studioCreativeId}" }),
+    T.Http({ method: "GET", path: "studio/creatives/{+studioCreativeId}" }),
     svc,
   ) as unknown as Schema.Schema<GetStudioCreativesRequest>;
 
@@ -17142,7 +17166,7 @@ export const GetPlacementsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   profileId: Schema.String.pipe(T.HttpPath("profileId")),
   id: Schema.String.pipe(T.HttpPath("id")),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/placements/{id}" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/placements/{+id}" }),
   svc,
 ) as unknown as Schema.Schema<GetPlacementsRequest>;
 
@@ -17181,7 +17205,7 @@ export const PatchPlacementsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 ).pipe(
   T.Http({
     method: "PATCH",
-    path: "userprofiles/{profileId}/placements",
+    path: "userprofiles/{+profileId}/placements",
     hasBody: true,
   }),
   svc,
@@ -17223,7 +17247,7 @@ export const InsertPlacementsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/placements",
+      path: "userprofiles/{+profileId}/placements",
       hasBody: true,
     }),
     svc,
@@ -17378,7 +17402,7 @@ export const ListPlacementsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     T.HttpQuery("sizeIds"),
   ),
 }).pipe(
-  T.Http({ method: "GET", path: "userprofiles/{profileId}/placements" }),
+  T.Http({ method: "GET", path: "userprofiles/{+profileId}/placements" }),
   svc,
 ) as unknown as Schema.Schema<ListPlacementsRequest>;
 
@@ -17418,7 +17442,7 @@ export const UpdatePlacementsRequest =
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "userprofiles/{profileId}/placements",
+      path: "userprofiles/{+profileId}/placements",
       hasBody: true,
     }),
     svc,
@@ -17506,7 +17530,7 @@ export const GeneratetagsPlacementsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "userprofiles/{profileId}/placements/generatetags",
+      path: "userprofiles/{+profileId}/placements/generatetags",
       hasBody: true,
     }),
     svc,
@@ -17617,7 +17641,7 @@ export const GetDynamicFeedsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     dynamicFeedId: Schema.String.pipe(T.HttpPath("dynamicFeedId")),
   },
 ).pipe(
-  T.Http({ method: "GET", path: "studio/dynamicFeeds/{dynamicFeedId}" }),
+  T.Http({ method: "GET", path: "studio/dynamicFeeds/{+dynamicFeedId}" }),
   svc,
 ) as unknown as Schema.Schema<GetDynamicFeedsRequest>;
 
@@ -17649,7 +17673,7 @@ export const RetransformDynamicFeedsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "studio/dynamicFeeds/{dynamicFeedId}/retransform",
+      path: "studio/dynamicFeeds/{+dynamicFeedId}/retransform",
       hasBody: true,
     }),
     svc,

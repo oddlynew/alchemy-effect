@@ -313,7 +313,7 @@ export const InsertAccountsProductsLocalInventoriesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "inventories/v1beta/{parent}/localInventories:insert",
+      path: "inventories/v1beta/{+parent}/localInventories:insert",
       hasBody: true,
     }),
     svc,
@@ -359,7 +359,7 @@ export const ListAccountsProductsLocalInventoriesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "inventories/v1beta/{parent}/localInventories",
+      path: "inventories/v1beta/{+parent}/localInventories",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsProductsLocalInventoriesRequest>;
@@ -399,7 +399,7 @@ export const DeleteAccountsProductsLocalInventoriesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "inventories/v1beta/{name}" }),
+    T.Http({ method: "DELETE", path: "inventories/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsProductsLocalInventoriesRequest>;
 
@@ -440,7 +440,7 @@ export const InsertAccountsProductsRegionalInventoriesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "inventories/v1beta/{parent}/regionalInventories:insert",
+      path: "inventories/v1beta/{+parent}/regionalInventories:insert",
       hasBody: true,
     }),
     svc,
@@ -487,7 +487,7 @@ export const ListAccountsProductsRegionalInventoriesRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "inventories/v1beta/{parent}/regionalInventories",
+      path: "inventories/v1beta/{+parent}/regionalInventories",
     }),
     svc,
   ) as unknown as Schema.Schema<ListAccountsProductsRegionalInventoriesRequest>;
@@ -527,7 +527,7 @@ export const DeleteAccountsProductsRegionalInventoriesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "inventories/v1beta/{name}" }),
+    T.Http({ method: "DELETE", path: "inventories/v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteAccountsProductsRegionalInventoriesRequest>;
 

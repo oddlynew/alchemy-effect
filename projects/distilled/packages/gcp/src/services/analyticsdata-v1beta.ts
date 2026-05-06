@@ -1315,7 +1315,7 @@ export const CheckCompatibilityPropertiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{property}:checkCompatibility",
+      path: "v1beta/{+property}:checkCompatibility",
       hasBody: true,
     }),
     svc,
@@ -1358,7 +1358,7 @@ export const RunPivotReportPropertiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{property}:runPivotReport",
+      path: "v1beta/{+property}:runPivotReport",
       hasBody: true,
     }),
     svc,
@@ -1401,7 +1401,7 @@ export const BatchRunPivotReportsPropertiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{property}:batchRunPivotReports",
+      path: "v1beta/{+property}:batchRunPivotReports",
       hasBody: true,
     }),
     svc,
@@ -1445,7 +1445,7 @@ export const RunReportPropertiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{property}:runReport",
+      path: "v1beta/{+property}:runReport",
       hasBody: true,
     }),
     svc,
@@ -1483,7 +1483,7 @@ export const GetMetadataPropertiesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetMetadataPropertiesRequest>;
 
@@ -1519,7 +1519,7 @@ export const BatchRunReportsPropertiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{property}:batchRunReports",
+      path: "v1beta/{+property}:batchRunReports",
       hasBody: true,
     }),
     svc,
@@ -1562,7 +1562,7 @@ export const RunRealtimeReportPropertiesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{property}:runRealtimeReport",
+      path: "v1beta/{+property}:runRealtimeReport",
       hasBody: true,
     }),
     svc,
@@ -1600,7 +1600,7 @@ export const GetPropertiesAudienceExportsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{name}" }),
+    T.Http({ method: "GET", path: "v1beta/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetPropertiesAudienceExportsRequest>;
 
@@ -1639,7 +1639,7 @@ export const CreatePropertiesAudienceExportsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/{parent}/audienceExports",
+      path: "v1beta/{+parent}/audienceExports",
       hasBody: true,
     }),
     svc,
@@ -1680,7 +1680,7 @@ export const QueryPropertiesAudienceExportsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(QueryAudienceExportRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta/{name}:query", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta/{+name}:query", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<QueryPropertiesAudienceExportsRequest>;
 
@@ -1723,7 +1723,7 @@ export const ListPropertiesAudienceExportsRequest =
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta/{parent}/audienceExports" }),
+    T.Http({ method: "GET", path: "v1beta/{+parent}/audienceExports" }),
     svc,
   ) as unknown as Schema.Schema<ListPropertiesAudienceExportsRequest>;
 

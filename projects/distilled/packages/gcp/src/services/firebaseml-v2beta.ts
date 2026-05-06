@@ -2393,7 +2393,7 @@ export const GenerateContentProjectsLocationsPublishersModelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{model}:generateContent",
+      path: "v2beta/{+model}:generateContent",
       hasBody: true,
     }),
     svc,
@@ -2439,7 +2439,7 @@ export const StreamGenerateContentProjectsLocationsPublishersModelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{model}:streamGenerateContent",
+      path: "v2beta/{+model}:streamGenerateContent",
       hasBody: true,
     }),
     svc,
@@ -2485,7 +2485,7 @@ export const CountTokensProjectsLocationsPublishersModelsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v2beta/{endpoint}:countTokens",
+      path: "v2beta/{+endpoint}:countTokens",
       hasBody: true,
     }),
     svc,

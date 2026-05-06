@@ -345,7 +345,7 @@ export const CreateAccountsOrderTrackingSignalsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "ordertracking/v1/{parent}/orderTrackingSignals",
+      path: "ordertracking/v1/{+parent}/orderTrackingSignals",
       hasBody: true,
     }),
     svc,

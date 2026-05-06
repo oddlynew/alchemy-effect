@@ -145,7 +145,7 @@ export const VerifyAppsTokensRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{appPackage}/{token}:verify",
+      path: "v1alpha1/{+appPackage}/{+token}:verify",
       hasBody: true,
     }),
     svc,
@@ -191,7 +191,7 @@ export const CreateOrUpdateAppsTokensTagsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha1/{appPackage}/{token}/tags:createOrUpdate",
+      path: "v1alpha1/{+appPackage}/{+token}/tags:createOrUpdate",
       hasBody: true,
     }),
     svc,

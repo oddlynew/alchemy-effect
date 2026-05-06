@@ -5308,7 +5308,7 @@ export const PointInTimeRestoreInstancesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/{parent}:pointInTimeRestore",
+      path: "v1/{+parent}:pointInTimeRestore",
       hasBody: true,
     }),
     svc,
@@ -6057,7 +6057,7 @@ export const CreateBackupBackupsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Backup).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/{parent}/backups", hasBody: true }),
+    T.Http({ method: "POST", path: "v1/{+parent}/backups", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CreateBackupBackupsRequest>;
 
@@ -6093,7 +6093,7 @@ export const GetBackupBackupsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}" }),
+    T.Http({ method: "GET", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetBackupBackupsRequest>;
 
@@ -6132,7 +6132,7 @@ export const ListBackupsBackupsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{parent}/backups" }),
+    T.Http({ method: "GET", path: "v1/{+parent}/backups" }),
     svc,
   ) as unknown as Schema.Schema<ListBackupsBackupsRequest>;
 
@@ -6173,7 +6173,7 @@ export const UpdateBackupBackupsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(Backup).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateBackupBackupsRequest>;
 
@@ -6209,7 +6209,7 @@ export const DeleteBackupBackupsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteBackupBackupsRequest>;
 

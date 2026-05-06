@@ -290,7 +290,7 @@ export const SignSshPublicKeyProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}:signSshPublicKey",
+      path: "v1alpha/{+parent}:signSshPublicKey",
       hasBody: true,
     }),
     svc,
@@ -351,7 +351,7 @@ export const GetLoginProfileUsersRequest =
     ),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}/loginProfile" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}/loginProfile" }),
     svc,
   ) as unknown as Schema.Schema<GetLoginProfileUsersRequest>;
 
@@ -402,7 +402,7 @@ export const ImportSshPublicKeyUsersRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}:importSshPublicKey",
+      path: "v1alpha/{+parent}:importSshPublicKey",
       hasBody: true,
     }),
     svc,
@@ -445,7 +445,7 @@ export const CreateUsersSshPublicKeysRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}/sshPublicKeys",
+      path: "v1alpha/{+parent}/sshPublicKeys",
       hasBody: true,
     }),
     svc,
@@ -483,7 +483,7 @@ export const DeleteUsersSshPublicKeysRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteUsersSshPublicKeysRequest>;
 
@@ -519,7 +519,7 @@ export const GetUsersSshPublicKeysRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1alpha/{name}" }),
+    T.Http({ method: "GET", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetUsersSshPublicKeysRequest>;
 
@@ -556,7 +556,7 @@ export const PatchUsersSshPublicKeysRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(SshPublicKey).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1alpha/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1alpha/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchUsersSshPublicKeysRequest>;
 
@@ -601,7 +601,7 @@ export const DeleteUsersProjectsRequest =
       T.HttpQuery("operatingSystemType"),
     ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1alpha/{name}" }),
+    T.Http({ method: "DELETE", path: "v1alpha/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteUsersProjectsRequest>;
 
@@ -639,7 +639,7 @@ export const ProvisionPosixAccountUsersProjectsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(ProvisionPosixAccountRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1alpha/{name}", hasBody: true }),
+    T.Http({ method: "POST", path: "v1alpha/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<ProvisionPosixAccountUsersProjectsRequest>;
 
@@ -680,7 +680,7 @@ export const SignSshPublicKeyUsersProjectsZonesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}:signSshPublicKey",
+      path: "v1alpha/{+parent}:signSshPublicKey",
       hasBody: true,
     }),
     svc,
@@ -724,7 +724,7 @@ export const SignSshPublicKeyUsersProjectsLocationsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1alpha/{parent}:signSshPublicKey",
+      path: "v1alpha/{+parent}:signSshPublicKey",
       hasBody: true,
     }),
     svc,

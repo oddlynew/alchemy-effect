@@ -7684,7 +7684,7 @@ export const GetOrganizationSettingsOrganizationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationSettingsOrganizationsRequest>;
 
@@ -7724,7 +7724,7 @@ export const UpdateOrganizationSettingsOrganizationsRequest =
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
     body: Schema.optional(OrganizationSettings).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateOrganizationSettingsOrganizationsRequest>;
 
@@ -7766,7 +7766,7 @@ export const RunDiscoveryOrganizationsAssetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/assets:runDiscovery",
+      path: "v1beta1/{+parent}/assets:runDiscovery",
       hasBody: true,
     }),
     svc,
@@ -7809,7 +7809,7 @@ export const GroupOrganizationsAssetsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/assets:group",
+      path: "v1beta1/{+parent}/assets:group",
       hasBody: true,
     }),
     svc,
@@ -7870,7 +7870,7 @@ export const ListOrganizationsAssetsRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/assets" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/assets" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsAssetsRequest>;
 
@@ -7916,7 +7916,7 @@ export const UpdateSecurityMarksOrganizationsAssetsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateSecurityMarksOrganizationsAssetsRequest>;
 
@@ -7967,7 +7967,7 @@ export const ListOrganizationsOperationsRequest =
     ),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsOperationsRequest>;
 
@@ -8008,7 +8008,7 @@ export const CancelOrganizationsOperationsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:cancel", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:cancel", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<CancelOrganizationsOperationsRequest>;
 
@@ -8044,7 +8044,7 @@ export const GetOrganizationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsOperationsRequest>;
 
@@ -8078,7 +8078,7 @@ export const DeleteOrganizationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1beta1/{name}" }),
+    T.Http({ method: "DELETE", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<DeleteOrganizationsOperationsRequest>;
 
@@ -8119,7 +8119,7 @@ export const GetIamPolicyOrganizationsSourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:getIamPolicy",
+      path: "v1beta1/{+resource}:getIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -8160,7 +8160,11 @@ export const CreateOrganizationsSourcesRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     body: Schema.optional(Source).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{parent}/sources", hasBody: true }),
+    T.Http({
+      method: "POST",
+      path: "v1beta1/{+parent}/sources",
+      hasBody: true,
+    }),
     svc,
   ) as unknown as Schema.Schema<CreateOrganizationsSourcesRequest>;
 
@@ -8201,7 +8205,7 @@ export const TestIamPermissionsOrganizationsSourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:testIamPermissions",
+      path: "v1beta1/{+resource}:testIamPermissions",
       hasBody: true,
     }),
     svc,
@@ -8246,7 +8250,7 @@ export const PatchOrganizationsSourcesRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(Source).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchOrganizationsSourcesRequest>;
 
@@ -8282,7 +8286,7 @@ export const GetOrganizationsSourcesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{name}" }),
+    T.Http({ method: "GET", path: "v1beta1/{+name}" }),
     svc,
   ) as unknown as Schema.Schema<GetOrganizationsSourcesRequest>;
 
@@ -8319,7 +8323,7 @@ export const ListOrganizationsSourcesRequest =
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/sources" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/sources" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsSourcesRequest>;
 
@@ -8362,7 +8366,7 @@ export const SetIamPolicyOrganizationsSourcesRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{resource}:setIamPolicy",
+      path: "v1beta1/{+resource}:setIamPolicy",
       hasBody: true,
     }),
     svc,
@@ -8405,7 +8409,7 @@ export const GroupOrganizationsSourcesFindingsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/findings:group",
+      path: "v1beta1/{+parent}/findings:group",
       hasBody: true,
     }),
     svc,
@@ -8461,7 +8465,7 @@ export const ListOrganizationsSourcesFindingsRequest =
     parent: Schema.String.pipe(T.HttpPath("parent")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/{parent}/findings" }),
+    T.Http({ method: "GET", path: "v1beta1/{+parent}/findings" }),
     svc,
   ) as unknown as Schema.Schema<ListOrganizationsSourcesFindingsRequest>;
 
@@ -8502,7 +8506,7 @@ export const SetStateOrganizationsSourcesFindingsRequest =
     name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(SetFindingStateRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "POST", path: "v1beta1/{name}:setState", hasBody: true }),
+    T.Http({ method: "POST", path: "v1beta1/{+name}:setState", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<SetStateOrganizationsSourcesFindingsRequest>;
 
@@ -8547,7 +8551,7 @@ export const PatchOrganizationsSourcesFindingsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<PatchOrganizationsSourcesFindingsRequest>;
 
@@ -8594,7 +8598,7 @@ export const CreateOrganizationsSourcesFindingsRequest =
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta1/{parent}/findings",
+      path: "v1beta1/{+parent}/findings",
       hasBody: true,
     }),
     svc,
@@ -8644,7 +8648,7 @@ export const UpdateSecurityMarksOrganizationsSourcesFindingsRequest =
       T.HttpBody(),
     ),
   }).pipe(
-    T.Http({ method: "PATCH", path: "v1beta1/{name}", hasBody: true }),
+    T.Http({ method: "PATCH", path: "v1beta1/{+name}", hasBody: true }),
     svc,
   ) as unknown as Schema.Schema<UpdateSecurityMarksOrganizationsSourcesFindingsRequest>;
 

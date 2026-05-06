@@ -283,7 +283,7 @@ export const FetchMultiDailyMetricsTimeSeriesLocationsRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{location}:fetchMultiDailyMetricsTimeSeries",
+      path: "v1/{+location}:fetchMultiDailyMetricsTimeSeries",
     }),
     svc,
   ) as unknown as Schema.Schema<FetchMultiDailyMetricsTimeSeriesLocationsRequest>;
@@ -401,7 +401,7 @@ export const GetDailyMetricsTimeSeriesLocationsRequest =
       T.HttpQuery("dailySubEntityType.timeOfDay.minutes"),
     ),
   }).pipe(
-    T.Http({ method: "GET", path: "v1/{name}:getDailyMetricsTimeSeries" }),
+    T.Http({ method: "GET", path: "v1/{+name}:getDailyMetricsTimeSeries" }),
     svc,
   ) as unknown as Schema.Schema<GetDailyMetricsTimeSeriesLocationsRequest>;
 
@@ -474,7 +474,7 @@ export const ListLocationsSearchkeywordsImpressionsMonthlyRequest =
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/{parent}/searchkeywords/impressions/monthly",
+      path: "v1/{+parent}/searchkeywords/impressions/monthly",
     }),
     svc,
   ) as unknown as Schema.Schema<ListLocationsSearchkeywordsImpressionsMonthlyRequest>;
