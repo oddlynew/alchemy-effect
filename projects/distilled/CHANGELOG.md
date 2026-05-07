@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.18.1](https://github.com/alchemy-run/distilled/releases/tag/v0.18.1) (2026-05-07)
+
+### Bug Fixes
+
+- **cloudflare**: remove any requirements from Credentials - by sam in [#271](https://github.com/alchemy-run/distilled/pull/271) [(555c5f4)](https://github.com/alchemy-run/distilled/commit/555c5f4fe69426ada2226320da5ed295942dd951)
+
 ## [v0.18.0](https://github.com/alchemy-run/distilled/releases/tag/v0.18.0) (2026-05-07)
 
 ### Features
