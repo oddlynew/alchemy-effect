@@ -71,6 +71,28 @@ export declare namespace BundleWatchEvent {
   }
 }
 
+// Resolve packages whose `package.json#exports` define a `bun`/`workerd`
+// condition pointing at TypeScript source (e.g. `alchemy`'s own subpath
+// exports map `./Stack` -> `./src/Stack.ts` under the `bun` condition)
+// straight to the source `.ts` file. Without this, rolldown picks the
+// `import` condition which references the compiled `./lib/*.js`, and on a
+// fresh checkout where `lib/` has not been built yet that path is unresolved.
+// The Lambda/Worker bundle then warns `[UNRESOLVED_IMPORT] alchemy/Stack`,
+// treats it as external, and the deployed runtime crashes on init — which
+// surfaces in tests as opaque "Function URL returned 502" timeouts.
+//
+// Bundling TypeScript directly is fine: rolldown handles `.ts` natively, and
+// every package that exposes a `bun` source-path condition also publishes
+// `src/` to npm.
+const SOURCE_CONDITIONS = ["bun", "workerd", "import", "default"] as const;
+
+const withSourceConditions = (
+  resolve: rolldown.InputOptions["resolve"],
+): rolldown.InputOptions["resolve"] => ({
+  ...resolve,
+  conditionNames: resolve?.conditionNames ?? Array.from(SOURCE_CONDITIONS),
+});
+
 /**
  * Build a bundle using rolldown from the given input options and output options.
  * @param inputOptions - The input options for the bundle.
@@ -87,6 +109,7 @@ export const build = (
       const bundle = await rolldown.rolldown({
         ...inputOptions,
         plugins: withPurePlugin(inputOptions.plugins, extra?.pure),
+        resolve: withSourceConditions(inputOptions.resolve),
         optimization: inputOptions.optimization ?? {
           inlineConst: {
             mode: "smart",
@@ -127,6 +150,7 @@ export const watch = (
       Effect.sync(() => {
         const watcher = rolldown.watch({
           ...inputOptions,
+          resolve: withSourceConditions(inputOptions.resolve),
           plugins: [
             withPurePlugin(inputOptions.plugins, extra?.pure),
             // The watcher event listener does not receive the bundle output, so we grab it using a plugin.

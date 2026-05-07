@@ -15,13 +15,15 @@ const testOptions = { providers: AWS.providers() };
 const { test, beforeAll, afterAll } = Test.make(testOptions);
 const sharedStack = Core.scratchStack(testOptions, "DynamoDBBindings");
 
-// Lambda function URL cold-start (DNS, IAM propagation, init) can take
-// well over 60s on a fresh deploy under parallel-suite load — observed
-// up to ~90s when S3 throttling delays the Lambda code upload too.
-// Budget ~150s of readiness polling so we don't fail the whole suite on
-// a slow init.
+// Lambda function URL cold-start (DNS, IAM propagation, init) plus the
+// time it takes for the freshly-attached scan/query/etc. policies to
+// propagate to the live invocation can stack to >150s on a busy account
+// under parallel-suite load. Symptom: the URL returns 500s for the entire
+// budget because the scan inside the handler hits AccessDenied until the
+// policy lands. Budget 200s — still well inside the beforeAll 240s
+// timeout — so the suite stays robust without slowing down the happy path.
 const readinessPolicy = Schedule.fixed("2 seconds").pipe(
-  Schedule.both(Schedule.recurs(75)),
+  Schedule.both(Schedule.recurs(100)),
 );
 
 let baseUrl: string;

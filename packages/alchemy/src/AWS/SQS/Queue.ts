@@ -313,12 +313,28 @@ export const QueueProvider = () =>
           // apply only the delta. SQS returns all attribute values as strings,
           // and `desiredAttributes` is already string-shaped, so equality
           // comparison is direct.
+          //
+          // SQS is eventually consistent post-`CreateQueue`: a same-tick
+          // `GetQueueAttributes` (or `GetQueueUrl`) on a freshly-created
+          // queue can briefly return `QueueDoesNotExist` for a few hundred
+          // ms while the new queue propagates across the SQS frontends.
+          // Retry on that specific tag so first-deploy reconciles don't
+          // fail spuriously; bound the retry to 30s so a genuinely-missing
+          // queue still surfaces quickly.
           const currentAttributes = yield* sqs
             .getQueueAttributes({
               QueueUrl: queueUrl,
               AttributeNames: ["All"],
             })
-            .pipe(Effect.map((r) => r.Attributes ?? {}));
+            .pipe(
+              Effect.retry({
+                while: (e) => e._tag === "QueueDoesNotExist",
+                schedule: Schedule.fixed(500).pipe(
+                  Schedule.both(Schedule.recurs(60)),
+                ),
+              }),
+              Effect.map((r) => r.Attributes ?? {}),
+            );
 
           const attributeDelta: Record<string, string> = {};
           for (const [key, value] of Object.entries(desiredAttributes)) {
