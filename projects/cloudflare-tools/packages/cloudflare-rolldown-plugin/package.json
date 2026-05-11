@@ -35,6 +35,14 @@
       "bun": "./src/plugin.ts",
       "types": "./dist/plugin.d.ts",
       "import": "./dist/plugin.js"
+    },
+    "./plugins": {
+      "types": "./dist/plugins/index.d.ts",
+      "import": "./dist/plugins/index.js"
+    },
+    "./options": {
+      "types": "./dist/options.d.ts",
+      "import": "./dist/options.js"
     }
   },
   "publishConfig": {
@@ -51,14 +59,21 @@
   },
   "dependencies": {
     "@cloudflare/unenv-preset": "^2.16.0",
+    "magic-string": "^0.30.21",
     "unenv": "^2.0.0-rc.24"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:workers",
     "@distilled.cloud/test-utils": "workspace:*",
+    "vite": "catalog:",
     "vitest": "catalog:"
   },
   "peerDependencies": {
     "rolldown": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "rolldown": {
+      "optional": true
+    }
   }
 }
