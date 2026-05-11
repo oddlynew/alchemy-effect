@@ -111,7 +111,6 @@
       "name": "@distilled.cloud/cloudflare-runtime",
       "version": "0.3.2",
       "dependencies": {
-        "capnp-es": "^0.0.14",
         "workerd": "catalog:workers",
       },
       "devDependencies": {
@@ -119,6 +118,7 @@
         "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*",
         "@effect/platform-node": "catalog:effect",
         "@effect/vitest": "catalog:effect",
+        "capnp-es": "^0.0.14",
         "capnweb": "^0.7.0",
         "rolldown": "catalog:",
         "tsdown": "^0.21.10",
@@ -137,7 +137,7 @@
     },
     "packages/cloudflare-vite-plugin": {
       "name": "@distilled.cloud/cloudflare-vite-plugin",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "dependencies": {
         "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*",
       },
