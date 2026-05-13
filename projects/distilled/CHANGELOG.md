@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.20.1](https://github.com/alchemy-run/distilled/releases/tag/v0.20.1) (2026-05-13)
+
+### Bug Fixes
+
+- **core**: retry HttpClientError TransportError and 5xx in isTransientError - by sam in [#293](https://github.com/alchemy-run/distilled/pull/293) [(a9cb25a)](https://github.com/alchemy-run/distilled/commit/a9cb25afc367b87af52034e69add8bca01a651f9)
+
 ## [v0.20.0](https://github.com/alchemy-run/distilled/releases/tag/v0.20.0) (2026-05-12)
 
 ### Bug Fixes
