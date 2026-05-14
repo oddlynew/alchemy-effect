@@ -102,25 +102,28 @@ export const WorkerdLive = Layer.effect(
           (config.sockets?.length ?? 0) +
           (typeof args?.["debug-port"] !== "undefined" ? 1 : 0) +
           (typeof args?.["inspector-addr"] !== "undefined" ? 1 : 0);
-        let tapped: PlatformError | undefined;
         const [controlMessages] = yield* Effect.all(
           [
             readControlMessages(handle.getOutputFd(3), count),
             Stream.run(Stream.succeed(new Uint8Array(serializeConfig(config))), handle.stdin).pipe(
-              Effect.tapError((error) => {
-                tapped = error;
-                return Effect.logWarning(error);
-              }),
+              Effect.tapError((error) => Effect.logError("Stdin error: ", error)),
+              Effect.ignore,
             ),
           ],
           { concurrency: "unbounded" },
         );
         if (controlMessages.length !== count) {
           const [stderr, exitCode] = yield* Effect.all(
-            [readStderr(handle.stderr), handle.exitCode],
+            [
+              readStderr(handle.stderr),
+              handle.exitCode.pipe(
+                Effect.tapError((error) => Effect.logError("Exit code error: ", error)),
+                Effect.orElseSucceed(() => undefined),
+              ),
+            ],
             { concurrency: "unbounded" },
           );
-          return yield* classifyWorkerdStderr(stderr, exitCode, tapped);
+          return yield* classifyWorkerdStderr(stderr, exitCode);
         }
         yield* handle.stderr.pipe(
           Stream.decodeText,
@@ -191,7 +194,6 @@ const readStderr = (stream: Stream.Stream<Uint8Array, PlatformError>) =>
 const classifyWorkerdStderr = (
   stderr: string | undefined,
   exitCode: number | undefined,
-  cause: PlatformError | undefined,
 ): ConfigError | SystemError => {
   const text = (stderr ?? "").trim();
   const lines = text
@@ -221,7 +223,6 @@ const classifyWorkerdStderr = (
       message: "The Workers runtime could not bind to the requested address (already in use).",
       hint: "Pick a different port or stop the process using it.",
       detail: { stderr: text, exitCode },
-      cause,
     });
   }
 
@@ -229,6 +230,5 @@ const classifyWorkerdStderr = (
     subtag: "WorkerdStartFailed",
     message: "The Workers runtime failed to start.",
     detail: { stderr: text, exitCode },
-    cause,
   });
 };
