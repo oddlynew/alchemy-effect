@@ -59,7 +59,7 @@ export const WorkerdLive = Layer.effect(
           "-",
         ],
         {
-          stdin: Stream.succeed(new Uint8Array(serializeConfig(config))),
+          stdin: "pipe",
           stdout: "inherit",
           stderr: "pipe",
           additionalFds: { fd3: { type: "output" } },
@@ -102,9 +102,25 @@ export const WorkerdLive = Layer.effect(
           (config.sockets?.length ?? 0) +
           (typeof args?.["debug-port"] !== "undefined" ? 1 : 0) +
           (typeof args?.["inspector-addr"] !== "undefined" ? 1 : 0);
-        const controlMessages = yield* readControlMessages(handle.getOutputFd(3), count);
+        let tapped: PlatformError | undefined;
+        const [controlMessages] = yield* Effect.all(
+          [
+            readControlMessages(handle.getOutputFd(3), count),
+            Stream.run(Stream.succeed(new Uint8Array(serializeConfig(config))), handle.stdin).pipe(
+              Effect.tapError((error) => {
+                tapped = error;
+                return Effect.logWarning(error);
+              }),
+            ),
+          ],
+          { concurrency: "unbounded" },
+        );
         if (controlMessages.length !== count) {
-          return yield* failureFromStderr(handle.stderr);
+          const [stderr, exitCode] = yield* Effect.all(
+            [readStderr(handle.stderr), handle.exitCode],
+            { concurrency: "unbounded" },
+          );
+          return yield* classifyWorkerdStderr(stderr, exitCode, tapped);
         }
         yield* handle.stderr.pipe(
           Stream.decodeText,
@@ -151,7 +167,7 @@ const readControlMessages = (stream: Stream.Stream<Uint8Array, PlatformError>, c
     ),
   );
 
-const failureFromStderr = (stream: Stream.Stream<Uint8Array, PlatformError>) =>
+const readStderr = (stream: Stream.Stream<Uint8Array, PlatformError>) =>
   stream.pipe(
     Stream.decodeText,
     Stream.tap(Effect.logError),
@@ -164,7 +180,6 @@ const failureFromStderr = (stream: Stream.Stream<Uint8Array, PlatformError>) =>
     // structured tagged error.
     Effect.tapCause((cause) => Effect.logDebug(cause)),
     Effect.orElseSucceed(() => undefined),
-    Effect.flatMap((stderr) => Effect.fail(classifyWorkerdStderr(stderr))),
   );
 
 /**
@@ -173,7 +188,11 @@ const failureFromStderr = (stream: Stream.Stream<Uint8Array, PlatformError>) =>
  * is a user-facing config error (bad worker script or config) or a
  * lower-level system error (port conflict, internal workerd error, etc.).
  */
-const classifyWorkerdStderr = (stderr: string | undefined): ConfigError | SystemError => {
+const classifyWorkerdStderr = (
+  stderr: string | undefined,
+  exitCode: number | undefined,
+  cause: PlatformError | undefined,
+): ConfigError | SystemError => {
   const text = (stderr ?? "").trim();
   const lines = text
     .split("\n")
@@ -191,7 +210,7 @@ const classifyWorkerdStderr = (stderr: string | undefined): ConfigError | System
       subtag: "WorkerdUserScript",
       message: detail ?? serviceLine,
       hint: service ? `Check the configuration for service "${service}".` : undefined,
-      detail: { stderr: text, service },
+      detail: { stderr: text, service, exitCode },
     });
   }
 
@@ -201,13 +220,15 @@ const classifyWorkerdStderr = (stderr: string | undefined): ConfigError | System
       subtag: "WorkerdAddressInUse",
       message: "The Workers runtime could not bind to the requested address (already in use).",
       hint: "Pick a different port or stop the process using it.",
-      detail: { stderr: text },
+      detail: { stderr: text, exitCode },
+      cause,
     });
   }
 
   return new SystemError({
     subtag: "WorkerdStartFailed",
     message: "The Workers runtime failed to start.",
-    detail: { stderr: text },
+    detail: { stderr: text, exitCode },
+    cause,
   });
 };
