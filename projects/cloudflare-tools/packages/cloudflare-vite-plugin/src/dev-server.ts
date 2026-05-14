@@ -51,10 +51,6 @@ export const createDefaultContext = async () => {
   const scope = Scope.makeUnsafe();
 
   return await layerRuntime({
-    server: {
-      port: 0,
-      host: "localhost",
-    },
     api: {
       accountId: process.env.CLOUDFLARE_ACCOUNT_ID!,
     },
@@ -79,7 +75,7 @@ const serve = Effect.fn(function* <B extends BindingHooks = BindingHooks>(
 ) {
   const runtime = yield* Runtime;
   return yield* runtime.start({
-    name: "dev",
+    name: options.worker?.name ?? "vite-dev",
     modules: makeWorkerModules(options),
     compatibilityDate: options.compatibilityDate ?? "2026-05-12",
     compatibilityFlags: options.compatibilityFlags ?? [],
@@ -109,7 +105,7 @@ const serve = Effect.fn(function* <B extends BindingHooks = BindingHooks>(
           return HttpServerResponse.jsonUnsafe(result);
         }),
       ),
-      ...(options.bindings ?? []),
+      ...(options.worker?.bindings ?? []),
     ],
     durableObjectNamespaces: [
       {
@@ -117,8 +113,10 @@ const serve = Effect.fn(function* <B extends BindingHooks = BindingHooks>(
         sql: false,
         ephemeralLocal: true,
       },
-      ...(options.durableObjectNamespaces ?? []),
+      ...(options.worker?.durableObjectNamespaces ?? []),
     ],
+    hyperdrives: options.worker?.hyperdrives,
+    assets: options.worker?.assets,
   });
 });
 
@@ -128,7 +126,7 @@ function makeWorkerModules(options: CloudflareVitePluginOptions): Array<Module> 
       `import { createWorkerEntrypointWrapper, createDurableObjectWrapper, createWorkflowEntrypointWrapper } from "./module-runner/wrapper.worker.mjs";`,
       'export { ModuleRunnerDO } from "./module-runner/module-runner.worker.mjs";',
       'export default createWorkerEntrypointWrapper("default");',
-      ...(options.durableObjectNamespaces ?? []).map(
+      ...(options.worker?.durableObjectNamespaces ?? []).map(
         (namespace) =>
           `export const ${namespace.className} = createDurableObjectWrapper("${namespace.className}");`,
       ),

@@ -95,10 +95,10 @@ export function dev(options: CloudflareVitePluginOptions): vite.Plugin {
       }
       return () => {
         server.middlewares.use((req, res) => {
-          const url = new URL(req.url ?? "/", `http://${address}`);
+          const url = new URL(req.url ?? "/", address);
           const request = NodeHttp.request(url, {
             method: req.method,
-            headers: { ...req.headers, host: address.split(":")[0] },
+            headers: { ...req.headers, host: url.hostname },
           });
           req.pipe(request);
           request.on("response", (response) => {

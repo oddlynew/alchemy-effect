@@ -11,8 +11,8 @@ import {
 } from "@distilled.cloud/cloudflare-rolldown-plugin/plugins";
 import type {
   BindingHooks,
-  DurableObjectNamespace,
   RuntimeServices,
+  RuntimeWorker,
 } from "@distilled.cloud/cloudflare-runtime";
 import type * as Context from "effect/Context";
 import type * as vite from "vite";
@@ -21,8 +21,7 @@ import { dev } from "./dev-plugin.js";
 export interface CloudflareVitePluginOptions<
   B extends BindingHooks = BindingHooks,
 > extends CloudflarePluginOptions {
-  durableObjectNamespaces?: Array<DurableObjectNamespace>;
-  bindings?: B;
+  worker?: Omit<RuntimeWorker<B>, "compatibilityDate" | "compatibilityFlags" | "modules">;
   context?: Context.Context<RuntimeServices>;
 }
 
