@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/cloudflare-vite-plugin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://github.com/alchemy-run/cloudflare-tools/tree/main/packages/cloudflare-vite-plugin#readme",
   "bugs": {
     "url": "https://github.com/alchemy-run/cloudflare-tools/issues"
@@ -22,22 +22,21 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "main": "./dist/plugin.js",
-  "types": "./dist/plugin.d.ts",
+  "main": "./dist/node/plugin.mjs",
+  "types": "./dist/node/plugin.d.mts",
   "exports": {
     ".": {
-      "bun": "./src/plugin.ts",
-      "types": "./dist/plugin.d.ts",
-      "import": "./dist/plugin.js"
+      "types": "./dist/node/plugin.d.mts",
+      "import": "./dist/node/plugin.mjs"
     }
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc",
+    "build": "tsdown",
     "build:clean": "rm -rf dist && bun run build",
+    "dev": "tsdown --watch",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest --passWithNoTests",
     "prepublishOnly": "bun run build:clean",
@@ -47,11 +46,20 @@
     "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "catalog:workers",
+    "@effect/platform-node": "catalog:effect",
     "rolldown": "catalog:",
+    "tsdown": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
   },
   "peerDependencies": {
+    "@distilled.cloud/cloudflare": "catalog:",
+    "@distilled.cloud/cloudflare-runtime": "workspace:*",
+    "effect": "catalog:effect",
     "vite": "^7.0.0 || ^8.0.0"
+  },
+  "inlinedDependencies": {
+    "vite": "8.0.10"
   }
 }

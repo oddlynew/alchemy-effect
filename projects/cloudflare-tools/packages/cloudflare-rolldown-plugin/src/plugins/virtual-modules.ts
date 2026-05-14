@@ -1,5 +1,5 @@
-import type { Plugin } from "rolldown";
 import { createPlugin } from "../factory.js";
+import { resolvePluginApi } from "../utils.js";
 import type { UnenvApi } from "./nodejs-compat.js";
 
 // oxlint-disable-next-line no-control-regex
@@ -7,7 +7,6 @@ const VIRTUAL_MODULE_REGEXP = /^\0distilled:.*$/;
 
 export const WORKER_ENTRY_PREFIX = "\0distilled:worker-entry:" as const;
 const USER_ENTRY_PREFIX = "\0distilled:user-entry:" as const;
-const PEAR_ENTRY_PREFIX = "\0distilled:pear-entry:" as const;
 const INJECT_PREFIX = "\0distilled:inject:" as const;
 const EXPORT_TYPES_ID = "\0distilled:export-types" as const;
 
@@ -23,19 +22,18 @@ export const virtualModulesPlugin = createPlugin("virtual-modules", (options) =>
     ];
   };
   return {
+    vite: {
+      enforce: "pre",
+    },
     shared: {
       buildStart({ plugins }) {
-        unenvApi = plugins.find(
-          (plugin): plugin is Plugin<UnenvApi> =>
-            "name" in plugin && plugin.name === "distilled-cloudflare:nodejs-unenv",
-        )?.api;
+        unenvApi = resolvePluginApi<UnenvApi>(plugins, "distilled-cloudflare:nodejs-unenv");
       },
       resolveId: {
         filter: { id: VIRTUAL_MODULE_REGEXP },
         handler(id) {
           if (
             id.startsWith(WORKER_ENTRY_PREFIX) ||
-            id.startsWith(PEAR_ENTRY_PREFIX) ||
             id.startsWith(INJECT_PREFIX) ||
             id === EXPORT_TYPES_ID
           ) {
@@ -54,9 +52,9 @@ export const virtualModulesPlugin = createPlugin("virtual-modules", (options) =>
         handler(id) {
           if (id.startsWith(WORKER_ENTRY_PREFIX)) {
             const userEntryId = id.replace(WORKER_ENTRY_PREFIX, USER_ENTRY_PREFIX);
+
             return [
               ...inject(),
-              `import { getExportTypes } from "${EXPORT_TYPES_ID}";`,
               ...(options.exports
                 ? [`export { ${options.exports.join(", ")} } from "${userEntryId}";`]
                 : [
@@ -65,6 +63,7 @@ export const virtualModulesPlugin = createPlugin("virtual-modules", (options) =>
                     `export default userEntry.default ?? {};`,
                   ]),
               "if (import.meta.hot) {",
+              `  const { getExportTypes } = await import("${EXPORT_TYPES_ID}");`,
               "  import.meta.hot.accept((module) => {",
               "    const exportTypes = getExportTypes(module);",
               '    import.meta.hot.send("distilled-cloudflare:worker-export-types", exportTypes);',

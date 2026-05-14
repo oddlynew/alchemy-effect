@@ -9,12 +9,25 @@ import {
   virtualModulesPlugin,
   wasmInitPlugin,
 } from "@distilled.cloud/cloudflare-rolldown-plugin/plugins";
+import type {
+  BindingHooks,
+  DurableObjectNamespace,
+  RuntimeServices,
+} from "@distilled.cloud/cloudflare-runtime";
+import type * as Context from "effect/Context";
 import type * as vite from "vite";
+import { dev } from "./dev-plugin.js";
 
-export type { CloudflarePluginOptions };
+export interface CloudflareVitePluginOptions<
+  B extends BindingHooks = BindingHooks,
+> extends CloudflarePluginOptions {
+  durableObjectNamespaces?: Array<DurableObjectNamespace>;
+  bindings?: B;
+  context?: Context.Context<RuntimeServices>;
+}
 
 export default function cloudflareVitePlugin(
-  options: CloudflarePluginOptions = {},
+  options: CloudflareVitePluginOptions = {},
 ): Array<vite.Plugin | null> {
   return [
     optionsPlugin.vite(options),
@@ -31,6 +44,7 @@ export default function cloudflareVitePlugin(
       config() {
         return { rsc: { serverHandler: false } } as vite.UserConfig;
       },
-    },
+    } as vite.Plugin,
+    dev(options),
   ];
 }

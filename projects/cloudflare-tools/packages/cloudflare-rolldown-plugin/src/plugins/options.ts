@@ -5,9 +5,17 @@ import type { CloudflarePluginOptions } from "../options.js";
 import { hasNodejsCompat } from "../utils.js";
 import { WORKER_ENTRY_PREFIX } from "./virtual-modules.js";
 
-const DEFAULT_CONDITIONS = ["workerd", "worker", "module", "browser"];
+function getConditions(options: CloudflarePluginOptions): Array<string> {
+  return hasNodejsCompat(options.compatibilityFlags)
+    ? ["workerd", "worker", "node", "module"]
+    : ["workerd", "worker", "module", "browser"];
+}
 
-const DEFAULT_RESOLVE_MAIN_FIELDS = ["browser", "module", "jsnext:main", "jsnext"];
+function getMainFields(options: CloudflarePluginOptions): Array<string> {
+  return hasNodejsCompat(options.compatibilityFlags)
+    ? ["module", "main", "jsnext:main", "jsnext"]
+    : ["browser", "module", "jsnext:main", "jsnext"];
+}
 
 const DEFAULT_RESOLVE_EXTENSIONS = [
   ".mjs",
@@ -24,121 +32,159 @@ const DEFAULT_RESOLVE_EXTENSIONS = [
 
 const TARGET = "es2024";
 
-export const optionsPlugin = createPlugin("options", (pluginOptions) => ({
-  rolldown: {
-    options(options) {
-      options.input = wrapEntryInput(options.input ?? {});
-      options.preserveEntrySignatures ??= "strict";
-      options.platform ??= "neutral";
-      options.resolve ??= {};
-      options.resolve.conditionNames ??= [...DEFAULT_CONDITIONS, "production"];
-      options.resolve.mainFields ??= DEFAULT_RESOLVE_MAIN_FIELDS;
-      options.resolve.extensions ??= DEFAULT_RESOLVE_EXTENSIONS;
-      options.transform ??= {};
-      options.transform.target ??= TARGET;
-      options.transform.define ??= {};
-      Object.assign(options.transform.define, getDefine(pluginOptions, "production"));
-      return options;
+export interface OptionsApi {
+  input: () => Record<string, string>;
+}
+
+export const optionsPlugin = createPlugin<"options", OptionsApi>("options", (pluginOptions) => {
+  let input: Record<string, string> = {};
+  return {
+    shared: {
+      api: {
+        input: () => input,
+      },
     },
-  },
-  vite: {
-    config(userConfig) {
-      const isRolldown = "rolldownVersion" in this.meta;
-      const rollupOptions: vite.Rollup.RollupOptions = {
-        input: wrapEntryInput(userConfig.environments?.ssr?.build?.rollupOptions?.input ?? {}),
-        preserveEntrySignatures: "strict",
-      };
-      const define = getDefine(
-        pluginOptions,
-        process.env.NODE_ENV || userConfig.mode || "production",
-      );
-      return {
-        ssr: {
-          noExternal: true,
-          resolve: {
-            conditions: [...DEFAULT_CONDITIONS, "development|production"],
-          },
-        },
-        environments: {
-          client: {
-            build: {
-              outDir: getOutputDirectory(userConfig, "client"),
-            },
-          },
+    rolldown: {
+      options(options) {
+        input = normalizeInput(pluginOptions.main ?? options.input ?? {});
+        options.input = wrapInput(input);
+        options.preserveEntrySignatures ??= "strict";
+        options.platform ??= "neutral";
+        options.resolve ??= {};
+        options.resolve.conditionNames ??= [...getConditions(pluginOptions), "production"];
+        options.resolve.mainFields ??= getMainFields(pluginOptions);
+        options.resolve.extensions ??= DEFAULT_RESOLVE_EXTENSIONS;
+        options.transform ??= {};
+        options.transform.target ??= TARGET;
+        options.transform.define ??= {};
+        Object.assign(options.transform.define, getDefine(pluginOptions, "production"));
+        return options;
+      },
+    },
+    vite: {
+      async config(userConfig) {
+        const vite = await import("vite");
+        const isRolldown = "rolldownVersion" in this.meta;
+        input = normalizeInput(
+          pluginOptions.main ??
+            userConfig.environments?.ssr?.build?.rolldownOptions?.input ??
+            userConfig.environments?.ssr?.build?.rollupOptions?.input ??
+            {},
+        );
+        const rollupOptions: vite.Rollup.RollupOptions = {
+          input: wrapInput(input),
+          preserveEntrySignatures: "strict",
+        };
+        const define = getDefine(
+          pluginOptions,
+          process.env.NODE_ENV || userConfig.mode || "production",
+        );
+        const conditions = getConditions(pluginOptions);
+        const mainFields = getMainFields(pluginOptions);
+        const appType = userConfig.appType ?? (Object.keys(input).length === 0 ? "spa" : "custom");
+        return {
+          appType,
           ssr: {
+            noExternal: true,
             resolve: {
-              noExternal: true,
-              conditions: [...DEFAULT_CONDITIONS, "development|production"],
+              conditions: [...conditions, "development|production"],
             },
-            build: {
-              ssr: true,
-              target: TARGET,
-              emitAssets: true,
-              copyPublicDir: false,
-              outDir: getOutputDirectory(userConfig, "ssr"),
-              ...(isRolldown
-                ? {
-                    rolldownOptions: {
-                      ...rollupOptions,
-                      platform: "neutral",
-                      resolve: {
-                        mainFields: DEFAULT_RESOLVE_MAIN_FIELDS,
-                        extensions: DEFAULT_RESOLVE_EXTENSIONS,
-                      },
-                    },
-                  }
-                : { rollupOptions }),
+          },
+          builder:
+            appType === "spa"
+              ? undefined
+              : {
+                  buildApp: async (app) => {
+                    for (const environment of Object.values(app.environments)) {
+                      await app.build(environment);
+                    }
+                  },
+                },
+          environments: {
+            client: {
+              build: {
+                outDir: getOutputDirectory(userConfig, "client"),
+              },
             },
-            optimizeDeps: {
-              noDiscovery: false,
-              ignoreOutdatedRequests: true,
-              ...(isRolldown
-                ? {
-                    rolldownOptions: {
-                      platform: "neutral",
-                      resolve: {
-                        conditionNames: [...DEFAULT_CONDITIONS, "development|production"],
-                        mainFields: DEFAULT_RESOLVE_MAIN_FIELDS,
-                        extensions: DEFAULT_RESOLVE_EXTENSIONS,
+            ssr: {
+              resolve: {
+                noExternal: true,
+                conditions: [...conditions, "development|production"],
+              },
+              build: {
+                ssr: true,
+                target: TARGET,
+                emitAssets: true,
+                copyPublicDir: false,
+                outDir: getOutputDirectory(userConfig, "server"),
+                ...(isRolldown
+                  ? {
+                      rolldownOptions: {
+                        ...rollupOptions,
+                        platform: "neutral",
+                        resolve: {
+                          mainFields,
+                          extensions: DEFAULT_RESOLVE_EXTENSIONS,
+                        },
                       },
-                      transform: {
+                    }
+                  : { rollupOptions }),
+              },
+              optimizeDeps: {
+                noDiscovery: false,
+                ignoreOutdatedRequests: true,
+                entries: pluginOptions.main ? vite.normalizePath(pluginOptions.main) : undefined,
+                ...(isRolldown
+                  ? {
+                      rolldownOptions: {
+                        platform: "neutral",
+                        resolve: {
+                          conditionNames: [...conditions, "development|production"],
+                          mainFields,
+                          extensions: DEFAULT_RESOLVE_EXTENSIONS,
+                        },
+                        transform: {
+                          target: TARGET,
+                          define,
+                        },
+                      },
+                    }
+                  : {
+                      esbuildOptions: {
+                        platform: "neutral",
+                        conditions: [...conditions, "development|production"],
+                        resolveExtensions: DEFAULT_RESOLVE_EXTENSIONS,
+                        mainFields,
                         target: TARGET,
                         define,
                       },
-                    },
-                  }
-                : {
-                    esbuildOptions: {
-                      platform: "neutral",
-                      conditions: [...DEFAULT_CONDITIONS, "development|production"],
-                      resolveExtensions: DEFAULT_RESOLVE_EXTENSIONS,
-                      mainFields: DEFAULT_RESOLVE_MAIN_FIELDS,
-                      target: TARGET,
-                      define,
-                    },
-                  }),
+                    }),
+              },
+              keepProcessEnv: true,
             },
-            keepProcessEnv: true,
           },
-        },
-      };
+        };
+      },
     },
-  },
-}));
+  };
+});
 
-function wrapEntryInput(input: string | Array<string> | Record<string, string>) {
-  const virtualEntryId = (id: string) => `${WORKER_ENTRY_PREFIX}${id}` as const;
-
+const normalizeInput = (
+  input: string | Array<string> | Record<string, string>,
+): Record<string, string> => {
   if (typeof input === "string") {
-    return virtualEntryId(input);
+    return { [path.parse(input).name || "index"]: input };
+  } else if (Array.isArray(input)) {
+    return Object.fromEntries(input.map((p) => [path.parse(p).name, p]));
+  } else {
+    return input;
   }
-  if (Array.isArray(input)) {
-    return input.map(virtualEntryId);
-  }
-  return Object.fromEntries(
-    Object.entries(input).map(([key, value]) => [key, virtualEntryId(value)]),
+};
+
+const wrapInput = (input: Record<string, string>) =>
+  Object.fromEntries(
+    Object.entries(input).map(([key, id]) => [key, `${WORKER_ENTRY_PREFIX}${id}` as const]),
   );
-}
 
 function getDefine(options: CloudflarePluginOptions, nodeEnv: string): Record<string, string> {
   return {
@@ -155,6 +201,11 @@ function getDefine(options: CloudflarePluginOptions, nodeEnv: string): Record<st
     ...(options.compatibilityDate && options.compatibilityDate >= "2022-03-21"
       ? {
           "navigator.userAgent": '"Cloudflare-Workers"',
+        }
+      : {}),
+    ...(nodeEnv === "production"
+      ? {
+          "import.meta.hot": "false",
         }
       : {}),
   };

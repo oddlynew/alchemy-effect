@@ -31,9 +31,10 @@
       }
     },
     "catalog": {
-      "@distilled.cloud/cloudflare": "^0.19.2",
+      "@distilled.cloud/cloudflare": "^0.20.1",
       "@playwright/test": "^1.52.0",
       "rolldown": "^1.0.0-rc.9",
+      "tsdown": "^0.21.10",
       "typescript": "^6.0.2",
       "vite": "^8.0.3",
       "vitest": "^4.1.1"
@@ -41,7 +42,8 @@
   },
   "type": "module",
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter='@distilled.cloud/*'",
+    "dev": "turbo run dev --filter='@distilled.cloud/*'",
     "check": "turbo run format lint typecheck",
     "check:write": "bun run format:write && bun run lint:write && turbo run typecheck",
     "format": "oxfmt format --check .",
