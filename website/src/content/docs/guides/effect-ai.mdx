@@ -1,0 +1,290 @@
+---
+title: Effect AI
+description: Wrap Cloudflare's AI Gateway as a typed Effect LanguageModel and compose generations, streams, tools, and structured outputs the same way you compose every other Effect service.
+sidebar:
+  order: 6
+---
+
+The [HTTP API](/guides/effect-http-api) and [RPC](/guides/effect-rpc)
+guides showed how Effect turns Workers into typed, composable
+programs. Effect's `LanguageModel` module does the same thing for AI:
+one service interface (`LanguageModel.LanguageModel`) that every
+provider implements, with typed errors, structured response parts,
+streaming as `Effect.Stream`, tools, and structured outputs all
+falling out of normal Effect composition.
+
+Alchemy ships an `AI Gateway`–backed adapter. You declare a
+`Cloudflare.AiGateway` resource once, bind it into a Worker, and
+`.model({...})` returns a Layer that satisfies the standard
+`LanguageModel.LanguageModel`. From that point on, everything is
+provider-agnostic Effect AI code — `generateText`, `streamText`,
+`generateObject`, `Toolkit`, `Chat`, all of it.
+
+The mental model is the same as the other Effect guides:
+
+1. **Declare the gateway as a resource.** Pure description; lives in
+   `alchemy.run.ts` or a sibling module.
+2. **Bind it in the Worker's Init phase.** `.bind(Gateway)` gives you
+   a typed client; `.model(...)` turns it into a `Layer`.
+3. **`Effect.provide(languageModel)`** anywhere you call
+   `LanguageModel.generateText` / `streamText` / `generateObject`.
+
+## 1. Declare the gateway
+
+```typescript
+// src/AiGateway.ts
+import * as Cloudflare from "alchemy/Cloudflare";
+
+export const Gateway = Cloudflare.AiGateway("Gateway", {
+  cacheTtl: 60,
+  collectLogs: true,
+});
+```
+
+Every prop is optional. `cacheTtl: 60` turns on 60-second response
+caching; `collectLogs: true` surfaces every prompt, completion,
+latency, and token count in the AI Gateway dashboard. Caching, rate
+limiting, retries, DLP — all of it is a property on this resource and
+updates in-place on the next deploy.
+
+## 2. Build the `LanguageModel` Layer
+
+Bind the gateway and call `.model({...})` inside the Worker's Init
+phase. The Init phase is the only place that has access to the
+binding factory — `LanguageModel` is then a normal Layer you can
+provide to any handler.
+
+```typescript
+// src/Worker.ts
+import * as Cloudflare from "alchemy/Cloudflare";
+import * as Effect from "effect/Effect";
+import { Gateway } from "./AiGateway.ts";
+
+export default class Worker extends Cloudflare.Worker<Worker>()(
+  "Worker",
+  { main: import.meta.path },
+  Effect.gen(function* () {
+    const aiGateway = yield* Cloudflare.AiGateway.bind(Gateway);
+
+    const languageModel = aiGateway.model({
+      client: aiGateway,
+      model: "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      parameters: { temperature: 0.7, maxTokens: 1024 },
+    });
+
+    return {
+      fetch: Effect.gen(function* () {
+        // handlers go here
+      }).pipe(Effect.provide(languageModel)),
+    };
+  }).pipe(Effect.provide(Cloudflare.AiGatewayBindingLive)),
+) {}
+```
+
+`aiGateway.model({...})` returns
+`Layer<LanguageModel.LanguageModel, never, WorkerEnvironment>`. The
+`parameters` field is the per-call default — any individual call can
+still override it via `providerOptions`.
+
+`Cloudflare.AiGatewayBindingLive` is the runtime side of the binding
+contract. Provide it once at the bottom of the Init layer chain.
+
+## 3. `generateText`: one-shot completions
+
+`LanguageModel.generateText` returns a typed response — `text`,
+`finishReason`, structured `usage`, and any `toolCalls` the model
+emitted. Errors come back as `AiError` in the Effect's error channel,
+so you can `catchTag` them or `Effect.orDie` if a 500 is fine.
+
+```typescript
+import { LanguageModel } from "effect/unstable/ai";
+import { HttpServerRequest } from "effect/unstable/http/HttpServerRequest";
+import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
+
+// inside `fetch`:
+const request = yield* HttpServerRequest;
+const url = new URL(request.url, "http://worker");
+
+if (url.pathname === "/generate") {
+  const prompt = url.searchParams.get("prompt") ?? "Say hello.";
+  const response = yield* LanguageModel.generateText({ prompt }).pipe(
+    Effect.orDie,
+  );
+  return yield* HttpServerResponse.json({
+    text: response.text,
+    usage: {
+      inputTokens: response.usage.inputTokens.total,
+      outputTokens: response.usage.outputTokens.total,
+    },
+  });
+}
+```
+
+Nothing in the handler knows it's talking to Workers AI — the same
+code would run unchanged against OpenAI or Anthropic if you swapped
+the `languageModel` layer.
+
+## 4. `streamText`: server-side SSE
+
+`streamText` returns an `Effect.Stream<Response.Part, AiError>` of
+incremental response parts (`text-delta`, `tool-call`, `finish`, …).
+Pipe it through `Sse.encode` and `HttpServerResponse.stream` to get
+an event stream that flushes through the Worker → edge → client
+without buffering:
+
+```typescript
+import * as Stream from "effect/Stream";
+import * as Sse from "effect/unstable/encoding/Sse";
+
+if (url.pathname === "/stream") {
+  const prompt = url.searchParams.get("prompt") ?? "Tell me a haiku.";
+  const stream = LanguageModel.streamText({ prompt }).pipe(
+    Stream.provide(languageModel),
+    Sse.encode,
+  );
+  return HttpServerResponse.stream(stream, {
+    headers: {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache",
+      "x-accel-buffering": "no",
+    },
+  });
+}
+```
+
+Each `text-delta` arrives as its own SSE event — your client can
+render tokens as they're produced.
+
+## 5. Tools: typed function-calling
+
+Tools are schema-defined functions the model can invoke. Define them
+with `Tool.make`, group them in a `Toolkit`, then `toLayer` to
+provide the runtime implementations:
+
+```typescript
+import * as Schema from "effect/Schema";
+import { Tool, Toolkit } from "effect/unstable/ai";
+
+const GetTime = Tool.make("get_current_time", {
+  description: "Returns the current server time.",
+  success: Schema.Struct({ iso: Schema.String }),
+});
+
+const Calculate = Tool.make("calculate", {
+  description: "Evaluates an arithmetic expression.",
+  parameters: Schema.Struct({ expression: Schema.String }),
+  success: Schema.Struct({ result: Schema.Number }),
+});
+
+const MyToolkit = Toolkit.make(GetTime, Calculate);
+
+const MyToolkitLayer = MyToolkit.toLayer({
+  get_current_time: () =>
+    Effect.sync(() => ({ iso: new Date().toISOString() })),
+  calculate: ({ expression }) =>
+    Effect.sync(() => ({
+      result: Function(`"use strict"; return (${expression});`)(),
+    })),
+});
+```
+
+Pass the toolkit to `generateText` and the model will call any tool
+it wants. Effect runs your implementation, feeds the result back, and
+returns the model's final answer — typed end-to-end:
+
+```typescript
+const response = yield* LanguageModel.generateText({
+  prompt: "What time is it, and what is 2+2?",
+  toolkit: MyToolkit,
+}).pipe(Effect.provide(MyToolkitLayer));
+
+console.log(response.text);
+// → "It's 2026-05-13T23:01:00.000Z and 2+2 is 4."
+```
+
+The handler never serializes a tool call by hand — `Toolkit.toLayer`
+owns that. Tool implementations are normal Effects, so they can
+yield other services (database connections, KV namespaces, RPC stubs)
+just like any other handler.
+
+## 6. `generateObject`: structured outputs
+
+When you want a typed value instead of free-form text, pass a
+`Schema` to `generateObject`:
+
+```typescript
+import { LanguageModel } from "effect/unstable/ai";
+import * as Schema from "effect/Schema";
+
+const RecipeSchema = Schema.Struct({
+  title: Schema.String,
+  ingredients: Schema.Array(Schema.String),
+  steps: Schema.Array(Schema.String),
+});
+
+const { object } = yield* LanguageModel.generateObject({
+  prompt: "Give me a recipe for pad thai.",
+  schema: RecipeSchema,
+});
+
+// `object` is a fully-typed Recipe
+console.log(object.title, object.ingredients.length);
+```
+
+The model is constrained to return JSON matching the schema; the
+result is decoded and validated before it reaches your handler.
+
+## 7. Persisted chat
+
+For conversational UIs you want history to survive between requests.
+Effect's `Chat.Service` wraps a `LanguageModel` with a turn list and
+a `Persistence` interface for saving the conversation. Alchemy
+provides `Cloudflare.DurableObjectChatPersistence` — a Layer that
+satisfies `BackingPersistence` using a Durable Object's
+`state.storage`. The combination gives you a fully resumable chat
+session per DO instance:
+
+```typescript
+import { Chat } from "effect/unstable/ai";
+
+// inside a DurableObject's init effect:
+return Effect.gen(function* () {
+  const persistence = yield* Chat.Persistence;
+  const chat = yield* persistence.getOrCreate("session");
+
+  return {
+    send: (prompt: string) =>
+      chat.generateText({ prompt }).pipe(Effect.orDie),
+  };
+}).pipe(
+  Effect.provide(languageModel),
+  Effect.provide(Chat.layerPersisted({ storeId: "chat" })),
+  Effect.provide(Cloudflare.DurableObjectChatPersistence),
+);
+```
+
+Each `chat.generateText` call appends the user message, runs the
+model, appends the assistant response, and saves the updated history
+through `Chat.Persistence`. Restart the DO and the next call rehydrates
+the full conversation from `state.storage` before the model runs.
+
+See the [Add a Chat Agent](/tutorial/cloudflare/agent) tutorial for
+the full DO + Worker stack, including tool-calling and a Vite SPA
+client.
+
+## Recap
+
+- `Cloudflare.AiGateway` is a single resource with every gateway
+  knob (caching, rate limits, DLP, logs) as a typed property.
+- `.bind(Gateway).model({...})` lifts it into Effect's
+  `LanguageModel.LanguageModel` service.
+- `generateText`, `streamText`, `generateObject`, `Toolkit`, and
+  `Chat` are provider-agnostic — swapping `aiGateway.model` for
+  `OpenAiLanguageModel` (or any other) doesn't touch the handler
+  code.
+- `Cloudflare.DurableObjectChatPersistence` puts persisted chats on
+  `state.storage` with no extra infrastructure.
+
+The same `LanguageModel` value composes inside an [HTTP API
+handler](/guides/effect-http-api), an [RPC procedure](/guides/effect-rpc),
+or a Durable Object — same surface, three deployment shapes.
