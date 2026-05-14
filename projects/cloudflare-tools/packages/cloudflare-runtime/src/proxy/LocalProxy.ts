@@ -1,5 +1,4 @@
 import { newWebSocketRpcSession } from "capnweb";
-import * as Config from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -37,90 +36,88 @@ export class LocalProxy extends Context.Service<
   }
 >()("cloudflare-runtime/proxy/LocalProxy") {}
 
-export const LocalProxyPort = Config.port("LOCAL_PROXY_PORT").pipe(Config.withDefault(0));
-
-export const LocalProxyLive = Layer.effect(
-  LocalProxy,
-  Effect.gen(function* () {
-    const runtime = yield* Workerd.Workerd;
-    const secret = crypto.randomUUID();
-    const port = yield* LocalProxyPort;
-    const ports = yield* runtime.serve({
-      sockets: [
-        {
-          name: "http",
-          address: `127.0.0.1:${yield* findAvailablePort(port, "127.0.0.1")}`,
-          service: { name: "proxy:local" },
-        },
-      ],
-      services: [
-        {
-          name: "proxy:local",
-          worker: {
-            compatibilityDate: "2026-03-10",
-            modules: LocalProxyWorker.modules.map(moduleToWorkerd),
-            bindings: [
-              { name: "PROXY", durableObjectNamespace: { className: "LocalProxy" } },
-              { name: "PROXY_SECRET", text: secret },
-            ],
-            durableObjectNamespaces: [
-              {
-                className: "LocalProxy",
-                ephemeralLocal: WorkerdConfig.kVoid,
-                preventEviction: true,
-              },
-            ],
+export const LocalProxyLive = (port = 0) =>
+  Layer.effect(
+    LocalProxy,
+    Effect.gen(function* () {
+      const runtime = yield* Workerd.Workerd;
+      const secret = crypto.randomUUID();
+      const ports = yield* runtime.serve({
+        sockets: [
+          {
+            name: "http",
+            address: `127.0.0.1:${yield* findAvailablePort(port, "127.0.0.1")}`,
+            service: { name: "proxy:local" },
           },
-        },
-        yield* Internet.Internet,
-      ],
-    });
-    const address = `localhost:${ports.http}`;
-    const session = yield* Effect.acquireDisposable(
-      Effect.sync(() =>
-        newWebSocketRpcSession<ProxyController>(
-          `ws://${address}${CONTROLLER_WEBSOCKET_PATH}?${CONTROLLER_SECRET_KEY}=${secret}`,
+        ],
+        services: [
+          {
+            name: "proxy:local",
+            worker: {
+              compatibilityDate: "2026-03-10",
+              modules: LocalProxyWorker.modules.map(moduleToWorkerd),
+              bindings: [
+                { name: "PROXY", durableObjectNamespace: { className: "LocalProxy" } },
+                { name: "PROXY_SECRET", text: secret },
+              ],
+              durableObjectNamespaces: [
+                {
+                  className: "LocalProxy",
+                  ephemeralLocal: WorkerdConfig.kVoid,
+                  preventEviction: true,
+                },
+              ],
+            },
+          },
+          yield* Internet.Internet,
+        ],
+      });
+      const address = `localhost:${ports.http}`;
+      const session = yield* Effect.acquireDisposable(
+        Effect.sync(() =>
+          newWebSocketRpcSession<ProxyController>(
+            `ws://${address}${CONTROLLER_WEBSOCKET_PATH}?${CONTROLLER_SECRET_KEY}=${secret}`,
+          ),
         ),
-      ),
-    );
-    const controller = new Proxy(session, {
-      get(target, prop) {
-        return (...args: Array<any>) =>
-          Effect.tryPromise({
-            try: () =>
-              (target[prop as keyof typeof target] as (...args: Array<any>) => Promise<void>)(
-                ...args,
-              ),
-            catch: (error) =>
-              new SystemError({
-                subtag: "LocalProxyControlPlane",
-                message: `Failed to call controller method "${String(prop)}".`,
-                cause: error,
-              }),
-          });
-      },
-    }) as unknown as ProxyControllerRpcs;
-    return LocalProxy.of({
-      address,
-      registerWorker: (workerName) => {
-        const subdomain = workerName.toLowerCase();
-        return controller
-          .registerWorker(subdomain)
-          .pipe(Effect.as(`http://${subdomain}.${address}`));
-      },
-      unregisterWorker: (workerName) => controller.unregisterWorker(workerName.toLowerCase()),
-      setLocalAddress: (workerName, address) => {
-        const subdomain = workerName.toLowerCase();
-        return Effect.acquireRelease(controller.setLocalAddress(subdomain, address), () =>
-          controller.unsetLocalAddress(subdomain, address).pipe(Effect.ignore),
-        );
-      },
-      setRemoteAddress: (workerName, address) => {
-        const subdomain = workerName.toLowerCase();
-        return Effect.acquireRelease(controller.setRemoteAddress(subdomain, address), () =>
-          controller.unsetRemoteAddress(subdomain).pipe(Effect.ignore),
-        );
-      },
-    });
-  }),
-);
+      );
+      const controller = new Proxy(session, {
+        get(target, prop) {
+          return (...args: Array<any>) =>
+            Effect.tryPromise({
+              try: () =>
+                (target[prop as keyof typeof target] as (...args: Array<any>) => Promise<void>)(
+                  ...args,
+                ),
+              catch: (error) =>
+                new SystemError({
+                  subtag: "LocalProxyControlPlane",
+                  message: `Failed to call controller method "${String(prop)}".`,
+                  cause: error,
+                }),
+            });
+        },
+      }) as unknown as ProxyControllerRpcs;
+      return LocalProxy.of({
+        address,
+        registerWorker: (workerName) => {
+          const subdomain = workerName.toLowerCase();
+          return controller
+            .registerWorker(subdomain)
+            .pipe(Effect.as(`http://${subdomain}.${address}`));
+        },
+        unregisterWorker: (workerName) => controller.unregisterWorker(workerName.toLowerCase()),
+        setLocalAddress: (workerName, address) => {
+          const subdomain = workerName.toLowerCase();
+          return Effect.acquireRelease(controller.setLocalAddress(subdomain, address), () =>
+            controller.unsetLocalAddress(subdomain, address).pipe(Effect.ignore),
+          );
+        },
+        setRemoteAddress: (workerName, address) => {
+          const subdomain = workerName.toLowerCase();
+          return Effect.acquireRelease(controller.setRemoteAddress(subdomain, address), () =>
+            controller.unsetRemoteAddress(subdomain).pipe(Effect.ignore),
+          );
+        },
+      });
+    }),
+  );
