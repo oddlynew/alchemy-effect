@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.5.1](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.5.1) (2026-05-15)
+
+### Bug Fixes
+
+- **vite-plugin**: avoid bundling @effect/platform-node - by @john-royal [(e28e7b2)](https://github.com/alchemy-run/cloudflare-tools/commit/e28e7b291b35a35a263486c62a6a95d8742940f3)
+
 ## [v0.5.0](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.5.0) (2026-05-15)
 
 ### Features
