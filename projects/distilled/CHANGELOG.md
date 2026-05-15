@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.21.0](https://github.com/alchemy-run/distilled/releases/tag/v0.21.0) (2026-05-15)
+
+### Bug Fixes
+
+- **aws**: expose browser exports from aws - by Michael K in [#295](https://github.com/alchemy-run/distilled/pull/295) [(dbb35dc)](https://github.com/alchemy-run/distilled/commit/dbb35dc7a38d1c671e9f4f263535581c4bd69d24)
+
 ## [v0.20.2](https://github.com/alchemy-run/distilled/releases/tag/v0.20.2) (2026-05-13)
 
 ### Bug Fixes
