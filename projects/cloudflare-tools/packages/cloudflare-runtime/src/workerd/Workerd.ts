@@ -1,6 +1,7 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Schedule from "effect/Schedule";
 import type * as Scope from "effect/Scope";
 import * as NodeChildProcess from "node:child_process";
 import * as NodeStream from "node:stream";
@@ -83,87 +84,98 @@ export const WorkerdLive = Layer.sync(Workerd, () => {
     );
   return Workerd.of({
     compatibilityDate: workerd.compatibilityDate,
-    serve: Effect.fn("Workerd.serve")(function* (config, args) {
-      const [handle, kill] = yield* spawn(
-        workerd.bin,
-        [
-          "serve",
-          "--binary",
-          "--experimental",
-          "--verbose",
-          "--control-fd=3",
-          ...Object.entries(args ?? {}).map(([key, value]) =>
-            typeof value === "boolean" ? `--${key}` : `--${key}=${value}`,
-          ),
-          "-",
-        ],
-        {
-          stdio: ["pipe", "inherit", "pipe", "pipe"],
-        },
-      );
-      yield* Effect.addFinalizer(() => kill);
-      const controlMessages = yield* Effect.callback<
-        Array<ControlMessage>,
-        ConfigError | SystemError
-      >((resume) => {
-        const count =
-          (config.sockets?.length ?? 0) +
-          (typeof args?.["debug-port"] !== "undefined" ? 1 : 0) +
-          (typeof args?.["inspector-addr"] !== "undefined" ? 1 : 0);
+    serve: Effect.fn("Workerd.serve")(
+      function* (config, args) {
+        const [handle, kill] = yield* spawn(
+          workerd.bin,
+          [
+            "serve",
+            "--binary",
+            "--experimental",
+            "--verbose",
+            "--control-fd=3",
+            ...Object.entries(args ?? {}).map(([key, value]) =>
+              typeof value === "boolean" ? `--${key}` : `--${key}=${value}`,
+            ),
+            "-",
+          ],
+          {
+            stdio: ["pipe", "inherit", "pipe", "pipe"],
+          },
+        );
+        yield* Effect.addFinalizer(() => kill);
+        const controlMessages = yield* Effect.callback<
+          Array<ControlMessage>,
+          ConfigError | SystemError
+        >((resume) => {
+          const count =
+            (config.sockets?.length ?? 0) +
+            (typeof args?.["debug-port"] !== "undefined" ? 1 : 0) +
+            (typeof args?.["inspector-addr"] !== "undefined" ? 1 : 0);
 
-        if (!handle.stdin || !handle.stderr || !(handle.stdio[3] instanceof NodeStream.Readable)) {
-          return resume(
-            new SystemError({
-              subtag: "WorkerdSpawn",
-              message:
-                "The Workers runtime (workerd) process did not have a stdin, stderr, or control fd.",
-            }),
-          );
-        }
-
-        let stderr = "";
-        let control = "";
-
-        const onStderr = (data: Buffer) => {
-          stderr += data.toString();
-        };
-        const onControl = (data: Buffer) => {
-          control += data.toString();
-          const messages = control
-            .split("\n")
-            .filter((line) => line.trim() !== "")
-            .map((line) => JSON.parse(line) as ControlMessage);
-          if (messages.length === count) {
-            removeListeners();
-            resume(Effect.succeed(messages));
+          if (
+            !handle.stdin ||
+            !handle.stderr ||
+            !(handle.stdio[3] instanceof NodeStream.Readable)
+          ) {
+            return resume(
+              new SystemError({
+                subtag: "WorkerdSpawn",
+                message:
+                  "The Workers runtime (workerd) process did not have a stdin, stderr, or control fd.",
+              }),
+            );
           }
-        };
-        const onExit = (code: number | null, signal: NodeJS.Signals | null) => {
-          removeListeners();
-          resume(classifyWorkerdError(stderr, code, signal));
-        };
-        const removeListeners = () => {
-          handle.stderr?.off("data", onStderr);
-          handle.stdio[3]?.off("data", onControl);
-          handle.off("exit", onExit);
-        };
-        handle.stderr?.on("data", onStderr);
-        handle.stdio[3]?.on("data", onControl);
-        handle.on("exit", onExit);
 
-        handle.stdin?.write(Buffer.from(serializeConfig(config)));
-        handle.stdin?.end();
+          let stderr = "";
+          let control = "";
 
-        return Effect.sync(removeListeners);
-      });
-      const ports: WorkerdPorts = {};
-      for (const message of controlMessages) {
-        if (message.event === "listen") {
-          ports[message.socket] = message.port;
+          const onStderr = (data: Buffer) => {
+            stderr += data.toString();
+          };
+          const onControl = (data: Buffer) => {
+            control += data.toString();
+            const messages = control
+              .split("\n")
+              .filter((line) => line.trim() !== "")
+              .map((line) => JSON.parse(line) as ControlMessage);
+            if (messages.length === count) {
+              removeListeners();
+              resume(Effect.succeed(messages));
+            }
+          };
+          const onExit = (code: number | null, signal: NodeJS.Signals | null) => {
+            removeListeners();
+            resume(classifyWorkerdError(stderr, code, signal));
+          };
+          const removeListeners = () => {
+            handle.stderr?.off("data", onStderr);
+            handle.stdio[3]?.off("data", onControl);
+            handle.off("exit", onExit);
+          };
+          handle.stderr?.on("data", onStderr);
+          handle.stdio[3]?.on("data", onControl);
+          handle.on("exit", onExit);
+
+          handle.stdin?.write(Buffer.from(serializeConfig(config)));
+          handle.stdin?.end();
+
+          return Effect.sync(removeListeners);
+        });
+        const ports: WorkerdPorts = {};
+        for (const message of controlMessages) {
+          if (message.event === "listen") {
+            ports[message.socket] = message.port;
+          }
         }
-      }
-      return ports;
-    }),
+        return ports;
+      },
+      (effect) =>
+        Effect.retry(effect, {
+          while: (error) => error._tag === "SystemError",
+          schedule: Schedule.both(Schedule.exponential(50), Schedule.recurs(3)),
+        }),
+    ),
   });
 });
 
@@ -202,7 +214,7 @@ const classifyWorkerdError = (
 
   // Pattern: address-in-use comes through as a `kj::Exception`.
   if (/Address already in use/i.test(text)) {
-    return new SystemError({
+    return new ConfigError({
       subtag: "WorkerdAddressInUse",
       message: "The Workers runtime could not bind to the requested address (already in use).",
       hint: "Pick a different port or stop the process using it.",

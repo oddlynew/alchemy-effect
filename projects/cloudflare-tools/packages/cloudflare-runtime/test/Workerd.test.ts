@@ -128,7 +128,7 @@ layer(services)((it) => {
           ],
         })
         .pipe(Effect.flip);
-      assert.equal(error._tag, "SystemError");
+      assert.equal(error._tag, "ConfigError");
       expect(error.subtag).toBe("WorkerdAddressInUse");
       assert(Predicate.hasProperty(error.detail, "stderr"));
       // "*** Fatal uncaught kj::Exception: kj/async-io-unix.c++:945: failed: ::bind(sockfd, &addr.generic, addrlen): Address already in use; toString() = 127.0.0.1:61328\n" +
