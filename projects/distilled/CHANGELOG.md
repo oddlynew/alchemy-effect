@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.21.1](https://github.com/alchemy-run/distilled/releases/tag/v0.21.1) (2026-05-18)
+
+### Bug Fixes
+
+- **planetscale**: add branch cluster architecture and redact tokenId - by Lucas Thevenet in [#297](https://github.com/alchemy-run/distilled/pull/297) [(982594b)](https://github.com/alchemy-run/distilled/commit/982594b705e1503fe83e63313a60c00694394046)
+- **cloudflare/workers**: remove stale code 10013 from WorkerNotFound - by sam in [#296](https://github.com/alchemy-run/distilled/pull/296) [(bbd0bb9)](https://github.com/alchemy-run/distilled/commit/bbd0bb963eaefea77c770bd2584cc286c6f7d105)
+
 ## [v0.21.0](https://github.com/alchemy-run/distilled/releases/tag/v0.21.0) (2026-05-15)
 
 ### Bug Fixes
