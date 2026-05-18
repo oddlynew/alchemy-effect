@@ -182,6 +182,17 @@ export const PostgresDatabaseProvider = () =>
 
           if (!data) return undefined;
 
+          if (data.kind !== "postgresql") {
+            return yield* Effect.fail(
+              new PlanetscaleConflict({
+                message:
+                  `Planetscale database "${data.name}" has kind "${data.kind}" but this resource ` +
+                  `is a PostgresDatabase. Use Planetscale.${data.kind === "mysql" ? "MySQLDatabase" : data.kind}() instead, ` +
+                  `or delete the existing database and retry.`,
+              }),
+            );
+          }
+
           const defaultBranch = data.default_branch ?? "main";
 
           // Observe `arch` and `clusterSize` from the default branch rather
@@ -211,12 +222,7 @@ export const PostgresDatabaseProvider = () =>
             migrationsTable: output?.migrationsTable ?? olds?.migrationsTable,
             migrationsHashes: output?.migrationsHashes ?? {},
             importHashes: output?.importHashes ?? {},
-            // Kind validation is deferred to reconcile, where the
-            // mismatch is surfaced as a typed `PlanetscaleConflict`.
-            // Read's job is just existence + ownership routing.
-            kind: (data.kind === "postgresql"
-              ? "postgresql"
-              : data.kind) as "postgresql",
+            kind: "postgresql" as const,
             clusterSize,
             arch,
             requireApprovalForDeploy: data.require_approval_for_deploy ?? false,

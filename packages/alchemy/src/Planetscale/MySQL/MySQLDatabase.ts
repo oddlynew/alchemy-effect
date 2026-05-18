@@ -222,38 +222,48 @@ export const MySQLDatabaseProvider = () =>
             organization,
             database: databaseName,
           }).pipe(
-            Effect.map((data) => ({
-              id: data.id,
-              name: data.name,
-              organization,
-              state: data.state,
-              defaultBranch: data.default_branch ?? "main",
-              plan: data.plan ?? "hobby",
-              createdAt: data.created_at,
-              updatedAt: data.updated_at,
-              htmlUrl: data.html_url,
-              region: { slug: data.region.slug },
-              migrationsDir: output?.migrationsDir ?? olds?.migrationsDir,
-              migrationsTable: output?.migrationsTable ?? olds?.migrationsTable,
-              migrationsHashes: output?.migrationsHashes ?? {},
-              importHashes: output?.importHashes ?? {},
-              // Kind validation is deferred to reconcile, where the mismatch is
-              // surfaced as a typed `PlanetscaleConflict`. Read's job is just
-              // existence + ownership routing.
-              kind: (data.kind === "mysql" ? "mysql" : data.kind) as "mysql",
-              clusterSize: output?.clusterSize ?? "",
-              requireApprovalForDeploy:
-                data.require_approval_for_deploy ?? false,
-              restrictBranchRegion: data.restrict_branch_region ?? false,
-              insightsRawQueries: data.insights_raw_queries ?? false,
-              productionBranchWebConsole:
-                data.production_branch_web_console ?? false,
-              automaticMigrations: data.automatic_migrations ?? false,
-              migrationFramework: data.migration_framework ?? undefined,
-              migrationTableName: data.migration_table_name ?? undefined,
-              allowDataBranching: data.allow_data_branching ?? false,
-              allowForeignKeyConstraints: data.foreign_keys_enabled ?? false,
-            })),
+            Effect.flatMap((data) => {
+              if (data.kind !== "mysql") {
+                return Effect.fail(
+                  new PlanetscaleConflict({
+                    message:
+                      `Planetscale database "${data.name}" has kind "${data.kind}" but this resource ` +
+                      `is a MySQLDatabase. Use Planetscale.${data.kind === "postgresql" ? "PostgresDatabase" : data.kind}() instead, ` +
+                      `or delete the existing database and retry.`,
+                  }),
+                );
+              }
+              return Effect.succeed({
+                id: data.id,
+                name: data.name,
+                organization,
+                state: data.state,
+                defaultBranch: data.default_branch ?? "main",
+                plan: data.plan ?? "hobby",
+                createdAt: data.created_at,
+                updatedAt: data.updated_at,
+                htmlUrl: data.html_url,
+                region: { slug: data.region.slug },
+                migrationsDir: output?.migrationsDir ?? olds?.migrationsDir,
+                migrationsTable:
+                  output?.migrationsTable ?? olds?.migrationsTable,
+                migrationsHashes: output?.migrationsHashes ?? {},
+                importHashes: output?.importHashes ?? {},
+                kind: "mysql" as const,
+                clusterSize: output?.clusterSize ?? "",
+                requireApprovalForDeploy:
+                  data.require_approval_for_deploy ?? false,
+                restrictBranchRegion: data.restrict_branch_region ?? false,
+                insightsRawQueries: data.insights_raw_queries ?? false,
+                productionBranchWebConsole:
+                  data.production_branch_web_console ?? false,
+                automaticMigrations: data.automatic_migrations ?? false,
+                migrationFramework: data.migration_framework ?? undefined,
+                migrationTableName: data.migration_table_name ?? undefined,
+                allowDataBranching: data.allow_data_branching ?? false,
+                allowForeignKeyConstraints: data.foreign_keys_enabled ?? false,
+              });
+            }),
             Effect.catchTag("NotFound", () => Effect.succeed(undefined)),
           );
         }),
