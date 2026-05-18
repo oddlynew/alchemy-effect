@@ -1,7 +1,7 @@
-import * as Alchemy from "@/index.ts";
-import * as Cloudflare from "@/Cloudflare";
-import * as Test from "@/Test/Vitest";
 import { expect } from "@effect/vitest";
+import * as Cloudflare from "alchemy/Cloudflare";
+import * as Test from "alchemy/Test/Vitest";
+import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { MinimumLogLevel } from "effect/References";
@@ -10,7 +10,7 @@ import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as RpcClient from "effect/unstable/rpc/RpcClient";
 import * as RpcSerialization from "effect/unstable/rpc/RpcSerialization";
 import { PingRpcs } from "./fixtures/rpc-http/group.ts";
-import RpcHttpTestWorker from "./fixtures/rpc-http/worker.ts";
+import Stack from "./fixtures/rpc-http/stack.ts";
 
 const { test, beforeAll, afterAll, deploy, destroy } = Test.make({
   providers: Cloudflare.providers(),
@@ -19,20 +19,6 @@ const { test, beforeAll, afterAll, deploy, destroy } = Test.make({
 const logLevel = Effect.provideService(
   MinimumLogLevel,
   process.env.DEBUG ? "Debug" : "Info",
-);
-
-const Stack = Alchemy.Stack(
-  "RpcHttpTestStack",
-  {
-    providers: Cloudflare.providers(),
-    state: Cloudflare.state(),
-  },
-  Effect.gen(function* () {
-    const worker = yield* RpcHttpTestWorker;
-    return {
-      url: worker.url.as<string>(),
-    };
-  }),
 );
 
 const stack = beforeAll(deploy(Stack));
@@ -57,14 +43,16 @@ test(
   "RpcServer.toHttpEffect: warmup ping",
   Effect.gen(function* () {
     const { url } = yield* stack;
+    console.log("url:", url);
 
     yield* Effect.scoped(
       Effect.gen(function* () {
         const client = yield* RpcClient.make(PingRpcs);
         const result = yield* client.Ping({ message: "hello" }).pipe(
+          Effect.tapError(Console.log),
           Effect.retry({
             schedule: Schedule.exponential("500 millis"),
-            times: 15,
+            times: 5,
           }),
         );
         expect(result.echo).toBe("hello");
@@ -72,7 +60,7 @@ test(
       }),
     ).pipe(Effect.provide(clientLayer(url)));
   }).pipe(logLevel),
-  { timeout: 180_000 },
+  { timeout: 30_000 },
 );
 
 test(
@@ -90,7 +78,7 @@ test(
           (i) =>
             client
               .Ping({ message: `m-${i}` })
-              .pipe(Effect.timeout("20 seconds")),
+              .pipe(Effect.timeout("5 seconds")),
           { concurrency: 64 },
         );
 
@@ -101,7 +89,7 @@ test(
       }),
     ).pipe(Effect.provide(clientLayer(url)));
   }).pipe(logLevel),
-  { timeout: 240_000 },
+  { timeout: 30_000 },
 );
 
 test(
@@ -116,7 +104,7 @@ test(
         const N = 64;
         const results = yield* Effect.forEach(
           Array.from({ length: N }, (_, i) => i),
-          () => client.Slow({ ms: 250 }).pipe(Effect.timeout("30 seconds")),
+          () => client.Slow({ ms: 250 }).pipe(Effect.timeout("5 seconds")),
           { concurrency: N },
         );
 
@@ -125,5 +113,5 @@ test(
       }),
     ).pipe(Effect.provide(clientLayer(url)));
   }).pipe(logLevel),
-  { timeout: 240_000 },
+  { timeout: 30_000 },
 );

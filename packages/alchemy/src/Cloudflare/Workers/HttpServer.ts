@@ -1,33 +1,45 @@
 import type * as cf from "@cloudflare/workers-types";
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import type { Scope } from "effect/Scope";
+import * as Scope from "effect/Scope";
 import type { HttpBodyError } from "effect/unstable/http/HttpBody";
+import * as EffectHttpEffect from "effect/unstable/http/HttpEffect";
 import * as HttpServerError from "effect/unstable/http/HttpServerError";
 import * as HttpServerRequest from "effect/unstable/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
 import * as Http from "../../Http.ts";
 import { Request } from "./Request.ts";
-import { isWorkerEvent, type WorkerServices } from "./Worker.ts";
+import {
+  isWorkerEvent,
+  WorkerExecutionContext,
+  type WorkerServices,
+} from "./Worker.ts";
 
 export type HttpEffect = Http.HttpEffect<WorkerServices>;
 
-export const workersHttpHandler = <Req = never>(
-  handler: Http.HttpEffect<Req> | Effect.Effect<Http.HttpEffect<Req>>,
+export const makeRequestHandler = <Req = never>(
+  httpEffect: Http.HttpEffect<Req> | Effect.Effect<Http.HttpEffect<Req>>,
 ) => {
-  const safeHandler = Http.safeHttpEffect(handler);
-  return (event: any) => {
-    if (isWorkerEvent(event) && event.type === "fetch") {
-      const webRequest = event.input;
-      return serveWebRequest(webRequest, safeHandler, {
-        remoteAddress: webRequest.headers.get("cf-connecting-ip") ?? undefined,
-      });
-    }
-  };
+  const safeHttpEffect = Http.makeSafeHttpEffect(httpEffect);
+  return (event: Request) =>
+    isWorkerEvent(event) && event.type === "fetch"
+      ? makeRequestEffect(event.input, safeHttpEffect, {
+          remoteAddress:
+            event.input.headers.get("cf-connecting-ip") ?? undefined,
+        })
+      : undefined;
 };
 
-export const serveWebRequest = <Req = never>(
+// effect's `scopeTransferToStream` brands a `Scope` with this marker to
+// signal: "I'm transferring ownership to a streaming response body —
+// please don't close me, my `Stream.onExit` will." Global symbol so
+// it's stable across module copies.
+const scopeEjectedSymbol = Symbol.for("effect/http/HttpEffect/scopeEjected");
+
+export const makeRequestEffect = <Req = never>(
   webRequest: cf.Request,
   handler: Effect.Effect<
     HttpServerResponse.HttpServerResponse,
@@ -45,7 +57,7 @@ export const serveWebRequest = <Req = never>(
 ): Effect.Effect<
   Response,
   never,
-  Exclude<Req, HttpServerRequest.HttpServerRequest | Scope>
+  Exclude<Req, HttpServerRequest.HttpServerRequest | Scope.Scope>
 > =>
   Effect.gen(function* () {
     const request = HttpServerRequest.fromWeb(
@@ -60,11 +72,19 @@ export const serveWebRequest = <Req = never>(
           raw: webRequest.body,
         }),
     });
+    const handlerScope = Scope.makeUnsafe();
 
     const response = yield* handler.pipe(
-      Effect.provideService(HttpServerRequest.HttpServerRequest, request),
-      Effect.provideService(Request, webRequest as any),
+      Effect.provide(
+        Layer.mergeAll(
+          Layer.succeed(HttpServerRequest.HttpServerRequest, request),
+          Layer.succeed(Request, webRequest as any),
+        ),
+      ),
+      Scope.provide(handlerScope),
       Effect.catchCause((cause) => {
+        // eslint-disable-next-line no-console
+        console.log("[serveWebRequest] cause:", Cause.pretty(cause));
         const message = Option.match(Cause.findErrorOption(cause), {
           onNone: () => "Internal Server Error",
           onSome: (error) =>
@@ -81,7 +101,22 @@ export const serveWebRequest = <Req = never>(
       }),
     );
 
-    return HttpServerResponse.toWeb(response, {
+    const finalResponse = EffectHttpEffect.scopeTransferToStream(response);
+    const webResponse = HttpServerResponse.toWeb(finalResponse, {
       context: yield* Effect.context(),
     });
+    if (!(scopeEjectedSymbol in handlerScope)) {
+      const executionContext = yield* Effect.serviceOption(
+        WorkerExecutionContext,
+      );
+      const close = Effect.runPromise(Scope.close(handlerScope, Exit.void));
+      if (Option.isSome(executionContext)) {
+        executionContext.value.waitUntil(close);
+      }
+      // If no execution context is provided (e.g. some test harnesses),
+      // fall through — the promise is already running; we just don't
+      // hold the worker open for it.
+    }
+
+    return webResponse;
   }) as any;

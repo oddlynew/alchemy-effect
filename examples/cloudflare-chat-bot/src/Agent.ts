@@ -17,7 +17,7 @@ import {
   InternalError,
   type ModelOption,
 } from "./Api.ts";
-import { ChatToolkit, ChatToolkitLayer, SYSTEM_PROMPT } from "./Toolkit.ts";
+import { ChatToolkit, ChatToolkitLayer } from "./Toolkit.ts";
 
 export { ChatMessage, isModelOption, ModelOptions } from "./Api.ts";
 export type { ModelOption } from "./Api.ts";
@@ -26,6 +26,14 @@ export const Gateway = Cloudflare.AiGateway("Gateway", {
   cacheTtl: 60,
   collectLogs: true,
 });
+
+export const SYSTEM_PROMPT = `You are a friendly assistant running on Cloudflare Workers AI.
+You have access to tools — prefer calling a tool over making up an answer when one is relevant.
+Available tools:
+- get_current_time: current server time
+- calculate: arithmetic over numbers
+- roll_dice: roll N-sided dice
+After a tool returns, weave its result into a natural reply.`;
 
 /**
  * A Durable Object that owns one persisted chat session per DO instance.

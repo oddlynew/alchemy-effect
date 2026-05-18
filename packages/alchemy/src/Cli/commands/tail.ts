@@ -88,6 +88,7 @@ export const tailCommand = Command.make(
 
           for (const fqn of fqns) {
             const resource = stack.resources[fqn]!;
+
             if (filterSet && !filterSet.has(resource.LogicalId)) continue;
 
             const resourceState = yield* state.get({
@@ -117,6 +118,7 @@ export const tailCommand = Command.make(
                 "No tailable resources match --filter (deploy first, or selected resources may not support tail).",
               );
             } else {
+              console.log(fqns);
               yield* Console.log(
                 "No tailable resources found. Deploy first, then run tail.",
               );

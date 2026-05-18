@@ -44,23 +44,21 @@ export class HttpServer extends Context.Service<
   }
 >()("HttpServer") {}
 
-export const safeHttpEffect = <Req = never>(
+export const makeSafeHttpEffect = <Req = never>(
   handler: HttpEffect<Req> | Effect.Effect<HttpEffect<Req>>,
 ): Effect.Effect<
   HttpServerResponse.HttpServerResponse,
   never,
   Req | HttpServerRequest | Scope
 > =>
-  Effect.catchCause(
-    handler.pipe(
-      // @ts-expect-error
-      Effect.flatMap((response) =>
+  handler.pipe(
+    Effect.flatMap(
+      (response: HttpEffect<Req> | HttpServerResponse.HttpServerResponse) =>
         HttpServerResponse.isHttpServerResponse(response)
           ? Effect.succeed(response)
           : response,
-      ),
-    ) as any as HttpEffect<Req>,
-    (cause) => {
+    ),
+    Effect.catchCause((cause) => {
       // ClientAbort interrupts are not real failures — the client closed
       // the connection. Skip logging and respond with 499 if applicable.
       if (Cause.hasInterruptsOnly(cause)) {
@@ -78,7 +76,8 @@ export const safeHttpEffect = <Req = never>(
           }),
         ),
       );
-    },
+    }),
+    Effect.orDie,
   );
 
 export const resolvePort = (options: { port?: number } | undefined) =>
@@ -98,7 +97,7 @@ export const BunHttpServer = () =>
           Effect.gen(function* () {
             const port = yield* resolvePort(options);
             const server = yield* BunHttpServerPlatform.make({ port });
-            yield* server.serve(safeHttpEffect(handler));
+            yield* server.serve(makeSafeHttpEffect(handler));
           }).pipe(Effect.orDie),
       };
     }),
@@ -120,7 +119,7 @@ export const NodeHttpServer = () =>
               NodeHttp.createServer,
               { port },
             );
-            yield* server.serve(safeHttpEffect(handler));
+            yield* server.serve(makeSafeHttpEffect(handler));
           }).pipe(Effect.orDie),
       };
     }),

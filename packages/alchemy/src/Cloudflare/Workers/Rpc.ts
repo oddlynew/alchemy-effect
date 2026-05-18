@@ -10,19 +10,18 @@ import * as Scope from "effect/Scope";
 import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as Socket from "effect/unstable/socket/Socket";
-import * as RpcClientError from "effect/unstable/rpc/RpcClientError";
 import {
   RpcClient,
-  type RpcGroup,
-  type Rpc,
-  RpcSchema,
   RpcSerialization,
+  type Rpc,
+  type RpcGroup,
 } from "effect/unstable/rpc";
+import * as RpcClientError from "effect/unstable/rpc/RpcClientError";
+import * as Socket from "effect/unstable/socket/Socket";
 import type { HttpEffect } from "../../Http.ts";
 import { isYieldableEffect } from "../../Util/effect.ts";
-import { fromCloudflareFetcher, type Fetcher } from "../Fetcher.ts";
-import { serveWebRequest } from "./HttpServer.ts";
+import { fromCloudflareFetcher } from "../Fetcher.ts";
+import { makeRequestEffect } from "./HttpServer.ts";
 import type { ExtractRpcShape, RpcPromiseShape } from "./InferEnv.ts";
 import { fromWebSocket } from "./WebSocket.ts";
 
@@ -345,7 +344,7 @@ export const makeDurableObjectBridge =
         const methods = await this.object;
         if (methods.fetch) {
           const fetch = methods.fetch as HttpEffect<never>;
-          const response = await serveWebRequest(request, fetch).pipe(
+          const response = await makeRequestEffect(request, fetch).pipe(
             Effect.runPromise,
           );
           return response as any;

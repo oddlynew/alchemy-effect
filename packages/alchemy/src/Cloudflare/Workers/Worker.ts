@@ -76,7 +76,7 @@ import {
   isDurableObjectNamespaceLike,
   type DurableObjectNamespaceLike,
 } from "./DurableObjectNamespace.ts";
-import { workersHttpHandler } from "./HttpServer.ts";
+import { makeRequestHandler } from "./HttpServer.ts";
 import { LocalWorkerProvider } from "./LocalWorkerProvider.ts";
 import { Request } from "./Request.ts";
 import {
@@ -927,11 +927,8 @@ export const Worker: Platform<
         handler: HttpEffect<Req> | Effect.Effect<HttpEffect<Req>>,
         options?: { shape?: Record<string, unknown> },
       ) => {
-        // Capture the user's full default-export shape so `exports` can
-        // expose any non-handler methods on it as RPC methods on the
-        // deployed `WorkerEntrypoint` subclass — see `__rpc__` below.
         if (options?.shape) userShape = options.shape;
-        return ctx.listen(workersHttpHandler(handler));
+        return ctx.listen(makeRequestHandler(handler));
       },
       listen: ((
         handler:

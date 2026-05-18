@@ -1,4 +1,5 @@
-import * as Cloudflare from "@/Cloudflare/index.ts";
+import * as Cloudflare from "alchemy/Cloudflare";
+import type { HttpEffect } from "alchemy/Http";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as RpcSerialization from "effect/unstable/rpc/RpcSerialization";
@@ -20,17 +21,15 @@ export default class RpcHttpTestWorker extends Cloudflare.Worker<RpcHttpTestWork
   "RpcHttpTestWorker",
   {
     main: import.meta.filename,
-    subdomain: { enabled: true, previewsEnabled: false },
-    compatibility: { date: "2024-09-23", flags: ["nodejs_compat"] },
   },
   Effect.gen(function* () {
     return {
-      fetch: RpcServer.toHttpEffect(PingRpcs).pipe(
-        Effect.provide(
-          Layer.mergeAll(handlersLayer, RpcSerialization.layerNdjson),
-          // ^ ndjson is the canonical RpcServer.toHttpEffect protocol;
-          //   it streams one message per line.
-        ),
+      fetch: Effect.succeed(
+        RpcServer.toHttpEffect(PingRpcs).pipe(
+          Effect.provide(
+            Layer.mergeAll(handlersLayer, RpcSerialization.layerNdjson),
+          ),
+        ) as unknown as HttpEffect,
       ),
     };
   }),

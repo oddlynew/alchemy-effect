@@ -1,7 +1,6 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import type * as Scope from "effect/Scope";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import {
   type Rpc,
@@ -11,11 +10,10 @@ import {
 } from "effect/unstable/rpc";
 import type * as RpcClientError from "effect/unstable/rpc/RpcClientError";
 import type { HttpEffect } from "../../Http.ts";
-import type { PlatformServices, Rpc as RpcShape } from "../../Platform.ts";
+import type { Rpc as RpcShape } from "../../Platform.ts";
 import { effectClass, taggedFunction } from "../../Util/effect.ts";
-import { WorkerEnvironment } from "./Worker.ts";
-import type { Worker, WorkerProps, WorkerServices } from "./Worker.ts";
-import { Worker as WorkerCtor } from "./Worker.ts";
+import type { Worker, WorkerProps } from "./Worker.ts";
+import { Worker as WorkerCtor, WorkerEnvironment } from "./Worker.ts";
 
 /**
  * Props for {@link RpcWorker}. Same shape as {@link WorkerProps} with

@@ -22,8 +22,8 @@ identical to the HTTP API guide:
    time. Don't `yield*` the running server; it can't run without a
    request.
 3. **Return `{ fetch }`** where `fetch` is the `HttpEffect`
-   produced by `RpcServer.toHttpEffect`. Or use
-   `Cloudflare.RpcWorker` and skip the `{ fetch }` wrapper.
+   produced by `HttpRouter.toHttpEffect(RpcServer.layerHttp({...}))`.
+   Or use `Cloudflare.RpcWorker` and skip the `{ fetch }` wrapper.
 4. **Bonus:** deploy and call the procedures from a typed client
    that shares the exact same `RpcGroup` value.
 5. **For Durable Objects**, `Cloudflare.RpcDurableObjectNamespace`
@@ -198,26 +198,48 @@ declared `CreateTaskFailed` error so the client can match on it.
 
 ### 3c. Return `{ fetch }`
 
-`RpcServer.toHttpEffect` converts the `RpcGroup` into an
-`HttpEffect` — exactly the type Workers expect for `fetch`. We
-provide two layers to it:
+`HttpRouter.toHttpEffect` takes a `Layer` that wires the RPC server
+into an `HttpRouter`, builds it **once** in the Worker's init scope,
+and hands back a stateless per-request `HttpEffect` — exactly the
+type Workers expect for `fetch`. `RpcServer.layerHttp` is the layer
+that forks the long-running RPC server fiber into the init scope and
+registers the per-request handler at the given path.
+
+We provide two more layers to `layerHttp`:
 
 - The `handlersLayer` we just built.
 - `RpcSerialization.layerJson` — tells the server to encode and
   decode messages as JSON. (Swap for `layerNdjson`, `layerMsgPack`,
   etc. as needed.)
 
+:::caution
+Do **not** use `RpcServer.toHttpEffect(group).pipe(Effect.provide(...))`
+directly as the `fetch` handler. That setup is one-shot: it
+`Effect.forkScoped`s the RPC server into the surrounding scope and
+returns a per-request `httpEffect` that talks to it. Re-running it
+per request forks a new server into the request scope and deadlocks
+on the response queue. The `HttpRouter.toHttpEffect(layerHttp(...))`
+shape evaluates setup once in the init scope and reuses the same
+router on every request.
+:::
+
 Unlike the HTTP API approach, RPC doesn't need `HttpPlatform.layer`
 or `Etag.layer` — the RPC server handles message framing internally.
 
 ```typescript twoslash
 // @noErrors
-    return {
-+     fetch: RpcServer.toHttpEffect(TaskRpcs).pipe(
-+       Effect.provide(handlersLayer),
-+       Effect.provide(RpcSerialization.layerJson),
++   const fetch = yield* HttpRouter.toHttpEffect(
++     RpcServer.layerHttp({
++       group: TaskRpcs,
++       path: "/",
++       protocol: "http",
++     }).pipe(
++       Layer.provide(handlersLayer),
++       Layer.provide(RpcSerialization.layerJson),
 +     ),
-    };
++   );
+
+    return { fetch };
 ```
 
 ### Putting it together
@@ -228,6 +250,7 @@ import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
+import * as HttpRouter from "effect/unstable/http/HttpRouter";
 import { RpcSerialization, RpcServer } from "effect/unstable/rpc";
 import { Tasks } from "./bucket.ts";
 import { CreateTaskFailed, Task, TaskNotFound } from "./task.ts";
@@ -266,27 +289,33 @@ export default Cloudflare.Worker(
         ),
     });
 
-    return {
-      fetch: RpcServer.toHttpEffect(TaskRpcs).pipe(
-        Effect.provide(Layer.mergeAll(handlersLayer, RpcSerialization.layerJson)),
+    const fetch = yield* HttpRouter.toHttpEffect(
+      RpcServer.layerHttp({
+        group: TaskRpcs,
+        path: "/",
+        protocol: "http",
+      }).pipe(
+        Layer.provide(handlersLayer),
+        Layer.provide(RpcSerialization.layerJson),
       ),
-    };
+    );
+
+    return { fetch };
   }).pipe(Effect.provide(Cloudflare.R2BucketBindingLive)),
 );
 ```
 
 ### Shorter form: `Cloudflare.RpcWorker`
 
-The `Cloudflare.Worker` + `{ fetch: RpcServer.toHttpEffect(...) }`
+The `Cloudflare.Worker` + `{ fetch: HttpRouter.toHttpEffect(...) }`
 pattern shows up every time you build a worker whose entire surface
 is an `RpcGroup`. `Cloudflare.RpcWorker` is the same construct with
 two small affordances:
 
 - The `schema` lives in `props` next to `main`, declaring the rpc
   group on the worker resource itself.
-- The init Effect returns the `RpcServer.toHttpEffect(...)`-piped
-  Effect directly — no `{ fetch }` wrapper. The wrapper plugs it
-  into the worker's `fetch` for you.
+- The init Effect returns the `HttpEffect` directly — no `{ fetch }`
+  wrapper. The wrapper plugs it into the worker's `fetch` for you.
 
 ```typescript
 // src/worker.ts
@@ -294,6 +323,7 @@ import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
+import * as HttpRouter from "effect/unstable/http/HttpRouter";
 import { RpcSerialization, RpcServer } from "effect/unstable/rpc";
 import { Tasks } from "./bucket.ts";
 import { CreateTaskFailed, Task, TaskNotFound } from "./task.ts";
@@ -332,8 +362,15 @@ export default class Worker extends Cloudflare.RpcWorker<Worker>()(
         ),
     });
 
-    return RpcServer.toHttpEffect(TaskRpcs).pipe(
-      Effect.provide(Layer.mergeAll(handlersLayer, RpcSerialization.layerJson)),
+    return yield* HttpRouter.toHttpEffect(
+      RpcServer.layerHttp({
+        group: TaskRpcs,
+        path: "/",
+        protocol: "http",
+      }).pipe(
+        Layer.provide(handlersLayer),
+        Layer.provide(RpcSerialization.layerJson),
+      ),
     );
   }).pipe(Effect.provide(Cloudflare.R2BucketBindingLive)),
 ) {}
@@ -344,19 +381,24 @@ Two changes from the plain `Cloudflare.Worker` form:
 1. `Cloudflare.RpcWorker<Worker>()(...)` instead of
    `Cloudflare.Worker<Worker>()(...)` — same `class X extends ...`
    ergonomics; consumers `yield* Worker` to get the deploy handle.
-2. The init Effect returns the rpc server's Effect directly. Compare:
+2. The init Effect returns the `HttpEffect` directly. Compare:
 
    ```typescript
    // Cloudflare.Worker
-   return {
-     fetch: RpcServer.toHttpEffect(TaskRpcs).pipe(
-       Effect.provide(Layer.mergeAll(handlersLayer, RpcSerialization.layerJson)),
+   const fetch = yield* HttpRouter.toHttpEffect(
+     RpcServer.layerHttp({ group: TaskRpcs, path: "/", protocol: "http" }).pipe(
+       Layer.provide(handlersLayer),
+       Layer.provide(RpcSerialization.layerJson),
      ),
-   };
+   );
+   return { fetch };
 
    // Cloudflare.RpcWorker — drop the `{ fetch }` wrapper
-   return RpcServer.toHttpEffect(TaskRpcs).pipe(
-     Effect.provide(Layer.mergeAll(handlersLayer, RpcSerialization.layerJson)),
+   return yield* HttpRouter.toHttpEffect(
+     RpcServer.layerHttp({ group: TaskRpcs, path: "/", protocol: "http" }).pipe(
+       Layer.provide(handlersLayer),
+       Layer.provide(RpcSerialization.layerJson),
+     ),
    );
    ```
 
@@ -488,6 +530,7 @@ Effect.
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as HttpRouter from "effect/unstable/http/HttpRouter";
 import { RpcSerialization, RpcServer } from "effect/unstable/rpc";
 import { CounterRpcs } from "./agent-rpcs.ts";
 
@@ -506,9 +549,14 @@ export default class Counter extends Cloudflare.RpcDurableObjectNamespace<Counte
           Effect.map(state.storage.get<string>("title"), (t) => t ?? ""),
       });
 
-      return RpcServer.toHttpEffect(CounterRpcs).pipe(
-        Effect.provide(
-          Layer.mergeAll(handlersLayer, RpcSerialization.layerNdjson),
+      return yield* HttpRouter.toHttpEffect(
+        RpcServer.layerHttp({
+          group: CounterRpcs,
+          path: "/",
+          protocol: "http",
+        }).pipe(
+          Layer.provide(handlersLayer),
+          Layer.provide(RpcSerialization.layerNdjson),
         ),
       );
     });

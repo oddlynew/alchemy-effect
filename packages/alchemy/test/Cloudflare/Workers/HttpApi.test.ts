@@ -1,5 +1,5 @@
-import * as Alchemy from "@/index.ts";
 import * as Cloudflare from "@/Cloudflare";
+import * as Alchemy from "@/index.ts";
 import * as Test from "@/Test/Vitest";
 import { expect } from "@effect/vitest";
 import * as Effect from "effect/Effect";
@@ -13,6 +13,7 @@ import HttpApiTestWorker from "./fixtures/http-api/worker.ts";
 
 const { test, beforeAll, afterAll, deploy, destroy } = Test.make({
   providers: Cloudflare.providers(),
+  dev: true,
 });
 
 const logLevel = Effect.provideService(

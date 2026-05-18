@@ -32,7 +32,7 @@ export const isApiGatewayProxyEvent = (
 };
 
 export const makeFunctionHttpHandler = <Req>(handler: Http.HttpEffect<Req>) => {
-  const safeHandler = Http.safeHttpEffect(handler);
+  const safeHandler = Http.makeSafeHttpEffect(handler);
   return (event: any) => {
     if (isFunctionURLEvent(event)) {
       const webRequest = functionUrlEventToWebRequest(event);

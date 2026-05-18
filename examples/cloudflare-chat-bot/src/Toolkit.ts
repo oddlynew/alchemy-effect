@@ -83,11 +83,3 @@ export const ChatToolkitLayer = ChatToolkit.toLayer({
       return { rolls, total: rolls.reduce((a, b) => a + b, 0) };
     }),
 });
-
-export const SYSTEM_PROMPT = `You are a friendly assistant running on Cloudflare Workers AI.
-You have access to tools — prefer calling a tool over making up an answer when one is relevant.
-Available tools:
-- get_current_time: current server time
-- calculate: arithmetic over numbers
-- roll_dice: roll N-sided dice
-After a tool returns, weave its result into a natural reply.`;
