@@ -17,7 +17,6 @@
     "generate": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' generate",
     "specs:fetch": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:fetch",
     "specs:update": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:update",
-    "bump": "bun ./scripts/bump.ts",
     "create-sdk": "bun ./scripts/create-sdk.ts",
     "nuke": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' nuke",
     "generate-nuke": "bun ./scripts/generate-nuke.ts",
