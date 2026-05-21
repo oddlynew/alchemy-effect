@@ -1,6 +1,6 @@
 ---
 title: Build an Agent
-description: Patterns for building Agents — system prompts, tool kits, chat persistence, structured outputs, and swapping providers without touching call sites.
+description: Patterns for building Agents — system prompts as tagged template literals, tool classes, separating tool tags from runtime layers, hosting in a Durable Object, swapping providers.
 sidebar:
   order: 11
 ---
@@ -9,174 +9,183 @@ The [Agent concept](/concepts/agent) page covers what an Agent *is*.
 This guide is a catalog of the **patterns** you'll reach for when
 building one.
 
-If you want a step-by-step "deploy a chat agent to Cloudflare", see
-the [Add a Chat Agent tutorial](/tutorial/cloudflare/agent) — this
-guide assumes you already have an Agent and want to make it do more.
-
 ## Skeleton
 
-The minimum agent: a name, a system prompt, a language model layer.
+The minimum agent: a class, a name, a system prompt:
 
 ```typescript
 import * as Alchemy from "alchemy";
-import * as Effect from "effect/Effect";
-import { Toolkit } from "effect/unstable/ai";
+const { Agent } = Alchemy.Agent;
 
-export class AssistantAgent extends Alchemy.Agent.Agent("AssistantAgent")(
+export class AssistantAgent extends Agent<AssistantAgent>()("AssistantAgent")`
+  You are a concise assistant. Answer in one sentence.
+` {}
+```
+
+`yield* AssistantAgent` returns an `AgentInstance` with `generateText`
+/ `streamText`. The `LanguageModel` is *not* baked in — it's provided
+at each call site.
+
+## Calling the agent
+
+```typescript
+const assistant = yield* AssistantAgent;
+const response = yield* assistant
+  .generateText({ prompt: "Summarize Effect's `Stream` in one line." })
+  .pipe(Effect.provide(OpenAiModel));
+```
+
+Switching providers is one line at the call site — every `Agent` in
+your app keeps working without edits:
+
+```diff lang="typescript"
+- .pipe(Effect.provide(OpenAiModel));
++ .pipe(Effect.provide(AnthropicModel));
+```
+
+## Adding tools
+
+A `Tool` is a class whose tagged-template prompt fragment includes
+the parameter / success schemas inline. **Inline form** — class +
+prompt + handler in one declaration:
+
+```typescript
+import { Tool } from "alchemy/Agent";
+import * as S from "effect/Schema";
+
+export class CreateObject extends Tool("CreateObject")`
+  Create an object in the bucket.
+  Return ${{ key: S.String }}
+`(
   Effect.gen(function* () {
-    const aiGateway = yield* Cloudflare.AiGateway.bind(Gateway);
-    const languageModel = aiGateway.model({
-      client: aiGateway,
-      model: "@cf/meta/llama-3.1-8b-instruct",
-      parameters: { temperature: 0.7, maxTokens: 1024 },
+    const bucket = yield* Cloudflare.R2Bucket.bind(Bucket);
+    return Effect.fnUntraced(function* (message) {
+      return yield* bucket.put(`${message}.txt`, "data");
     });
-    return {
-      prompt: "You are a concise assistant.",
-      toolkit: Toolkit.make(),
-      languageModel,
-    };
   }),
 ) {}
 ```
 
-`yield* AssistantAgent` inside any Worker / DO that has the binding
-gives you back an `AgentInstance` with `generateText` / `streamText`.
-
-## Adding tools
-
-Tools are typed functions the LLM can call. Each is a
-`Tool.make(name, { description, parameters, success })` plus a handler
-in `Toolkit.toLayer`:
+Reference the tool inside the agent's prompt with `${CreateObject}`:
 
 ```typescript
-import * as Schema from "effect/Schema";
-import { Tool, Toolkit } from "effect/unstable/ai";
-
-const GetWeather = Tool.make("get_weather", {
-  description: "Get the current weather for a city.",
-  parameters: Schema.Struct({ city: Schema.String }),
-  success: Schema.Struct({
-    city: Schema.String,
-    temperatureC: Schema.Number,
-    condition: Schema.String,
-  }),
-});
-
-const WeatherToolkit = Toolkit.make(GetWeather);
-
-const WeatherToolkitLayer = WeatherToolkit.toLayer({
-  get_weather: ({ city }) =>
-    Effect.succeed({ city, temperatureC: 21, condition: "sunny" }),
-});
+export class Blogger extends Agent<Blogger>()("Blogger")`
+  When asked to, use the ${CreateObject} tool to echo a message back.
+` {}
 ```
 
-In the agent's init, return `toolkit: WeatherToolkit` and provide
-`WeatherToolkitLayer` to the `languageModel` layer (or to the call
-site).
+The agent's instance is now configured with that tool — the model can
+call it during `generateText` / `streamText`.
 
-## Persisted chat
+## Separating tool tags from layers
 
-Plain `generateText` is one-shot. For turn-by-turn memory, run the
-agent inside a Durable Object and provide a persistence layer:
+For larger codebases, declare the tool's *type* in one file and its
+*implementation* in another. Use the **tag-only form**:
 
 ```typescript
-import { Chat, Persistence } from "effect/unstable/ai";
+// tools/create-object.ts — types only, importable from anywhere
+export class CreateObject extends Tool<CreateObject>()("CreateObject")`
+  Create an object in the bucket.
+  Return ${{ key: S.String }}
+` {}
+```
 
-export default class ChatAgent extends Cloudflare.DurableObjectNamespace<ChatAgent>()(
-  "ChatAgent",
+```typescript
+// tools/create-object.live.ts — runtime layer
+import { CreateObject } from "./create-object.ts";
+
+export default CreateObject.make(
   Effect.gen(function* () {
-    return Effect.gen(function* () {
-      const persistence = yield* Persistence.layerResultPersisted({
-        storeId: "alchemy.chat",
-      }).pipe(Layer.provide(Cloudflare.DurableObjectChatPersistence));
+    const bucket = yield* Cloudflare.R2Bucket.bind(Bucket);
+    return Effect.fnUntraced(function* (message) {
+      return yield* bucket.put(`${message}.txt`, "data");
+    });
+  }),
+);
+```
 
+The agent's prompt still references `${CreateObject}` (the tag); the
+runtime `.make(...)` layer is provided wherever the agent runs.
+
+## Hosting in a Durable Object
+
+For per-conversation memory, host the agent inside a Durable Object.
+The DO instance *is* the conversation; `getByName(threadId)` selects
+a thread:
+
+```typescript
+export class BloggerObject extends Cloudflare.DurableObjectNamespace<BloggerObject>()(
+  "BloggerObject",
+  Effect.gen(function* () {
+    const blogger = yield* Blogger;
+    return Effect.gen(function* () {
       return {
-        send: (threadId: string, prompt: string) =>
-          AssistantAgent.generateText({ prompt }).pipe(
-            Effect.provide(persistence),
-          ),
+        fetch: Effect.gen(function* () {
+          const response = blogger.streamText({ prompt: "Hello World" }).pipe(
+            Stream.flatMap((part) =>
+              part.type === "text-delta"
+                ? Stream.fromArray([new TextEncoder().encode(part.delta)])
+                : Stream.empty,
+            ),
+            Stream.provide(OpenAiModel),
+          );
+          return HttpServerResponse.stream(response, { status: 200 });
+        }),
       };
     });
   }),
 ) {}
 ```
 
-The DO instance is the conversation; `getByName(threadId)` selects a
-thread. See [Persist conversation state](/tutorial/cloudflare/durable-object-chat-persistence)
-for the persistence layer in detail.
+Layer
+[`Cloudflare.DurableObjectChatPersistence`](/tutorial/cloudflare/durable-object-chat-persistence)
+underneath Effect AI's `Persistence.layerResultPersisted({ storeId })`
+to persist chat history across restarts and hibernation.
 
-## Structured outputs
+## Picking a model
 
-Replace `generateText` with `generateObject` (Effect AI surface) and
-declare a `Schema` — the model is constrained to produce a value that
-parses through `Schema.decodeUnknown`:
+`OpenAiModel` (or `AnthropicModel`, or `aiGateway.model({ ... })`) is
+just a `LanguageModel` `Layer`. Build it once and provide it at every
+call site:
 
 ```typescript
-import { LanguageModel } from "effect/unstable/ai";
+import { OpenAiClient, OpenAiLanguageModel } from "@effect/ai-openai";
+import { Config, Layer } from "effect";
+import { FetchHttpClient } from "effect/unstable/http";
 
-const Plan = Schema.Struct({
-  steps: Schema.Array(Schema.String),
-  estimatedHours: Schema.Number,
-});
+const OpenAiClientLayer = OpenAiClient.layerConfig({
+  apiKey: Config.redacted("OPENAI_API_KEY"),
+}).pipe(Layer.provide(FetchHttpClient.layer));
 
-const result = yield* LanguageModel.generateObject({
-  prompt: "Plan a weekend in Lisbon",
-  schema: Plan,
-}).pipe(Effect.provide(languageModel));
+export const OpenAiModel = OpenAiLanguageModel.model("gpt-5.2").pipe(
+  Layer.provide(OpenAiClientLayer),
+);
 ```
 
-Wrap that pattern in a method on your Agent's returned object if it's
-a recurring shape.
-
-## Swapping providers
-
-The agent's call sites depend on `LanguageModel`, not on a specific
-provider. Switching from Workers AI to OpenAI / Anthropic is a
-one-file change in the init Effect:
-
-```diff lang="typescript"
-- const languageModel = aiGateway.model({
--   client: aiGateway,
--   model: "@cf/meta/llama-3.1-8b-instruct",
-- });
-+ const apiKey = yield* Alchemy.Secret("ANTHROPIC_API_KEY");
-+ const languageModel = AnthropicLanguageModel.layer({
-+   model: "claude-3-5-sonnet-20240620",
-+ }).pipe(
-+   Layer.provide(AnthropicClient.layer({ apiKey })),
-+   Layer.provide(FetchHttpClient.layer),
-+ );
-```
-
-Every call site that does `yield* MyAgent.generateText(...)` keeps
-working unchanged. Routing through an AI Gateway as well is the same
-move with `aiGateway.getUrl()` as `apiUrl`. See the
-[Effect AI guide](/guides/effect-ai) for the full provider matrix.
+For Workers AI through a Cloudflare AI Gateway, use
+`aiGateway.model({ ... })` (see the
+[AI Gateway tutorial](/tutorial/cloudflare/ai-gateway)). The
+`Effect.provide(...)` call site doesn't change.
 
 ## Streaming responses
 
-`streamText` is the analog of `generateText` that returns a `Stream`
-of parts. From a Worker route, encode the parts as SSE:
+`streamText` returns a `Stream` of typed parts. The common pattern is
+to forward `text-delta` parts as SSE bytes:
 
 ```typescript
 fetch: Effect.gen(function* () {
-  const ctx = yield* Effect.context<RuntimeContext>();
-  const encoder = new TextEncoder();
-  const body = AssistantAgent.streamText({ prompt }).pipe(
-    Stream.map((part) =>
-      encoder.encode(`data: ${JSON.stringify(part)}\n\n`),
+  const blogger = yield* Blogger;
+  const response = blogger.streamText({ prompt }).pipe(
+    Stream.flatMap((part) =>
+      part.type === "text-delta"
+        ? Stream.fromArray([new TextEncoder().encode(part.delta)])
+        : Stream.empty,
     ),
-    Stream.provideContext(ctx),
+    Stream.provide(OpenAiModel),
   );
-  return HttpServerResponse.stream(body, {
-    headers: { "content-type": "text/event-stream" },
-  });
+  return HttpServerResponse.stream(response, { status: 200 });
 }),
 ```
-
-`Stream.provideContext(ctx)` carries `RuntimeContext` (and the bound
-language model) into the stream so it's `R = never` at the
-`HttpServerResponse.stream` boundary.
 
 ## Where to go next
 
