@@ -1,10 +1,9 @@
 import type * as cf from "@cloudflare/workers-types";
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import * as Scope from "effect/Scope";
-import type { HttpBodyError } from "effect/unstable/http/HttpBody";
-import * as HttpServerError from "effect/unstable/http/HttpServerError";
+import type { Scope } from "effect/Scope";
 import * as HttpServerRequest from "effect/unstable/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
 import * as Http from "../../Http.ts";
@@ -13,44 +12,31 @@ import { isWorkerEvent, type WorkerServices } from "./Worker.ts";
 
 export type HttpEffect = Http.HttpEffect<WorkerServices>;
 
-export const makeRequestHandler = <Req = never>(
-  httpEffect: Http.HttpEffect<Req> | Effect.Effect<Http.HttpEffect<Req>>,
-) => {
-  const safeHttpEffect = Http.makeSafeHttpEffect(httpEffect);
-  return (event: Request) =>
+export const makeRequestHandler =
+  <Req = never>(
+    handler: Http.HttpEffect<Req> | Effect.Effect<Http.HttpEffect<Req>>,
+  ) =>
+  (event: any) =>
     isWorkerEvent(event) && event.type === "fetch"
-      ? makeRequestEffect(event.input, safeHttpEffect, {
-          remoteAddress:
-            event.input.headers.get("cf-connecting-ip") ?? undefined,
-        })
+      ? makeRequestEffect(event.input, handler)
       : undefined;
-};
 
 export const makeRequestEffect = <Req = never>(
   webRequest: cf.Request,
-  handler: Effect.Effect<
-    HttpServerResponse.HttpServerResponse,
-    HttpServerError.HttpServerError | HttpBodyError,
-    Req
-  >,
-  options: {
-    // Preserve transport metadata when this helper is adapting a request
-    // that originated from another runtime surface.
-    remoteAddress?: string;
-    // Durable Objects need to register the accepted socket on object state
-    // instead of calling `server.accept()` directly.
-    acceptWebSocket?: (socket: cf.WebSocket) => void;
-  } = {},
+  handler: Http.HttpEffect<Req> | Effect.Effect<Http.HttpEffect<Req>>,
 ): Effect.Effect<
   Response,
   never,
-  Exclude<Req, HttpServerRequest.HttpServerRequest | Scope.Scope>
-> =>
-  Effect.gen(function* () {
+  Exclude<Req, HttpServerRequest.HttpServerRequest | Scope>
+> => {
+  const safeHandler = Http.safeHttpEffect(handler);
+  return Effect.gen(function* () {
     const request = HttpServerRequest.fromWeb(
       webRequest as any as globalThis.Request,
     ).modify({
-      remoteAddress: Option.fromUndefinedOr(options.remoteAddress),
+      remoteAddress: Option.fromUndefinedOr(
+        webRequest.headers.get("cf-connecting-ip") ?? undefined,
+      ),
     });
 
     Object.defineProperty(request, "raw", {
@@ -60,12 +46,28 @@ export const makeRequestEffect = <Req = never>(
         }),
     });
 
-    return HttpServerResponse.toWeb(
-      yield* handler.pipe(
-        Effect.provide([
-          Layer.succeed(HttpServerRequest.HttpServerRequest, request),
-          Layer.succeed(Request, webRequest as any),
-        ]),
-      ),
+    const response = yield* safeHandler.pipe(
+      Effect.provide([
+        Layer.succeed(HttpServerRequest.HttpServerRequest, request),
+        Layer.succeed(Request, webRequest as any),
+      ]),
+      Effect.catchCause((cause) => {
+        const message = Option.match(Cause.findErrorOption(cause), {
+          onNone: () => "Internal Server Error",
+          onSome: (error: any) =>
+            error instanceof Error && error.message
+              ? error.message
+              : "Internal Server Error",
+        });
+        return Effect.succeed(
+          HttpServerResponse.text(message, {
+            status: 500,
+            statusText: message,
+          }),
+        );
+      }),
     );
+
+    return HttpServerResponse.toWeb(response);
   }) as any;
+};

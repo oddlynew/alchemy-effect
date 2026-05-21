@@ -1,34 +1,14 @@
 import type * as cf from "@cloudflare/workers-types";
+
 import * as Cause from "effect/Cause";
-import * as Console from "effect/Console";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import * as Scope from "effect/Scope";
 import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import {
-  RpcClient,
-  RpcSerialization,
-  type Rpc,
-  type RpcGroup,
-} from "effect/unstable/rpc";
-import * as RpcClientError from "effect/unstable/rpc/RpcClientError";
 import * as Socket from "effect/unstable/socket/Socket";
-import type { HttpEffect } from "../../Http.ts";
 import { isYieldableEffect } from "../../Util/effect.ts";
 import { fromCloudflareFetcher } from "../Fetcher.ts";
-import type { DurableObjectShape } from "./DurableObjectNamespace.ts";
-import { makeRequestEffect } from "./HttpServer.ts";
-import type { ExtractRpcShape, RpcPromiseShape } from "./InferEnv.ts";
-import { fromWebSocket } from "./WebSocket.ts";
-import {
-  WorkflowEvent as WorkflowEventService,
-  WorkflowStep,
-} from "./Workflow.ts";
 
 export const StreamTag = "~alchemy/rpc/stream";
 export const ErrorTag = "~alchemy/rpc/error";
@@ -247,412 +227,52 @@ export const makeRpcStub = <Shape>(
   }) as Shape;
 };
 
-/**
- * Wrap a raw Cloudflare service binding (the wire-typed view emitted by
- * `InferEnv`) into a Promise-flavored API for non-Effect consumers.
- *
- * Effect-native worker methods serialize their results as envelopes:
- * `Effect.fail` becomes `RpcErrorEnvelope`, `Stream` becomes
- * `RpcStreamEnvelope`, and `Effect.succeed`/raw values pass through. This
- * proxy auto-decodes those envelopes — error envelopes are thrown so the
- * caller's `await` rejects, and stream envelopes are unwrapped to their raw
- * `ReadableStream<Uint8Array>` body.
- *
- * `Service.fetch` and `Service.connect` pass through untouched, so the
- * returned proxy is still a usable `Service` binding.
- *
- * For Effect-to-Effect cross-worker calls, prefer `bindWorker(Worker)` —
- * it preserves typed errors and decoded streams.
- *
- * The generic parameter is the Worker *class* (or its Effect form), the
- * same value you would pass to `bindWorker`. Shape is recovered from the
- * embedded `Rpc<Shape>`.
- *
- * @example
- * ```ts
- * import * as Cloudflare from "alchemy/Cloudflare";
- * import Backend from "./backend.ts";
- *
- * const backend = Cloudflare.toPromiseApi<typeof Backend>(env.BACKEND);
- * const greeting = await backend.hello(key); // throws on Effect.fail
- * ```
- */
-export const toPromiseApi = <W>(
-  stub: any,
-): RpcPromiseShape<ExtractRpcShape<W>> & Service =>
-  new Proxy(stub, {
-    get: (target, prop) => {
-      // `Service` methods (fetch/connect) and any non-string keys (Symbol.dispose, etc.)
-      // pass through to the underlying Cloudflare binding unchanged.
-      if (typeof prop !== "string" || prop === "fetch" || prop === "connect") {
-        const value = (target as any)[prop];
-        return typeof value === "function" ? value.bind(target) : value;
+export const toRpcStream = (stream: Stream.Stream<any, any, any>) =>
+  Effect.scoped(
+    Effect.gen(function* () {
+      const [head, rest] = yield* Stream.peel(stream, Sink.head());
+
+      if (Option.isSome(head) && head.value instanceof Uint8Array) {
+        return {
+          _tag: StreamTag,
+          encoding: "bytes",
+          body: Stream.toReadableStream(
+            rest.pipe(Stream.prepend([head.value])),
+          ),
+        } satisfies RpcStreamEnvelope;
       }
 
-      return async (...args: unknown[]) => {
-        const result = await (target as any)[prop](...args);
-        if (isRpcErrorEnvelope(result)) {
-          throw decodeRpcThrowable(result.error);
-        }
-        if (isRpcStreamEnvelope(result)) {
-          return result.body;
-        }
-        return result;
-      };
-    },
-  }) as any;
+      const body = Option.isSome(head)
+        ? rest.pipe(Stream.prepend([head.value]))
+        : rest;
 
-/**
- * Reconstruct a throwable from {@link encodeRpcError}'s wire form. Plain
- * `Error` payloads are rebuilt as `Error` instances so `.message`/`.name`/
- * `.stack` survive. Tagged errors (anything with a `_tag`) and primitives
- * are thrown as-is so `try { ... } catch (e) { if (e._tag === ...) }` keeps
- * working.
- */
-const decodeRpcThrowable = (error: unknown): unknown => {
-  if (error === null || typeof error !== "object") return error;
-  const obj = error as Record<string, unknown>;
-  if ("_tag" in obj) return obj;
-  if (typeof obj.message === "string" || typeof obj.name === "string") {
-    const e = new Error(typeof obj.message === "string" ? obj.message : "");
-    if (typeof obj.name === "string") e.name = obj.name;
-    if (typeof obj.stack === "string") e.stack = obj.stack;
-    return e;
-  }
-  return error;
-};
-
-/**
- * Create a DurableObjectBridge class that proxies RPC method calls through
- * the Effect runtime, encoding success/fail/stream results as RPC envelopes.
- *
- * Accepts the `DurableObject` base class and a `getExport` resolver so the
- * implementation lives in real TypeScript instead of a generated string template.
- */
-export const makeDurableObjectBridge =
-  (
-    DurableObject: abstract new (
-      state: unknown,
-      env: unknown,
-    ) => cf.DurableObject,
-    getExport: (
-      name: string,
-    ) => Promise<
-      (state: unknown, env: unknown) => Effect.Effect<Record<string, unknown>>
-    >,
-  ) =>
-  (className: string) =>
-    class DurableObjectBridge extends DurableObject {
-      readonly object: Promise<DurableObjectShape>;
-
-      async fetch(request: cf.Request): Promise<cf.Response> {
-        const methods = await this.object;
-        if (methods.fetch) {
-          const fetch = methods.fetch as HttpEffect<never>;
-          const response = await makeRequestEffect(request, fetch).pipe(
-            Effect.runPromise,
-          );
-          return response as any;
-        } else {
-          return new Response("Method not found", { status: 404 }) as any;
-        }
-      }
-
-      async alarm(alarmInfo?: cf.AlarmInvocationInfo) {
-        const methods = await this.object;
-        if (methods.alarm) {
-          await Effect.runPromise(methods.alarm(alarmInfo));
-        }
-      }
-
-      async webSocketMessage(ws: cf.WebSocket, message: string | ArrayBuffer) {
-        const methods = await this.object;
-        if (methods.webSocketMessage) {
-          const socket = fromWebSocket(ws);
-          const value = methods.webSocketMessage(socket, message);
-          if (Effect.isEffect(value)) {
-            await Effect.runPromise(value as Effect.Effect<void>);
-          }
-        }
-      }
-
-      async webSocketClose(
-        ws: cf.WebSocket,
-        code: number,
-        reason: string,
-        wasClean: boolean,
-      ) {
-        const methods = await this.object;
-        if (methods.webSocketClose) {
-          const socket = fromWebSocket(ws);
-          const value = methods.webSocketClose(socket, code, reason, wasClean);
-          if (Effect.isEffect(value)) {
-            await Effect.runPromise(value as Effect.Effect<void>);
-          }
-        }
-      }
-
-      constructor(
-        state: {
-          blockConcurrencyWhile: (
-            fn: () => Promise<unknown>,
-          ) => Promise<unknown>;
-        },
-        env: unknown,
-      ) {
-        super(state, env);
-
-        this.object = state.blockConcurrencyWhile(async () => {
-          const makeDurableObject = await getExport(className);
-          return await Effect.runPromise(makeDurableObject(state, env));
-        }) as Promise<any>;
-
-        return new Proxy(this, {
-          get: (target: any, prop) =>
-            prop in target
-              ? target[prop]
-              : async (...args: unknown[]) => {
-                  const methods = await this.object;
-                  const method = methods[
-                    prop as keyof DurableObjectShape
-                  ] as any; // TODO(sam): what should the type be? Is it safe to always call it?
-                  const value = method(...args);
-                  if (Effect.isEffect(value)) {
-                    const exit = await Effect.runPromiseExit(
-                      value as Effect.Effect<unknown, never>,
-                    );
-                    if (exit._tag === "Success") {
-                      if (Stream.isStream(exit.value)) {
-                        return await Effect.runPromise(
-                          toRpcStream(
-                            exit.value,
-                          ) as Effect.Effect<RpcStreamEnvelope>,
-                        );
-                      }
-                      return exit.value;
-                    }
-                    const failReason = exit.cause.reasons.find(
-                      Cause.isFailReason,
-                    );
-                    if (failReason) {
-                      return {
-                        _tag: ErrorTag,
-                        error: encodeRpcError(failReason.error),
-                      } satisfies RpcErrorEnvelope;
-                    }
-                    const dieReason = exit.cause.reasons.find(
-                      Cause.isDieReason,
-                    );
-                    throw (
-                      dieReason?.defect ??
-                      new Error("RPC method failed with an unexpected cause")
-                    );
-                  }
-                  return value;
-                },
-        });
-      }
-    };
-
-/**
- * Create a `WorkerBridge` class — a `WorkerEntrypoint` subclass that
- * Cloudflare instantiates per request and dispatches both standard
- * handlers (`fetch`/`scheduled`/…) and RPC method calls into.
- *
- * The bridge is intentionally layer-ignorant: all runtime-layer plumbing
- * (services, scope, `WorkerExecutionContext`) lives in the platform's
- * `runtimeContext.exports` flow, which builds:
- *
- *   - `getDefault()` → `{ fetch, scheduled, … }` — handler dispatchers
- *     that the bridge forwards `(input, env, ctx)` to.
- *   - `getRpc()`     → `{ method: (args, ctx) => Promise<envelope> }` —
- *     pre-wrapped RPC dispatchers that already run the user effect with
- *     the right runtime layer and envelope-encode the result.
- *
- * Cloudflare's script-validate step requires standard handler methods
- * (`fetch`/`scheduled`/etc.) to be visible on the class prototype. We
- * declare static stubs there and override them per-instance with
- * closure-bound forwarders that capture `ctx`/`env` from the constructor
- * (prototype-level `this` doesn't survive the proxy + RPC dispatch
- * round-trip in some Cloudflare runtime versions).
- */
-export const makeWorkerBridge = (
-  WorkerEntrypoint: abstract new (
-    ctx: unknown,
-    env: unknown,
-  ) => { fetch?(request: cf.Request): Promise<cf.Response> | cf.Response },
-  ExportedHandlerMethods: ReadonlyArray<string>,
-  getDefault: () => Effect.Effect<Record<string, any>>,
-  getRpc: () => Effect.Effect<Record<string, any>>,
-) => {
-  class WorkerBridge extends WorkerEntrypoint {
-    constructor(ctx: unknown, env: unknown) {
-      super(ctx, env);
-
-      // Override handler methods per-instance with closure-bound forwarders.
-      // We read `this.ctx`/`this.env` at *call time* rather than capturing
-      // the constructor args because Cloudflare's runtime appears to
-      // populate those instance fields differently depending on whether
-      // the entrypoint is invoked via direct fetch or RPC — `super(ctx, env)`
-      // alone isn't enough to guarantee they survive into the call.
-      const self = this as unknown as { ctx: unknown; env: unknown };
-      // Cloudflare invokes `WorkerEntrypoint.fetch(request)` with only the
-      // primary input on the *parameter list* — `env`/`ctx` live on `this`
-      // (and the runtime sometimes passes `(request, undefined, undefined)`
-      // anyway for legacy compat). Other handlers, including `scheduled`, may
-      // receive the classic `(input, env, ctx)` arguments. The platform's
-      // underlying handler dispatch (`handle("fetch")`, `handle("scheduled")`,
-      // etc.) follows the plain-export signature `(input, env, context)`, so
-      // prefer explicit handler args when Cloudflare provides them and fall
-      // back to the WorkerEntrypoint instance fields.
-      console.log("ExportedHandlerMethods", ExportedHandlerMethods);
-      for (const method of ExportedHandlerMethods) {
-        (this as any)[method] = async (
-          input: unknown,
-          envArg?: unknown,
-          ctxArg?: unknown,
-        ) => {
-          console.log("getDefault.toString()", getDefault.toString());
-          return getDefault().pipe(
-            Effect.tap((def) => Console.log("def", def[method]?.toString())),
-            Effect.flatMap((def) => {
-              console.log("def[method]", def[method]);
-              const eff = def[method](
-                input,
-                envArg ?? self.env,
-                ctxArg ?? self.ctx,
-              );
-
-              console.log("eff", eff);
-              return eff;
-            }),
-            Effect.tap((result) => Console.log("result", result)),
-            Effect.tapError((err) => Console.log("err", err)),
-            Effect.tapCause((cause) => Console.log("cause", cause)),
-            Effect.runPromise,
-          );
-        };
-      }
-
-      // RPC method dispatch — anything Cloudflare RPC tries to invoke that
-      // isn't an own property goes through the dispatcher table built by
-      // the platform's exports flow.
-      return new Proxy(this, {
-        get: (target, prop) => {
-          if (typeof prop !== "string") return (target as any)[prop];
-          if (prop in target) return (target as any)[prop];
-          return async (...args: unknown[]) => {
-            const rpc = await getRpc();
-            const dispatcher = rpc?.[prop];
-            if (typeof dispatcher !== "function") {
-              throw new Error(
-                `Method "${prop}" not found on worker. ` +
-                  `Make sure it's returned from the worker's default export.`,
-              );
-            }
-            return dispatcher(args, self.ctx);
-          };
-        },
-      });
-    }
-  }
-
-  // Stub prototype methods so Cloudflare's script-validate detects the
-  // standard handler set; per-instance overrides above are what actually
-  // run.
-  for (const method of ExportedHandlerMethods) {
-    Object.defineProperty(WorkerBridge.prototype, method, {
-      value: function () {
-        throw new Error(
-          `Bridge method '${method}' was called before instance setup`,
-        );
-      },
-      writable: true,
-      configurable: true,
-    });
-  }
-
-  return WorkerBridge;
-};
-
-/**
- * Create a WorkflowBridge class that extends `WorkflowEntrypoint` and
- * delegates the `run(event, step)` call to the Effect-native workflow body
- * registered via `worker.export(...)`.
- *
- * The bridge provides `WorkflowEvent` and `WorkflowStep` as Effect
- * services so the user writes `yield* WorkflowEvent` and `yield* task(...)`
- * instead of receiving callback parameters.
- */
-export const makeWorkflowBridge =
-  (
-    WorkflowEntrypoint: abstract new (
-      ctx: unknown,
-      env: unknown,
-    ) => { run(event: any, step: any): Promise<unknown> },
-    getExport: (
-      name: string,
-    ) => Promise<
-      (
-        env: unknown,
-      ) => Effect.Effect<(input: unknown) => Effect.Effect<unknown, never, any>>
-    >,
-  ) =>
-  (className: string) =>
-    class WorkflowBridge extends WorkflowEntrypoint {
-      readonly fn: Promise<
-        (input: unknown) => Effect.Effect<unknown, never, any>
-      >;
-      readonly env: unknown;
-
-      constructor(ctx: unknown, env: unknown) {
-        super(ctx, env);
-        this.env = env;
-        this.fn = getExport(className).then((factory) =>
-          Effect.runPromise(factory(env)),
-        );
-      }
-
-      async run(event: any, step: any): Promise<unknown> {
-        const fn = await this.fn;
-        return Effect.runPromise(
-          fn(event.payload).pipe(
-            Effect.provideService(
-              WorkflowEventService,
-              wrapWorkflowEvent(event),
+      return {
+        _tag: StreamTag,
+        encoding: "jsonl",
+        body: Stream.toReadableStream(
+          appendStreamErrors(
+            body.pipe(Stream.map((value) => JSON.stringify(value) + "\n")),
+          ).pipe(Stream.encodeText),
+        ),
+      } satisfies RpcStreamEnvelope;
+    }),
+  ).pipe(
+    Effect.catchCause((cause) => {
+      const failReason = cause.reasons.find(Cause.isFailReason);
+      if (failReason) {
+        return Effect.succeed({
+          _tag: StreamTag,
+          encoding: "jsonl",
+          body: Stream.toReadableStream(
+            Stream.succeed(encodeStreamErrorMarker(cause)).pipe(
+              Stream.encodeText,
             ),
-            Effect.provideService(WorkflowStep, wrapWorkflowStep(step)),
-          ) as Effect.Effect<unknown>,
-        );
+          ),
+        } satisfies RpcStreamEnvelope);
       }
-    };
-
-const wrapWorkflowEvent = (
-  event: any,
-): { payload: unknown; timestamp: Date; instanceId: string } => ({
-  payload: event.payload,
-  timestamp:
-    event.timestamp instanceof Date
-      ? event.timestamp
-      : new Date(event.timestamp),
-  instanceId: event.instanceId ?? "",
-});
-
-const wrapWorkflowStep = (step: any): WorkflowStep["Service"] => ({
-  do: <T>(name: string, effect: Effect.Effect<T>): Effect.Effect<T> =>
-    Effect.tryPromise(
-      () => step.do(name, () => Effect.runPromise(effect)) as Promise<T>,
-    ),
-  sleep: (name: string, duration: string | number): Effect.Effect<void> =>
-    Effect.tryPromise(() => step.sleep(name, duration)),
-  sleepUntil: (name: string, timestamp: Date | number): Effect.Effect<void> =>
-    Effect.tryPromise(() =>
-      step.sleepUntil(
-        name,
-        timestamp instanceof Date ? timestamp.toISOString() : timestamp,
-      ),
-    ),
-});
+      return Effect.die(Cause.squash(cause));
+    }),
+  );
 
 const encodeStreamErrorMarker = (cause: Cause.Cause<unknown>): string => {
   const failReason = cause.reasons.find(Cause.isFailReason);
@@ -671,146 +291,3 @@ const appendStreamErrors = (s: Stream.Stream<string, unknown>) =>
       Stream.succeed(encodeStreamErrorMarker(cause)),
     ),
   );
-
-/**
- * Serialize one JSONL line. We replace `undefined` with `null` so that
- * schema-required keys (e.g. `Schema.UndefinedOr(T)` fields) survive the
- * DO → worker JSON hop. Raw `JSON.stringify` drops `undefined`-valued keys
- * entirely, which then fails downstream schema decoding with "Missing key".
- */
-const encodeJsonLine = (value: unknown): string =>
-  `${JSON.stringify(value, (_key, v) => (v === undefined ? null : v))}\n`;
-
-export const toRpcStream = (stream: Stream.Stream<any, any, any>) =>
-  Effect.gen(function* () {
-    // The peeled `rest` stream is "only valid within the scope" (see
-    // JSDoc on `Stream.peel`). We can't use `Effect.scoped` here because
-    // that closes the scope before the consumer pulls — instead we open
-    // a fresh scope, peel under it, and use `Stream.ensuring` to tie the
-    // scope's lifetime to the body stream's finalizers (success, error,
-    // and interrupt all converge on stream-end).
-    const scope = yield* Scope.make();
-    const closeScope = Scope.close(scope, Exit.void);
-    const [head, rest] = yield* Stream.peel(stream, Sink.head()).pipe(
-      Scope.provide(scope),
-    );
-
-    if (Option.isSome(head) && head.value instanceof Uint8Array) {
-      return {
-        _tag: StreamTag,
-        encoding: "bytes",
-        body: Stream.toReadableStream(
-          rest.pipe(Stream.prepend([head.value]), Stream.ensuring(closeScope)),
-        ),
-      } satisfies RpcStreamEnvelope;
-    }
-
-    const body = Option.isSome(head)
-      ? rest.pipe(Stream.prepend([head.value]))
-      : rest;
-
-    return {
-      _tag: StreamTag,
-      encoding: "jsonl",
-      body: Stream.toReadableStream(
-        appendStreamErrors(
-          body.pipe(Stream.map((value) => encodeJsonLine(value))),
-        ).pipe(Stream.encodeText, Stream.ensuring(closeScope)),
-      ),
-    } satisfies RpcStreamEnvelope;
-  }).pipe(
-    Effect.catchCause((cause) => {
-      const failReason = cause.reasons.find(Cause.isFailReason);
-      if (failReason) {
-        return Effect.succeed({
-          _tag: StreamTag,
-          encoding: "jsonl",
-          body: Stream.toReadableStream(
-            Stream.succeed(encodeStreamErrorMarker(cause)).pipe(
-              Stream.encodeText,
-            ),
-          ),
-        } satisfies RpcStreamEnvelope);
-      }
-      return Effect.die(Cause.squash(cause));
-    }),
-  );
-
-/**
- * Drop-in replacement for alchemy's built-in DO RPC namespace — but the
- * wire format is Effect's NDJSON `RpcSerialization`, which round-trips
- * `Schema.Class` instances cleanly (the built-in bridge `JSON.stringify`s
- * each value and loses class identity).
- *
- * Pair it with `RpcServer.toHttpEffect(group)` on the DO's `fetch`
- * handler; this helper builds the matching client side and exposes the
- * same `namespace.getByName(id)` shape so the call-site looks identical
- * to the built-in bridge:
- *
- * @example
- * ```ts
- * // alchemy.run / Worker init
- * const agents = yield* ChatAgent
- * const agentsRpc = yield* Cloudflare.bindEffectRpc(agents, AgentRpcs)
- *
- * // anywhere in the worker, sync method call
- * agentsRpc.getByName(id).sendChat({ threadId, prompt })   // Stream<StreamPart>
- * agentsRpc.getByName(id).getMessages({ threadId })        // Effect<MessagesResponse>
- * ```
- *
- * The URL passed to `RpcClient.layerProtocolHttp` is a dummy — requests
- * never leave the Worker isolate, every one is dispatched through the
- * stub's `.fetch`.
- */
-export const bindEffectRpc = <Rpcs extends Rpc.Any>(
-  // Accept any DO/service namespace shape — the runtime `fetch`
-  // implementation (via `fromCloudflareFetcher`) supports both
-  // `HttpClientRequest` and `HttpServerRequest`, even though alchemy's
-  // generated `DurableObjectStub` type only advertises the latter.
-  namespace: { readonly getByName: (id: string) => { readonly fetch: any } },
-  group: RpcGroup.RpcGroup<Rpcs>,
-  options?: {
-    /**
-     * Override the rpc serialization layer. Defaults to NDJSON, which
-     * is required when any rpc in the group is a streaming rpc.
-     */
-    readonly serialization?: Layer.Layer<RpcSerialization.RpcSerialization>;
-  },
-): {
-  readonly getByName: (
-    id: string,
-  ) => Effect.Effect<
-    RpcClient.RpcClient<Rpcs, RpcClientError.RpcClientError>,
-    never,
-    Scope.Scope | Rpc.MiddlewareClient<Rpcs>
-  >;
-} => {
-  const serialization = options?.serialization ?? RpcSerialization.layerNdjson;
-  // A fresh `RpcClient` is built per call. Caching is tempting (clients
-  // are heavyweight) but Cloudflare workers reject I/O objects (the
-  // `stub.fetch` body) that were created on a previous request — any
-  // cached client breaks the moment the second request comes in with:
-  //   "Cannot perform I/O on behalf of a different request"
-  // `RpcClient.make` only wires Effect services; the actual HTTP
-  // round-trip is the same one a hand-written `fetch` would do.
-  return {
-    getByName: (id) => {
-      const httpClient = HttpClient.layerMergedContext(
-        Effect.sync(() => {
-          const stub = namespace.getByName(id);
-          return HttpClient.make((request) => stub.fetch(request));
-        }),
-      );
-      const protocol = RpcClient.layerProtocolHttp({
-        url: "http://alchemy-rpc/",
-      }).pipe(Layer.provide(serialization), Layer.provide(httpClient));
-      return RpcClient.make(group).pipe(
-        Effect.provide(protocol),
-      ) as Effect.Effect<
-        RpcClient.RpcClient<Rpcs, RpcClientError.RpcClientError>,
-        never,
-        Scope.Scope | Rpc.MiddlewareClient<Rpcs>
-      >;
-    },
-  };
-};

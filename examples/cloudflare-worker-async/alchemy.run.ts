@@ -1,7 +1,8 @@
 import * as Alchemy from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
-import type { Counter as CounterClass } from "./src/async-worker.ts";
+import * as Redacted from "effect/Redacted";
+import type { Counter as CounterClass } from "./src/worker.ts";
 
 export const DB = Cloudflare.D1Database("DB");
 
@@ -23,9 +24,12 @@ export const Counter = Cloudflare.DurableObjectNamespace<CounterClass>(
 export type WorkerEnv = Cloudflare.InferEnv<typeof Worker>;
 
 export const Worker = Cloudflare.Worker("Worker", {
-  main: "./src/async-worker.ts",
+  main: "./src/worker.ts",
   assets: {
     directory: "./public",
+  },
+  env: {
+    API_KEY: Redacted.make("SOME_API_KEY"),
   },
   bindings: {
     DB,
@@ -43,13 +47,13 @@ export default Alchemy.Stack(
   },
   Effect.gen(function* () {
     const queue = yield* Queue;
-    const asyncWorker = yield* Worker;
+    const worker = yield* Worker;
 
     // Register the same worker script as a consumer of Queue. The worker's
     // `queue(batch)` handler (see src/worker.ts) receives each message batch.
     yield* Cloudflare.QueueConsumer("QueueConsumer", {
       queueId: queue.queueId,
-      scriptName: asyncWorker.workerName,
+      scriptName: worker.workerName,
       settings: {
         batchSize: 10,
         maxRetries: 3,
@@ -57,19 +61,6 @@ export default Alchemy.Stack(
       },
     });
 
-    const rpcWorker = yield* Cloudflare.Worker("RpcWorker", {
-      main: "./src/rpc-worker.ts",
-    });
-
-    const httpWorker = yield* Cloudflare.Worker("HttpWorker", {
-      main: "./src/http-worker.ts",
-      compatibility: { date: "2026-03-17", flags: ["nodejs_compat"] },
-    });
-
-    return {
-      async: asyncWorker.url,
-      rpc: rpcWorker.url,
-      http: httpWorker.url,
-    };
+    return worker.url;
   }),
 );

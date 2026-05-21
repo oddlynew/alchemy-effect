@@ -3,10 +3,10 @@
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import type { LanguageModel } from "effect/unstable/ai/LanguageModel";
 import * as Binding from "../../Binding.ts";
 import type { ResourceLike } from "../../Resource.ts";
+import type { RuntimeContext } from "../../RuntimeContext.ts";
 import { isWorker, WorkerEnvironment } from "../Workers/Worker.ts";
 import type { AiGateway as AiGatewayResource } from "./AiGateway.ts";
 import {
@@ -39,47 +39,47 @@ export interface AiGatewayClient {
   /**
    * Effect resolving to the raw Workers AI binding.
    */
-  raw: Effect.Effect<Ai, never, WorkerEnvironment>;
+  raw: Effect.Effect<Ai, never, RuntimeContext>;
   /**
    * Effect resolving to the raw AI Gateway runtime binding.
    */
-  gateway: Effect.Effect<AiGateway, never, WorkerEnvironment>;
+  gateway: Effect.Effect<AiGateway, never, RuntimeContext>;
   /**
    * Effect resolving to the gateway id (the resource attribute, captured at
    * bind time). Useful when calling `ai.run(model, inputs, { gateway: { id } })`
    * — the in-account path for first-party services like Workers AI.
    */
-  id: Effect.Effect<string, never, WorkerEnvironment>;
+  id: Effect.Effect<string, never, RuntimeContext>;
   /**
    * Update metadata on an existing AI Gateway log entry.
    */
   patchLog(
     logId: string,
     data: Parameters<AiGateway["patchLog"]>[1],
-  ): Effect.Effect<void, AiGatewayError, WorkerEnvironment>;
+  ): Effect.Effect<void, AiGatewayError, RuntimeContext>;
   /**
    * Read an AI Gateway log entry by ID.
    */
   getLog(
     logId: string,
-  ): Effect.Effect<AiGatewayLog, AiGatewayError, WorkerEnvironment>;
+  ): Effect.Effect<AiGatewayLog, AiGatewayError, RuntimeContext>;
   /**
    * Build a provider URL routed through this gateway.
    */
   getUrl(
     provider?: Parameters<AiGateway["getUrl"]>[0],
-  ): Effect.Effect<string, AiGatewayError, WorkerEnvironment>;
+  ): Effect.Effect<string, AiGatewayError, RuntimeContext>;
   /**
    * Run an AI Gateway request through the Cloudflare runtime binding.
    */
   run(
     data: Parameters<AiGateway["run"]>[0],
     options?: Parameters<AiGateway["run"]>[1],
-  ): Effect.Effect<Response, AiGatewayError, WorkerEnvironment>;
+  ): Effect.Effect<Response, AiGatewayError, RuntimeContext>;
 
   model(
     options: LanguageModelOptions,
-  ): Layer.Layer<LanguageModel, never, WorkerEnvironment>;
+  ): Layer.Layer<LanguageModel, never, RuntimeContext>;
 }
 
 /**
@@ -121,18 +121,13 @@ export const AiGatewayBindingLive = Layer.effect(
   AiGatewayBinding,
   Effect.gen(function* () {
     const Policy = yield* AiGatewayBindingPolicy;
+    const env = yield* WorkerEnvironment;
 
     return Effect.fn(function* (gateway: AiGatewayResource) {
       yield* Policy(gateway);
-      // Capture the gatewayId accessor (which requires WorkerEnvironment) but
-      // don't resolve it here — that happens lazily at runtime when each
-      // method is invoked. Resolving eagerly would require WorkerEnvironment
-      // at deploy time, where it's intentionally not provided.
       const gatewayIdAccessor = yield* gateway.gatewayId;
-      const ai = yield* Effect.serviceOption(WorkerEnvironment).pipe(
-        Effect.map(Option.getOrUndefined),
-        Effect.map((env) => env?.[gateway.LogicalId]! as Ai),
-        Effect.cached,
+      const ai = Effect.sync(
+        () => (env as Record<string, Ai>)[gateway.LogicalId]!,
       );
       const runtimeGateway = yield* Effect.zip(ai, gatewayIdAccessor).pipe(
         Effect.map(([ai, gatewayId]) => ai.gateway(gatewayId)),
@@ -141,7 +136,7 @@ export const AiGatewayBindingLive = Layer.effect(
 
       const use = <T>(
         fn: (gateway: AiGateway) => Promise<T>,
-      ): Effect.Effect<T, AiGatewayError, WorkerEnvironment> =>
+      ): Effect.Effect<T, AiGatewayError> =>
         runtimeGateway.pipe(
           Effect.flatMap((gateway) => tryPromise(() => fn(gateway))),
         );
