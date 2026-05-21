@@ -231,11 +231,23 @@ type NormalizedBindings<
 
 export type WorkerAssetsConfig = string | AssetsProps | AssetsWithHash;
 
+export type WorkerEnvProps = Record<
+  string,
+  | string
+  | number
+  | boolean
+  | null
+  | readonly unknown[]
+  | { readonly [key: string]: unknown }
+  | Redacted.Redacted<string>
+>;
+
 export interface WorkerProps<
   Bindings extends WorkerBindingProps = any,
   Assets extends WorkerAssetsConfig | undefined =
     | WorkerAssetsConfig
     | undefined,
+  Env extends WorkerEnvProps = WorkerEnvProps,
 > extends PlatformProps {
   /**
    * Worker name override. If omitted, Alchemy derives a deterministic physical
@@ -282,16 +294,7 @@ export interface WorkerProps<
   };
   limits?: WorkerLimits;
   placement?: WorkerPlacement;
-  env?: Record<
-    string,
-    | string
-    | number
-    | boolean
-    | null
-    | readonly unknown[]
-    | { readonly [key: string]: unknown }
-    | Redacted.Redacted<string>
-  >;
+  env?: Env;
   exports?: string[];
   bindings?: Bindings;
   /**
@@ -326,9 +329,12 @@ export interface WorkerProps<
   };
 }
 
-export type Worker<Bindings extends WorkerBindings = any> = Resource<
+export type Worker<
+  Bindings extends WorkerBindings = any,
+  Env extends WorkerEnvProps = WorkerEnvProps,
+> = Resource<
   WorkerTypeId,
-  WorkerProps<Bindings>,
+  WorkerProps<Bindings, WorkerAssetsConfig | undefined, Env>,
   {
     workerId: string;
     workerName: string;
@@ -720,19 +726,27 @@ export const Worker: Platform<
   <
     const Bindings extends WorkerBindingProps,
     const Assets extends WorkerAssetsConfig | undefined = undefined,
+    const Env extends WorkerEnvProps = {},
     Req = never,
   >(
     id: string,
     props:
-      | InputProps<WorkerProps<Bindings, Assets>>
-      | Effect.Effect<InputProps<WorkerProps<Bindings, Assets>>, never, Req>,
+      | (InputProps<WorkerProps<Bindings, Assets>> & { env?: Env })
+      | Effect.Effect<
+          InputProps<WorkerProps<Bindings, Assets>> & { env?: Env },
+          never,
+          Req
+        >,
   ): Effect.Effect<
-    Worker<{
-      [binding in keyof NormalizedBindings<
-        Bindings,
-        Assets
-      >]: NormalizedBindings<Bindings, Assets>[binding];
-    }>,
+    Worker<
+      {
+        [binding in keyof NormalizedBindings<
+          Bindings,
+          Assets
+        >]: NormalizedBindings<Bindings, Assets>[binding];
+      },
+      Env
+    >,
     never,
     Req | Providers
   >;

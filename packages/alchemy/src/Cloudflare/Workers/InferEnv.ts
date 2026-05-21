@@ -9,10 +9,12 @@ import type { RpcErrorEnvelope, RpcStreamEnvelope } from "./Rpc.ts";
 import type { Worker } from "./Worker.ts";
 
 export type InferEnv<W> = W extends
-  | Worker<infer Bindings>
-  | Effect.Effect<Worker<infer Bindings>, any, any>
+  | Worker<infer Bindings, infer Env>
+  | Effect.Effect<Worker<infer Bindings, infer Env>, any, any>
   ? {
       [K in keyof Bindings]: GetBindingType<UnwrapEffect<Bindings[K]>>;
+    } & {
+      [K in keyof Env]: Env[K];
     }
   : never;
 

@@ -33,6 +33,10 @@ export const Worker = Cloudflare.Worker("Worker", {
     Queue,
     Counter,
   },
+  env: {
+    GREETING: "hello from env",
+    MAX_ITEMS: 10,
+  },
 });
 
 export default Alchemy.Stack(

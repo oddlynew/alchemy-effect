@@ -36,6 +36,13 @@ export default {
       });
     }
 
+    if (request.method === "GET" && path === "/env") {
+      return new Response(
+        JSON.stringify({ greeting: env.GREETING, maxItems: env.MAX_ITEMS }),
+        { headers: { "content-type": "application/json" } },
+      );
+    }
+
     if (request.method === "GET") {
       return new Response((await env.Bucket.get(path))?.body ?? null);
     } else if (request.method === "PUT") {
