@@ -157,6 +157,77 @@ export default {
       }),
     { timeout: 30_000 },
   );
+  it.effect(
+    "proxies an HTTP request/response to the upstream worker",
+    () =>
+      Effect.gen(function* () {
+        const workerd = yield* Workerd.Workerd;
+        const proxy = yield* LocalProxy.LocalProxy;
+
+        const upstreamPorts = yield* workerd.serve({
+          sockets: [
+            {
+              name: "http",
+              address: "127.0.0.1:0",
+              service: { name: "upstream" },
+            },
+          ],
+          services: [
+            {
+              name: "upstream",
+              worker: {
+                compatibilityDate: "2026-03-10",
+                modules: [
+                  {
+                    name: "main.js",
+                    esModule: `
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    if (url.pathname === "/echo") {
+      const body = await request.text();
+      return new Response("echo:" + body, {
+        status: 200,
+        headers: { "x-echo": "yes", "content-type": "text/plain" },
+      });
+    }
+    return new Response("not found", { status: 404 });
+  },
+};
+`,
+                  },
+                ],
+              },
+            },
+          ],
+        });
+        const upstreamAddress = `http://127.0.0.1:${upstreamPorts.http}`;
+
+        const proxyAddress = yield* proxy.registerWorker("http-test");
+        yield* proxy.setLocalAddress("http-test", upstreamAddress);
+
+        const response = yield* Effect.promise(() =>
+          fetch(new URL("/echo", proxyAddress), {
+            method: "POST",
+            body: "hello",
+          }).then(async (res) => ({
+            status: res.status,
+            echo: res.headers.get("x-echo"),
+            body: await res.text(),
+          })),
+        );
+        expect(response).toEqual({ status: 200, echo: "yes", body: "echo:hello" });
+
+        const missing = yield* Effect.promise(() =>
+          fetch(new URL("/missing", proxyAddress)).then(async (res) => ({
+            status: res.status,
+            body: await res.text(),
+          })),
+        );
+        expect(missing).toEqual({ status: 404, body: "not found" });
+      }),
+    { timeout: 30_000 },
+  );
 });
 
 const roundTrip = (url: URL, payload: string) =>
