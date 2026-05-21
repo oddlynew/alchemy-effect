@@ -394,20 +394,16 @@ MySQL client (bundles [`mysql2`](https://github.com/sidorares/node-mysql2) under
   </TabItem>
 </Tabs>
 
-## Bind Hyperdrive to your Worker
+## Bind Hyperdrive at init
 
-`Cloudflare.Hyperdrive.bind(...)` returns a typed accessor for the
-runtime binding — connection string, host, port, user, password,
-database — plus a `raw` escape hatch for libraries that want the
-underlying `Hyperdrive` object:
-
-<Tabs syncKey="db-provider">
-  <TabItem label="Neon">
+`Cloudflare.Hyperdrive.bind(...)` resolves the runtime accessor for
+the binding — `connectionString`, `host`, `port`, `user`,
+`password`, `database`, plus a `raw` escape hatch. Yield it once at
+init and add the `nodejs_compat` flag so the underlying Postgres /
+MySQL driver can run inside a Worker:
 
 ```diff lang="typescript"
 // src/Api.ts
-+import * as Reactivity from "@effect/experimental/Reactivity";
-+import * as PgClient from "@effect/sql-pg/PgClient";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
@@ -418,121 +414,120 @@ export default class Api extends Cloudflare.Worker<Api>()(
   {
     main: import.meta.path,
 +    compatibility: {
-+      // @effect/sql-pg uses node-postgres, which needs Node.js APIs.
++      // The Effect SQL client uses pg / mysql2 under the hood,
++      // which need Node's `net` and `crypto` APIs.
 +      flags: ["nodejs_compat"],
 +    },
   },
   Effect.gen(function* () {
 +    const hd = yield* Cloudflare.Hyperdrive.bind(Hyperdrive);
-+    const sql = yield* PgClient.make({ url: yield* hd.connectionString });
-+
+
     return {
       fetch: Effect.gen(function* () {
-+        const rows = yield* sql`SELECT now() as now`;
-+        return yield* HttpServerResponse.json({ ok: true, rows });
+        return HttpServerResponse.text("ok");
       }),
     };
--  }),
-+  }).pipe(
-+    Effect.provide(Reactivity.layer),
-+    Effect.provide(Cloudflare.HyperdriveConnectionLive),
-+  ),
+  }).pipe(Effect.provide(Cloudflare.HyperdriveConnectionLive)),
 ) {}
+```
+
+Each accessor field (e.g. `hd.connectionString`) is itself an
+`Effect` that requires `RuntimeContext` — it only resolves when a
+real request is in flight, never at init.
+
+## Derive a SQL client layer from the binding
+
+Wrap `PgClient.layer({ url })` (or `MysqlClient.layer({ url })`) in
+`Layer.unwrapEffect` so layer construction is deferred until the
+Effect it's provided to actually runs. That's what reads
+`hd.connectionString` lazily — under the request's runtime
+context, not at init.
+
+<Tabs syncKey="db-provider">
+  <TabItem label="Neon">
+
+```diff lang="typescript"
++import * as PgClient from "@effect/sql-pg/PgClient";
+import * as Cloudflare from "alchemy/Cloudflare";
+import * as Effect from "effect/Effect";
++import * as Layer from "effect/Layer";
+
+  Effect.gen(function* () {
+    const hd = yield* Cloudflare.Hyperdrive.bind(Hyperdrive);
++   const SqlLive = Layer.unwrapEffect(
++     hd.connectionString.pipe(
++       Effect.map((url) => PgClient.layer({ url })),
++     ),
++   );
 ```
 
   </TabItem>
   <TabItem label="PlanetScale (Postgres)">
 
 ```diff lang="typescript"
-// src/Api.ts
-+import * as Reactivity from "@effect/experimental/Reactivity";
 +import * as PgClient from "@effect/sql-pg/PgClient";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
-import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
-+import { Hyperdrive } from "./Db.ts";
++import * as Layer from "effect/Layer";
 
-export default class Api extends Cloudflare.Worker<Api>()(
-  "Api",
-  {
-    main: import.meta.path,
-+    compatibility: {
-+      // @effect/sql-pg uses node-postgres, which needs Node.js APIs.
-+      flags: ["nodejs_compat"],
-+    },
-  },
   Effect.gen(function* () {
-+    const hd = yield* Cloudflare.Hyperdrive.bind(Hyperdrive);
-+    const sql = yield* PgClient.make({ url: yield* hd.connectionString });
-+
-    return {
-      fetch: Effect.gen(function* () {
-+        const rows = yield* sql`SELECT now() as now`;
-+        return yield* HttpServerResponse.json({ ok: true, rows });
-      }),
-    };
--  }),
-+  }).pipe(
-+    Effect.provide(Reactivity.layer),
-+    Effect.provide(Cloudflare.HyperdriveConnectionLive),
-+  ),
-) {}
+    const hd = yield* Cloudflare.Hyperdrive.bind(Hyperdrive);
++   const SqlLive = Layer.unwrapEffect(
++     hd.connectionString.pipe(
++       Effect.map((url) => PgClient.layer({ url })),
++     ),
++   );
 ```
 
   </TabItem>
   <TabItem label="PlanetScale (MySQL)">
 
 ```diff lang="typescript"
-// src/Api.ts
-+import * as Reactivity from "@effect/experimental/Reactivity";
 +import * as MysqlClient from "@effect/sql-mysql2/MysqlClient";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
-import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
-+import { Hyperdrive } from "./Db.ts";
++import * as Layer from "effect/Layer";
 
-export default class Api extends Cloudflare.Worker<Api>()(
-  "Api",
-  {
-    main: import.meta.path,
-+    compatibility: {
-+      // @effect/sql-mysql2 uses the mysql2 driver, which needs Node.js APIs.
-+      flags: ["nodejs_compat"],
-+    },
-  },
   Effect.gen(function* () {
-+    const hd = yield* Cloudflare.Hyperdrive.bind(Hyperdrive);
-+    const sql = yield* MysqlClient.make({ url: yield* hd.connectionString });
-+
-    return {
-      fetch: Effect.gen(function* () {
-+        const rows = yield* sql`SELECT NOW() as now`;
-+        return yield* HttpServerResponse.json({ ok: true, rows });
-      }),
-    };
--  }),
-+  }).pipe(
-+    Effect.provide(Reactivity.layer),
-+    Effect.provide(Cloudflare.HyperdriveConnectionLive),
-+  ),
-) {}
+    const hd = yield* Cloudflare.Hyperdrive.bind(Hyperdrive);
++   const SqlLive = Layer.unwrapEffect(
++     hd.connectionString.pipe(
++       Effect.map((url) => MysqlClient.layer({ url })),
++     ),
++   );
 ```
 
   </TabItem>
 </Tabs>
 
-Three things to notice (regardless of engine):
+`PgClient.layer` / `MysqlClient.layer` provide both the engine
+client (`PgClient` / `MysqlClient`) and the generic `SqlClient`
+tag, so downstream code can stay engine-agnostic.
 
-- The `nodejs_compat` flag is required because the underlying
-  driver (`pg` / `mysql2`) uses Node's `net` and `crypto` APIs.
-- `PgClient.make` / `MysqlClient.make` returns a scoped Effect that
-  builds the client once per Worker isolate. Subsequent requests
-  reuse it — no per-request connect/disconnect — while Hyperdrive
-  handles the pooling on the Cloudflare side of the wire.
-- Queries are written as tagged templates (`` sql`...` ``) that are
-  `Effect`s. You `yield*` them directly inside `fetch` — no
-  `Effect.promise(async () => ...)` wrappers, and errors flow into
-  the typed error channel as `SqlError`.
+## Query inside `fetch` and provide the layer
+
+Yield `SqlClient.SqlClient` inside `fetch` and run queries as
+tagged templates. Provide `SqlLive` at the `fetch` boundary — that
+placement is what makes the construction lazy, since the layer is
+built when the request runs (with `RuntimeContext` in scope):
+
+```diff lang="typescript"
++import * as SqlClient from "@effect/sql/SqlClient";
+
+    return {
+      fetch: Effect.gen(function* () {
+-       return HttpServerResponse.text("ok");
++       const sql = yield* SqlClient.SqlClient;
++       const rows = yield* sql`SELECT now() as now`;
++       return yield* HttpServerResponse.json({ ok: true, rows });
+-     }),
++     }).pipe(Effect.provide(SqlLive)),
+    };
+```
+
+Queries are themselves `Effect`s — you `yield*` them directly, no
+`Effect.promise(async () => ...)` wrapper, and errors land in the
+typed channel as `SqlError`.
 
 ## Wire the resources into the stack
 
