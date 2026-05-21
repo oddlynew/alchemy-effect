@@ -27,7 +27,7 @@ export default class BindingCallerRpcWorker extends Cloudflare.RpcWorker<Binding
         Effect.gen(function* () {
           const target = yield* makeTarget;
           return yield* target.Greet({ name });
-        }).pipe(Effect.orDie),
+        }).pipe(Effect.scoped, Effect.orDie),
     });
     return RpcServer.toHttpEffect(CallerRpcs).pipe(
       Effect.provide(Layer.mergeAll(handlers, RpcSerialization.layerNdjson)),

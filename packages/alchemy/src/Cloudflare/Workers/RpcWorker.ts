@@ -1,7 +1,9 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Scope from "effect/Scope";
 import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import {
   type Rpc,
   RpcClient,
@@ -130,7 +132,7 @@ export interface RpcWorkerClass extends Effect.Effect<
     Effect.Effect<
       RpcClient.RpcClient<Rpcs, RpcClientError.RpcClientError> & RpcShape<Self>,
       never,
-      never
+      Scope.Scope
     >,
     never,
     Worker
@@ -292,7 +294,7 @@ const bind = <Self, Rpcs extends Rpc.Any>(
   Effect.Effect<
     RpcClient.RpcClient<Rpcs, RpcClientError.RpcClientError> & RpcShape<Self>,
     never,
-    never
+    Scope.Scope
   >,
   never,
   Worker
@@ -329,10 +331,27 @@ const bind = <Self, Rpcs extends Rpc.Any>(
     // with "Cannot perform I/O on behalf of a different request" the
     // moment a second request arrives. Callers `yield*` the returned
     // factory Effect once per request.
+    // Wrap the Cloudflare service-binding stub (Promise-based fetch)
+    // into an Effect HttpClient. `RpcClient.layerProtocolHttp` runs
+    // each call through this client so requests are dispatched via
+    // `stub.fetch(...)` rather than the public network.
     const httpClient = HttpClient.layerMergedContext(
       Effect.map(WorkerEnvironment, (env) => {
-        const stub = (env as Record<string, any>)[worker.LogicalId];
-        return HttpClient.make((req) => stub.fetch(req));
+        const stub = (env as Record<string, { fetch: typeof fetch }>)[
+          worker.LogicalId
+        ];
+        return HttpClient.make((req) =>
+          Effect.promise((signal) =>
+            stub.fetch(
+              new Request(req.url, {
+                method: req.method,
+                headers: new Headers(req.headers as any),
+                body: (req.body as any)?.body ?? undefined,
+                signal,
+              }),
+            ),
+          ).pipe(Effect.map((res) => HttpClientResponse.fromWeb(req, res))),
+        );
       }),
     );
     const protocol = RpcClient.layerProtocolHttp({
@@ -343,11 +362,10 @@ const bind = <Self, Rpcs extends Rpc.Any>(
     );
     const factory = RpcClient.make(schema).pipe(
       Effect.provide(protocol),
-      Effect.scoped,
     ) as unknown as Effect.Effect<
       RpcClient.RpcClient<Rpcs, RpcClientError.RpcClientError> & RpcShape<Self>,
       never,
-      never
+      Scope.Scope
     >;
     return factory;
   });
