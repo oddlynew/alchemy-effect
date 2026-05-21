@@ -17,6 +17,57 @@ import { HttpServerResponse } from "effect/unstable/http";
 // Public type surface (do not change without asking)
 // ---------------------------------------------------------------------------
 
+/**
+ * `Tool` declares an agent-callable function as a class whose tagged-
+ * template prompt fragment carries the parameter / success schemas
+ * inline. The class identity is the tag the model references, and
+ * `${Tool}` interpolations inside an {@link Agent} prompt wire the
+ * tool into the agent's toolkit.
+ *
+ * @resource
+ *
+ * @section Inline form
+ * @example Class + prompt + handler in one declaration
+ * Most concise form — the class IS the tool, with the runtime layer
+ * baked in. `${{ key: S.String }}` declares the success schema.
+ * ```typescript
+ * export class CreateObject extends Tool("CreateObject")`
+ *   Create an object in the bucket.
+ *   Return ${{ key: S.String }}
+ * `(
+ *   Effect.gen(function* () {
+ *     const bucket = yield* Cloudflare.R2Bucket.bind(Bucket);
+ *     return Effect.fnUntraced(function* (message) {
+ *       return yield* bucket.put(`${message}.txt`, "data");
+ *     });
+ *   }),
+ * ) {}
+ * ```
+ *
+ * @section Tag-only form (separating types from runtime)
+ * @example Schema-only class + `.make(handler)` layer
+ * For larger codebases, declare the tool's *type* in one file and its
+ * *implementation* in another. The agent's prompt references the tag
+ * class (`${CreateObject}`); the runtime layer is provided wherever
+ * the agent runs.
+ * ```typescript
+ * // tools/create-object.ts — schema only
+ * export class CreateObject extends Tool<CreateObject>()("CreateObject")`
+ *   Create an object in the bucket.
+ *   Return ${{ key: S.String }}
+ * ` {}
+ *
+ * // tools/create-object.live.ts — runtime layer
+ * export default CreateObject.make(
+ *   Effect.gen(function* () {
+ *     const bucket = yield* Cloudflare.R2Bucket.bind(Bucket);
+ *     return Effect.fnUntraced(function* (message) {
+ *       return yield* bucket.put(`${message}.txt`, "data");
+ *     });
+ *   }),
+ * );
+ * ```
+ */
 export const Tool: {
   <Self>(): <Id extends string>(
     id: Id,
@@ -72,6 +123,77 @@ export interface AgentInstance {
   >;
 }
 
+/**
+ * `Agent` declares an LLM agent as a class whose system prompt is a
+ * tagged template literal. Tools are referenced inline in the prompt
+ * with `${ToolClass}`, and the class identity is the tag you
+ * `yield*` to call the agent. `yield* MyAgent` returns an
+ * {@link AgentInstance} whose `generateText` / `streamText` calls
+ * have the system prompt and toolkit baked in. The `LanguageModel`
+ * is *not* baked in — it's provided to each call at the call site,
+ * so the same agent can be wired to any provider (Workers AI,
+ * OpenAI, Anthropic, …) without rewriting the agent.
+ *
+ * @resource
+ *
+ * @section Declaring an agent
+ * @example Class + tagged-template prompt with tool interpolation
+ * The agent's prompt references tools via `${ToolClass}`. The result
+ * is a class you `yield*` from any worker / DO that has the binding.
+ * ```typescript
+ * export class Blogger extends Agent<Blogger>()("Blogger")`
+ *   When asked to, use the ${CreateObject} tool to echo a message back to the user.
+ * ` {}
+ * ```
+ *
+ * @section Calling the agent
+ * @example `streamText` with a provider-agnostic `LanguageModel`
+ * `yield* MyAgent` returns an {@link AgentInstance}; provide the
+ * `LanguageModel` layer at the call site. Switching providers is
+ * one line.
+ * ```typescript
+ * const blogger = yield* Blogger;
+ * const response = blogger.streamText({ prompt: "Hello World" }).pipe(
+ *   Stream.flatMap((part) =>
+ *     part.type === "text-delta"
+ *       ? Stream.fromArray([new TextEncoder().encode(part.delta)])
+ *       : Stream.empty,
+ *   ),
+ *   Stream.provide(OpenAiModel),
+ * );
+ * return HttpServerResponse.stream(response, { status: 200 });
+ * ```
+ *
+ * @section Hosting in a Durable Object
+ * @example Per-conversation memory via DO + persistence
+ * Use a `DurableObjectNamespace` so each `getByName(threadId)` is a
+ * distinct chat. Layer `Cloudflare.DurableObjectChatPersistence`
+ * underneath Effect AI's `Persistence.layerResultPersisted` to
+ * persist the conversation across restarts.
+ * ```typescript
+ * export class BloggerObject extends Cloudflare.DurableObjectNamespace<BloggerObject>()(
+ *   "BloggerObject",
+ *   Effect.gen(function* () {
+ *     const blogger = yield* Blogger;
+ *     return Effect.gen(function* () {
+ *       return {
+ *         fetch: Effect.gen(function* () {
+ *           const response = blogger.streamText({ prompt: "Hello World" }).pipe(
+ *             Stream.flatMap((part) =>
+ *               part.type === "text-delta"
+ *                 ? Stream.fromArray([new TextEncoder().encode(part.delta)])
+ *                 : Stream.empty,
+ *             ),
+ *             Stream.provide(OpenAiModel),
+ *           );
+ *           return HttpServerResponse.stream(response, { status: 200 });
+ *         }),
+ *       };
+ *     });
+ *   }),
+ * ) {}
+ * ```
+ */
 export const Agent: {
   <Self>(): <Id extends string>(
     id: Id,
