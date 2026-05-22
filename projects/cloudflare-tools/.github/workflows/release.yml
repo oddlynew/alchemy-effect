@@ -336,14 +336,7 @@ jobs:
   # Runs only after every publish job succeeded. Skipped for prerelease versions
   # (those containing '-').
   finalize:
-    needs:
-      [
-        bump,
-        commit-and-tag,
-        publish-rolldown-plugin,
-        publish-runtime,
-        publish-vite-plugin,
-      ]
+    needs: [bump, commit-and-tag, publish-rolldown-plugin, publish-runtime, publish-vite-plugin]
     if: ${{ !contains(needs.bump.outputs.version, '-') }}
     runs-on: ubuntu-latest
     steps:
@@ -373,10 +366,3 @@ jobs:
           else
             bunx changelogithub --to "${TAG}"
           fi
-
-      - name: Notify Discord
-        if: success()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          VERSION: ${{ needs.bump.outputs.version }}
-        run: bun scripts/discord-notify.ts "v${VERSION}"
