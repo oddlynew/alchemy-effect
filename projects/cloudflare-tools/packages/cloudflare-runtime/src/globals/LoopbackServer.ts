@@ -1,4 +1,3 @@
-import * as NodeHttpServer from "@effect/platform-node/NodeHttpServer";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -111,12 +110,15 @@ export const LoopbackServerLive = Layer.effect(
     });
     yield* Effect.addFinalizer(() => Effect.sync(() => server.close()));
     const scope = yield* Effect.scope;
+    const makeHandler = yield* Effect.promise(
+      async () => await import("@effect/platform-node/NodeHttpServer").then((m) => m.makeHandler),
+    );
     return LoopbackServer.of({
       address: yield* getAddress(server),
       secret,
       route: (name, handler) =>
         Effect.isEffect(handler)
-          ? NodeHttpServer.makeHandler(handler, { scope }).pipe(
+          ? makeHandler(handler, { scope }).pipe(
               Effect.map((handler) => {
                 MutableHashMap.set(routes, name, handler);
                 return Effect.void;
