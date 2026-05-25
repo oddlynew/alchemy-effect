@@ -101,10 +101,7 @@ is still `API_KEY`, the source just changed.
 
 ## Where to go next
 
-- [Concepts › Secrets and Variables](/concepts/secrets) — how the
-  bind/use phases work and how to choose between `Alchemy.Secret`,
-  `Alchemy.Variable`, and the platform's own secret-store
-  resources.
 - [Guides › Secrets and env vars](/guides/secrets) — the full
   step-by-step for taking `OPENAI_API_KEY` from `.env` to a
-  `secret_text` binding on a Worker.
+  `secret_text` binding on a Worker, plus how the bind/use phases
+  work and when to reach for platform-native secret-store resources.
