@@ -4,7 +4,15 @@ import { describe, expect, it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { Ai, Artifacts, D1, Images, KvNamespace, R2Bucket, Service, VersionMetadata } from "../../src/bindings/index.ts";
+import {
+  Ai,
+  Artifacts,
+  D1,
+  Images,
+  KvNamespace,
+  R2Bucket,
+  Service,
+} from "../../src/bindings/index.ts";
 import * as Runtime from "../../src/Runtime.ts";
 import * as RuntimeServices from "../../src/RuntimeServices.ts";
 
@@ -73,9 +81,6 @@ export default {
           if (!env.IMAGES) return new Response("no-images", { status: 412 });
           return new Response(typeof env.IMAGES.input === "function" ? "images-bound" : "images-missing");
         }
-        case "/version": {
-          return Response.json(env.VERSION ?? null);
-        }
         case "/artifacts": {
           if (!env.ARTIFACTS) return new Response("no-artifacts", { status: 412 });
           return new Response(typeof env.ARTIFACTS.fetch === "function" ? "artifacts-bound" : "artifacts-missing");
@@ -92,13 +97,10 @@ export default {
 describe.skipIf(!accountId)("RemoteBindings (integration)", () => {
   const services = RuntimeServices.layerRuntime({ api: { accountId: accountId! } }).pipe(
     Layer.merge(RuntimeServices.layerLocalProxy()),
-    Layer.provide(
-      Layer.mergeAll(Credentials.fromEnv(), NodeServices.layer, FetchHttpClient.layer),
-    ),
+    Layer.provide(Layer.mergeAll(Credentials.fromEnv(), NodeServices.layer, FetchHttpClient.layer)),
   );
 
   const remoteBindings = [
-    VersionMetadata.binding("VERSION"),
     Ai.remote("AI"),
     Images.remote("IMAGES"),
     ...(kvNamespaceId ? [KvNamespace.remote("KV", kvNamespaceId)] : []),
@@ -117,7 +119,6 @@ describe.skipIf(!accountId)("RemoteBindings (integration)", () => {
   };
 
   const cases: ReadonlyArray<RouteCase> = [
-    { label: "VersionMetadata", path: "/version" },
     { label: "Ai", path: "/ai", expectBodyMatches: /ai-bound/ },
     { label: "Images", path: "/images", expectBodyMatches: /images-bound/ },
     { label: "KV", path: "/kv", expectBodyMatches: /^ok$/, skip: !kvNamespaceId },

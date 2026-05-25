@@ -28,7 +28,7 @@ export const localRuntimeLayer = Runtime.RuntimeLive.pipe(
   Layer.provide(Internet.InternetLive),
   Layer.provide(DevRegistry.DevRegistryLive),
   Layer.provide(Workerd.WorkerdLive),
-  Layer.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer)),
+  Layer.provideMerge(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer)),
 );
 
 /**

@@ -59,43 +59,40 @@ const startTcpEcho = (greeting: string) =>
   );
 
 layer(localRuntimeLayer)("Hyperdrive binding", (it) => {
-  it.effect(
-    "exposes the configured origin and connects to it via cloudflare:sockets",
-    () =>
-      Effect.gen(function* () {
-        const greeting = "hello-hyperdrive\n";
-        const origin = yield* startTcpEcho(greeting);
-        const { fetch } = yield* startTestWorker({
-          name: "hyperdrive-test",
-          compatibilityDate: "2026-03-10",
-          compatibilityFlags: [],
-          modules: [{ name: "main.js", type: "ESModule", content: HYPERDRIVE_SCRIPT }],
-          hyperdrives: {
-            db: {
-              scheme: "postgresql",
-              host: origin.host,
-              port: origin.port,
-              user: "alice",
-              password: "s3cret",
-              database: "mydb",
-            },
+  it.effect("exposes the configured origin and connects to it via cloudflare:sockets", () =>
+    Effect.gen(function* () {
+      const greeting = "hello-hyperdrive\n";
+      const origin = yield* startTcpEcho(greeting);
+      const { fetch } = yield* startTestWorker({
+        name: "hyperdrive-test",
+        compatibilityDate: "2026-03-10",
+        compatibilityFlags: [],
+        modules: [{ name: "main.js", type: "ESModule", content: HYPERDRIVE_SCRIPT }],
+        hyperdrives: {
+          db: {
+            scheme: "postgresql",
+            host: origin.host,
+            port: origin.port,
+            user: "alice",
+            password: "s3cret",
+            database: "mydb",
           },
-          bindings: [Hyperdrive.binding("HYP", "db")] as const,
-        });
+        },
+        bindings: [Hyperdrive.binding("HYP", "db")],
+      });
 
-        const info = yield* fetch("/info");
-        expect(yield* Effect.promise(() => info.json())).toEqual({
-          connectionString: `postgresql://alice:s3cret@${origin.host}:${origin.port}/mydb`,
-          host: origin.host,
-          port: origin.port,
-          database: "mydb",
-          user: "alice",
-        });
+      const info = yield* fetch("/info");
+      expect(yield* Effect.promise(() => info.json())).toEqual({
+        connectionString: `postgresql://alice:s3cret@${origin.host}:${origin.port}/mydb`,
+        host: origin.host,
+        port: origin.port,
+        database: "mydb",
+        user: "alice",
+      });
 
-        const connected = yield* fetch("/connect");
-        expect(yield* Effect.promise(() => connected.text())).toBe(greeting);
-      }),
-    { timeout: 30_000 },
+      const connected = yield* fetch("/connect");
+      expect(yield* Effect.promise(() => connected.text())).toBe(greeting);
+    }),
   );
 
   it.effect("fails with a ConfigError when the origin is missing", () =>
@@ -105,9 +102,13 @@ layer(localRuntimeLayer)("Hyperdrive binding", (it) => {
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
         modules: [
-          { name: "main.js", type: "ESModule", content: "export default { fetch: () => new Response('hi') };" },
+          {
+            name: "main.js",
+            type: "ESModule",
+            content: "export default { fetch: () => new Response('hi') };",
+          },
         ],
-        bindings: [Hyperdrive.binding("HYP", "missing")] as const,
+        bindings: [Hyperdrive.binding("HYP", "missing")],
       }).pipe(Effect.flip);
       expect(error).toMatchObject({
         _tag: "ConfigError",
