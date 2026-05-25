@@ -25,6 +25,7 @@ import * as ApiGateway from "./ApiGateway/index.ts";
 import * as Assets from "./Assets.ts";
 import { AwsAuth } from "./AuthProvider.ts";
 import * as AutoScaling from "./AutoScaling/index.ts";
+import * as Bedrock from "./Bedrock/index.ts";
 import * as CloudFront from "./CloudFront/index.ts";
 import * as CloudWatch from "./CloudWatch/index.ts";
 import * as Credentials from "./Credentials.ts";
@@ -82,6 +83,12 @@ export const providers = () =>
       AutoScaling.AutoScalingGroup,
       AutoScaling.LaunchTemplate,
       AutoScaling.ScalingPolicy,
+      Bedrock.ApplyGuardrailPolicy,
+      Bedrock.ConversePolicy,
+      Bedrock.ConverseStreamPolicy,
+      Bedrock.Guardrail,
+      Bedrock.InvokeModelPolicy,
+      Bedrock.InvokeModelWithResponseStreamPolicy,
       CloudFront.CachePolicy,
       CloudFront.Distribution,
       CloudFront.Function,
@@ -335,6 +342,12 @@ export const providers = () =>
         AutoScaling.AutoScalingGroupProvider(),
         AutoScaling.LaunchTemplateProvider(),
         AutoScaling.ScalingPolicyProvider(),
+        Bedrock.ApplyGuardrailPolicyLive,
+        Bedrock.ConversePolicyLive,
+        Bedrock.ConverseStreamPolicyLive,
+        Bedrock.GuardrailProvider(),
+        Bedrock.InvokeModelPolicyLive,
+        Bedrock.InvokeModelWithResponseStreamPolicyLive,
         CloudFront.CachePolicyProvider(),
         CloudFront.DistributionProvider(),
         CloudFront.FunctionProvider(),

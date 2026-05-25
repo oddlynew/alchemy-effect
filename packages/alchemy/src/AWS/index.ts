@@ -10,6 +10,7 @@ export { Region } from "@distilled.cloud/aws/Region";
 export * as ACM from "./ACM/index.ts";
 export * as ApiGateway from "./ApiGateway/index.ts";
 export * as AutoScaling from "./AutoScaling/index.ts";
+export * as Bedrock from "./Bedrock/index.ts";
 export * as CloudFront from "./CloudFront/index.ts";
 export * as CloudWatch from "./CloudWatch/index.ts";
 export * as DynamoDB from "./DynamoDB/index.ts";
