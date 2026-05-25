@@ -78,7 +78,7 @@ layer(localRuntimeLayer)("Hyperdrive binding", (it) => {
             database: "mydb",
           },
         },
-        bindings: [Hyperdrive.binding("HYP", "db")],
+        bindings: [Hyperdrive.local("HYP", "db")],
       });
 
       const info = yield* fetch("/info");
@@ -108,7 +108,7 @@ layer(localRuntimeLayer)("Hyperdrive binding", (it) => {
             content: "export default { fetch: () => new Response('hi') };",
           },
         ],
-        bindings: [Hyperdrive.binding("HYP", "missing")],
+        bindings: [Hyperdrive.local("HYP", "missing")],
       }).pipe(Effect.flip);
       expect(error).toMatchObject({
         _tag: "ConfigError",

@@ -4,7 +4,7 @@ import type * as LoopbackServer from "../globals/LoopbackServer.ts";
 import * as Plugin from "../Plugin.ts";
 import type { BindingHook } from "../PluginContext.ts";
 
-export const binding = (
+export const local = (
   name: string,
   handler: LoopbackServer.RouteHandler,
 ): BindingHook<Loopback.Loopback> =>

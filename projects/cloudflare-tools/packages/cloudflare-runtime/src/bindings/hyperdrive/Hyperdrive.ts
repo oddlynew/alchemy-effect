@@ -34,7 +34,7 @@ export const HyperdriveLive = Layer.succeed(
   ),
 );
 
-export const binding = (name: string, hyperdriveId: string): BindingHook<Hyperdrive> =>
+export const local = (name: string, hyperdriveId: string): BindingHook<Hyperdrive> =>
   Plugin.use(Hyperdrive, (hyperdrive) =>
     hyperdrive.api[hyperdriveId]
       ? Effect.succeed({

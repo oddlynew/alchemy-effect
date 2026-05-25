@@ -18,7 +18,7 @@ layer(localRuntimeLayer)("Json binding", (it) => {
         name: "json-binding",
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
-        bindings: [Json.binding("JSON", { a: 1, b: ["c", "d"] })],
+        bindings: [Json.local("JSON", { a: 1, b: ["c", "d"] })],
         modules: [{ name: "main.js", type: "ESModule", content: SCRIPT }],
       });
 

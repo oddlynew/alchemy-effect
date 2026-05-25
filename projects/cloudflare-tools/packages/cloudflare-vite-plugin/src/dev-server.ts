@@ -96,17 +96,17 @@ const serve = Effect.fn(function* <B extends BindingHooks = BindingHooks>(
     compatibilityDate: options.compatibilityDate ?? "2026-05-12",
     compatibilityFlags: options.compatibilityFlags ?? [],
     bindings: [
-      UnsafeEval.binding("__DISTILLED_UNSAFE_EVAL__"),
+      UnsafeEval.local("__DISTILLED_UNSAFE_EVAL__"),
       DurableObjectNamespace.local({
         name: "__DISTILLED_MODULE_RUNNER__",
         className: "ModuleRunnerDO",
       }),
-      Json.binding("__DISTILLED_ENVIRONMENT__", {
+      Json.local("__DISTILLED_ENVIRONMENT__", {
         environmentName: "ssr",
         entryId: entry.id,
         entryName: entry.name,
       }),
-      Loopback.binding(
+      Loopback.local(
         "__DISTILLED_INVOKE_MODULE__",
         Effect.gen(function* () {
           const request = yield* HttpServerRequest.HttpServerRequest;

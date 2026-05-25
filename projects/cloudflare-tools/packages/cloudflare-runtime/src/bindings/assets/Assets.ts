@@ -347,7 +347,7 @@ export const buildAssetConfigs = (
   return { assetsConfig, routerConfig };
 };
 
-export const binding = (name: string): BindingHook<Assets> =>
+export const local = (name: string): BindingHook<Assets> =>
   Plugin.use(Assets, (assets) =>
     assets.api.isConfigured
       ? Effect.succeed({

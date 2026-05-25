@@ -107,7 +107,7 @@ describe.skipIf(!accountId)("RemoteBindings (integration)", () => {
     ...(r2BucketName ? [R2Bucket.remote("R2", r2BucketName)] : []),
     ...(d1DatabaseId ? [D1.remote("DB", d1DatabaseId)] : []),
     ...(serviceWorker ? [Service.remote("SVC", serviceWorker)] : []),
-    ...(artifactsNamespace ? [Artifacts.binding("ARTIFACTS", artifactsNamespace)] : []),
+    ...(artifactsNamespace ? [Artifacts.remote("ARTIFACTS", artifactsNamespace)] : []),
   ];
 
   type RouteCase = {

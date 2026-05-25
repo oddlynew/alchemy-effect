@@ -32,7 +32,7 @@ layer(localRuntimeLayer)("Assets binding", (it) => {
         compatibilityFlags: [],
         modules: [{ name: "main.js", type: "ESModule", content: ASSETS_SCRIPT }],
         assets: { directory: dir },
-        bindings: [Assets.binding("ASSETS")],
+        bindings: [Assets.local("ASSETS")],
       });
       // The worker started cleanly and is reachable on its socket.
       expect(baseUrl).toMatch(/^http:\/\/127\.0\.0\.1:\d+$/);
@@ -50,7 +50,7 @@ layer(localRuntimeLayer)("Assets binding", (it) => {
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
         modules: [{ name: "main.js", type: "ESModule", content: ASSETS_SCRIPT }],
-        bindings: [Assets.binding("ASSETS")],
+        bindings: [Assets.local("ASSETS")],
       }).pipe(Effect.flip);
       expect(error).toMatchObject({ _tag: "ConfigError", subtag: "Assets" });
     }),

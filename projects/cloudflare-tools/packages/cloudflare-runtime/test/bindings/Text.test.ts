@@ -18,7 +18,7 @@ layer(localRuntimeLayer)("Text binding", (it) => {
         name: "text-binding",
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
-        bindings: [Text.binding("TEXT", "hello-text")],
+        bindings: [Text.local("TEXT", "hello-text")],
         modules: [{ name: "main.js", type: "ESModule", content: SCRIPT }],
       });
 

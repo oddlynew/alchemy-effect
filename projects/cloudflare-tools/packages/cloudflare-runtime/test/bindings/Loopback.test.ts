@@ -19,7 +19,7 @@ layer(localRuntimeLayer)("Loopback binding", (it) => {
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
         bindings: [
-          Loopback.binding("LOOPBACK", (_req, res) => {
+          Loopback.local("LOOPBACK", (_req, res) => {
             res.writeHead(200, { "content-type": "text/plain" });
             res.end("loopback-ok");
           }),

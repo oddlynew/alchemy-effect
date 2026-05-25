@@ -18,7 +18,7 @@ layer(localRuntimeLayer)("UnsafeEval binding", (it) => {
         name: "unsafe-eval-binding",
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
-        bindings: [UnsafeEval.binding("EVAL")],
+        bindings: [UnsafeEval.local("EVAL")],
         modules: [{ name: "main.js", type: "ESModule", content: SCRIPT }],
       });
 

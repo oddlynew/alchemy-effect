@@ -18,7 +18,7 @@ layer(localRuntimeLayer)("Data binding", (it) => {
         name: "data-binding",
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
-        bindings: [Data.binding("DATA", new Uint8Array([1, 2, 3, 4]))],
+        bindings: [Data.local("DATA", new Uint8Array([1, 2, 3, 4]))],
         modules: [{ name: "main.js", type: "ESModule", content: SCRIPT }],
       });
 

@@ -22,7 +22,7 @@ layer(localRuntimeLayer)("VersionMetadata binding", (it) => {
         name: "version-metadata-binding",
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
-        bindings: [VersionMetadata.binding("META")],
+        bindings: [VersionMetadata.local("META")],
         modules: [{ name: "main.js", type: "ESModule", content: SCRIPT }],
       });
 
