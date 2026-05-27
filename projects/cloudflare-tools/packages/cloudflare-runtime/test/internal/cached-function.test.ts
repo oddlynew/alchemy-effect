@@ -25,10 +25,9 @@ describe("cachedFunction", () => {
       const fn = yield* cachedFunction((_: { id: string }) =>
         Ref.updateAndGet(counter, (n) => n + 1).pipe(Effect.delay("10 millis")),
       );
-      const [a, b, c] = yield* Effect.all(
-        [fn({ id: "x" }), fn({ id: "x" }), fn({ id: "x" })],
-        { concurrency: "unbounded" },
-      );
+      const [a, b, c] = yield* Effect.all([fn({ id: "x" }), fn({ id: "x" }), fn({ id: "x" })], {
+        concurrency: "unbounded",
+      });
       expect(a).toBe(1);
       expect(b).toBe(1);
       expect(c).toBe(1);

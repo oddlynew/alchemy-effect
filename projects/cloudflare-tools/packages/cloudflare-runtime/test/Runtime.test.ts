@@ -31,9 +31,7 @@ layer(localRuntimeLayer)("Runtime", (it) => {
         const hello = yield* Effect.promise(() => fetch(`${url}/hello`));
         expect(hello.status).toBe(200);
         expect(yield* Effect.promise(() => hello.text())).toBe("hello");
-        const echo = yield* Effect.promise(() =>
-          fetch(`${url}/echo`, { method: "POST" }),
-        );
+        const echo = yield* Effect.promise(() => fetch(`${url}/echo`, { method: "POST" }));
         expect(yield* Effect.promise(() => echo.text())).toBe("POST");
       }),
     { timeout: 30_000 },

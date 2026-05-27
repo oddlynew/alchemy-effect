@@ -16,11 +16,7 @@ export interface WorkerdDebugPortConnector {
  * Durable Object actors on a remote workerd instance.
  */
 export interface WorkerdDebugPortClient {
-  getEntrypoint(
-    service: string,
-    entrypoint?: string,
-    props?: Record<string, unknown>,
-  ): Fetcher;
+  getEntrypoint(service: string, entrypoint?: string, props?: Record<string, unknown>): Fetcher;
   getActor(service: string, entrypoint: string, actorId: string): Fetcher;
 }
 
@@ -120,10 +116,7 @@ export function createProxyDurableObjectClass({
     // Lazily resolve and cache. Invalidates when debugPortAddress changes.
     _resolve(): Fetcher | null {
       const target = resolveTarget(scriptName);
-      if (
-        this._cachedFetcher &&
-        target?.debugPortAddress === this._cachedDebugPortAddress
-      ) {
+      if (this._cachedFetcher && target?.debugPortAddress === this._cachedDebugPortAddress) {
         return this._cachedFetcher;
       }
       this._cachedFetcher = undefined;
@@ -170,9 +163,7 @@ export function createProxyDurableObjectClass({
     fetch(request: Request): Promise<Response> {
       const fetcher = this._resolve();
       if (!fetcher) {
-        return Promise.resolve(
-          new Response(workerNotFoundMessage(scriptName), { status: 503 }),
-        );
+        return Promise.resolve(new Response(workerNotFoundMessage(scriptName), { status: 503 }));
       }
       return fetcher.fetch(request);
     }

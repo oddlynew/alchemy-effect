@@ -14,10 +14,7 @@ import type { WorkflowEvent, WorkflowStep } from "cloudflare:workers";
 
 export * from "../src/index";
 
-type WorkflowCallback = (
-	event: unknown,
-	step: WorkflowStep
-) => Promise<unknown>;
+type WorkflowCallback = (event: unknown, step: WorkflowStep) => Promise<unknown>;
 
 let __testWorkflowCallback: WorkflowCallback | undefined;
 
@@ -25,10 +22,8 @@ let __testWorkflowCallback: WorkflowCallback | undefined;
  * Set the workflow callback that TestWorkflow.run() will delegate to.
  * Call this before creating or restarting a workflow instance in tests.
  */
-export function setTestWorkflowCallback(
-	cb: WorkflowCallback | undefined
-): void {
-	__testWorkflowCallback = cb;
+export function setTestWorkflowCallback(cb: WorkflowCallback | undefined): void {
+  __testWorkflowCallback = cb;
 }
 
 /**
@@ -37,15 +32,12 @@ export function setTestWorkflowCallback(
  * in vitest.config.ts so it survives DO aborts (unlike manual env injection).
  */
 export class TestWorkflow extends WorkerEntrypoint {
-	async run(
-		event: Readonly<WorkflowEvent<unknown>>,
-		step: WorkflowStep
-	): Promise<unknown> {
-		if (!__testWorkflowCallback) {
-			throw new Error(
-				"TestWorkflow callback not set — call setTestWorkflowCallback() before running the workflow"
-			);
-		}
-		return await __testWorkflowCallback(event, step);
-	}
+  async run(event: Readonly<WorkflowEvent<unknown>>, step: WorkflowStep): Promise<unknown> {
+    if (!__testWorkflowCallback) {
+      throw new Error(
+        "TestWorkflow callback not set — call setTestWorkflowCallback() before running the workflow",
+      );
+    }
+    return await __testWorkflowCallback(event, step);
+  }
 }

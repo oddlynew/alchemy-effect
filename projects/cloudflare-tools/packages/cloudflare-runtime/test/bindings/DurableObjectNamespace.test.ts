@@ -30,13 +30,9 @@ layer(localRuntimeLayer)("DurableObjectNamespace binding", (it) => {
         name: "durable-object-binding",
         compatibilityDate: "2026-03-10",
         compatibilityFlags: [],
-        bindings: [
-          DurableObjectNamespace.local({ name: "COUNTER", className: "Counter" }),
-        ],
+        bindings: [DurableObjectNamespace.local({ name: "COUNTER", className: "Counter" })],
         modules: [{ name: "main.js", type: "ESModule", content: SCRIPT }],
-        durableObjectNamespaces: [
-          { className: "Counter", sql: false, uniqueKey: "test-counter" },
-        ],
+        durableObjectNamespaces: [{ className: "Counter", sql: false, uniqueKey: "test-counter" }],
       });
 
       const first = yield* fetch("/");

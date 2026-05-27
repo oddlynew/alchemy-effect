@@ -186,9 +186,7 @@ layer(services)((it) => {
         yield* Effect.gen(function* () {
           const workerd = yield* Workerd.Workerd;
           const ports = yield* workerd.serve({
-            sockets: [
-              { name: "http", address: "127.0.0.1:0", service: { name: "test" } },
-            ],
+            sockets: [{ name: "http", address: "127.0.0.1:0", service: { name: "test" } }],
             services: [
               {
                 name: "test",

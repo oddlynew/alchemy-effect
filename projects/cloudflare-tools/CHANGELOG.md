@@ -51,7 +51,7 @@
 
 ## [v0.5.4](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.5.4) (2026-05-15)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.5.3](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.5.3) (2026-05-15)
 

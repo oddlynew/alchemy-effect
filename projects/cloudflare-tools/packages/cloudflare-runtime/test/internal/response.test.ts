@@ -39,9 +39,10 @@ describe("response.shared", () => {
 
   it.effect("decodeResponse throws the encoded RuntimeError", () =>
     Effect.gen(function* () {
-      const response = new Response(JSON.stringify(makeErrorEnvelope(
-        new ConfigError({ subtag: "X", message: "thrown" }),
-      )), { status: 500 });
+      const response = new Response(
+        JSON.stringify(makeErrorEnvelope(new ConfigError({ subtag: "X", message: "thrown" }))),
+        { status: 500 },
+      );
       const error = yield* Effect.tryPromise(() => decodeResponse(response)).pipe(Effect.flip);
       expect(error).toMatchObject({
         cause: { _tag: "ConfigError", subtag: "X", message: "thrown" },

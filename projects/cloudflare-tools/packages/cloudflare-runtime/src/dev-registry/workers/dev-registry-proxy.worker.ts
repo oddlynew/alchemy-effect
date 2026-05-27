@@ -196,9 +196,7 @@ export class ExternalWorkflowProxy extends WorkerEntrypoint<Env, WorkflowProxyPr
         // (e.g. owner restarts), and we don't want to cache a dead fetcher.
         const fetcher = resolveWorkflow(ctx.props, env);
         if (!fetcher) {
-          throw new Error(
-            workflowNotFoundMessage(ctx.props.scriptName, ctx.props.workflowName),
-          );
+          throw new Error(workflowNotFoundMessage(ctx.props.scriptName, ctx.props.workflowName));
         }
         return Reflect.get(fetcher, prop);
       },
