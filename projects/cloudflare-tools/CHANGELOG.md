@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.7.0](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.7.0) (2026-05-27)
+
+### Features
+
+- **runtime**: workflows - by @john-royal in [#24](https://github.com/alchemy-run/cloudflare-tools/pull/24) [(2e3c5f3)](https://github.com/alchemy-run/cloudflare-tools/commit/2e3c5f39f01680dd1b17666647e0ccd3c2e69bdf)
+- **runtime**: rate limit binding - by @john-royal in [#21](https://github.com/alchemy-run/cloudflare-tools/pull/21) [(e32a171)](https://github.com/alchemy-run/cloudflare-tools/commit/e32a171f55592bbc3c5b5332b8eef38a1d44e3bd)
+
 ## [v0.6.3](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.6.3) (2026-05-22)
 
 ### Bug Fixes
