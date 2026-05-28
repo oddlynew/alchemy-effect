@@ -1,5 +1,6 @@
 import * as Layer from "effect/Layer";
 import {
+  AnalyticsEngine,
   Assets,
   DispatchNamespace,
   Hyperdrive,
@@ -46,6 +47,7 @@ export const layerLoopback = () =>
 
 export const layerLocalBindings = () =>
   Layer.mergeAll(
+    AnalyticsEngine.AnalyticsEngineLive,
     Assets.AssetsLive,
     DevRegistryProxy.DevRegistryProxyLive,
     DispatchNamespace.DispatchNamespaceLive,

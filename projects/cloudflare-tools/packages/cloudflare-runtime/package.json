@@ -33,6 +33,8 @@
     "./bindings": "./dist/node/bindings/index.mjs",
     "./bindings/Ai": "./dist/node/bindings/Ai.mjs",
     "./bindings/AiSearch": "./dist/node/bindings/AiSearch.mjs",
+    "./bindings/analytics-engine": "./dist/node/bindings/analytics-engine/index.mjs",
+    "./bindings/analytics-engine/AnalyticsEngine": "./dist/node/bindings/analytics-engine/AnalyticsEngine.mjs",
     "./bindings/Artifacts": "./dist/node/bindings/Artifacts.mjs",
     "./bindings/assets/Assets": "./dist/node/bindings/assets/Assets.mjs",
     "./bindings/Browser": "./dist/node/bindings/Browser.mjs",
