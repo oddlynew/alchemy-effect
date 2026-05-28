@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.9.0](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.9.0) (2026-05-28)
+
+### Features
+
+- **runtime**: add 10 missing remote binding types - by @john-royal in [#29](https://github.com/alchemy-run/cloudflare-tools/pull/29) [(12ce587)](https://github.com/alchemy-run/cloudflare-tools/commit/12ce587c043bcc59ea76bd193a42bdd2c4fddde4)
+
 ## [v0.8.0](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.8.0) (2026-05-28)
 
 ### Bug Fixes
