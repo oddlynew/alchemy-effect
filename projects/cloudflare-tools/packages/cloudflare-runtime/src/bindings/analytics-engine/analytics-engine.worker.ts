@@ -5,7 +5,7 @@ interface Env {
 class LocalAnalyticsEngineDataset implements AnalyticsEngineDataset {
   constructor(private env: Env) {}
   writeDataPoint(_event?: AnalyticsEngineDataPoint): void {
-    // no-op in local dev, matching Miniflare's behaviour
+    // no-op in local dev, matching Miniflare's behavior
   }
 }
 

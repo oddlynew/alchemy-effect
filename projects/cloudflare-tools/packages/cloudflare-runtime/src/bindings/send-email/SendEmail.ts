@@ -37,7 +37,7 @@ export interface RemoteSendEmailProps {
  *
  * Also registers the `cloudflare-internal:email` extension that exposes
  * the `EmailMessage` class to user code (workerd does not ship it
- * natively), matching the upstream Miniflare behaviour.
+ * natively), matching the upstream Miniflare behavior.
  */
 export const remote = (props: RemoteSendEmailProps): BindingHook<RemoteBindings | SendEmail> =>
   Plugin.use(SendEmail, () =>

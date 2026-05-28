@@ -28,7 +28,7 @@ export const AnalyticsEngineLive = Layer.succeed(
 );
 
 /**
- * No-op local Analytics Engine binding. Matches Miniflare's behaviour:
+ * No-op local Analytics Engine binding. Matches Miniflare's behavior:
  * `writeDataPoint` is accepted but discarded in dev.
  */
 export const local = (binding: string, dataset: string): BindingHook<AnalyticsEngine> =>

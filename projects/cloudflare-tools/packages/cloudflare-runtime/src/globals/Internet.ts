@@ -25,7 +25,7 @@ export const InternetLive = Layer.effect(
     if (process.env.NODE_EXTRA_CA_CERTS !== undefined) {
       // Try load extra CA certs if defined, ignoring errors. Node will log a
       // warning if it fails to load this anyway. Note, this we only load this once
-      // at process startup to match Node's behaviour:
+      // at process startup to match Node's behavior:
       // https://nodejs.org/api/cli.html#node_extra_ca_certsfile
       const extra = yield* fs
         .readFileString(process.env.NODE_EXTRA_CA_CERTS)
