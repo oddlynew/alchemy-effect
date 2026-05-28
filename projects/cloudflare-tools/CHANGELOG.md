@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.9.1](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.9.1) (2026-05-28)
+
+### Features
+
+- **runtime**: emulated analytics engine binding - by @john-royal [(5094273)](https://github.com/alchemy-run/cloudflare-tools/commit/50942733c9f2f43bffa0adcfcb17df378a4c408e)
+
+### Bug Fixes
+
+- **runtime**: loosen RateLimitProps - by @john-royal [(6adb345)](https://github.com/alchemy-run/cloudflare-tools/commit/6adb34588ad1cb34c17500cf02b3665e6943ae68)
+- **runtime**: dispatch namespace props - by @john-royal [(55bc495)](https://github.com/alchemy-run/cloudflare-tools/commit/55bc4956070907352ecedbbe0d076020ad870283)
+- **runtime**: send email props - by @john-royal [(f37ab72)](https://github.com/alchemy-run/cloudflare-tools/commit/f37ab7293306a5e3003c42e24e2116a0c08be950)
+
 ## [v0.9.0](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.9.0) (2026-05-28)
 
 ### Features
