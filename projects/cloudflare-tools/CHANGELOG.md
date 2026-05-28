@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.9.2](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.9.2) (2026-05-28)
+
+### Bug Fixes
+
+- **runtime**: correct `BindingServices` type - by @john-royal [(8fbd1ea)](https://github.com/alchemy-run/cloudflare-tools/commit/8fbd1ea15bf702aa9b680539d54e9bc73a48f724)
+
 ## [v0.9.1](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.9.1) (2026-05-28)
 
 ### Features
