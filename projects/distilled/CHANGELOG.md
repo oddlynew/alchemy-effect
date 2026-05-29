@@ -1,3 +1,13 @@
+## v0.21.6
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **cloudflare**: Add typed errors to vectorize operations &nbsp;-&nbsp; by **sam** and **Claude Opus 4.7** in https://github.com/alchemy-run/distilled/issues/308 [<samp>(2356f)</samp>](https://github.com/alchemy-run/distilled/commit/2356f645)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.21.5...HEAD)
+
+---
+
 ## v0.21.5
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
