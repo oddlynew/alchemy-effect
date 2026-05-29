@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.10.0](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.0) (2026-05-29)
+
+### Features
+
+- **runtime**: simplify worker proxy - by @john-royal in [#30](https://github.com/alchemy-run/cloudflare-tools/pull/30) [(0744a4e)](https://github.com/alchemy-run/cloudflare-tools/commit/0744a4e89fb26bd2d594b8f87ef1a722e698f1a1)
+
+### Bug Fixes
+
+- **runtime**: include address in error message when already in use - by @john-royal [(fa62c03)](https://github.com/alchemy-run/cloudflare-tools/commit/fa62c0322c6140026b078920c6794e7ed1c06330)
+
 ## [v0.9.2](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.9.2) (2026-05-28)
 
 ### Bug Fixes
