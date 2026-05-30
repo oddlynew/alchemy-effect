@@ -1,3 +1,14 @@
+## v0.22.2
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **cloudflare**:
+  - **vectorize**: Add 3005/gone error &nbsp;-&nbsp; by **John Royal** in https://github.com/alchemy-run/distilled/issues/313 [<samp>(e5833)</samp>](https://github.com/alchemy-run/distilled/commit/e58339d1)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.22.1...HEAD)
+
+---
+
 ## v0.22.1
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
