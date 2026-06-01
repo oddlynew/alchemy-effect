@@ -216,7 +216,7 @@ const sharedBucket = Output.ref<typeof Bucket>("Bucket", {
 sharedBucket.bucketName; // Output<string>
 ```
 
-Resolved at plan time against the persisted state store, fails
+Resolved during Construct against the persisted state store, fails
 with `InvalidReferenceError` when the target is missing. In
 day-to-day code prefer `Resource.ref` — same primitive, more
 ergonomic surface.

@@ -93,7 +93,7 @@ the gateway endpoint, `getLog`/`patchLog` for the request log, and
 ```
 
 `Cloudflare.AiGatewayBindingLive` is the runtime side of the
-binding. Provide it once at the bottom of the Init layer chain and
+binding. Provide it once at the bottom of the Construct layer chain and
 every `bind(...)` further up will resolve.
 
 ## Build a `LanguageModel` layer
@@ -121,7 +121,7 @@ that satisfies Effect's standard AI service.
 ```
 
 `parameters` is the per-call default; any individual call can still
-override it. The Init phase is the right place to build this layer —
+override it. The Construct phase is the right place to build this layer —
 construction is pure and the binding factory only exists here.
 
 ## Generate text on `/generate`

@@ -7,7 +7,7 @@ const BrowserRenderingTypeId = "Cloudflare.BrowserRendering" as const;
 export type BrowserRenderingProps = {
   /**
    * Binding name used when `Cloudflare.BrowserRendering.bind(browser)` attaches
-   * Browser Rendering from inside a Worker init phase. When Browser Rendering
+   * Browser Rendering from inside a Worker construct phase. When Browser Rendering
    * is passed through `Worker({ bindings: { ... } })`, the object key remains
    * the binding name.
    *

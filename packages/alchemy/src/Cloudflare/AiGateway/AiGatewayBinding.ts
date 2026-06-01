@@ -31,7 +31,7 @@ export class AiGatewayError extends Data.TaggedError("AiGatewayError")<{
  *
  * Wraps the runtime {@link AiGateway} binding so each operation returns an
  * Effect tagged with {@link AiGatewayError}. Use
- * `Cloudflare.AiGatewayBinding.bind(gateway)` inside a Worker's init phase.
+ * `Cloudflare.AiGatewayBinding.bind(gateway)` inside a Worker's construct phase.
  */
 export interface AiGatewayClient {
   /**
@@ -93,7 +93,7 @@ export interface AiGatewayClient {
  *
  * @section Calling AI Gateway
  * @example Run through a gateway
- * Bind the gateway during the Worker's init phase, then use `run` or
+ * Bind the gateway during the Worker's construct phase, then use `run` or
  * `getUrl` from request handlers.
  * ```typescript
  * const aiGateway = yield* Cloudflare.AiGatewayBinding.bind(gateway);

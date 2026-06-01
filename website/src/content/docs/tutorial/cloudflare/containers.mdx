@@ -255,7 +255,7 @@ that lives in `Sandbox.runtime.ts` and Rolldown tree-shakes it out.
 
 `Cloudflare.Container.bind(Sandbox)` registers the binding the
 same way `R2Bucket.bind` or `KVNamespace.bind` do. It belongs in
-the **outer** init phase — that runs once when the DO class is
+the **outer** construct phase — that runs once when the DO class is
 wired to its Worker. If you put it in the inner phase, every new
 DO instance would re-bind, which is wasteful and wrong.
 
@@ -280,7 +280,7 @@ phase, so each DO instance gets its own running container.
 
 `Cloudflare.start(sandbox)` ensures the container process is
 running for **this** DO instance, then hands you the typed shape
-you declared on the class. Add it to the **inner** init and wire
+you declared on the class. Add it to the **inner** Effect and wire
 the result up as an RPC method:
 
 ```diff lang="typescript"
@@ -298,7 +298,7 @@ Effect.gen(function* () {
 }),
 ```
 running for **this** DO instance, then hands you the typed shape
-you declared on the class. Add it to the **inner** init and wire
+you declared on the class. Add it to the **inner** Effect and wire
 the result up as an RPC method:
 
 ```diff lang="typescript"

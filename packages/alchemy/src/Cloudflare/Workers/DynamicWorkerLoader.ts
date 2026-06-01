@@ -86,13 +86,13 @@ export type DynamicWorkerLoader = {
  * @resource
  *
  * @section Creating a Loader
- * Yield `Cloudflare.DynamicWorkerLoader` in your Worker's init
+ * Yield `Cloudflare.DynamicWorkerLoader` in your Worker's Construct
  * phase to register the binding. The string argument becomes the
  * binding name on the deployed Worker.
  *
  * @example Registering a loader
  * ```typescript
- * // init
+ * // construct
  * const loader = yield* Cloudflare.DynamicWorkerLoader("Loader");
  * ```
  *
@@ -164,7 +164,7 @@ export const DynamicWorkerLoader = Effect.fnUntraced(function* (name: string) {
 
   const binding = yield* Effect.all([WorkerEnvironment, ALCHEMY_PHASE]).pipe(
     Effect.flatMap(([env, phase]) => {
-      if (env === undefined || phase === "plan") {
+      if (env === undefined || phase === "construct") {
         return Effect.succeed(undefined as any);
       }
       const loader = env[name];

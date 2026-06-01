@@ -14,7 +14,7 @@ shared instance instead.
 
 `Resource.ref(id, { stage })` reads a deployed resource's
 attributes from another stage of the same stack — typed, lazy,
-resolved at plan time against the persisted state store. See
+resolved during Construct against the persisted state store. See
 [References](/concepts/references) for the full reference surface
 (`Output.ref`, `Output.stackRef`, `Stack.stage`).
 
@@ -107,7 +107,7 @@ Three things to know about `Resource.ref`:
    attributes, same downstream API. The branch resource doesn't
    know or care that one stage's `project` is real and another's
    is a reference.
-3. **Resolved at plan time.** Alchemy reads the attributes (project
+3. **Resolved during Construct.** Alchemy reads the attributes (project
    id, host, etc.) from the staging stage's state file. If
    `staging` hasn't been deployed yet, plan fails with
    `InvalidReferenceError` — deploy `staging` first, then PR

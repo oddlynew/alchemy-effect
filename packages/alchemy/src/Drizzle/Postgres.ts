@@ -28,12 +28,12 @@ import { proxyChain } from "../Util/proxy-chain.ts";
  * Behind the scenes the actual connect work is wrapped in `Effect.cached`,
  * so the pool is built at most once per JS realm. Yielding the
  * connection string is also deferred until first query, so deploy /
- * plan-time invocations (where `WorkerEnvironment` isn't provided)
+ * Construct-phase invocations (where `WorkerEnvironment` isn't provided)
  * never trigger a real connection attempt.
  *
  * The PgClient pool is built against an isolated, never-closing `Scope`
  * so it outlives whatever scope this helper is yielded under. In a
- * Cloudflare Worker the surrounding `Cloudflare.Worker` runs init
+ * Cloudflare Worker the surrounding `Cloudflare.Worker` runs Construct
  * inside `Effect.scoped`, which closes after returning the exports
  * object — without an isolated scope, the pool's `end` finalizer
  * would fire there and every subsequent request would see "Cannot

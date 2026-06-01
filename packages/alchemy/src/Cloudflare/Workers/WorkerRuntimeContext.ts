@@ -106,7 +106,7 @@ export const makeWorkerRuntimeContext = (id: string): WorkerRuntimeContext => {
       Effect.sync(() => {
         exports[name] = value;
       }),
-    planServices: Layer.succeed(WorkerEnvironment, {}),
+    constructServices: Layer.succeed(WorkerEnvironment, {}),
     exports: Effect.gen(function* () {
       const handlers = yield* Effect.all(listeners, {
         concurrency: "unbounded",

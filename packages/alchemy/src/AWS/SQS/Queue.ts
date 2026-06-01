@@ -122,12 +122,12 @@ export interface Queue extends Resource<
  * ```
  *
  * @section Sending Messages
- * Bind send operations in the init phase and use them in runtime
+ * Bind send operations in the construct phase and use them in runtime
  * handlers.
  *
  * @example Send a message from a handler
  * ```typescript
- * // init
+ * // construct
  * const sendMessage = yield* SQS.SendMessage.bind(queue);
  *
  * return {
@@ -147,7 +147,7 @@ export interface Queue extends Resource<
  *
  * @example Process queue messages
  * ```typescript
- * // init
+ * // construct
  * yield* SQS.messages(queue).process(
  *   Effect.fn(function* (message) {
  *     yield* Effect.log(`Received: ${message.body}`);

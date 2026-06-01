@@ -7,7 +7,7 @@ import Room from "./Room.ts";
 
 /**
  * Hard-coded value the integ test asserts on to prove the secret was
- * bound at plantime and read at runtime through the `Redacted` accessor.
+ * bound during Construct and read at runtime through the `Redacted` accessor.
  */
 export const WORKFLOW_SECRET_VALUE = Redacted.make("wf-secret-abc123");
 

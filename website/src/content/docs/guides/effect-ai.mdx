@@ -30,12 +30,12 @@ Every Effect AI provider is two stacked layers:
 2. A **language model** Layer that picks the model and any defaults
    (`OpenAiLanguageModel.layer({ model: "gpt-4o-mini" })`, …).
 
-You build that stack once in the Platform's **init phase** and
+You build that stack once in the Platform's **construct phase** and
 `Effect.provide(...)` it on the handler:
 
 ```typescript
 Effect.gen(function* () {
-  // 1. Init: build the LanguageModel layer (deploy bindings happen here).
+  // 1. Construct: build the LanguageModel layer (deploy bindings happen here).
   const languageModel = ...;
 
   return {
@@ -57,14 +57,14 @@ procedure, a Workflow, or any other Effect.
 Every upstream provider's client Layer (`OpenAiClient.layer`,
 `AnthropicClient.layer`, …) takes an `apiKey: Redacted<string>`.
 [`Config.redacted`](/concepts/secrets) resolved in the Platform's
-Init phase gives you exactly that `Redacted<string>` — and Alchemy
+Construct phase gives you exactly that `Redacted<string>` — and Alchemy
 automatically binds the value as a `secret_text` binding
 (Cloudflare) or environment variable (Lambda) at deploy time:
 
 ```typescript
 import * as Config from "effect/Config";
 
-// outer init — resolves the value AND records the binding
+// Construct phase — resolves the value AND records the binding
 const apiKey = yield* Config.redacted("OPENAI_API_KEY");
 ```
 
@@ -72,9 +72,9 @@ const apiKey = yield* Config.redacted("OPENAI_API_KEY");
 `ConfigProvider` (e.g. `.env`) at deploy time, records the binding,
 and resolves from that binding again at runtime — one line, both
 phases. See [Concepts › Secrets and Config](/concepts/secrets) for
-the Init/Runtime split, `.env`, and transformations.
+the Construct/Runtime split, `.env`, and transformations.
 
-Because the value is in scope right in Init, the model Layer can be
+Because the value is in scope right in Construct, the model Layer can be
 built eagerly — no `Layer.unwrap` needed:
 
 ```typescript
@@ -167,7 +167,7 @@ Gateway as a resource and `.bind(Gateway).model({...})` returns a
 `LanguageModel` Layer that proxies Workers AI through the gateway —
 with caching, rate limiting, retries, and a unified request log.
 
-Bind the gateway in the Init phase and call `aiGateway.model({...})`
+Bind the gateway in the Construct phase and call `aiGateway.model({...})`
 with a Workers AI model id. It returns a `LanguageModel` Layer
 directly — no API key, no `Layer.unwrap`, since the gateway binding
 handles auth and the URL:
@@ -185,7 +185,7 @@ const languageModel = aiGateway.model({
 That `languageModel` Layer slots into the same `Effect.provide(...)`
 spot as any other provider — the rest of your handler doesn't
 change. Provide `Cloudflare.AiGatewayBindingLive` once at the
-bottom of the Init layer chain so the binding resolves at runtime:
+bottom of the Construct layer chain so the binding resolves at runtime:
 
 ```typescript
 Effect.gen(function* () {

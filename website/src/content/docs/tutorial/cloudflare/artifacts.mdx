@@ -90,7 +90,7 @@ that becomes a discriminated union member on the client.
 ## Implement the Worker
 
 Create `src/Worker.ts`. The handler group is *constructed* with
-`HttpApiBuilder.group` (pure — safe inside the Worker's Init
+`HttpApiBuilder.group` (pure — safe inside the Worker's Construct
 phase), and the `fetch` field is the result of layering the API
 into an `HttpEffect`:
 
@@ -486,7 +486,7 @@ export default class Repo extends Cloudflare.DurableObjectNamespace<Repo>()(
 ## Persist the metadata
 
 Each DO instance has its own SQLite-backed key/value storage. Pull
-the current metadata out of storage in the inner init so it
+the current metadata out of storage in the inner Effect so it
 survives restarts and hibernation:
 
 ```diff lang="typescript"
@@ -572,7 +572,7 @@ export class RepoInfo extends Schema.Class<RepoInfo>("RepoInfo")({
 }) {}
 ```
 
-Yield the `Repo` class in the Worker's init phase. The handle is a
+Yield the `Repo` class in the Worker's construct phase. The handle is a
 DO namespace — `repos.getByName(name)` returns a typed RPC stub for
 that repo's instance:
 

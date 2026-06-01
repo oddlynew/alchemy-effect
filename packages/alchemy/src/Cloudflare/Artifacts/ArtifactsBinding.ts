@@ -63,7 +63,7 @@ export interface ArtifactsRepoClient {
  *
  * Wraps the runtime {@link Artifacts} binding so each method returns an
  * Effect tagged with {@link ArtifactsError}. Use
- * `Cloudflare.ArtifactsBinding.bind(Repos)` inside a Worker's init phase.
+ * `Cloudflare.ArtifactsBinding.bind(Repos)` inside a Worker's construct phase.
  */
 export interface ArtifactsClient {
   /** Effect resolving to the raw Cloudflare runtime binding. */

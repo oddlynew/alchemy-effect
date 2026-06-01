@@ -201,7 +201,7 @@ The runtime piece is a second file-level export:
 
 The `import { B }` here imports B's Tag only — its identity
 and binding contract. `Worker.bind(B)` returns a typed
-callable; at plan time the URL is an `Output<URL>`
+callable; during Construct the URL is an `Output<URL>`
 placeholder, at runtime it's a real `fetch` stub.
 
 `B.ts` mirrors the pattern: imports `A`'s Tag, binds it
@@ -238,7 +238,7 @@ scope — including the resource itself.
 
 ## How the two pieces compose
 
-At plan time, the engine builds a dependency graph from the
+During Construct, the engine builds a dependency graph from the
 Stack expression. When it sees a cycle, it routes the
 participating resources through a two-pass lifecycle:
 

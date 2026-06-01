@@ -75,7 +75,7 @@ triggers any runtime code by importing the other's class.
 
 ## Add A's runtime, binding B
 
-Attach A's implementation with `A.make(...)`. Inside the Init phase,
+Attach A's implementation with `A.make(...)`. Inside the Construct phase,
 `yield* Cloudflare.Worker.bind(B)` produces a typed callable that
 will dispatch to B's deployed URL at runtime.
 
@@ -102,7 +102,7 @@ will dispatch to B's deployed URL at runtime.
 ```
 
 The `import { B }` line pulls in B's Tag only. `Worker.bind(B)`
-returns a deferred reference — at plan time it's an `Output<URL>`
+returns a deferred reference — during Construct it's an `Output<URL>`
 placeholder; at runtime it's a real `fetch` stub.
 
 ## Add B's runtime, binding A

@@ -32,7 +32,7 @@ export class QueueSendError extends Data.TaggedError("QueueSendError")<{
  * {@link QueueSender} you can call from a Worker's runtime Effect.
  *
  * @section Sending Messages
- * Bind the queue in the Worker's init phase, then use `send` for
+ * Bind the queue in the Worker's construct phase, then use `send` for
  * single messages or `sendBatch` for many messages in one call.
  * Messages can be any JSON-serializable value.
  *

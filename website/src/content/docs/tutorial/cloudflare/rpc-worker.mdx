@@ -133,7 +133,7 @@ and return type.
  ) {}
 ```
 
-The init returns the **piped `RpcServer.toHttpEffect` Effect
+The Construct phase returns the **piped `RpcServer.toHttpEffect` Effect
 directly** — no `{ fetch }` wrapper.
 
 ## Deploy the Worker
@@ -317,7 +317,7 @@ export default class Caller extends Cloudflare.Worker<Caller>()(
 
 A regular Worker — same shape as any other `Cloudflare.Worker`.
 
-## Bind the typed client at init
+## Bind the typed client during Construct
 
 ```diff lang="typescript"
  import * as Cloudflare from "alchemy/Cloudflare";
@@ -425,7 +425,7 @@ for the full cross-script pattern.
 
 - `Cloudflare.RpcWorker` keeps everything from
   [Effect RPC](/guides/effect-rpc) and removes the `{ fetch }`
-  wrapper. `props.schema` declares the served `RpcGroup`; the init
+  wrapper. `props.schema` declares the served `RpcGroup`; the Construct phase
   returns the piped `RpcServer.toHttpEffect(schema)` Effect directly.
 - Inline form `(id, props, impl)` bundles the runtime into the
   class; modular form `(id, props)` + `Class.make(impl)` keeps the

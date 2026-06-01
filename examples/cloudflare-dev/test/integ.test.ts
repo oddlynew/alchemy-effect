@@ -138,7 +138,7 @@ interface WorkflowStatus {
 /**
  * Start a `NotifyWorkflow` instance through `workerUrl` and poll its status
  * until the instance reaches a terminal state. Asserts the workflow ran the
- * KV roundtrip task (`Processed: <message>`) and resolved the plantime-bound
+ * KV roundtrip task (`Processed: <message>`) and resolved the Construct-bound
  * `Alchemy.Secret` at runtime (`output.secret === WORKFLOW_SECRET_VALUE`).
  */
 const exerciseWorkflow = (workerUrl: string, label: string) =>

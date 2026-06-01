@@ -20,8 +20,8 @@ The mental model we'll follow is:
 
 1. **Define the schema and API outside the Worker.** Both are pure
    descriptions and can be imported by clients.
-2. **Construct the service inside the Worker's Init phase.**
-   The Init phase runs at plan time *and* runtime, so we only do
+2. **Construct the service inside the Worker's Construct phase.**
+   The Construct phase runs both locally and at runtime, so we only do
    pure construction here — we never `yield*` something that needs
    a request to exist.
 3. **Return `{ fetch }`** where `fetch` is an `HttpEffect`.
@@ -98,7 +98,7 @@ end of this guide.
 
 ## 3. Build the Worker
 
-Now we wire it up. Create `src/worker.ts` with an empty Init phase:
+Now we wire it up. Create `src/worker.ts` with an empty Construct phase:
 
 ```typescript
 // src/worker.ts
@@ -114,8 +114,8 @@ export default Cloudflare.Worker(
 );
 ```
 
-The generator inside `Cloudflare.Worker` is the **Init phase**. It
-runs both at *plan time* (when Alchemy builds the deployment graph)
+The generator inside `Cloudflare.Worker` is the **Construct phase**. It
+runs both locally (when Alchemy builds the resource graph)
 and at *runtime* (when the Worker boots a fresh isolate). Anything
 you `yield*` here must be safe in both contexts — typically resource
 binding factories like `R2Bucket.bind(...)`, never per-request work.
@@ -123,7 +123,7 @@ binding factories like `R2Bucket.bind(...)`, never per-request work.
 ### 3a. Bind an R2 bucket for storage
 
 Tasks need to live somewhere durable. Declare an `R2Bucket` resource
-and bind it inside Init — `bind()` returns a typed handle whose
+and bind it inside the Construct phase — `bind()` returns a typed handle whose
 `get` / `put` / `delete` / `list` methods we'll call from the
 handlers below.
 
@@ -153,15 +153,15 @@ We'll provide the runtime side of this binding
 (`Cloudflare.R2BucketBindingLive`) in step 3c when we wire up the
 `fetch` handler.
 
-### 3b. Construct the handler group inside Init
+### 3b. Construct the handler group inside the Construct phase
 
 `HttpApiBuilder.group` *constructs* a `Layer` that wires handlers
 into the API spec. It's pure — it doesn't run them. That makes it
-safe to call inside Init.
+safe to call inside the Construct phase.
 
 > Don't `yield*` `HttpApiBuilder.layer(TaskApi)` here — building the
 > layer is fine, but actually executing the server requires an
-> incoming request. Init only does construction; the work happens
+> incoming request. The Construct phase only does construction; the work happens
 > later, on each `fetch` call.
 
 ```typescript twoslash
@@ -209,7 +209,7 @@ keeping the typed error channel reserved for `TaskNotFound`.
 
 ### 3c. Return `{ fetch }`
 
-The return value of Init is the *Worker's surface* — for a
+The return value of the Construct phase is the *Worker's surface* — for a
 fetch-style Worker that means an object with a `fetch` field. The
 value of `fetch` must be an `HttpEffect`: an `Effect` that, given an
 `HttpServerRequest`, produces an `HttpServerResponse`.
@@ -452,7 +452,7 @@ export class TaskDOApi extends HttpApi.make("TaskDOApi").add(TasksDOGroup) {}
 
 ### Implement the DO
 
-The DO's Init returns `{ fetch }` — an `HttpEffect` produced exactly
+The DO's Construct phase returns `{ fetch }` — an `HttpEffect` produced exactly
 the same way the Worker produces one, just scoped to its own
 `TaskDOApi`. Storage is the DO's transactional `state.storage`
 instead of R2.
@@ -504,7 +504,7 @@ export default class TasksObject extends Cloudflare.DurableObjectNamespace<Tasks
 
 ### Bridge the DO into a typed client
 
-Inside the Worker's Init, `Cloudflare.toHttpClient(stub)` wraps a DO
+Inside the Worker's Construct phase, `Cloudflare.toHttpClient(stub)` wraps a DO
 stub as an `HttpClient`. Hand that client to `HttpApiClient.makeWith`
 and you get a fully typed client whose every call is a DO `fetch`
 under the hood:
@@ -559,7 +559,7 @@ backends behind the scenes.
 
 - The **schema** (`Task`, `TaskNotFound`) and the **API spec**
   (`TaskApi`) live outside the Worker — they're pure descriptions.
-- The **handlers** are constructed inside the Worker's Init phase
+- The **handlers** are constructed inside the Worker's Construct phase
   closure. We build a `Layer` with `HttpApiBuilder.group` but never
   `yield*` the running server — that only makes sense per-request.
 - The Worker's surface is `{ fetch }`, where `fetch` is an

@@ -157,7 +157,7 @@ export type Container = {
  * ```
  *
  * @section Calling from a Durable Object
- * Use `Cloudflare.Container.bind(Sandbox)` in the **outer** init
+ * Use `Cloudflare.Container.bind(Sandbox)` in the **outer** construct
  * phase of a Durable Object — only the class is imported, so the
  * DO bundle stays tiny. Then `Cloudflare.start(sandbox)` in the
  * **inner** per-instance phase ensures the container is running
@@ -169,7 +169,7 @@ export type Container = {
  * export default class Agent extends Cloudflare.DurableObjectNamespace<Agent>()(
  *   "Agents",
  *   Effect.gen(function* () {
- *     // OUTER (init): only the class is referenced — the runtime
+ *     // OUTER (construct): only the class is referenced — the runtime
  *     // implementation in `Sandbox.runtime.ts` is tree-shaken out
  *     // of this DO's bundle.
  *     const sandbox = yield* Cloudflare.Container.bind(Sandbox);
@@ -187,7 +187,7 @@ export type Container = {
  * ```
  *
  * @section Starting from a Durable Object
- * Use `Cloudflare.Container.bind` in the outer init phase to bind
+ * Use `Cloudflare.Container.bind` in the outer construct phase to bind
  * the container class, then `Cloudflare.start` in the inner
  * per-instance phase to start it. Because the DO only imports the
  * class, the runtime implementation is completely excluded from the
@@ -195,7 +195,7 @@ export type Container = {
  *
  * @example Binding and starting a container
  * ```typescript
- * // init (outer Effect) — only imports the class
+ * // construct (outer Effect) — only imports the class
  * const sandbox = yield* Cloudflare.Container.bind(Sandbox);
  *
  * // per-instance (inner Effect)
@@ -249,7 +249,7 @@ export const Container: Platform<
                 yield* httpServer.serve(handler);
                 yield* Effect.never;
               } else {
-                // this should only happen at plantime, validate?
+                // this should only happen during the Construct phase, validate?
               }
             }).pipe(Effect.orDie),
           );

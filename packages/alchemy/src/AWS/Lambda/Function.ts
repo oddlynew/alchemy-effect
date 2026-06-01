@@ -214,7 +214,7 @@ export type FunctionShape = Main<FunctionServices>;
  *   "ApiFunction",
  *   { main: import.meta.filename, url: true },
  *   Effect.gen(function* () {
- *     // init: bind resources
+ *     // construct: bind resources
  *     const getItem = yield* DynamoDB.GetItem.bind(table);
  *
  *     return {
@@ -252,12 +252,12 @@ export type FunctionShape = Main<FunctionServices>;
  * ```
  *
  * @section S3 Bindings
- * Bind S3 operations in the init phase to give the function IAM
+ * Bind S3 operations in the construct phase to give the function IAM
  * permissions and inject the bucket name as an environment variable.
  *
  * @example Read and write S3 objects
  * ```typescript
- * // init
+ * // construct
  * const getObject = yield* S3.GetObject.bind(bucket);
  * const putObject = yield* S3.PutObject.bind(bucket);
  *
@@ -272,12 +272,12 @@ export type FunctionShape = Main<FunctionServices>;
  * ```
  *
  * @section DynamoDB Bindings
- * Bind DynamoDB operations in the init phase to grant table-scoped
+ * Bind DynamoDB operations in the construct phase to grant table-scoped
  * IAM permissions.
  *
  * @example Get and put items
  * ```typescript
- * // init
+ * // construct
  * const getItem = yield* DynamoDB.GetItem.bind(table);
  * const putItem = yield* DynamoDB.PutItem.bind(table);
  *
@@ -292,11 +292,11 @@ export type FunctionShape = Main<FunctionServices>;
  * ```
  *
  * @section SQS Bindings
- * Bind SQS operations in the init phase to send messages to a queue.
+ * Bind SQS operations in the construct phase to send messages to a queue.
  *
  * @example Send a message
  * ```typescript
- * // init
+ * // construct
  * const sendMessage = yield* SQS.SendMessage.bind(queue);
  *
  * return {
@@ -311,12 +311,12 @@ export type FunctionShape = Main<FunctionServices>;
  * ```
  *
  * @section SNS Bindings
- * Bind SNS operations in the init phase to publish messages to a
+ * Bind SNS operations in the construct phase to publish messages to a
  * topic.
  *
  * @example Publish a notification
  * ```typescript
- * // init
+ * // construct
  * const publish = yield* SNS.Publish.bind(topic);
  *
  * return {
@@ -332,12 +332,12 @@ export type FunctionShape = Main<FunctionServices>;
  * ```
  *
  * @section Kinesis Bindings
- * Bind Kinesis operations in the init phase to put records into a
+ * Bind Kinesis operations in the construct phase to put records into a
  * stream.
  *
  * @example Put a record
  * ```typescript
- * // init
+ * // construct
  * const putRecord = yield* Kinesis.PutRecord.bind(stream);
  *
  * return {

@@ -7,7 +7,7 @@ const ImagesTypeId = "Cloudflare.Images" as const;
 export type ImagesProps = {
   /**
    * Binding name used when `Cloudflare.Images.bind(images)` attaches Images
-   * from inside a Worker init phase. When Images is passed through
+   * from inside a Worker construct phase. When Images is passed through
    * `Worker({ bindings: { ... } })`, the object key remains the binding name.
    *
    * @default "IMAGES"

@@ -70,7 +70,7 @@ export interface Ec2HostedCleanupState {
 }
 
 /**
- * Deploy-time / plan-time host context for EC2-backed platforms that bundle a
+ * Deploy-time / Construct-phase host context for EC2-backed platforms that bundle a
  * long-lived program (`exports.program`) and collect background work via `run`.
  */
 export interface Ec2HostRuntimeContext extends ProcessContext {

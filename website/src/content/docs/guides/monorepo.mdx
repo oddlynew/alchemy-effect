@@ -324,7 +324,7 @@ the one to reach for unless you have a reason not to.
 
 Each package owns its own `alchemy.run.ts`. The frontend reads
 the backend's deployed outputs through a **cross-stack
-reference** (`yield* Backend`), resolved at plan time against the
+reference** (`yield* Backend`), resolved during Construct against the
 state store. Each package can deploy and destroy independently.
 
 You pay for that with two extra moving parts:

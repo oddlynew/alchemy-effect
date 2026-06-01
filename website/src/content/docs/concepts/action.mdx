@@ -120,7 +120,7 @@ differs means "run".
 alchemy deploy --force
 ```
 
-`--force` flips every `skip` to `run` at plan time, including actions.
+`--force` flips every `skip` to `run` during Construct, including actions.
 
 ### Dependencies
 
@@ -131,7 +131,7 @@ Actions live in the same FQN namespace as Resources. They can:
   waits for the action before reconciling)
 - Reference other Actions
 
-Cycles are rejected at plan time just like resource cycles.
+Cycles are rejected during Construct just like resource cycles.
 
 ## What Actions are not
 

@@ -93,12 +93,12 @@ export interface Topic extends Resource<
  * ```
  *
  * @section Runtime Publishing
- * Bind publish operations in the init phase and use them in runtime
+ * Bind publish operations in the construct phase and use them in runtime
  * handlers.
  *
  * @example Publish from a handler
  * ```typescript
- * // init
+ * // construct
  * const publish = yield* SNS.Publish.bind(topic);
  *
  * return {
@@ -120,7 +120,7 @@ export interface Topic extends Resource<
  *
  * @example Process topic notifications
  * ```typescript
- * // init
+ * // construct
  * yield* SNS.notifications(topic).subscribe((stream) =>
  *   stream.pipe(
  *     Stream.runForEach((message) =>

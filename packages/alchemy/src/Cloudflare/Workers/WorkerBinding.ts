@@ -79,8 +79,8 @@ export const bindWorker = Effect.fnUntraced(function* <Shape, Req = never>(
     ],
   });
 
-  // `bindWorker` runs at *init* phase (both at plantime and at runtime
-  // cold-start). `WorkerEnvironment` only exists at exec phase on the
+  // `bindWorker` runs during the *Construct* phase (both locally and at
+  // cloud cold-start). `WorkerEnvironment` only exists at *Runtime* on the
   // deployed worker, so we hand `makeRpcStub` an `Effect<stub>` that
   // resolves the binding lazily on each method call.
   const stubEff = WorkerEnvironment.pipe(

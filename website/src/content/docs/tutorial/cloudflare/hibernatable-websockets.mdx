@@ -12,7 +12,7 @@ messages between peers, and **survives hibernation**.
 
 Cloudflare can evict an idle Durable Object from memory while
 keeping its WebSocket connections open. When a message arrives the
-DO is reconstructed from scratch, your init Effect runs again, and
+DO is reconstructed from scratch, your Construct Effect runs again, and
 your `webSocketMessage` handler is invoked. Any per-instance state
 you held in JavaScript variables is gone — you have to put it back.
 
@@ -155,7 +155,7 @@ the DO is reconstructed: the inner `Effect.gen` runs again, and
 your `sessions` map starts empty — but the open sockets are still
 there.
 
-Rehydrate the map at the top of the inner init by reading every
+Rehydrate the map at the top of the inner Effect by reading every
 attached socket back from the runtime:
 
 ```diff lang="typescript"

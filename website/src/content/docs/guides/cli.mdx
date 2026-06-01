@@ -137,7 +137,7 @@ yield* deploy(
 ).pipe(adopt(true));
 ```
 
-`AdoptPolicy` is consulted at plan time, so the combinator must
+`AdoptPolicy` is consulted during Construct, so the combinator must
 wrap the *deploy* (or test runner's `stack.deploy(...)`) — not the
 inner resource-declaration effect.
 

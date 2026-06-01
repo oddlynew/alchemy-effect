@@ -33,7 +33,7 @@ the SDK.
 Bindings work in both handler styles a Platform supports. Pick
 whichever your Worker / Lambda is using.
 
-**Effect style** — `bind()` inside the init Effect, returns a typed
+**Effect style** — `bind()` inside the Construct phase, returns a typed
 handle:
 
 ```typescript
@@ -220,12 +220,12 @@ depends on the [phase](/concepts/phases):
   Worker bindings, and env vars. This is **not** included in the
   runtime bundle.
 
-At plantime the Policy layer is provided, so `bind()` records what
+At Construct the Policy layer is provided, so `bind()` records what
 the function needs. At runtime the Policy layer is absent, so the
 same call resolves to just the lightweight Service wrapper. The
 runtime bundle stays small because none of the planning code ships.
 
-See [Plantime and Runtime › `Binding.Service` vs
+See [Construct and Runtime › `Binding.Service` vs
 `Binding.Policy`](/concepts/phases#bindingservice-vs-bindingpolicy)
 for a deeper look.
 

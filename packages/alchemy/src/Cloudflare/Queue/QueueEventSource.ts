@@ -121,7 +121,7 @@ export const messages = <Body = unknown>(
 // machinery provides bindings and `WorkerEnvironment` when the
 // dispatch fires — so the requirement is satisfied at handler
 // invocation, NOT at subscribe time. We drop `Req` from the return
-// to keep init effects clean (mirrors `AWS.SQS.QueueEventSourceService`).
+// to keep construct effects clean (mirrors `AWS.SQS.QueueEventSourceService`).
 export type QueueEventSourceService = <Body = unknown, Req = never>(
   queue: Queue,
   props: MessagesProps,
@@ -154,7 +154,7 @@ export class QueueEventSourcePolicy extends Binding.Policy<
 export const QueueEventSourcePolicyLive = QueueEventSourcePolicy.layer.succeed(
   // Cast: yielding `QueueConsumer(...)` requires the Cloudflare
   // `Providers` services, which the deploy-time stack provides
-  // when this policy runs (the worker's init scope inherits the
+  // when this policy runs (the worker's Construct scope inherits the
   // stack's services). `Binding.Policy.layer.succeed` types the
   // body as `Effect<void, never, never>` to keep most policies
   // simple; we step around that constraint here because we
@@ -188,7 +188,7 @@ export const QueueEventSourcePolicyLive = QueueEventSourcePolicy.layer.succeed(
 
 /**
  * Runtime layer for {@link messages}. Wires each
- * `messages(queue).subscribe(...)` call in the Worker init phase to
+ * `messages(queue).subscribe(...)` call in the Worker construct phase to
  * a `queue` event listener on the runtime context, and asks the
  * deploy-time policy ({@link QueueEventSourcePolicy}, provided in
  * `Cloudflare.providers()`) to yield the matching
@@ -217,7 +217,7 @@ export const QueueEventSourceLive = Layer.effect(
       // Resolve the runtime context per-call rather than at layer
       // construction. Capturing it on the layer would leak the
       // requirement past `PlatformServices` exclusion when the
-      // Worker typechecks its init effect.
+      // Worker typechecks its construct effect.
       const ctx = (yield* RuntimeContext) as unknown as FunctionContext;
       // Capture the queue-name accessor once; the listener body
       // re-resolves it per event via `yield* QueueName`. A worker

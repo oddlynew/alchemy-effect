@@ -205,7 +205,7 @@ export const decodeRpcResult = (
  * stub is already resolved; everything else is treated as an RPC method
  * whose dispatch is deferred until call time, so the user effect runs in
  * the right runtime layer (which is what `bindWorker` actually wants —
- * its methods are called at exec, even though it's *defined* at init).
+ * its methods are called at runtime, even though it's *defined* during Construct).
  */
 export const makeRpcStub = <Shape>(
   stubSource: unknown | Effect.Effect<unknown, never, never>,

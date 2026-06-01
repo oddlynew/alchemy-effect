@@ -130,13 +130,13 @@ export const Traces = Axiom.Dataset(
 );
 ```
 
-The function runs once at plan time, after the stage is resolved.
+The function runs once during Construct, after the stage is resolved.
 Use it anywhere a resource accepts a `props` object.
 
 ## Cross-stack references
 
 A typed `Alchemy.Stack` handle lets one stack read another's
-persisted outputs at plan time:
+persisted outputs during Construct:
 
 ```typescript
 // backend/src/Stack.ts — typed handle shared across packages

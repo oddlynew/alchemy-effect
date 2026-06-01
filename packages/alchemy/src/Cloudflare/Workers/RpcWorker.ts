@@ -90,7 +90,7 @@ export interface RpcWorkerClass extends Effect.Effect<
    * Yielding the class in a Stack returns the {@link Worker} resource
    * (so `worker.url`, `worker.workerName`, etc. work as usual). To get
    * a typed `RpcClient` for *this* worker's rpc group from inside
-   * another worker's init, call {@link RpcWorker.bind}.
+   * another worker's Construct phase, call {@link RpcWorker.bind}.
    */
   <Self, Deps = never>(): {
     /**
@@ -135,7 +135,7 @@ export interface RpcWorkerClass extends Effect.Effect<
    * worker's declared rpc {@link RpcGroup.RpcGroup} schema. Mirrors
    * `Cloudflare.R2Bucket.bind(MyBucket)` and friends.
    *
-   * Yield once at **init** — the result is a normal `RpcClient` you
+   * Yield once during **Construct** — the result is a normal `RpcClient` you
    * can call directly from any per-request handler. Internally each
    * method invocation builds a fresh underlying `RpcClient` (through
    * a Proxy) because Cloudflare rejects I/O objects created on a
@@ -146,7 +146,7 @@ export interface RpcWorkerClass extends Effect.Effect<
    *
    * @example
    * ```ts
-   * // INIT: register the binding once and get the typed client
+   * // CONSTRUCT: register the binding once and get the typed client
    * const tasks = yield* Cloudflare.RpcWorker.bind(TaskWorker);
    *
    * // PER-REQUEST: call methods directly
@@ -182,7 +182,7 @@ const bind = <Self, Rpcs extends Rpc.Any>(
       );
     }
     const worker = (yield* workerEff) as Worker;
-    // Register the service binding on the surrounding worker at INIT.
+    // Register the service binding on the surrounding worker during Construct.
     // Mirrors `Cloudflare.bindWorker` — yielding the class is *not*
     // enough; we need an explicit `self.bind\`${worker}\`(...)` so
     // workerd surfaces the stub on `env` at request time.
@@ -263,7 +263,7 @@ const bind = <Self, Rpcs extends Rpc.Any>(
  * `RpcWorker` is a thin sugar over {@link Worker} for the common case
  * where a worker's entire `fetch` surface is a typed Effect `RpcGroup`.
  * It takes the rpc `schema` directly in props alongside `main`, and
- * accepts an init Effect that returns the already-piped
+ * accepts a construct Effect that returns the already-piped
  * `RpcServer.toHttpEffect(...)`-producing Effect (no `{ fetch }`
  * wrapper) — the wrapper plugs it into the worker's `fetch` for you.
  *
@@ -303,7 +303,7 @@ const bind = <Self, Rpcs extends Rpc.Any>(
  * @section Implementing the worker
  * @example Class form (recommended)
  * Mirrors `Cloudflare.Worker<Self>()(...)` — `class X extends ...`
- * works the same. The init Effect builds a handlers `Layer` from the
+ * works the same. The construct Effect builds a handlers `Layer` from the
  * group and returns the `RpcServer.toHttpEffect(schema)`-piped Effect
  * directly.
  * ```typescript
@@ -385,7 +385,7 @@ const bind = <Self, Rpcs extends Rpc.Any>(
  *
  * @section Binding it from another worker
  * @example `Cloudflare.RpcWorker.bind(WorkerClass)`
- * Inside another worker's init, `RpcWorker.bind(WorkerClass)`
+ * Inside another worker's Construct phase, `RpcWorker.bind(WorkerClass)`
  * registers the service binding on the surrounding worker and returns
  * a typed `RpcClient` you can call directly from any per-request
  * handler. Internally each method invocation builds a fresh underlying
@@ -399,7 +399,7 @@ const bind = <Self, Rpcs extends Rpc.Any>(
  *   "Caller",
  *   { main: import.meta.filename, schema: CallerRpcs },
  *   Effect.gen(function* () {
- *     // INIT: register binding, get the typed client
+ *     // CONSTRUCT: register binding, get the typed client
  *     const tasks = yield* Cloudflare.RpcWorker.bind(TaskWorker);
  *
  *     const handlers = CallerRpcs.toLayer({
@@ -461,7 +461,7 @@ const bind = <Self, Rpcs extends Rpc.Any>(
  * ```
  *
  * @section Yielding the surrounding worker from inside the impl
- * @example `yield* RpcWorker` inside the init effect
+ * @example `yield* RpcWorker` inside the construct effect
  * Mirrors `yield* DurableObjectNamespace` — yield the tag to access
  * the surrounding worker.
  * ```typescript

@@ -146,7 +146,7 @@ WorkerA's bundle actually contains the DO class:
 +);
 ```
 
-`yield* Counter` inside WorkerA's init binds the DO _locally_ —
+`yield* Counter` inside WorkerA's Construct phase binds the DO _locally_ —
 WorkerA's `env.Counter` is wired up at deploy time and the class
 ships in the bundle.
 

@@ -420,7 +420,7 @@ export class GetItem extends Binding.Service<
 
 Rules:
 
-- **Outer Effect** (the `bind(resource)` setup) runs at the Function's init phase. It does NOT require `RuntimeContext`.
+- **Outer Effect** (the `bind(resource)` setup) runs during the Function's Construct phase. It does NOT require `RuntimeContext`.
 - **Inner Effect** (the actual SDK invocation) only makes sense inside a running Function. It MUST require `RuntimeContext`.
 - Resolve cloud-environment services (`WorkerEnvironment`, AWS SDK clients, etc.) once during Layer construction and close over them. Do NOT leak `WorkerEnvironment` / `Lambda.FunctionEnvironment` onto the runtime callable — that couples downstream service code to a specific cloud and breaks Layer encapsulation. The Function/Worker runtime satisfies `RuntimeContext` automatically.
 - The implementation can return `Effect.Effect<A, E>` without explicitly providing `RuntimeContext` (it's contravariant in `R`); just declare it on the interface.

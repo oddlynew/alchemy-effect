@@ -134,7 +134,7 @@ Replace the TODO bodies with calls to the typed client:
 ## Scaffold the Worker
 
 Start with a minimal Worker that responds to every request with a
-placeholder. Init and runtime closures are both empty.
+placeholder. Construct and runtime closures are both empty.
 
 ```typescript
 // src/Api.ts
@@ -157,7 +157,7 @@ export default Cloudflare.Worker(
 
 ## Resolve the service
 
-Yield `JobService` in the init closure to get a typed handle, then
+Yield `JobService` in the Construct closure to get a typed handle, then
 call it from `fetch`:
 
 ```diff lang="typescript"
@@ -317,6 +317,6 @@ to talk to it.
 
 - [Layers](/concepts/layers) — the concept behind this guide
 - [Binding](/concepts/binding) — what `.bind(...)` does under the hood
-- [Phases](/concepts/phases) — when init vs runtime code runs
+- [Phases](/concepts/phases) — when Construct vs Runtime code runs
 - [Circular Bindings](/guides/circular-bindings) — two Layers
   referencing each other

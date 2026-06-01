@@ -262,7 +262,7 @@ export interface WorkerProps<
    *   `secret_text`, `string` → `plain_text`, anything else → `json`.
    *
    * In Effect-native Workers you can alternatively `yield*` a
-   * `Config` in the Init phase to register the binding implicitly;
+   * `Config` in the Construct phase to register the binding implicitly;
    * `env` is the only option for async (non-Effect) Workers.
    */
   env?: Bindings;
@@ -426,7 +426,7 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  *   "MyWorker",
  *   { main: import.meta.filename },
  *   Effect.gen(function* () {
- *     // init: bind resources
+ *     // construct: bind resources
  *     const kv = yield* Cloudflare.KVNamespace.bind(MyKV);
  *
  *     return {
@@ -464,7 +464,7 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  *
  * export default WorkerB.make(
  *   Effect.gen(function* () {
- *     // init: bind resources
+ *     // construct: bind resources
  *     const kv = yield* Cloudflare.KVNamespace.bind(MyKV);
  *
  *     return {
@@ -554,13 +554,13 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  * ```
  *
  * @section R2 Bucket
- * Bind an R2 bucket in the init phase with `Cloudflare.R2Bucket.bind`.
+ * Bind an R2 bucket in the construct phase with `Cloudflare.R2Bucket.bind`.
  * The returned handle exposes `get`, `put`, `delete`, and `list`
  * methods you can call in your runtime handlers.
  *
  * @example Binding and using R2
  * ```typescript
- * // init
+ * // construct
  * const bucket = yield* Cloudflare.R2Bucket.bind(MyBucket);
  *
  * return {
@@ -588,7 +588,7 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  *
  * @example Binding and using KV
  * ```typescript
- * // init
+ * // construct
  * const kv = yield* Cloudflare.KVNamespace.bind(MyKV);
  *
  * return {
@@ -606,7 +606,7 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  *
  * @example Binding and querying D1
  * ```typescript
- * // init
+ * // construct
  * const db = yield* Cloudflare.D1Connection.bind(MyDB);
  *
  * return {
@@ -621,13 +621,13 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  * ```
  *
  * @section Durable Objects
- * Yield a `DurableObjectNamespace` class in the init phase to get a
+ * Yield a `DurableObjectNamespace` class in the construct phase to get a
  * namespace handle. Call `getByName` or `getById` to get a typed RPC
  * stub, then call its methods from your runtime handlers.
  *
  * @example Using a Durable Object
  * ```typescript
- * // init
+ * // construct
  * const counters = yield* Counter;
  *
  * return {
@@ -647,7 +647,7 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  *
  * @example Binding and starting a Container
  * ```typescript
- * // init (inside a DurableObjectNamespace)
+ * // construct (inside a DurableObjectNamespace)
  * const sandbox = yield* Cloudflare.Container.bind(Sandbox);
  *
  * return Effect.gen(function* () {
@@ -671,7 +671,7 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
  *
  * @example Loading a dynamic Worker
  * ```typescript
- * // init
+ * // construct
  * const loader = yield* Cloudflare.DynamicWorkerLoader("Loader");
  *
  * return {

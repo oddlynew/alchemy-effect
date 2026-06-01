@@ -55,7 +55,7 @@ export type Queue = Resource<
  *
  * @section Binding to a Worker
  * In an Effect-style Worker, use `Cloudflare.QueueBinding.bind` in
- * the init phase and provide `Cloudflare.QueueBindingLive` in the
+ * the construct phase and provide `Cloudflare.QueueBindingLive` in the
  * runtime layer. The returned `QueueSender` exposes `send` and
  * `sendBatch`.
  *

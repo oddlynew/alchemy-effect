@@ -372,8 +372,8 @@ export const Platform = <
                             path.map((p) => p.toString()).join("_"),
                           );
                           const node = yield* configProvider.get(path);
-                          if (phase === "plan" && node) {
-                            // bind it to the RuntimeContext if running in plan phase
+                          if (phase === "construct" && node) {
+                            // bind it to the RuntimeContext if running in construct phase
                             const output = Output.literal(node.value);
                             yield* ctx?.set(key, output) ?? Effect.void;
                             return node;
@@ -398,12 +398,12 @@ export const Platform = <
                         Layer.succeed(resource.Self, instance),
                         Layer.succeed(Platform.Self, instance),
                         Layer.succeed(Self, instance),
-                        runtimeContext.planServices
+                        runtimeContext.constructServices
                           ? Layer.unwrap(
                               ALCHEMY_PHASE.pipe(
                                 Effect.map((phase) =>
-                                  phase === "plan"
-                                    ? runtimeContext.planServices!
+                                  phase === "construct"
+                                    ? runtimeContext.constructServices!
                                     : Layer.empty,
                                 ),
                               ),

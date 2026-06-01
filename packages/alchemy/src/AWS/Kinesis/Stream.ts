@@ -200,12 +200,12 @@ export interface Stream extends Resource<
  * ```
  *
  * @section Runtime Producers
- * Bind producer operations in the init phase and use them in runtime
+ * Bind producer operations in the construct phase and use them in runtime
  * handlers.
  *
  * @example Put a record from a handler
  * ```typescript
- * // init
+ * // construct
  * const putRecord = yield* Kinesis.PutRecord.bind(stream);
  *
  * return {
@@ -226,7 +226,7 @@ export interface Stream extends Resource<
  *
  * @example Process stream records
  * ```typescript
- * // init
+ * // construct
  * yield* Kinesis.records(stream).process(
  *   Effect.fn(function* (record) {
  *     const data = new TextDecoder().decode(record.data);

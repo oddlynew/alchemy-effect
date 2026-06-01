@@ -23,7 +23,7 @@ through:
 
 ```typescript
 Effect.gen(function* () {
-  // Phase 1: init — runs at deploy and once per workflow instance.
+  // Phase 1: construct — runs at deploy and once per workflow instance.
   const room = yield* Room;
 
   return Effect.fn(function* (input: { orderId: string }) {
@@ -65,7 +65,7 @@ export default class NotifyWorkflow extends Cloudflare.Workflow<NotifyWorkflow>(
 ) {}
 ```
 
-The outer init resolves shared dependencies — here, the `Room` DO
+The Construct phase resolves shared dependencies — here, the `Room` DO
 namespace from the previous tutorial so we can broadcast back to
 it. The inner `Effect.fn` is the workflow body that the Cloudflare
 runtime executes task by task.
@@ -89,7 +89,7 @@ something binds to it.
 ## Bind KV to the workflow
 
 `Cloudflare.KVNamespace.bind(KV)` belongs in the workflow's outer
-init phase. It registers the binding on the workflow's worker and
+construct phase. It registers the binding on the workflow's worker and
 returns a typed Effect-native client whose methods (`get`, `put`,
 `list`, `delete`) are Effects you can `yield*` directly:
 
@@ -114,7 +114,7 @@ export default class NotifyWorkflow extends Cloudflare.Workflow<NotifyWorkflow>(
 ) {}
 ```
 
-Yielding the binding in the outer init is a one-time setup — the
+Yielding the binding in the Construct phase is a one-time setup — the
 inner workflow body closes over `kv` and uses it on every run.
 
 ## Add a task
@@ -271,7 +271,7 @@ sleep → broadcast → return — is durable end to end.
 
 Most real workflows need credentials — an upstream API key, a
 signing token, etc. `Alchemy.Secret` registers a `secret_text`
-binding on the workflow at plantime and hands back an accessor
+binding on the workflow during Construct and hands back an accessor
 for use inside steps:
 
 ```diff lang="typescript"
@@ -288,7 +288,7 @@ for use inside steps:
 ```
 
 `Alchemy.Secret("API_KEY")` reads `API_KEY` from the active
-`Config` provider (env vars, `.env`, …) at plantime and binds it
+`Config` provider (env vars, `.env`, …) during Construct and binds it
 into the workflow as `secret_text`. Set it in your local `.env`:
 
 ```sh
@@ -301,7 +301,7 @@ input shapes (literals, `Effect`, `Config`, …).
 
 ## Use the secret in a task
 
-The accessor returned in init is yielded inside the Runtime phase to resolve a
+The accessor returned during Construct is yielded inside the Runtime phase to resolve a
 `Redacted<string>`. Unwrap with `Redacted.value` only at the call
 site that needs it (here, an `Authorization` header):
 
@@ -358,7 +358,7 @@ elsewhere the value stays redacted.
 ## Trigger from the Worker
 
 A Workflow becomes a typed handle when you `yield*` it in the
-Worker's init phase. Use `create()` to start an instance and
+Worker's construct phase. Use `create()` to start an instance and
 `get(id).status()` to poll it:
 
 ```diff lang="typescript"

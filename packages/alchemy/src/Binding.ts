@@ -143,9 +143,9 @@ export const Policy =
           ? Effect.succeed(service)
           : Effect.all([CurrentStack, ALCHEMY_PHASE]).pipe(
               Effect.flatMap(([stack, phase]) =>
-                stack && phase === "plan"
+                stack && phase === "construct"
                   ? Effect.die(
-                      `Binding.Policy provider 'Policy<${Identifier}>' was not provided at Plan Time in Stack '${stack.name}'`,
+                      `Binding.Policy provider 'Policy<${Identifier}>' was not provided during the Construct phase in Stack '${stack.name}'`,
                     )
                   : Effect.succeed((() => Effect.void) as any as Shape),
               ),

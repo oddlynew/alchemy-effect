@@ -54,8 +54,8 @@ export interface StripeProductAttributes {
 
 A `Resource<Type, Props, Attributes>` is a phantom type that ties a
 string `Type` to its props and attributes. The string `Type` (here
-`"Stripe.Product"`) is what Alchemy uses to look up the provider at
-plan time — it must be globally unique.
+`"Stripe.Product"`) is what Alchemy uses to look up the provider during
+Construct — it must be globally unique.
 
 ```diff lang="typescript"
 // src/stripe/Product.ts
@@ -358,7 +358,7 @@ products the `name` is mutable but (hypothetically) the
 product. Implement `diff` to tell Alchemy which kind of change to
 plan.
 
-`diff` runs at **plan time**, before `update`, and returns one of:
+`diff` runs during the **Construct** phase, before `update`, and returns one of:
 
 - `{ action: "noop" }` — change is trivial, skip `update`
 - `{ action: "update", stables?: [...] }` — apply in place

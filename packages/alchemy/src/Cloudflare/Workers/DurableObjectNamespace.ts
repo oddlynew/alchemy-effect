@@ -239,7 +239,7 @@ export class DurableObjectNamespaceScope extends Context.Service<
  * export default class Counter extends Cloudflare.DurableObjectNamespace<Counter>()(
  *   "Counter",
  *   Effect.gen(function* () {
- *     // init: bind resources
+ *     // construct: bind resources
  *     const db = yield* Cloudflare.D1Connection.bind(MyDB);
  *
  *     return Effect.gen(function* () {
@@ -281,7 +281,7 @@ export class DurableObjectNamespaceScope extends Context.Service<
  *
  * export default Counter.make(
  *   Effect.gen(function* () {
- *     // init: bind resources
+ *     // construct: bind resources
  *     const db = yield* Cloudflare.D1Connection.bind(MyDB);
  *
  *     return Effect.gen(function* () {
@@ -309,7 +309,7 @@ export class DurableObjectNamespaceScope extends Context.Service<
  * // imports Counter; bundler tree-shakes .make()
  * import Counter from "./Counter.ts";
  *
- * // init
+ * // construct
  * const counters = yield* Counter;
  *
  * return {
@@ -607,13 +607,13 @@ export class DurableObjectNamespaceScope extends Context.Service<
  * ```
  *
  * @section Using from a Worker
- * Yield the DO class in your Worker's init phase to get a namespace
+ * Yield the DO class in your Worker's construct phase to get a namespace
  * handle. Call `getByName` or `getById` to get a typed stub, then
  * call any RPC method or forward an HTTP request with `fetch`.
  *
  * @example Calling RPC methods
  * ```typescript
- * // init
+ * // construct
  * const counters = yield* Counter;
  *
  * return {
@@ -628,7 +628,7 @@ export class DurableObjectNamespaceScope extends Context.Service<
  *
  * @example Forwarding an HTTP request
  * ```typescript
- * // init
+ * // construct
  * const rooms = yield* Room;
  *
  * return {
@@ -788,8 +788,8 @@ export const DurableObjectNamespace: DurableObjectNamespaceClass =
             ALCHEMY_PHASE,
           ]).pipe(
             Effect.flatMap(([env, phase]) => {
-              if (env === undefined || phase === "plan") {
-                // should be fine to return undefined here (it is only undefined at plantime)
+              if (env === undefined || phase === "construct") {
+                // should be fine to return undefined here (it is only undefined during the Construct phase)
                 return Effect.succeed(undefined);
               }
               const ns = env[namespace];

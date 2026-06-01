@@ -6,14 +6,14 @@ import { KV } from "./KV.ts";
 
 /**
  * Hard-coded value the integ test asserts on to prove the secret was
- * bound at plantime and read at runtime through the `Redacted` accessor.
+ * bound during Construct and read at runtime through the `Redacted` accessor.
  */
 export const WORKFLOW_SECRET_VALUE = "wf-secret-abc123";
 
 export default class NotifyWorkflow extends Cloudflare.Workflow<NotifyWorkflow>()(
   "Notifier",
   Effect.gen(function* () {
-    // Bind a `secret_text` on the workflow at plantime. Using a literal
+    // Bind a `secret_text` on the workflow during Construct. Using a literal
     // (instead of `Config.redacted("WORKFLOW_SECRET")`) keeps the integ
     // test self-contained — no `.env` setup required.
     const secret = yield* Config.redacted("WORKFLOW_SECRET").pipe(

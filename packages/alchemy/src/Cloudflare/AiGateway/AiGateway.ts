@@ -268,8 +268,8 @@ export const isAiGateway = (value: unknown): value is AiGateway =>
  * @section Binding into a Worker
  * @example Bind the gateway and provide the runtime layer
  * `AiGateway.bind(gateway)` returns a typed, Effect-native client during the
- * Worker's Init phase. Provide `Cloudflare.AiGatewayBindingLive` once at the
- * bottom of the Init layer chain so every `bind(...)` resolves at runtime.
+ * Worker's Construct phase. Provide `Cloudflare.AiGatewayBindingLive` once at the
+ * bottom of the Construct layer chain so every `bind(...)` resolves at runtime.
  * ```typescript
  * import * as Cloudflare from "alchemy/Cloudflare";
  * import * as Effect from "effect/Effect";
@@ -295,7 +295,7 @@ export const isAiGateway = (value: unknown): value is AiGateway =>
  * Call `aiGateway.model({...})` with a Workers AI model id. It returns a
  * `Layer<LanguageModel, never, RuntimeContext>` directly — no API key and no
  * `Layer.unwrap`, since the binding handles auth and the gateway URL. Build it
- * in the Init phase; construction is pure.
+ * in the Construct phase; construction is pure.
  * ```typescript
  * const aiGateway = yield* Cloudflare.AiGateway.bind(Gateway);
  *

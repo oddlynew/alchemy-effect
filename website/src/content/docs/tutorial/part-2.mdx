@@ -41,7 +41,7 @@ export default Cloudflare.Worker(
 
 :::note
 Notice the "Effect returning an Effect" pattern. The outer generator
-is the **Init phase** — it runs at both plan time and runtime. The
+is the **Construct phase** — it runs both locally and at runtime cold start. The
 inner `fetch` generator is the **Runtime phase** — it runs only when
 handling a request.
 :::
@@ -96,7 +96,7 @@ descriptions — they don't execute until you `yield*` them inside a
 Stack. You can safely import them from multiple files.
 :::
 
-Now the Worker can import `Bucket` and bind it in the Init phase:
+Now the Worker can import `Bucket` and bind it in the Construct phase:
 
 ```typescript twoslash errorReplace='.*::Type 'R2BucketBinding' is not assignable to type 'WorkerServices | PlatformServices'.'
 // src/worker.ts

@@ -16,7 +16,7 @@ caller.
 
 A Durable Object is a globally-unique stateful instance addressed
 by name (or by id). Like Workers, it has two `Effect.gen` blocks:
-the outer one runs at init time, and the inner one runs every time
+the outer one runs during Construct, and the inner one runs every time
 a new instance starts up and returns the public API.
 
 Create `src/counter.ts` with the smallest possible DO — empty
@@ -30,7 +30,7 @@ import * as Effect from "effect/Effect";
 export default class Counter extends Cloudflare.DurableObjectNamespace<Counter>()(
   "Counter",
   Effect.gen(function* () {
-    // Outer (init): runs once when the DO class is bound to a
+    // Outer (construct): runs once when the DO class is bound to a
     // Worker. Resolve shared dependencies here.
     return Effect.gen(function* () {
       // Inner (per-instance): runs every time a new DO instance is
@@ -50,7 +50,7 @@ ceremony — the rest of your DO code looks completely normal.
 ## Persist the count
 
 Each DO instance has its own key/value storage, backed by SQLite.
-Pull the current count out of storage in the inner init so it
+Pull the current count out of storage in the inner Effect so it
 survives restarts and hibernation:
 
 ```diff lang="typescript"
@@ -94,7 +94,7 @@ fully type-checked through the Cloudflare RPC machinery.
 
 ## Bind the DO to the Worker
 
-Yield the `Counter` class in your Worker's init phase to get a
+Yield the `Counter` class in your Worker's construct phase to get a
 namespace handle:
 
 ```diff lang="typescript"
@@ -119,7 +119,7 @@ export default Cloudflare.Worker(
 );
 ```
 
-`yield* Counter` in init registers the DO with the Worker
+`yield* Counter` during Construct registers the DO with the Worker
 (binding + class-migration metadata) and hands you the namespace.
 
 ## Call the DO from `fetch`

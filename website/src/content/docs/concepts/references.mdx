@@ -1,6 +1,6 @@
 ---
 title: References
-description: Read values out of another stack or stage at plan time — typed, lazy, and resolved from persisted state.
+description: Read values out of another stack or stage during Construct — typed, lazy, and resolved from persisted state.
 sidebar:
   order: 3
 ---
@@ -13,7 +13,7 @@ without re-running prod's plan.
 
 A **reference** points at something **already deployed**
 somewhere else — a different stage, a different stack, or both —
-and resolves to that thing's live attributes at plan time by
+and resolves to that thing's live attributes during Construct by
 reading the persisted [state store](/concepts/state-store).
 
 References are lazy. They don't hit any cloud API at declaration
@@ -145,7 +145,7 @@ Every reference — resource or stack — carries a
 | `stage` | The current stage |
 | `id` | required for resource refs; equals the stack name for stack refs |
 
-At plan time Alchemy:
+During Construct Alchemy:
 
 1. Reads the upstream's persisted state under that triple
    (`state.get` for resource refs, `state.getOutput` for stack

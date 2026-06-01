@@ -254,7 +254,7 @@ export class WorkflowScope extends Context.Service<
  *
  * @example Accessing env bindings inside a task
  * Bind a resource (e.g. `KVNamespace`, `R2Bucket`) in the workflow's
- * outer init phase to get a typed Effect-native client, then use it
+ * outer construct phase to get a typed Effect-native client, then use it
  * directly inside `task`. `task` threads the binding's service
  * requirement (`WorkerEnvironment`) through automatically so the inner
  * Effect needs no extra plumbing.
@@ -395,7 +395,7 @@ export const Workflow: WorkflowClass = taggedFunction(WorkflowScope, ((
             ALCHEMY_PHASE,
           ]).pipe(
             Effect.flatMap(([env, phase]) => {
-              if (env === undefined || phase === "plan") {
+              if (env === undefined || phase === "construct") {
                 return Effect.succeed(undefined as any);
               }
               const wf = env[name];

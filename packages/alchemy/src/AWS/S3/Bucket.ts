@@ -111,13 +111,13 @@ export interface Bucket extends Resource<
  * ```
  *
  * @section Runtime Operations
- * Bind S3 operations in the init phase and use them in runtime
+ * Bind S3 operations in the construct phase and use them in runtime
  * handlers. Bindings inject the bucket name and grant scoped IAM
  * permissions automatically.
  *
  * @example Read and write objects
  * ```typescript
- * // init
+ * // construct
  * const getObject = yield* S3.GetObject.bind(bucket);
  * const putObject = yield* S3.PutObject.bind(bucket);
  *
@@ -137,17 +137,17 @@ export interface Bucket extends Resource<
  *
  * @example Delete an object
  * ```typescript
- * // init
+ * // construct
  * const deleteObject = yield* S3.DeleteObject.bind(bucket);
  * ```
  *
  * @section Event Notifications
- * Subscribe to bucket events from the init phase. The subscription
+ * Subscribe to bucket events from the construct phase. The subscription
  * and Lambda invoke permissions are created automatically.
  *
  * @example Process object creation events
  * ```typescript
- * // init
+ * // construct
  * yield* S3.notifications(bucket, {
  *   events: ["s3:ObjectCreated:*"],
  * }).subscribe((stream) =>

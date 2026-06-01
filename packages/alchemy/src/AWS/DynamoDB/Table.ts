@@ -166,13 +166,13 @@ export interface Table extends Resource<
  * ```
  *
  * @section Runtime Operations
- * Bind DynamoDB operations in the init phase and use them in runtime
+ * Bind DynamoDB operations in the construct phase and use them in runtime
  * handlers. Bindings inject the table name and grant scoped IAM
  * permissions automatically.
  *
  * @example Read and write items
  * ```typescript
- * // init
+ * // construct
  * const getItem = yield* DynamoDB.GetItem.bind(table);
  * const putItem = yield* DynamoDB.PutItem.bind(table);
  *
@@ -197,7 +197,7 @@ export interface Table extends Resource<
  *
  * @example Process table changes
  * ```typescript
- * // init
+ * // construct
  * yield* DynamoDB.streams(table, {
  *   StreamViewType: "NEW_AND_OLD_IMAGES",
  * }).process(

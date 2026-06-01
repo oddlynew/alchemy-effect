@@ -149,7 +149,7 @@ No `drizzle-kit generate` step in your CI — the deploy owns it.
 
 `Drizzle.postgres` takes Hyperdrive's connection string and returns a
 typed `EffectPgDatabase` whose pool lives for the lifetime of the
-Worker isolate. Bind it once at init and use it directly inside
+Worker isolate. Bind it once during Construct and use it directly inside
 `fetch` — no per-request `Client` setup, no `Effect.promise(...)`
 wrappers around queries:
 

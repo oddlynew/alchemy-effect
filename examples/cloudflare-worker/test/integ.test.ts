@@ -38,7 +38,7 @@ test(
  *
  * The stack now includes two Workers (`Api` and `SecondaryApi`) that both
  * bind the same `Agent` Durable Object, which in turn binds the `Sandbox`
- * Container. Each `yield* Agent` runs the DO's outer init, calling
+ * Container. Each `yield* Agent` runs the DO's Construct phase, calling
  * `Cloudflare.Container.bind(Sandbox)` once per Worker, so the Sandbox
  * ContainerApplication receives two bindings sharing one `namespaceId`.
  *
@@ -126,7 +126,7 @@ test(
     expect(lastStatus!.status).toBe("complete");
     expect(lastStatus!.error).toBeFalsy();
 
-    // Prove the `Alchemy.Secret(...)` bound at plantime made it all the
+    // Prove the `Alchemy.Secret(...)` bound during Construct made it all the
     // way through to the workflow body's runtime read. The workflow body
     // unwraps `Redacted.value(secret)` and embeds it in the returned
     // `processed` payload.

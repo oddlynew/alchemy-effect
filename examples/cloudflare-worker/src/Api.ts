@@ -355,7 +355,7 @@ export default class Api extends Cloudflare.Worker<Api>()(
         //
         // Producer side: `Cloudflare.QueueBinding`. Consumer side:
         // `Cloudflare.messages(Queue).subscribe(...)` registered in
-        // the init phase (above), with `QueueEventSourceLive` on the
+        // the construct phase (above), with `QueueEventSourceLive` on the
         // worker layer.
         // AI Gateway smoke test — POST /ai with { prompt }.
         //

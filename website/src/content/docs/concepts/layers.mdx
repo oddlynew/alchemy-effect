@@ -20,7 +20,7 @@ the rest.
 ## The encapsulation problem
 
 Say you want a Worker that serves jobs from a KV namespace. The
-straightforward thing is to bind the KV in the Worker's init
+straightforward thing is to bind the KV in the Worker's Construct
 closure and call it from `fetch`:
 
 ```typescript
@@ -186,17 +186,17 @@ type, not by convention.
 
 ## Runtime as a colored function
 
-A Platform program has two [phases](/concepts/phases): the **init**
-closure (outer) runs at both plantime and cold start, and the
+A Platform program has two [phases](/concepts/phases): the **Construct**
+closure (outer) runs both locally and at cold start, and the
 **runtime** closure (inner) runs only inside the deployed handler.
-Bindings live in init; the actual cloud calls live in runtime:
+Bindings live in Construct; the actual cloud calls live in runtime:
 
 ```typescript
 Cloudflare.Worker(
   "Api",
   { main: import.meta.filename },
   Effect.gen(function* () {
-    // ─── Init: declare dependencies ───
+    // ─── Construct: declare dependencies ───
     const kv = yield* Cloudflare.KVNamespaceBinding.bind(MyKV);
 
     return {
@@ -210,15 +210,15 @@ Cloudflare.Worker(
 ```
 
 `Alchemy.RuntimeContext` is the Effect service that exists *only*
-inside the runtime closure. It is not provided at plantime, cold
-start init, or anywhere else. So an Effect like:
+inside the runtime closure. It is not provided during Construct — neither locally nor at cold
+start — or anywhere else. So an Effect like:
 
 ```typescript
 kv.get(...): Effect.Effect<Job | null, KVNamespaceError, Alchemy.RuntimeContext>
 ```
 
 is one the type system *guarantees* can only run in the runtime
-phase. Move that call up into the init closure and the type checker
+phase. Move that call up into the Construct closure and the type checker
 rejects it — `RuntimeContext` is not satisfied there.
 
 You can think of it as a "color" in the sense of
@@ -230,7 +230,7 @@ runtime function getJob(id: string): Job
 
 TypeScript doesn't have keyword-level coloring, so Alchemy encodes
 the color as an Effect requirement. The compiler enforces the
-init/runtime boundary for you.
+construct/runtime boundary for you.
 
 ## What you compose with
 

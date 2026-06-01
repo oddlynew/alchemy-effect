@@ -29,7 +29,7 @@ export default Cloudflare.Worker(
   "Api",
   { main: import.meta.path },
   Effect.gen(function* () {
-    // Init: bind a resource. The binding is the typed SDK.
+    // Construct: bind a resource. The binding is the typed SDK.
     const bucket = yield* Cloudflare.R2Bucket.bind(Bucket);
 
     return {
@@ -183,5 +183,5 @@ Pick whichever fits your team. The Effect style unlocks
 testing; the async style integrates better with existing handler
 code.
 
-For a deeper look at when init code runs vs when exec code runs (and
-why), see [Plantime and Runtime](/concepts/phases).
+For a deeper look at when Construct code runs vs when Runtime code runs (and
+why), see [Construct and Runtime](/concepts/phases).

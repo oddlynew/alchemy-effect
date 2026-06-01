@@ -25,8 +25,8 @@ export interface BaseRuntimeContext {
     options?: { shape?: Record<string, unknown> },
   ): Effect.Effect<void, never, Req>;
   shape?: () => Record<string, unknown>;
-  /** additional services to provide to the plan  */
-  planServices?: Layer.Layer<any>;
+  /** additional services to provide during the Construct phase  */
+  constructServices?: Layer.Layer<any>;
 }
 
 /**
