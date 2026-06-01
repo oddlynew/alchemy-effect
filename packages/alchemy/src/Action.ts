@@ -17,7 +17,7 @@ import { Stack } from "./Stack.ts";
  *   - The body Effect is called when input changes (diff) or `--force` is set.
  *   - There is no replace/precreate/read/delete: removing an Action from the
  *     stack simply drops its persisted state without invoking the body.
- *   - Dependencies pulled in by the init Effect surface as `Req` on the
+ *   - Dependencies pulled in by the constructor Effect surface as `Req` on the
  *     call site, exactly like a Resource's provider services.
  *
  * Actions are recorded on {@link Stack.actions} and produce a single output
@@ -35,7 +35,7 @@ export interface ActionLike<
   readonly Type: Type;
   readonly LogicalId: string;
   readonly Input: In;
-  /** Resolved runner — populated by the init effect (if any). */
+  /** Resolved runner — populated by the constructor effect (if any). */
   readonly Run: (input: In) => Effect.Effect<Out, any, any>;
   /** @internal phantom */
   Output: Out;
@@ -50,14 +50,14 @@ export type ActionRunner<In extends object | undefined, Out, Req = any> = (
 ) => Effect.Effect<Out, any, Req>;
 
 /**
- * Init Effect — declares dependencies via `yield*` and returns the runner.
- * Lets multiple Action definitions share resolved services.
+ * Constructor Effect — declares dependencies via `yield*` and returns the
+ * runner. Lets multiple Action definitions share resolved services.
  */
-export type ActionInit<In extends object | undefined, Out, Req> = Effect.Effect<
-  ActionRunner<In, Out, any>,
-  any,
-  Req
->;
+export type ActionConstructor<
+  In extends object | undefined,
+  Out,
+  Req,
+> = Effect.Effect<ActionRunner<In, Out, any>, any, Req>;
 
 // ── Public API ─────────────────────────────────────────────────────────────
 //
@@ -67,7 +67,7 @@ export type ActionInit<In extends object | undefined, Out, Req> = Effect.Effect<
 //     return { rows: 42 };
 //   }));
 //
-// Init constructor — pulls in dependencies, returns the runner. The init
+// Constructor — pulls in dependencies, returns the runner. The constructor
 // Effect's `Req` channel bubbles up to the call site:
 //
 //   const Sync = Action("Sync", Effect.gen(function* () {
@@ -95,7 +95,9 @@ export function Action<
   Req = never,
 >(
   type: Type,
-  initOrRun: ActionRunner<In, Out, Req> | ActionInit<In, Out, Req>,
+  runnerOrConstructor:
+    | ActionRunner<In, Out, Req>
+    | ActionConstructor<In, Out, Req>,
 ): ActionClass<never, Type, In, Out, Req>;
 
 export function Action<Self, In extends object | undefined, Out>(): <
@@ -109,12 +111,12 @@ export function Action(...args: any[]): any {
     // Tagged form: Action<Self, In, Out>()(type)
     return (type: string) => makeActionClass(type, undefined);
   }
-  // Inline form: Action(type, runnerOrInit)
-  const [type, initOrRun] = args as [
+  // Inline form: Action(type, runnerOrConstructor)
+  const [type, runnerOrConstructor] = args as [
     string,
-    ActionRunner<any, any, any> | ActionInit<any, any, any>,
+    ActionRunner<any, any, any> | ActionConstructor<any, any, any>,
   ];
-  return makeActionClass(type, initOrRun);
+  return makeActionClass(type, runnerOrConstructor);
 }
 
 export interface ActionClass<
@@ -144,13 +146,15 @@ export interface ActionClass<
     input: { [k in keyof In]: Input<In[k]> },
   ): Effect.Effect<Output.ToOutput<Out, never>, never, Req | Stack>;
   /**
-   * Tagged-only: bind an init Effect to this Action's Self tag. Add the
+   * Tagged-only: bind a constructor Effect to this Action's Self tag. Add the
    * returned Layer to the stack's `providers`.
    */
   make: [Self] extends [never]
     ? never
     : <R = never>(
-        init: ActionRunner<In, Out, R> | ActionInit<In, Out, R>,
+        runnerOrConstructor:
+          | ActionRunner<In, Out, R>
+          | ActionConstructor<In, Out, R>,
       ) => Layer.Layer<Self, never, R>;
   /** Tagged-only: the Context tag holding the resolved runner. */
   readonly Self: [Self] extends [never]
@@ -159,17 +163,20 @@ export interface ActionClass<
 }
 
 const isRunnerEffect = (
-  v: ActionRunner<any, any, any> | ActionInit<any, any, any>,
-): v is ActionInit<any, any, any> => Effect.isEffect(v as any);
+  v: ActionRunner<any, any, any> | ActionConstructor<any, any, any>,
+): v is ActionConstructor<any, any, any> => Effect.isEffect(v as any);
 
 const makeActionClass = (
   type: string,
-  baked: ActionRunner<any, any, any> | ActionInit<any, any, any> | undefined,
+  baked:
+    | ActionRunner<any, any, any>
+    | ActionConstructor<any, any, any>
+    | undefined,
 ): any => {
-  // Pre-resolve baked init/runner into a single Effect<Runner, _, Req>. Use
-  // Effect.cached so the init's body runs at most once per process — every
+  // Pre-resolve baked constructor/runner into a single Effect<Runner, _, Req>. Use
+  // Effect.cached so the constructor's body runs at most once per process — every
   // action instance after the first reuses the resolved runner without paying
-  // the init cost (or re-yielding its dependencies).
+  // the constructor cost (or re-yielding its dependencies).
   let resolveRunner:
     | Effect.Effect<ActionRunner<any, any, any>, any, any>
     | undefined;
@@ -201,15 +208,20 @@ const makeActionClass = (
   const extra: Record<string, any> = { Type: type };
   if (SelfTag) {
     extra.Self = SelfTag;
-    // `.make(initOrRun)` — accepts either a direct runner or an init Effect.
-    // For init form we use `Layer.effect` so the init's Req surfaces on the
+    // `.make(runnerOrConstructor)` — accepts either a direct runner or a constructor Effect.
+    // For constructor form we use `Layer.effect` so the constructor's Req surfaces on the
     // Layer; for runners we use `Layer.succeed`.
     extra.make = <R>(
-      initOrRun: ActionRunner<any, any, R> | ActionInit<any, any, R>,
+      runnerOrConstructor:
+        | ActionRunner<any, any, R>
+        | ActionConstructor<any, any, R>,
     ) =>
-      isRunnerEffect(initOrRun)
-        ? Layer.effect(SelfTag, initOrRun as any)
-        : Layer.succeed(SelfTag, initOrRun as ActionRunner<any, any, any>);
+      isRunnerEffect(runnerOrConstructor)
+        ? Layer.effect(SelfTag, runnerOrConstructor as any)
+        : Layer.succeed(
+            SelfTag,
+            runnerOrConstructor as ActionRunner<any, any, any>,
+          );
   }
   return Object.assign(constructor, extra);
 };
