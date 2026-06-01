@@ -3,11 +3,12 @@ import { assert, expect, layer } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as Fiber from "effect/Fiber";
 import * as Layer from "effect/Layer";
-import * as Net from "node:net";
 import * as Internet from "../../src/globals/Internet.ts";
+import * as Port from "../../src/internal/Port.ts";
 import * as WorkerProxy from "../../src/proxy/WorkerProxy.ts";
 import { ConfigError } from "../../src/RuntimeError.shared.ts";
 import * as Workerd from "../../src/workerd/Workerd.ts";
+import { occupyPort } from "../helpers/occupy-port.ts";
 
 const services = WorkerProxy.WorkerProxyLive.pipe(
   Layer.provideMerge(Layer.mergeAll(Workerd.WorkerdLive, Internet.InternetLive)),
@@ -71,30 +72,6 @@ const serveUpstream = (esModule: string) =>
     });
     return new URL(`http://127.0.0.1:${ports.http}`);
   });
-
-/** Binds a server to `port` for the lifetime of the surrounding scope. */
-const occupy = (port: number, host = "127.0.0.1") =>
-  Effect.acquireRelease(
-    Effect.callback<Net.Server>((resume) => {
-      const server = Net.createServer();
-      server.once("error", (err) => resume(Effect.die(err)));
-      server.listen(port, host, () => resume(Effect.succeed(server)));
-    }),
-    (server) =>
-      Effect.callback<void>((resume) => {
-        server.close(() => resume(Effect.void));
-      }),
-  );
-
-/** Picks a currently-free port by binding to `0` and immediately releasing it. */
-const getFreePort = Effect.callback<number>((resume) => {
-  const server = Net.createServer();
-  server.once("error", (err) => resume(Effect.die(err)));
-  server.listen(0, "127.0.0.1", () => {
-    const { port } = server.address() as Net.AddressInfo;
-    server.close(() => resume(Effect.succeed(port)));
-  });
-});
 
 layer(services)((it) => {
   it.effect(
@@ -244,7 +221,7 @@ layer(services)((it) => {
       Effect.gen(function* () {
         const proxy = yield* WorkerProxy.WorkerProxy;
         const upstream = yield* serveUpstream(HTTP_WORKER);
-        const port = yield* getFreePort;
+        const port = yield* Port.find(0);
 
         const instance = yield* proxy.serve({ port });
         expect(instance.url.port).toBe(String(port));
@@ -265,12 +242,11 @@ layer(services)((it) => {
     () =>
       Effect.gen(function* () {
         const proxy = yield* WorkerProxy.WorkerProxy;
-        const blocker = yield* occupy(0);
-        const taken = (blocker.address() as Net.AddressInfo).port;
+        const blocker = yield* occupyPort(0);
 
-        const instance = yield* proxy.serve({ port: taken });
-        expect(Number(instance.url.port)).toBeGreaterThan(taken);
-      }).pipe(Effect.scoped),
+        const instance = yield* proxy.serve({ port: blocker.port });
+        expect(Number(instance.url.port)).toBeGreaterThan(blocker.port);
+      }),
     { timeout: 30_000 },
   );
 
@@ -279,7 +255,7 @@ layer(services)((it) => {
     () =>
       Effect.gen(function* () {
         const proxy = yield* WorkerProxy.WorkerProxy;
-        const port = yield* getFreePort;
+        const port = yield* Port.find(0);
 
         const instance = yield* proxy.serve({ port, strictPort: true });
         expect(instance.url.port).toBe(String(port));
@@ -292,13 +268,13 @@ layer(services)((it) => {
     () =>
       Effect.gen(function* () {
         const proxy = yield* WorkerProxy.WorkerProxy;
-        const blocker = yield* occupy(0);
-        const taken = (blocker.address() as Net.AddressInfo).port;
-
-        const error = yield* proxy.serve({ port: taken, strictPort: true }).pipe(Effect.flip);
+        const blocker = yield* occupyPort(0);
+        const error = yield* proxy
+          .serve({ port: blocker.port, strictPort: true })
+          .pipe(Effect.flip);
         assert(error instanceof ConfigError);
         expect(Workerd.isAddressInUseError(error)).toBe(true);
-      }).pipe(Effect.scoped),
+      }),
     { timeout: 30_000 },
   );
 
@@ -328,7 +304,7 @@ layer(services)((it) => {
     () =>
       Effect.gen(function* () {
         const proxy = yield* WorkerProxy.WorkerProxy;
-        const basePort = yield* getFreePort;
+        const basePort = yield* Port.find(0);
 
         // All instances request the same starting port at once. The non-strict
         // port-selection retry should hand each one a distinct, available port.

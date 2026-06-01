@@ -71,16 +71,8 @@ export const WorkerdLive = Layer.sync(Workerd, () => {
           handle.off("spawn", onSpawn);
           resume(Effect.succeed([handle, kill]));
         };
-        const onStderr = (data: Buffer) => {
-          const lines = data.toString().split("\n");
-          for (const line of lines) {
-            if (line.includes("CODE_MOVED for unknown code block")) continue;
-            console.error(line);
-          }
-        };
         handle.once("error", onError);
         handle.once("spawn", onSpawn);
-        handle.stderr?.on("data", onStderr);
         return Effect.sync(() => {
           handle.kill("SIGKILL");
         });
@@ -165,6 +157,9 @@ export const WorkerdLive = Layer.sync(Workerd, () => {
 
           return Effect.sync(removeListeners);
         });
+        yield* Effect.sync(() => {
+          handle.stderr?.pipe(process.stderr);
+        });
         const ports: WorkerdPorts = {};
         for (const message of controlMessages) {
           if (message.event === "listen") {
@@ -182,7 +177,7 @@ export const WorkerdLive = Layer.sync(Workerd, () => {
   });
 });
 
-const ADDRESS_IN_USE_SUBTAG = "WorkerdAddressInUse" as const;
+const ADDRESS_IN_USE_SUBTAG = "AddressInUse" as const;
 
 /**
  * Workerd writes failures to stderr in a few well-known shapes. This
