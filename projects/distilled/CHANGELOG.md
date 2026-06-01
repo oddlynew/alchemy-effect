@@ -1,3 +1,15 @@
+## v0.22.3
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **cloudflare**:
+  - Treat string enums as open in generated schemas &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/314 [<samp>(56667)</samp>](https://github.com/alchemy-run/distilled/commit/56667ca8)
+  - **zones**: Add typed errors for zone CRUD &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/315 [<samp>(31b06)</samp>](https://github.com/alchemy-run/distilled/commit/31b0639c)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.22.2...HEAD)
+
+---
+
 ## v0.22.2
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
