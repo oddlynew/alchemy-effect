@@ -1,3 +1,4 @@
+import * as AdoptPolicy from "alchemy/AdoptPolicy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import { HttpServerRequest } from "effect/unstable/http/HttpServerRequest";
@@ -68,11 +69,15 @@ export default class Api extends Cloudflare.Worker<Api>()(
     const email = yield* Cloudflare.SendEmail.bind(SendEmail);
     const inboxes = yield* Inbox;
 
+    const zone = yield* Cloudflare.Zone("MyZone", {
+      name: ZONE,
+    }).pipe(AdoptPolicy.adopt());
+
     // Subscribe to inbound mail addressed to INBOX on ZONE. The policy
     // yields a sibling `EmailRouting` + `EmailRule` at deploy time so no
     // hand-rolled routing wiring is needed in `alchemy.run.ts`.
     yield* Cloudflare.email({
-      zone: ZONE,
+      zone,
       matchers: [{ type: "literal", field: "to", value: INBOX }],
     }).subscribe((message) =>
       inboxes.getByName("default").record({
