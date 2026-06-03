@@ -21,6 +21,18 @@ export const Events = Cloudflare.Stream("Events", {
   },
 });
 
+export const Sink = Cloudflare.Sink("Lakehouse", {
+  type: "r2",
+  bucket: Lake,
+  format: { type: "parquet", compression: "zstd" },
+});
+
+export const Ingest = Cloudflare.Pipeline("Ingest", {
+  sql: Cloudflare.pipelineSql`
+    INSERT INTO ${Sink}
+    SELECT user_id, amount FROM ${Events}`,
+});
+
 /**
  * End-to-end test fixture: a Worker that binds the {@link Events} stream
  * via `Cloudflare.Stream.bind(...)`, declares the sink + pipeline siblings
@@ -31,19 +43,7 @@ export default class PipelinesRoundTripWorker extends Cloudflare.Worker<Pipeline
   "PipelinesRoundTripWorker",
   { main: import.meta.filename },
   Effect.gen(function* () {
-    const events = yield* Events;
-    const sink = yield* Cloudflare.Sink("Lakehouse", {
-      type: "r2",
-      bucket: Lake,
-      format: { type: "parquet", compression: "zstd" },
-    });
-    yield* Cloudflare.Pipeline("Ingest", {
-      sql: Cloudflare.pipelineSql`
-        INSERT INTO ${sink}
-        SELECT user_id, amount FROM ${events}`,
-    });
-
-    const send = yield* Cloudflare.Stream.bind(events);
+    const send = yield* Cloudflare.Stream.bind(Events);
 
     return {
       fetch: Effect.gen(function* () {

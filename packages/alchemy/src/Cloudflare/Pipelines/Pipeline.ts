@@ -99,11 +99,22 @@ export const Pipeline = Resource<Pipeline>("Cloudflare.PipelinesPipeline");
 /**
  * Tagged-template helper for building pipeline SQL.
  *
- * Interpolates {@link Stream} and {@link Sink} resources by name, returning
- * an `Input<string>` the engine resolves lazily. The resulting dependency
- * edges guarantee streams and sinks are provisioned before the pipeline.
+ * Interpolates {@link Stream} / {@link Sink} resources (or `Effect`s that
+ * yield them) by name. Effect args are resolved eagerly so call sites can
+ * inline a constructor in the template:
  *
- * @example
+ * ```typescript
+ * Cloudflare.Pipeline("Ingest", {
+ *   sql: Cloudflare.pipelineSql`
+ *     INSERT INTO ${Cloudflare.Sink("Lakehouse", { type: "r2", bucket })}
+ *     SELECT * FROM ${Events}`,
+ * });
+ * ```
+ *
+ * The interpolated names become real dependency edges, so the engine
+ * provisions streams and sinks before the pipeline.
+ *
+ * @example Pre-yielded resources
  * ```typescript
  * const stream = yield* Cloudflare.Stream("Events");
  * const sink = yield* Cloudflare.Sink("Lake", { type: "r2", bucket });
@@ -115,11 +126,25 @@ export const Pipeline = Resource<Pipeline>("Cloudflare.PipelinesPipeline");
  */
 export const pipelineSql = (
   template: TemplateStringsArray,
-  ...args: ReadonlyArray<Stream | Sink | Input<string>>
+  ...args: ReadonlyArray<
+    Stream | Sink | Effect.Effect<Stream | Sink, never, any> | Input<string>
+  >
 ): Input<string> => {
   const resolved = args.map((arg) => {
     if (isStream(arg)) return arg.streamName;
     if (isSink(arg)) return arg.sinkName;
+    // Effects (e.g. an inline `Cloudflare.Sink(...)` call) are lifted into
+    // `Output` so the engine resolves them lazily; we map the result to
+    // `.streamName` / `.sinkName` once the resource materializes. Outputs
+    // are passed straight through — `Output.interpolate` folds them itself.
+    if (Output.isOutput(arg)) return arg;
+    if (Effect.isEffect(arg)) {
+      return Output.asOutput(arg as Effect.Effect<unknown>).pipe(
+        Output.map((v: unknown) =>
+          isStream(v) ? v.streamName : isSink(v) ? v.sinkName : v,
+        ),
+      );
+    }
     return arg;
   });
   return Output.interpolate(template, ...(resolved as any[]));
