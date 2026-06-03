@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.10.4](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.4) (2026-06-03)
+
+### Bug Fixes
+
+- **runtime**: cross-script durable object bindings fail - by @john-royal in [#36](https://github.com/alchemy-run/cloudflare-tools/pull/36) [(d9dfb24)](https://github.com/alchemy-run/cloudflare-tools/commit/d9dfb240e9da3becd9945725036133eb66832fd8)
+
 ## [v0.10.3](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.3) (2026-06-03)
 
 ### Bug Fixes
