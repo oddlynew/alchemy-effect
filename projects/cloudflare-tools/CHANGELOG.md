@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.10.3](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.3) (2026-06-03)
+
+### Bug Fixes
+
+- **runtime**: improve spawner reliability in Bun - by @john-royal in [#35](https://github.com/alchemy-run/cloudflare-tools/pull/35) [(e31fe47)](https://github.com/alchemy-run/cloudflare-tools/commit/e31fe4771fc5d0ea656c72edfaafe74b5bb5843d)
+
 ## [v0.10.2](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.2) (2026-06-01)
 
 ### Bug Fixes
