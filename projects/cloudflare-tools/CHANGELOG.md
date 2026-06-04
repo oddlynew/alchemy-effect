@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.10.7](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.7) (2026-06-04)
+
+### Bug Fixes
+
+- **runtime**: stdout EBADF error in vitest - by @john-royal in [#37](https://github.com/alchemy-run/cloudflare-tools/pull/37) [(a95193e)](https://github.com/alchemy-run/cloudflare-tools/commit/a95193e563800d4cc3407bdd330b476f06a9a7cf)
+- **runtime**: allow multiple loopback bindings with same name - by Jordan Stout in [#38](https://github.com/alchemy-run/cloudflare-tools/pull/38) [(22237ae)](https://github.com/alchemy-run/cloudflare-tools/commit/22237aed5e745988094d207fbb8255f524887492)
+
 ## [v0.10.6](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.6) (2026-06-04)
 
 ### Bug Fixes
