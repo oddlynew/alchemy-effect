@@ -2,7 +2,7 @@
 
 ## [v0.10.5](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.5) (2026-06-04)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.10.4](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.4) (2026-06-03)
 
