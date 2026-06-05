@@ -381,5 +381,8 @@
     "ws": {
       "optional": true
     }
+  },
+  "overrides": {
+    "@distilled.cloud/cloudflare": "catalog:"
   }
 }

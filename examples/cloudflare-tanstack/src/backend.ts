@@ -9,6 +9,7 @@ export default class Backend extends Cloudflare.Worker<Backend>()(
   "Backend",
   {
     main: import.meta.filename,
+    build: { bundleAnalyzer: true },
   },
   Effect.gen(function* () {
     const bucket = yield* Cloudflare.R2Bucket.bind(Bucket);

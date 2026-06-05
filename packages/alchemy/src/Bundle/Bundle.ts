@@ -10,7 +10,6 @@ import {
   bundleAnalyzerPlugin,
   type BundleAnalyzerPluginOptions,
 } from "./BundleAnalyzerPlugin.ts";
-import { purePlugin, type PurePluginOptions } from "./PurePlugin.ts";
 import { rawPlugin } from "./RawPlugin.ts";
 
 /**
@@ -28,7 +27,7 @@ export interface BundleExtraOptions {
    * - `PurePluginOptions`: plugin is enabled with the provided options.
    * - `false`: plugin is disabled.
    */
-  readonly pure?: PurePluginOptions | false;
+  readonly treeshake?: rolldown.TreeshakingOptions | false;
   /**
    * Configures the {@link bundleAnalyzerPlugin} which emits a bundle analysis
    * report alongside the bundle output, describing chunks, modules, and the
@@ -86,6 +85,16 @@ export declare namespace BundleWatchEvent {
   }
 }
 
+const DEFAULT_TREESHAKE: rolldown.TreeshakingOptions = {
+  moduleSideEffects: [
+    { test: /^effect/, sideEffects: false },
+    { test: /^@effect\//, sideEffects: false },
+    { test: /^alchemy/, sideEffects: false },
+    { test: /^@alchemy.run\//, sideEffects: false },
+    { test: /^@distilled\.cloud\//, sideEffects: false },
+  ],
+};
+
 /**
  * Build a bundle using rolldown from the given input options and output options.
  * @param inputOptions - The input options for the bundle.
@@ -102,6 +111,8 @@ export const build = (
       const bundle = await rolldown.rolldown({
         ...inputOptions,
         plugins: [inputOptions.plugins, builtInPlugins(extra)],
+        treeshake:
+          extra?.treeshake ?? inputOptions.treeshake ?? DEFAULT_TREESHAKE,
         optimization: inputOptions.optimization ?? {
           inlineConst: {
             mode: "smart",
@@ -298,7 +309,6 @@ function builtInPlugins(
           extra.bundleAnalyzer === true ? {} : extra.bundleAnalyzer,
         )
       : undefined,
-    extra?.pure !== false ? purePlugin(extra?.pure ?? {}) : undefined,
     rawPlugin(),
   ];
 }
