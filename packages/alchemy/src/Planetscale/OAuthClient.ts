@@ -2,6 +2,7 @@ import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import crypto from "node:crypto";
 import http from "node:http";
+import { AUTH_ERROR_URL, AUTH_SUCCESS_URL } from "../Auth/AuthProvider.ts";
 
 export class OAuthError extends Data.TaggedError("OAuthError")<{
   error: string;
@@ -219,7 +220,7 @@ function callbackPromise(
       const error = url.searchParams.get("error");
       const errorDescription = url.searchParams.get("error_description");
       if (error) {
-        res.writeHead(302, { Location: "https://alchemy.run/auth/error" });
+        res.writeHead(302, { Location: AUTH_ERROR_URL });
         res.end();
         cleanup();
         reject(
@@ -234,7 +235,7 @@ function callbackPromise(
       const code = url.searchParams.get("code");
       const state = url.searchParams.get("state");
       if (!code || !state) {
-        res.writeHead(302, { Location: "https://alchemy.run/auth/error" });
+        res.writeHead(302, { Location: AUTH_ERROR_URL });
         res.end();
         cleanup();
         reject(
@@ -247,7 +248,7 @@ function callbackPromise(
       }
 
       if (state !== authorization.state) {
-        res.writeHead(302, { Location: "https://alchemy.run/auth/error" });
+        res.writeHead(302, { Location: AUTH_ERROR_URL });
         res.end();
         cleanup();
         reject(
@@ -261,14 +262,12 @@ function callbackPromise(
 
       try {
         const credentials = await Effect.runPromise(exchange(code));
-        res.writeHead(302, {
-          Location: "https://alchemy.run/auth/success",
-        });
+        res.writeHead(302, { Location: AUTH_SUCCESS_URL });
         res.end();
         cleanup();
         resolve(credentials);
       } catch (err) {
-        res.writeHead(302, { Location: "https://alchemy.run/auth/error" });
+        res.writeHead(302, { Location: AUTH_ERROR_URL });
         res.end();
         cleanup();
         reject(err);
