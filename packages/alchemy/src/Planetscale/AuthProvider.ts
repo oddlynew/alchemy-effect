@@ -1,8 +1,13 @@
+import * as PsCredentialsModule from "@distilled.cloud/planetscale/Credentials";
+import { listOrganizations } from "@distilled.cloud/planetscale/Operations";
 import * as Console from "effect/Console";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Match from "effect/Match";
 import * as Redacted from "effect/Redacted";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import {
   AuthError,
   AuthProviderLayer,
@@ -22,6 +27,66 @@ import * as OAuthClient from "./OAuthClient.ts";
  * up the PlanetScale {@link AuthProvider} from inside provider Layers.
  */
 export const PLANETSCALE_AUTH_PROVIDER_NAME = "Planetscale";
+
+/**
+ * Provide PlanetScale `Credentials` + `HttpClient` to an Effect using a
+ * just-obtained OAuth access token. Used during configure to call
+ * org-discovery endpoints before the user has chosen an org.
+ *
+ * `organization` is required by the credential type but isn't consulted by
+ * `listOrganizations` (it's a user-scoped endpoint), so an empty string is
+ * fine here.
+ */
+const withOAuthCredentials = <A, E>(
+  accessToken: string,
+  effect: Effect.Effect<
+    A,
+    E,
+    PsCredentialsModule.Credentials | HttpClient.HttpClient
+  >,
+): Effect.Effect<A, E> =>
+  Effect.provide(
+    effect,
+    Layer.mergeAll(
+      PsCredentialsModule.fromOAuth({
+        accessToken,
+        organization: "",
+      }),
+      FetchHttpClient.layer,
+    ),
+  );
+
+/**
+ * List the organizations the OAuth user belongs to and either auto-pick
+ * (one org) or prompt the user to choose. Returns the org's URL slug
+ * (`name` field, used as `{organization}` in API paths).
+ */
+const selectOrganization = (accessToken: string) =>
+  Effect.gen(function* () {
+    const list = yield* listOrganizations;
+    const response = yield* list({});
+    const orgs = response.data;
+    if (orgs.length === 0) {
+      return yield* new AuthError({
+        message: "Planetscale: no organizations found for this credential.",
+      });
+    }
+    if (orgs.length === 1) {
+      const org = orgs[0]!;
+      yield* Clank.info(
+        `Planetscale: using organization: ${org.name} (${org.id})`,
+      );
+      return org.name;
+    }
+    return yield* Clank.select({
+      message: "Select a Planetscale organization",
+      options: orgs.map((o) => ({
+        value: o.name,
+        label: o.name,
+        hint: o.id,
+      })),
+    }).pipe(retryOnce);
+  }).pipe((e) => withOAuthCredentials(accessToken, e));
 
 const options: Array<{
   value: PlanetscaleAuthConfig["method"];
@@ -60,7 +125,7 @@ const options: Array<{
 export type PlanetscaleAuthConfig =
   | { method: "env" }
   | { method: "stored" }
-  | { method: "oauth"; organization: string; scopes: string[] };
+  | { method: "oauth"; organization: string };
 
 /**
  * apiToken credentials persisted to disk for `method: "stored"`.
@@ -120,9 +185,9 @@ export const PlanetscaleAuth = AuthProviderLayer<
   Effect.gen(function* () {
     const store = yield* CredentialsStore;
 
-    const oauthLogin = (profileName: string, scopes: string[]) =>
+    const oauthLogin = (profileName: string) =>
       Effect.gen(function* () {
-        const authorization = OAuthClient.authorize(scopes);
+        const authorization = OAuthClient.authorize();
 
         yield* Clank.info("Planetscale: opening browser for OAuth login...");
         yield* Clank.info(authorization.url);
@@ -143,50 +208,29 @@ export const PlanetscaleAuth = AuthProviderLayer<
         return credentials;
       });
 
-    // Mirrors Cloudflare's `promptOAuthScopes`. PlanetScale's scope names
-    // carry tier prefixes (`user:`, `organization:`, `database:`, `branch:`)
-    // — bare names are rejected by the auth server, so {@link ALL_SCOPES}
-    // is the source of truth.
-    const promptScopes = () =>
-      Clank.confirm({
-        message:
-          "Customize OAuth scopes? (default covers typical Alchemy resource use)",
-        initialValue: false,
-      }).pipe(
-        retryOnce,
-        Effect.flatMap((customize) => {
-          if (!customize)
-            return Effect.succeed([...OAuthClient.DEFAULT_SCOPES] as string[]);
-          return Clank.multiselect({
-            message: "Select OAuth scopes",
-            initialValues: [...OAuthClient.DEFAULT_SCOPES] as string[],
-            options: Object.entries(OAuthClient.ALL_SCOPES).map(
-              ([value, hint]) => ({
-                value: value as string,
-                label: value,
-                hint,
-              }),
-            ),
-            required: true,
-          }).pipe(
-            Effect.map((s) => s as string[]),
-            retryOnce,
-          );
-        }),
+    const configureOAuth = Effect.fnUntraced(function* (profileName: string) {
+      const oauthCreds = yield* oauthLogin(profileName);
+
+      // Use the just-issued access token to list the user's orgs and let
+      // them pick (mirrors Cloudflare's selectAccount). Requires the
+      // `user:read_organizations` scope. If the call fails for any
+      // reason — missing scope, network, off-spec response — fall back
+      // to a manual prompt so login still completes.
+      const organization = yield* selectOrganization(oauthCreds.access).pipe(
+        Effect.catch((e) =>
+          Effect.gen(function* () {
+            yield* Clank.warn(
+              `Planetscale: could not auto-list organizations (${String(e)}). Falling back to manual entry.`,
+            );
+            return yield* Clank.text({
+              message: "Planetscale Organization (URL slug)",
+              validate: (v) => (v.length === 0 ? "Required" : undefined),
+            }).pipe(retryOnce);
+          }),
+        ),
       );
 
-    const configureOAuth = Effect.fnUntraced(function* (profileName: string) {
-      const scopes = yield* promptScopes();
-      yield* oauthLogin(profileName, scopes);
-
-      // API requests are organization-scoped, so we still need to know which
-      // org to target.
-      const organization = yield* Clank.text({
-        message: "Planetscale Organization (URL slug)",
-        validate: (v) => (v.length === 0 ? "Required" : undefined),
-      }).pipe(retryOnce);
-
-      return { method: "oauth" as const, organization, scopes };
+      return { method: "oauth" as const, organization };
     });
 
     const loginStored = Effect.fnUntraced(function* (profileName: string) {
@@ -419,13 +463,13 @@ export const PlanetscaleAuth = AuthProviderLayer<
                       ),
                   ),
                   Effect.catchTag("OAuthError", () =>
-                    oauthLogin(profileName, c.scopes).pipe(Effect.asVoid),
+                    oauthLogin(profileName).pipe(Effect.asVoid),
                   ),
                 );
                 return;
               }
 
-              yield* oauthLogin(profileName, c.scopes);
+              yield* oauthLogin(profileName);
             }),
           ),
           Match.exhaustive,

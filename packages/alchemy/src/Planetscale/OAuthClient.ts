@@ -42,7 +42,13 @@ export const OAUTH_CLIENT_SECRET =
 
 export const OAUTH_REDIRECT_URI = "http://localhost:9976/auth/callback";
 export const OAUTH_ENDPOINTS = {
-  authorize: "https://auth.planetscale.com/oauth/authorize",
+  // PlanetScale's own .well-known OAuth discovery doc declares this as
+  // the authorization_endpoint — NOT auth.planetscale.com/oauth/authorize
+  // (which their public docs cite). The auth.planetscale.com alias does
+  // render a consent screen but emits codes whose resulting tokens lack
+  // a `sub` claim, so the resource API at api.planetscale.com rejects
+  // them as invalid. Use the canonical endpoint.
+  authorize: "https://app.planetscale.com/oauth/authorize",
   token: "https://auth.planetscale.com/oauth/token",
 };
 
@@ -69,7 +75,12 @@ const tokenRequest = (
   params: Record<string, string>,
 ): Effect.Effect<OAuthCredentials, OAuthError> =>
   Effect.gen(function* () {
-    // PlanetScale's token endpoint takes its parameters as query string.
+    // PlanetScale's docs show the token endpoint with all parameters in
+    // the query string (https://planetscale.com/docs/api/reference/oauth).
+    // Their .well-known discovery doc claims only client_secret_basic /
+    // client_secret_post are supported, but we've verified both forms of
+    // auth produce equivalent (and equivalently broken) tokens, so we
+    // follow the public docs literally.
     const url = new URL(OAUTH_ENDPOINTS.token);
     for (const [k, v] of Object.entries(params)) {
       url.searchParams.set(k, v);
@@ -133,15 +144,12 @@ const tokenRequest = (
  * (`read_databases`, `read_user`, `read_organization` — the only place
  * unprefixed names work).
  */
-export function authorize(scopes: string[]): Authorization {
+export function authorize(): Authorization {
   const state = generateState();
   const url = new URL(OAUTH_ENDPOINTS.authorize);
   url.searchParams.set("client_id", OAUTH_CLIENT_ID);
   url.searchParams.set("redirect_uri", OAUTH_REDIRECT_URI);
   url.searchParams.set("response_type", "code");
-  if (scopes.length > 0) {
-    url.searchParams.set("scope", scopes.join(" "));
-  }
   url.searchParams.set("state", state);
   return { url: url.toString(), state };
 }
@@ -298,155 +306,3 @@ function callbackPromise(
     server.listen(Number(port));
   });
 }
-
-/**
- * Every PlanetScale OAuth scope accepted by the authorize endpoint.
- *
- * Per PlanetScale support, the canonical scope names use **tier prefixes**
- * (`user:`, `organization:`, `database:`, `branch:`). The public docs at
- * https://planetscale.com/docs/api/reference/oauth-access-scopes describe
- * these as "access tier" groupings, but the labels are literally part of
- * the scope identifier — `read_databases` alone is rejected; the auth
- * server wants `organization:read_databases`.
- *
- * The three OIDC scopes (`openid`, `email`, `profile`) and a handful of
- * legacy bare names (`read_user`, `read_organization`, `read_databases`,
- * etc.) are *also* accepted unprefixed for back-compat — but the prefixed
- * forms are the source of truth and the only ones the OAuth-app dashboard
- * persists, so this table only ships the prefixed set plus the OIDC trio.
- */
-export const ALL_SCOPES = {
-  // OIDC (unprefixed by spec)
-  openid: "OpenID Connect scope",
-  email: "Read user email",
-  profile: "Read user profile",
-
-  // User
-  "user:read_user": "Read user",
-  "user:write_user": "Write user",
-  "user:read_organizations": "Read a user's organizations",
-
-  // Organization
-  "organization:read_organization": "Read organization",
-  "organization:write_organization": "Write organization",
-  "organization:delete_organization": "Delete organization",
-  "organization:read_invoices": "Read organization invoices",
-  "organization:read_members": "Read members in an organization",
-  "organization:write_members": "Write members in an organization",
-  "organization:delete_members": "Delete members in an organization",
-  "organization:read_databases": "Read organization databases",
-  "organization:create_databases": "Create organization databases",
-  "organization:write_databases": "Write organization databases",
-  "organization:delete_databases": "Delete organization databases",
-  "organization:read_branches": "Read branches in an organization",
-  "organization:write_branches": "Write branches in an organization",
-  "organization:delete_branches": "Delete branches in an organization",
-  "organization:promote_branches": "Promote branches in an organization",
-  "organization:delete_production_branches":
-    "Delete a production branch in an organization",
-  "organization:manage_passwords":
-    "Read, write, and delete branch passwords in an organization",
-  "organization:manage_production_branch_passwords":
-    "Read, write, and delete production branch passwords in an organization",
-  "organization:manage_read_only_passwords":
-    "Read, write, and delete read only branch passwords in an organization",
-  "organization:manage_production_read_only_passwords":
-    "Read, write, and delete production read only branch passwords in an organization",
-  "organization:read_deploy_requests":
-    "Read deploy requests in an organization",
-  "organization:write_deploy_requests":
-    "Create and update deploy requests in an organization",
-  "organization:approve_deploy_requests":
-    "Approve deploy requests in an organization",
-  "organization:deploy_deploy_requests":
-    "Deploy deploy requests in an organization",
-  "organization:read_comments":
-    "Read deploy request comments in an organization",
-  "organization:write_comments":
-    "Create deploy request comments in an organization",
-  "organization:read_backups": "Read backups in an organization",
-  "organization:write_backups": "Create and update backups in an organization",
-  "organization:delete_backups": "Delete backups in an organization",
-  "organization:delete_production_branch_backups":
-    "Delete production backups in an organization",
-  "organization:restore_backups":
-    "Restore backups to new branches in an organization",
-  "organization:restore_production_branch_backups":
-    "Restore production branch backups to new branches in an organization",
-
-  // Database
-  "database:read_database": "Read database information",
-  "database:write_database": "Write database",
-  "database:delete_database": "Delete a database",
-  "database:read_members": "Read members",
-  "database:write_members": "Write members",
-  "database:delete_members": "Delete members",
-  "database:read_branches": "Read database branches",
-  "database:write_branches": "Write database branches",
-  "database:delete_branches": "Delete database branches",
-  "database:promote_branches": "Promote database branches",
-  "database:demote_branches": "Demote production database branches",
-  "database:delete_production_branches": "Delete a production database branch",
-  "database:manage_passwords":
-    "Read, write, and delete database branch passwords",
-  "database:manage_production_branch_passwords":
-    "Read, write, and delete production branch passwords",
-  "database:manage_read_only_passwords":
-    "Read, write, and delete read only branch passwords",
-  "database:manage_production_read_only_passwords":
-    "Read, write, and delete production read only branch passwords",
-  "database:read_deploy_requests": "Read deploy requests in a database",
-  "database:write_deploy_requests":
-    "Create and update deploy requests in a database",
-  "database:approve_deploy_requests": "Approve deploy requests in a database",
-  "database:deploy_deploy_requests": "Deploy deploy requests in a database",
-  "database:read_comments": "Read deploy request comments in a database",
-  "database:write_comments": "Create deploy request comments in a database",
-  "database:read_backups": "Read backups",
-  "database:write_backups": "Create and update backups",
-  "database:delete_backups": "Delete backups",
-  "database:delete_production_branch_backups": "Delete production backups",
-  "database:restore_backups": "Restore backups to new branches",
-  "database:restore_production_branch_backups":
-    "Restore production branch backups to new branches",
-
-  // Branch
-  "branch:read_branch": "Read a database branch",
-  "branch:write_branch": "Write a database branch",
-  "branch:delete_branch": "Delete a database branch",
-  "branch:manage_passwords": "Read, write, and delete branch passwords",
-  "branch:manage_read_only_passwords":
-    "Read, write, and delete read only branch passwords",
-  "branch:read_backups": "Read backups",
-  "branch:write_backups": "Create and update backups",
-  "branch:delete_backups": "Delete backups",
-  "branch:restore_backups": "Restore this branch's backups to new branches",
-} as const;
-
-/**
- * Reasonable defaults covering what the PlanetScale provider resources
- * (Database, Branch, MySQLPassword, MySQLMigrations, …) need to operate.
- * Override by running `alchemy login --configure`.
- */
-export const DEFAULT_SCOPES: readonly (keyof typeof ALL_SCOPES)[] = [
-  "user:read_user",
-  "user:read_organizations",
-  "organization:read_organization",
-  "organization:read_databases",
-  "organization:create_databases",
-  "organization:write_databases",
-  "organization:delete_databases",
-  "organization:read_branches",
-  "organization:write_branches",
-  "organization:delete_branches",
-  "organization:promote_branches",
-  "organization:manage_passwords",
-  "organization:manage_production_branch_passwords",
-  "organization:read_deploy_requests",
-  "organization:write_deploy_requests",
-  "organization:approve_deploy_requests",
-  "organization:deploy_deploy_requests",
-  "organization:read_backups",
-  "organization:write_backups",
-  "organization:restore_backups",
-];
