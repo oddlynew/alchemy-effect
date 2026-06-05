@@ -140,8 +140,6 @@ jobs:
             exit 0
           fi
 
-          bun run format:write CHANGELOG.md
-
           git add -A
 
           if git diff --cached --quiet; then
