@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.10.10](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.10) (2026-06-07)
+
+### Bug Fixes
+
+- **runtime**: handle explicit ack in Queue binding - by @john-royal [(a328ed7)](https://github.com/alchemy-run/cloudflare-tools/commit/a328ed72ce5cec4a87777904fec80ac47c917bf3)
+- **runtime**: validate maxBatchTimeout for queues - by @john-royal [(5de406b)](https://github.com/alchemy-run/cloudflare-tools/commit/5de406bf6434ef8fa6d215b0ad5342a697992515)
+- **runtime**: create workflows:storage once per worker - by Dominik Vít in [#41](https://github.com/alchemy-run/cloudflare-tools/pull/41) [(91e2b04)](https://github.com/alchemy-run/cloudflare-tools/commit/91e2b0404721091f24d04e8d2a9621e45766529f)
+- **vite-plugin**: use correct `esmExternalRequirePlugin` - by @john-royal in [#40](https://github.com/alchemy-run/cloudflare-tools/pull/40) [(ee27545)](https://github.com/alchemy-run/cloudflare-tools/commit/ee27545375fa5e644ab6c804432cc6b99b284d78)
+
 ## [v0.10.9](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.9) (2026-06-05)
 
 *No significant changes*
