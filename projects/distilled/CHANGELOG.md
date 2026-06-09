@@ -1,3 +1,13 @@
+## v0.24.1
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **aws**: Make AWS Region lazy &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/326 [<samp>(37cf2)</samp>](https://github.com/alchemy-run/distilled/commit/37cf296d)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.24.0...HEAD)
+
+---
+
 ## v0.24.0
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
