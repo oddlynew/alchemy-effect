@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.10.12](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.12) (2026-06-10)
+
+### Bug Fixes
+
+- **runtime**: support lazy api credentials - by John Royal in [#44](https://github.com/alchemy-run/cloudflare-tools/pull/44) [(4a1ce24)](https://github.com/alchemy-run/cloudflare-tools/commit/4a1ce2408c2ed11df27f805d2f9d74c98be45be0)
+
 ## [v0.10.11](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.11) (2026-06-09)
 
 *No significant changes*
