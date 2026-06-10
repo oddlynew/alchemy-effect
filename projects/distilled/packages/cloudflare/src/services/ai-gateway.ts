@@ -28,6 +28,14 @@ export class GatewayNotFound extends Schema.TaggedErrorClass<GatewayNotFound>()(
 ) {}
 T.applyErrorMatchers(GatewayNotFound, [{ code: 7002 }]);
 
+export class NoManualTopup extends Schema.TaggedErrorClass<NoManualTopup>()(
+  "NoManualTopup",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NoManualTopup, [
+  { code: 1000, message: { includes: "NO_MANUAL_TOPUP" } },
+]);
+
 // =============================================================================
 // AiGateway
 // =============================================================================
@@ -3511,7 +3519,7 @@ export const CreateBillingSpendingLimitResponse =
     T.ResponsePath("result"),
   ) as unknown as Schema.Schema<CreateBillingSpendingLimitResponse>;
 
-export type CreateBillingSpendingLimitError = DefaultErrors;
+export type CreateBillingSpendingLimitError = DefaultErrors | NoManualTopup;
 
 export const createBillingSpendingLimit: API.OperationMethod<
   CreateBillingSpendingLimitRequest,
@@ -3521,7 +3529,7 @@ export const createBillingSpendingLimit: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateBillingSpendingLimitRequest,
   output: CreateBillingSpendingLimitResponse,
-  errors: [],
+  errors: [NoManualTopup],
 }));
 
 export interface DeleteBillingSpendingLimitRequest {

@@ -2484,6 +2484,11 @@ paths:
             application/json:
               schema: {}
       x-distilled-response-path: result
+      x-distilled-errors:
+        NoManualTopup:
+          - code: 1000
+            message:
+              includes: NO_MANUAL_TOPUP
     delete:
       operationId: deleteBillingSpendingLimit
       description: "Remove the spending limit for the account.  @example ```ts const
