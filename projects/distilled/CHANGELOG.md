@@ -1,3 +1,14 @@
+## v0.24.5
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- Cf rate limit &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/329 [<samp>(527ac)</samp>](https://github.com/alchemy-run/distilled/commit/527accc2)
+- **cloudflare**: Add NoSuchBucket to r2.updateBucketDomainCustom &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(815f6)</samp>](https://github.com/alchemy-run/distilled/commit/815f6d10)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.24.4...HEAD)
+
+---
+
 ## v0.24.4
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
