@@ -1,3 +1,13 @@
+## v0.24.8
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **cloudflare**: Patch optional properties on getBillingTopupConfig &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(e199c)</samp>](https://github.com/alchemy-run/distilled/commit/e199ca5a)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.24.7...HEAD)
+
+---
+
 ## v0.24.7
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
