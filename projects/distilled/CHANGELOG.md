@@ -1,3 +1,13 @@
+## v0.24.3
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **core**: Remove unnecessary debug log &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(d9e02)</samp>](https://github.com/alchemy-run/distilled/commit/d9e02b8f)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.24.2...HEAD)
+
+---
+
 ## v0.24.2
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
