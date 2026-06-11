@@ -1,3 +1,13 @@
+## v0.24.9
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **core**: Serialize struct query params as deepObject dot-notation &nbsp;-&nbsp; by **sam** in https://github.com/alchemy-run/distilled/issues/334 [<samp>(e392f)</samp>](https://github.com/alchemy-run/distilled/commit/e392f446)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.24.8...HEAD)
+
+---
+
 ## v0.24.8
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
