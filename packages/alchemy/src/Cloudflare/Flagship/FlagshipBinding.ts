@@ -8,7 +8,7 @@ import * as Binding from "../../Binding.ts";
 import type { ResourceLike } from "../../Resource.ts";
 import type { RuntimeContext } from "../../RuntimeContext.ts";
 import { isWorker, WorkerEnvironment } from "../Workers/Worker.ts";
-import type { Flagship as FlagshipLike } from "./Flagship.ts";
+import type { FlagshipApp } from "./App.ts";
 
 export class FlagshipError extends Data.TaggedError("FlagshipError")<{
   message: string;
@@ -30,9 +30,8 @@ export type FlagshipEvaluationDetails<T> = cf.FlagshipEvaluationDetails<T>;
  * promise-returning method into an Effect. Flagship evaluation never throws —
  * it falls back to the provided `defaultValue` — so the {@link FlagshipError}
  * channel only surfaces unexpected runtime failures (e.g. a misconfigured
- * binding). Use `Cloudflare.Flagship.bind(flags)` (or
- * `yield* Cloudflare.Flagship(...)`) inside a Worker's init phase to obtain
- * it.
+ * binding). Use `Cloudflare.FlagshipApp.bind(app)` inside a Worker's init
+ * phase to obtain it.
  */
 export interface FlagshipClient {
   /**
@@ -122,9 +121,14 @@ export interface FlagshipClient {
   ): FlagshipEffect<FlagshipEvaluationDetails<T>>;
 }
 
+/**
+ * Binding service that turns a {@link FlagshipApp} resource into a typed
+ * {@link FlagshipClient} for Worker runtime code. Prefer the
+ * `Cloudflare.FlagshipApp.bind(app)` alias.
+ */
 export class FlagshipBinding extends Binding.Service<
   FlagshipBinding,
-  (flagship: FlagshipLike) => Effect.Effect<FlagshipClient>
+  (app: FlagshipApp) => Effect.Effect<FlagshipClient>
 >()("Cloudflare.Flagship.Binding") {}
 
 export const FlagshipBindingLive = Layer.effect(
@@ -133,10 +137,10 @@ export const FlagshipBindingLive = Layer.effect(
     const Policy = yield* FlagshipBindingPolicy;
     const env = yield* WorkerEnvironment;
 
-    return Effect.fn(function* (flagship: FlagshipLike) {
-      yield* Policy(flagship);
+    return Effect.fn(function* (app: FlagshipApp) {
+      yield* Policy(app);
       const raw: Effect.Effect<cf.Flagship, never, RuntimeContext> =
-        Effect.sync(() => (env as Record<string, cf.Flagship>)[flagship.name]!);
+        Effect.sync(() => (env as Record<string, cf.Flagship>)[app.LogicalId]!);
       return makeFlagshipClient(raw);
     });
   }),
@@ -144,18 +148,18 @@ export const FlagshipBindingLive = Layer.effect(
 
 export class FlagshipBindingPolicy extends Binding.Policy<
   FlagshipBindingPolicy,
-  (flagship: FlagshipLike) => Effect.Effect<void>
+  (app: FlagshipApp) => Effect.Effect<void>
 >()("Cloudflare.Flagship.Binding") {}
 
 export const FlagshipBindingPolicyLive = FlagshipBindingPolicy.layer.succeed(
-  Effect.fn(function* (host: ResourceLike, flagship: FlagshipLike) {
+  Effect.fn(function* (host: ResourceLike, app: FlagshipApp) {
     if (isWorker(host)) {
-      yield* host.bind(flagship.name, {
+      yield* host.bind(app.LogicalId, {
         bindings: [
           {
             type: "flagship",
-            name: flagship.name,
-            appId: flagship.appId,
+            name: app.LogicalId,
+            appId: app.appId,
           },
         ],
       });

@@ -2,18 +2,13 @@ import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import { HttpServerRequest } from "effect/unstable/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
+import { App } from "./app.ts";
 
 /**
- * Flagship apps cannot be provisioned via API (private beta, dashboard-only),
- * so the app id comes from the environment at plantime. At runtime the marker
- * is only used to look up the binding by name, so the fallback is harmless.
- */
-const APP_ID = globalThis.process?.env?.FLAGSHIP_APP_ID ?? "alchemy-test-app";
-
-/**
- * Effect-native Worker fixture for the Cloudflare Flagship binding. Yielding
- * `Cloudflare.Flagship(...)` during init attaches the binding to this Worker
- * and resolves to the runtime client in one step — the marker IS the Effect.
+ * Effect-native Worker fixture for the Cloudflare Flagship binding.
+ * `FlagshipApp.bind(App)` during init attaches the binding to this Worker
+ * (registering the app resource with the stack) and resolves to the runtime
+ * client.
  */
 export default class FlagshipEffectWorker extends Cloudflare.Worker<FlagshipEffectWorker>()(
   "FlagshipEffectWorker",
@@ -21,7 +16,7 @@ export default class FlagshipEffectWorker extends Cloudflare.Worker<FlagshipEffe
     main: import.meta.filename,
   },
   Effect.gen(function* () {
-    const flags = yield* Cloudflare.Flagship({ appId: APP_ID });
+    const flags = yield* Cloudflare.FlagshipApp.bind(App);
 
     return {
       fetch: Effect.gen(function* () {

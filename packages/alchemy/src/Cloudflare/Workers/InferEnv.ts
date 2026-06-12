@@ -18,12 +18,10 @@ export type InferEnv<W> =
         };
 
 export type GetBindingType<T> =
-  // Flagship markers are Effects themselves, so match them before the
-  // generic Effect unwrap below.
-  T extends Cloudflare.Flagship
-    ? Flagship
-    : T extends Effect.Effect<infer A, infer _E, infer _R>
-      ? GetBindingType<A>
+  T extends Effect.Effect<infer A, infer _E, infer _R>
+    ? GetBindingType<A>
+    : T extends Cloudflare.FlagshipApp
+      ? Flagship
       : T extends Cloudflare.Assets
         ? Service
         : T extends Rpc<infer Shape extends object>

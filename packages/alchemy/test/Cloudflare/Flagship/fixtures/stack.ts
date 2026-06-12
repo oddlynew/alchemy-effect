@@ -2,14 +2,13 @@ import * as Alchemy from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import * as pathe from "pathe";
+import { App } from "./app.ts";
 import FlagshipEffectWorker from "./effect-worker.ts";
-
-const APP_ID = process.env.FLAGSHIP_APP_ID ?? "alchemy-test-app";
 
 export const AsyncWorker = Cloudflare.Worker("FlagshipAsyncWorker", {
   main: pathe.resolve(import.meta.dirname, "async-worker.ts"),
   env: {
-    FLAGS: Cloudflare.Flagship({ appId: APP_ID }),
+    FLAGS: App,
   },
 });
 

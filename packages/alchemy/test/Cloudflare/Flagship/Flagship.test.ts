@@ -7,18 +7,11 @@ import * as Schedule from "effect/Schedule";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import Stack from "./fixtures/stack.ts";
 
-// Flagship is in private beta and apps can only be created in the Cloudflare
-// dashboard — there is no API to provision one automatically. Set
-// FLAGSHIP_APP_ID to a real app id to run these tests end-to-end:
-//
-//   FLAGSHIP_APP_ID=<app-id> bun vitest run packages/alchemy/test/Cloudflare/Flagship
-//
-// Each fixture worker evaluates a flag and returns the result; with no
-// matching flag configured, Flagship falls back to the provided defaults, so
-// the assertions below hold whether or not the app has flags defined.
-const APP_ID = process.env.FLAGSHIP_APP_ID;
-const SKIP = !APP_ID;
-
+// The fixture stack provisions its own Flagship app via the FlagshipApp
+// resource and binds it to both workers. Each fixture worker evaluates a
+// flag and returns the result; with no matching flag configured, Flagship
+// falls back to the provided defaults, so the assertions below hold whether
+// or not the app has flags defined.
 const { test, beforeAll, afterAll, deploy, destroy } = Test.make({
   providers: Cloudflare.providers(),
 });
@@ -57,25 +50,23 @@ const getJson = (url: string) =>
     }),
   );
 
-const stack = SKIP ? undefined : beforeAll(deploy(Stack));
-if (!SKIP) {
-  afterAll.skipIf(!!process.env.NO_DESTROY)(destroy(Stack));
-}
+const stack = beforeAll(deploy(Stack));
+afterAll.skipIf(!!process.env.NO_DESTROY)(destroy(Stack));
 
-test.skipIf(SKIP)(
+test(
   "async worker evaluates a boolean flag via env Flagship binding",
   Effect.gen(function* () {
-    const { asyncWorkerUrl } = yield* stack!;
+    const { asyncWorkerUrl } = yield* stack;
     const result = yield* getJson(`${asyncWorkerUrl}/bool`);
     expect(result).toMatchObject({ mode: "async", enabled: false });
   }),
   { timeout: 240_000 },
 );
 
-test.skipIf(SKIP)(
+test(
   "async worker returns fallback details for a nonexistent flag",
   Effect.gen(function* () {
-    const { asyncWorkerUrl } = yield* stack!;
+    const { asyncWorkerUrl } = yield* stack;
     const result = (yield* getJson(`${asyncWorkerUrl}/details`)) as {
       mode: string;
       details: { flagKey: string; value: string };
@@ -87,20 +78,20 @@ test.skipIf(SKIP)(
   { timeout: 240_000 },
 );
 
-test.skipIf(SKIP)(
-  "effect worker evaluates a boolean flag via yield* Flagship",
+test(
+  "effect worker evaluates a boolean flag via FlagshipApp.bind",
   Effect.gen(function* () {
-    const { effectWorkerUrl } = yield* stack!;
+    const { effectWorkerUrl } = yield* stack;
     const result = yield* getJson(`${effectWorkerUrl}/bool`);
     expect(result).toMatchObject({ mode: "effect", enabled: false });
   }),
   { timeout: 240_000 },
 );
 
-test.skipIf(SKIP)(
+test(
   "effect worker returns fallback details for a nonexistent flag",
   Effect.gen(function* () {
-    const { effectWorkerUrl } = yield* stack!;
+    const { effectWorkerUrl } = yield* stack;
     const result = (yield* getJson(`${effectWorkerUrl}/details`)) as {
       mode: string;
       details: { flagKey: string; value: string };

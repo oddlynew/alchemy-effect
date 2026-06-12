@@ -11,7 +11,7 @@ import { isArtifacts } from "../Artifacts/Artifacts.ts";
 import { isBrowser } from "../Browser/Browser.ts";
 import { isD1Database } from "../D1/D1Database.ts";
 import { isSendEmail } from "../Email/SendEmail.ts";
-import { isFlagship } from "../Flagship/Flagship.ts";
+import { isFlagshipApp } from "../Flagship/App.ts";
 import { isHyperdrive } from "../Hyperdrive/Hyperdrive.ts";
 import { getHyperdriveDevOrigin } from "../Hyperdrive/HyperdriveBinding.ts";
 import { isImages } from "../Images/Images.ts";
@@ -43,13 +43,9 @@ export const bindWorkerAsyncBindings = Effect.fnUntraced(function* (
       // yields a resource, or an effect-class (e.g. a `Cloudflare.Worker`
       // class). Resolve the yieldable forms before deriving binding metadata.
       // Avoid yielding outputs as this requires `RuntimeContext`;
-      // allow the engine to resolve them instead. Flagship markers are
-      // Effects themselves (yielding resolves to the runtime client), so
-      // keep them as-is and derive binding metadata from the marker.
+      // allow the engine to resolve them instead.
       const binding = (
-        isYieldableEffectLike(bindingEff) &&
-        !Output.isOutput(bindingEff) &&
-        !isFlagship(bindingEff)
+        isYieldableEffectLike(bindingEff) && !Output.isOutput(bindingEff)
           ? yield* bindingEff as Effect.Effect<unknown>
           : bindingEff
       ) as WorkerBindingResource;
@@ -123,7 +119,7 @@ const toBinding = (
       type: "browser",
       name: bindingName,
     };
-  } else if (isFlagship(binding)) {
+  } else if (isFlagshipApp(binding)) {
     return {
       type: "flagship",
       name: bindingName,

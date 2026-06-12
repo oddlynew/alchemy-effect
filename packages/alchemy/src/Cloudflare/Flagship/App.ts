@@ -6,6 +6,7 @@ import * as Provider from "../../Provider.ts";
 import { Resource } from "../../Resource.ts";
 import { CloudflareEnvironment } from "../CloudflareEnvironment.ts";
 import type { Providers } from "../Providers.ts";
+import { FlagshipBinding } from "./FlagshipBinding.ts";
 
 const FlagshipAppTypeId = "Cloudflare.Flagship.App" as const;
 type FlagshipAppTypeId = typeof FlagshipAppTypeId;
@@ -90,18 +91,24 @@ export type FlagshipApp = Resource<
  * });
  * ```
  *
- * @example Bind the app to a Worker
+ * @section Binding to a Worker
+ * @example Effect-style Worker (recommended)
+ * `FlagshipApp.bind(app)` attaches the binding to the surrounding Worker and
+ * returns the runtime client for evaluating flags. Every `Flagship` method is
+ * mirrored as an Effect, so no `Effect.tryPromise` wrapping is needed.
  * ```typescript
- * const app = yield* Cloudflare.FlagshipApp("Flags", {});
+ * export const App = Cloudflare.FlagshipApp("Flags", {});
  *
  * Cloudflare.Worker(
  *   "FlagsWorker",
  *   { main: import.meta.filename },
  *   Effect.gen(function* () {
- *     const flags = yield* Cloudflare.Flagship({ appId: app.appId });
+ *     const flags = yield* Cloudflare.FlagshipApp.bind(App);
  *     return {
  *       fetch: Effect.gen(function* () {
- *         const enabled = yield* flags.getBooleanValue("new-checkout", false);
+ *         const enabled = yield* flags.getBooleanValue("new-checkout", false, {
+ *           userId: "user-42",
+ *         });
  *         return HttpServerResponse.text(enabled ? "on" : "off");
  *       }),
  *     };
@@ -109,10 +116,45 @@ export type FlagshipApp = Resource<
  * );
  * ```
  *
+ * @example Declare the binding on `env`
+ * Declaring the app on a Worker's `env` maps it to the native `Flagship`
+ * runtime binding via `InferEnv`.
+ * ```typescript
+ * export const App = Cloudflare.FlagshipApp("Flags", {});
+ *
+ * export const Worker = Cloudflare.Worker("Worker", {
+ *   main: "./src/worker.ts",
+ *   env: { FLAGS: App },
+ * });
+ *
+ * export type WorkerEnv = Cloudflare.InferEnv<typeof Worker>;
+ * //   { FLAGS: Flagship }
+ * ```
+ *
+ * @example Async-style worker with the raw runtime binding
+ * ```typescript
+ * import type { WorkerEnv } from "../alchemy.run.ts";
+ *
+ * export default {
+ *   async fetch(request: Request, env: WorkerEnv) {
+ *     const enabled = await env.FLAGS.getBooleanValue("new-checkout", false, {
+ *       userId: "user-42",
+ *     });
+ *     return new Response(enabled ? "on" : "off");
+ *   },
+ * };
+ * ```
+ *
  * @see https://developers.cloudflare.com/flagship/
  * @see https://developers.cloudflare.com/api/resources/flagship/
  */
-export const FlagshipApp = Resource<FlagshipApp>(FlagshipAppTypeId);
+export const FlagshipApp = Resource<FlagshipApp>(FlagshipAppTypeId)({
+  /**
+   * Bind this app to the surrounding Worker, returning the Effect-native
+   * {@link FlagshipClient} for evaluating feature flags at runtime.
+   */
+  bind: FlagshipBinding.bind,
+});
 
 /**
  * Returns true if the given value is a FlagshipApp resource.
