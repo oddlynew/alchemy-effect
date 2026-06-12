@@ -309,7 +309,20 @@ export const Platform = <
           Self,
           Effect.flatMap(
             Effect.all([
-              Effect.isEffect(props) ? props : Effect.succeed(props ?? {}),
+              // The props effect describes deploy-time configuration and may
+              // require deploy-only services (cloud credentials, API calls).
+              // Inside the deployed runtime nothing consumes Props — the
+              // RuntimeContext/env is the source of truth — so skip it there
+              // instead of crashing on missing deploy-time services.
+              Effect.isEffect(props)
+                ? ALCHEMY_PHASE.pipe(
+                    Effect.flatMap((phase) =>
+                      phase === "runtime"
+                        ? Effect.succeed({})
+                        : (props as Effect.Effect<any>),
+                    ),
+                  )
+                : Effect.succeed(props ?? {}),
               Effect.sync(() => hooks.createRuntimeContext(id)),
               Effect.context<never>(),
             ]),

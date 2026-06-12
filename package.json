@@ -82,6 +82,7 @@
       "@distilled.cloud/core": "workspace:*",
       "@distilled.cloud/neon": "workspace:*",
       "@distilled.cloud/planetscale": "workspace:*",
+      "@distilled.cloud/railway": "workspace:*",
       "@effect/language-service": ">=4.0.0-beta.78 || >=4.0.0",
       "@effect/platform-bun": ">=4.0.0-beta.78 || >=4.0.0",
       "@effect/platform-node-shared": ">=4.0.0-beta.78 || >=4.0.0",

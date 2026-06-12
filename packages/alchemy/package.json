@@ -208,6 +208,18 @@
       "worker": "./src/Planetscale/*/index.ts",
       "import": "./lib/Planetscale/*/index.js"
     },
+    "./Railway": {
+      "types": "./lib/Railway/index.d.ts",
+      "bun": "./src/Railway/index.ts",
+      "worker": "./src/Railway/index.ts",
+      "import": "./lib/Railway/index.js"
+    },
+    "./Railway/*": {
+      "types": "./lib/Railway/*/index.d.ts",
+      "bun": "./src/Railway/*/index.ts",
+      "worker": "./src/Railway/*/index.ts",
+      "import": "./lib/Railway/*/index.js"
+    },
     "./Runtime": {
       "types": "./lib/Runtime.d.ts",
       "bun": "./src/Runtime.ts",
@@ -300,6 +312,7 @@
     "@distilled.cloud/core": "catalog:",
     "@distilled.cloud/neon": "catalog:",
     "@distilled.cloud/planetscale": "catalog:",
+    "@distilled.cloud/railway": "catalog:",
     "@effect/vitest": "catalog:",
     "@libsql/client": "catalog:",
     "@octokit/rest": "^22.0.1",
