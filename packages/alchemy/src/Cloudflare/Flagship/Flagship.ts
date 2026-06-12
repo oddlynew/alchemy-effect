@@ -1,4 +1,5 @@
 import * as Effect from "effect/Effect";
+import type { Input } from "../../Input.ts";
 import { FlagshipBinding, type FlagshipClient } from "./FlagshipBinding.ts";
 
 type FlagshipTypeId = typeof FlagshipTypeId;
@@ -15,9 +16,10 @@ export type FlagshipProps = {
   name?: string;
   /**
    * The app ID from your Flagship app. Flags are organized into apps that map
-   * to your projects or services.
+   * to your projects or services. Accepts a plain string or a `FlagshipApp`
+   * resource's `appId` output.
    */
-  appId: string;
+  appId: Input<string>;
 };
 
 /**
@@ -36,7 +38,7 @@ export interface Flagship extends Effect.Effect<
 > {
   kind: FlagshipTypeId;
   name: string;
-  appId: string;
+  appId: Input<string>;
 }
 
 export const isFlagship = (value: unknown): value is Flagship =>

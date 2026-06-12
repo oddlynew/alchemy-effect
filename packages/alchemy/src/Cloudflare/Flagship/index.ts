@@ -1,3 +1,5 @@
+export * from "./App.ts";
+export * from "./Flag.ts";
 export * from "./Flagship.ts";
 export {
   FlagshipBinding,
