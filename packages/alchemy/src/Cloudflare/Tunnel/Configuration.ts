@@ -278,13 +278,17 @@ export const TunnelConfigurationProvider = () =>
   Provider.effect(
     TunnelConfiguration,
     Effect.gen(function* () {
-      const { accountId } = yield* yield* CloudflareEnvironment;
+      // Resolve credentials lazily inside lifecycle operations — resolving
+      // at layer-build time would force auth (or an interactive login)
+      // just to construct the provider collection.
+      const environment = yield* CloudflareEnvironment;
 
       const getConfig = yield* zeroTrust.getTunnelCloudflaredConfiguration;
       const putConfig = yield* zeroTrust.putTunnelCloudflaredConfiguration;
 
       const observe = (tunnelId: string) =>
         Effect.gen(function* () {
+          const { accountId } = yield* environment;
           const r = yield* getConfig({ accountId, tunnelId }).pipe(
             Effect.catch((err) =>
               isConfigNotFound(err)
@@ -315,6 +319,7 @@ export const TunnelConfigurationProvider = () =>
         }),
 
         reconcile: Effect.fn(function* ({ news }) {
+          const { accountId } = yield* environment;
           // Inputs have been resolved to concrete strings by the Plan layer.
           const tunnelId = news.tunnelId as string;
           const catchAllService =

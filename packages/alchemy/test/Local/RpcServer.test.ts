@@ -10,9 +10,13 @@ import * as Stream from "effect/Stream";
 import * as ChildProcess from "effect/unstable/process/ChildProcess";
 import { openWebSocket, waitForExit } from "./fixtures/process-effect.ts";
 import { runtimes } from "./fixtures/runtimes.ts";
+import { fileURLToPath } from "node:url";
 
-const FIXTURE_TS = new URL("./fixtures/rpc-server-entry.ts", import.meta.url)
-  .pathname;
+// `URL.pathname` yields `/D:/...` on Windows; fileURLToPath gives a real
+// filesystem path on every platform.
+const FIXTURE_TS = fileURLToPath(
+  new URL("./fixtures/rpc-server-entry.ts", import.meta.url),
+);
 
 const ADDRESS_RE = /<ALCHEMY_RPC_ADDRESS>(.+?)<\/ALCHEMY_RPC_ADDRESS>/;
 

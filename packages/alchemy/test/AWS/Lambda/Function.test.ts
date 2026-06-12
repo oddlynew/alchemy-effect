@@ -7,9 +7,13 @@ import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import { TestFunction, TestFunctionLive } from "./handler.ts";
+import { fileURLToPath } from "node:url";
 
-const timeoutHandlerPath = new URL("./timeout-handler.ts", import.meta.url)
-  .pathname;
+// `URL.pathname` yields `/D:/...` on Windows; fileURLToPath gives a real
+// filesystem path on every platform.
+const timeoutHandlerPath = fileURLToPath(
+  new URL("./timeout-handler.ts", import.meta.url),
+);
 
 const { test } = Test.make({ providers: AWS.providers() });
 

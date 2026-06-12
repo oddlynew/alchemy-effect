@@ -262,11 +262,15 @@ export const SchemaProvider = () =>
           // otherwise downstream resources (e.g. Neon.Branch) would see
           // `schema.out` as an unresolved Output during plan and cascade
           // into spurious updates of their own.
-          const { sqlStatements } = yield* detectDrift(news);
-          // Originally `output.out` was an absolute path, which is not portable.
-          // So, we trigger an update to migrate existing resources.
-          // This is safe because `regenerate` is idempotent.
-          return sqlStatements.length > 0 || path.isAbsolute(output.out)
+          const { out, sqlStatements } = yield* detectDrift(news);
+          // Originally `output.out` was an absolute path, which is not
+          // portable, so flag legacy states for one migrating update (safe
+          // because `regenerate` is idempotent). Compare against today's
+          // canonical form rather than `isAbsolute` — on Windows an `out`
+          // on a different drive than cwd has no relative form, and
+          // treating its absolute representation as "legacy" would force
+          // an update on every deploy.
+          return sqlStatements.length > 0 || output.out !== relativeOut(out)
             ? { action: "update" }
             : undefined;
         }),

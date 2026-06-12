@@ -685,6 +685,14 @@ export const DEFAULT_SCOPES = [
   "connectivity:admin",
   "containers:write",
   "d1:write",
+  // DnsRecord + Tunnel/Gateway (Zero Trust) resources are managed by
+  // alchemy; without these a default oauth login fails their API calls
+  // with Unauthorized. (Zone *create* has no oauth scope at all — only
+  // an API token can grant it.)
+  "dns_records:read",
+  "dns_records:edit",
+  "teams:read",
+  "teams:write",
   "pages:write",
   "pipelines:write",
   "queues:write",

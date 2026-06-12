@@ -57,23 +57,38 @@ export const isAlive = (pid: number): Effect.Effect<boolean> =>
   });
 
 /**
- * Resolves the pid currently LISTENing on the port of `wsUrl`. Uses an
- * `lsof` invocation; we don't own a handle to whatever process is
- * listening so there's no ChildProcessHandle equivalent.
+ * Resolves the pid currently LISTENing on the port of `wsUrl`. We don't
+ * own a handle to whatever process is listening so there's no
+ * ChildProcessHandle equivalent — shell out to `lsof` (POSIX) or
+ * `netstat -ano` (Windows, where lsof doesn't exist).
  */
-export const pidListeningOn = (wsUrl: string) =>
-  ChildProcess.make(
-    "lsof",
-    ["-iTCP:" + new URL(wsUrl).port, "-sTCP:LISTEN", "-t"],
-    {
+export const pidListeningOn = (wsUrl: string) => {
+  const port = new URL(wsUrl).port;
+  if (process.platform === "win32") {
+    return ChildProcess.make("netstat", ["-ano", "-p", "TCP"], {
       stdout: "pipe",
-    },
-  ).pipe(
+    }).pipe(
+      Effect.flatMap((handle) =>
+        handle.stdout.pipe(Stream.decodeText, Stream.mkString),
+      ),
+      Effect.map((stdout) => {
+        // e.g. `  TCP    127.0.0.1:58828   0.0.0.0:0   LISTENING   12345`
+        const line = stdout
+          .split(/\r?\n/)
+          .find((l) => l.includes(`:${port} `) && l.includes("LISTENING"));
+        return Number.parseInt(line?.trim().split(/\s+/).at(-1) ?? "", 10);
+      }),
+    );
+  }
+  return ChildProcess.make("lsof", ["-iTCP:" + port, "-sTCP:LISTEN", "-t"], {
+    stdout: "pipe",
+  }).pipe(
     Effect.flatMap((handle) =>
       handle.stdout.pipe(Stream.decodeText, Stream.mkString),
     ),
     Effect.map((stdout) => Number.parseInt(stdout.trim().split("\n")[0]!, 10)),
   );
+};
 
 /** Send a signal to a pid we don't own a handle to. */
 export const killPid = (

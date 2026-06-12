@@ -208,7 +208,10 @@ export const GatewayRuleProvider = () =>
   Provider.effect(
     GatewayRule,
     Effect.gen(function* () {
-      const { accountId } = yield* yield* CloudflareEnvironment;
+      // Resolve credentials lazily inside lifecycle operations — resolving
+      // at layer-build time would force auth (or an interactive login)
+      // just to construct the provider collection.
+      const environment = yield* CloudflareEnvironment;
 
       const createRule = yield* zeroTrust.createGatewayRule;
       const getRule = yield* zeroTrust.getGatewayRule;
@@ -225,7 +228,9 @@ export const GatewayRuleProvider = () =>
       // Locate an existing rule by name when no ruleId is cached — used for
       // adoption and as a recovery path after a create returns a conflict.
       const findRuleByName = (name: string) =>
-        listRules.items({ accountId }).pipe(
+        environment.pipe(
+          Effect.map(({ accountId }) => listRules.items({ accountId })),
+          Stream.unwrap,
           Stream.runCollect,
           Effect.map((chunk) =>
             Array.from(chunk).find(
@@ -241,6 +246,7 @@ export const GatewayRuleProvider = () =>
 
       const observeById = (ruleId: string) =>
         Effect.gen(function* () {
+          const { accountId } = yield* environment;
           const r = yield* getRule({ accountId, ruleId }).pipe(
             // Distilled tags transport errors but not the live Cloudflare 404
             // for a missing rule. Swallow generically so the reconcile flow
@@ -266,6 +272,7 @@ export const GatewayRuleProvider = () =>
         }),
 
         reconcile: Effect.fn(function* ({ id, news, output }) {
+          const { accountId } = yield* environment;
           const resolvedName = yield* resolveName(id, news.name);
           const body = buildMutableBody(news, resolvedName);
 

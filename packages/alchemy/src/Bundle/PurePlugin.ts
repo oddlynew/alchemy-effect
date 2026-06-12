@@ -282,6 +282,21 @@ export function packageNameFromId(id: string): string | null {
 }
 
 /**
+ * Returns the directory of the `node_modules/<pkg>` root that owns `id`,
+ * or `null` when the id has no `node_modules/` segment. Preserves the
+ * id's original separators so it compares cleanly against
+ * `path.dirname` results.
+ */
+function packageRootFromId(id: string): string | null {
+  const name = packageNameFromId(id);
+  if (name === null) return null;
+  const normalized = id.replace(/\\/g, "/");
+  const idx = normalized.lastIndexOf("/node_modules/");
+  // `replace` is char-for-char, so indices line up with the original id.
+  return id.slice(0, idx + "/node_modules/".length + name.length);
+}
+
+/**
  * Resolves the owning {@link PackageInfo} for a module id by walking up
  * the directory tree to the nearest `package.json`. This is what makes
  * the plugin work for workspace-linked sources (e.g. our own
@@ -303,6 +318,12 @@ export async function resolvePackageInfo(
   // the file is unreadable (or this is a virtual id from a test) we fall
   // back to a minimal record using the path-derived name.
   const fastName = packageNameFromId(cleanId);
+  // For `node_modules/<pkg>/...` ids, never walk above the package's own
+  // root — any `package.json` above `node_modules` belongs to the
+  // consumer (or, on Windows, a stray drive-root manifest), not to this
+  // module's package.
+  const stopDir = packageRootFromId(cleanId);
+  const normalizedStop = stopDir?.replace(/\\/g, "/") ?? null;
 
   let dir = path.dirname(cleanId);
   // Remember dirs we visited for this lookup so we can backfill their
@@ -341,6 +362,9 @@ export async function resolvePackageInfo(
     if (info !== null) {
       foundRoot = dir;
       foundInfo = info;
+      break;
+    }
+    if (normalizedStop !== null && dir.replace(/\\/g, "/") === normalizedStop) {
       break;
     }
     const parent = path.dirname(dir);

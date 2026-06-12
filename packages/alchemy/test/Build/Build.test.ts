@@ -35,7 +35,9 @@ test.provider(
         }),
       );
 
-      expect(build1.outdir).toBe(distDir);
+      // `outdir` is resolved with the platform's separators; normalize so
+      // the comparison holds on Windows too.
+      expect(pathe.normalize(build1.outdir)).toBe(distDir);
       expect(build1.hash).toBeDefined();
       expect(typeof build1.hash).toBe("string");
       expect(build1.hash.length).toBeGreaterThan(0);
