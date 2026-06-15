@@ -1,3 +1,28 @@
+## v0.25.0
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **cloudflare**: Update to latest spec bringing in flagship &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(55374)</samp>](https://github.com/alchemy-run/distilled/commit/5537406b)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **aws**:
+  - Resolve legacy inline-SSO profiles &nbsp;-&nbsp; by **yehudacohen** in https://github.com/alchemy-run/distilled/issues/337 [<samp>(40ff6)</samp>](https://github.com/alchemy-run/distilled/commit/40ff67c2)
+- **cloudflare**:
+  - Patch Cloudflare errors discovered in Alchemy &nbsp;-&nbsp; by **Sam Goodwin** in https://github.com/alchemy-run/distilled/issues/339 [<samp>(b1a37)</samp>](https://github.com/alchemy-run/distilled/commit/b1a3756c)
+  - Patch flagship errors &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(d5c08)</samp>](https://github.com/alchemy-run/distilled/commit/d5c0883d)
+  - Fix regressions and stale patches &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(12827)</samp>](https://github.com/alchemy-run/distilled/commit/12827408)
+  - Patch ai-gateway, ai-search and zero trust apis &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(fc388)</samp>](https://github.com/alchemy-run/distilled/commit/fc388f48)
+  - Type member-exists/cert-deleted errors, drop orphaned discovery patch &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(e7083)</samp>](https://github.com/alchemy-run/distilled/commit/e7083913)
+- **core**:
+  - Resolve $ref parameters in the Swagger 2.0 generator &nbsp;-&nbsp; by **Andrew Jefferson** and **Claude Opus 4.8** in https://github.com/alchemy-run/distilled/issues/345 [<samp>(99d11)</samp>](https://github.com/alchemy-run/distilled/commit/99d1163a)
+- **core,cloudflare**:
+  - Page-mode pagination loops forever on current-page echoes and dropped page params &nbsp;-&nbsp; by **Andrew Jefferson** in https://github.com/alchemy-run/distilled/issues/342 [<samp>(adfc1)</samp>](https://github.com/alchemy-run/distilled/commit/adfc1a58)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.24.9...HEAD)
+
+---
+
 ## v0.24.9
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
