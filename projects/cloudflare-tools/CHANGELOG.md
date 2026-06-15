@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.11.0](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.11.0) (2026-06-15)
+
+### Features
+
+- **runtime**: support cloudflare containers - by Matthew Aylward in [#46](https://github.com/alchemy-run/cloudflare-tools/pull/46) [(f6d287e)](https://github.com/alchemy-run/cloudflare-tools/commit/f6d287e0cbd72712dc8410a2402e83da381205f6)
+
+### Bug Fixes
+
+- **runtime**: 500 error serving local assets - by d3lay in [#48](https://github.com/alchemy-run/cloudflare-tools/pull/48) [(6946a5e)](https://github.com/alchemy-run/cloudflare-tools/commit/6946a5e8b9935c649948aff3c7518f55a8f27c21)
+
 ## [v0.10.13](https://github.com/alchemy-run/cloudflare-tools/releases/tag/v0.10.13) (2026-06-12)
 
 ### Bug Fixes
