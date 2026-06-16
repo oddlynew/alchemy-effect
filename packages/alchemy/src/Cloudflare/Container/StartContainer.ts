@@ -12,6 +12,22 @@ import {
   ContainerError,
   type ContainerStartupOptions,
 } from "./Container.ts";
+
+export type RunningContainer<Id extends string, Shape = any> = Container &
+  Shape & {
+    "alchemy/Id": Id;
+    getTcpPort: (portNumber: number) => Effect.Effect<{
+      fetch: {
+        (
+          request: HttpClientRequest.HttpClientRequest,
+        ): Effect.Effect<HttpClientResponse.HttpClientResponse>;
+        (
+          request: HttpServerRequest.HttpServerRequest,
+        ): Effect.Effect<HttpServerResponse.HttpServerResponse>;
+      };
+    }>;
+  };
+
 /**
  * Runs the Container in a Durable Object and monitors it, providing a durable fetch and RPC interface to it.
  */
@@ -79,8 +95,9 @@ export const start = Effect.fnUntraced(function* <
     });
 
   return {
+    "alchemy/Id": container["alchemy/Id"],
     ...container,
     getTcpPort,
     fetch: getTcpPort(3000),
-  };
+  } as RunningContainer<string, Shape>;
 });

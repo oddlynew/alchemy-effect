@@ -7,6 +7,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type { Scope } from "effect/Scope";
+import type * as Stream from "effect/Stream";
 import type { HttpClient } from "effect/unstable/http/HttpClient";
 import type { PolicyLike } from "./Binding.ts";
 import type { Dependencies } from "./Dependencies.ts";
@@ -47,6 +48,17 @@ export type Main<InitServices = never> = void | {
       >;
 };
 
+export interface MainRpc<InitServices = never> {
+  [key: string]:
+    | Effect.Effect<any, never, InitServices | PlatformServices>
+    | Stream.Stream<any, never, InitServices | PlatformServices>
+    | ((
+        ...args: any[]
+      ) =>
+        | Effect.Effect<any, never, InitServices | PlatformServices>
+        | Stream.Stream<any, never, InitServices | PlatformServices>);
+}
+
 // services provided to the Resource
 export type PlatformServices =
   | RuntimeContext
@@ -71,8 +83,8 @@ export interface Platform<
   Provider: Provider<Resource>;
 
   <Self, Shape, Deps = never>(): {
-    <PropsReq = never>(
-      id: string,
+    <const Id extends string, PropsReq = never>(
+      id: Id,
       props:
         | InputProps<Resource["Props"]>
         | Effect.Effect<
@@ -85,6 +97,7 @@ export interface Platform<
       never,
       Resource["Providers"] | PropsReq
     > & {
+      "alchemy/Id": Id;
       make<InitReq = never>(
         impl: Effect.Effect<Shape, ConfigError.ConfigError, InitReq>,
       ): Layer.Layer<
@@ -93,7 +106,10 @@ export interface Platform<
         | Resource["Providers"]
         | Exclude<PropsReq | InitReq, Services | PlatformServices | Resource>
       >;
-      new (_: never): MakeShape<Shape, BaseShape>;
+      new (_: never): MakeShape<Shape, BaseShape> & {
+        /** @internal */
+        "alchemy/Id": Id;
+      };
       of(shape: Shape & MainShape): MakeShape<Shape, BaseShape>;
     };
   };

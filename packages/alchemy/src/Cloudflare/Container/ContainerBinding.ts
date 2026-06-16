@@ -8,7 +8,6 @@ import {
 import { DurableObjectNamespace } from "../Workers/DurableObjectNamespace.ts";
 import { DurableObjectState } from "../Workers/DurableObjectState.ts";
 import { Worker } from "../Workers/Worker.ts";
-import type { Container } from "./Container.ts";
 import type { ContainerApplication } from "./ContainerApplication.ts";
 
 export const bindContainer = Effect.fnUntraced(function* <Shape, Req = never>(
@@ -69,6 +68,6 @@ export const bindContainer = Effect.fnUntraced(function* <Shape, Req = never>(
         Effect.promise(() => state.container?.monitor() ?? Promise.resolve()),
       start: (options?: ContainerStartupOptions) =>
         Effect.sync(() => state.container!.start(options)),
-    } satisfies Container as Shape;
+    } as unknown;
   });
 });

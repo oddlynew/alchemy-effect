@@ -38,7 +38,7 @@ export default class Api extends Cloudflare.Worker<Api>()(
     const agents = yield* Agent;
     const rooms = yield* Room;
     const notifier = yield* NotifyWorkflow;
-    const loader = yield* Cloudflare.DynamicWorkerLoader("Loader");
+    const loader = yield* Cloudflare.WorkerLoader("Loader");
     const bucket = yield* Cloudflare.R2Bucket.bind(Bucket);
     const kv = yield* Cloudflare.KVNamespace.bind(KV);
     const queueResource = yield* Queue;

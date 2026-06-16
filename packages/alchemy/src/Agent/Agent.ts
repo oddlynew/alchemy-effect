@@ -1,0 +1,69 @@
+import type * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import type * as Chat from "effect/unstable/ai/Chat";
+import type { ToolImpl } from "./Tool.ts";
+
+export interface Agent<
+  Name extends string = string,
+  Refs extends any[] = any[],
+  Service = AgentService,
+> {
+  [Symbol.iterator](): Effect.EffectIterator<
+    Effect.Effect<Service, never, this["req"]>
+  >;
+  "alchemy/Kind": "Agent";
+  name: Name;
+  refs: Refs;
+  req: Refs[number] extends infer A
+    ? A extends
+        | ToolImpl<infer _T, infer _Err, infer Req>
+        | Context.Service<infer Req, infer _Shape>
+      ? Req
+      : never
+    : never;
+  new (): AgentService;
+}
+
+export interface AgentService {
+  send(request: {
+    input: any;
+    session?: string;
+  }): Effect.Effect<void, never, Chat.Persistence>;
+}
+
+export const Agent: {
+  <Self>(): {
+    <Name extends string>(
+      id: Name,
+    ): {
+      <const Refs extends any[]>(
+        template: TemplateStringsArray,
+        ...refs: Refs
+      ): Agent<Name, Refs, Self>;
+    };
+  };
+  <Name extends string>(
+    id: Name,
+  ): {
+    <Refs extends any[]>(
+      template: TemplateStringsArray,
+      ...refs: Refs
+    ): Agent<Name, Refs>;
+  };
+} = ((name?: string) =>
+  name
+    ? (template: TemplateStringsArray, ...refs: any[]) =>
+        Object.assign(class {}, {
+          "alchemy/Kind": "Agent",
+          "alchemy/Name": name,
+          refs,
+          template,
+        })
+    : (name: string) =>
+        (template: TemplateStringsArray, ...refs: any[]) =>
+          Object.assign(class {}, {
+            "alchemy/Kind": "Agent",
+            "alchemy/Name": name,
+            refs,
+            template,
+          })) as any;

@@ -16,13 +16,13 @@ export default class DynamicLoaderEffectWorker extends Cloudflare.Worker<Dynamic
     main: import.meta.filename,
   },
   Effect.gen(function* () {
-    const loader = yield* Cloudflare.DynamicWorkerLoader("LOADER");
+    const loader = yield* Cloudflare.WorkerLoader("LOADER");
 
     return {
       fetch: Effect.gen(function* () {
         const request = yield* HttpServerRequest;
 
-        const worker = loader.load({
+        const worker = yield* loader.load({
           compatibilityDate: "2026-01-28",
           mainModule: "worker.js",
           modules: {

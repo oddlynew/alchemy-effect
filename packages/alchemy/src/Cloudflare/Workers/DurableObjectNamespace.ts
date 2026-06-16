@@ -10,7 +10,7 @@ import type { HttpEffect } from "../../Http.ts";
 import type { Input } from "../../Input.ts";
 import * as Output from "../../Output.ts";
 import { ALCHEMY_PHASE } from "../../Phase.ts";
-import type { PlatformServices } from "../../Platform.ts";
+import type { MainRpc, PlatformServices } from "../../Platform.ts";
 import { effectClass, taggedFunction } from "../../Util/effect.ts";
 import { asEffect } from "../../Util/types.ts";
 import { DurableObjectState } from "./DurableObjectState.ts";
@@ -154,7 +154,7 @@ export interface DurableObjectNamespaceClass extends Effect.Effect<
     };
   };
   <Self>(): {
-    <Shape, InitReq = never>(
+    <Shape extends MainRpc<DurableObjectServices>, InitReq = never>(
       name: string,
       impl: Effect.Effect<
         Effect.Effect<Shape, never, DurableObjectServices>,

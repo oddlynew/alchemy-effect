@@ -1,13 +1,17 @@
 import type * as cf from "@cloudflare/workers-types";
 import * as Config from "effect/Config";
+import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import { HttpServer, type HttpEffect } from "../../Http.ts";
 import * as Output from "../../Output.ts";
 import { Platform } from "../../Platform.ts";
+import type { Rpc } from "../../Rpc.ts";
 import * as Server from "../../Server/index.ts";
 import type { Fetcher } from "../Fetcher.ts";
+import type { DurableObjectState } from "../Workers/DurableObjectState.ts";
 import type {
   ContainerApplication,
   ContainerApplicationProps,
@@ -15,6 +19,7 @@ import type {
   ContainerShape,
 } from "./ContainerApplication.ts";
 import { bindContainer } from "./ContainerBinding.ts";
+import { start, type RunningContainer } from "./StartContainer.ts";
 
 export const ContainerTypeId = "Cloudflare.Container";
 export type ContainerTypeId = typeof ContainerTypeId;
@@ -47,6 +52,26 @@ export type Container = {
   interceptOutboundHttp(addr: string, binding: Fetcher): Effect.Effect<void>;
   interceptAllOutboundHttp(binding: Fetcher): Effect.Effect<void>;
 };
+
+export interface BoundContainer<Id extends string, Shape>
+  extends
+    Container,
+    Effect.Effect<
+      RunningContainer<Id, Shape>,
+      never,
+      DurableObjectState | RunningContainer<Id, Shape>
+    > {
+  "alchemy/Id": Id;
+}
+
+export type ContainerDecl<Id extends string, Shape, Req = never> =
+  | (ContainerApplication &
+      Rpc<Shape> & {
+        "alchemy/Id": Id;
+      })
+  | (Effect.Effect<ContainerApplication & Rpc<Shape>, never, Req> & {
+      "alchemy/Id": Id;
+    });
 
 /**
  * A Cloudflare Container that runs a long-lived process alongside a
@@ -100,11 +125,15 @@ export type Container = {
  *     const cp = yield* ChildProcessSpawner;
  *
  *     return Sandbox.of({
- *       exec: (cmd) =>
- *         cp.spawn(ChildProcess.make(cmd, { shell: true })).pipe(
- *           Effect.map(({ exitCode, stdout, stderr }) => ({
- *             exitCode, stdout, stderr,
- *           })),
+ *       exec: (command) =>
+ *         cp.spawn(ChildProcess.make(command, { shell: true })).pipe(
+ *           Effect.flatMap(({ exitCode, stdout, stderr }) =>
+ *             Effect.all({
+ *               exitCode,
+ *               stdout: stdout.pipe(Stream.decodeText, Stream.mkString),
+ *               stderr: stderr.pipe(Stream.decodeText, Stream.mkString),
+ *             }),
+ *           ),
  *           Effect.scoped,
  *         ),
  *       fetch: Effect.succeed(
@@ -230,7 +259,25 @@ export const Container: Platform<
   Server.ProcessContext,
   Container
 > & {
-  bind: typeof bindContainer;
+  /**
+   * Bind a Container to a Durable Object Namespace (during plan construction time).
+   */
+  bind: <Id extends string, Shape, Req = never>(
+    containerEff: ContainerDecl<Id, Shape, Req>,
+  ) => Effect.Effect<BoundContainer<Id, Shape>, never, Req>;
+  /**
+   * Take a dependency on a running Container within a Durable Object context.
+   */
+  running: <Id extends string, Shape, Req = never>(
+    containerEff: ContainerDecl<Id, Shape, Req>,
+  ) => BoundContainer<Id, Shape>;
+  /**
+   * Provide a Layer that starts a Container and makes it available to the Durable Object.
+   */
+  layer: <Id extends string, Shape>(
+    containerEff: BoundContainer<Id, Shape>,
+    options?: ContainerStartupOptions,
+  ) => Layer.Layer<BoundContainer<Id, Shape>, never, DurableObjectState>;
 } = Platform(
   "Cloudflare.Container",
   {
@@ -314,5 +361,15 @@ export const Container: Platform<
   },
   {
     bind: bindContainer,
+    running: (containerEff: ContainerDecl<any, any>) =>
+      Context.Service()(`RunningContainer<${containerEff["alchemy/Id"]}>`),
+    layer: (
+      containerEff: BoundContainer<any, any>,
+      options?: ContainerStartupOptions,
+    ) =>
+      Layer.effect(
+        Context.Service()(`RunningContainer<${containerEff["alchemy/Id"]}>`),
+        start(containerEff, options),
+      ),
   },
 );
