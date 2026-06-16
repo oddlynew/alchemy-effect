@@ -22,6 +22,12 @@ export class DestinationNotVerified extends Schema.TaggedErrorClass<DestinationN
 ) {}
 T.applyErrorMatchers(DestinationNotVerified, [{ code: 2054 }]);
 
+export class EmailRoutingRuleNotFound extends Schema.TaggedErrorClass<EmailRoutingRuleNotFound>()(
+  "EmailRoutingRuleNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(EmailRoutingRuleNotFound, [{ status: 404 }]);
+
 export class Forbidden extends Schema.TaggedErrorClass<Forbidden>()(
   "Forbidden",
   { code: Schema.Number, message: Schema.String },
@@ -2086,7 +2092,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
     }).pipe(T.ResponsePath("result")),
 ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
-export type DeleteRuleError = DefaultErrors;
+export type DeleteRuleError = DefaultErrors | EmailRoutingRuleNotFound;
 
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
@@ -2096,7 +2102,7 @@ export const deleteRule: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRuleRequest,
   output: DeleteRuleResponse,
-  errors: [],
+  errors: [EmailRoutingRuleNotFound],
 }));
 
 // =============================================================================

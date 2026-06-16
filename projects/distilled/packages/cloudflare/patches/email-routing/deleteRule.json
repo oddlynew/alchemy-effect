@@ -1,0 +1,5 @@
+{
+  "errors": {
+    "EmailRoutingRuleNotFound": [{ "status": 404 }]
+  }
+}

@@ -1278,6 +1278,9 @@ paths:
                     description: "@deprecated Routing rule tag. (Deprecated, replaced by routing
                       rule identifier)"
       x-distilled-response-path: result
+      x-distilled-errors:
+        EmailRoutingRuleNotFound:
+          - status: 404
   /zones/{zone_id}/email/routing/rules:
     get:
       operationId: listRules
