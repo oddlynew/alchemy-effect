@@ -180,7 +180,7 @@ export default class Api extends Cloudflare.Worker<Api>()(
         } else if (request.url.startsWith("/eval")) {
           if (request.method === "POST") {
             const code = yield* request.text;
-            const worker = loader.load({
+            const worker = yield* loader.load({
               compatibilityDate: "2026-01-28",
               mainModule: "worker.js",
               modules: {

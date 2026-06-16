@@ -1,5 +1,5 @@
 import * as Effect from "effect/Effect";
-
+import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
 import * as Cloudflare from "../../Cloudflare/index.ts";
 import * as Github from "../../GitHub/index.ts";
 import { ReleaseVersion } from "./ReleaseVersion.ts";
@@ -24,7 +24,18 @@ export default Cloudflare.Worker(
         ? versions.getByName(event.payload.head_commit!.id).generateBlog({
             input: event.payload,
           })
-        : Effect.void;
+        : Effect.log(
+            `Skipping commit "${event.payload.head_commit?.message}" (hash: ${event.payload.head_commit!.id})`,
+          );
     });
+
+    return {
+      fetch: Effect.gen(function* () {
+        yield* versions.getByName("TEST").generateBlog({
+          input: "TEST",
+        });
+        return HttpServerResponse.text("Hello, world!");
+      }),
+    };
   }).pipe(Effect.provide(Cloudflare.GitHubRepositoryEventSourceLive)),
 );

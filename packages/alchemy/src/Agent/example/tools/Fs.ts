@@ -4,7 +4,7 @@ import * as S from "effect/Schema";
 
 import * as Cloudflare from "../../../Cloudflare/index.ts";
 import * as Ai from "../../index.ts";
-import { DevBox } from "./DevBox.ts";
+import { DevBox } from "../DevBox.ts";
 
 export const path = Ai.Parameter("path", S.String)`
 The path to the file to search.`;

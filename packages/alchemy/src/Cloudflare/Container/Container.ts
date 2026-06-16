@@ -1,25 +1,35 @@
 import type * as cf from "@cloudflare/workers-types";
+import type { Id } from "@distilled.cloud/aws/apigatewayv2";
 import * as Config from "effect/Config";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
+import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
+import type * as HttpServerRequest from "effect/unstable/http/HttpServerRequest";
+import type * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
 import { HttpServer, type HttpEffect } from "../../Http.ts";
+import type { InputProps } from "../../Input.ts";
+import type { Named } from "../../Named.ts";
 import * as Output from "../../Output.ts";
 import { Platform } from "../../Platform.ts";
 import type { Rpc } from "../../Rpc.ts";
 import * as Server from "../../Server/index.ts";
 import type { Fetcher } from "../Fetcher.ts";
-import type { DurableObjectState } from "../Workers/DurableObjectState.ts";
+import { fromCloudflareFetcher, toCloudflareFetcher } from "../Fetcher.ts";
+import type { Providers } from "../Providers.ts";
+import { DurableObjectNamespace } from "../Workers/DurableObjectNamespace.ts";
+import { DurableObjectState } from "../Workers/DurableObjectState.ts";
+import { Worker } from "../Workers/Worker.ts";
 import type {
   ContainerApplication,
   ContainerApplicationProps,
   ContainerServices,
   ContainerShape,
 } from "./ContainerApplication.ts";
-import { bindContainer } from "./ContainerBinding.ts";
-import { start, type RunningContainer } from "./StartContainer.ts";
+import { start } from "./StartContainer.ts";
 
 export const ContainerTypeId = "Cloudflare.Container";
 export type ContainerTypeId = typeof ContainerTypeId;
@@ -37,11 +47,34 @@ export class ContainerError extends Data.TaggedError("ContainerError")<{
 
 export interface ContainerStartupOptions extends cf.ContainerStartupOptions {}
 
-export interface ContainerProps extends ContainerApplicationProps {
+export interface EffectfulContainerProps extends ContainerApplicationProps {
   main: string;
 }
+export interface ExternalContainerProps extends ContainerApplicationProps {
+  /**
+   * The directory containing the Dockerfile and other files for the container.
+   *
+   * @default `./`
+   */
+  context?: string;
+  /**
+   * The Dockerfile to use for the container.
+   *
+   * @default `./Dockerfile resolved relative to the {@link context} directory.
+   */
+  dockerfile?: string;
+}
+export interface RemoteContainerProps extends ContainerApplicationProps {
+  /**
+   * The image to use for the container.
+   *
+   * E.g. `ghcr.io/alpine/alpine:latest`
+   */
+  image: string;
+}
 
-export type Container = {
+export type Container<Id extends string = string> = {
+  id: Id;
   get running(): Effect.Effect<boolean>;
   start(options?: ContainerStartupOptions): Effect.Effect<void>;
   monitor(): Effect.Effect<void, ContainerError>;
@@ -53,25 +86,36 @@ export type Container = {
   interceptAllOutboundHttp(binding: Fetcher): Effect.Effect<void>;
 };
 
-export interface BoundContainer<Id extends string, Shape>
-  extends
-    Container,
-    Effect.Effect<
-      RunningContainer<Id, Shape>,
-      never,
-      DurableObjectState | RunningContainer<Id, Shape>
-    > {
-  "alchemy/Id": Id;
-}
+export declare namespace Container {
+  export type Decl<Id extends string, Shape, Req = never> =
+    | (ContainerApplication & Rpc<Shape> & Named<Id>)
+    | (Effect.Effect<ContainerApplication & Rpc<Shape>, never, Req> &
+        Named<Id>);
+  export interface Bound<Shape>
+    extends
+      Container,
+      Effect.Effect<
+        Container.Running<Shape>,
+        never,
+        DurableObjectState | Container.Running<Shape>
+      > {
+    "alchemy/Id": string;
+  }
 
-export type ContainerDecl<Id extends string, Shape, Req = never> =
-  | (ContainerApplication &
-      Rpc<Shape> & {
-        "alchemy/Id": Id;
-      })
-  | (Effect.Effect<ContainerApplication & Rpc<Shape>, never, Req> & {
-      "alchemy/Id": Id;
-    });
+  export type Running<Shape = any> = Container &
+    Shape & {
+      getTcpPort: (portNumber: number) => Effect.Effect<{
+        fetch: {
+          (
+            request: HttpClientRequest.HttpClientRequest,
+          ): Effect.Effect<HttpClientResponse.HttpClientResponse>;
+          (
+            request: HttpServerRequest.HttpServerRequest,
+          ): Effect.Effect<HttpServerResponse.HttpServerResponse>;
+        };
+      }>;
+    };
+}
 
 /**
  * A Cloudflare Container that runs a long-lived process alongside a
@@ -259,25 +303,33 @@ export const Container: Platform<
   Server.ProcessContext,
   Container
 > & {
+  (
+    id: string,
+    props: InputProps<
+      EffectfulContainerProps | ExternalContainerProps | RemoteContainerProps
+    >,
+  ): Effect.Effect<Container, never, Providers> & {
+    new (): {};
+  };
   /**
    * Bind a Container to a Durable Object Namespace (during plan construction time).
    */
   bind: <Id extends string, Shape, Req = never>(
-    containerEff: ContainerDecl<Id, Shape, Req>,
-  ) => Effect.Effect<BoundContainer<Id, Shape>, never, Req>;
+    containerEff: Container.Decl<Id, Shape, Req>,
+  ) => Effect.Effect<Container.Bound<Shape>, never, Req>;
   /**
    * Take a dependency on a running Container within a Durable Object context.
    */
-  running: <Id extends string, Shape, Req = never>(
-    containerEff: ContainerDecl<Id, Shape, Req>,
-  ) => BoundContainer<Id, Shape>;
+  running: <Shape, Req = never>(
+    containerEff: Container.Decl<Id, Shape, Req>,
+  ) => Container.Bound<Shape>;
   /**
    * Provide a Layer that starts a Container and makes it available to the Durable Object.
    */
-  layer: <Id extends string, Shape>(
-    containerEff: BoundContainer<Id, Shape>,
+  layer: <Shape>(
+    containerEff: Container.Bound<Shape>,
     options?: ContainerStartupOptions,
-  ) => Layer.Layer<BoundContainer<Id, Shape>, never, DurableObjectState>;
+  ) => Layer.Layer<Container.Bound<Shape>, never, DurableObjectState>;
 } = Platform(
   "Cloudflare.Container",
   {
@@ -360,15 +412,80 @@ export const Container: Platform<
     },
   },
   {
-    bind: bindContainer,
-    running: (containerEff: ContainerDecl<any, any>) =>
-      Context.Service()(`RunningContainer<${containerEff["alchemy/Id"]}>`),
-    layer: (
-      containerEff: BoundContainer<any, any>,
+    bind: Effect.fnUntraced(function* <Shape, Req = never>(
+      containerEff:
+        | (ContainerApplication & Rpc<Shape>)
+        | Effect.Effect<ContainerApplication & Rpc<Shape>, never, Req>,
+    ) {
+      const namespace = yield* DurableObjectNamespace;
+
+      const container = Effect.isEffect(containerEff)
+        ? yield* containerEff as unknown as Effect.Effect<
+            ContainerApplication & Rpc<Shape>
+          >
+        : containerEff;
+
+      yield* container.bind`${namespace}`({
+        durableObjects: {
+          namespaceId: namespace.namespaceId,
+        },
+      });
+
+      const worker = yield* Worker;
+      const className = namespace.name;
+
+      yield* worker.bind`${container.LogicalId}`({
+        containers: [{ className }],
+      });
+
+      // TODO(sam): register this in the Container Execution Context
+      // const _httpEffect = yield* init;
+      return Effect.gen(function* () {
+        const state = yield* DurableObjectState;
+        return {
+          id: container.LogicalId,
+          running: Effect.sync(() => state.container!.running ?? false),
+          destroy: (error?: any) =>
+            Effect.promise(() => state.container!.destroy(error)),
+          signal: (signo: number) =>
+            Effect.sync(() => state.container!.signal(signo)),
+          getTcpPort: (port: number) =>
+            Effect.sync(() =>
+              fromCloudflareFetcher(state.container!.getTcpPort(port)),
+            ),
+          setInactivityTimeout: (durationMs: number | bigint) =>
+            Effect.sync(() =>
+              state.container!.setInactivityTimeout(durationMs),
+            ),
+          interceptOutboundHttp: (addr: string, binding: Fetcher) =>
+            toCloudflareFetcher(binding).pipe(
+              Effect.map((binding) =>
+                state.container!.interceptOutboundHttp(addr, binding),
+              ),
+            ),
+          interceptAllOutboundHttp: (binding: Fetcher) =>
+            toCloudflareFetcher(binding).pipe(
+              Effect.map((binding) =>
+                state.container!.interceptAllOutboundHttp(binding),
+              ),
+            ),
+          monitor: () =>
+            Effect.promise(
+              () => state.container?.monitor() ?? Promise.resolve(),
+            ),
+          start: (options?: ContainerStartupOptions) =>
+            Effect.sync(() => state.container!.start(options)),
+        } as unknown;
+      });
+    }),
+    running: (containerEff: Container.Decl<any, any>) =>
+      Context.Service()(`Container.Running<${containerEff["alchemy/Id"]}>`),
+    layer: <Image extends Container>(
+      containerEff: Container.Bound<Image>,
       options?: ContainerStartupOptions,
     ) =>
       Layer.effect(
-        Context.Service()(`RunningContainer<${containerEff["alchemy/Id"]}>`),
+        Context.Service()(`Container.Running<${containerEff["alchemy/Id"]}>`),
         start(containerEff, options),
       ),
   },

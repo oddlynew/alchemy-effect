@@ -6,36 +6,17 @@ import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as HttpServerRequest from "effect/unstable/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
 import { type Fetcher } from "../Fetcher.ts";
-import { DurableObjectState } from "../Workers/DurableObjectState.ts";
 import {
   type Container,
   ContainerError,
   type ContainerStartupOptions,
 } from "./Container.ts";
 
-export type RunningContainer<Id extends string, Shape = any> = Container &
-  Shape & {
-    "alchemy/Id": Id;
-    getTcpPort: (portNumber: number) => Effect.Effect<{
-      fetch: {
-        (
-          request: HttpClientRequest.HttpClientRequest,
-        ): Effect.Effect<HttpClientResponse.HttpClientResponse>;
-        (
-          request: HttpServerRequest.HttpServerRequest,
-        ): Effect.Effect<HttpServerResponse.HttpServerResponse>;
-      };
-    }>;
-  };
-
 /**
  * Runs the Container in a Durable Object and monitors it, providing a durable fetch and RPC interface to it.
  */
-export const start = Effect.fnUntraced(function* <
-  Shape extends Container,
-  Req = never,
->(
-  containerEff: Effect.Effect<Shape, never, Req | DurableObjectState>,
+export const start = Effect.fnUntraced(function* <Image extends Container>(
+  containerEff: Container.Bound<Image>,
   options?: ContainerStartupOptions,
 ) {
   const container = yield* containerEff;
@@ -95,9 +76,8 @@ export const start = Effect.fnUntraced(function* <
     });
 
   return {
-    "alchemy/Id": container["alchemy/Id"],
     ...container,
     getTcpPort,
     fetch: getTcpPort(3000),
-  } as RunningContainer<string, Shape>;
+  } as Container.Running<Image>;
 });

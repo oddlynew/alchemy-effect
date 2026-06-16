@@ -3,8 +3,8 @@ import * as Layer from "effect/Layer";
 import * as Chat from "effect/unstable/ai/Chat";
 
 import * as Cloudflare from "../../Cloudflare/index.ts";
+import { DevBox } from "./DevBox.ts";
 import { ReleaseBlogger } from "./ReleaseBlogger.ts";
-import { DevBox } from "./tools/DevBox.ts";
 import { GrepLive } from "./tools/Grep.ts";
 import { SqlDurableObjectLive } from "./tools/Sql.ts";
 

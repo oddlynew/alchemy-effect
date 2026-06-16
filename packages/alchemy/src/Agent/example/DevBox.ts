@@ -4,7 +4,7 @@ import * as Stream from "effect/Stream";
 import * as ChildProcess from "effect/unstable/process/ChildProcess";
 import { ChildProcessSpawner } from "effect/unstable/process/ChildProcessSpawner";
 
-import * as Cloudflare from "../../../Cloudflare/index.ts";
+import * as Cloudflare from "../../Cloudflare/index.ts";
 
 export class DevBox extends Cloudflare.Container<
   DevBox,

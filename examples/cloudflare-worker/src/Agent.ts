@@ -5,6 +5,7 @@ import { Sandbox } from "./Sandbox.ts";
 
 export default class Agent extends Cloudflare.DurableObjectNamespace<Agent>()(
   "Agents",
+  // @ts-expect-error
   Effect.gen(function* () {
     const sandbox = yield* Cloudflare.Container.bind(Sandbox);
 
@@ -25,7 +26,7 @@ export default class Agent extends Cloudflare.DurableObjectNamespace<Agent>()(
       }
 
       return {
-        exec: (command: string) => container.exec(command),
+        exec: (command: string) => container.exec(command).pipe(Effect.orDie),
         hello: () =>
           Effect.gen(function* () {
             const { fetch } = yield* container.getTcpPort(3000);
@@ -33,7 +34,7 @@ export default class Agent extends Cloudflare.DurableObjectNamespace<Agent>()(
               HttpClientRequest.get("http://container/"),
             );
             return yield* response.text;
-          }),
+          }).pipe(Effect.orDie),
         increment: () =>
           Effect.gen(function* () {
             const { fetch } = yield* container.getTcpPort(3000);
@@ -41,14 +42,14 @@ export default class Agent extends Cloudflare.DurableObjectNamespace<Agent>()(
               HttpClientRequest.post("http://container/increment"),
             );
             return yield* response.text;
-          }),
+          }).pipe(Effect.orDie),
         fetch: Effect.gen(function* () {
           const [response, socket] = yield* Cloudflare.upgrade();
           const id = "TODO";
           socket.serializeAttachment({ id });
           sessions.set(id, socket);
           return response;
-        }),
+        }).pipe(Effect.orDie),
         webSocketMessage: Effect.fnUntraced(function* (
           socket: Cloudflare.DurableWebSocket,
           message: string | Uint8Array,
