@@ -1,15 +1,19 @@
 import * as Containers from "@distilled.cloud/cloudflare/containers";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
 import * as Schedule from "effect/Schedule";
 import type * as rolldown from "rolldown";
 import { Unowned } from "../../AdoptPolicy.ts";
 import { AlchemyContext } from "../../AlchemyContext.ts";
+import { hashDirectory } from "../../Build/Memo.ts";
 import * as Bundle from "../../Bundle/Bundle.ts";
 import {
   dockerBuild,
+  dockerTag,
   materializeDockerfile,
   pushImage,
+  runDockerCommand,
   writeContextFiles,
 } from "../../Bundle/Docker.ts";
 import {
@@ -88,10 +92,33 @@ export namespace ContainerApplication {
 
 export interface ContainerApplicationProps extends PlatformProps {
   /**
-   * Main entrypoint for the container program. This file is bundled and
-   * added to the Docker image as the container's entrypoint.
+   * Main entrypoint for an Effect-native container program. This file is
+   * bundled and added to a generated Docker image as the container's
+   * entrypoint.
+   *
+   * The image source is selected by which of these props are set, in order:
+   *
+   * 1. {@link main} — bundle the Effect program and build a generated image.
+   * 2. {@link image} — pull the given remote image and re-push it to
+   *    Cloudflare's registry (no build).
+   * 3. {@link context} / {@link dockerfile} — build the user's own Dockerfile
+   *    against a build context directory.
    */
   main?: string;
+  /**
+   * A pre-built remote image to deploy, e.g. `ghcr.io/alpine/alpine:latest`.
+   *
+   * When set (and {@link main} is not), Alchemy pulls this image and re-pushes
+   * it to Cloudflare's managed registry instead of building anything.
+   */
+  image?: string;
+  /**
+   * Build context directory used when building the container from a user
+   * Dockerfile (i.e. when neither {@link main} nor {@link image} is set).
+   *
+   * @default `.`
+   */
+  context?: string;
   /**
    * Exported handler symbol inside the bundled module.
    * @default "default"
@@ -135,9 +162,16 @@ export interface ContainerApplicationProps extends PlatformProps {
    */
   name?: string;
   /**
-   * Inline Dockerfile used as the base for building the container image.
-   * Alchemy appends statements to copy the bundled program and set the
-   * entrypoint. If omitted, a default base image matching the runtime is used.
+   * Dockerfile used to build the container image. Its meaning depends on the
+   * selected variant:
+   *
+   * - With {@link main}: an inline Dockerfile string used as the base image.
+   *   Alchemy appends statements to copy the bundled program and set the
+   *   entrypoint. If omitted, a default base image matching the runtime is used.
+   * - Without {@link main} (and without {@link image}): a path to the
+   *   Dockerfile to build, resolved relative to {@link context}.
+   *
+   * @default `<context>/Dockerfile` for the user-Dockerfile variant.
    */
   dockerfile?: string;
   /**
@@ -248,6 +282,29 @@ export type ContainerServices =
   | PlatformServices
   | Server.ProcessServices;
 
+/**
+ * The image source resolved from a {@link ContainerApplicationProps}. Selects
+ * one of three strategies used by `buildAndPushImage`:
+ *
+ * - `effectful` — bundle an Effect-native `main` and build a generated image.
+ * - `external` — build a user-supplied Dockerfile against a context directory.
+ * - `remote` — pull a pre-built remote image and re-push it to Cloudflare.
+ */
+type ImageBuild =
+  | {
+      readonly kind: "effectful";
+      readonly files: ReadonlyArray<{ path: string; content: Uint8Array }>;
+    }
+  | {
+      readonly kind: "external";
+      readonly context: string;
+      readonly dockerfile: string;
+    }
+  | {
+      readonly kind: "remote";
+      readonly image: string;
+    };
+
 export type ContainerShape = Main<ContainerServices>;
 
 /**
@@ -356,6 +413,7 @@ export const ContainerProvider = () =>
       const stack = yield* Stack;
       const { dotAlchemy } = yield* AlchemyContext;
       const fs = yield* FileSystem.FileSystem;
+      const path = yield* Path.Path;
       const virtualEntryPlugin = yield* Bundle.virtualEntryPlugin;
 
       const telemetry = yield* CloudflareLogs;
@@ -414,45 +472,75 @@ export const ContainerProvider = () =>
           checks: props.checks,
         }) as ContainerApplication.Configuration;
 
-      const computeImageHash = Effect.fnUntraced(function* (
+      const computeImage = Effect.fnUntraced(function* (
         id: string,
         props: ContainerApplicationProps,
       ) {
-        const main = props.main;
-        if (!main) {
-          return yield* Effect.fail(
-            new Error("Container requires a `main` entrypoint."),
-          );
-        }
         const { accountId } = yield* yield* CloudflareEnvironment;
-
-        const runtime = props.runtime ?? "bun";
-        const { files, hash: bundleHash } = yield* bundleProgram({
-          id,
-          main,
-          runtime,
-          handler: props.handler,
-          isExternal: props.isExternal,
-          external: props.external,
-        });
-
-        const finalDockerfile = buildFinalDockerfile(
-          props.dockerfile,
-          runtime,
-          props.external,
-          props.autoInstallExternals,
-        );
-        const imageHash = (yield* sha256Object({
-          bundleHash,
-          dockerfile: finalDockerfile,
-        })).slice(0, 16);
-
         const name = yield* createApplicationName(id, props.name);
         const registryId = props.registryId ?? "registry.cloudflare.com";
         const repositoryName = name.toLowerCase();
-        const imageRef = `${registryId}/${accountId}/${repositoryName}:${imageHash}`;
+        const makeRef = (imageHash: string) =>
+          `${registryId}/${accountId}/${repositoryName}:${imageHash}`;
 
-        return { files, imageRef, imageHash };
+        // Variant 1 — Effect-native program. Bundle `main` and build a
+        // generated Dockerfile around it.
+        if (props.main) {
+          const runtime = props.runtime ?? "bun";
+          const { files, hash: bundleHash } = yield* bundleProgram({
+            id,
+            main: props.main,
+            runtime,
+            handler: props.handler,
+            isExternal: props.isExternal,
+            external: props.external,
+          });
+          const finalDockerfile = buildFinalDockerfile(
+            props.dockerfile,
+            runtime,
+            props.external,
+            props.autoInstallExternals,
+          );
+          const imageHash = (yield* sha256Object({
+            bundleHash,
+            dockerfile: finalDockerfile,
+          })).slice(0, 16);
+          return {
+            build: { kind: "effectful" as const, files },
+            imageRef: makeRef(imageHash),
+            imageHash,
+          };
+        }
+
+        // Variant 2 — pre-built remote image. The image reference is the
+        // identity; we pull and re-push it without building anything.
+        if (props.image) {
+          const imageHash = (yield* sha256Object({
+            image: props.image,
+          })).slice(0, 16);
+          return {
+            build: { kind: "remote" as const, image: props.image },
+            imageRef: makeRef(imageHash),
+            imageHash,
+          };
+        }
+
+        // Variant 3 — user-supplied Dockerfile + build context directory.
+        const context = yield* fs.realPath(props.context ?? ".");
+        const dockerfile = props.dockerfile
+          ? yield* fs.realPath(props.dockerfile)
+          : path.join(context, "Dockerfile");
+        const contextHash = yield* hashDirectory({ cwd: context });
+        const dockerfileContent = yield* fs.readFileString(dockerfile);
+        const imageHash = (yield* sha256Object({
+          contextHash,
+          dockerfile: dockerfileContent,
+        })).slice(0, 16);
+        return {
+          build: { kind: "external" as const, context, dockerfile },
+          imageRef: makeRef(imageHash),
+          imageHash,
+        };
       });
 
       const bundleProgram = Effect.fnUntraced(function* ({
@@ -630,49 +718,83 @@ await Effect.runPromise(serverEffect).catch((err) => {
       const buildAndPushImage = Effect.fnUntraced(function* (
         id: string,
         props: ContainerApplicationProps,
-        files: ReadonlyArray<{ path: string; content: Uint8Array }>,
+        build: ImageBuild,
         imageRef: string,
         session?: { note: (message: string) => Effect.Effect<void> },
       ) {
         const { accountId } = yield* yield* CloudflareEnvironment;
+        const platform = "linux/amd64";
 
-        const runtime = props.runtime ?? "bun";
-
-        yield* Effect.logInfo(
-          `Cloudflare Container image: building ${imageRef}`,
-        );
-        if (session) {
-          yield* session.note(`Building container image ${imageRef}...`);
+        if (build.kind === "remote") {
+          // Pull the pre-built image and re-tag it to the Cloudflare registry
+          // reference; nothing is built locally.
+          yield* Effect.logInfo(
+            `Cloudflare Container image: pulling ${build.image}`,
+          );
+          if (session) {
+            yield* session.note(`Pulling container image ${build.image}...`);
+          }
+          yield* runDockerCommand([
+            "pull",
+            "--platform",
+            platform,
+            build.image,
+          ]);
+          yield* dockerTag(build.image, imageRef);
+        } else if (build.kind === "external") {
+          // Build the user's Dockerfile directly against their context dir so
+          // relative `COPY`/`ADD` paths resolve as the author intended.
+          yield* Effect.logInfo(
+            `Cloudflare Container image: building ${imageRef}`,
+          );
+          if (session) {
+            yield* session.note(`Building container image ${imageRef}...`);
+          }
+          yield* dockerBuild({
+            tag: imageRef,
+            context: build.context,
+            platform,
+            extraArgs: ["-f", build.dockerfile],
+          });
+        } else {
+          // Effect-native program: materialize the generated Dockerfile and
+          // bundled chunks into a stable staging dir, then build.
+          yield* Effect.logInfo(
+            `Cloudflare Container image: building ${imageRef}`,
+          );
+          if (session) {
+            yield* session.note(`Building container image ${imageRef}...`);
+          }
+          const runtime = props.runtime ?? "bun";
+          const contextDir = yield* getStableContextDir(
+            process.cwd(),
+            dotAlchemy,
+            `${id}-container`,
+          );
+          const finalDockerfile = buildFinalDockerfile(
+            props.dockerfile,
+            runtime,
+            props.external,
+            props.autoInstallExternals,
+          );
+          yield* materializeDockerfile(finalDockerfile, contextDir);
+          yield* writeContextFiles(
+            contextDir,
+            build.files.map((f, i) => ({
+              // Keep the entry rename to `index.mjs` so the Dockerfile
+              // ENTRYPOINT (`ENTRYPOINT ["bun", "/app/index.mjs"]`) stays
+              // valid; preserve rolldown-assigned fileNames for every other
+              // chunk so intra-bundle relative imports resolve at runtime.
+              path: i === 0 ? "index.mjs" : f.path,
+              content: f.content,
+            })),
+          );
+          yield* dockerBuild({
+            tag: imageRef,
+            context: contextDir,
+            platform,
+          });
         }
-
-        const contextDir = yield* getStableContextDir(
-          process.cwd(),
-          dotAlchemy,
-          `${id}-container`,
-        );
-        const finalDockerfile = buildFinalDockerfile(
-          props.dockerfile,
-          runtime,
-          props.external,
-          props.autoInstallExternals,
-        );
-        yield* materializeDockerfile(finalDockerfile, contextDir);
-        yield* writeContextFiles(
-          contextDir,
-          files.map((f, i) => ({
-            // Keep the entry rename to `index.mjs` so the Dockerfile
-            // ENTRYPOINT (`ENTRYPOINT ["bun", "/app/index.mjs"]`) stays
-            // valid; preserve rolldown-assigned fileNames for every other
-            // chunk so intra-bundle relative imports resolve at runtime.
-            path: i === 0 ? "index.mjs" : f.path,
-            content: f.content,
-          })),
-        );
-        yield* dockerBuild({
-          tag: imageRef,
-          context: contextDir,
-          platform: "linux/amd64",
-        });
 
         yield* Effect.logInfo(
           `Cloudflare Container image: pushing ${imageRef}`,
@@ -895,14 +1017,11 @@ await Effect.runPromise(serverEffect).catch((err) => {
         yield* Effect.logInfo(
           `Cloudflare Container update: preparing ${existing.applicationName}`,
         );
-        const { files, imageRef, imageHash } = yield* computeImageHash(
-          id,
-          news,
-        );
+        const { build, imageRef, imageHash } = yield* computeImage(id, news);
         const configuration = desiredConfiguration(news, imageRef);
 
         if (imageHash !== existing.hash?.image) {
-          yield* buildAndPushImage(id, news, files, imageRef, session);
+          yield* buildAndPushImage(id, news, build, imageRef, session);
         }
 
         yield* session.note(
@@ -1000,7 +1119,7 @@ await Effect.runPromise(serverEffect).catch((err) => {
             return undefined;
           }
 
-          const { imageHash } = yield* computeImageHash(id, news);
+          const { imageHash } = yield* computeImage(id, news);
           if (imageHash !== output.hash?.image) {
             return { action: "update" } as const;
           }
@@ -1011,12 +1130,9 @@ await Effect.runPromise(serverEffect).catch((err) => {
             `Cloudflare Container precreate: starting ${name}`,
           );
 
-          const { files, imageRef, imageHash } = yield* computeImageHash(
-            id,
-            news,
-          );
+          const { build, imageRef, imageHash } = yield* computeImage(id, news);
           const configuration = desiredConfiguration(news, imageRef);
-          yield* buildAndPushImage(id, news, files, imageRef, session);
+          yield* buildAndPushImage(id, news, build, imageRef, session);
 
           // Precreate intentionally omits the Durable Object attachment so the
           // worker can bind to this application id and break the circular
@@ -1051,10 +1167,7 @@ await Effect.runPromise(serverEffect).catch((err) => {
             `Cloudflare Container reconcile: starting ${name}`,
           );
           const durableObjects = yield* getDurableObjects(bindings);
-          const { files, imageRef, imageHash } = yield* computeImageHash(
-            id,
-            news,
-          );
+          const { build, imageRef, imageHash } = yield* computeImage(id, news);
           const configuration = desiredConfiguration(news, imageRef);
 
           // Observe — re-fetch the cached application to confirm it still
@@ -1134,7 +1247,7 @@ await Effect.runPromise(serverEffect).catch((err) => {
               ),
             );
             if (imageHash !== existing.hash?.image) {
-              yield* buildAndPushImage(id, news, files, imageRef, session);
+              yield* buildAndPushImage(id, news, build, imageRef, session);
             }
             const result = yield* createApplication({
               id,
@@ -1168,7 +1281,7 @@ await Effect.runPromise(serverEffect).catch((err) => {
           // then create. `createApplication` itself tolerates concurrent
           // creates by adopting an existing application with the same
           // name or namespace.
-          yield* buildAndPushImage(id, news, files, imageRef, session);
+          yield* buildAndPushImage(id, news, build, imageRef, session);
           const result = yield* createApplication({
             id,
             news,
