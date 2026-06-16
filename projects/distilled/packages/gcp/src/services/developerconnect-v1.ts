@@ -2492,7 +2492,11 @@ export const ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRep
   /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** ProcessBitbucketDataCenterWebhook is called by the external Bitbucket Data Center instances for notifying events. */
 export const processBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<
@@ -2626,7 +2630,11 @@ export const FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksRe
   /*@__PURE__*/ /*#__PURE__*/ FetchReadWriteTokenResponse;
 
 export type FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Fetches read/write token of a given gitRepositoryLink. */
 export const fetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<
@@ -2670,7 +2678,11 @@ export const ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitReposito
   /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** ProcessBitbucketCloudWebhook is called by the external Bitbucket Cloud instances for notifying events. */
 export const processBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<
@@ -2758,7 +2770,11 @@ export const ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitReposi
   /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** ProcessGitLabEnterpriseWebhook is called by the external GitLab Enterprise instances for notifying events. */
 export const processGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<
@@ -2800,7 +2816,11 @@ export const ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksR
   /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** ProcessGitLabWebhook is called by the GitLab.com for notifying events. */
 export const processGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<

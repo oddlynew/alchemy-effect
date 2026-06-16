@@ -1839,7 +1839,11 @@ export const GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRespo
   /*@__PURE__*/ /*#__PURE__*/ GenerateCustomToolspecResponse;
 
 export type GenerateConnectionToolspecOverrideProjectsLocationsConnectionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Generate toolspec override for the given list of toolNames. */
 export const generateConnectionToolspecOverrideProjectsLocationsConnections: API.OperationMethod<
@@ -2436,7 +2440,11 @@ export const UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
   /*@__PURE__*/ /*#__PURE__*/ UpdateEntitiesWithConditionsResponse;
 
 export type UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Updates entities based on conditions specified in the request and not on entity id. */
 export const updateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<
@@ -2483,7 +2491,11 @@ export const DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
   /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Deletes entities based on conditions specified in the request and not on entity id. */
 export const deleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<

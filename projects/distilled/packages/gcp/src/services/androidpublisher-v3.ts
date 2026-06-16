@@ -10591,7 +10591,11 @@ export const BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRe
   /*@__PURE__*/ /*#__PURE__*/ BatchUpdateOneTimeProductOfferStatesResponse;
 
 export type BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Updates a batch of one-time product offer states. */
 export const batchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<

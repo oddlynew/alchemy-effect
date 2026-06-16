@@ -12925,7 +12925,11 @@ export const SuggestKnowledgeAssistProjectsConversationsParticipantsSuggestionsR
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse;
 
 export type SuggestKnowledgeAssistProjectsConversationsParticipantsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestKnowledgeAssistProjectsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestKnowledgeAssistProjectsConversationsParticipantsSuggestionsRequest,
@@ -13055,7 +13059,11 @@ export const SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsRespon
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse;
 
 export type SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestFaqAnswersProjectsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestFaqAnswersProjectsConversationsParticipantsSuggestionsRequest,
@@ -13095,7 +13103,11 @@ export const SuggestSmartRepliesProjectsConversationsParticipantsSuggestionsResp
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse;
 
 export type SuggestSmartRepliesProjectsConversationsParticipantsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestSmartRepliesProjectsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestSmartRepliesProjectsConversationsParticipantsSuggestionsRequest,
@@ -14255,7 +14267,11 @@ export const SuggestSmartRepliesProjectsLocationsConversationsParticipantsSugges
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestSmartRepliesResponse;
 
 export type SuggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestSmartRepliesProjectsLocationsConversationsParticipantsSuggestionsRequest,
@@ -14297,7 +14313,11 @@ export const SuggestArticlesProjectsLocationsConversationsParticipantsSuggestion
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestArticlesResponse;
 
 export type SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestArticlesProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestArticlesProjectsLocationsConversationsParticipantsSuggestionsRequest,
@@ -14339,7 +14359,11 @@ export const SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggesti
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestFaqAnswersResponse;
 
 export type SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestFaqAnswersProjectsLocationsConversationsParticipantsSuggestionsRequest,
@@ -14381,7 +14405,11 @@ export const SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSug
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestKnowledgeAssistResponse;
 
 export type SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestions: API.OperationMethod<
   SuggestKnowledgeAssistProjectsLocationsConversationsParticipantsSuggestionsRequest,
@@ -14510,7 +14538,11 @@ export const SuggestConversationSummaryProjectsLocationsConversationsSuggestions
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SuggestConversationSummaryResponse;
 
 export type SuggestConversationSummaryProjectsLocationsConversationsSuggestionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const suggestConversationSummaryProjectsLocationsConversationsSuggestions: API.OperationMethod<
   SuggestConversationSummaryProjectsLocationsConversationsSuggestionsRequest,
@@ -16268,7 +16300,11 @@ export const ClearSuggestionFeatureConfigProjectsLocationsConversationProfilesRe
   /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type ClearSuggestionFeatureConfigProjectsLocationsConversationProfilesError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const clearSuggestionFeatureConfigProjectsLocationsConversationProfiles: API.OperationMethod<
   ClearSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest,
@@ -16310,7 +16346,11 @@ export const SetSuggestionFeatureConfigProjectsLocationsConversationProfilesResp
   /*@__PURE__*/ /*#__PURE__*/ GoogleLongrunningOperation;
 
 export type SetSuggestionFeatureConfigProjectsLocationsConversationProfilesError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const setSuggestionFeatureConfigProjectsLocationsConversationProfiles: API.OperationMethod<
   SetSuggestionFeatureConfigProjectsLocationsConversationProfilesRequest,
@@ -18193,7 +18233,11 @@ export const DeleteContextsProjectsLocationsAgentEnvironmentsUsersSessionsRespon
   /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteContextsProjectsLocationsAgentEnvironmentsUsersSessionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const deleteContextsProjectsLocationsAgentEnvironmentsUsersSessions: API.OperationMethod<
   DeleteContextsProjectsLocationsAgentEnvironmentsUsersSessionsRequest,
@@ -18310,7 +18354,11 @@ export const CreateProjectsLocationsAgentEnvironmentsUsersSessionsContextsRespon
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1Context;
 
 export type CreateProjectsLocationsAgentEnvironmentsUsersSessionsContextsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const createProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.OperationMethod<
   CreateProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest,
@@ -18424,7 +18472,11 @@ export const DeleteProjectsLocationsAgentEnvironmentsUsersSessionsContextsRespon
   /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAgentEnvironmentsUsersSessionsContextsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const deleteProjectsLocationsAgentEnvironmentsUsersSessionsContexts: API.OperationMethod<
   DeleteProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest,
@@ -18455,7 +18507,9 @@ export const GetProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRespon
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SessionEntityType;
 
 export type GetProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 export const getProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   GetProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
@@ -18495,7 +18549,11 @@ export const CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRes
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SessionEntityType;
 
 export type CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const createProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   CreateProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
@@ -18535,7 +18593,11 @@ export const PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesResp
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1SessionEntityType;
 
 export type PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const patchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
@@ -18571,7 +18633,9 @@ export const ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRespo
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudDialogflowV2beta1ListSessionEntityTypesResponse;
 
 export type ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 export const listProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.PaginatedOperationMethod<
   ListProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,
@@ -18607,7 +18671,11 @@ export const DeleteProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRes
   /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 export const deleteProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes: API.OperationMethod<
   DeleteProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest,

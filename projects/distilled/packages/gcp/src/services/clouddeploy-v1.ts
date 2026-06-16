@@ -6296,7 +6296,11 @@ export const TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsR
   /*@__PURE__*/ /*#__PURE__*/ TerminateJobRunResponse;
 
 export type TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Terminates a Job Run in a given project and location. */
 export const terminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.OperationMethod<
@@ -6343,7 +6347,9 @@ export const ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsRespon
   /*@__PURE__*/ /*#__PURE__*/ ListJobRunsResponse;
 
 export type ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Lists JobRuns in a given project and location. */
 export const listProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.PaginatedOperationMethod<

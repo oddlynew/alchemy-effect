@@ -14033,7 +14033,11 @@ export const CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResp
   /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type CreateAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Assigns a targeting option to an ad group. Returns the assigned targeting option if successful. This method is only supported for Demand Gen ad groups. Retrieval and management of Demand Gen resources is currently in beta. This method is only available to allowlisted users. */
 export const createAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.OperationMethod<
@@ -14132,7 +14136,11 @@ export const DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResp
   /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Deletes an assigned targeting option from an ad group. This method is only supported for Demand Gen ad groups with the AdGroupFormat `AD_GROUP_FORMAT_DEMAND_GEN`. Retrieval and management of Demand Gen resources is currently in beta. This method is only available to allowlisted users. */
 export const deleteAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.OperationMethod<
@@ -14238,7 +14246,9 @@ export const ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRespon
   /*@__PURE__*/ /*#__PURE__*/ ListAdGroupAssignedTargetingOptionsResponse;
 
 export type ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Lists the targeting options assigned to an ad group. Inherited assigned targeting options are not included. */
 export const listAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.PaginatedOperationMethod<
@@ -15539,7 +15549,9 @@ export const GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRespon
   /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Gets a single targeting option assigned to a line item. */
 export const getAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.OperationMethod<
@@ -15636,7 +15648,11 @@ export const CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRes
   /*@__PURE__*/ /*#__PURE__*/ AssignedTargetingOption;
 
 export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Assigns a targeting option to a line item. Returns the assigned targeting option if successful. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkEditAssignedTargetingOptions * lineItems.bulkUpdate * lineItems.patch * DeleteLineItemAssignedTargetingOption YouTube & Partners line items cannot be created or updated using the API. */
 export const createAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.OperationMethod<
@@ -15736,7 +15752,11 @@ export const DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRes
   /*@__PURE__*/ /*#__PURE__*/ Empty;
 
 export type DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Deletes an assigned targeting option from a line item. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkEditAssignedTargetingOptions * lineItems.bulkUpdate * lineItems.patch * CreateLineItemAssignedTargetingOption YouTube & Partners line items cannot be created or updated using the API. */
 export const deleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.OperationMethod<
@@ -15843,7 +15863,9 @@ export const ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRespo
   /*@__PURE__*/ /*#__PURE__*/ ListLineItemAssignedTargetingOptionsResponse;
 
 export type ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Lists the targeting options assigned to a line item. */
 export const listAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.PaginatedOperationMethod<

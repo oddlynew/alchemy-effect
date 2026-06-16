@@ -1543,7 +1543,11 @@ export const SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsR
   /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<
@@ -1585,7 +1589,11 @@ export const TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
   /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<
@@ -1712,7 +1720,9 @@ export const ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsRes
   /*@__PURE__*/ /*#__PURE__*/ ListUsableWorkstationConfigsResponse;
 
 export type ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Returns all workstation configurations in the specified cluster on which the caller has the "workstations.workstation.create" permission. */
 export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigs: API.PaginatedOperationMethod<
@@ -1756,7 +1766,9 @@ export const GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsR
   /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<
@@ -1794,7 +1806,11 @@ export const StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Starts running a workstation so that users can connect to it. */
 export const startProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -1834,7 +1850,9 @@ export const GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsW
   /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -1875,7 +1893,9 @@ export const ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWor
   /*@__PURE__*/ /*#__PURE__*/ ListUsableWorkstationsResponse;
 
 export type ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Returns all workstations using the specified workstation configuration on which the caller has the "workstations.workstations.use" permission. */
 export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.PaginatedOperationMethod<
@@ -1914,7 +1934,9 @@ export const GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstatio
   /*@__PURE__*/ /*#__PURE__*/ Workstation;
 
 export type GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Returns the requested workstation. */
 export const getProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -1958,7 +1980,9 @@ export const ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   /*@__PURE__*/ /*#__PURE__*/ ListWorkstationsResponse;
 
 export type ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden;
+  | DefaultErrors
+  | NotFound
+  | Forbidden;
 
 /** Returns all Workstations using the specified workstation configuration. */
 export const listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.PaginatedOperationMethod<
@@ -2000,7 +2024,11 @@ export const StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Stops running a workstation, reducing costs. */
 export const stopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -2042,7 +2070,11 @@ export const GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationC
   /*@__PURE__*/ /*#__PURE__*/ GenerateAccessTokenResponse;
 
 export type GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Returns a short-lived credential that can be used to send authenticated and authorized traffic to a workstation. Once generated this token cannot be revoked and is good for the lifetime of the token. */
 export const generateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -2084,7 +2116,11 @@ export const TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
   /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -2136,7 +2172,11 @@ export const CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
   /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Creates a new workstation. */
 export const createProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -2178,7 +2218,11 @@ export const SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsW
   /*@__PURE__*/ /*#__PURE__*/ Policy;
 
 export type SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -2229,7 +2273,11 @@ export const PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Updates an existing workstation. */
 export const patchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<
@@ -2272,7 +2320,11 @@ export const DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
   /*@__PURE__*/ /*#__PURE__*/ Operation;
 
 export type DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Deletes the specified workstation. */
 export const deleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<

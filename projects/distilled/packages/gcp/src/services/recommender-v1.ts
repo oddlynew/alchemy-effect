@@ -1657,7 +1657,11 @@ export const MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRes
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommenderV1Recommendation;
 
 export type MarkDismissedBillingAccountsLocationsRecommendersRecommendationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markDismissedBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<
@@ -1697,7 +1701,11 @@ export const MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRespo
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommenderV1Recommendation;
 
 export type MarkClaimedBillingAccountsLocationsRecommendersRecommendationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markClaimedBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<
@@ -1736,7 +1744,11 @@ export const MarkFailedBillingAccountsLocationsRecommendersRecommendationsRespon
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommenderV1Recommendation;
 
 export type MarkFailedBillingAccountsLocationsRecommendersRecommendationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markFailedBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<
@@ -1774,7 +1786,11 @@ export const MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRes
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommenderV1Recommendation;
 
 export type MarkSucceededBillingAccountsLocationsRecommendersRecommendationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markSucceededBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<
@@ -2275,7 +2291,11 @@ export const MarkSucceededOrganizationsLocationsRecommendersRecommendationsRespo
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommenderV1Recommendation;
 
 export type MarkSucceededOrganizationsLocationsRecommendersRecommendationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markSucceededOrganizationsLocationsRecommendersRecommendations: API.OperationMethod<
@@ -2314,7 +2334,11 @@ export const MarkDismissedOrganizationsLocationsRecommendersRecommendationsRespo
   /*@__PURE__*/ /*#__PURE__*/ GoogleCloudRecommenderV1Recommendation;
 
 export type MarkDismissedOrganizationsLocationsRecommendersRecommendationsError =
-  DefaultErrors | NotFound | Forbidden | BadRequest | Conflict;
+  | DefaultErrors
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict;
 
 /** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markDismissedOrganizationsLocationsRecommendersRecommendations: API.OperationMethod<
