@@ -31,9 +31,11 @@ import { isService, type Service } from "./Service.ts";
  * - {@link Connect} — service-to-service: injects the target's private /
  *   public domains (via `${{Name.RAILWAY_PRIVATE_DOMAIN}}` references) and
  *   exposes typed URL accessors at runtime.
- * - {@link DatabaseUrl} — injects a `Railway.Database`'s connection URL
- *   (via `${{Name.DATABASE_URL}}`-style references) with a
- *   RuntimeContext-colored accessor returning the redacted URL.
+ * - {@link PostgresDatabaseBinding} / {@link MySQLDatabaseBinding} —
+ *   inject a database's connection details (via
+ *   `${{Name.DATABASE_URL}}`-style references) with RuntimeContext-colored
+ *   accessors (`connectionString`, `host`, `port`, `user`, `password`,
+ *   `database`).
  * - {@link VolumeMount} — attaches a `Railway.Volume` to the consuming
  *   service and exposes the mount path at runtime.
  *

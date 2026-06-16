@@ -28,6 +28,7 @@ import type * as rolldown from "rolldown";
 import * as Bundle from "../Bundle/Bundle.ts";
 import { findCwdForBundle } from "../Bundle/TempRoot.ts";
 import { isResolved } from "../Diff.ts";
+import { ExecutionContext } from "../ExecutionContext.ts";
 import { HttpServer, type HttpEffect } from "../Http.ts";
 import * as Output from "../Output.ts";
 import { createPhysicalName } from "../PhysicalName.ts";
@@ -220,7 +221,7 @@ export interface FunctionRuntimeContext extends Server.ProcessContext {
  * daemon or registry required.
  *
  * Bindings reuse the `Railway.Service` binding contract
- * (`{ env?, volumes? }`), so `Connect`, `DatabaseUrl`, `VolumeMount`,
+ * (`{ env?, volumes? }`), so `Connect`, `PostgresDatabaseBinding`, `VolumeMount`,
  * and any other Railway policy attach to a Function exactly like they do
  * to a Service: the policy records env vars / volume attachments at
  * deploy time and the provider reconciles them onto the service before
@@ -271,8 +272,8 @@ export interface FunctionRuntimeContext extends Server.ProcessContext {
  *
  * @example Bind a database connection URL
  * ```typescript
- * const url = yield* Railway.DatabaseUrl.bind(postgres);
- * // at runtime: Redacted.value(yield* url)
+ * const db = yield* Railway.PostgresDatabase.bind(postgres);
+ * // at runtime: Redacted.value(yield* db.connectionString)
  * ```
  *
  * @section Configuration
@@ -296,7 +297,7 @@ export const Function: Platform<
   createRuntimeContext: (id: string): FunctionRuntimeContext => {
     const runners: Effect.Effect<void, never, any>[] = [];
     // At runtime (inside the deployed container) expose the live process
-    // environment so binding accessors (Connect, DatabaseUrl, VolumeMount)
+    // environment so binding accessors (Connect, database bindings, VolumeMount)
     // can read the variables that were reconciled onto the service. At plan
     // time this is a fresh record that collects Output references which
     // the provider publishes as service variables.
@@ -319,7 +320,18 @@ export const Function: Platform<
                 Effect.map(Option.getOrUndefined),
               );
               if (httpServer) {
-                yield* httpServer.serve(handler);
+                // A Railway Function is a long-lived process, so the
+                // ExecutionContext spans the whole runtime: one scope and
+                // one cache for every request the server handles. Helpers
+                // like `Drizzle.postgres` / `Sql.postgres` memoize their
+                // connection pool on it.
+                const scope = yield* Effect.scope;
+                yield* httpServer.serve(handler).pipe(
+                  Effect.provideService(ExecutionContext, {
+                    scope,
+                    cache: {},
+                  }),
+                );
                 yield* Effect.never;
               }
               // no HttpServer means we're at plan time — nothing to serve

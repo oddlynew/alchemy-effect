@@ -16,7 +16,7 @@ import * as Schedule from "effect/Schedule";
 import { isResolved } from "../Diff.ts";
 import { createPhysicalName } from "../PhysicalName.ts";
 import * as Provider from "../Provider.ts";
-import { Resource } from "../Resource.ts";
+import type { Resource } from "../Resource.ts";
 import {
   resolveEnvironmentId,
   resolveProjectId,
@@ -32,99 +32,39 @@ import {
 } from "./Service.ts";
 
 /**
- * The built-in database engines Railway offers via its official
- * templates.
+ * Railway resolves `${{RAILWAY_PRIVATE_DOMAIN}}` (own-service template
+ * syntax) server-side, so connection URLs always track the live private
+ * domain.
  */
-export type DatabaseKind = "postgres" | "redis" | "mysql" | "mongo";
+export const PRIVATE_DOMAIN = "${{RAILWAY_PRIVATE_DOMAIN}}";
 
-interface DatabaseSpec {
+/**
+ * The image/volume/variable layout of a Railway database engine —
+ * mirrors Railway's official database templates (the SDK exposes no way
+ * to discover the service a `templateDeployV2` workflow created, so we
+ * deploy the same images directly; every aspect stays observable and
+ * reconcilable).
+ */
+export interface DatabaseEngineSpec {
   /** Docker image the official Railway template deploys. */
   image: string;
   /** Port the engine listens on inside the private network. */
   port: number;
   /** Where the data volume is mounted. */
   mountPath: string;
-  /** Name of the service variable carrying the connection URL. */
-  urlVariable: string;
-  /** Default username baked into the engine variables. */
+  /** Default admin username baked into the engine variables. */
   username: string;
   /** Default logical database name (where the engine has one). */
   database: string | undefined;
-  /**
-   * Build the service variables. `RAILWAY_PRIVATE_DOMAIN` is referenced
-   * with Railway's own-service template syntax so the connection URL
-   * always tracks the live private domain.
-   */
+  /** Build the engine's service variables from the generated password. */
   variables: (password: string) => Record<string, string>;
 }
 
-const PRIVATE_DOMAIN = "${{RAILWAY_PRIVATE_DOMAIN}}";
-
 /**
- * Mirrors the variable/volume layout of Railway's official database
- * templates (the SDK exposes no way to discover the service a
- * `templateDeployV2` workflow created, so we deploy the same images
- * directly — every aspect stays observable and reconcilable).
+ * Props shared by every Railway database engine resource
+ * (`PostgresDatabase`, `MySQLDatabase`).
  */
-const DATABASE_SPECS: Record<DatabaseKind, DatabaseSpec> = {
-  postgres: {
-    image: "ghcr.io/railwayapp-templates/postgres-ssl:16",
-    port: 5432,
-    mountPath: "/var/lib/postgresql/data",
-    urlVariable: "DATABASE_URL",
-    username: "postgres",
-    database: "railway",
-    variables: (password) => ({
-      PGDATA: "/var/lib/postgresql/data/pgdata",
-      POSTGRES_USER: "postgres",
-      POSTGRES_PASSWORD: password,
-      POSTGRES_DB: "railway",
-      DATABASE_URL: `postgresql://postgres:${password}@${PRIVATE_DOMAIN}:5432/railway`,
-    }),
-  },
-  redis: {
-    image: "bitnami/redis:7.2.5",
-    port: 6379,
-    mountPath: "/bitnami",
-    urlVariable: "REDIS_URL",
-    username: "default",
-    database: undefined,
-    variables: (password) => ({
-      REDIS_PASSWORD: password,
-      // bitnami images run as non-root; Railway volumes need uid 0.
-      RAILWAY_RUN_UID: "0",
-      REDIS_URL: `redis://default:${password}@${PRIVATE_DOMAIN}:6379`,
-    }),
-  },
-  mysql: {
-    image: "mysql:8",
-    port: 3306,
-    mountPath: "/var/lib/mysql",
-    urlVariable: "MYSQL_URL",
-    username: "root",
-    database: "railway",
-    variables: (password) => ({
-      MYSQL_ROOT_PASSWORD: password,
-      MYSQL_DATABASE: "railway",
-      MYSQL_URL: `mysql://root:${password}@${PRIVATE_DOMAIN}:3306/railway`,
-    }),
-  },
-  mongo: {
-    image: "mongo:7",
-    port: 27017,
-    mountPath: "/data/db",
-    urlVariable: "MONGO_URL",
-    username: "mongo",
-    database: undefined,
-    variables: (password) => ({
-      MONGO_INITDB_ROOT_USERNAME: "mongo",
-      MONGO_INITDB_ROOT_PASSWORD: password,
-      MONGO_URL: `mongodb://mongo:${password}@${PRIVATE_DOMAIN}:27017`,
-    }),
-  },
-};
-
-export type DatabaseProps = {
+export type DatabaseEngineProps = {
   /**
    * The Railway project (or `{ projectId }`) to create the database in.
    */
@@ -136,10 +76,6 @@ export type DatabaseProps = {
    */
   environment?: EnvironmentSource;
   /**
-   * The database engine to deploy.
-   */
-  kind: DatabaseKind;
-  /**
    * Service name. If omitted, a unique name is generated from
    * `${app}-${stage}-${id}`.
    */
@@ -150,97 +86,59 @@ export type DatabaseProps = {
   region?: string;
 };
 
-export type Database = Resource<
-  "Railway.Database",
-  DatabaseProps,
-  {
-    serviceId: string;
-    name: string;
-    projectId: string;
-    environmentId: string;
-    volumeId: string;
-    kind: DatabaseKind;
-    /** Port the engine listens on inside the private network. */
-    port: number;
-    /** Name of the service variable carrying the connection URL, e.g. `DATABASE_URL`. */
-    urlVariable: string;
-    username: string;
-    database: string | undefined;
-    /** Generated admin password (persisted in state). */
-    password: string;
-    deploymentId: string | undefined;
-    deploymentStatus: DeploymentStatus | undefined;
-  },
-  never,
-  Providers
->;
-
 /**
- * A Railway-hosted database — the same images, volumes, and variables as
- * Railway's official database templates (Postgres, Redis, MySQL,
- * MongoDB), deployed as a fully reconciled service with a persistent
- * volume and a private-network connection URL.
- *
- * Consume the connection string from another Service/Function with the
- * `DatabaseUrl` binding, which injects it via Railway reference-variable
- * syntax (`${{Postgres.DATABASE_URL}}`) so Railway keeps it fresh.
- *
- * @section Creating a Database
- * @example Postgres
- * ```typescript
- * const project = yield* Railway.Project("my-project");
- * const db = yield* Railway.Database("db", {
- *   project,
- *   kind: "postgres",
- * });
- * ```
- *
- * @example Redis
- * ```typescript
- * const cache = yield* Railway.Database("cache", {
- *   project,
- *   kind: "redis",
- * });
- * ```
- *
- * @section Consuming a Database
- * @example Bind the connection URL into a Function
- * ```typescript
- * Effect.gen(function* () {
- *   const url = yield* Railway.DatabaseUrl.bind(db);
- *   return {
- *     fetch: Effect.gen(function* () {
- *       const connectionString = Redacted.value(yield* url);
- *       // ... connect with your driver of choice
- *     }),
- *   };
- * }).pipe(Effect.provide(Railway.DatabaseUrlLive))
- * ```
- *
- * @see https://docs.railway.com/guides/databases
+ * Output attributes shared by every Railway database engine resource.
  */
-export const Database = Resource<Database>("Railway.Database");
-
-export const isDatabase = (value: any): value is Database =>
-  typeof value === "object" &&
-  value !== null &&
-  "Type" in value &&
-  value.Type === "Railway.Database";
+export type DatabaseEngineAttributes = {
+  serviceId: string;
+  name: string;
+  projectId: string;
+  environmentId: string;
+  volumeId: string;
+  /** Port the engine listens on inside the private network. */
+  port: number;
+  /** Default admin username. */
+  username: string;
+  /** Default logical database name (where the engine has one). */
+  database: string | undefined;
+  /** Generated admin password (persisted in state). */
+  password: string;
+  deploymentId: string | undefined;
+  deploymentStatus: DeploymentStatus | undefined;
+};
 
 const generatePassword = Effect.sync(() =>
   crypto.randomBytes(24).toString("base64url"),
 );
 
-export const DatabaseProvider = () =>
-  Provider.succeed(Database, {
+/**
+ * A Railway database engine resource — `PostgresDatabase` and
+ * `MySQLDatabase` are instances of this shape; only the type string (and
+ * the engine spec wired into the provider) differ.
+ */
+export type DatabaseEngineResource<Type extends string> = Resource<
+  Type,
+  DatabaseEngineProps,
+  DatabaseEngineAttributes,
+  never,
+  Providers
+>;
+
+/**
+ * Build the provider for a database engine resource. The lifecycle is
+ * identical across engines — only the image/port/variable spec differs.
+ */
+export const makeDatabaseEngineProvider = <Type extends string>(
+  cls: Parameters<typeof Provider.succeed<DatabaseEngineResource<Type>>>[0],
+  spec: DatabaseEngineSpec,
+) =>
+  Provider.succeed(cls, {
     stables: [
       "serviceId",
       "projectId",
       "environmentId",
       "volumeId",
-      "kind",
       "port",
-      "urlVariable",
       "username",
       "database",
       "password",
@@ -259,25 +157,25 @@ export const DatabaseProvider = () =>
         ) {
           return { action: "replace" } as const;
         }
-        if (news.kind !== output.kind) {
-          return { action: "replace" } as const;
-        }
       }
       return undefined;
     }),
     read: Effect.fn(function* ({ output }) {
       if (!output?.serviceId) return undefined;
       return yield* getService({ id: output.serviceId }).pipe(
-        Effect.map((service) => ({
-          ...output,
-          name: service.name,
-          projectId: service.projectId,
-        })),
+        Effect.map((service) =>
+          service.deletedAt !== null
+            ? undefined
+            : {
+                ...output,
+                name: service.name,
+                projectId: service.projectId,
+              },
+        ),
         Effect.catchTag("NotAuthorized", () => Effect.succeed(undefined)),
       );
     }),
     reconcile: Effect.fn(function* ({ id, news, output }) {
-      const spec = DATABASE_SPECS[news.kind];
       const projectId = resolveProjectId(news.project as ProjectSource);
       const environmentId = news.environment
         ? resolveEnvironmentId(news.environment as EnvironmentSource)
@@ -409,9 +307,7 @@ export const DatabaseProvider = () =>
         projectId,
         environmentId,
         volumeId,
-        kind: news.kind,
         port: spec.port,
-        urlVariable: spec.urlVariable,
         username: spec.username,
         database: spec.database,
         password,

@@ -1,11 +1,9 @@
 import * as Railway from "alchemy/Railway";
-import { RuntimeContext } from "alchemy/RuntimeContext";
+import * as Sql from "alchemy/Sql";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
 import { HttpServerRequest } from "effect/unstable/http/HttpServerRequest";
 import * as HttpServerResponse from "effect/unstable/http/HttpServerResponse";
-import pg from "pg";
 import { Postgres } from "./Postgres.ts";
 import { Project } from "./Project.ts";
 
@@ -26,8 +24,8 @@ export default class Api extends Railway.Function<Api>()(
       main: import.meta.filename,
       project,
       name: "api",
-      // `pg` stays external to the bundle; Railway installs it during
-      // the image build (see FunctionProps.external).
+      // `pg` (the driver under @effect/sql-pg) stays external to the
+      // bundle; Railway installs it during the image build.
       external: ["pg"],
       healthcheckPath: "/health",
     };
@@ -39,17 +37,16 @@ export default class Api extends Railway.Function<Api>()(
       Config.withDefault("Hello from Railway!"),
     );
 
-    // Deploy time: writes `POSTGRES_URL=${{<db>.DATABASE_URL}}` onto this
-    // service via Railway reference-variable syntax. Runtime: yields the
-    // resolved connection string as a Redacted<string>.
-    const postgres = yield* Postgres;
-    const databaseUrl = yield* Railway.DatabaseUrl.bind(postgres);
+    // Deploy time: writes `POSTGRES_URL=${{<db>.DATABASE_URL}}` (plus
+    // `_HOST`, `_PORT`, `_USER`, `_PASSWORD`, `_DATABASE`) onto this
+    // service via Railway reference-variable syntax. Runtime: typed
+    // accessors over those variables.
+    const db = yield* Railway.PostgresDatabase.bind(Postgres);
 
-    // TODO(alchemy): the Railway Function runtime does not currently
-    // provide RuntimeContext to the fetch handler, so binding accessors
-    // like `databaseUrl` fail with "Service not found: RuntimeContext"
-    // at runtime. Capture it during Init and re-provide it below.
-    const runtimeContext = yield* RuntimeContext;
+    // Effect's native Postgres client (@effect/sql-pg). The pool is
+    // built lazily on the first query and shared for the lifetime of
+    // the process.
+    const sql = yield* Sql.postgres(db.connectionString);
 
     return {
       fetch: Effect.gen(function* () {
@@ -60,39 +57,20 @@ export default class Api extends Railway.Function<Api>()(
         }
 
         if (request.url.startsWith("/db")) {
-          const url = Redacted.value(yield* databaseUrl);
-          return yield* queryDb(url).pipe(
-            Effect.flatMap((row) => HttpServerResponse.json(row)),
-            Effect.catchTag("UnknownError", (error) =>
-              HttpServerResponse.json(
-                { error: String(error.cause) },
-                { status: 500 },
-              ),
-            ),
-          );
+          const rows = yield* sql<{
+            now: string;
+            database: string;
+            version: string;
+          }>`select now() as now, current_database() as database, version() as version`;
+          return yield* HttpServerResponse.json(rows[0]);
         }
 
         return yield* HttpServerResponse.json({ message: greeting });
-      }).pipe(Effect.provideService(RuntimeContext, runtimeContext)),
+      }).pipe(
+        Effect.catch((error) =>
+          HttpServerResponse.json({ error: String(error) }, { status: 500 }),
+        ),
+      ),
     };
-  }).pipe(Effect.provide(Railway.DatabaseUrlLive)),
+  }).pipe(Effect.provide(Railway.PostgresDatabaseBindingLive)),
 ) {}
-
-/** Run a single query over a fresh connection and close it. */
-const queryDb = (connectionString: string) =>
-  Effect.tryPromise(async () => {
-    const client = new pg.Client({ connectionString });
-    await client.connect();
-    try {
-      const result = await client.query(
-        "select now() as now, current_database() as database, version() as version",
-      );
-      return result.rows[0] as {
-        now: string;
-        database: string;
-        version: string;
-      };
-    } finally {
-      await client.end();
-    }
-  });

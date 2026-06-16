@@ -773,7 +773,23 @@
       "version": "0.0.0",
       "dependencies": {
         "@effect/platform-node": "catalog:",
+        "@effect/sql-pg": "catalog:",
         "alchemy": "workspace:*",
+        "effect": "catalog:",
+        "pg": "^8.16.3",
+      },
+      "devDependencies": {
+        "@types/pg": "^8.15.6",
+      },
+    },
+    "examples/railway-postgres-drizzle": {
+      "name": "railway-postgres-drizzle",
+      "version": "0.0.0",
+      "dependencies": {
+        "@effect/platform-node": "catalog:",
+        "@effect/sql-pg": "catalog:",
+        "alchemy": "workspace:*",
+        "drizzle-orm": "1.0.0-rc.1",
         "effect": "catalog:",
         "pg": "^8.16.3",
       },
@@ -3661,6 +3677,8 @@
     "radix3": ["radix3@1.1.2", "", {}, "sha512-b484I/7b8rDEdSDKckSSBA8knMpcdsXudlE/LNL639wFoHKwLbEkQFZHWEYwDC0wa0FKUcCY+GAF73Z7wxNVFA=="],
 
     "railway-postgres": ["railway-postgres@workspace:examples/railway-postgres"],
+
+    "railway-postgres-drizzle": ["railway-postgres-drizzle@workspace:examples/railway-postgres-drizzle"],
 
     "range-parser": ["range-parser@1.2.1", "", {}, "sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg=="],
 

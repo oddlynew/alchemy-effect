@@ -232,6 +232,12 @@
       "worker": "./src/Process/index.ts",
       "import": "./lib/Process/index.js"
     },
+    "./Sql": {
+      "types": "./lib/Sql/index.d.ts",
+      "bun": "./src/Sql/index.ts",
+      "worker": "./src/Sql/index.ts",
+      "import": "./lib/Sql/index.js"
+    },
     "./SQLite": {
       "types": "./lib/SQLite/index.d.ts",
       "bun": "./src/SQLite/index.ts",

@@ -7,10 +7,21 @@ import { RailwayAuth } from "./AuthProvider.ts";
 import { ConnectPolicy, ConnectPolicyLive } from "./Connect.ts";
 import * as Credentials from "./Credentials.ts";
 import { CustomDomain, CustomDomainProvider } from "./CustomDomain.ts";
-import { Database, DatabaseProvider } from "./Database.ts";
-import { DatabaseUrlPolicy, DatabaseUrlPolicyLive } from "./DatabaseUrl.ts";
 import { Environment, EnvironmentProvider } from "./Environment.ts";
 import { Function, FunctionProvider } from "./Function.ts";
+import { MySQLDatabase, MySQLDatabaseProvider } from "./MySQLDatabase.ts";
+import {
+  MySQLDatabaseBindingPolicy,
+  MySQLDatabaseBindingPolicyLive,
+} from "./MySQLDatabaseBinding.ts";
+import {
+  PostgresDatabase,
+  PostgresDatabaseProvider,
+} from "./PostgresDatabase.ts";
+import {
+  PostgresDatabaseBindingPolicy,
+  PostgresDatabaseBindingPolicyLive,
+} from "./PostgresDatabaseBinding.ts";
 import { Project, ProjectProvider } from "./Project.ts";
 import { ProjectToken, ProjectTokenProvider } from "./ProjectToken.ts";
 import { Service, ServiceProvider } from "./Service.ts";
@@ -67,10 +78,12 @@ export const providers = () =>
       TcpProxy,
       Volume,
       Variables,
-      Database,
+      PostgresDatabase,
+      MySQLDatabase,
       Webhook,
       ConnectPolicy,
-      DatabaseUrlPolicy,
+      PostgresDatabaseBindingPolicy,
+      MySQLDatabaseBindingPolicy,
       VolumeMountPolicy,
     ]),
   ).pipe(
@@ -86,10 +99,12 @@ export const providers = () =>
         TcpProxyProvider(),
         VolumeProvider(),
         VariablesProvider(),
-        DatabaseProvider(),
+        PostgresDatabaseProvider(),
+        MySQLDatabaseProvider(),
         WebhookProvider(),
         ConnectPolicyLive,
-        DatabaseUrlPolicyLive,
+        PostgresDatabaseBindingPolicyLive,
+        MySQLDatabaseBindingPolicyLive,
         VolumeMountPolicyLive,
       ),
     ),

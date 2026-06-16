@@ -1,12 +1,12 @@
 {
-  "name": "railway-postgres",
+  "name": "railway-postgres-drizzle",
   "version": "0.0.0",
   "private": true,
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/railway-postgres"
+    "directory": "examples/railway-postgres-drizzle"
   },
   "type": "module",
   "scripts": {
@@ -19,6 +19,7 @@
     "@effect/platform-node": "catalog:",
     "@effect/sql-pg": "catalog:",
     "alchemy": "workspace:*",
+    "drizzle-orm": "1.0.0-rc.1",
     "effect": "catalog:",
     "pg": "^8.16.3"
   },
