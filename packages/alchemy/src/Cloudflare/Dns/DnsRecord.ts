@@ -6,7 +6,9 @@ import { Unowned } from "../../AdoptPolicy.ts";
 import * as Provider from "../../Provider.ts";
 import { Resource } from "../../Resource.ts";
 import { arrayEqualsUnordered } from "../../Util/equal.ts";
+import { CloudflareEnvironment } from "../CloudflareEnvironment.ts";
 import type { Providers } from "../Providers.ts";
+import { listAllZones } from "../Zone/lookup.ts";
 
 /**
  * DNS record type literal — every value Cloudflare recognises. Stable
@@ -165,6 +167,40 @@ export const DnsRecordProvider = () =>
   Provider.succeed(DnsRecord, {
     stables: ["recordId", "zoneId", "type", "name"],
 
+    // Zone-scoped collection: DNS records live under `/zones/{id}/dns_records`
+    // with no account-wide enumeration API. Fan out over every zone in the
+    // account, exhaustively paginate each zone's records, and hydrate each into
+    // the same `Attributes` shape `read` produces. A fresh scoped token can 403
+    // a zone (eventual consistency) or a zone may be partially provisioned —
+    // skip those zones (-> []) rather than failing the whole enumeration.
+    list: Effect.fn(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+      const zones = yield* listAllZones(accountId);
+      const rows = yield* Effect.forEach(
+        zones,
+        (zone) =>
+          dns.listRecords.pages({ zoneId: zone.id }).pipe(
+            Stream.runCollect,
+            Effect.map((chunk) =>
+              Array.from(chunk).flatMap((page) =>
+                (page.result ?? []).flatMap((r) => {
+                  const attrs = toAttributes(
+                    narrowRecord(r as Parameters<typeof narrowRecord>[0]),
+                    zone.id,
+                  );
+                  return attrs ? [attrs] : [];
+                }),
+              ),
+            ),
+            Effect.catchTag("Forbidden", () =>
+              Effect.succeed([] as DnsRecordAttributes[]),
+            ),
+          ),
+        { concurrency: 10 },
+      );
+      return rows.flat();
+    }),
+
     diff: Effect.fn(function* ({ olds = {}, news }) {
       const o = olds as DnsRecordProps;
       const n = news as DnsRecordProps;
@@ -212,18 +248,54 @@ export const DnsRecordProvider = () =>
 
       // 3. Ensure.
       if (!observed) {
-        const created = yield* dns.createRecord({
-          zoneId,
-          name: body.name,
-          type: body.type,
-          content: body.content,
-          ttl: body.ttl,
-          proxied: body.proxied,
-          comment: body.comment,
-          tags: body.tags === undefined ? undefined : Array.from(body.tags),
-          priority: body.priority,
-        });
-        observed = narrowRecord(created as Parameters<typeof narrowRecord>[0]);
+        const created = yield* dns
+          .createRecord({
+            zoneId,
+            name: body.name,
+            type: body.type,
+            content: body.content,
+            ttl: body.ttl,
+            proxied: body.proxied,
+            comment: body.comment,
+            tags: body.tags === undefined ? undefined : Array.from(body.tags),
+            priority: body.priority,
+          })
+          .pipe(
+            Effect.map(
+              (r) =>
+                ({
+                  record: narrowRecord(r as Parameters<typeof narrowRecord>[0]),
+                  raced: false,
+                }) as const,
+            ),
+            // A record with this `(name, type)` can already exist that the
+            // scan above missed — a leftover from an interrupted run, or a
+            // concurrent reconcile that won the create race. Cloudflare
+            // answers `An identical record already exists.`
+            // (`DnsRecordAlreadyExists`). Self-heal: re-scan and adopt the
+            // existing record instead of failing the deploy. Ownership was
+            // already gated by `read`/the adopt policy upstream.
+            Effect.catchTag("DnsRecordAlreadyExists", () =>
+              findByNameType(zoneId, news.name, news.type).pipe(
+                Effect.flatMap((existing) =>
+                  existing
+                    ? Effect.succeed({ record: existing, raced: true } as const)
+                    : Effect.fail(
+                        new Error(
+                          `Cloudflare reported an identical DNS record for ` +
+                            `(${news.name}, ${news.type}) but it could not be found`,
+                        ),
+                      ),
+                ),
+              ),
+            ),
+          );
+        observed = created.record;
+        // A raced/adopted record is treated like a scanned-existing one so
+        // the sync step converges its mutable fields; a genuine fresh create
+        // keeps `foundByScan` false so the no-op first-reconcile suppression
+        // below still applies.
+        if (created.raced) foundByScan = true;
       }
 
       // 4. Sync — Cloudflare's update endpoint is PUT-style; resend

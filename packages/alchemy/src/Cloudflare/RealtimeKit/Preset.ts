@@ -470,14 +470,44 @@ export const RealtimeKitPresetProvider = () =>
 
       if (!observed) {
         // Ensure — greenfield (or out-of-band delete): create with the full
-        // desired body. Preset names are not unique so there is no
-        // AlreadyExists race to tolerate.
-        const created = yield* realtimeKit.createPreset({
+        // desired body. The API rejects a duplicate name in the same app
+        // with a 409 (`RealtimeKitPresetExists`); this happens when a prior
+        // run leaked a same-named preset (lost state) or when a retried
+        // create races a 500 that actually persisted. Adopt the existing
+        // preset by name and converge it to the desired body instead of
+        // leaking / failing.
+        const created = yield* realtimeKit
+          .createPreset({ accountId, appId, ...desired })
+          .pipe(
+            Effect.catchTag("RealtimeKitPresetExists", () =>
+              Effect.succeed(undefined),
+            ),
+          );
+        if (created) {
+          return toAttributes(created.data, accountId, appId);
+        }
+        const existing = yield* findByName(accountId, appId, name);
+        if (!existing?.id) {
+          // Conflict reported but the preset isn't visible yet — let the
+          // engine retry the reconcile rather than silently succeeding.
+          return yield* realtimeKit
+            .createPreset({ accountId, appId, ...desired })
+            .pipe(
+              Effect.map((res) => toAttributes(res.data, accountId, appId)),
+            );
+        }
+        yield* realtimeKit.patchPreset({
           accountId,
           appId,
+          presetId: existing.id,
           ...desired,
         });
-        return toAttributes(created.data, accountId, appId);
+        const adopted = yield* realtimeKit.getPresetByIdPreset({
+          accountId,
+          appId,
+          presetId: existing.id,
+        });
+        return toAttributes(adopted.data, accountId, appId);
       }
 
       // Sync — diff what the user asked for against observed cloud state.
@@ -509,6 +539,107 @@ export const RealtimeKitPresetProvider = () =>
         })
         .pipe(Effect.catchTag("RealtimeKitPresetNotFound", () => Effect.void));
     }),
+    // Presets are sub-resources of a RealtimeKit app. There is no
+    // account-wide preset enumeration API, so fan out: list every app in the
+    // account, then list every preset within each app. The per-app preset
+    // list returns only a slim `{ id, name }` shape, so each row is hydrated
+    // via `getPresetByIdPreset` into the full `read` Attributes shape.
+    list: Effect.fn(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+      const apps = yield* listAllApps(accountId);
+      const rows = yield* Effect.forEach(
+        apps,
+        (app) =>
+          Effect.gen(function* () {
+            const appId = app.id;
+            if (!appId) return [];
+            const presets = yield* listAllPresets(accountId, appId);
+            const hydrated = yield* Effect.forEach(
+              presets,
+              (preset) =>
+                preset.id
+                  ? getPreset(accountId, appId, preset.id).pipe(
+                      Effect.map((observed) =>
+                        observed
+                          ? toAttributes(observed, accountId, appId)
+                          : undefined,
+                      ),
+                    )
+                  : Effect.succeed(undefined),
+              { concurrency: 10 },
+            );
+            return hydrated.filter(
+              (row): row is RealtimeKitPresetAttributes => row !== undefined,
+            );
+          }),
+        { concurrency: 10 },
+      );
+      return rows.flat();
+    }),
+  });
+
+const LIST_PER_PAGE = 100;
+
+/**
+ * Exhaustively enumerate every RealtimeKit app in the account. The list op is
+ * not generated as a paginated method, so fetch the first page, derive the
+ * page count from `paging.totalCount`, then fan out the remaining pages.
+ */
+const listAllApps = (accountId: string) =>
+  Effect.gen(function* () {
+    const first = yield* realtimeKit.getApp({
+      accountId,
+      pageNo: 1,
+      perPage: LIST_PER_PAGE,
+    });
+    const apps = (first.data ?? []).filter(
+      (a): a is NonNullable<typeof a> => a !== null,
+    );
+    const total = first.paging?.totalCount ?? apps.length;
+    const pages = Math.ceil(total / LIST_PER_PAGE);
+    if (pages <= 1) return apps;
+    const rest = yield* Effect.forEach(
+      Array.from({ length: pages - 1 }, (_, i) => i + 2),
+      (pageNo) =>
+        realtimeKit
+          .getApp({ accountId, pageNo, perPage: LIST_PER_PAGE })
+          .pipe(
+            Effect.map((res) =>
+              (res.data ?? []).filter(
+                (a): a is NonNullable<typeof a> => a !== null,
+              ),
+            ),
+          ),
+      { concurrency: 10 },
+    );
+    return [...apps, ...rest.flat()];
+  });
+
+/**
+ * Exhaustively enumerate every preset within a single app, paginating off
+ * `paging.totalCount` the same way as {@link listAllApps}.
+ */
+const listAllPresets = (accountId: string, appId: string) =>
+  Effect.gen(function* () {
+    const first = yield* realtimeKit.getPreset({
+      accountId,
+      appId,
+      pageNo: 1,
+      perPage: LIST_PER_PAGE,
+    });
+    const presets = [...first.data];
+    const total = first.paging?.totalCount ?? presets.length;
+    const pages = Math.ceil(total / LIST_PER_PAGE);
+    if (pages <= 1) return presets;
+    const rest = yield* Effect.forEach(
+      Array.from({ length: pages - 1 }, (_, i) => i + 2),
+      (pageNo) =>
+        realtimeKit
+          .getPreset({ accountId, appId, pageNo, perPage: LIST_PER_PAGE })
+          .pipe(Effect.map((res) => [...res.data])),
+      { concurrency: 10 },
+    );
+    return [...presets, ...rest.flat()];
   });
 
 type ObservedPreset = realtimeKit.GetPresetByIdPresetResponse["data"];

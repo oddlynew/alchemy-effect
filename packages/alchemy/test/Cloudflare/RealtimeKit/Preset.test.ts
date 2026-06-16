@@ -1,5 +1,6 @@
 import * as Cloudflare from "@/Cloudflare";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
+import * as Provider from "@/Provider";
 import * as Test from "@/Test/Vitest";
 import * as realtimeKit from "@distilled.cloud/cloudflare/realtime-kit";
 import { expect } from "@effect/vitest";
@@ -51,9 +52,13 @@ const expectGone = (accountId: string, appId: string, presetId: string) =>
   );
 
 // Deterministic names — apps cannot be deleted, so every run adopts the
-// same app instead of leaking a new one.
+// same app instead of leaking a new one. Each test gets its own preset
+// name: the suites run concurrently (`sequence.concurrent`) and a shared
+// preset name would make two stacks create the same preset in the same app
+// and race to a 409.
 const APP_NAME = "alchemy-rtk-test-app";
-const PRESET_NAME = "alchemy-rtk-test-preset";
+const LIFECYCLE_PRESET_NAME = "alchemy-rtk-test-preset-lifecycle";
+const LIST_PRESET_NAME = "alchemy-rtk-test-preset-list";
 
 test.provider(
   "create with defaults, verify out-of-band, update in place, destroy",
@@ -79,20 +84,20 @@ test.provider(
           });
           return yield* Cloudflare.RealtimeKitPreset("Preset", {
             appId: app.appId,
-            name: PRESET_NAME,
+            name: LIFECYCLE_PRESET_NAME,
           });
         }),
       );
 
       expect(v1.presetId).toBeTruthy();
       expect(v1.accountId).toEqual(accountId);
-      expect(v1.name).toEqual(PRESET_NAME);
+      expect(v1.name).toEqual(LIFECYCLE_PRESET_NAME);
       expect(v1.config.viewType).toEqual("GROUP_CALL");
       expect(v1.permissions?.canRecord).toBe(false);
 
       // Out-of-band verification via the distilled API.
       const live = yield* getPreset(accountId, v1.appId, v1.presetId);
-      expect(live.name).toEqual(PRESET_NAME);
+      expect(live.name).toEqual(LIFECYCLE_PRESET_NAME);
       expect(live.config.viewType).toEqual("GROUP_CALL");
 
       // In-place update — grant recording + moderation. Same preset (no
@@ -104,7 +109,7 @@ test.provider(
           });
           return yield* Cloudflare.RealtimeKitPreset("Preset", {
             appId: app.appId,
-            name: PRESET_NAME,
+            name: LIFECYCLE_PRESET_NAME,
             permissions: {
               ...Cloudflare.defaultRealtimeKitPresetPermissions(),
               canRecord: true,
@@ -130,7 +135,7 @@ test.provider(
           });
           return yield* Cloudflare.RealtimeKitPreset("Preset", {
             appId: app.appId,
-            name: PRESET_NAME,
+            name: LIFECYCLE_PRESET_NAME,
             permissions: {
               ...Cloudflare.defaultRealtimeKitPresetPermissions(),
               canRecord: true,
@@ -146,6 +151,55 @@ test.provider(
       // delete API).
       yield* stack.destroy();
       yield* expectGone(accountId, v1.appId, v1.presetId);
+    }).pipe(logLevel),
+  { timeout: 120_000 },
+);
+
+test.provider(
+  "list enumerates the deployed preset",
+  (stack) =>
+    Effect.gen(function* () {
+      const entitled = yield* probeEntitlement;
+      if (!entitled) {
+        // RealtimeKit beta is entitlement-gated: an unentitled account gets the
+        // typed `Forbidden` (403) on `getApp`, which `list()` propagates. Skip
+        // the live assertion; the App suite pins the typed tag.
+        yield* Effect.logInfo(
+          "account is not RealtimeKit-entitled; skipping list",
+        );
+        return;
+      }
+
+      yield* stack.destroy();
+
+      const deployed = yield* stack.deploy(
+        Effect.gen(function* () {
+          const app = yield* Cloudflare.RealtimeKitApp("App", {
+            name: APP_NAME,
+          });
+          return yield* Cloudflare.RealtimeKitPreset("Preset", {
+            appId: app.appId,
+            name: LIST_PRESET_NAME,
+          });
+        }),
+      );
+
+      const provider = yield* Provider.findProvider(
+        Cloudflare.RealtimeKitPreset,
+      );
+      const all = yield* provider.list();
+
+      expect(
+        all.some(
+          (p) => p.presetId === deployed.presetId && p.appId === deployed.appId,
+        ),
+      ).toBe(true);
+      const found = all.find((p) => p.presetId === deployed.presetId);
+      expect(found?.name).toEqual(LIST_PRESET_NAME);
+      expect(found?.config.viewType).toEqual("GROUP_CALL");
+
+      yield* stack.destroy();
+      yield* expectGone(deployed.accountId, deployed.appId, deployed.presetId);
     }).pipe(logLevel),
   { timeout: 120_000 },
 );

@@ -1,6 +1,7 @@
 import * as pages from "@distilled.cloud/cloudflare/pages";
 import * as Effect from "effect/Effect";
 import * as Predicate from "effect/Predicate";
+import * as Stream from "effect/Stream";
 
 import { Unowned } from "../../AdoptPolicy.ts";
 import * as Provider from "../../Provider.ts";
@@ -179,6 +180,45 @@ export const PagesDomainProvider = () =>
       }
       return undefined;
     }),
+    // Parent fan-out: domains are sub-resources of a Pages project, and
+    // there is no account-wide domain enumeration API. Enumerate every
+    // Pages project (account-scoped, paginated), then list each project's
+    // domains with bounded concurrency and flatten into the `read`
+    // Attributes shape.
+    list: Effect.fn(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+
+      const projectNames = yield* pages.listProjects.pages({ accountId }).pipe(
+        Stream.runCollect,
+        Effect.map((chunk) =>
+          Array.from(chunk).flatMap((page) =>
+            (page.result ?? []).map((project) => project.name),
+          ),
+        ),
+      );
+
+      const perProject = yield* Effect.forEach(
+        projectNames,
+        (projectName) =>
+          pages.listProjectDomains.pages({ accountId, projectName }).pipe(
+            Stream.runCollect,
+            Effect.map((chunk) =>
+              Array.from(chunk).flatMap((page) =>
+                (page.result ?? []).map((domain) =>
+                  toAttributes(domain, accountId, projectName),
+                ),
+              ),
+            ),
+            // The project can vanish between enumeration and the
+            // per-project list — skip it rather than failing the whole
+            // enumeration.
+            Effect.catchTag("ProjectNotFound", () => Effect.succeed([])),
+          ),
+        { concurrency: 10 },
+      );
+
+      return perProject.flat();
+    }),
     read: Effect.fn(function* ({ output, olds }) {
       const { accountId } = yield* yield* CloudflareEnvironment;
       const acct = output?.accountId ?? accountId;
@@ -293,10 +333,14 @@ const toAttributes = (
   projectName,
   name: domain.name,
   status: domain.status,
-  certificateAuthority: domain.certificateAuthority,
-  validationStatus: domain.validationData.status,
-  validationMethod: domain.validationData.method,
-  verificationStatus: domain.verificationData.status,
-  zoneTag: domain.zoneTag,
+  // While a domain is still `initializing`/`pending`, Cloudflare omits the
+  // certificate authority, validation/verification blocks and (for an
+  // off-account zone) the zone tag entirely — coalesce to "" so the
+  // Attributes shape stays stable across the async activation lifecycle.
+  certificateAuthority: domain.certificateAuthority ?? "",
+  validationStatus: domain.validationData?.status ?? "",
+  validationMethod: domain.validationData?.method ?? "",
+  verificationStatus: domain.verificationData?.status ?? "",
+  zoneTag: domain.zoneTag ?? "",
   createdOn: domain.createdOn,
 });

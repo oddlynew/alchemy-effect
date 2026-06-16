@@ -1,5 +1,6 @@
 import * as Cloudflare from "@/Cloudflare";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
+import * as Provider from "@/Provider";
 import * as Test from "@/Test/Vitest";
 import * as aiGateway from "@distilled.cloud/cloudflare/ai-gateway";
 import { expect } from "@effect/vitest";
@@ -16,12 +17,17 @@ const logLevel = Effect.provideService(
   process.env.DEBUG ? "Debug" : "Info",
 );
 
-const GATEWAY_ID = "alchemy-test-aigw-pc";
-// Cloudflare requires the Secrets Store secret backing a provider config to
-// be named exactly `{gatewayId}_{providerSlug}_{alias}`.
+// A gateway allows only one provider config per (providerSlug, alias). The
+// two cases in this file run concurrently (test.provider), so they each get
+// their OWN gateway to avoid colliding on the same slug+alias.
+const LIFECYCLE_GATEWAY_ID = "alchemy-test-aigw-pc";
+const LIST_GATEWAY_ID = "alchemy-test-aigw-pc-list";
 const PROVIDER_SLUG = "openai";
 const ALIAS = "default";
-const SECRET_NAME = `${GATEWAY_ID}_${PROVIDER_SLUG}_${ALIAS}`;
+// Cloudflare requires the Secrets Store secret backing a provider config to
+// be named exactly `{gatewayId}_{providerSlug}_{alias}`.
+const secretName = (gatewayId: string) =>
+  `${gatewayId}_${PROVIDER_SLUG}_${ALIAS}`;
 const SECRET_VALUE = "sk-alchemy-test-provider-config-1234567890";
 
 class ProviderConfigStillExists extends Data.TaggedError(
@@ -63,13 +69,13 @@ test.provider("create, noop, replace, delete a BYOK provider config", (stack) =>
         // resource adopts the existing one and never deletes it.
         const store = yield* Cloudflare.SecretsStore("PcStore");
         const gateway = yield* Cloudflare.AiGateway("PcGateway", {
-          id: GATEWAY_ID,
+          id: LIFECYCLE_GATEWAY_ID,
           // BYOK resolution requires the gateway to reference the store.
           storeId: store.storeId,
         });
         const secret = yield* Cloudflare.Secret("PcSecret", {
           store,
-          name: SECRET_NAME,
+          name: secretName(LIFECYCLE_GATEWAY_ID),
           value: Redacted.make(SECRET_VALUE),
           scopes: ["ai_gateway"],
         });
@@ -91,7 +97,7 @@ test.provider("create, noop, replace, delete a BYOK provider config", (stack) =>
 
     expect(initial.config.providerConfigId).toBeDefined();
     expect(initial.config.accountId).toEqual(accountId);
-    expect(initial.config.gatewayId).toEqual(GATEWAY_ID);
+    expect(initial.config.gatewayId).toEqual(LIFECYCLE_GATEWAY_ID);
     expect(initial.config.providerSlug).toEqual(PROVIDER_SLUG);
     expect(initial.config.alias).toEqual(ALIAS);
     expect(initial.config.secretId).toEqual(initial.secret.secretId);
@@ -101,7 +107,7 @@ test.provider("create, noop, replace, delete a BYOK provider config", (stack) =>
     // Verify out-of-band via the API.
     const live = yield* aiGateway.listProviderConfigs({
       accountId,
-      gatewayId: GATEWAY_ID,
+      gatewayId: LIFECYCLE_GATEWAY_ID,
       perPage: 50,
     });
     const liveConfig = live.result.find(
@@ -128,10 +134,64 @@ test.provider("create, noop, replace, delete a BYOK provider config", (stack) =>
     expect(limited.config.rateLimitPeriod).toEqual(60);
 
     // The replaced config is gone.
-    yield* expectGone(accountId, GATEWAY_ID, initial.config.providerConfigId);
+    yield* expectGone(
+      accountId,
+      LIFECYCLE_GATEWAY_ID,
+      initial.config.providerConfigId,
+    );
 
     yield* stack.destroy();
 
-    yield* expectGone(accountId, GATEWAY_ID, limited.config.providerConfigId);
+    yield* expectGone(
+      accountId,
+      LIFECYCLE_GATEWAY_ID,
+      limited.config.providerConfigId,
+    );
+  }).pipe(logLevel),
+);
+
+test.provider("list enumerates the deployed provider config", (stack) =>
+  Effect.gen(function* () {
+    yield* stack.destroy();
+
+    const deployed = yield* stack.deploy(
+      Effect.gen(function* () {
+        const store = yield* Cloudflare.SecretsStore("PcListStore");
+        const gateway = yield* Cloudflare.AiGateway("PcListGateway", {
+          id: LIST_GATEWAY_ID,
+          storeId: store.storeId,
+        });
+        const secret = yield* Cloudflare.Secret("PcListSecret", {
+          store,
+          name: secretName(LIST_GATEWAY_ID),
+          value: Redacted.make(SECRET_VALUE),
+          scopes: ["ai_gateway"],
+        });
+        return yield* Cloudflare.AiGatewayProviderConfig("ByokList", {
+          gatewayId: gateway.gatewayId,
+          providerSlug: PROVIDER_SLUG,
+          alias: ALIAS,
+          secretId: secret.secretId,
+          defaultConfig: true,
+        });
+      }),
+    );
+
+    const provider = yield* Provider.findProvider(
+      Cloudflare.AiGatewayProviderConfig,
+    );
+    const all = yield* provider.list();
+
+    expect(
+      all.some((c) => c.providerConfigId === deployed.providerConfigId),
+    ).toBe(true);
+    const found = all.find(
+      (c) => c.providerConfigId === deployed.providerConfigId,
+    )!;
+    expect(found.gatewayId).toEqual(LIST_GATEWAY_ID);
+    expect(found.providerSlug).toEqual(PROVIDER_SLUG);
+    expect(found.alias).toEqual(ALIAS);
+
+    yield* stack.destroy();
   }).pipe(logLevel),
 );

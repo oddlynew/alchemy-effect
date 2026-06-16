@@ -1,5 +1,6 @@
 import * as Cloudflare from "@/Cloudflare";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
+import * as Provider from "@/Provider";
 import * as Test from "@/Test/Vitest";
 import * as accounts from "@distilled.cloud/cloudflare/accounts";
 import * as iam from "@distilled.cloud/cloudflare/iam";
@@ -15,10 +16,6 @@ const logLevel = Effect.provideService(
   MinimumLogLevel,
   process.env.DEBUG ? "Debug" : "Info",
 );
-
-// Deterministic names — the same on every run (never Date.now()/random).
-const GROUP_A_NAME = "alchemy-iam-ugm-group-a";
-const GROUP_B_NAME = "alchemy-iam-ugm-group-b";
 
 // The membership identity is an account-member id. Look one up from the
 // account's member roster (the testing account always has at least its
@@ -72,14 +69,17 @@ const expectGone = (accountId: string, userGroupId: string, memberId: string) =>
 
 // Both groups stay deployed across both steps; only the membership's target
 // group flips, so the replacement is isolated to the membership itself.
+//
+// Group names are provider-generated (unique per stack instance) rather than
+// hardcoded constants: each `test.provider` runs in its own scratch stack, so
+// a shared deterministic name would make the two cases in this file adopt the
+// SAME physical group (user-group names are unique per account) and stomp on
+// each other when their lifecycles overlap. Letting the engine name them
+// keeps every test's groups isolated and self-healing.
 const program = (opts: { memberId: string; target: "A" | "B" }) =>
   Effect.gen(function* () {
-    const groupA = yield* Cloudflare.IamUserGroup("GroupA", {
-      name: GROUP_A_NAME,
-    });
-    const groupB = yield* Cloudflare.IamUserGroup("GroupB", {
-      name: GROUP_B_NAME,
-    });
+    const groupA = yield* Cloudflare.IamUserGroup("GroupA", {});
+    const groupB = yield* Cloudflare.IamUserGroup("GroupB", {});
     const membership = yield* Cloudflare.IamUserGroupMembership("Membership", {
       userGroup: opts.target === "A" ? groupA.userGroupId : groupB.userGroupId,
       memberId: opts.memberId,
@@ -134,6 +134,41 @@ test.provider(
 
       // Destroy removed the membership (and the groups themselves).
       yield* expectGone(accountId, v2.groupB.userGroupId, memberId);
+    }).pipe(logLevel),
+  { timeout: 120_000 },
+);
+
+test.provider(
+  "list enumerates memberships across all user groups in the account",
+  (stack) =>
+    Effect.gen(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+      const memberId = yield* findMemberId(accountId);
+
+      yield* stack.destroy();
+
+      // Deploy a membership so there is at least one to enumerate.
+      const deployed = yield* stack.deploy(program({ memberId, target: "A" }));
+
+      // Resolve the provider with the typed helper — element type is the
+      // resource's exact Attributes shape (no `any`).
+      const provider = yield* Provider.findProvider(
+        Cloudflare.IamUserGroupMembership,
+      );
+
+      // Parent fan-out + per-group pagination must surface our deployed
+      // membership somewhere in the exhaustively-collected result.
+      const all = yield* provider.list();
+      expect(
+        all.some(
+          (m) =>
+            m.userGroupId === deployed.membership.userGroupId &&
+            m.memberId === memberId &&
+            m.accountId === accountId,
+        ),
+      ).toBe(true);
+
+      yield* stack.destroy();
     }).pipe(logLevel),
   { timeout: 120_000 },
 );

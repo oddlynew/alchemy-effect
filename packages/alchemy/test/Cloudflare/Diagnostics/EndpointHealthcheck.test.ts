@@ -1,5 +1,6 @@
 import * as Cloudflare from "@/Cloudflare";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
+import * as Provider from "@/Provider";
 import * as Test from "@/Test/Vitest";
 import * as diagnostics from "@distilled.cloud/cloudflare/diagnostics";
 import { expect } from "@effect/vitest";
@@ -16,6 +17,20 @@ const logLevel = Effect.provideService(
 
 const getHealthcheck = (accountId: string, id: string) =>
   diagnostics.getEndpointHealthcheck({ accountId, id });
+
+// A GET issued immediately after a create/update can transiently 404
+// (`EndpointHealthcheckNotFound`, code 1022) while the new state
+// propagates across Cloudflare's edge — bounded-retry the out-of-band
+// verification read until it resolves.
+const getHealthcheckLive = (accountId: string, id: string) =>
+  getHealthcheck(accountId, id).pipe(
+    Effect.retry({
+      while: (e) => e._tag === "EndpointHealthcheckNotFound",
+      schedule: Schedule.exponential("500 millis").pipe(
+        Schedule.both(Schedule.recurs(10)),
+      ),
+    }),
+  );
 
 // Poll until the healthcheck is gone after destroy. Cloudflare answers
 // GET for a missing healthcheck with the typed
@@ -106,7 +121,7 @@ test.provider(
       expect(check.name).toEqual("alchemy-diag-ehc");
 
       // Out-of-band verification via the distilled API.
-      const live = yield* getHealthcheck(accountId, check.healthcheckId);
+      const live = yield* getHealthcheckLive(accountId, check.healthcheckId);
       expect(live.endpoint).toEqual("10.77.0.1");
       expect(live.name).toEqual("alchemy-diag-ehc");
 
@@ -121,7 +136,10 @@ test.provider(
       expect(updated.endpoint).toEqual("10.77.0.2");
       expect(updated.name).toEqual("alchemy-diag-ehc");
 
-      const liveUpdated = yield* getHealthcheck(accountId, check.healthcheckId);
+      const liveUpdated = yield* getHealthcheckLive(
+        accountId,
+        check.healthcheckId,
+      );
       expect(liveUpdated.endpoint).toEqual("10.77.0.2");
       expect(liveUpdated.name).toEqual("alchemy-diag-ehc");
 
@@ -148,7 +166,7 @@ test.provider(
       expect(replaced.name).toEqual("alchemy-diag-ehc-v2");
       yield* expectGone(accountId, check.healthcheckId);
 
-      const liveReplaced = yield* getHealthcheck(
+      const liveReplaced = yield* getHealthcheckLive(
         accountId,
         replaced.healthcheckId,
       );
@@ -157,6 +175,46 @@ test.provider(
       yield* stack.destroy();
 
       yield* expectGone(accountId, replaced.healthcheckId);
+    }).pipe(logLevel),
+  { timeout: 180_000 },
+);
+
+// Canonical `list()` test (account collection): deploy a real healthcheck,
+// then assert its UUID appears in the exhaustively-enumerated result.
+test.provider(
+  "list enumerates the deployed endpoint healthcheck",
+  (stack) =>
+    Effect.gen(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+
+      yield* stack.destroy();
+      yield* cleanLeftovers(accountId);
+
+      const deployed = yield* stack.deploy(
+        Cloudflare.EndpointHealthcheck("ListCheck", {
+          endpoint: "10.78.0.1",
+          name: "alchemy-diag-ehc-list",
+        }),
+      );
+
+      const provider = yield* Provider.findProvider(
+        Cloudflare.EndpointHealthcheck,
+      );
+      const all = yield* provider.list();
+
+      expect(
+        all.some((hc) => hc.healthcheckId === deployed.healthcheckId),
+      ).toBe(true);
+      // Each listed item is the full `read` Attributes shape.
+      const found = all.find(
+        (hc) => hc.healthcheckId === deployed.healthcheckId,
+      );
+      expect(found?.accountId).toEqual(accountId);
+      expect(found?.endpoint).toEqual("10.78.0.1");
+      expect(found?.checkType).toEqual("icmp");
+
+      yield* stack.destroy();
+      yield* expectGone(accountId, deployed.healthcheckId);
     }).pipe(logLevel),
   { timeout: 180_000 },
 );

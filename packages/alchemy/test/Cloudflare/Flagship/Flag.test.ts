@@ -1,6 +1,8 @@
 import * as Cloudflare from "@/Cloudflare";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
+import * as Provider from "@/Provider";
 import * as Test from "@/Test/Vitest";
+import { poll } from "@/Util/poll.ts";
 import * as flagship from "@distilled.cloud/cloudflare/flagship";
 import { expect } from "@effect/vitest";
 import * as Data from "effect/Data";
@@ -270,5 +272,50 @@ test.provider("recreates a flag after out-of-band delete", (stack) =>
       initial.app.appId,
       "alchemy-test-flag-heal",
     );
+  }).pipe(logLevel),
+);
+
+test.provider("list enumerates the deployed flag", (stack) =>
+  Effect.gen(function* () {
+    yield* stack.destroy();
+
+    const deployed = yield* stack.deploy(
+      Effect.gen(function* () {
+        const app = yield* Cloudflare.FlagshipApp("ListApp", {
+          name: "alchemy-test-flagship-list",
+        });
+        const flag = yield* Cloudflare.FlagshipFlag("ListFlag", {
+          appId: app.appId,
+          key: "alchemy-test-flag-list",
+          defaultVariation: "off",
+          variations: { off: false, on: true },
+        });
+        return { app, flag };
+      }),
+    );
+
+    const provider = yield* Provider.findProvider(Cloudflare.FlagshipFlag);
+
+    // A freshly-deployed flag is eventually consistent in the account-wide
+    // list(); poll until it appears before asserting.
+    const all = yield* poll({
+      description: "list() includes the deployed flag",
+      effect: provider.list(),
+      predicate: (all) =>
+        all.some(
+          (f) => f.appId === deployed.app.appId && f.key === deployed.flag.key,
+        ),
+      schedule: Schedule.spaced("3 seconds").pipe(
+        Schedule.both(Schedule.recurs(20)),
+      ),
+    });
+
+    expect(
+      all.some(
+        (f) => f.appId === deployed.app.appId && f.key === deployed.flag.key,
+      ),
+    ).toBe(true);
+
+    yield* stack.destroy();
   }).pipe(logLevel),
 );

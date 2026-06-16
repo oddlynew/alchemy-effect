@@ -4,7 +4,9 @@ import * as Predicate from "effect/Predicate";
 
 import * as Provider from "../../Provider.ts";
 import { Resource } from "../../Resource.ts";
+import { CloudflareEnvironment } from "../CloudflareEnvironment.ts";
 import type { Providers } from "../Providers.ts";
+import { listAllZones } from "../Zone/lookup.ts";
 
 const TieredCachingTypeId = "Cloudflare.Argo.TieredCaching" as const;
 type TieredCachingTypeId = typeof TieredCachingTypeId;
@@ -102,7 +104,36 @@ export const isTieredCaching = (value: unknown): value is TieredCaching =>
 
 export const TieredCachingProvider = () =>
   Provider.succeed(TieredCaching, {
+    nuke: { singleton: true },
     stables: ["zoneId", "initialValue"],
+
+    list: Effect.fn(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+      // No account-wide API for this zone singleton — enumerate every
+      // zone in the account and read its setting (every zone has one,
+      // tiered caching is available on all plans).
+      const allZones = yield* listAllZones(accountId);
+      const rows = yield* Effect.forEach(
+        allZones.map((zone) => zone.id),
+        (zoneId) =>
+          argo.getTieredCaching({ zoneId }).pipe(
+            Effect.map((observed) =>
+              toAttributes(zoneId, observed, toValue(observed.value)),
+            ),
+            // Zone deleted out-of-band between enumeration and read —
+            // the setting is gone with it; skip it. A concurrently-purged
+            // zone surfaces as `ZoneNotFound` (404 "Invalid or missing
+            // zone") rather than the 7003 object-identifier code.
+            Effect.catchTag(["InvalidObjectIdentifier", "ZoneNotFound"], () =>
+              Effect.succeed(undefined),
+            ),
+          ),
+        { concurrency: 10 },
+      );
+      return rows.filter(
+        (row): row is TieredCachingAttributes => row !== undefined,
+      );
+    }),
 
     diff: Effect.fn(function* ({ olds = {}, news, output }) {
       const o = olds as TieredCachingProps;

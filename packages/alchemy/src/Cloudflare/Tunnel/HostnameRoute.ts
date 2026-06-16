@@ -1,6 +1,8 @@
 import * as zeroTrust from "@distilled.cloud/cloudflare/zero-trust";
 import * as Effect from "effect/Effect";
 import * as Predicate from "effect/Predicate";
+import * as Schedule from "effect/Schedule";
+import * as Stream from "effect/Stream";
 
 import { Unowned } from "../../AdoptPolicy.ts";
 import * as Provider from "../../Provider.ts";
@@ -119,26 +121,47 @@ export const TunnelHostnameRouteProvider = () =>
       const { accountId } = yield* yield* CloudflareEnvironment;
 
       // 1. Observe — cached id is a hint; fall back to a hostname scan so
-      //    a crashed prior run converges.
-      let observed = output?.hostnameRouteId
+      //    a crashed prior run converges. A hostname scan also surfaces a
+      //    leftover/foreign route squatting on the hostname, which the sync
+      //    step below re-routes to our tunnel.
+      let observed: ObservedRoute | undefined = output?.hostnameRouteId
         ? yield* observeRoute(accountId, output.hostnameRouteId)
         : undefined;
       if (!observed) {
         observed = yield* findByHostname(accountId, news.hostname);
       }
 
-      // 2. Ensure — create when missing.
+      // 2. Ensure — create when missing, tolerating the "already routed to
+      //    another tunnel" race: a concurrent create won, or a leftover route
+      //    not yet visible to our scan owns the hostname. Re-observe (the list
+      //    is eventually consistent right after the conflicting create) so the
+      //    sync step takes the squatting route over.
       if (!observed) {
-        const created = yield* zeroTrust.createNetworkHostnameRoute({
-          accountId,
-          hostname: news.hostname,
-          tunnelId: news.tunnelId,
-          ...(news.comment !== undefined ? { comment: news.comment } : {}),
-        });
-        return toAttributes(created, accountId);
+        observed = yield* zeroTrust
+          .createNetworkHostnameRoute({
+            accountId,
+            hostname: news.hostname,
+            tunnelId: news.tunnelId,
+            ...(news.comment !== undefined ? { comment: news.comment } : {}),
+          })
+          .pipe(
+            Effect.catchTag("HostnameRouteAlreadyRouted", (conflict) =>
+              findByHostname(accountId, news.hostname).pipe(
+                Effect.repeat({
+                  schedule: Schedule.spaced("1 second"),
+                  until: (route) => route !== undefined,
+                  times: 5,
+                }),
+                Effect.flatMap((route) =>
+                  route ? Effect.succeed(route) : Effect.fail(conflict),
+                ),
+              ),
+            ),
+          );
       }
 
-      // 3. Sync — PATCH only when the observed state differs.
+      // 3. Sync — PATCH only when the observed state differs (this is also how
+      //    a taken-over foreign route gets re-routed to our tunnel).
       const dirty =
         (observed.hostname ?? "") !== news.hostname ||
         (observed.tunnelId ?? "") !== news.tunnelId ||
@@ -163,6 +186,25 @@ export const TunnelHostnameRouteProvider = () =>
           hostnameRouteId: output.hostnameRouteId,
         })
         .pipe(Effect.catchTag("HostnameRouteNotFound", () => Effect.void));
+    }),
+
+    // Account collection — hostname routes are enumerated account-wide via
+    // the Zero Trust list API. Paginate exhaustively, drop tombstoned/idless
+    // rows, and hydrate each into the exact `read` Attributes shape.
+    list: Effect.fn(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+      return yield* zeroTrust.listNetworkHostnameRoutes
+        .pages({ accountId })
+        .pipe(
+          Stream.runCollect,
+          Effect.map((chunk) =>
+            Array.from(chunk).flatMap((page) =>
+              (page.result ?? [])
+                .filter((r) => r.id != null && r.deletedAt == null)
+                .map((r) => toAttributes(r, accountId)),
+            ),
+          ),
+        );
     }),
   });
 

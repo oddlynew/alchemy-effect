@@ -1,6 +1,7 @@
 import * as originCa from "@distilled.cloud/cloudflare/origin-ca-certificates";
 import * as Effect from "effect/Effect";
 import * as Predicate from "effect/Predicate";
+import * as Schedule from "effect/Schedule";
 import * as Stream from "effect/Stream";
 
 import { Unowned } from "../../AdoptPolicy.ts";
@@ -8,7 +9,7 @@ import * as Provider from "../../Provider.ts";
 import { Resource } from "../../Resource.ts";
 import { CloudflareEnvironment } from "../CloudflareEnvironment.ts";
 import type { Providers } from "../Providers.ts";
-import { findZoneByName } from "../Zone/lookup.ts";
+import { findZoneByName, listAllZones } from "../Zone/lookup.ts";
 
 const OriginCaCertificateTypeId = "Cloudflare.OriginCaCertificate" as const;
 type OriginCaCertificateTypeId = typeof OriginCaCertificateTypeId;
@@ -172,6 +173,40 @@ export const OriginCaCertificateProvider = () =>
       "expiresOn",
     ],
 
+    // Origin CA certificates are enumerated per zone (the list endpoint
+    // requires a `zone_id` query param). Fan out across every zone on the
+    // account and flatten. The list response omits the csr and requested
+    // validity, so `toAttributes` fills them with the defaults — matching the
+    // cold/unowned `read` shape. Origin CA endpoints may require the special
+    // Origin CA Key auth; a zone we can't enumerate rejects with `Forbidden`,
+    // which we skip rather than fail (the array stays as complete as the
+    // credentials allow).
+    list: Effect.fn(function* () {
+      const { accountId } = yield* yield* CloudflareEnvironment;
+      const zones = yield* listAllZones(accountId);
+      const rows = yield* Effect.forEach(
+        zones,
+        (zone) =>
+          originCa.listOriginCaCertificates.pages({ zoneId: zone.id }).pipe(
+            Stream.runCollect,
+            Effect.map((chunk) =>
+              Array.from(chunk).flatMap((page) =>
+                (page.result ?? [])
+                  .filter((cert) => cert.id != null)
+                  .map(
+                    (cert): OriginCaCertificateAttributes => toAttributes(cert),
+                  ),
+              ),
+            ),
+            Effect.catchTag("Forbidden", () =>
+              Effect.succeed([] as OriginCaCertificateAttributes[]),
+            ),
+          ),
+        { concurrency: 10 },
+      );
+      return rows.flat();
+    }),
+
     diff: Effect.fn(function* ({ olds, news }) {
       const o = olds as OriginCaCertificateProps | undefined;
       const n = news as OriginCaCertificateProps;
@@ -247,11 +282,32 @@ export const OriginCaCertificateProvider = () =>
     delete: Effect.fn(function* ({ output }) {
       // Delete = revoke. Idempotent: an unknown id (1101) or an
       // already-revoked certificate (1014) both mean "gone".
+      //
+      // `CertificateRevocationFailed` (code 1000) is the dual-use generic
+      // "API errors encountered" Cloudflare returns when a revoke blips —
+      // most often during the replace-time GC delete, when the old
+      // certificate is revoked right after its replacement was issued.
+      // Left untyped it surfaced as `UnknownCloudflareError` and aborted the
+      // delete, orphaning the old certificate (it is no longer in state, so
+      // a later `stack.destroy()` cannot reclaim it). Bounded-retry the
+      // transient failure, then read back: a revoked/absent certificate
+      // counts as deleted; a still-live one re-raises so the leak is never
+      // silent.
       yield* originCa
         .deleteOriginCaCertificate({ certificateId: output.certificateId })
         .pipe(
+          Effect.retry({
+            while: (e) => e._tag === "CertificateRevocationFailed",
+            schedule: Schedule.exponential("500 millis"),
+            times: 6,
+          }),
           Effect.catchTag("CertificateNotFound", () => Effect.void),
           Effect.catchTag("CertificateAlreadyRevoked", () => Effect.void),
+          Effect.catchTag("CertificateRevocationFailed", (e) =>
+            getCertificate(output.certificateId).pipe(
+              Effect.flatMap((cert) => (cert ? Effect.fail(e) : Effect.void)),
+            ),
+          ),
         );
     }),
   });

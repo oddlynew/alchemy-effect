@@ -20,6 +20,7 @@ import * as AccessCert from "./Access/Certificate.ts";
 import * as AccessCustomPage from "./Access/CustomPage.ts";
 import * as AccessGroup from "./Access/Group.ts";
 import * as AccessIdp from "./Access/IdentityProvider.ts";
+import * as AccessInfraTarget from "./Access/InfrastructureTarget.ts";
 import * as AccessKeyConfig from "./Access/KeyConfiguration.ts";
 import * as AccessMcpPortal from "./Access/McpPortal.ts";
 import * as AccessOrg from "./Access/Organization.ts";
@@ -159,6 +160,7 @@ export const providers = () =>
       AccessCustomPage.AccessCustomPage,
       AccessGroup.AccessGroup,
       AccessIdp.AccessIdentityProvider,
+      AccessInfraTarget.AccessInfrastructureTarget,
       AccessKeyConfig.AccessKeyConfiguration,
       AccessMcpPortal.AccessMcpPortal,
       AccessOrg.AccessOrganization,
@@ -501,6 +503,7 @@ export const providers = () =>
           AccessCustomPage.AccessCustomPageProvider(),
           AccessGroup.AccessGroupProvider(),
           AccessIdp.AccessIdentityProviderProvider(),
+          AccessInfraTarget.AccessInfrastructureTargetProvider(),
           AccessKeyConfig.AccessKeyConfigurationProvider(),
           AccessMcpPortal.AccessMcpPortalProvider(),
           AccessOrg.AccessOrganizationProvider(),
@@ -851,5 +854,22 @@ const isMisleadinglyTaggedTransient = (error: unknown): boolean => {
   // fast after backoff rather than loop forever.
   if (tag === "Forbidden" && /unable to authenticate request/i.test(message))
     return true;
+  // CF code 10000: "Authentication error" is a transient throttle Cloudflare
+  // returns under high request concurrency — the same call against the same
+  // zone succeeds in isolation (verified: an account whose zones are all
+  // active and reachable still intermittently rejects with "Authentication
+  // error" only when hundreds of calls fan out at once). It surfaces under
+  // both a 403 (`Forbidden`) and a 401 (`Unauthorized`) tag depending on the
+  // edge node. The retry is bounded (see `cloudflareRetryFactory`: ~8 tries,
+  // capped 5s), so a genuinely invalid/expired token — which produces the same
+  // message persistently — still fails fast after a few seconds of backoff
+  // rather than looping forever; the win is that valid tokens stop flaking
+  // under load.
+  if (
+    (tag === "Forbidden" || tag === "Unauthorized") &&
+    /authentication error/i.test(message)
+  ) {
+    return true;
+  }
   return false;
 };

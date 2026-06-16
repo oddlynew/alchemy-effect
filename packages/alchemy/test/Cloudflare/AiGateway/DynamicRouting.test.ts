@@ -1,6 +1,8 @@
 import * as Cloudflare from "@/Cloudflare";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
+import * as Provider from "@/Provider";
 import * as Test from "@/Test/Vitest";
+import { poll } from "@/Util/poll.ts";
 import * as aiGateway from "@distilled.cloud/cloudflare/ai-gateway";
 import { expect } from "@effect/vitest";
 import * as Data from "effect/Data";
@@ -277,5 +279,53 @@ test.provider("recreates a route after out-of-band delete", (stack) =>
     yield* stack.destroy();
 
     yield* expectGone(accountId, GATEWAY_ID, healed.route.routeId);
+  }).pipe(logLevel),
+);
+
+// Canonical `list()` test (parent fan-out): routes are scoped under a gateway
+// with no account-wide route API, so `list()` enumerates every account gateway
+// and exhaustively lists each gateway's routes. Deploy a gateway + route, then
+// assert the deployed route appears in the exhaustively-paginated result.
+test.provider("list enumerates routes across all gateways", (stack) =>
+  Effect.gen(function* () {
+    yield* stack.destroy();
+
+    const deployed = yield* stack.deploy(
+      Effect.gen(function* () {
+        const gateway = yield* Cloudflare.AiGateway("ListRouteGateway", {
+          id: GATEWAY_ID,
+        });
+        const route = yield* Cloudflare.AiGatewayDynamicRouting("ListRoute", {
+          gatewayId: gateway.gatewayId,
+          name: "alchemy-test-route-list",
+          elements: graph("@cf/meta/llama-3.1-8b-instruct", 1),
+        });
+        return { route };
+      }),
+    );
+
+    const provider = yield* Provider.findProvider(
+      Cloudflare.AiGatewayDynamicRouting,
+    );
+
+    // The route appears in list() shortly after deploy, but its element graph
+    // is materialized from a separate deployed-version lookup that propagates
+    // with its own eventual-consistency lag. Poll until the route is present
+    // AND its graph has propagated before asserting.
+    const all = yield* poll({
+      description: "list() includes the deployed route with its element graph",
+      effect: provider.list(),
+      predicate: (all) =>
+        (all.find((r) => r.routeId === deployed.route.routeId)?.elements
+          ?.length ?? 0) > 0,
+    });
+
+    const found = all.find((r) => r.routeId === deployed.route.routeId);
+    expect(found).toBeDefined();
+    expect(found?.gatewayId).toEqual(GATEWAY_ID);
+    expect(found?.name).toEqual("alchemy-test-route-list");
+    expect(found?.elements).toEqual(graph("@cf/meta/llama-3.1-8b-instruct", 1));
+
+    yield* stack.destroy();
   }).pipe(logLevel),
 );

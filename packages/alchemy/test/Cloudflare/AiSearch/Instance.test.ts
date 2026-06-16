@@ -1,5 +1,6 @@
 import * as Cloudflare from "@/Cloudflare";
 import { CloudflareEnvironment } from "@/Cloudflare/CloudflareEnvironment";
+import * as Provider from "@/Provider";
 import * as Test from "@/Test/Vitest";
 import * as aisearch from "@distilled.cloud/cloudflare/aisearch";
 import { expect } from "@effect/vitest";
@@ -91,7 +92,25 @@ test.provider(
         "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       );
 
-      const liveUpdated = yield* getInstance(accountId, updated.instance.id);
+      // The update PUT returns the new settings immediately, but the
+      // out-of-band read endpoint reflects them eventually-consistently (it
+      // briefly serves `aiSearchModel: ""` right after the write). Poll the
+      // readback until the mutated props land before asserting, bounded.
+      const liveUpdated = yield* getInstance(
+        accountId,
+        updated.instance.id,
+      ).pipe(
+        Effect.flatMap((live) =>
+          live.aiSearchModel === "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+            ? Effect.succeed(live)
+            : Effect.fail({ _tag: "InstanceUpdateNotApplied" } as const),
+        ),
+        Effect.retry({
+          while: (e) => e._tag === "InstanceUpdateNotApplied",
+          schedule: Schedule.spaced("3 seconds"),
+          times: 20,
+        }),
+      );
       expect(liveUpdated.aiSearchModel).toEqual(
         "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       );
@@ -191,6 +210,32 @@ test.provider(
       yield* stack.destroy();
 
       yield* expectGone(accountId, healed.instance.id);
+    }).pipe(logLevel),
+  { timeout: 240_000 },
+);
+
+// Canonical `list()` test (account collection): `list()` enumerates every
+// AI Search instance in the account via `listInstances`, paginating
+// exhaustively, and hydrates each into the `read` Attributes shape. Deploy
+// an instance and assert its id appears in the result.
+test.provider(
+  "list enumerates the deployed instance",
+  (stack) =>
+    Effect.gen(function* () {
+      yield* stack.destroy();
+
+      const deployed = yield* stack.deploy(program());
+
+      const provider = yield* Provider.findProvider(
+        Cloudflare.AiSearchInstance,
+      );
+      const all = yield* provider.list();
+
+      expect(all.some((x) => x.id === deployed.instance.id)).toBe(true);
+
+      yield* stack.destroy();
+
+      yield* expectGone(deployed.instance.accountId, deployed.instance.id);
     }).pipe(logLevel),
   { timeout: 240_000 },
 );
