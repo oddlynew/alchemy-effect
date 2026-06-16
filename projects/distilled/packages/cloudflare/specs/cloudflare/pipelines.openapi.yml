@@ -646,11 +646,6 @@ paths:
                           description: Indicates the version number of last saved configuration.
                       required:
                         - id
-                        - destination
-                        - endpoint
-                        - name
-                        - source
-                        - version
                   success:
                     type: boolean
                     description: Indicates whether the API call was successful.

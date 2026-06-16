@@ -1358,13 +1358,23 @@ paths:
                                       type: boolean
                                       description: Whether to keep the query string of the original request.
                                     status_code:
-                                      type: number
-                                      enum:
-                                        - 301
-                                        - 302
-                                        - 303
-                                        - 307
-                                        - 308
+                                      oneOf:
+                                        - type: number
+                                          enum:
+                                            - 301
+                                        - type: number
+                                          enum:
+                                            - 302
+                                        - type: number
+                                          enum:
+                                            - 303
+                                        - type: number
+                                          enum:
+                                            - 307
+                                        - type: number
+                                          enum:
+                                            - 308
+                                        - type: number
                                       description: The status code to use for the redirect.
                                   required:
                                     - target_url
@@ -3466,11 +3476,13 @@ paths:
                   - last_updated
                   - name
                   - phase
+                  - rules
                   - version
       x-distilled-response-path: result
       x-distilled-errors:
         RulesetNotFound:
           - code: 10003
+          - code: 10001
         Forbidden:
           - status: 403
     put:

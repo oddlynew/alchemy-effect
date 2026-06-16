@@ -4026,7 +4026,7 @@ export const ListRegionalHostnamesResponse =
     }),
   ) as unknown as Schema.Schema<ListRegionalHostnamesResponse>;
 
-export type ListRegionalHostnamesError = DefaultErrors;
+export type ListRegionalHostnamesError = DefaultErrors | Forbidden;
 
 export const listRegionalHostnames: API.PaginatedOperationMethod<
   ListRegionalHostnamesRequest,
@@ -4036,7 +4036,7 @@ export const listRegionalHostnames: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRegionalHostnamesRequest,
   output: ListRegionalHostnamesResponse,
-  errors: [],
+  errors: [Forbidden],
   pagination: {
     mode: "single",
     items: "result",

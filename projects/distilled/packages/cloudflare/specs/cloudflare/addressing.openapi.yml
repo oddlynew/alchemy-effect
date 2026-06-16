@@ -3219,6 +3219,9 @@ paths:
                   - region_key
                   - routing
       x-distilled-pagination-class: RegionalHostnameListResponsesSinglePage
+      x-distilled-errors:
+        Forbidden:
+          - status: 403
     post:
       operationId: createRegionalHostname
       description: "Create a new Regional Hostname entry. Cloudflare will only use

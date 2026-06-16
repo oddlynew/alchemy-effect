@@ -1,9 +1,19 @@
 {
-  "errors": {},
   "response": {
     "properties": {
       "result_info": { "optional": true },
-      "results": { "wireKey": "result" }
+      "results": { "wireKey": "result" },
+      "results[].destination": { "optional": true },
+      "results[].source": { "optional": true },
+      "results[].version": { "optional": true },
+      "results[].name": {
+        "optional": true,
+        "definition": { "kind": "primitive", "value": "string" }
+      },
+      "results[].endpoint": {
+        "optional": true,
+        "definition": { "kind": "primitive", "value": "string" }
+      }
     }
   }
 }

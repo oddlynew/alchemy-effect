@@ -905,11 +905,21 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
             );
           }
 
+          // Tracks a `result: null` success that we optimistically coerce to
+          // `{}` below. Some ops legitimately return `null` (e.g. a per-zone
+          // singleton that was never configured) and declare a nullable
+          // output schema — for those, decoding `{}` fails, so we retry the
+          // decode with `null` (see the decode block).
+          let resultWasNull = false;
           if (responsePath) {
             const nested = getPath(responseBody, responsePath);
             if (nested !== undefined) {
-              responseBody =
-                responsePath === "result" && nested === null ? {} : nested;
+              if (responsePath === "result" && nested === null) {
+                responseBody = {};
+                resultWasNull = true;
+              } else {
+                responseBody = nested;
+              }
             }
           }
 
@@ -930,7 +940,18 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
             responseBody,
           ).pipe(
             Effect.catchTag("SchemaError", (cause) =>
-              Effect.fail(new config.ParseError({ body: rawBody, cause })),
+              // A `result: null` success coerced to `{}` that the schema
+              // rejects: retry decoding the genuine `null` (the schema may be
+              // a nullable union). Only then surface the parse error.
+              resultWasNull
+                ? Schema.decodeUnknownEffect(outputSchema)(null).pipe(
+                    Effect.catchTag("SchemaError", () =>
+                      Effect.fail(
+                        new config.ParseError({ body: rawBody, cause }),
+                      ),
+                    ),
+                  )
+                : Effect.fail(new config.ParseError({ body: rawBody, cause })),
             ),
           );
         });

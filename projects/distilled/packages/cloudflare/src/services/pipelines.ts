@@ -277,7 +277,7 @@ export interface ListPipelinesResponse {
   } | null;
   results: {
     id: string;
-    destination: {
+    destination?: {
       batch: { maxBytes: number; maxDurationS: number; maxRows: number };
       compression: { type: "none" | "gzip" | "deflate" | (string & {}) };
       format: "json";
@@ -288,19 +288,21 @@ export interface ListPipelinesResponse {
         prefix?: string | null;
       };
       type: "r2";
-    };
-    endpoint: string;
-    name: string;
-    source: (
-      | {
-          format: "json";
-          type: string;
-          authentication?: boolean | null;
-          cors?: { origins?: string[] | null } | null;
-        }
-      | { format: "json"; type: string }
-    )[];
-    version: number;
+    } | null;
+    endpoint?: string | null;
+    name?: string | null;
+    source?:
+      | (
+          | {
+              format: "json";
+              type: string;
+              authentication?: boolean | null;
+              cors?: { origins?: string[] | null } | null;
+            }
+          | { format: "json"; type: string }
+        )[]
+      | null;
+    version?: number | null;
   }[];
   /** Indicates whether the API call was successful. */
   success: boolean;
@@ -330,70 +332,80 @@ export const ListPipelinesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
       results: Schema.Array(
         Schema.Struct({
           id: Schema.String,
-          destination: Schema.Struct({
-            batch: Schema.Struct({
-              maxBytes: Schema.Number,
-              maxDurationS: Schema.Number,
-              maxRows: Schema.Number,
-            }).pipe(
-              Schema.encodeKeys({
-                maxBytes: "max_bytes",
-                maxDurationS: "max_duration_s",
-                maxRows: "max_rows",
-              }),
-            ),
-            compression: Schema.Struct({
-              type: Schema.Union([
-                Schema.Literals(["none", "gzip", "deflate"]),
-                Schema.String,
-              ]),
-            }),
-            format: Schema.Literal("json"),
-            path: Schema.Struct({
-              bucket: Schema.String,
-              filename: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              filepath: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              prefix: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-            }),
-            type: Schema.Literal("r2"),
-          }),
-          endpoint: Schema.String,
-          name: Schema.String,
-          source: Schema.Array(
+          destination: Schema.optional(
             Schema.Union([
               Schema.Struct({
-                format: Schema.Literal("json"),
-                type: Schema.String,
-                authentication: Schema.optional(
-                  Schema.Union([Schema.Boolean, Schema.Null]),
+                batch: Schema.Struct({
+                  maxBytes: Schema.Number,
+                  maxDurationS: Schema.Number,
+                  maxRows: Schema.Number,
+                }).pipe(
+                  Schema.encodeKeys({
+                    maxBytes: "max_bytes",
+                    maxDurationS: "max_duration_s",
+                    maxRows: "max_rows",
+                  }),
                 ),
-                cors: Schema.optional(
-                  Schema.Union([
-                    Schema.Struct({
-                      origins: Schema.optional(
-                        Schema.Union([
-                          Schema.Array(Schema.String),
-                          Schema.Null,
-                        ]),
-                      ),
-                    }),
-                    Schema.Null,
+                compression: Schema.Struct({
+                  type: Schema.Union([
+                    Schema.Literals(["none", "gzip", "deflate"]),
+                    Schema.String,
                   ]),
-                ),
-              }),
-              Schema.Struct({
+                }),
                 format: Schema.Literal("json"),
-                type: Schema.String,
+                path: Schema.Struct({
+                  bucket: Schema.String,
+                  filename: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  filepath: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  prefix: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }),
+                type: Schema.Literal("r2"),
               }),
+              Schema.Null,
             ]),
           ),
-          version: Schema.Number,
+          endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          source: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Union([
+                  Schema.Struct({
+                    format: Schema.Literal("json"),
+                    type: Schema.String,
+                    authentication: Schema.optional(
+                      Schema.Union([Schema.Boolean, Schema.Null]),
+                    ),
+                    cors: Schema.optional(
+                      Schema.Union([
+                        Schema.Struct({
+                          origins: Schema.optional(
+                            Schema.Union([
+                              Schema.Array(Schema.String),
+                              Schema.Null,
+                            ]),
+                          ),
+                        }),
+                        Schema.Null,
+                      ]),
+                    ),
+                  }),
+                  Schema.Struct({
+                    format: Schema.Literal("json"),
+                    type: Schema.String,
+                  }),
+                ]),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          version: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         }),
       ),
       success: Schema.Boolean,

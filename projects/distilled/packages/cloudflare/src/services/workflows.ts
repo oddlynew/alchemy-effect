@@ -1850,9 +1850,9 @@ export const ListWorkflowsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
 export interface ListWorkflowsResponse {
   result: {
     id: string;
-    className: string;
+    className?: string | null;
     createdOn: string;
-    instances: {
+    instances?: {
       complete?: number | null;
       errored?: number | null;
       paused?: number | null;
@@ -1862,7 +1862,7 @@ export interface ListWorkflowsResponse {
       terminated?: number | null;
       waiting?: number | null;
       waitingForPause?: number | null;
-    };
+    } | null;
     modifiedOn: string;
     name: string;
     scriptName: string;
@@ -1883,33 +1883,44 @@ export const ListWorkflowsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
       result: Schema.Array(
         Schema.Struct({
           id: Schema.String,
-          className: Schema.String,
+          className: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           createdOn: Schema.String,
-          instances: Schema.Struct({
-            complete: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            errored: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            paused: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-            queued: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-            rollingBack: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            running: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            terminated: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            waiting: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            waitingForPause: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }),
+          instances: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                complete: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                errored: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                paused: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                queued: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                rollingBack: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                running: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                terminated: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                waiting: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                waitingForPause: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
           modifiedOn: Schema.String,
           name: Schema.String,
           scriptName: Schema.String,
@@ -1969,7 +1980,7 @@ export const ListWorkflowsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
     }).pipe(Schema.encodeKeys({ result: "result", resultInfo: "result_info" })),
 ) as unknown as Schema.Schema<ListWorkflowsResponse>;
 
-export type ListWorkflowsError = DefaultErrors | InvalidRoute;
+export type ListWorkflowsError = DefaultErrors;
 
 export const listWorkflows: API.PaginatedOperationMethod<
   ListWorkflowsRequest,
@@ -1979,7 +1990,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListWorkflowsRequest,
   output: ListWorkflowsResponse,
-  errors: [InvalidRoute],
+  errors: [],
   pagination: {
     mode: "page",
     inputToken: "page",
