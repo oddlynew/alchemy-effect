@@ -51,6 +51,14 @@
         }
       }
     ],
+    "WebCrawlerDomainNotOwned": [
+      {
+        "status": 400,
+        "message": {
+          "includes": "domain_not_owned_by_user"
+        }
+      }
+    ],
     "Forbidden": [
       {
         "status": 403

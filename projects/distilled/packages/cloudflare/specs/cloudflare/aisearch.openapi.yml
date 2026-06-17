@@ -6919,6 +6919,10 @@ paths:
           - status: 400
             message:
               includes: invalid_token
+        WebCrawlerDomainNotOwned:
+          - status: 400
+            message:
+              includes: domain_not_owned_by_user
         Forbidden:
           - status: 403
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}:
@@ -7891,6 +7895,10 @@ paths:
           - status: 400
             message:
               includes: invalid_token
+        WebCrawlerDomainNotOwned:
+          - status: 400
+            message:
+              includes: domain_not_owned_by_user
         Forbidden:
           - status: 403
     delete:

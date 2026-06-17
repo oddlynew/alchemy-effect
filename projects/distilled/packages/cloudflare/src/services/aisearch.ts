@@ -127,6 +127,14 @@ export class ValidationError extends T.applyErrorMatchers(
   [{ code: 7001 }],
 ) {}
 
+export class WebCrawlerDomainNotOwned extends T.applyErrorMatchers(
+  Schema.TaggedErrorClass<WebCrawlerDomainNotOwned>()(
+    "WebCrawlerDomainNotOwned",
+    { code: Schema.Number, message: Schema.String },
+  ),
+  [{ status: 400, message: { includes: "domain_not_owned_by_user" } }],
+) {}
+
 // =============================================================================
 // CompletionsInstance
 // =============================================================================
@@ -10496,6 +10504,7 @@ export type CreateNamespaceInstanceError =
   | InvalidRoute
   | InstanceAlreadyExists
   | InvalidTokenCredentials
+  | WebCrawlerDomainNotOwned
   | Forbidden;
 
 export const createNamespaceInstance: API.OperationMethod<
@@ -10513,6 +10522,7 @@ export const createNamespaceInstance: API.OperationMethod<
     InvalidRoute,
     InstanceAlreadyExists,
     InvalidTokenCredentials,
+    WebCrawlerDomainNotOwned,
     Forbidden,
   ],
 }));
@@ -11903,6 +11913,7 @@ export type UpdateNamespaceInstanceError =
   | AiSearchInstanceNotFound
   | InvalidRoute
   | InvalidTokenCredentials
+  | WebCrawlerDomainNotOwned
   | Forbidden;
 
 export const updateNamespaceInstance: API.OperationMethod<
@@ -11919,6 +11930,7 @@ export const updateNamespaceInstance: API.OperationMethod<
     AiSearchInstanceNotFound,
     InvalidRoute,
     InvalidTokenCredentials,
+    WebCrawlerDomainNotOwned,
     Forbidden,
   ],
 }));
