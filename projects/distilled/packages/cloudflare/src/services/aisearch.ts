@@ -17,6 +17,17 @@ import { UploadableSchema } from "../schemas.ts";
 // Errors
 // =============================================================================
 
+export class AiSearchInstanceNotFound extends T.applyErrorMatchers(
+  Schema.TaggedErrorClass<AiSearchInstanceNotFound>()(
+    "AiSearchInstanceNotFound",
+    { code: Schema.Number, message: Schema.String },
+  ),
+  [
+    { code: 7002 },
+    { status: 404, message: { includes: "ai_search_not_found" } },
+  ],
+) {}
+
 export class Forbidden extends T.applyErrorMatchers(
   Schema.TaggedErrorClass<Forbidden>()("Forbidden", {
     code: Schema.Number,
@@ -62,7 +73,10 @@ export class NamespaceNotFound extends T.applyErrorMatchers(
     code: Schema.Number,
     message: Schema.String,
   }),
-  [{ code: 7063 }],
+  [
+    { code: 7063 },
+    { status: 404, message: { includes: "namespace_not_found" } },
+  ],
 ) {}
 
 export class NotFound extends T.applyErrorMatchers(
@@ -8372,8 +8386,8 @@ export const ListNamespaceInstancesRequest =
 export interface ListNamespaceInstancesResponse {
   result: {
     id: string;
-    createdAt: string;
-    modifiedAt: string;
+    createdAt?: string | null;
+    modifiedAt?: string | null;
     aiGatewayId?: string | null;
     aiSearchModel?:
       | "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
@@ -8413,21 +8427,8 @@ export interface ListNamespaceInstancesResponse {
       | "close_enough"
       | "flexible_friend"
       | "anything_goes"
-      | (string & {})
       | null;
-    cacheTtl?:
-      | "600"
-      | "1800"
-      | "3600"
-      | "7200"
-      | "21600"
-      | "43200"
-      | "86400"
-      | "172800"
-      | "259200"
-      | "518400"
-      | (string & {})
-      | null;
+    cacheTtl?: number | null;
     chunkOverlap?: number | null;
     chunkSize?: number | null;
     createdBy?: string | null;
@@ -8559,17 +8560,7 @@ export interface ListNamespaceInstancesResponse {
       } | null;
     } | null;
     status?: string | null;
-    syncInterval?:
-      | "900"
-      | "1800"
-      | "3600"
-      | "7200"
-      | "14400"
-      | "21600"
-      | "43200"
-      | "86400"
-      | (string & {})
-      | null;
+    syncInterval?: number | null;
     tokenId?: string | null;
     type?: "r2" | "web-crawler" | null;
   }[];
@@ -8587,8 +8578,12 @@ export const ListNamespaceInstancesResponse =
       result: Schema.Array(
         Schema.Struct({
           id: Schema.String,
-          createdAt: Schema.String,
-          modifiedAt: Schema.String,
+          createdAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          modifiedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
           aiGatewayId: Schema.optional(
             Schema.Union([Schema.String, Schema.Null]),
           ),
@@ -8630,38 +8625,14 @@ export const ListNamespaceInstancesResponse =
           cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
           cacheThreshold: Schema.optional(
             Schema.Union([
-              Schema.Union([
-                Schema.Literals([
-                  "super_strict_match",
-                  "close_enough",
-                  "flexible_friend",
-                  "anything_goes",
-                ]),
-                Schema.String,
-              ]),
+              Schema.Literal("super_strict_match"),
+              Schema.Literal("close_enough"),
+              Schema.Literal("flexible_friend"),
+              Schema.Literal("anything_goes"),
               Schema.Null,
             ]),
           ),
-          cacheTtl: Schema.optional(
-            Schema.Union([
-              Schema.Union([
-                Schema.Literals([
-                  "600",
-                  "1800",
-                  "3600",
-                  "7200",
-                  "21600",
-                  "43200",
-                  "86400",
-                  "172800",
-                  "259200",
-                  "518400",
-                ]),
-                Schema.String,
-              ]),
-              Schema.Null,
-            ]),
-          ),
+          cacheTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
           chunkOverlap: Schema.optional(
             Schema.Union([Schema.Number, Schema.Null]),
           ),
@@ -9110,22 +9081,7 @@ export const ListNamespaceInstancesResponse =
           ),
           status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           syncInterval: Schema.optional(
-            Schema.Union([
-              Schema.Union([
-                Schema.Literals([
-                  "900",
-                  "1800",
-                  "3600",
-                  "7200",
-                  "14400",
-                  "21600",
-                  "43200",
-                  "86400",
-                ]),
-                Schema.String,
-              ]),
-              Schema.Null,
-            ]),
+            Schema.Union([Schema.Number, Schema.Null]),
           ),
           tokenId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           type: Schema.optional(
@@ -9204,7 +9160,11 @@ export const ListNamespaceInstancesResponse =
     }).pipe(Schema.encodeKeys({ result: "result", resultInfo: "result_info" })),
   ) as unknown as Schema.Schema<ListNamespaceInstancesResponse>;
 
-export type ListNamespaceInstancesError = DefaultErrors;
+export type ListNamespaceInstancesError =
+  | DefaultErrors
+  | NamespaceNotFound
+  | InvalidRoute
+  | Forbidden;
 
 export const listNamespaceInstances: API.PaginatedOperationMethod<
   ListNamespaceInstancesRequest,
@@ -9214,7 +9174,7 @@ export const listNamespaceInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNamespaceInstancesRequest,
   output: ListNamespaceInstancesResponse,
-  errors: [],
+  errors: [NamespaceNotFound, InvalidRoute, Forbidden],
   pagination: {
     mode: "page",
     inputToken: "page",
@@ -9275,18 +9235,7 @@ export interface CreateNamespaceInstanceRequest {
     | "anything_goes"
     | (string & {});
   /** Body param: Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?:
-    | "600"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "21600"
-    | "43200"
-    | "86400"
-    | "172800"
-    | "259200"
-    | "518400"
-    | (string & {});
+  cacheTtl?: number;
   /** Body param */
   chunk?: boolean;
   /** Body param */
@@ -9418,16 +9367,7 @@ export interface CreateNamespaceInstanceRequest {
     };
   } | null;
   /** Body param: Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
-  syncInterval?:
-    | "900"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "14400"
-    | "21600"
-    | "43200"
-    | "86400"
-    | (string & {});
+  syncInterval?: number;
   /** Body param */
   tokenId?: string;
   /** Body param */
@@ -9488,23 +9428,7 @@ export const CreateNamespaceInstanceRequest =
           Schema.String,
         ]),
       ),
-      cacheTtl: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "600",
-            "1800",
-            "3600",
-            "7200",
-            "21600",
-            "43200",
-            "86400",
-            "172800",
-            "259200",
-            "518400",
-          ]),
-          Schema.String,
-        ]),
-      ),
+      cacheTtl: Schema.optional(Schema.Number),
       chunk: Schema.optional(Schema.Boolean),
       chunkOverlap: Schema.optional(Schema.Number),
       chunkSize: Schema.optional(Schema.Number),
@@ -9795,21 +9719,7 @@ export const CreateNamespaceInstanceRequest =
           Schema.Null,
         ]),
       ),
-      syncInterval: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "900",
-            "1800",
-            "3600",
-            "7200",
-            "14400",
-            "21600",
-            "43200",
-            "86400",
-          ]),
-          Schema.String,
-        ]),
-      ),
+      syncInterval: Schema.optional(Schema.Number),
       tokenId: Schema.optional(Schema.String),
       type: Schema.optional(
         Schema.Union([
@@ -9860,8 +9770,8 @@ export const CreateNamespaceInstanceRequest =
 export interface CreateNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  createdAt: string;
-  modifiedAt: string;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
   aiGatewayId?: string | null;
   aiSearchModel?:
     | "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
@@ -9901,22 +9811,9 @@ export interface CreateNamespaceInstanceResponse {
     | "close_enough"
     | "flexible_friend"
     | "anything_goes"
-    | (string & {})
     | null;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?:
-    | "600"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "21600"
-    | "43200"
-    | "86400"
-    | "172800"
-    | "259200"
-    | "518400"
-    | (string & {})
-    | null;
+  cacheTtl?: number | null;
   chunkOverlap?: number | null;
   chunkSize?: number | null;
   createdBy?: string | null;
@@ -10051,17 +9948,7 @@ export interface CreateNamespaceInstanceResponse {
   } | null;
   status?: string | null;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
-  syncInterval?:
-    | "900"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "14400"
-    | "21600"
-    | "43200"
-    | "86400"
-    | (string & {})
-    | null;
+  syncInterval?: number | null;
   tokenId?: string | null;
   type?: "r2" | "web-crawler" | null;
 }
@@ -10070,8 +9957,8 @@ export const CreateNamespaceInstanceResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.String,
-      createdAt: Schema.String,
-      modifiedAt: Schema.String,
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiSearchModel: Schema.optional(
         Schema.Union([
@@ -10111,38 +9998,14 @@ export const CreateNamespaceInstanceResponse =
       cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       cacheThreshold: Schema.optional(
         Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "super_strict_match",
-              "close_enough",
-              "flexible_friend",
-              "anything_goes",
-            ]),
-            Schema.String,
-          ]),
+          Schema.Literal("super_strict_match"),
+          Schema.Literal("close_enough"),
+          Schema.Literal("flexible_friend"),
+          Schema.Literal("anything_goes"),
           Schema.Null,
         ]),
       ),
-      cacheTtl: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "600",
-              "1800",
-              "3600",
-              "7200",
-              "21600",
-              "43200",
-              "86400",
-              "172800",
-              "259200",
-              "518400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      cacheTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -10569,24 +10432,7 @@ export const CreateNamespaceInstanceResponse =
         ]),
       ),
       status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      syncInterval: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "900",
-              "1800",
-              "3600",
-              "7200",
-              "14400",
-              "21600",
-              "43200",
-              "86400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      syncInterval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       tokenId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       type: Schema.optional(
         Schema.Union([
@@ -10642,7 +10488,15 @@ export const CreateNamespaceInstanceResponse =
       .pipe(T.ResponsePath("result")),
   ) as unknown as Schema.Schema<CreateNamespaceInstanceResponse>;
 
-export type CreateNamespaceInstanceError = DefaultErrors;
+export type CreateNamespaceInstanceError =
+  | DefaultErrors
+  | ValidationError
+  | NamespaceNotFound
+  | AiSearchInstanceNotFound
+  | InvalidRoute
+  | InstanceAlreadyExists
+  | InvalidTokenCredentials
+  | Forbidden;
 
 export const createNamespaceInstance: API.OperationMethod<
   CreateNamespaceInstanceRequest,
@@ -10652,7 +10506,15 @@ export const createNamespaceInstance: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: CreateNamespaceInstanceRequest,
   output: CreateNamespaceInstanceResponse,
-  errors: [],
+  errors: [
+    ValidationError,
+    NamespaceNotFound,
+    AiSearchInstanceNotFound,
+    InvalidRoute,
+    InstanceAlreadyExists,
+    InvalidTokenCredentials,
+    Forbidden,
+  ],
 }));
 
 export interface UpdateNamespaceInstanceRequest {
@@ -10705,18 +10567,7 @@ export interface UpdateNamespaceInstanceRequest {
     | "anything_goes"
     | (string & {});
   /** Body param: Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?:
-    | "600"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "21600"
-    | "43200"
-    | "86400"
-    | "172800"
-    | "259200"
-    | "518400"
-    | (string & {});
+  cacheTtl?: number;
   /** Body param */
   chunk?: boolean;
   /** Body param */
@@ -10881,16 +10732,7 @@ export interface UpdateNamespaceInstanceRequest {
     | ""
     | null;
   /** Body param: Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
-  syncInterval?:
-    | "900"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "14400"
-    | "21600"
-    | "43200"
-    | "86400"
-    | (string & {});
+  syncInterval?: number;
   /** Body param */
   systemPromptAiSearch?: string | null;
   /** Body param */
@@ -10955,23 +10797,7 @@ export const UpdateNamespaceInstanceRequest =
           Schema.String,
         ]),
       ),
-      cacheTtl: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "600",
-            "1800",
-            "3600",
-            "7200",
-            "21600",
-            "43200",
-            "86400",
-            "172800",
-            "259200",
-            "518400",
-          ]),
-          Schema.String,
-        ]),
-      ),
+      cacheTtl: Schema.optional(Schema.Number),
       chunk: Schema.optional(Schema.Boolean),
       chunkOverlap: Schema.optional(Schema.Number),
       chunkSize: Schema.optional(Schema.Number),
@@ -11297,21 +11123,7 @@ export const UpdateNamespaceInstanceRequest =
           Schema.Null,
         ]),
       ),
-      syncInterval: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "900",
-            "1800",
-            "3600",
-            "7200",
-            "14400",
-            "21600",
-            "43200",
-            "86400",
-          ]),
-          Schema.String,
-        ]),
-      ),
+      syncInterval: Schema.optional(Schema.Number),
       systemPromptAiSearch: Schema.optional(
         Schema.Union([Schema.String, Schema.Null]),
       ),
@@ -11366,8 +11178,8 @@ export const UpdateNamespaceInstanceRequest =
 export interface UpdateNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  createdAt: string;
-  modifiedAt: string;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
   aiGatewayId?: string | null;
   aiSearchModel?:
     | "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
@@ -11407,22 +11219,9 @@ export interface UpdateNamespaceInstanceResponse {
     | "close_enough"
     | "flexible_friend"
     | "anything_goes"
-    | (string & {})
     | null;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?:
-    | "600"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "21600"
-    | "43200"
-    | "86400"
-    | "172800"
-    | "259200"
-    | "518400"
-    | (string & {})
-    | null;
+  cacheTtl?: number | null;
   chunkOverlap?: number | null;
   chunkSize?: number | null;
   createdBy?: string | null;
@@ -11557,17 +11356,7 @@ export interface UpdateNamespaceInstanceResponse {
   } | null;
   status?: string | null;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
-  syncInterval?:
-    | "900"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "14400"
-    | "21600"
-    | "43200"
-    | "86400"
-    | (string & {})
-    | null;
+  syncInterval?: number | null;
   tokenId?: string | null;
   type?: "r2" | "web-crawler" | null;
 }
@@ -11576,8 +11365,8 @@ export const UpdateNamespaceInstanceResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.String,
-      createdAt: Schema.String,
-      modifiedAt: Schema.String,
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiSearchModel: Schema.optional(
         Schema.Union([
@@ -11617,38 +11406,14 @@ export const UpdateNamespaceInstanceResponse =
       cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       cacheThreshold: Schema.optional(
         Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "super_strict_match",
-              "close_enough",
-              "flexible_friend",
-              "anything_goes",
-            ]),
-            Schema.String,
-          ]),
+          Schema.Literal("super_strict_match"),
+          Schema.Literal("close_enough"),
+          Schema.Literal("flexible_friend"),
+          Schema.Literal("anything_goes"),
           Schema.Null,
         ]),
       ),
-      cacheTtl: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "600",
-              "1800",
-              "3600",
-              "7200",
-              "21600",
-              "43200",
-              "86400",
-              "172800",
-              "259200",
-              "518400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      cacheTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -12075,24 +11840,7 @@ export const UpdateNamespaceInstanceResponse =
         ]),
       ),
       status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      syncInterval: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "900",
-              "1800",
-              "3600",
-              "7200",
-              "14400",
-              "21600",
-              "43200",
-              "86400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      syncInterval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       tokenId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       type: Schema.optional(
         Schema.Union([
@@ -12148,7 +11896,14 @@ export const UpdateNamespaceInstanceResponse =
       .pipe(T.ResponsePath("result")),
   ) as unknown as Schema.Schema<UpdateNamespaceInstanceResponse>;
 
-export type UpdateNamespaceInstanceError = DefaultErrors;
+export type UpdateNamespaceInstanceError =
+  | DefaultErrors
+  | ValidationError
+  | NamespaceNotFound
+  | AiSearchInstanceNotFound
+  | InvalidRoute
+  | InvalidTokenCredentials
+  | Forbidden;
 
 export const updateNamespaceInstance: API.OperationMethod<
   UpdateNamespaceInstanceRequest,
@@ -12158,7 +11913,14 @@ export const updateNamespaceInstance: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateNamespaceInstanceRequest,
   output: UpdateNamespaceInstanceResponse,
-  errors: [],
+  errors: [
+    ValidationError,
+    NamespaceNotFound,
+    AiSearchInstanceNotFound,
+    InvalidRoute,
+    InvalidTokenCredentials,
+    Forbidden,
+  ],
 }));
 
 export interface DeleteNamespaceInstanceRequest {
@@ -12184,8 +11946,8 @@ export const DeleteNamespaceInstanceRequest =
 export interface DeleteNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  createdAt: string;
-  modifiedAt: string;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
   aiGatewayId?: string | null;
   aiSearchModel?:
     | "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
@@ -12225,22 +11987,9 @@ export interface DeleteNamespaceInstanceResponse {
     | "close_enough"
     | "flexible_friend"
     | "anything_goes"
-    | (string & {})
     | null;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?:
-    | "600"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "21600"
-    | "43200"
-    | "86400"
-    | "172800"
-    | "259200"
-    | "518400"
-    | (string & {})
-    | null;
+  cacheTtl?: number | null;
   chunkOverlap?: number | null;
   chunkSize?: number | null;
   createdBy?: string | null;
@@ -12375,17 +12124,7 @@ export interface DeleteNamespaceInstanceResponse {
   } | null;
   status?: string | null;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
-  syncInterval?:
-    | "900"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "14400"
-    | "21600"
-    | "43200"
-    | "86400"
-    | (string & {})
-    | null;
+  syncInterval?: number | null;
   tokenId?: string | null;
   type?: "r2" | "web-crawler" | null;
 }
@@ -12394,8 +12133,8 @@ export const DeleteNamespaceInstanceResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.String,
-      createdAt: Schema.String,
-      modifiedAt: Schema.String,
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiSearchModel: Schema.optional(
         Schema.Union([
@@ -12435,38 +12174,14 @@ export const DeleteNamespaceInstanceResponse =
       cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       cacheThreshold: Schema.optional(
         Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "super_strict_match",
-              "close_enough",
-              "flexible_friend",
-              "anything_goes",
-            ]),
-            Schema.String,
-          ]),
+          Schema.Literal("super_strict_match"),
+          Schema.Literal("close_enough"),
+          Schema.Literal("flexible_friend"),
+          Schema.Literal("anything_goes"),
           Schema.Null,
         ]),
       ),
-      cacheTtl: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "600",
-              "1800",
-              "3600",
-              "7200",
-              "21600",
-              "43200",
-              "86400",
-              "172800",
-              "259200",
-              "518400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      cacheTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -12893,24 +12608,7 @@ export const DeleteNamespaceInstanceResponse =
         ]),
       ),
       status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      syncInterval: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "900",
-              "1800",
-              "3600",
-              "7200",
-              "14400",
-              "21600",
-              "43200",
-              "86400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      syncInterval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       tokenId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       type: Schema.optional(
         Schema.Union([
@@ -12966,7 +12664,13 @@ export const DeleteNamespaceInstanceResponse =
       .pipe(T.ResponsePath("result")),
   ) as unknown as Schema.Schema<DeleteNamespaceInstanceResponse>;
 
-export type DeleteNamespaceInstanceError = DefaultErrors;
+export type DeleteNamespaceInstanceError =
+  | DefaultErrors
+  | ValidationError
+  | NamespaceNotFound
+  | AiSearchInstanceNotFound
+  | InvalidRoute
+  | Forbidden;
 
 export const deleteNamespaceInstance: API.OperationMethod<
   DeleteNamespaceInstanceRequest,
@@ -12976,7 +12680,13 @@ export const deleteNamespaceInstance: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteNamespaceInstanceRequest,
   output: DeleteNamespaceInstanceResponse,
-  errors: [],
+  errors: [
+    ValidationError,
+    NamespaceNotFound,
+    AiSearchInstanceNotFound,
+    InvalidRoute,
+    Forbidden,
+  ],
 }));
 
 export interface ReadNamespaceInstanceRequest {
@@ -13002,8 +12712,8 @@ export const ReadNamespaceInstanceRequest =
 export interface ReadNamespaceInstanceResponse {
   /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
   id: string;
-  createdAt: string;
-  modifiedAt: string;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
   aiGatewayId?: string | null;
   aiSearchModel?:
     | "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
@@ -13043,22 +12753,9 @@ export interface ReadNamespaceInstanceResponse {
     | "close_enough"
     | "flexible_friend"
     | "anything_goes"
-    | (string & {})
     | null;
   /** Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d). */
-  cacheTtl?:
-    | "600"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "21600"
-    | "43200"
-    | "86400"
-    | "172800"
-    | "259200"
-    | "518400"
-    | (string & {})
-    | null;
+  cacheTtl?: number | null;
   chunkOverlap?: number | null;
   chunkSize?: number | null;
   createdBy?: string | null;
@@ -13193,17 +12890,7 @@ export interface ReadNamespaceInstanceResponse {
   } | null;
   status?: string | null;
   /** Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). */
-  syncInterval?:
-    | "900"
-    | "1800"
-    | "3600"
-    | "7200"
-    | "14400"
-    | "21600"
-    | "43200"
-    | "86400"
-    | (string & {})
-    | null;
+  syncInterval?: number | null;
   tokenId?: string | null;
   type?: "r2" | "web-crawler" | null;
 }
@@ -13212,8 +12899,8 @@ export const ReadNamespaceInstanceResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       id: Schema.String,
-      createdAt: Schema.String,
-      modifiedAt: Schema.String,
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiGatewayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       aiSearchModel: Schema.optional(
         Schema.Union([
@@ -13253,38 +12940,14 @@ export const ReadNamespaceInstanceResponse =
       cache: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       cacheThreshold: Schema.optional(
         Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "super_strict_match",
-              "close_enough",
-              "flexible_friend",
-              "anything_goes",
-            ]),
-            Schema.String,
-          ]),
+          Schema.Literal("super_strict_match"),
+          Schema.Literal("close_enough"),
+          Schema.Literal("flexible_friend"),
+          Schema.Literal("anything_goes"),
           Schema.Null,
         ]),
       ),
-      cacheTtl: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "600",
-              "1800",
-              "3600",
-              "7200",
-              "21600",
-              "43200",
-              "86400",
-              "172800",
-              "259200",
-              "518400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      cacheTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkOverlap: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       chunkSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       createdBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -13711,24 +13374,7 @@ export const ReadNamespaceInstanceResponse =
         ]),
       ),
       status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      syncInterval: Schema.optional(
-        Schema.Union([
-          Schema.Union([
-            Schema.Literals([
-              "900",
-              "1800",
-              "3600",
-              "7200",
-              "14400",
-              "21600",
-              "43200",
-              "86400",
-            ]),
-            Schema.String,
-          ]),
-          Schema.Null,
-        ]),
-      ),
+      syncInterval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       tokenId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       type: Schema.optional(
         Schema.Union([
@@ -13784,7 +13430,13 @@ export const ReadNamespaceInstanceResponse =
       .pipe(T.ResponsePath("result")),
   ) as unknown as Schema.Schema<ReadNamespaceInstanceResponse>;
 
-export type ReadNamespaceInstanceError = DefaultErrors;
+export type ReadNamespaceInstanceError =
+  | DefaultErrors
+  | ValidationError
+  | NamespaceNotFound
+  | AiSearchInstanceNotFound
+  | InvalidRoute
+  | Forbidden;
 
 export const readNamespaceInstance: API.OperationMethod<
   ReadNamespaceInstanceRequest,
@@ -13794,7 +13446,13 @@ export const readNamespaceInstance: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ReadNamespaceInstanceRequest,
   output: ReadNamespaceInstanceResponse,
-  errors: [],
+  errors: [
+    ValidationError,
+    NamespaceNotFound,
+    AiSearchInstanceNotFound,
+    InvalidRoute,
+    Forbidden,
+  ],
 }));
 
 export interface SearchNamespaceInstanceRequest {

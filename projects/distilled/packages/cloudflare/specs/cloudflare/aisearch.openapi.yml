@@ -5976,6 +5976,16 @@ paths:
                   - created_at
                   - modified_at
       x-distilled-pagination-class: InstanceListResponsesV4PagePaginationArray
+      x-distilled-errors:
+        NamespaceNotFound:
+          - code: 7063
+          - status: 404
+            message:
+              includes: namespace_not_found
+        InvalidRoute:
+          - code: 7003
+        Forbidden:
+          - status: 403
     post:
       operationId: createNamespaceInstance
       description: "Create a new instance.  @example ```ts const instance = await
@@ -6058,17 +6068,6 @@ paths:
                   description: Body param
                 cache_ttl:
                   type: number
-                  enum:
-                    - 600
-                    - 1800
-                    - 3600
-                    - 7200
-                    - 21600
-                    - 43200
-                    - 86400
-                    - 172800
-                    - 259200
-                    - 518400
                   description: "Body param: Cache entry TTL in seconds. Allowed values: 600
                     (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h),
                     43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400
@@ -6429,15 +6428,6 @@ paths:
                   description: Body param
                 sync_interval:
                   type: number
-                  enum:
-                    - 900
-                    - 1800
-                    - 3600
-                    - 7200
-                    - 14400
-                    - 21600
-                    - 43200
-                    - 86400
                   description: "Body param: Interval between automatic syncs, in seconds. Allowed
                     values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h),
                     14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
@@ -6516,19 +6506,9 @@ paths:
                       - close_enough
                       - flexible_friend
                       - anything_goes
+                    nullable: true
                   cache_ttl:
                     type: number
-                    enum:
-                      - 600
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 21600
-                      - 43200
-                      - 86400
-                      - 172800
-                      - 259200
-                      - 518400
                     description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
@@ -6619,12 +6599,14 @@ paths:
                   max_num_results:
                     type: number
                   metadata:
-                    type: object
-                    properties:
-                      created_from_aisearch_wizard:
-                        type: boolean
-                      worker_domain:
-                        type: string
+                    oneOf:
+                      - type: object
+                        properties:
+                          created_from_aisearch_wizard:
+                            type: boolean
+                          worker_domain:
+                            type: string
+                    nullable: true
                   modified_by:
                     oneOf:
                       - type: string
@@ -6640,46 +6622,48 @@ paths:
                       - type: string
                     nullable: true
                   public_endpoint_params:
-                    type: object
-                    properties:
-                      authorized_hosts:
-                        type: array
-                        items:
-                          type: string
-                      chat_completions_endpoint:
-                        type: object
+                    oneOf:
+                      - type: object
                         properties:
-                          disabled:
+                          authorized_hosts:
+                            type: array
+                            items:
+                              type: string
+                          chat_completions_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable chat completions endpoint for this public endpoint
+                          enabled:
                             type: boolean
-                            description: Disable chat completions endpoint for this public endpoint
-                      enabled:
-                        type: boolean
-                      mcp:
-                        type: object
-                        properties:
-                          description:
-                            type: string
-                          disabled:
-                            type: boolean
-                            description: Disable MCP endpoint for this public endpoint
-                      rate_limit:
-                        type: object
-                        properties:
-                          period_ms:
-                            type: number
-                          requests:
-                            type: number
-                          technique:
-                            type: string
-                            enum:
-                              - fixed
-                              - sliding
-                      search_endpoint:
-                        type: object
-                        properties:
-                          disabled:
-                            type: boolean
-                            description: Disable search endpoint for this public endpoint
+                          mcp:
+                            type: object
+                            properties:
+                              description:
+                                type: string
+                              disabled:
+                                type: boolean
+                                description: Disable MCP endpoint for this public endpoint
+                          rate_limit:
+                            type: object
+                            properties:
+                              period_ms:
+                                type: number
+                              requests:
+                                type: number
+                              technique:
+                                type: string
+                                enum:
+                                  - fixed
+                                  - sliding
+                          search_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable search endpoint for this public endpoint
+                    nullable: true
                   reranking:
                     type: boolean
                   reranking_model:
@@ -6897,15 +6881,6 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    enum:
-                      - 900
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 14400
-                      - 21600
-                      - 43200
-                      - 86400
                     description: "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
@@ -6919,9 +6894,33 @@ paths:
                     nullable: true
                 required:
                   - id
-                  - created_at
-                  - modified_at
       x-distilled-response-path: result
+      x-distilled-errors:
+        ValidationError:
+          - code: 7001
+        NamespaceNotFound:
+          - code: 7063
+          - status: 404
+            message:
+              includes: namespace_not_found
+        AiSearchInstanceNotFound:
+          - code: 7002
+          - status: 404
+            message:
+              includes: ai_search_not_found
+        InvalidRoute:
+          - code: 7003
+        InstanceAlreadyExists:
+          - status: 400
+            message:
+              includes: already_exist
+        InvalidTokenCredentials:
+          - code: 7012
+          - status: 400
+            message:
+              includes: invalid_token
+        Forbidden:
+          - status: 403
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}:
     put:
       operationId: updateNamespaceInstance
@@ -7006,17 +7005,6 @@ paths:
                   description: Body param
                 cache_ttl:
                   type: number
-                  enum:
-                    - 600
-                    - 1800
-                    - 3600
-                    - 7200
-                    - 21600
-                    - 43200
-                    - 86400
-                    - 172800
-                    - 259200
-                    - 518400
                   description: "Body param: Cache entry TTL in seconds. Allowed values: 600
                     (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h),
                     43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400
@@ -7410,15 +7398,6 @@ paths:
                   description: Body param
                 sync_interval:
                   type: number
-                  enum:
-                    - 900
-                    - 1800
-                    - 3600
-                    - 7200
-                    - 14400
-                    - 21600
-                    - 43200
-                    - 86400
                   description: "Body param: Interval between automatic syncs, in seconds. Allowed
                     values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h),
                     14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
@@ -7503,19 +7482,9 @@ paths:
                       - close_enough
                       - flexible_friend
                       - anything_goes
+                    nullable: true
                   cache_ttl:
                     type: number
-                    enum:
-                      - 600
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 21600
-                      - 43200
-                      - 86400
-                      - 172800
-                      - 259200
-                      - 518400
                     description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
@@ -7606,12 +7575,14 @@ paths:
                   max_num_results:
                     type: number
                   metadata:
-                    type: object
-                    properties:
-                      created_from_aisearch_wizard:
-                        type: boolean
-                      worker_domain:
-                        type: string
+                    oneOf:
+                      - type: object
+                        properties:
+                          created_from_aisearch_wizard:
+                            type: boolean
+                          worker_domain:
+                            type: string
+                    nullable: true
                   modified_by:
                     oneOf:
                       - type: string
@@ -7627,46 +7598,48 @@ paths:
                       - type: string
                     nullable: true
                   public_endpoint_params:
-                    type: object
-                    properties:
-                      authorized_hosts:
-                        type: array
-                        items:
-                          type: string
-                      chat_completions_endpoint:
-                        type: object
+                    oneOf:
+                      - type: object
                         properties:
-                          disabled:
+                          authorized_hosts:
+                            type: array
+                            items:
+                              type: string
+                          chat_completions_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable chat completions endpoint for this public endpoint
+                          enabled:
                             type: boolean
-                            description: Disable chat completions endpoint for this public endpoint
-                      enabled:
-                        type: boolean
-                      mcp:
-                        type: object
-                        properties:
-                          description:
-                            type: string
-                          disabled:
-                            type: boolean
-                            description: Disable MCP endpoint for this public endpoint
-                      rate_limit:
-                        type: object
-                        properties:
-                          period_ms:
-                            type: number
-                          requests:
-                            type: number
-                          technique:
-                            type: string
-                            enum:
-                              - fixed
-                              - sliding
-                      search_endpoint:
-                        type: object
-                        properties:
-                          disabled:
-                            type: boolean
-                            description: Disable search endpoint for this public endpoint
+                          mcp:
+                            type: object
+                            properties:
+                              description:
+                                type: string
+                              disabled:
+                                type: boolean
+                                description: Disable MCP endpoint for this public endpoint
+                          rate_limit:
+                            type: object
+                            properties:
+                              period_ms:
+                                type: number
+                              requests:
+                                type: number
+                              technique:
+                                type: string
+                                enum:
+                                  - fixed
+                                  - sliding
+                          search_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable search endpoint for this public endpoint
+                    nullable: true
                   reranking:
                     type: boolean
                   reranking_model:
@@ -7884,15 +7857,6 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    enum:
-                      - 900
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 14400
-                      - 21600
-                      - 43200
-                      - 86400
                     description: "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
@@ -7906,9 +7870,29 @@ paths:
                     nullable: true
                 required:
                   - id
-                  - created_at
-                  - modified_at
       x-distilled-response-path: result
+      x-distilled-errors:
+        ValidationError:
+          - code: 7001
+        NamespaceNotFound:
+          - code: 7063
+          - status: 404
+            message:
+              includes: namespace_not_found
+        AiSearchInstanceNotFound:
+          - code: 7002
+          - status: 404
+            message:
+              includes: ai_search_not_found
+        InvalidRoute:
+          - code: 7003
+        InvalidTokenCredentials:
+          - code: 7012
+          - status: 400
+            message:
+              includes: invalid_token
+        Forbidden:
+          - status: 403
     delete:
       operationId: deleteNamespaceInstance
       description: "Delete instance.  @example ```ts const instance = await
@@ -7994,19 +7978,9 @@ paths:
                       - close_enough
                       - flexible_friend
                       - anything_goes
+                    nullable: true
                   cache_ttl:
                     type: number
-                    enum:
-                      - 600
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 21600
-                      - 43200
-                      - 86400
-                      - 172800
-                      - 259200
-                      - 518400
                     description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
@@ -8097,12 +8071,14 @@ paths:
                   max_num_results:
                     type: number
                   metadata:
-                    type: object
-                    properties:
-                      created_from_aisearch_wizard:
-                        type: boolean
-                      worker_domain:
-                        type: string
+                    oneOf:
+                      - type: object
+                        properties:
+                          created_from_aisearch_wizard:
+                            type: boolean
+                          worker_domain:
+                            type: string
+                    nullable: true
                   modified_by:
                     oneOf:
                       - type: string
@@ -8118,46 +8094,48 @@ paths:
                       - type: string
                     nullable: true
                   public_endpoint_params:
-                    type: object
-                    properties:
-                      authorized_hosts:
-                        type: array
-                        items:
-                          type: string
-                      chat_completions_endpoint:
-                        type: object
+                    oneOf:
+                      - type: object
                         properties:
-                          disabled:
+                          authorized_hosts:
+                            type: array
+                            items:
+                              type: string
+                          chat_completions_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable chat completions endpoint for this public endpoint
+                          enabled:
                             type: boolean
-                            description: Disable chat completions endpoint for this public endpoint
-                      enabled:
-                        type: boolean
-                      mcp:
-                        type: object
-                        properties:
-                          description:
-                            type: string
-                          disabled:
-                            type: boolean
-                            description: Disable MCP endpoint for this public endpoint
-                      rate_limit:
-                        type: object
-                        properties:
-                          period_ms:
-                            type: number
-                          requests:
-                            type: number
-                          technique:
-                            type: string
-                            enum:
-                              - fixed
-                              - sliding
-                      search_endpoint:
-                        type: object
-                        properties:
-                          disabled:
-                            type: boolean
-                            description: Disable search endpoint for this public endpoint
+                          mcp:
+                            type: object
+                            properties:
+                              description:
+                                type: string
+                              disabled:
+                                type: boolean
+                                description: Disable MCP endpoint for this public endpoint
+                          rate_limit:
+                            type: object
+                            properties:
+                              period_ms:
+                                type: number
+                              requests:
+                                type: number
+                              technique:
+                                type: string
+                                enum:
+                                  - fixed
+                                  - sliding
+                          search_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable search endpoint for this public endpoint
+                    nullable: true
                   reranking:
                     type: boolean
                   reranking_model:
@@ -8375,15 +8353,6 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    enum:
-                      - 900
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 14400
-                      - 21600
-                      - 43200
-                      - 86400
                     description: "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
@@ -8397,9 +8366,24 @@ paths:
                     nullable: true
                 required:
                   - id
-                  - created_at
-                  - modified_at
       x-distilled-response-path: result
+      x-distilled-errors:
+        ValidationError:
+          - code: 7001
+        NamespaceNotFound:
+          - code: 7063
+          - status: 404
+            message:
+              includes: namespace_not_found
+        AiSearchInstanceNotFound:
+          - code: 7002
+          - status: 404
+            message:
+              includes: ai_search_not_found
+        InvalidRoute:
+          - code: 7003
+        Forbidden:
+          - status: 403
     get:
       operationId: readNamespaceInstance
       description: "Read instance.  @example ```ts const response = await
@@ -8485,19 +8469,9 @@ paths:
                       - close_enough
                       - flexible_friend
                       - anything_goes
+                    nullable: true
                   cache_ttl:
                     type: number
-                    enum:
-                      - 600
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 21600
-                      - 43200
-                      - 86400
-                      - 172800
-                      - 259200
-                      - 518400
                     description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
@@ -8588,12 +8562,14 @@ paths:
                   max_num_results:
                     type: number
                   metadata:
-                    type: object
-                    properties:
-                      created_from_aisearch_wizard:
-                        type: boolean
-                      worker_domain:
-                        type: string
+                    oneOf:
+                      - type: object
+                        properties:
+                          created_from_aisearch_wizard:
+                            type: boolean
+                          worker_domain:
+                            type: string
+                    nullable: true
                   modified_by:
                     oneOf:
                       - type: string
@@ -8609,46 +8585,48 @@ paths:
                       - type: string
                     nullable: true
                   public_endpoint_params:
-                    type: object
-                    properties:
-                      authorized_hosts:
-                        type: array
-                        items:
-                          type: string
-                      chat_completions_endpoint:
-                        type: object
+                    oneOf:
+                      - type: object
                         properties:
-                          disabled:
+                          authorized_hosts:
+                            type: array
+                            items:
+                              type: string
+                          chat_completions_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable chat completions endpoint for this public endpoint
+                          enabled:
                             type: boolean
-                            description: Disable chat completions endpoint for this public endpoint
-                      enabled:
-                        type: boolean
-                      mcp:
-                        type: object
-                        properties:
-                          description:
-                            type: string
-                          disabled:
-                            type: boolean
-                            description: Disable MCP endpoint for this public endpoint
-                      rate_limit:
-                        type: object
-                        properties:
-                          period_ms:
-                            type: number
-                          requests:
-                            type: number
-                          technique:
-                            type: string
-                            enum:
-                              - fixed
-                              - sliding
-                      search_endpoint:
-                        type: object
-                        properties:
-                          disabled:
-                            type: boolean
-                            description: Disable search endpoint for this public endpoint
+                          mcp:
+                            type: object
+                            properties:
+                              description:
+                                type: string
+                              disabled:
+                                type: boolean
+                                description: Disable MCP endpoint for this public endpoint
+                          rate_limit:
+                            type: object
+                            properties:
+                              period_ms:
+                                type: number
+                              requests:
+                                type: number
+                              technique:
+                                type: string
+                                enum:
+                                  - fixed
+                                  - sliding
+                          search_endpoint:
+                            type: object
+                            properties:
+                              disabled:
+                                type: boolean
+                                description: Disable search endpoint for this public endpoint
+                    nullable: true
                   reranking:
                     type: boolean
                   reranking_model:
@@ -8866,15 +8844,6 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    enum:
-                      - 900
-                      - 1800
-                      - 3600
-                      - 7200
-                      - 14400
-                      - 21600
-                      - 43200
-                      - 86400
                     description: "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
@@ -8888,9 +8857,24 @@ paths:
                     nullable: true
                 required:
                   - id
-                  - created_at
-                  - modified_at
       x-distilled-response-path: result
+      x-distilled-errors:
+        ValidationError:
+          - code: 7001
+        NamespaceNotFound:
+          - code: 7063
+          - status: 404
+            message:
+              includes: namespace_not_found
+        AiSearchInstanceNotFound:
+          - code: 7002
+          - status: 404
+            message:
+              includes: ai_search_not_found
+        InvalidRoute:
+          - code: 7003
+        Forbidden:
+          - status: 403
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/search:
     post:
       operationId: searchNamespaceInstance
