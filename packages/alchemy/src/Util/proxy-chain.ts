@@ -10,7 +10,7 @@ type Op =
  * to the object the method was read from (drizzle's `select()` etc.
  * read `this._.session`, so dropping `this` would throw).
  */
-const replay = (root: unknown, ops: ReadonlyArray<Op>): unknown => {
+export const replay = (root: unknown, ops: ReadonlyArray<Op>): unknown => {
   let cur: any = root;
   let receiver: any = root;
   for (const op of ops) {
@@ -53,28 +53,58 @@ const replay = (root: unknown, ops: ReadonlyArray<Op>): unknown => {
  * builder, etc). Anything before that is recorded as ops.
  */
 export const proxyChain = <T>(cached: Effect.Effect<T, any, any>): T =>
-  chain(cached) as T;
+  chain(
+    cached,
+    [],
+    (value) => value as Effect.Effect<unknown, unknown, unknown>,
+  ) as T;
+
+/**
+ * Like {@link proxyChain}, but for targets whose query builders resolve to a
+ * `Promise`/thenable rather than an `Effect` — e.g. drizzle's
+ * `aws-data-api/pg` driver (its query builders extend `QueryPromise`, which is
+ * a real `Promise`). At the terminal `yield*`, the replayed value is wrapped in
+ * `Effect.tryPromise` when it is a thenable; non-thenable values (e.g. reading
+ * `db.$client`) pass through unchanged so they can still be yielded.
+ *
+ * `onError` maps a rejected promise's cause into the Effect's error channel.
+ */
+export const proxyChainPromise = <T, E = unknown>(
+  cached: Effect.Effect<T, any, any>,
+  onError: (cause: unknown) => E = (cause) => cause as E,
+): T =>
+  chain(cached, [], (value) => {
+    if (
+      value != null &&
+      typeof (value as { then?: unknown }).then === "function"
+    ) {
+      return Effect.tryPromise({
+        try: () => value as Promise<unknown>,
+        catch: onError,
+      });
+    }
+    return value as Effect.Effect<unknown, unknown, unknown>;
+  }) as T;
 
 const chain = (
   cached: Effect.Effect<unknown, any, any>,
-  ops: ReadonlyArray<Op> = [],
+  ops: ReadonlyArray<Op>,
+  toEffect: (value: unknown) => Effect.Effect<unknown, unknown, unknown>,
 ): unknown =>
   new Proxy(function () {} as any, {
     get(_, prop) {
       if (prop === Symbol.iterator) {
         // `yield* proxy` — produce the resolved Effect's iterator.
         return function () {
-          const eff = Effect.flatMap(
-            cached,
-            (root) =>
-              replay(root, ops) as Effect.Effect<unknown, unknown, unknown>,
+          const eff = Effect.flatMap(cached, (root) =>
+            toEffect(replay(root, ops)),
           );
           return (eff as any)[Symbol.iterator]();
         };
       }
-      return chain(cached, [...ops, { kind: "get", prop }]);
+      return chain(cached, [...ops, { kind: "get", prop }], toEffect);
     },
     apply(_, __, args) {
-      return chain(cached, [...ops, { kind: "call", args }]);
+      return chain(cached, [...ops, { kind: "call", args }], toEffect);
     },
   });

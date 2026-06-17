@@ -327,6 +327,7 @@
     "yaml": "catalog:"
   },
   "devDependencies": {
+    "@aws-sdk/client-rds-data": "^3.0.0",
     "@clack/prompts": "^0.11.0",
     "@cloudflare/puppeteer": "^1.1.0",
     "@cloudflare/workers-types": "catalog:",
@@ -354,6 +355,7 @@
     "ws": "catalog:"
   },
   "peerDependencies": {
+    "@aws-sdk/client-rds-data": "^3",
     "@effect/platform-bun": "catalog:",
     "@effect/platform-node": "catalog:",
     "@effect/sql-pg": "catalog:",
@@ -364,6 +366,9 @@
     "ws": "catalog:"
   },
   "peerDependenciesMeta": {
+    "@aws-sdk/client-rds-data": {
+      "optional": true
+    },
     "@effect/platform-node": {
       "optional": true
     },

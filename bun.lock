@@ -420,6 +420,21 @@
         "effect": "catalog:",
       },
     },
+    "examples/aws-lambda-rds-aurora-drizzle": {
+      "name": "aws-lambda-rds-aurora-drizzle",
+      "version": "0.0.0",
+      "dependencies": {
+        "@aws-sdk/client-rds-data": "^3.0.0",
+        "@distilled.cloud/aws": "catalog:",
+        "@effect/platform-node": "catalog:",
+        "alchemy": "workspace:*",
+        "drizzle-orm": "1.0.0-rc.1",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "drizzle-kit": "1.0.0-rc.1",
+      },
+    },
     "examples/aws-lambda-rpc": {
       "name": "aws-lambda-rpc",
       "version": "0.0.0",
@@ -806,6 +821,7 @@
         "yaml": "catalog:",
       },
       "devDependencies": {
+        "@aws-sdk/client-rds-data": "^3.0.0",
         "@clack/prompts": "^0.11.0",
         "@cloudflare/puppeteer": "^1.1.0",
         "@cloudflare/workers-types": "catalog:",
@@ -833,6 +849,7 @@
         "ws": "catalog:",
       },
       "peerDependencies": {
+        "@aws-sdk/client-rds-data": "^3",
         "@effect/platform-bun": "catalog:",
         "@effect/platform-node": "catalog:",
         "@effect/sql-pg": "catalog:",
@@ -843,6 +860,7 @@
         "ws": "catalog:",
       },
       "optionalPeers": [
+        "@aws-sdk/client-rds-data",
         "@effect/platform-bun",
         "@effect/platform-node",
         "@effect/sql-pg",
@@ -1035,6 +1053,8 @@
     "@aws-crypto/util": ["@aws-crypto/util@5.2.0", "", { "dependencies": { "@aws-sdk/types": "^3.222.0", "@smithy/util-utf8": "^2.0.0", "tslib": "^2.6.2" } }, "sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ=="],
 
     "@aws-sdk/client-cognito-identity": ["@aws-sdk/client-cognito-identity@3.1068.0", "", { "dependencies": { "@aws-crypto/sha256-browser": "5.2.0", "@aws-crypto/sha256-js": "5.2.0", "@aws-sdk/core": "^3.974.20", "@aws-sdk/credential-provider-node": "^3.972.55", "@aws-sdk/types": "^3.973.12", "@smithy/core": "^3.24.6", "@smithy/fetch-http-handler": "^5.4.6", "@smithy/node-http-handler": "^4.7.6", "@smithy/types": "^4.14.3", "tslib": "^2.6.2" } }, "sha512-by2Qj3f9BI9X4cY0n160R3uzkMpI6k9PmGA8QLAuzr8HzkiNrYFygMEPhIEdqBFHQPD/8AXNUs45HYjEDsQ33g=="],
+
+    "@aws-sdk/client-rds-data": ["@aws-sdk/client-rds-data@3.1068.0", "", { "dependencies": { "@aws-crypto/sha256-browser": "5.2.0", "@aws-crypto/sha256-js": "5.2.0", "@aws-sdk/core": "^3.974.20", "@aws-sdk/credential-provider-node": "^3.972.55", "@aws-sdk/types": "^3.973.12", "@smithy/core": "^3.24.6", "@smithy/fetch-http-handler": "^5.4.6", "@smithy/node-http-handler": "^4.7.6", "@smithy/types": "^4.14.3", "tslib": "^2.6.2" } }, "sha512-LtJOPkUZfZls9ML/MRImMvZeMY0EJ5GxpyD/jyguACxUUvCcGmAgDrdIzjKGsURYvoFRQeE1VQhBlKto/gEIcg=="],
 
     "@aws-sdk/core": ["@aws-sdk/core@3.974.20", "", { "dependencies": { "@aws-sdk/types": "^3.973.12", "@aws-sdk/xml-builder": "^3.972.29", "@aws/lambda-invoke-store": "^0.2.2", "@smithy/core": "^3.24.6", "@smithy/signature-v4": "^5.4.6", "@smithy/types": "^4.14.3", "bowser": "^2.11.0", "tslib": "^2.6.2" } }, "sha512-7sDi2B2N3mc3nf1nz6FyEx/FCrJ1N1QnBmraHHQNabFaeAh2IaOOLml48/rHOD1bICHgTRkbBgNTvUzEr5Z35g=="],
 
@@ -2337,6 +2357,8 @@
     "aws-lambda": ["aws-lambda@workspace:examples/aws-lambda"],
 
     "aws-lambda-httpapi": ["aws-lambda-httpapi@workspace:examples/aws-lambda-httpapi"],
+
+    "aws-lambda-rds-aurora-drizzle": ["aws-lambda-rds-aurora-drizzle@workspace:examples/aws-lambda-rds-aurora-drizzle"],
 
     "aws-lambda-rpc": ["aws-lambda-rpc@workspace:examples/aws-lambda-rpc"],
 

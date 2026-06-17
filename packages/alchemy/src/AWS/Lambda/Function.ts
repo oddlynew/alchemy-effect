@@ -18,6 +18,7 @@ import { Unowned } from "../../AdoptPolicy.ts";
 import * as Bundle from "../../Bundle/Bundle.ts";
 import * as TempRoot from "../../Bundle/TempRoot.ts";
 import { deepEqual, isResolved } from "../../Diff.ts";
+import { ExecutionContext } from "../../ExecutionContext.ts";
 import type { HttpEffect } from "../../Http.ts";
 import * as Output from "../../Output.ts";
 import { createPhysicalName } from "../../PhysicalName.ts";
@@ -537,6 +538,19 @@ export const Function: Platform<
                 if (Effect.isEffect(eff)) {
                   return await eff.pipe(
                     Effect.provideService(HandlerContext, context),
+                    // Provide a per-invocation `ExecutionContext` (scope +
+                    // cache) so runtime bindings that memoize per request —
+                    // `Drizzle.postgres`, `AWS.RDSData.drizzle` — work inside a
+                    // Lambda the same way they do inside a Worker. The scope is
+                    // closed when the invocation settles.
+                    Effect.provideServiceEffect(
+                      ExecutionContext,
+                      Effect.map(Effect.scope, (scope) => ({
+                        scope,
+                        cache: {},
+                      })),
+                    ),
+                    Effect.scoped,
                     Effect.tap(Effect.logDebug),
                     Effect.runPromise,
                   );

@@ -1,5 +1,6 @@
 export * from "./Aurora.ts";
 export * from "./Connect.ts";
+export * from "./ConnectionString.ts";
 export * from "./DBCluster.ts";
 export * from "./DBClusterEndpoint.ts";
 export * from "./DBClusterParameterGroup.ts";
@@ -9,3 +10,4 @@ export * from "./DBProxy.ts";
 export * from "./DBProxyEndpoint.ts";
 export * from "./DBProxyTargetGroup.ts";
 export * from "./DBSubnetGroup.ts";
+export * from "./Schema.ts";

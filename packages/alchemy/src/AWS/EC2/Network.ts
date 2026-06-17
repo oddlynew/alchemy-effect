@@ -306,20 +306,28 @@ export const Network = (id: string, props: NetworkProps) =>
         }
       }
 
-      const { region } = yield* AWSEnvironment.current;
       const gatewayEndpoints: VpcEndpointResource[] = [];
-      for (const service of uniqueGatewayEndpoints(props.gatewayEndpoints)) {
-        gatewayEndpoints.push(
-          yield* VpcEndpoint(`${toEndpointId(service)}Endpoint`, {
-            vpcId: vpc.vpcId,
-            serviceName: `com.amazonaws.${region}.${service}`,
-            vpcEndpointType: "Gateway",
-            routeTableIds: privateRouteTables.map(
-              (table) => table.routeTableId,
-            ),
-            tags,
-          }),
-        );
+      const endpointServices = uniqueGatewayEndpoints(props.gatewayEndpoints);
+      if (endpointServices.length > 0) {
+        // Resolve the region lazily — only when gateway endpoints are actually
+        // requested. `Network` is composed inside Function/Worker init, which
+        // re-runs at runtime where `AWSEnvironment` isn't provided; an
+        // unconditional `AWSEnvironment.current` here would crash a runtime
+        // that simply binds to a VPC-backed resource.
+        const { region } = yield* AWSEnvironment.current;
+        for (const service of endpointServices) {
+          gatewayEndpoints.push(
+            yield* VpcEndpoint(`${toEndpointId(service)}Endpoint`, {
+              vpcId: vpc.vpcId,
+              serviceName: `com.amazonaws.${region}.${service}`,
+              vpcEndpointType: "Gateway",
+              routeTableIds: privateRouteTables.map(
+                (table) => table.routeTableId,
+              ),
+              tags,
+            }),
+          );
+        }
       }
 
       return {

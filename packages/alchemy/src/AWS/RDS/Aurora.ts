@@ -499,7 +499,9 @@ export const Aurora = (id: string, props: AuroraProps) =>
         engineVersion,
         dbSubnetGroupName: subnetGroup.dbSubnetGroupName,
         dbParameterGroupName: parameterGroup?.dbParameterGroupName,
-        vpcSecurityGroupIds: securityGroupIds,
+        // VPC security groups are set on the cluster, not on cluster-member
+        // instances — AWS rejects `VpcSecurityGroupIds` on an instance that
+        // belongs to a DB cluster (`InvalidParameterCombination`).
         publiclyAccessible: props.instance?.publiclyAccessible ?? false,
         promotionTier: props.instance?.promotionTier ?? 0,
         autoMinorVersionUpgrade:
@@ -524,7 +526,8 @@ export const Aurora = (id: string, props: AuroraProps) =>
             engineVersion,
             dbSubnetGroupName: subnetGroup.dbSubnetGroupName,
             dbParameterGroupName: parameterGroup?.dbParameterGroupName,
-            vpcSecurityGroupIds: securityGroupIds,
+            // VPC security groups are set on the cluster, not on cluster-member
+            // instances (see Writer above).
             publiclyAccessible: props.instance?.publiclyAccessible ?? false,
             promotionTier: index + 1,
             autoMinorVersionUpgrade:
