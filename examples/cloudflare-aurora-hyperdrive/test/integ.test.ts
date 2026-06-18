@@ -95,7 +95,8 @@ test(
 );
 
 // ── Tunnel + Access path (needs a Cloudflare zone for the Access hostname) ───
-if (process.env.CLOUDFLARE_ZONE_ID) {
+// Opt-in: it provisions cloudflared (ECS) + a tunnel + access and is slow.
+if (process.env.CLOUDFLARE_TEST_TUNNEL) {
   beforeAll(deploy(TunnelInfraStack), { timeout: DEPLOY_TIMEOUT });
   const tunnelAppHandle = beforeAll(deploy(TunnelAppStack), {
     timeout: DEPLOY_TIMEOUT,

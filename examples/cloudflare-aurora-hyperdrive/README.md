@@ -88,6 +88,26 @@ All the alchemy primitives exist (`Cloudflare.Tunnel`, `DnsRecord`,
 `AWS.ECS.*` for `cloudflared`). See Cloudflare's guide:
 [Connect to a private database using Tunnel](https://developers.cloudflare.com/hyperdrive/configuration/connect-to-private-database/).
 
+### Running the Tunnel path
+
+```sh
+DB_PASSWORD=<password> CLOUDFLARE_TEST_TUNNEL=1 bun test   # gated; deploys cloudflared + tunnel + access
+```
+
+The Access hostname lives on a Cloudflare zone (`CLOUDFLARE_ZONE_NAME`,
+default `alchemy-test-2.us`). That zone **must serve an active edge
+certificate** covering the apex and `*.zone` — Hyperdrive validates the
+connection at create time, and with no edge cert it fails with
+`TLS handshake failed [HANDSHAKE_FAILURE_ON_CLIENT_HELLO]`.
+
+Cloudflare's Universal SSL provides this by default. `bun nuke` can leave a
+test zone with the setting reported enabled but **zero certificate packs**
+(no edge cert). Re-order it once with:
+
+```sh
+ZONE=<zone> ALCHEMY_PROFILE=testing bun scripts/enable-universal-ssl.ts
+```
+
 > Cloudflare's newest option, [Workers VPC](https://developers.cloudflare.com/hyperdrive/configuration/connect-to-private-database-vpc/),
 > is a cleaner future path; alchemy has a `Cloudflare.VpcService` resource, but
 > Hyperdrive's origin can't yet reference it, so it's not wired here.

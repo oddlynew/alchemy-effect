@@ -6,6 +6,7 @@ import * as Output from "alchemy/Output";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import CloudflaredTask from "./CloudflaredTask.ts";
 import { TUNNEL_HYPERDRIVE_ID } from "./names.ts";
 
@@ -19,8 +20,18 @@ import { TUNNEL_HYPERDRIVE_ID } from "./names.ts";
 export const TunnelInfra = Effect.gen(function* () {
   const { stage } = yield* Alchemy.Stack;
   const password = yield* Config.redacted("DB_PASSWORD");
-  const zoneId = yield* Config.string("CLOUDFLARE_ZONE_ID");
-  const zoneName = yield* Config.string("CLOUDFLARE_ZONE_NAME");
+  const zoneName = yield* Config.string("CLOUDFLARE_ZONE_NAME").pipe(
+    Config.withDefault("alchemy-test-2.us"),
+  );
+  const { accountId } = yield* yield* Cloudflare.CloudflareEnvironment;
+  const zone = yield* Cloudflare.findZoneByName({
+    accountId,
+    name: zoneName,
+  }).pipe(Effect.provide(FetchHttpClient.layer), Effect.orDie);
+  if (!zone) {
+    return yield* Effect.die(`Cloudflare zone "${zoneName}" not found`);
+  }
+  const zoneId = zone.id;
   const hostname = `aurora-tunnel-${stage}.${zoneName}`;
 
   // ── AWS network (private subnets + a NAT for cloudflared egress) ─────────
@@ -42,6 +53,20 @@ export const TunnelInfra = Effect.gen(function* () {
           toPort: 443,
           cidrIpv4: "0.0.0.0/0",
           description: "HTTPS to Cloudflare edge",
+        },
+        {
+          ipProtocol: "udp",
+          fromPort: 7844,
+          toPort: 7844,
+          cidrIpv4: "0.0.0.0/0",
+          description: "Cloudflare Tunnel QUIC",
+        },
+        {
+          ipProtocol: "tcp",
+          fromPort: 7844,
+          toPort: 7844,
+          cidrIpv4: "0.0.0.0/0",
+          description: "Cloudflare Tunnel HTTP2 fallback",
         },
         {
           ipProtocol: "tcp",
