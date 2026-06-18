@@ -94,10 +94,15 @@ export const makeResponseParser = <A>(
     if (queryError?.code) errorSchemas.set(queryError.code, err);
   };
 
-  for (const err of operation.errors ?? []) {
+  // Register common errors first, then operation-specific errors so that a
+  // service-specific schema (e.g. scheduler's `ValidationException` with a
+  // `Message` field) takes precedence over the field-less common error of the
+  // same name. Otherwise the common error would clobber the specific one in
+  // the map and the decoded error would drop its message/data.
+  for (const err of COMMON_ERRORS) {
     registerError(err);
   }
-  for (const err of COMMON_ERRORS) {
+  for (const err of operation.errors ?? []) {
     registerError(err);
   }
 
