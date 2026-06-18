@@ -73,6 +73,9 @@
       "path": "./examples/aws-lambda-rds-aurora-drizzle/tsconfig.json"
     },
     {
+      "path": "./examples/cloudflare-aurora-hyperdrive/tsconfig.json"
+    },
+    {
       "path": "./examples/aws-static-site/tsconfig.json"
     },
     {

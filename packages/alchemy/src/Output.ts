@@ -381,6 +381,12 @@ export class RefExpr<A> extends BaseExpr<A, never> {
     super();
     return proxy(this);
   }
+  // A ref's logical id is its `resourceId`. Exposing it lets consumers that
+  // read `resource.LogicalId` (e.g. binding metadata) work on refs too, instead
+  // of getting an unresolved attribute Output that decodes to `undefined`.
+  get LogicalId(): string {
+    return this.resourceId;
+  }
   [inspect](): string {
     return `ref(${this.resourceId}, { stack: ${this.stack}, stage: ${this.stage} })`;
   }

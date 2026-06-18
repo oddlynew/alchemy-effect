@@ -214,6 +214,16 @@ export function Resource<R extends ResourceLike>(
                     .join(", ");
                 }
 
+                // `Resource.ref(id)` resolves to a RefExpr — key the binding by
+                // its logical id (the binding's other fields read the resource's
+                // attributes as deploy-resolved Outputs). This lets a Worker
+                // bind a resource owned by another stack/provider (e.g. an
+                // AWS-backed Hyperdrive) without pulling that provider's
+                // requirements into the Worker.
+                if (Output.isRefExpr(arg)) {
+                  return arg.resourceId;
+                }
+
                 if (
                   arg &&
                   (typeof arg === "object" || typeof arg === "function")
