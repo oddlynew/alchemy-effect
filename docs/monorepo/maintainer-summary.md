@@ -5,7 +5,7 @@ The goal is not only to put repositories in one checkout, but to make cross-repo
 reviewable, testable, cacheable, and releasable as one coherent system.
 
 For the clean replacement-repository cutover procedure, see
-[`monorepo-cutover-operating-note.md`](./monorepo-cutover-operating-note.md).
+[`cutover-operating-note.md`](./cutover-operating-note.md).
 
 ## What Gets Better
 
@@ -79,6 +79,10 @@ Product-owned code lives under `projects/<product>/...`:
 This keeps ownership visible in the filesystem while still letting Nx model cross-product
 dependencies.
 
+Repo-level `docs/` is only for maintainer and migration notes. Alchemy's own deployable stacks live
+as private apps under `projects/alchemy/apps/{github-secrets,nuke,otel,pr-package}` so root remains
+shared monorepo structure rather than product-owned code.
+
 ## History
 
 Alchemy history is intact in the normal Git sense. The branch starts from the Alchemy repository, and
@@ -90,30 +94,16 @@ git log --follow -- projects/alchemy/packages/alchemy/src/index.ts
 
 continues through the original Alchemy commits.
 
-Distilled and Cloudflare-tools were imported with `git subtree`, not as plain file copies. Their
-commit histories are present in the monorepo object graph through subtree merge commits. For
-Distilled, the import commit is:
+Distilled and Cloudflare-tools history is also intact in the practical file-history sense. This
+linear-history branch was rebuilt by prefix-rewriting the source repositories into their final paths
+before merging them. That means commands such as:
 
-```text
-99f2d5982 chore(repo): import distilled source
-git-subtree-dir: distilled
-git-subtree-split: 3a9822f4cec3e9e01085b72ecf05ea9a97891c89
+```bash
+git log --follow -- projects/distilled/packages/stripe/package.json
+git log --follow -- projects/cloudflare-tools/packages/cloudflare-runtime/package.json
 ```
 
-The later layout move preserves file identity, for example:
-
-```text
-R100 distilled/packages/stripe/src/index.ts -> projects/distilled/packages/stripe/src/index.ts
-```
-
-The caveat is GitHub's file-history UI may not naturally walk from
-`projects/distilled/...` through the subtree merge into the original unprefixed Distilled history.
-The history is not destroyed, but the imported-repo history UX is not as seamless as Alchemy's.
-
-If perfect GitHub file-history continuity for imported repos is a hard requirement, the migration
-branch should be rebuilt by prefix-rewriting the Distilled and Cloudflare-tools histories to
-`projects/distilled/...` and `projects/cloudflare-tools/...` before merging them. That preserves the
-per-file UI better, but rewrites imported commit SHAs and makes the migration heavier.
+walk directly into each original repository's release history without a temporary subtree path.
 
 ## Verified Locally
 

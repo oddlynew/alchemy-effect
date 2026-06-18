@@ -1,0 +1,22 @@
+{
+  "name": "alchemy-github-secrets",
+  "version": "0.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
+    "directory": "projects/alchemy/apps/github-secrets"
+  },
+  "type": "module",
+  "dependencies": {
+    "alchemy": "workspace:*",
+    "effect": "catalog:"
+  },
+  "nx": {
+    "name": "alchemy-github-secrets",
+    "doppler": {
+      "project": "alchemy-v2"
+    }
+  }
+}

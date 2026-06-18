@@ -21,10 +21,11 @@ The package exposes a `handler(options)` Effect that you wire into a `Cloudflare
 
 ### Minimum viable
 
-Two-file pattern, mirroring how `stacks/otel/Ingester.ts` is split out from `stacks/otel.ts`:
+Two-file pattern, mirroring how `projects/alchemy/apps/otel/src/Ingester.ts` is split out from
+`projects/alchemy/apps/otel/alchemy.run.ts`:
 
 ```ts
-// stacks/pr-package/Api.ts — the worker entry (main: import.meta.filename)
+// projects/alchemy/apps/pr-package/src/Api.ts — the worker entry (main: import.meta.filename)
 import * as PrPackage from "@alchemy.run/pr-package";
 import * as Cloudflare from "alchemy/Cloudflare";
 
@@ -51,14 +52,14 @@ export default class Api extends Cloudflare.Worker<Api>()(
 ```
 
 ```ts
-// stacks/pr-package.ts — the stack
+// projects/alchemy/apps/pr-package/alchemy.run.ts — the stack
 import * as PrPackage from "@alchemy.run/pr-package";
 import * as Alchemy from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Output from "alchemy/Output";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
-import Api from "./pr-package/Api.ts";
+import Api from "./src/Api.ts";
 
 export default Alchemy.Stack(
   "PrPackage",
@@ -79,7 +80,7 @@ export default Alchemy.Stack(
 Deploy:
 
 ```sh
-bun alchemy deploy ./stacks/pr-package.ts --stage prod
+bun alchemy deploy ./projects/alchemy/apps/pr-package/alchemy.run.ts --stage prod
 ```
 
 The stack output gives you the worker URL and the auto-generated bearer token. Save the token — you'll need it to publish.

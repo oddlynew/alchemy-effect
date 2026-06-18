@@ -1,0 +1,23 @@
+{
+  "name": "alchemy-pr-package",
+  "version": "0.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
+    "directory": "projects/alchemy/apps/pr-package"
+  },
+  "type": "module",
+  "dependencies": {
+    "@alchemy.run/pr-package": "workspace:*",
+    "alchemy": "workspace:*",
+    "effect": "catalog:"
+  },
+  "nx": {
+    "name": "alchemy-pr-package",
+    "doppler": {
+      "project": "alchemy-v2"
+    }
+  }
+}

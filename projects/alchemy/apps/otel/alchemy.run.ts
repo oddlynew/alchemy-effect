@@ -5,9 +5,9 @@ import * as GitHub from "alchemy/GitHub";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import { CliOverviewDashboard } from "./otel/Dashboard.ts";
-import { Logs, Metrics, Traces } from "./otel/Datasets.ts";
-import Ingester from "./otel/Ingester.ts";
+import { CliOverviewDashboard } from "./src/Dashboard.ts";
+import { Logs, Metrics, Traces } from "./src/Datasets.ts";
+import Ingester from "./src/Ingester.ts";
 import {
   ActiveUsersByCi,
   ActiveUsersByVersion,
@@ -17,7 +17,7 @@ import {
   ResourceErrorRate,
   ResourceLatency,
   ResourcesUsed,
-} from "./otel/Views.ts";
+} from "./src/Views.ts";
 
 /**
  * Provisions an Axiom OTEL ingestion pipeline:

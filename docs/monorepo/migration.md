@@ -1,9 +1,8 @@
 # Monorepo Migration
 
-For the short maintainer-facing case, see
-[`monorepo-maintainer-summary.md`](./monorepo-maintainer-summary.md).
+For the short maintainer-facing case, see [`maintainer-summary.md`](./maintainer-summary.md).
 For the clean replacement-repository cutover procedure, see
-[`monorepo-cutover-operating-note.md`](./monorepo-cutover-operating-note.md).
+[`cutover-operating-note.md`](./cutover-operating-note.md).
 
 This branch models `alchemy-effect`, `distilled`, and `cloudflare-tools` as one Bun/Nx workspace
 using the same high-level shape as the Oddlynew monorepo: shared repository infrastructure remains
@@ -29,6 +28,10 @@ Product code is grouped by product/repo:
 projects/
 ├── alchemy/
 │   ├── apps/
+│   │   ├── github-secrets
+│   │   ├── nuke
+│   │   ├── otel
+│   │   ├── pr-package
 │   │   └── website
 │   ├── examples/
 │   └── packages/
@@ -54,6 +57,7 @@ Each package root remains an Nx project through its `package.json`. For example:
 
 | Package root                                                     | Nx project name                                | Release group       |
 | ---------------------------------------------------------------- | ---------------------------------------------- | ------------------- |
+| `projects/alchemy/apps/otel`                                     | `alchemy-otel`                                 | private, no release |
 | `projects/alchemy/packages/alchemy`                              | `alchemy`                                      | `alchemy`           |
 | `projects/distilled/packages/stripe`                             | `@distilled.cloud/stripe`                      | `distilled`         |
 | `projects/cloudflare-tools/packages/cloudflare-vite-plugin`       | `@distilled.cloud/cloudflare-vite-plugin`      | `cloudflare-tools`  |
