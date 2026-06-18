@@ -23,10 +23,14 @@ on:
         type: boolean
         default: true
       first-release:
-        description: Use for the first monorepo release of imported groups before baseline tags exist.
+        description: Use --first-release. Auto enables it for the first imported Distilled/Cloudflare Tools release.
         required: true
-        type: boolean
-        default: false
+        type: choice
+        default: auto
+        options:
+          - auto
+          - "true"
+          - "false"
       preid:
         description: Optional prerelease identifier, for example beta.
         required: false
@@ -93,9 +97,22 @@ jobs:
             args+=(--yes)
           fi
 
-          if [ "${FIRST_RELEASE}" = "true" ]; then
-            args+=(--first-release)
-          fi
+          case "${FIRST_RELEASE}" in
+            true)
+              args+=(--first-release)
+              ;;
+            auto)
+              if [ "${RELEASE_GROUP}" != "alchemy" ]; then
+                args+=(--first-release)
+              fi
+              ;;
+            false)
+              ;;
+            *)
+              echo "Unsupported first-release value: ${FIRST_RELEASE}" >&2
+              exit 1
+              ;;
+          esac
 
           if [ -n "${PREID}" ]; then
             args+=(--preid "${PREID}")

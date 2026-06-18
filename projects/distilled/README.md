@@ -51,18 +51,22 @@ For larger SDKs its very likely you hit 5hr limits on claude, you can just run t
 
 ## Getting Started
 
+Distilled now lives in the Alchemy monorepo under `projects/distilled`.
+
 ```bash
-# Clone the repo (submodules are NOT needed for building or typechecking)
-git clone https://github.com/alchemy-run/distilled.git
+# Clone the replacement monorepo
+git clone https://github.com/alchemy-run/alchemy-effect.git
+cd alchemy-effect
 
 # Install dependencies
 bun install
 
-# Build (core first, then all packages)
-bun run build
+# Build one SDK through Nx
+bun nx build @distilled.cloud/core
+bun nx build @distilled.cloud/stripe
 
-# Run all tests
-bun run test
+# Run one SDK's tests through Nx
+bun nx test @distilled.cloud/stripe
 ```
 
 ## Git Performance

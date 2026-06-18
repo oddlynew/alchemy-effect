@@ -11,10 +11,10 @@ Alchemy models the v1 REST control plane as separate resources so you can wire i
 
 ## Try the example
 
-The repo includes **`examples/aws-rest-api`**: a minimal **regional** REST API with `ANY` on the root and a `{proxy+}` resource, **AWS_PROXY** integration to a Lambda, then **Deployment**, **Stage** (`prod`), and **Lambda.Permission** so API Gateway can invoke the function.
+The repo includes **`projects/alchemy/examples/aws-rest-api`**: a minimal **regional** REST API with `ANY` on the root and a `{proxy+}` resource, **AWS_PROXY** integration to a Lambda, then **Deployment**, **Stage** (`prod`), and **Lambda.Permission** so API Gateway can invoke the function.
 
 ```sh
-cd examples/aws-rest-api
+cd projects/alchemy/examples/aws-rest-api
 bun install
 bun run deploy
 ```
@@ -62,7 +62,7 @@ See also [VpcLink](/providers/aws/apigateway/vpclink) in the generated API refer
 
 ## API reference
 
-Generated docs for each primitive live under **Providers → AWS → ApiGateway** in the sidebar (for example [RestApi](/providers/aws/apigateway/restapi)). Run `bun generate:api-reference` locally after changing JSDoc on resources.
+Generated docs for each primitive live under **Providers → AWS → ApiGateway** in the sidebar (for example [RestApi](/providers/aws/apigateway/restapi)). Run `bun run docs:gen` locally after changing JSDoc on resources.
 
 ## Next steps
 

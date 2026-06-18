@@ -141,7 +141,14 @@
     },
     {
       "target": "lint",
-      "inputs": ["taskSources"],
+      "dependsOn": ["^build"],
+      "inputs": [
+        "taskSources",
+        "^production",
+        "{workspaceRoot}/oxlint.config.ts",
+        "{workspaceRoot}/projects/distilled/oxlint.config.ts",
+        "{workspaceRoot}/projects/cloudflare-tools/oxlint.config.ts"
+      ],
       "outputs": [],
       "cache": true
     },
@@ -214,6 +221,7 @@
       "plugin": "@alchemy.run/nx-oxlint-plugin",
       "exclude": [
         ".vendor/**",
+        "projects/cloudflare-tools/packages/vendor/**",
         "projects/cloudflare-tools/workers-sdk/**",
         "projects/distilled/packages/*/specs/**"
       ],

@@ -300,8 +300,8 @@ const registerNpmPackage = (
       files: ["index.js"],
       repository: {
         type: "git",
-        url: "https://github.com/alchemy-run/distilled",
-        directory: `packages/${name}`,
+        url: "https://github.com/alchemy-run/alchemy-effect",
+        directory: `projects/distilled/packages/${name}`,
       },
       license: "MIT",
     };
@@ -898,7 +898,7 @@ const scaffoldPackage = (
             version: "0.2.0-alpha",
             repository: {
               type: "git",
-              url: "https://github.com/alchemy-run/distilled",
+              url: "https://github.com/alchemy-run/alchemy-effect",
               directory: `projects/distilled/packages/${name}`,
             },
             type: "module",

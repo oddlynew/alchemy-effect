@@ -7,9 +7,9 @@
     "runtime",
     "workers"
   ],
-  "homepage": "https://github.com/alchemy-run/cloudflare-tools/tree/main/packages/cloudflare-runtime#readme",
+  "homepage": "https://github.com/alchemy-run/alchemy-effect/tree/main/projects/cloudflare-tools/packages/cloudflare-runtime#readme",
   "bugs": {
-    "url": "https://github.com/alchemy-run/cloudflare-tools/issues"
+    "url": "https://github.com/alchemy-run/alchemy-effect/issues"
   },
   "license": "MIT",
   "author": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alchemy-run/cloudflare-tools.git",
+    "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
     "directory": "projects/cloudflare-tools/packages/cloudflare-runtime"
   },
   "files": [

@@ -64,13 +64,14 @@ async function createNodesInternal(
 
   const targets: Record<string, any> = {
     [typecheckTargetName]: {
-      command: "bun tsgo -b --emitDeclarationOnly",
+      command: "bun tsgo --noEmit -p tsconfig.json",
       options: { cwd: "{projectRoot}" },
       cache: true,
       dependsOn: ["^typecheck"],
       metadata: {
         technologies: ["typescript"],
-        description: "Type-checks the project using tsgo.",
+        description:
+          "Type-checks the project using tsgo without emitting artifacts.",
       },
     },
   };

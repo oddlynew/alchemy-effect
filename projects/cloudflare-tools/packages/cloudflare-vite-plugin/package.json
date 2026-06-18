@@ -1,9 +1,9 @@
 {
   "name": "@distilled.cloud/cloudflare-vite-plugin",
   "version": "0.11.2",
-  "homepage": "https://github.com/alchemy-run/cloudflare-tools/tree/main/packages/cloudflare-vite-plugin#readme",
+  "homepage": "https://github.com/alchemy-run/alchemy-effect/tree/main/projects/cloudflare-tools/packages/cloudflare-vite-plugin#readme",
   "bugs": {
-    "url": "https://github.com/alchemy-run/cloudflare-tools/issues"
+    "url": "https://github.com/alchemy-run/alchemy-effect/issues"
   },
   "license": "MIT",
   "author": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alchemy-run/cloudflare-tools.git",
+    "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
     "directory": "projects/cloudflare-tools/packages/cloudflare-vite-plugin"
   },
   "files": [

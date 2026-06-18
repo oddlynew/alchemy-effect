@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 import {
   createNodesFromFiles,
   type CreateNodesContext,
@@ -21,8 +21,7 @@ interface ProjectJson {
 }
 
 /**
- * Nx plugin that infers lint targets for projects with local oxlint config
- * files.
+ * Nx plugin that infers lint targets for projects covered by an oxlint config.
  */
 const createNodesFunction: CreateNodes<OxlintPluginOptions> = [
   "**/{package,project}.json",
@@ -45,11 +44,12 @@ async function createNodesInternal(
   const projectRoot = dirname(configFilePath);
   const absoluteProjectRoot = join(context.workspaceRoot, projectRoot);
 
-  const hasOxlintConfig =
-    existsSync(join(absoluteProjectRoot, ".oxlintrc.json")) ||
-    existsSync(join(absoluteProjectRoot, "oxlint.config.ts"));
+  const oxlintConfigPath = findNearestOxlintConfig(
+    absoluteProjectRoot,
+    context.workspaceRoot,
+  );
 
-  if (!hasOxlintConfig) {
+  if (!oxlintConfigPath) {
     return {};
   }
 
@@ -64,8 +64,17 @@ async function createNodesInternal(
     return {};
   }
 
+  const configPathFromProject = toPosix(
+    relative(absoluteProjectRoot, oxlintConfigPath),
+  );
+  const configPathInput = `{workspaceRoot}/${toPosix(
+    relative(context.workspaceRoot, oxlintConfigPath),
+  )}`;
+  const configFlag = configPathFromProject.startsWith(".")
+    ? configPathFromProject
+    : `./${configPathFromProject}`;
   const oxlintCommand = typeAware ? "oxlint --type-aware ." : "oxlint .";
-  const command = oxlintCommand;
+  const command = `${oxlintCommand} --config ${configFlag}`;
 
   // Create targets - Nx will handle merging with existing targets automatically
   const targets: Record<string, any> = {
@@ -77,7 +86,7 @@ async function createNodesInternal(
       },
       cache: true,
       outputs: [],
-      inputs: ["taskSources", "^production"],
+      inputs: ["taskSources", "^production", configPathInput],
       // Type-aware linting resolves cross-package types from dependencies' dist output.
       dependsOn: ["^build"],
     },
@@ -107,6 +116,37 @@ function hasDeclaredTarget(absoluteProjectRoot: string, targetName: string) {
     join(absoluteProjectRoot, "project.json"),
   );
   return Object.hasOwn(projectJson?.targets ?? {}, targetName);
+}
+
+function findNearestOxlintConfig(
+  absoluteProjectRoot: string,
+  workspaceRoot: string,
+) {
+  let current = absoluteProjectRoot;
+
+  while (current.startsWith(workspaceRoot)) {
+    const jsonConfig = join(current, ".oxlintrc.json");
+    if (existsSync(jsonConfig)) {
+      return jsonConfig;
+    }
+
+    const tsConfig = join(current, "oxlint.config.ts");
+    if (existsSync(tsConfig)) {
+      return tsConfig;
+    }
+
+    if (current === workspaceRoot) {
+      break;
+    }
+
+    current = dirname(current);
+  }
+
+  return undefined;
+}
+
+function toPosix(path: string) {
+  return path.replaceAll("\\", "/");
 }
 
 function readJson<T>(path: string): T | undefined {

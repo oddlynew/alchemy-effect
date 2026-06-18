@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alchemy-run/cloudflare-tools.git"
+    "url": "git+https://github.com/alchemy-run/alchemy-effect.git"
   },
   "workspaces": {
     "packages": [

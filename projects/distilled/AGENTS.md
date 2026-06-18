@@ -1,3 +1,23 @@
+# Distilled Agent Notes
+
+Distilled now lives under `projects/distilled` in the Alchemy monorepo. The root
+[`AGENTS.md`](../../AGENTS.md) owns repository-wide workflow, Nx usage, CI validation, release
+commands, and formatting rules. The notes below describe Distilled-specific SDK conventions.
+
+## Monorepo Workflow
+
+- Use `bun nx` from the repository root for validation and builds. Examples:
+  - `bun nx build @distilled.cloud/core`
+  - `bun nx typecheck @distilled.cloud/stripe`
+  - `bun nx lint @distilled.cloud/cloudflare`
+  - `bun nx test @distilled.cloud/aws`
+- For broad changes, use the production affected helper from the root:
+  `.github/scripts/run-affected-production-target.ts typecheck --parallel=6`.
+- Package-local scripts still exist for generation and debugging. Prefer the Nx form from the root
+  when available, for example `bun nx run @distilled.cloud/stripe:generate`.
+- Do not use the imported standalone root scripts as the default validation path; they are retained
+  for package behavior and historical compatibility.
+
 # Distilled
 
 Effect-native SDKs with exhaustive error typing. We use a TDD-driven approach to discover, document, and patch missing API behavior from vendor specifications.
@@ -83,13 +103,17 @@ Every package has these scripts:
 | `test`      | `bunx vitest run test`                                                                      | Run tests                                   |
 | `generate`  | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec                        |
 
-### Root Build
+### Monorepo Build
 
 ```bash
-bun run build  # Builds core first, then all packages in parallel
+bun nx build @distilled.cloud/core
+bun nx build @distilled.cloud/stripe
 ```
 
-Core must be built before other packages because they resolve `@distilled.cloud/sdk-core/*` via the `types` export condition pointing to `lib/*.d.ts`.
+Core must be built before other packages because they resolve `@distilled.cloud/sdk-core/*` via the
+`types` export condition pointing to `lib/*.d.ts`. Nx models that dependency ordering through the
+project graph, so use `bun nx build <project>` or the affected production helper instead of the old
+standalone root build.
 
 ### Scaffolding a New SDK
 
@@ -149,7 +173,8 @@ Each SDK uses a patch system to fix vendor spec inaccuracies. When you encounter
 
 1. Run the test with `DEBUG=1` to see the raw error response
 2. Add the error to the appropriate patch file
-3. Regenerate: `bun run generate`
+3. Regenerate: `bun nx run @distilled.cloud/<provider>:generate` from the repo root, or
+   `bun run generate` from the package directory
 4. Import the new typed error and update the test
 
 ### Patch Locations

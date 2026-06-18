@@ -39,8 +39,8 @@ projects/
 │       ├── better-auth
 │       └── pr-package
 ├── distilled/
-│   ├── apps/
-│   │   └── website
+│   ├── www/
+│   │   └── distilled.cloud
 │   └── packages/
 │       └── ...
 └── cloudflare-tools/
@@ -189,14 +189,21 @@ bun nx release patch --groups=cloudflare-tools --dry-run --first-release --skip-
 Those commands already preview package version bumps and changelog entries from the merged commit
 history. They intentionally mirror the current release lines: `alchemy` continues from
 `2.0.0-beta.56` to `2.0.0-beta.57`, `distilled` continues from `0.25.2` to `0.25.3`, and
-`cloudflare-tools` continues from `0.11.0` to `0.11.1`. Removing `--dry-run` and `--skip-publish` is
-the production publish step once npm/GitHub release credentials are intentionally wired for the
-monorepo.
+`cloudflare-tools` continues from `0.11.2` to `0.11.3`.
+
+The imported Distilled and Cloudflare Tools groups currently use `--first-release` for the first
+monorepo release preview because Nx cannot derive their previous changelog range from the imported
+standalone repository tags in this branch. After the first monorepo-native `distilled-v*` and
+`cloudflare-tools-v*` tags exist, normal patch releases should omit `--first-release`.
+
+Removing `--dry-run` and `--skip-publish` is the production publish step once npm/GitHub release
+credentials are intentionally wired for the monorepo.
 
 The `release` GitHub workflow exposes the same release groups as a manual workflow dispatch. It
-defaults to dry-run and chooses the same continuation specifier by group unless maintainers override
-it. Disabling dry-run is the explicit approval for the workflow to pass `--yes` to Nx release and
-publish through each package's `nx-release-publish` target after its `build` target has produced
+defaults to dry-run, chooses the same continuation specifier by group unless maintainers override it,
+and uses `first-release: auto` so imported groups get `--first-release` for the first monorepo
+release. Disabling dry-run is the explicit approval for the workflow to pass `--yes` to Nx release
+and publish through each package's `nx-release-publish` target after its `build` target has produced
 publishable `lib` / `dist` artifacts.
 
 ## Remote Cache

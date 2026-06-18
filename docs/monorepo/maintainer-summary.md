@@ -48,6 +48,7 @@ bun nx show projects --affected \
 
 bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish
 bun nx release patch --groups=distilled --dry-run --first-release --skip-publish
+bun nx release patch --groups=cloudflare-tools --dry-run --first-release --skip-publish
 ```
 
 That gives a concrete before/after story for the old multi-repo workflow: one PR, one affected
@@ -55,8 +56,9 @@ graph, one cached validation path, and one release plan.
 
 The GitHub `release` workflow uses the same release groups. It defaults to dry-run and uses
 continuation defaults by group: `alchemy` continues the beta prerelease line, while `distilled` and
-`cloudflare-tools` continue stable patch releases. Disabling dry-run is the explicit approval for
-the workflow to publish.
+`cloudflare-tools` continue stable patch releases. Its `first-release: auto` mode adds
+`--first-release` for the first imported Distilled and Cloudflare Tools monorepo releases. Disabling
+dry-run is the explicit approval for the workflow to publish.
 
 ## Source Layout
 
@@ -122,14 +124,11 @@ bun nx release patch --groups=distilled --dry-run --first-release --skip-publish
 bun nx release patch --groups=cloudflare-tools --dry-run --first-release --skip-publish
 ```
 
-The release dry-runs complete without writing files. The imported release groups currently fall back
-to manifest versions because their new monorepo tag prefixes do not exist yet:
-
-- `distilled-v{version}`
-- `cloudflare-tools-v{version}`
-
-That is expected for the first cutover, but the first real release should deliberately choose whether
-to create baseline tags or use `--first-release`.
+The release dry-runs complete without writing files. The imported release groups use
+`--first-release` for the first monorepo release because Nx cannot derive their previous changelog
+range from the imported standalone repository tags in this branch. After the first monorepo-native
+`distilled-v*` and `cloudflare-tools-v*` tags exist, normal patch releases should omit
+`--first-release`.
 
 ## Remaining Operational Work
 

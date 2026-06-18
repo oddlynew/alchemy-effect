@@ -2,7 +2,7 @@
 
 Monorepo for Cloudflare developer tooling powered by Rolldown, Effect, and Vite. Packages are published under [`@distilled.cloud`](https://www.npmjs.com/org/distilled.cloud) on npm.
 
-> Note: This repository does not contain our Effect-native Cloudflare API client, which is published as [`@distilled.cloud/cloudflare`](https://www.npmjs.com/package/@distilled.cloud/cloudflare) on npm and located in our [`distilled`](https://github.com/alchemy-run/distilled/tree/main/packages/cloudflare) monorepo.
+> Note: The Effect-native Cloudflare API client is published as [`@distilled.cloud/cloudflare`](https://www.npmjs.com/package/@distilled.cloud/cloudflare) on npm and now lives at [`projects/distilled/packages/cloudflare`](../distilled/packages/cloudflare) in the same replacement monorepo.
 
 ## Packages
 
@@ -16,11 +16,10 @@ Monorepo for Cloudflare developer tooling powered by Rolldown, Effect, and Vite.
 
 ```bash
 bun install
-bun run format
-bun run lint
-bun run typecheck
-bun run build
-bun run test
+bun nx lint @distilled.cloud/cloudflare-runtime
+bun nx typecheck @distilled.cloud/cloudflare-runtime
+bun nx build @distilled.cloud/cloudflare-runtime
+bun nx test @distilled.cloud/cloudflare-runtime
 ```
 
 Workspace packages live under [`packages/`](packages/).

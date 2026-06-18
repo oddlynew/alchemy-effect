@@ -89,7 +89,7 @@ const SECTIONS: Section[] = [
   },
 ];
 
-const PROVIDERS_INTRO = `Per-resource API reference, generated from JSDoc on the source \`.ts\` files via \`bun generate:api-reference\`. Each page documents the resource's input properties (with types, defaults, and constraints), output attributes, and Quick Reference / Examples sections derived from \`@section\` / \`@example\` JSDoc tags. Grouped by cloud below.`;
+const PROVIDERS_INTRO = `Per-resource API reference, generated from JSDoc on the source \`.ts\` files via \`bun run docs:gen\`. Each page documents the resource's input properties (with types, defaults, and constraints), output attributes, and Quick Reference / Examples sections derived from \`@section\` / \`@example\` JSDoc tags. Grouped by cloud below.`;
 
 /**
  * Enumerates every generated provider page under `providers/{Cloud}/...`,

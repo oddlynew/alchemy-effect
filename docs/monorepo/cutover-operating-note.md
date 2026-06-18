@@ -164,9 +164,11 @@ distilled-v0.25.2
 cloudflare-tools-v0.11.0
 ```
 
-With those baselines in place, Nx release should no longer need `--first-release` for normal
-post-cutover releases. During branch preparation, `--first-release` remains acceptable for dry-runs
-until the tag policy is finalized.
+Those baselines preserve the release-line intent, but this branch still uses `--first-release` for
+the first imported Distilled and Cloudflare Tools monorepo releases because Nx cannot derive their
+previous changelog range from the imported standalone repository tags. After the first monorepo-native
+`distilled-v*` and `cloudflare-tools-v*` tags exist, normal patch releases should omit
+`--first-release`.
 
 ## Acceptance Checks
 
@@ -186,8 +188,8 @@ The cutover branch is ready to show as a replacement repository when all of thes
 
 ```bash
 bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish
-bun nx release patch --groups=distilled --dry-run --skip-publish
-bun nx release patch --groups=cloudflare-tools --dry-run --skip-publish
+bun nx release patch --groups=distilled --dry-run --first-release --skip-publish
+bun nx release patch --groups=cloudflare-tools --dry-run --first-release --skip-publish
 ```
 
 - A newly landed upstream commit from Distilled or Cloudflare-tools can be synced through the

@@ -42,6 +42,6 @@ jobs:
           key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
           restore-keys: bun-${{ runner.os }}-
 
-      - run: bun install
-      - run: bun nx affected -t typecheck --parallel=6
+      - run: bun install --frozen-lockfile
+      - run: .github/scripts/run-affected-production-target.ts typecheck --parallel=6
       - run: bun run docs:check

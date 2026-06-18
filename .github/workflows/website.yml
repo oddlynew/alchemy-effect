@@ -9,7 +9,7 @@ on:
       - "projects/alchemy/apps/website/**"
       - "projects/alchemy/packages/alchemy/**"
       - "bun.lock"
-      - ".github/workflows/deploy.yml"
+      - ".github/workflows/website.yml"
   pull_request:
     # `labeled` so adding `deploy-website` on an open PR triggers a
     # deploy without needing another push.
@@ -23,7 +23,7 @@ on:
       - "projects/alchemy/apps/website/**"
       - "projects/alchemy/packages/alchemy/**"
       - "bun.lock"
-      - ".github/workflows/deploy.yml"
+      - ".github/workflows/website.yml"
 
 concurrency:
   group: deploy-website-${{ github.ref }}

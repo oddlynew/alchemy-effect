@@ -1,4 +1,9 @@
-This is `cloudflare-tools`, a monorepo with tools for developing Cloudflare Workers.
+# Cloudflare Tools Agent Notes
+
+Cloudflare Tools now lives under `projects/cloudflare-tools` in the Alchemy monorepo. The root
+[`AGENTS.md`](../../AGENTS.md) owns repository-wide workflow, Nx usage, CI validation, release
+commands, and formatting rules. The notes below describe Cloudflare Tools-specific package and
+runtime conventions.
 
 ## Overview
 
@@ -7,7 +12,23 @@ This is `cloudflare-tools`, a monorepo with tools for developing Cloudflare Work
 - Linter: `oxlint`
 - Formatter: `oxfmt`
 
-Code must pass linting, formatting, and typechecking. Use `bun run check` to run all checks.
+Code must pass linting, formatting, and typechecking. Use Nx from the repository root for validation:
+
+```bash
+bun nx build @distilled.cloud/cloudflare-runtime
+bun nx typecheck @distilled.cloud/cloudflare-runtime
+bun nx lint @distilled.cloud/cloudflare-runtime
+bun nx test @distilled.cloud/cloudflare-runtime
+```
+
+For broad changes, use the production affected helper from the root:
+
+```bash
+.github/scripts/run-affected-production-target.ts typecheck --parallel=6
+```
+
+Package-local scripts are retained for package behavior and historical compatibility, but they are
+not the default monorepo validation path.
 
 ## Packages
 
@@ -40,7 +61,8 @@ import * as MyWorker from "worker:./MyWorker.worker.ts"; // type: { modules: Rec
 
 We use `tsdown` to resolve the `worker:` imports into bundled modules that can be passed into `workerd`.
 
-> **Important:** You must re-run `bun run build` after editing any internal worker.
+> **Important:** Re-run `bun nx build @distilled.cloud/cloudflare-runtime` after editing any internal
+> worker.
 
 ## Adding a new binding type to `cloudflare-runtime`
 

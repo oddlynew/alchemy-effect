@@ -544,7 +544,7 @@ import * as Redacted from "effect/Redacted";
 
 `configure` runs once when the user runs `alchemy login` for a
 profile that doesn't yet have a Stripe entry. Use
-[`alchemy/Util/Clank`](https://github.com/sam-goodwin/alchemy-effect/blob/main/packages/alchemy/src/Util/Clank.ts)
+[`alchemy/Util/Clank`](https://github.com/alchemy-run/alchemy-effect/blob/main/projects/alchemy/packages/alchemy/src/Util/Clank.ts)
 for terminal prompts — it wraps `@clack/prompts` in Effect with
 proper cancellation handling.
 
@@ -912,8 +912,8 @@ field your `diff` flags as `replace`) and assert that
 
 If you'd rather start from a real provider:
 
-- [`Axiom/VirtualField.ts`](https://github.com/sam-goodwin/alchemy-effect/blob/main/packages/alchemy/src/Axiom/VirtualField.ts) — minimal CRUD with `diff` and `read`
-- [`Cloudflare/R2/Bucket.ts`](https://github.com/sam-goodwin/alchemy-effect/blob/main/packages/alchemy/src/Cloudflare/R2/Bucket.ts) — production provider with bindings and replace semantics
-- [`Axiom/AuthProvider.ts`](https://github.com/sam-goodwin/alchemy-effect/blob/main/packages/alchemy/src/Axiom/AuthProvider.ts) — full `AuthProvider` with `env` + `stored` methods and `Clank` prompts
-- [`Axiom/Credentials.ts`](https://github.com/sam-goodwin/alchemy-effect/blob/main/packages/alchemy/src/Axiom/Credentials.ts) — `fromAuthProvider()` bridge layer
-- [`Axiom/Providers.ts`](https://github.com/sam-goodwin/alchemy-effect/blob/main/packages/alchemy/src/Axiom/Providers.ts) — example of bundling a `providers()` layer with `AuthProviderLayer`
+- [`Axiom/VirtualField.ts`](https://github.com/alchemy-run/alchemy-effect/blob/main/projects/alchemy/packages/alchemy/src/Axiom/VirtualField.ts) — minimal CRUD with `diff` and `read`
+- [`Cloudflare/R2/Bucket.ts`](https://github.com/alchemy-run/alchemy-effect/blob/main/projects/alchemy/packages/alchemy/src/Cloudflare/R2/Bucket.ts) — production provider with bindings and replace semantics
+- [`Axiom/AuthProvider.ts`](https://github.com/alchemy-run/alchemy-effect/blob/main/projects/alchemy/packages/alchemy/src/Axiom/AuthProvider.ts) — full `AuthProvider` with `env` + `stored` methods and `Clank` prompts
+- [`Axiom/Credentials.ts`](https://github.com/alchemy-run/alchemy-effect/blob/main/projects/alchemy/packages/alchemy/src/Axiom/Credentials.ts) — `fromAuthProvider()` bridge layer
+- [`Axiom/Providers.ts`](https://github.com/alchemy-run/alchemy-effect/blob/main/projects/alchemy/packages/alchemy/src/Axiom/Providers.ts) — example of bundling a `providers()` layer with `AuthProviderLayer`

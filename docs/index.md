@@ -8,6 +8,7 @@ This directory is for repo-level maintainer documentation. Product docs for Alch
 | Monorepo migration overview | [`monorepo/migration.md`](./monorepo/migration.md) |
 | Maintainer-facing summary | [`monorepo/maintainer-summary.md`](./monorepo/maintainer-summary.md) |
 | Clean replacement-repo cutover | [`monorepo/cutover-operating-note.md`](./monorepo/cutover-operating-note.md) |
+| Provider factory catalog notes | [`provider-catalog/README.md`](./provider-catalog/README.md) |
 | Agent and contributor guidance | [`../AGENTS.md`](../AGENTS.md) |
 | Generated provider API docs | [`../projects/alchemy/apps/website/src/content/docs/providers`](../projects/alchemy/apps/website/src/content/docs/providers) |
 

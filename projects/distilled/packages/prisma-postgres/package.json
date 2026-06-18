@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alchemy-run/distilled",
+    "url": "https://github.com/alchemy-run/alchemy-effect",
     "directory": "projects/distilled/packages/prisma-postgres"
   },
   "files": [

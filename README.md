@@ -7,7 +7,7 @@
 <br />
 
 [![npm](https://img.shields.io/npm/v/alchemy?style=flat-square&color=3f5a2a&label=alchemy)](https://www.npmjs.com/package/alchemy)
-[![license](https://img.shields.io/badge/license-Apache%202.0-3f5a2a?style=flat-square)](./LICENSE)
+[![license](https://img.shields.io/badge/license-Apache%202.0-3f5a2a?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
 [![discord](https://img.shields.io/badge/discord-join-3f5a2a?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/jwKw8dBJdN)
 
 **Infrastructure-as-Effects** — cloud infrastructure and application logic as a single, type-safe [Effect](https://effect.website) program.
