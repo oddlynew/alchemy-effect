@@ -88,6 +88,8 @@ export interface WorkerLoaderClass extends Context.Service<
  * templates.
  *
  * @resource
+ * @product Workers
+ * @category Workers & Compute
  *
  * @section Creating a Loader
  * Yield `Cloudflare.WorkerLoader(name)` in your Worker's init

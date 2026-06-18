@@ -52,6 +52,29 @@ export interface Agent<
   >;
 }
 
+export declare const agent: <
+  Self,
+  Eff extends Effect.Effect<any, any, any>,
+  AReq extends DurableObjectServices,
+>(
+  self: new () => Self,
+  f: (
+    this: Layer.Layer<Self, never, AI.Services<Refs>>,
+  ) => Generator<Eff, Layer.Layer<never, never, AReq>, never>,
+) => Layer.Layer<
+  Self,
+  [Eff] extends [never]
+    ? never
+    : [Eff] extends [Effect.Effect<infer _A, infer E, infer _R>]
+      ? E
+      : never,
+  DurableObjectServices | [Eff] extends [never]
+    ? never
+    : [Eff] extends [Effect.Effect<infer _A, infer _E, infer R>]
+      ? R
+      : never
+>;
+
 export declare const Agent: {
   <Self>(): {
     <Name extends string>(
