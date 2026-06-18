@@ -1,0 +1,18 @@
+{
+  "name": "@distilled.cloud/build-utils",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*",
+    "rolldown": "catalog:",
+    "tsdown": "catalog:"
+  }
+}

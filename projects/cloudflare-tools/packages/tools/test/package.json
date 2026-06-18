@@ -1,0 +1,20 @@
+{
+  "name": "@distilled.cloud/test-utils",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./miniflare": "./src/miniflare.ts",
+    "./miniflare-module": "./src/miniflare-module.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "miniflare": "catalog:workers"
+  },
+  "devDependencies": {
+    "rolldown": "catalog:"
+  }
+}

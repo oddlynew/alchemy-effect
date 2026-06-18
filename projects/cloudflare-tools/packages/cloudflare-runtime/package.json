@@ -1,0 +1,160 @@
+{
+  "name": "@distilled.cloud/cloudflare-runtime",
+  "version": "0.11.2",
+  "description": "Runtime for Cloudflare Workers.",
+  "keywords": [
+    "cloudflare",
+    "runtime",
+    "workers"
+  ],
+  "homepage": "https://github.com/alchemy-run/cloudflare-tools/tree/main/packages/cloudflare-runtime#readme",
+  "bugs": {
+    "url": "https://github.com/alchemy-run/cloudflare-tools/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "John Royal",
+    "email": "john@alchemy.run",
+    "url": "https://distilled.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alchemy-run/cloudflare-tools.git",
+    "directory": "packages/cloudflare-runtime"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/node/index.mjs",
+    "./bindings": "./dist/node/bindings/index.mjs",
+    "./bindings/Ai": "./dist/node/bindings/Ai.mjs",
+    "./bindings/AiSearch": "./dist/node/bindings/AiSearch.mjs",
+    "./bindings/analytics-engine": "./dist/node/bindings/analytics-engine/index.mjs",
+    "./bindings/analytics-engine/AnalyticsEngine": "./dist/node/bindings/analytics-engine/AnalyticsEngine.mjs",
+    "./bindings/Artifacts": "./dist/node/bindings/Artifacts.mjs",
+    "./bindings/assets/Assets": "./dist/node/bindings/assets/Assets.mjs",
+    "./bindings/Browser": "./dist/node/bindings/Browser.mjs",
+    "./bindings/D1": "./dist/node/bindings/D1.mjs",
+    "./bindings/Data": "./dist/node/bindings/Data.mjs",
+    "./bindings/dispatch-namespace": "./dist/node/bindings/dispatch-namespace/index.mjs",
+    "./bindings/dispatch-namespace/DispatchNamespace": "./dist/node/bindings/dispatch-namespace/DispatchNamespace.mjs",
+    "./bindings/DurableObjectNamespace": "./dist/node/bindings/DurableObjectNamespace.mjs",
+    "./bindings/Flagship": "./dist/node/bindings/Flagship.mjs",
+    "./bindings/hyperdrive": "./dist/node/bindings/hyperdrive/index.mjs",
+    "./bindings/hyperdrive/Hyperdrive": "./dist/node/bindings/hyperdrive/Hyperdrive.mjs",
+    "./bindings/hyperdrive/HyperdriveOrigin": "./dist/node/bindings/hyperdrive/HyperdriveOrigin.shared.mjs",
+    "./bindings/Images": "./dist/node/bindings/Images.mjs",
+    "./bindings/Json": "./dist/node/bindings/Json.mjs",
+    "./bindings/KvNamespace": "./dist/node/bindings/KvNamespace.mjs",
+    "./bindings/Loopback": "./dist/node/bindings/Loopback.mjs",
+    "./bindings/Media": "./dist/node/bindings/Media.mjs",
+    "./bindings/MtlsCertificate": "./dist/node/bindings/MtlsCertificate.mjs",
+    "./bindings/Pipelines": "./dist/node/bindings/Pipelines.mjs",
+    "./bindings/queue": "./dist/node/bindings/queue/index.mjs",
+    "./bindings/queue/Queue": "./dist/node/bindings/queue/Queue.mjs",
+    "./bindings/queue/QueueOptions": "./dist/node/bindings/queue/QueueOptions.shared.mjs",
+    "./bindings/R2Bucket": "./dist/node/bindings/R2Bucket.mjs",
+    "./bindings/rate-limit": "./dist/node/bindings/rate-limit/index.mjs",
+    "./bindings/rate-limit/RateLimit": "./dist/node/bindings/rate-limit/RateLimit.mjs",
+    "./bindings/rate-limit/RateLimitProps": "./dist/node/bindings/rate-limit/RateLimitProps.shared.mjs",
+    "./bindings/send-email": "./dist/node/bindings/send-email/index.mjs",
+    "./bindings/send-email/SendEmail": "./dist/node/bindings/send-email/SendEmail.mjs",
+    "./bindings/Service": "./dist/node/bindings/Service.mjs",
+    "./bindings/Text": "./dist/node/bindings/Text.mjs",
+    "./bindings/UnsafeEval": "./dist/node/bindings/UnsafeEval.mjs",
+    "./bindings/Vectorize": "./dist/node/bindings/Vectorize.mjs",
+    "./bindings/VersionMetadata": "./dist/node/bindings/VersionMetadata.mjs",
+    "./bindings/VpcNetwork": "./dist/node/bindings/VpcNetwork.mjs",
+    "./bindings/VpcService": "./dist/node/bindings/VpcService.mjs",
+    "./bindings/WasmModule": "./dist/node/bindings/WasmModule.mjs",
+    "./bindings/WorkerLoader": "./dist/node/bindings/WorkerLoader.mjs",
+    "./bindings/workflows": "./dist/node/bindings/workflows/index.mjs",
+    "./bindings/workflows/Workflows": "./dist/node/bindings/workflows/Workflows.mjs",
+    "./Docker": "./dist/node/Docker.mjs",
+    "./globals": "./dist/node/globals/index.mjs",
+    "./globals/Globals": "./dist/node/globals/Globals.mjs",
+    "./globals/Internet": "./dist/node/globals/Internet.mjs",
+    "./globals/Loopback": "./dist/node/globals/Loopback.mjs",
+    "./globals/LoopbackServer": "./dist/node/globals/LoopbackServer.mjs",
+    "./globals/Storage": "./dist/node/globals/Storage.mjs",
+    "./Plugin": "./dist/node/Plugin.mjs",
+    "./PluginContext": "./dist/node/PluginContext.mjs",
+    "./proxy": "./dist/node/proxy/index.mjs",
+    "./proxy/WorkerProxy": "./dist/node/proxy/WorkerProxy.mjs",
+    "./registry": "./dist/node/registry/index.mjs",
+    "./registry/Registry": "./dist/node/registry/Registry.mjs",
+    "./registry/RegistryProxy": "./dist/node/registry/RegistryProxy.mjs",
+    "./registry/RegistryTypes": "./dist/node/registry/RegistryTypes.shared.mjs",
+    "./remote-bindings": "./dist/node/remote-bindings/index.mjs",
+    "./remote-bindings/Access": "./dist/node/remote-bindings/Access.mjs",
+    "./remote-bindings/RemoteBindings": "./dist/node/remote-bindings/RemoteBindings.mjs",
+    "./remote-bindings/RemoteWorker": "./dist/node/remote-bindings/RemoteWorker.mjs",
+    "./remote-bindings/RemoteWorkerConfig": "./dist/node/remote-bindings/RemoteWorkerConfig.shared.mjs",
+    "./Runtime": "./dist/node/Runtime.mjs",
+    "./RuntimeError": "./dist/node/RuntimeError.shared.mjs",
+    "./RuntimeServices": "./dist/node/RuntimeServices.mjs",
+    "./RuntimeWorker": "./dist/node/RuntimeWorker.mjs",
+    "./workerd": "./dist/node/workerd/index.mjs",
+    "./workerd/Config": "./dist/node/workerd/Config.mjs",
+    "./workerd/Workerd": "./dist/node/workerd/Workerd.mjs",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@alchemy.run/node-utils": "catalog:",
+    "workerd": "catalog:workers"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:workers",
+    "@distilled.cloud/build-utils": "workspace:*",
+    "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*",
+    "@distilled.cloud/vendor-workers-shared": "workspace:*",
+    "@distilled.cloud/vendor-workflows-shared": "workspace:*",
+    "@effect/platform-bun": "catalog:effect",
+    "@effect/platform-node": "catalog:effect",
+    "@effect/vitest": "catalog:effect",
+    "capnp-es": "^0.0.14",
+    "capnweb": "^0.8.0",
+    "rolldown": "catalog:",
+    "tsdown": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@distilled.cloud/cloudflare": "catalog:",
+    "@effect/platform-bun": "catalog:effect",
+    "@effect/platform-node": "catalog:effect",
+    "effect": "catalog:effect"
+  },
+  "peerDependenciesMeta": {
+    "@effect/platform-bun": {
+      "optional": true
+    },
+    "@effect/platform-node": {
+      "optional": true
+    }
+  },
+  "inlinedDependencies": {
+    "@sentry/core": "8.9.2",
+    "@sentry/utils": "8.9.2",
+    "capnp-es": "0.0.14",
+    "capnweb": "0.8.0",
+    "effect": "4.0.0-beta.78",
+    "heap-js": "2.7.1",
+    "itty-time": "2.0.2",
+    "mime": "4.1.0",
+    "toucan-js": "4.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["bun.lock", "tsconfig.base.json"],
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".cache/**/*.tsbuildinfo"]
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "format": {
+      "cache": false
+    },
+    "lint": {
+      "cache": false
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": [".cache/**/*.tsbuildinfo"]
+    },
+    "test": {
+      "dependsOn": ["build", "^build"],
+      "env": ["TEST_MYSQL_URL", "TEST_POSTGRES_URL"],
+      "outputs": []
+    }
+  }
+}

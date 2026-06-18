@@ -1,0 +1,41 @@
+import * as Layer from "effect/Layer";
+import * as AnalyticsEngineWorker from "worker:./analytics-engine.worker.ts";
+import { formatExtensionModule } from "../../internal/internal-modules.ts";
+import * as Plugin from "../../Plugin.ts";
+import type { BindingHook } from "../../PluginContext.ts";
+
+export class AnalyticsEngine extends Plugin.Service<AnalyticsEngine>()(
+  "cloudflare-runtime/plugin/AnalyticsEngine",
+) {}
+
+const EXTENSION_MODULE_NAME = "cloudflare-runtime:analytics-engine";
+
+export const AnalyticsEngineLive = Layer.succeed(
+  AnalyticsEngine,
+  AnalyticsEngine.of({
+    extensions: [
+      {
+        modules: [
+          {
+            name: EXTENSION_MODULE_NAME,
+            internal: true,
+            esModule: formatExtensionModule(AnalyticsEngineWorker),
+          },
+        ],
+      },
+    ],
+  }),
+);
+
+/**
+ * No-op local Analytics Engine binding. Matches Miniflare's behavior:
+ * `writeDataPoint` is accepted but discarded in dev.
+ */
+export const local = (binding: string, dataset: string): BindingHook<AnalyticsEngine> =>
+  Plugin.useSync(AnalyticsEngine, () => ({
+    name: binding,
+    wrapped: {
+      moduleName: EXTENSION_MODULE_NAME,
+      innerBindings: [{ name: "dataset", json: JSON.stringify(dataset) }],
+    },
+  }));

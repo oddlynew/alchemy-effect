@@ -1,0 +1,79 @@
+{
+  "name": "@distilled.cloud/cloudflare-vite-plugin",
+  "version": "0.11.2",
+  "homepage": "https://github.com/alchemy-run/cloudflare-tools/tree/main/packages/cloudflare-vite-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/alchemy-run/cloudflare-tools/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "John Royal",
+    "email": "john@alchemy.run",
+    "url": "https://distilled.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alchemy-run/cloudflare-tools.git",
+    "directory": "packages/cloudflare-vite-plugin"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/node/plugin.mjs",
+  "types": "./dist/node/plugin.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/node/plugin.d.mts",
+      "import": "./dist/node/plugin.mjs"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "build:clean": "rm -rf dist && bun run build",
+    "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "bun run build:clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:workers",
+    "@distilled.cloud/build-utils": "workspace:*",
+    "@distilled.cloud/vendor-workers-shared": "workspace:*",
+    "@effect/platform-node": "catalog:effect",
+    "@types/ws": "^8.18.1",
+    "rolldown": "catalog:",
+    "tsdown": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "ws": "^8.21.0"
+  },
+  "peerDependencies": {
+    "@distilled.cloud/cloudflare": "catalog:",
+    "@distilled.cloud/cloudflare-runtime": "workspace:*",
+    "@effect/platform-bun": "catalog:effect",
+    "@effect/platform-node": "catalog:effect",
+    "effect": "catalog:effect",
+    "vite": "^7.0.0 || ^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@effect/platform-bun": {
+      "optional": true
+    },
+    "@effect/platform-node": {
+      "optional": true
+    }
+  },
+  "inlinedDependencies": {
+    "vite": "8.0.10"
+  }
+}
