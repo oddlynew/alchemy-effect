@@ -6,7 +6,7 @@ export type Parameter<
   Refs extends any[] = any[],
 > = {
   "alchemy/Kind": "Param";
-  name: Name;
+  "alchemy/Name": Name;
   schema: Schema;
   template: TemplateStringsArray;
   refs: Refs;
@@ -36,18 +36,22 @@ export const Parameter: {
   };
 } = ((name: string, schema?: S.Top) =>
   schema
-    ? (template: TemplateStringsArray, ...refs: any[]) => ({
-        "alchemy/Kind": "Param",
-        name,
-        schema,
-        template,
-        refs,
-      })
+    ? (template: TemplateStringsArray, ...refs: any[]) =>
+        makeParameter(name, schema, template, refs)
     : (schema: S.Top) =>
-        (template: TemplateStringsArray, ...refs: any[]) => ({
-          "alchemy/Kind": "Param",
-          name,
-          schema,
-          template,
-          refs,
-        })) as any;
+        (template: TemplateStringsArray, ...refs: any[]) =>
+          makeParameter(name, schema, template, refs)) as any;
+
+const makeParameter = (
+  name: string,
+  schema: S.Top,
+  template: TemplateStringsArray,
+  refs: any[],
+) =>
+  Object.assign(function () {}, {
+    "alchemy/Kind": "Param",
+    "alchemy/Name": name,
+    schema,
+    template,
+    refs,
+  }) as any;

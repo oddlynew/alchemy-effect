@@ -39,7 +39,7 @@ export class ReleaseVersion extends Cloudflare.DurableObjectNamespace<ReleaseVer
           SqlDurableObjectLive,
           GrepLive,
           Cloudflare.layerChatDurableObject,
-          Layer.succeed(Cloudflare.WorkerLoader, workerLoader),
+          Cloudflare.WorkerLoader.layer(workerLoader),
           Cloudflare.Container.layer(devBox, {
             enableInternet: true,
           }),

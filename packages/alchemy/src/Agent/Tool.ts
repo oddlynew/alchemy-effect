@@ -4,7 +4,7 @@ import type { RuntimeContext } from "../RuntimeContext.ts";
 import type { Parameter } from "./Parameter.ts";
 
 export type ToolParameters<Refs> = {
-  [toolName in Extract<Refs, Parameter>["name"]]: Extract<
+  [toolName in Extract<Refs, Parameter>["alchemy/Name"]]: Extract<
     Refs,
     Parameter
   >["schema"]["Type"];
@@ -17,9 +17,11 @@ export interface Tool<
   "alchemy/Kind": "Tool";
   "alchemy/Name": Name;
   refs: Refs;
+  template: TemplateStringsArray;
   params: {
     [p in keyof ToolParameters<Refs[number]>]: ToolParameters<Refs[number]>[p];
   };
+  impl: (props: this["params"]) => Effect.Effect<any, any, any>;
   new (): Tool;
   <Err = never, Req = never>(
     impl: Effect.Effect<
@@ -75,23 +77,20 @@ export const Tool: {
 } = ((name?: string) =>
   name
     ? (template: TemplateStringsArray, ...refs: any[]) =>
-        Object.assign(
-          function (impl: (props: any) => Effect.Effect<any, any, any>) {},
-          {
-            "alchemy/Kind": "Tool",
-            "alchemy/Name": name,
-            refs,
-            template,
-          },
-        )
+        makeTool(name, template, refs)
     : (name: string) =>
         (template: TemplateStringsArray, ...refs: any[]) =>
-          Object.assign(
-            function (impl: (props: any) => Effect.Effect<any, any, any>) {},
-            {
-              "alchemy/Kind": "Tool",
-              "alchemy/Name": name,
-              refs,
-              template,
-            },
-          )) as any;
+          makeTool(name, template, refs)) as any;
+
+const makeTool = (name: string, template: TemplateStringsArray, refs: any[]) =>
+  Object.assign(
+    function (impl: (props: any) => Effect.Effect<any, any, any>) {},
+    {
+      "alchemy/Kind": "Tool",
+      "alchemy/Name": name,
+      refs,
+      template,
+      // @ts-expect-error
+      impl,
+    },
+  ) as any;

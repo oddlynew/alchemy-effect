@@ -35,7 +35,7 @@ export interface WorkerStub extends Fetcher {
   getEntrypoint<Shape = unknown>(name?: string): WorkerEntrypoint<Shape>;
 }
 
-export interface WorkerLoader {
+export type WorkerLoader = {
   Type: WorkerLoaderTypeId;
   name: string;
   get<Err = never, Req = never>(
@@ -47,7 +47,7 @@ export interface WorkerLoader {
   load(
     code: WorkerLoaderWorkerCode,
   ): Effect.Effect<WorkerStub, never, RuntimeContext>;
-}
+};
 
 export interface WorkerLoaderEffect extends Effect.Effect<
   WorkerLoader,

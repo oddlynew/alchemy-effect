@@ -7,7 +7,7 @@ export const cmd = Ai.Parameter("cmd")(
   S.String.pipe(S.optional),
 )`The command to run.`;
 
-export const bash = Ai.Tool("bash")`
+export const Bash = Ai.Tool("bash")`
 Run a shell ${cmd} and return its stdout, stderr, and exit code.`(
   Effect.fn(function* ({ cmd }) {
     void cmd;
