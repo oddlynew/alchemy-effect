@@ -3,6 +3,8 @@
   "include": [
     "public-infra.ts",
     "public-app.ts",
+    "tunnel-infra.ts",
+    "tunnel-app.ts",
     "src/**/*.ts",
     "test/**/*.ts"
   ],
