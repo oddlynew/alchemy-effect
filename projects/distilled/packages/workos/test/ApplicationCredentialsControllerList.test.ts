@@ -7,10 +7,9 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("ApplicationCredentialsControllerList", () => {
   it(
     "lists client secrets for a Connect Application",
+    { timeout: 30_000 },
     async () => {
-      const list = await runEffect(
-        ApplicationsControllerList({ limit: 1 }),
-      );
+      const list = await runEffect(ApplicationsControllerList({ limit: 1 }));
 
       if (list.data.length === 0) {
         // No seed application available — exercise the operation against a
@@ -37,11 +36,11 @@ describe("ApplicationCredentialsControllerList", () => {
         expect(typeof secret.updated_at).toBe("string");
       }
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent application id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ApplicationCredentialsControllerList({
@@ -51,6 +50,5 @@ describe("ApplicationCredentialsControllerList", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

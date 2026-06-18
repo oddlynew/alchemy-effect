@@ -240,7 +240,8 @@ paths:
   /zones/{zone_id}/speed_api/pages:
     get:
       operationId: listPages
-      description: "Lists all webpages which have been tested.  @example ```ts //
+      description:
+        "Lists all webpages which have been tested.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         pageListResponse of client.speed.pages.list( { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -477,7 +478,8 @@ paths:
   /zones/{zone_id}/speed_api/pages/{url}/trend:
     get:
       operationId: trendPage
-      description: "Lists the core web vital metrics trend over time for a specific
+      description:
+        "Lists the core web vital metrics trend over time for a specific
         page.  @example ```ts const trend = await client.speed.pages.trend(
         'example.com', { zone_id: '023e105f4ecef8ad9ca31a8372d0c353',
         deviceType: 'DESKTOP', metrics:
@@ -507,7 +509,8 @@ paths:
         - name: metrics
           in: query
           required: true
-          description: "Query param: A comma-separated list of metrics to include in the
+          description:
+            "Query param: A comma-separated list of metrics to include in the
             results."
           schema:
             type: string
@@ -625,7 +628,8 @@ paths:
   /zones/{zone_id}/speed_api/pages/{url}/tests/{testId}:
     get:
       operationId: getPageTest
-      description: "Retrieves the result of a specific test.  @example ```ts const
+      description:
+        "Retrieves the result of a specific test.  @example ```ts const
         test = await client.speed.pages.tests.get( 'example.com', 'test_id', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -826,7 +830,8 @@ paths:
   /zones/{zone_id}/speed_api/pages/{url}/tests:
     get:
       operationId: listPageTests
-      description: "Test history (list of tests) for a specific webpage.  @example
+      description:
+        "Test history (list of tests) for a specific webpage.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
         test of client.speed.pages.tests.list( 'example.com', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -1288,7 +1293,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deletePageTest
-      description: "Deletes all tests for a specific webpage from a specific region.
+      description:
+        "Deletes all tests for a specific webpage from a specific region.
         Deleted tests are still counted as part of the quota.  @example ```ts
         const test = await client.speed.pages.tests.delete( 'example.com', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1462,7 +1468,8 @@ paths:
         - name: frequency
           in: query
           required: false
-          description: "Query param: The frequency of the scheduled test. Defaults to
+          description:
+            "Query param: The frequency of the scheduled test. Defaults to
             WEEKLY for free plans, DAILY for paid plans."
           schema:
             type: string

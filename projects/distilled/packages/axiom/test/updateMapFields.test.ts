@@ -15,6 +15,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateMapFields", () => {
   it(
     "surfaces UnprocessableEntity when called without a body (generator limitation)",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateMapFields({
@@ -24,6 +25,5 @@ describe("updateMapFields", () => {
 
       expect((error as { _tag: string })._tag).toBe("UnprocessableEntity");
     },
-    { timeout: 30_000 },
   );
 });

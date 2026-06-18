@@ -20,6 +20,7 @@ const minimalDashboard = (name: string, owner: string) => ({
 describe("getDashboard", () => {
   it(
     "fetches a dashboard by uid and returns its configuration",
+    { timeout: 60_000 },
     async () => {
       const name = `distilled-axiom-getdash-${testRunId}`;
       let createdUid: string | undefined;
@@ -51,11 +52,11 @@ describe("getDashboard", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a dashboard uid that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getDashboard({ uid: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -63,6 +64,5 @@ describe("getDashboard", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

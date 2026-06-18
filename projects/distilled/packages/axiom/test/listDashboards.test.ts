@@ -6,27 +6,24 @@ import { listDashboards } from "../src/operations/v2/listDashboards";
 import { runEffect, testRunId } from "./setup";
 
 describe("listDashboards", () => {
-  it(
-    "returns an array of dashboards",
-    async () => {
-      const dashboards = await runEffect(listDashboards({}));
+  it("returns an array of dashboards", { timeout: 30_000 }, async () => {
+    const dashboards = await runEffect(listDashboards({}));
 
-      expect(Array.isArray(dashboards)).toBe(true);
+    expect(Array.isArray(dashboards)).toBe(true);
 
-      for (const d of dashboards) {
-        expect(typeof d.id).toBe("string");
-        expect(typeof d.uid).toBe("string");
-        expect(typeof d.version).toBe("number");
-        expect(typeof d.dashboard).toBe("object");
-        expect(typeof d.dashboard.name).toBe("string");
-        expect(typeof d.dashboard.owner).toBe("string");
-      }
-    },
-    { timeout: 30_000 },
-  );
+    for (const d of dashboards) {
+      expect(typeof d.id).toBe("string");
+      expect(typeof d.uid).toBe("string");
+      expect(typeof d.version).toBe("number");
+      expect(typeof d.dashboard).toBe("object");
+      expect(typeof d.dashboard.name).toBe("string");
+      expect(typeof d.dashboard.owner).toBe("string");
+    }
+  });
 
   it(
     "accepts limit and offset pagination parameters",
+    { timeout: 30_000 },
     async () => {
       const dashboards = await runEffect(
         listDashboards({ limit: 1, offset: 0 }),
@@ -35,11 +32,11 @@ describe("listDashboards", () => {
       expect(Array.isArray(dashboards)).toBe(true);
       expect(dashboards.length).toBeLessThanOrEqual(1);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials are invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -60,6 +57,5 @@ describe("listDashboards", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

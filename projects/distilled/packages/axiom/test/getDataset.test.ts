@@ -8,39 +8,36 @@ import { getDataset } from "../src/operations/v2/getDataset";
 import { runEffect, testRunId } from "./setup";
 
 describe("getDataset", () => {
-  it(
-    "returns a dataset by id",
-    async () => {
-      const datasetName = `distilled-axiom-getds-${testRunId}`;
+  it("returns a dataset by id", { timeout: 60_000 }, async () => {
+    const datasetName = `distilled-axiom-getds-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        const created = yield* createDataset({
-          name: datasetName,
-          description: "getDataset test fixture",
-        });
+    const effect = Effect.gen(function* () {
+      const created = yield* createDataset({
+        name: datasetName,
+        description: "getDataset test fixture",
+      });
 
-        const fetched = yield* getDataset({ dataset_id: datasetName });
+      const fetched = yield* getDataset({ dataset_id: datasetName });
 
-        expect(fetched.name).toBe(datasetName);
-        expect(fetched.id).toBe(created.id);
-        expect(fetched.description).toBe("getDataset test fixture");
-        expect(typeof fetched.created).toBe("string");
-        expect(typeof fetched.who).toBe("string");
-        expect(fetched.kind).toBeDefined();
-      }).pipe(
-        Effect.ensuring(
-          // Best-effort cleanup.
-          deleteDataset({ dataset_id: datasetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(fetched.name).toBe(datasetName);
+      expect(fetched.id).toBe(created.id);
+      expect(fetched.description).toBe("getDataset test fixture");
+      expect(typeof fetched.created).toBe("string");
+      expect(typeof fetched.who).toBe("string");
+      expect(fetched.kind).toBeDefined();
+    }).pipe(
+      Effect.ensuring(
+        // Best-effort cleanup.
+        deleteDataset({ dataset_id: datasetName }).pipe(Effect.ignore),
+      ),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 60_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "returns NotFound for a dataset name that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getDataset({
@@ -50,11 +47,11 @@ describe("getDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack dataset read access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -77,6 +74,5 @@ describe("getDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

@@ -179,8 +179,7 @@ function isExcluded(
   return config.exclude?.find((rule) => {
     if (rule.type !== type) return false;
     if (rule.ids?.includes(id)) return true;
-    if (name && rule.namePatterns?.some((p) => matchGlob(p, name)))
-      return true;
+    if (name && rule.namePatterns?.some((p) => matchGlob(p, name))) return true;
     return false;
   });
 }
@@ -272,14 +271,21 @@ function nukeResource<
     totalFound += items.length;
 
     if (items.length === 0) {
-      yield* Console.log(`  ${DIM}No ${opts.label.toLowerCase()} found${RESET}`);
+      yield* Console.log(
+        `  ${DIM}No ${opts.label.toLowerCase()} found${RESET}`,
+      );
       return;
     }
 
     for (const item of items) {
       const name = opts.getName(item);
       const meta = opts.getMeta(item);
-      const exclusion = isExcluded(opts.nukeConfig, opts.type, item.id, name ?? undefined);
+      const exclusion = isExcluded(
+        opts.nukeConfig,
+        opts.type,
+        item.id,
+        name ?? undefined,
+      );
 
       if (exclusion) {
         totalSkipped++;
@@ -351,9 +357,7 @@ const nuke = Command.make(
 
       // Customer sub-resources: sources, tax IDs
       yield* Effect.gen(function* () {
-        yield* Console.log(
-          `\n${BOLD}${CYAN}Customer Sources${RESET}`,
-        );
+        yield* Console.log(`\n${BOLD}${CYAN}Customer Sources${RESET}`);
         const customers = yield* safeList(GetCustomers, "customers");
         let sourceCount = 0;
         for (const cust of customers) {
@@ -383,7 +387,9 @@ const nuke = Command.make(
                 customer: cust.id,
                 id: src.id,
               }).pipe(
-                Effect.andThen(() => { totalDeleted++; }),
+                Effect.andThen(() => {
+                  totalDeleted++;
+                }),
                 Effect.catch(() => {
                   totalFailed++;
                   return Console.log(
@@ -400,9 +406,7 @@ const nuke = Command.make(
       });
 
       yield* Effect.gen(function* () {
-        yield* Console.log(
-          `\n${BOLD}${CYAN}Customer Tax IDs${RESET}`,
-        );
+        yield* Console.log(`\n${BOLD}${CYAN}Customer Tax IDs${RESET}`);
         const customers = yield* safeList(GetCustomers, "customers");
         let taxIdCount = 0;
         for (const cust of customers) {
@@ -432,7 +436,9 @@ const nuke = Command.make(
                 customer: cust.id,
                 id: tid.id,
               }).pipe(
-                Effect.andThen(() => { totalDeleted++; }),
+                Effect.andThen(() => {
+                  totalDeleted++;
+                }),
                 Effect.catch(() => {
                   totalFailed++;
                   return Console.log(
@@ -450,9 +456,7 @@ const nuke = Command.make(
 
       // Product features (sub-resource of products)
       yield* Effect.gen(function* () {
-        yield* Console.log(
-          `\n${BOLD}${CYAN}Product Features${RESET}`,
-        );
+        yield* Console.log(`\n${BOLD}${CYAN}Product Features${RESET}`);
         const products = yield* safeList(GetProducts, "products");
         let featureCount = 0;
         for (const prod of products) {
@@ -482,7 +486,9 @@ const nuke = Command.make(
                 product: prod.id,
                 id: feat.id,
               }).pipe(
-                Effect.andThen(() => { totalDeleted++; }),
+                Effect.andThen(() => {
+                  totalDeleted++;
+                }),
                 Effect.catch(() => {
                   totalFailed++;
                   return Console.log(
@@ -500,9 +506,7 @@ const nuke = Command.make(
 
       // Account sub-resources: external accounts, persons
       yield* Effect.gen(function* () {
-        yield* Console.log(
-          `\n${BOLD}${CYAN}Account External Accounts${RESET}`,
-        );
+        yield* Console.log(`\n${BOLD}${CYAN}Account External Accounts${RESET}`);
         const accounts = yield* safeList(GetAccounts, "accounts");
         let extCount = 0;
         for (const acct of accounts) {
@@ -532,7 +536,9 @@ const nuke = Command.make(
                 account: acct.id,
                 id: ext.id,
               }).pipe(
-                Effect.andThen(() => { totalDeleted++; }),
+                Effect.andThen(() => {
+                  totalDeleted++;
+                }),
                 Effect.catch(() => {
                   totalFailed++;
                   return Console.log(
@@ -549,9 +555,7 @@ const nuke = Command.make(
       });
 
       yield* Effect.gen(function* () {
-        yield* Console.log(
-          `\n${BOLD}${CYAN}Account Persons${RESET}`,
-        );
+        yield* Console.log(`\n${BOLD}${CYAN}Account Persons${RESET}`);
         const accounts = yield* safeList(GetAccounts, "accounts");
         let personCount = 0;
         for (const acct of accounts) {
@@ -590,7 +594,9 @@ const nuke = Command.make(
                 account: acct.id,
                 person: person.id,
               }).pipe(
-                Effect.andThen(() => { totalDeleted++; }),
+                Effect.andThen(() => {
+                  totalDeleted++;
+                }),
                 Effect.catch(() => {
                   totalFailed++;
                   return Console.log(
@@ -624,7 +630,11 @@ const nuke = Command.make(
           for (const item of items) {
             itemCount++;
             totalFound++;
-            const exclusion = isExcluded(nukeConfig, "SubscriptionItem", item.id);
+            const exclusion = isExcluded(
+              nukeConfig,
+              "SubscriptionItem",
+              item.id,
+            );
             if (exclusion) {
               totalSkipped++;
               yield* Console.log(
@@ -639,10 +649,14 @@ const nuke = Command.make(
                 `  ${RED}[DELETE]${RESET} SubscriptionItem: ${item.id} ${DIM}(subscription: ${sub.id})${RESET}`,
               );
               yield* DeleteSubscriptionItemsItem({ item: item.id }).pipe(
-                Effect.andThen(() => { totalDeleted++; }),
+                Effect.andThen(() => {
+                  totalDeleted++;
+                }),
                 Effect.catch(() => {
                   totalFailed++;
-                  return Console.log(`    ${RED}Failed to delete subscription item ${item.id}${RESET}`);
+                  return Console.log(
+                    `    ${RED}Failed to delete subscription item ${item.id}${RESET}`,
+                  );
                 }),
               );
             }
@@ -711,7 +725,11 @@ const nuke = Command.make(
           for (const item of items) {
             itemCount++;
             totalFound++;
-            const exclusion = isExcluded(nukeConfig, "RadarValueListItem", item.id);
+            const exclusion = isExcluded(
+              nukeConfig,
+              "RadarValueListItem",
+              item.id,
+            );
             if (exclusion) {
               totalSkipped++;
               yield* Console.log(
@@ -726,10 +744,14 @@ const nuke = Command.make(
                 `  ${RED}[DELETE]${RESET} RadarValueListItem: ${(item as any).value ?? item.id} ${DIM}(id: ${item.id}, value_list: ${vl.id})${RESET}`,
               );
               yield* DeleteRadarValueListItemsItem({ item: item.id }).pipe(
-                Effect.andThen(() => { totalDeleted++; }),
+                Effect.andThen(() => {
+                  totalDeleted++;
+                }),
                 Effect.catch(() => {
                   totalFailed++;
-                  return Console.log(`    ${RED}Failed to delete value list item ${item.id}${RESET}`);
+                  return Console.log(
+                    `    ${RED}Failed to delete value list item ${item.id}${RESET}`,
+                  );
                 }),
               );
             }
@@ -747,8 +769,7 @@ const nuke = Command.make(
         del: DeleteRadarValueListsValueList,
         getDeleteInput: (item: any) => ({ value_list: item.id }),
         getName: (item: any) => (item as any).name ?? item.id,
-        getMeta: (item: any) =>
-          `alias: ${(item as any).alias ?? "unknown"}`,
+        getMeta: (item: any) => `alias: ${(item as any).alias ?? "unknown"}`,
         nukeConfig,
         dryRun,
       });
@@ -791,8 +812,7 @@ const nuke = Command.make(
         del: DeleteProductsId,
         getDeleteInput: (item: any) => ({ id: item.id }),
         getName: (item: any) => (item as any).name ?? item.id,
-        getMeta: (item: any) =>
-          `active: ${(item as any).active ?? "unknown"}`,
+        getMeta: (item: any) => `active: ${(item as any).active ?? "unknown"}`,
         nukeConfig,
         dryRun,
       });
@@ -804,9 +824,9 @@ const nuke = Command.make(
         list: GetCustomers,
         del: DeleteCustomersCustomer,
         getDeleteInput: (item: any) => ({ customer: item.id }),
-        getName: (item: any) => (item as any).name ?? (item as any).email ?? item.id,
-        getMeta: (item: any) =>
-          `email: ${(item as any).email ?? "none"}`,
+        getName: (item: any) =>
+          (item as any).name ?? (item as any).email ?? item.id,
+        getMeta: (item: any) => `email: ${(item as any).email ?? "none"}`,
         nukeConfig,
         dryRun,
       });
@@ -845,8 +865,7 @@ const nuke = Command.make(
         del: DeleteWebhookEndpointsWebhookEndpoint,
         getDeleteInput: (item: any) => ({ webhook_endpoint: item.id }),
         getName: (item: any) => (item as any).url ?? item.id,
-        getMeta: (item: any) =>
-          `status: ${(item as any).status ?? "unknown"}`,
+        getMeta: (item: any) => `status: ${(item as any).status ?? "unknown"}`,
         nukeConfig,
         dryRun,
       });
@@ -897,8 +916,7 @@ const nuke = Command.make(
         del: DeleteTestHelpersTestClocksTestClock,
         getDeleteInput: (item: any) => ({ test_clock: item.id }),
         getName: (item: any) => (item as any).name ?? item.id,
-        getMeta: (item: any) =>
-          `status: ${(item as any).status ?? "unknown"}`,
+        getMeta: (item: any) => `status: ${(item as any).status ?? "unknown"}`,
         nukeConfig,
         dryRun,
       });
@@ -946,8 +964,7 @@ const nuke = Command.make(
           type: "ApplicationFee",
           list: GetApplicationFees,
           getName: (item: any) => item.id,
-          getMeta: (item: any) =>
-            `amount: ${(item as any).amount ?? 0}`,
+          getMeta: (item: any) => `amount: ${(item as any).amount ?? 0}`,
         },
         {
           label: "Balance Transactions",
@@ -1078,8 +1095,7 @@ const nuke = Command.make(
           type: "IdentityVerificationReport",
           list: GetIdentityVerificationReports,
           getName: (item: any) => item.id,
-          getMeta: (item: any) =>
-            `type: ${(item as any).type ?? "unknown"}`,
+          getMeta: (item: any) => `type: ${(item as any).type ?? "unknown"}`,
         },
         {
           label: "Identity Verification Sessions",
@@ -1149,8 +1165,7 @@ const nuke = Command.make(
           type: "IssuingTransaction",
           list: GetIssuingTransactions,
           getName: (item: any) => item.id,
-          getMeta: (item: any) =>
-            `amount: ${(item as any).amount ?? 0}`,
+          getMeta: (item: any) => `amount: ${(item as any).amount ?? 0}`,
         },
         {
           label: "Payment Intents",
@@ -1188,8 +1203,7 @@ const nuke = Command.make(
           type: "PaymentMethod",
           list: GetPaymentMethods,
           getName: (item: any) => item.id,
-          getMeta: (item: any) =>
-            `type: ${(item as any).type ?? "unknown"}`,
+          getMeta: (item: any) => `type: ${(item as any).type ?? "unknown"}`,
         },
         {
           label: "Payouts",
@@ -1300,8 +1314,7 @@ const nuke = Command.make(
           type: "Transfer",
           list: GetTransfers,
           getName: (item: any) => item.id,
-          getMeta: (item: any) =>
-            `amount: ${(item as any).amount ?? 0}`,
+          getMeta: (item: any) => `amount: ${(item as any).amount ?? 0}`,
         },
         {
           label: "Treasury Financial Accounts",
@@ -1343,9 +1356,7 @@ const nuke = Command.make(
       Effect.provide(CredentialsFromEnv),
       Effect.provide(FetchHttpClient.layer),
     ),
-).pipe(
-  Command.withDescription("List and delete all Stripe resources"),
-);
+).pipe(Command.withDescription("List and delete all Stripe resources"));
 
 // ============================================================================
 // Entry Point

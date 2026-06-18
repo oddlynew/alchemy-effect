@@ -103,13 +103,15 @@ const nukeDatabases = (
   orgSlug: string,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Databases${RESET} ${DIM}(org: ${orgSlug})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Databases${RESET} ${DIM}(org: ${orgSlug})${RESET}`,
+    );
 
     const result = yield* listDatabases({ organizationSlug: orgSlug }).pipe(
       Effect.catch(() =>
-        Console.log(`    ${RED}Failed to list databases for ${orgSlug}${RESET}`).pipe(
-          Effect.map(() => ({ databases: [] as any[] })),
-        ),
+        Console.log(
+          `    ${RED}Failed to list databases for ${orgSlug}${RESET}`,
+        ).pipe(Effect.map(() => ({ databases: [] as any[] }))),
       ),
     );
 
@@ -160,19 +162,17 @@ const nukeDatabases = (
     }
   });
 
-const nukeGroups = (
-  dryRun: boolean,
-  nukeConfig: NukeConfig,
-  orgSlug: string,
-) =>
+const nukeGroups = (dryRun: boolean, nukeConfig: NukeConfig, orgSlug: string) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Groups${RESET} ${DIM}(org: ${orgSlug})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Groups${RESET} ${DIM}(org: ${orgSlug})${RESET}`,
+    );
 
     const result = yield* listGroups({ organizationSlug: orgSlug }).pipe(
       Effect.catch(() =>
-        Console.log(`    ${RED}Failed to list groups for ${orgSlug}${RESET}`).pipe(
-          Effect.map(() => ({ groups: [] as any[] })),
-        ),
+        Console.log(
+          `    ${RED}Failed to list groups for ${orgSlug}${RESET}`,
+        ).pipe(Effect.map(() => ({ groups: [] as any[] }))),
       ),
     );
 
@@ -229,13 +229,17 @@ const nukeOrganizationMembers = (
   orgSlug: string,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Organization Members${RESET} ${DIM}(org: ${orgSlug})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Organization Members${RESET} ${DIM}(org: ${orgSlug})${RESET}`,
+    );
 
-    const result = yield* listOrganizationMembers({ organizationSlug: orgSlug }).pipe(
+    const result = yield* listOrganizationMembers({
+      organizationSlug: orgSlug,
+    }).pipe(
       Effect.catch(() =>
-        Console.log(`    ${RED}Failed to list members for ${orgSlug}${RESET}`).pipe(
-          Effect.map(() => ({ members: [] as any[] })),
-        ),
+        Console.log(
+          `    ${RED}Failed to list members for ${orgSlug}${RESET}`,
+        ).pipe(Effect.map(() => ({ members: [] as any[] }))),
       ),
     );
 
@@ -245,7 +249,9 @@ const nukeOrganizationMembers = (
     const removableMembers = members.filter((m: any) => m.role !== "owner");
 
     if (removableMembers.length === 0) {
-      yield* Console.log(`    ${DIM}No removable members found (owners are preserved)${RESET}`);
+      yield* Console.log(
+        `    ${DIM}No removable members found (owners are preserved)${RESET}`,
+      );
       return;
     }
 
@@ -253,7 +259,12 @@ const nukeOrganizationMembers = (
       const username = member.username ?? "unknown";
       totalFound++;
 
-      const excluded = isExcluded(nukeConfig, "OrganizationMember", username, username);
+      const excluded = isExcluded(
+        nukeConfig,
+        "OrganizationMember",
+        username,
+        username,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -294,13 +305,17 @@ const nukeOrganizationInvites = (
   orgSlug: string,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Organization Invites${RESET} ${DIM}(org: ${orgSlug})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Organization Invites${RESET} ${DIM}(org: ${orgSlug})${RESET}`,
+    );
 
-    const result = yield* listOrganizationInvites({ organizationSlug: orgSlug }).pipe(
+    const result = yield* listOrganizationInvites({
+      organizationSlug: orgSlug,
+    }).pipe(
       Effect.catch(() =>
-        Console.log(`    ${RED}Failed to list invites for ${orgSlug}${RESET}`).pipe(
-          Effect.map(() => ({ invites: [] as any[] })),
-        ),
+        Console.log(
+          `    ${RED}Failed to list invites for ${orgSlug}${RESET}`,
+        ).pipe(Effect.map(() => ({ invites: [] as any[] }))),
       ),
     );
 
@@ -316,7 +331,12 @@ const nukeOrganizationInvites = (
       const inviteId = String(invite.ID ?? "unknown");
       totalFound++;
 
-      const excluded = isExcluded(nukeConfig, "OrganizationInvite", inviteId, email);
+      const excluded = isExcluded(
+        nukeConfig,
+        "OrganizationInvite",
+        inviteId,
+        email,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -481,17 +501,11 @@ const nuke = Command.make(
       // Summary
       yield* Console.log(`\n${BOLD}Summary${RESET}`);
       yield* Console.log(`  Total found:   ${totalFound}`);
-      yield* Console.log(
-        `  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`,
-      );
+      yield* Console.log(`  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`);
       if (!config.dryRun) {
-        yield* Console.log(
-          `  ${GREEN}Deleted:       ${totalDeleted}${RESET}`,
-        );
+        yield* Console.log(`  ${GREEN}Deleted:       ${totalDeleted}${RESET}`);
         if (totalFailed > 0) {
-          yield* Console.log(
-            `  ${RED}Failed:        ${totalFailed}${RESET}`,
-          );
+          yield* Console.log(`  ${RED}Failed:        ${totalFailed}${RESET}`);
         }
       }
     }).pipe(

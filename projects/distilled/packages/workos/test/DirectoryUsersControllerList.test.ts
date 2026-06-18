@@ -6,6 +6,7 @@ import { runEffect } from "./setup.ts";
 describe("DirectoryUsersControllerList", () => {
   it(
     "fails with NotFound when filtering by a non-existent directory",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DirectoryUsersControllerList({
@@ -15,11 +16,11 @@ describe("DirectoryUsersControllerList", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when filtering by a directory in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DirectoryUsersControllerList({
@@ -29,11 +30,11 @@ describe("DirectoryUsersControllerList", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the directory id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DirectoryUsersControllerList({
@@ -43,6 +44,5 @@ describe("DirectoryUsersControllerList", () => {
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

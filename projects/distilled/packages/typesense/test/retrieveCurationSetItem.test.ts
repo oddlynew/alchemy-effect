@@ -7,49 +7,46 @@ import { upsertCurationSetItem } from "../src/operations/upsertCurationSetItem";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrieveCurationSetItem", () => {
-  it(
-    "retrieves a curation set item by id",
-    async () => {
-      const curationSetName = `distilled-typesense-retcurationitem-${testRunId}`;
-      const itemId = `item-${testRunId}`;
+  it("retrieves a curation set item by id", { timeout: 30_000 }, async () => {
+    const curationSetName = `distilled-typesense-retcurationitem-${testRunId}`;
+    const itemId = `item-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        // Create parent curation set first.
-        yield* upsertCurationSet({
-          curationSetName,
-          items: [],
-          description: "test curation set",
-        });
+    const effect = Effect.gen(function* () {
+      // Create parent curation set first.
+      yield* upsertCurationSet({
+        curationSetName,
+        items: [],
+        description: "test curation set",
+      });
 
-        // Add a curation item to it.
-        yield* upsertCurationSetItem({
-          curationSetName,
-          itemId,
-          rule: { query: "shoe", match: "exact" },
-          includes: [{ id: "doc-1", position: 1 }],
-        });
+      // Add a curation item to it.
+      yield* upsertCurationSetItem({
+        curationSetName,
+        itemId,
+        rule: { query: "shoe", match: "exact" },
+        includes: [{ id: "doc-1", position: 1 }],
+      });
 
-        const result = yield* retrieveCurationSetItem({
-          curationSetName,
-          itemId,
-        });
+      const result = yield* retrieveCurationSetItem({
+        curationSetName,
+        itemId,
+      });
 
-        expect(result.id).toBe(itemId);
-        expect(result.rule.query).toBe("shoe");
-        expect(result.rule.match).toBe("exact");
-      }).pipe(
-        Effect.ensuring(
-          deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(result.id).toBe(itemId);
+      expect(result.rule.query).toBe("shoe");
+      expect(result.rule.match).toBe("exact");
+    }).pipe(
+      Effect.ensuring(
+        deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
+      ),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the curation set item does not exist",
+    { timeout: 30_000 },
     async () => {
       const curationSetName = `distilled-typesense-retcurationitem-nf-${testRunId}`;
 
@@ -74,6 +71,5 @@ describe("retrieveCurationSetItem", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 });

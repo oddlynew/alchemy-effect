@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationsControllerDeleteOrganization", () => {
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationsControllerDeleteOrganization({
@@ -16,19 +17,20 @@ describe("OrganizationsControllerDeleteOrganization", () => {
       );
       expect(["NotFound", "TooManyRequests"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when deleting an organization in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationsControllerDeleteOrganization({
           id: "org_01HFGZ6QYV0000000000000000",
         }).pipe(Effect.flip),
       );
-      expect(["Forbidden", "TooManyRequests", "NotFound"]).toContain(error._tag);
+      expect(["Forbidden", "TooManyRequests", "NotFound"]).toContain(
+        error._tag,
+      );
     },
-    30_000,
   );
 });

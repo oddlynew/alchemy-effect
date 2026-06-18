@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateStarred", () => {
   it(
     "updates an existing starred query and returns the refreshed record",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-upstarred-${testRunId}`;
       const queryName = `distilled-axiom-upstarred-${testRunId}`;
@@ -62,11 +63,11 @@ describe("updateStarred", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a starred-query id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // A syntactically-valid but non-existent starred-query id should
       // produce a 404 → NotFound. Provide a full body so the request passes
@@ -84,7 +85,6 @@ describe("updateStarred", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   // Removed: the client-side schema requires kind/name/query/who/metadata

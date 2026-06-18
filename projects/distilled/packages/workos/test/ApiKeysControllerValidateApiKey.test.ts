@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("ApiKeysControllerValidateApiKey", () => {
   it(
     "validates the current API key and returns the api_key object",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -19,7 +20,5 @@ describe("ApiKeysControllerValidateApiKey", () => {
       expect(result).toBeDefined();
       expect(result.api_key).toBeDefined();
     },
-    30_000,
   );
-
 });

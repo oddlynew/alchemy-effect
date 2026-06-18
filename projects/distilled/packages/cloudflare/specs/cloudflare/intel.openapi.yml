@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/intel/asn/{asn}:
     get:
       operationId: getAsn
-      description: "Gets an overview of the Autonomous System Number (ASN) and a list
+      description:
+        "Gets an overview of the Autonomous System Number (ASN) and a list
         of subnets for it.  @example ```ts const asn = await
         client.intel.asn.get(0, { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -79,7 +80,8 @@ paths:
   /accounts/{account_id}/intel/attack-surface-report/issues:
     get:
       operationId: listAttackSurfaceReportIssues
-      description: Lists all Security Center issues for the account, showing active
+      description:
+        Lists all Security Center issues for the account, showing active
         security problems requiring attention.  @deprecated
       parameters:
         - name: account_id
@@ -228,7 +230,8 @@ paths:
                           type: boolean
                         has_extended_context:
                           type: boolean
-                          description: Indicates whether the insight has a large payload that requires
+                          description:
+                            Indicates whether the insight has a large payload that requires
                             fetching via the context endpoint.
                         issue_class:
                           type: string
@@ -278,7 +281,8 @@ paths:
                             - accept_risk
                             - other
                           nullable: true
-                          description: User-defined classification for the insight. Can be
+                          description:
+                            User-defined classification for the insight. Can be
                             'false_positive', 'accept_risk', 'other', or null.
                   page:
                     type: number
@@ -290,7 +294,8 @@ paths:
   /accounts/{account_id}/intel/attack-surface-report/issues/class:
     get:
       operationId: classAttackSurfaceReportIssue
-      description: Retrieves Security Center issue counts aggregated by classification
+      description:
+        Retrieves Security Center issue counts aggregated by classification
         class.  @deprecated
       parameters:
         - name: account_id
@@ -425,7 +430,8 @@ paths:
   /accounts/{account_id}/intel/attack-surface-report/{issueId}/dismiss:
     put:
       operationId: dismissAttackSurfaceReportIssue
-      description: Deprecated endpoint for archiving Security Center insights. Use the
+      description:
+        Deprecated endpoint for archiving Security Center insights. Use the
         newer archive-security-center-insight endpoint instead.  @deprecated
       parameters:
         - name: issueId
@@ -777,7 +783,8 @@ paths:
   /accounts/{account_id}/intel/attack-surface-report/issue-types:
     get:
       operationId: getAttackSurfaceReportIssueType
-      description: "Lists all available issue types in Security Center, describing
+      description:
+        "Lists all available issue types in Security Center, describing
         categories of security issues.  @example ```ts // Automatically fetches
         more pages as needed. for await (const issueTypeGetResponse of
         client.intel.attackSurfaceReport.issueTypes.get( { account_id:
@@ -800,7 +807,8 @@ paths:
   /accounts/{account_id}/intel/dns:
     get:
       operationId: listDns
-      description: "Gets a list of all the domains that have resolved to a specific IP
+      description:
+        "Gets a list of all the domains that have resolved to a specific IP
         address.  @example ```ts // Automatically fetches more pages as needed.
         for await (const dns of client.intel.dns.list({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', })) { // ... } ```"
@@ -876,7 +884,8 @@ paths:
   /accounts/{account_id}/intel/domain:
     get:
       operationId: getDomain
-      description: "Gets security details and statistics about a domain.  @example
+      description:
+        "Gets security details and statistics about a domain.  @example
         ```ts const domain = await client.intel.domains.get({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -947,7 +956,8 @@ paths:
                           type: number
                   inherited_from:
                     type: string
-                    description: Domain from which `inherited_content_categories` and
+                    description:
+                      Domain from which `inherited_content_categories` and
                       `inherited_risk_types` are inherited, if applicable.
                   inherited_risk_types:
                     type: array
@@ -962,7 +972,8 @@ paths:
                           type: number
                   popularity_rank:
                     type: number
-                    description: Global Cloudflare 100k ranking for the last 30 days, if available
+                    description:
+                      Global Cloudflare 100k ranking for the last 30 days, if available
                       for the hostname. The top ranked domain is 1, the lowest
                       ranked domain is 100,000.
                   resolves_to_refs:
@@ -978,11 +989,13 @@ paths:
                         value:
                           type: string
                           description: IP address or domain name.
-                    description: Specifies a list of references to one or more IP addresses or
+                    description:
+                      Specifies a list of references to one or more IP addresses or
                       domain names that the domain name currently resolves to.
                   risk_score:
                     type: number
-                    description: Hostname risk score, which is a value between 0 (lowest risk) to 1
+                    description:
+                      Hostname risk score, which is a value between 0 (lowest risk) to 1
                       (highest risk).
                   risk_types:
                     type: array
@@ -1069,7 +1082,8 @@ paths:
                             type: number
                     inherited_from:
                       type: string
-                      description: Domain from which `inherited_content_categories` and
+                      description:
+                        Domain from which `inherited_content_categories` and
                         `inherited_risk_types` are inherited, if applicable.
                     inherited_risk_types:
                       type: array
@@ -1084,12 +1098,14 @@ paths:
                             type: number
                     popularity_rank:
                       type: number
-                      description: Global Cloudflare 100k ranking for the last 30 days, if available
+                      description:
+                        Global Cloudflare 100k ranking for the last 30 days, if available
                         for the hostname. The top ranked domain is 1, the lowest
                         ranked domain is 100,000.
                     risk_score:
                       type: number
-                      description: Hostname risk score, which is a value between 0 (lowest risk) to 1
+                      description:
+                        Hostname risk score, which is a value between 0 (lowest risk) to 1
                         (highest risk).
                     risk_types:
                       type: array
@@ -1106,7 +1122,8 @@ paths:
   /accounts/{account_id}/intel/domain-history:
     get:
       operationId: getDomainHistory
-      description: "Gets historical security threat and content categories currently
+      description:
+        "Gets historical security threat and content categories currently
         and previously assigned to a domain.  @example ```ts const
         domainHistories = await client.intel.domainHistory.get({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -1217,7 +1234,8 @@ paths:
                             type: number
                           urls_removed:
                             type: number
-                        description: Net delta applied to feed indicators by this upload. Snapshot
+                        description:
+                          Net delta applied to feed indicators by this upload. Snapshot
                           uploads emit both _\_added and _\_removed; delta-add
                           emits only _\_added; delta-remove emits only
                           _\_removed.
@@ -1226,20 +1244,24 @@ paths:
                         properties:
                           allowlisted_domains:
                             type: number
-                            description: Domains filtered by the global popularity allowlist at QS
+                            description:
+                              Domains filtered by the global popularity allowlist at QS
                               provisioning time. Popular domains (bing.com,
                               naver.com, etc.) are protected from
                               custom-threat-feed enforcement.
                           expired_indicators:
                             type: number
-                            description: Indicators in the upload whose valid_until is already in the past.
+                            description:
+                              Indicators in the upload whose valid_until is already in the past.
                               These are not added to QS; the expiration cron
                               handles cleanup.
                           invalid_indicators:
                             type: number
-                            description: Reserved for future use. Currently always 0 — the unifier aborts
+                            description:
+                              Reserved for future use. Currently always 0 — the unifier aborts
                               the entire upload on a single bad indicator.
-                        description: Counts of indicators that were uploaded but did not reach
+                        description:
+                          Counts of indicators that were uploaded but did not reach
                           QuickSilver, broken down by reason.
                       uploaded:
                         type: object
@@ -1254,7 +1276,8 @@ paths:
                             type: number
                             description: Number of URL indicators in the upload
                         description: Indicator counts from the unified file the loader received
-                    description: Summary of indicator counts from the last successful upload to this
+                    description:
+                      Summary of indicator counts from the last successful upload to this
                       feed. Populated by the custom-threat-feeds loader at the
                       end of each successful load. Absent (omitted) when no
                       upload has completed successfully or the upload errored
@@ -1264,7 +1287,8 @@ paths:
                       reading loader logs.
                   latest_upload_error:
                     type: string
-                    description: Human-readable error message describing why the latest upload
+                    description:
+                      Human-readable error message describing why the latest upload
                       failed. Populated only when `latest_upload_status` is
                       `Error`. Returns one of a small fixed set of
                       category-level messages (invalid domain / IP / URL
@@ -1438,7 +1462,8 @@ paths:
           - status: 403
     post:
       operationId: createIndicatorFeed
-      description: "Creates a new custom threat indicator feed for sharing threat
+      description:
+        "Creates a new custom threat indicator feed for sharing threat
         intelligence data.  @example ```ts const indicatorFeed = await
         client.intel.indicatorFeeds.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -1577,7 +1602,8 @@ paths:
   /accounts/{account_id}/intel/indicator-feeds/permissions/add:
     put:
       operationId: createIndicatorFeedPermission
-      description: "Grants access permissions for a custom threat indicator feed to
+      description:
+        "Grants access permissions for a custom threat indicator feed to
         other accounts.  @example ```ts const permission = await
         client.intel.indicatorFeeds.permissions.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -1597,7 +1623,8 @@ paths:
               properties:
                 account_tag:
                   type: string
-                  description: "Body param: The Cloudflare account tag of the account to change
+                  description:
+                    "Body param: The Cloudflare account tag of the account to change
                     permissions on"
                 feed_id:
                   type: number
@@ -1644,7 +1671,8 @@ paths:
               properties:
                 account_tag:
                   type: string
-                  description: "Body param: The Cloudflare account tag of the account to change
+                  description:
+                    "Body param: The Cloudflare account tag of the account to change
                     permissions on"
                 feed_id:
                   type: number
@@ -1702,7 +1730,8 @@ paths:
               properties:
                 source:
                   type: string
-                  description: "Body param: The file to upload. Either a plain STIX2/CRDF body or
+                  description:
+                    "Body param: The file to upload. Either a plain STIX2/CRDF body or
                     a gzipped one (recognised by `0x1f 0x8b` magic bytes or a
                     `.gz` filename suffix)."
       responses:
@@ -1733,7 +1762,8 @@ paths:
   /accounts/{account_id}/intel/ip:
     get:
       operationId: getIp
-      description: "Gets the geolocation, ASN, infrastructure type of the ASN, and any
+      description:
+        "Gets the geolocation, ASN, infrastructure type of the ASN, and any
         security threat categories of an IP address.  Must provide ip query
         parameters.  For example, `/intel/ip?ipv4=1.1.1.1` or
         `/intel/ip?ipv6=2001:db8::1`.  @example ```ts const ips = await
@@ -1786,7 +1816,8 @@ paths:
                           description: Infrastructure type of this ASN.
                         value:
                           type: string
-                      description: Specifies a reference to the autonomous systems (AS) that the IP
+                      description:
+                        Specifies a reference to the autonomous systems (AS) that the IP
                         address belongs to.
                     ip:
                       type: string
@@ -1862,7 +1893,8 @@ paths:
                   description: "Body param: Security category IDs to remove."
                 url:
                   type: string
-                  description: "Body param: Provide only if indicator_type is `domain` or `url`.
+                  description:
+                    "Body param: Provide only if indicator_type is `domain` or `url`.
                     Example if indicator_type is `domain`: `example.com`.
                     Example if indicator_type is `url`:
                     `https://example.com/news/`."
@@ -1924,7 +1956,8 @@ paths:
   /accounts/{account_id}/intel/sinkholes:
     get:
       operationId: listSinkholes
-      description: "Lists sinkholes owned by the account for redirecting malicious
+      description:
+        "Lists sinkholes owned by the account for redirecting malicious
         traffic.  @example ```ts // Automatically fetches more pages as needed.
         for await (const sinkhole of client.intel.sinkholes.list({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', })) { // ... } ```"

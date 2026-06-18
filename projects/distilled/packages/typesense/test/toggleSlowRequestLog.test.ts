@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("toggleSlowRequestLog", () => {
   it(
     "enables slow-request logging by setting the threshold",
+    { timeout: 30_000 },
     async () => {
       // Set a very high threshold so we don't actually flood the log;
       // -1 disables logging again, which we restore at the end.
@@ -26,11 +27,11 @@ describe("toggleSlowRequestLog", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       const apiBaseUrl = process.env.TYPESENSE_API_URL;
       if (!apiBaseUrl) {
@@ -55,6 +56,5 @@ describe("toggleSlowRequestLog", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

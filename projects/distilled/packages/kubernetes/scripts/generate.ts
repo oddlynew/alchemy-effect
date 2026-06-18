@@ -91,8 +91,7 @@ const GROUP_PREFIXES = Object.keys(API_GROUP_MAP).sort(
 );
 
 // Verbs that prefix operation names
-const VERBS =
-  /^(connect|create|delete|get|list|log|patch|read|replace|watch)/;
+const VERBS = /^(connect|create|delete|get|list|log|patch|read|replace|watch)/;
 
 function getApiGroup(functionName: string): string {
   // Strip the verb prefix to get the API group + version + resource
@@ -178,10 +177,7 @@ function extractBody(code: string): string {
 
   for (const line of lines) {
     if (!pastImports) {
-      if (
-        line.startsWith("import ") ||
-        line.trim() === ""
-      ) {
+      if (line.startsWith("import ") || line.trim() === "") {
         continue;
       }
       pastImports = true;
@@ -196,18 +192,17 @@ function extractBody(code: string): string {
  * Collect unique non-Schema/API/T imports (errors, sensitive) from all
  * operation files in a group.
  */
-function collectExtraImports(
-  ops: { code: string }[],
-): { errors: Set<string>; sensitive: Set<string> } {
+function collectExtraImports(ops: { code: string }[]): {
+  errors: Set<string>;
+  sensitive: Set<string>;
+} {
   const errors = new Set<string>();
   const sensitive = new Set<string>();
 
   for (const op of ops) {
     for (const line of op.code.split("\n")) {
       // Match error imports: import { BadRequest, NotFound } from "../errors";
-      const errorMatch = line.match(
-        /^import \{ (.+) \} from ["']\.\.\/errors/,
-      );
+      const errorMatch = line.match(/^import \{ (.+) \} from ["']\.\.\/errors/);
       if (errorMatch) {
         for (const name of errorMatch[1].split(",").map((s) => s.trim())) {
           errors.add(name);
@@ -219,9 +214,7 @@ function collectExtraImports(
         /^import \{ (.+) \} from ["']\.\.\/sensitive/,
       );
       if (sensitiveMatch) {
-        for (const name of sensitiveMatch[1]
-          .split(",")
-          .map((s) => s.trim())) {
+        for (const name of sensitiveMatch[1].split(",").map((s) => s.trim())) {
           sensitive.add(name);
         }
       }
@@ -260,9 +253,7 @@ import * as T from "../traits.ts";`;
 
   const filePath = path.join(servicesDir, `${group}.ts`);
   fs.writeFileSync(filePath, content);
-  console.log(
-    `📦 ${group}.ts (${ops.length} operations)`,
-  );
+  console.log(`📦 ${group}.ts (${ops.length} operations)`);
 }
 
 // Write services index.ts

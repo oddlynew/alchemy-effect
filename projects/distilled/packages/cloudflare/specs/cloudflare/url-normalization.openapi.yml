@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/url_normalization:
     get:
       operationId: getUrlNormalization
-      description: "Fetches the current URL Normalization settings.  @example ```ts
+      description:
+        "Fetches the current URL Normalization settings.  @example ```ts
         const urlNormalization = await client.urlNormalization.get({ zone_id:
         '9f1839b6152d298aca64c4e906b6d074', }); ```"
       parameters:
@@ -49,7 +50,8 @@ paths:
           - status: 403
     put:
       operationId: putUrlNormalization
-      description: "Updates the URL Normalization settings.  @example ```ts const
+      description:
+        "Updates the URL Normalization settings.  @example ```ts const
         urlNormalization = await client.urlNormalization.update({ zone_id:
         '9f1839b6152d298aca64c4e906b6d074', scope: 'incoming', type:
         'cloudflare', }); ```"
@@ -79,7 +81,8 @@ paths:
                   enum:
                     - cloudflare
                     - rfc3986
-                  description: "Body param: The type of URL normalization performed by
+                  description:
+                    "Body param: The type of URL normalization performed by
                     Cloudflare."
               required:
                 - scope
@@ -114,7 +117,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteUrlNormalization
-      description: "Deletes the URL Normalization settings.  @example ```ts await
+      description:
+        "Deletes the URL Normalization settings.  @example ```ts await
         client.urlNormalization.delete({ zone_id:
         '9f1839b6152d298aca64c4e906b6d074', }); ```"
       parameters:

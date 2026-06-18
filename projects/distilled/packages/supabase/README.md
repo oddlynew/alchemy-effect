@@ -45,7 +45,8 @@ import { v1GetProject } from "@distilled.cloud/supabase/Operations";
 v1GetProject({ ref: "missing-project" }).pipe(
   Effect.catchTags({
     NotFound: () => Effect.succeed(null),
-    UnknownSupabaseError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),
+    UnknownSupabaseError: (e) =>
+      Effect.fail(new Error(`Unknown: ${e.message}`)),
   }),
 );
 ```

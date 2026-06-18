@@ -31,7 +31,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}:
     get:
       operationId: getBucket
-      description: "Gets properties of an existing R2 bucket.  @example ```ts const
+      description:
+        "Gets properties of an existing R2 bucket.  @example ```ts const
         bucket = await client.r2.buckets.get( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -49,7 +50,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -74,7 +76,8 @@ paths:
                       - default
                       - eu
                       - fedramp
-                    description: Jurisdiction where objects in this bucket are guaranteed to be
+                    description:
+                      Jurisdiction where objects in this bucket are guaranteed to be
                       stored.
                   location:
                     type: string
@@ -100,7 +103,8 @@ paths:
                     enum:
                       - Standard
                       - InfrequentAccess
-                    description: Storage class for newly uploaded objects, unless specified
+                    description:
+                      Storage class for newly uploaded objects, unless specified
                       otherwise.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -110,7 +114,8 @@ paths:
           - code: 7003
     patch:
       operationId: patchBucket
-      description: "Updates properties of an existing R2 bucket.  @example ```ts const
+      description:
+        "Updates properties of an existing R2 bucket.  @example ```ts const
         bucket = await client.r2.buckets.edit( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', storage_class: 'Standard', }, );
         ```"
@@ -129,7 +134,8 @@ paths:
         - name: cf-r2-storage-class
           in: header
           required: true
-          description: "Header param: Storage class for newly uploaded objects, unless
+          description:
+            "Header param: Storage class for newly uploaded objects, unless
             specified otherwise."
           schema:
             type: string
@@ -139,7 +145,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -164,7 +171,8 @@ paths:
                       - default
                       - eu
                       - fedramp
-                    description: Jurisdiction where objects in this bucket are guaranteed to be
+                    description:
+                      Jurisdiction where objects in this bucket are guaranteed to be
                       stored.
                   location:
                     type: string
@@ -190,7 +198,8 @@ paths:
                     enum:
                       - Standard
                       - InfrequentAccess
-                    description: Storage class for newly uploaded objects, unless specified
+                    description:
+                      Storage class for newly uploaded objects, unless specified
                       otherwise.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -200,7 +209,8 @@ paths:
           - code: 7003
     delete:
       operationId: deleteBucket
-      description: "Deletes an existing R2 bucket.  @example ```ts const bucket =
+      description:
+        "Deletes an existing R2 bucket.  @example ```ts const bucket =
         await client.r2.buckets.delete( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -218,7 +228,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -256,7 +267,8 @@ paths:
         - name: cursor
           in: query
           required: false
-          description: "Query param: Pagination cursor received during the last List
+          description:
+            "Query param: Pagination cursor received during the last List
             Buckets call. R2 buckets are paginated using cursors instead of page
             numbers."
           schema:
@@ -273,7 +285,8 @@ paths:
         - name: name_contains
           in: query
           required: false
-          description: "Query param: Bucket names to filter by. Only buckets with this
+          description:
+            "Query param: Bucket names to filter by. Only buckets with this
             phrase in their name will be returned."
           schema:
             type: string
@@ -294,14 +307,16 @@ paths:
         - name: start_after
           in: query
           required: false
-          description: "Query param: Bucket name to start searching after. Buckets are
+          description:
+            "Query param: Bucket name to start searching after. Buckets are
             ordered lexicographically."
           schema:
             type: string
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -331,7 +346,8 @@ paths:
                             - default
                             - eu
                             - fedramp
-                          description: Jurisdiction where objects in this bucket are guaranteed to be
+                          description:
+                            Jurisdiction where objects in this bucket are guaranteed to be
                             stored.
                         location:
                           type: string
@@ -357,7 +373,8 @@ paths:
                           enum:
                             - Standard
                             - InfrequentAccess
-                          description: Storage class for newly uploaded objects, unless specified
+                          description:
+                            Storage class for newly uploaded objects, unless specified
                             otherwise.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -365,7 +382,8 @@ paths:
           - code: 7003
     post:
       operationId: createBucket
-      description: "Creates a new R2 bucket.  @example ```ts const bucket = await
+      description:
+        "Creates a new R2 bucket.  @example ```ts const bucket = await
         client.r2.buckets.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', name: 'example-bucket', }); ```"
       parameters:
@@ -378,7 +396,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -411,7 +430,8 @@ paths:
                   enum:
                     - Standard
                     - InfrequentAccess
-                  description: "Body param: Storage class for newly uploaded objects, unless
+                  description:
+                    "Body param: Storage class for newly uploaded objects, unless
                     specified otherwise."
               required:
                 - name
@@ -432,7 +452,8 @@ paths:
                       - default
                       - eu
                       - fedramp
-                    description: Jurisdiction where objects in this bucket are guaranteed to be
+                    description:
+                      Jurisdiction where objects in this bucket are guaranteed to be
                       stored.
                   location:
                     type: string
@@ -458,7 +479,8 @@ paths:
                     enum:
                       - Standard
                       - InfrequentAccess
-                    description: Storage class for newly uploaded objects, unless specified
+                    description:
+                      Storage class for newly uploaded objects, unless specified
                       otherwise.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -471,7 +493,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}/cors:
     get:
       operationId: getBucketCors
-      description: "Get the CORS policy for a bucket.  @example ```ts const cors =
+      description:
+        "Get the CORS policy for a bucket.  @example ```ts const cors =
         await client.r2.buckets.cors.get( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -489,7 +512,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -523,21 +547,24 @@ paths:
                                   - POST
                                   - DELETE
                                   - HEAD
-                              description: Specifies the value for the Access-Control-Allow-Methods header R2
+                              description:
+                                Specifies the value for the Access-Control-Allow-Methods header R2
                                 sets when requesting objects in a bucket from a
                                 browser.
                             origins:
                               type: array
                               items:
                                 type: string
-                              description: Specifies the value for the Access-Control-Allow-Origin header R2
+                              description:
+                                Specifies the value for the Access-Control-Allow-Origin header R2
                                 sets when requesting objects in a bucket from a
                                 browser.
                             headers:
                               type: array
                               items:
                                 type: string
-                              description: Specifies the value for the Access-Control-Allow-Headers header R2
+                              description:
+                                Specifies the value for the Access-Control-Allow-Headers header R2
                                 sets when requesting objects in this bucket from
                                 a browser. Cross-origin requests that include
                                 custom headers (e.g. x-user-id) should specify
@@ -545,7 +572,8 @@ paths:
                           required:
                             - methods
                             - origins
-                          description: Object specifying allowed origins, methods and headers for this
+                          description:
+                            Object specifying allowed origins, methods and headers for this
                             CORS rule.
                         id:
                           type: string
@@ -554,14 +582,16 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: Specifies the headers that can be exposed back, and accessed by,
+                          description:
+                            Specifies the headers that can be exposed back, and accessed by,
                             the JavaScript making the cross-origin request. If
                             you need to access headers beyond the safelisted
                             response headers, such as Content-Encoding or
                             cf-cache-status, you must specify it here.
                         maxAgeSeconds:
                           type: number
-                          description: Specifies the amount of time (in seconds) browsers are allowed to
+                          description:
+                            Specifies the amount of time (in seconds) browsers are allowed to
                             cache CORS preflight responses. Browsers may limit
                             this to 2 hours or less, even if the maximum value
                             (86400) is specified.
@@ -577,7 +607,8 @@ paths:
           - code: 10059
     put:
       operationId: putBucketCors
-      description: "Set the CORS policy for a bucket.  @example ```ts const cors =
+      description:
+        "Set the CORS policy for a bucket.  @example ```ts const cors =
         await client.r2.buckets.cors.update( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -595,7 +626,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -628,21 +660,24 @@ paths:
                                 - POST
                                 - DELETE
                                 - HEAD
-                            description: Specifies the value for the Access-Control-Allow-Methods header R2
+                            description:
+                              Specifies the value for the Access-Control-Allow-Methods header R2
                               sets when requesting objects in a bucket from a
                               browser.
                           origins:
                             type: array
                             items:
                               type: string
-                            description: Specifies the value for the Access-Control-Allow-Origin header R2
+                            description:
+                              Specifies the value for the Access-Control-Allow-Origin header R2
                               sets when requesting objects in a bucket from a
                               browser.
                           headers:
                             type: array
                             items:
                               type: string
-                            description: Specifies the value for the Access-Control-Allow-Headers header R2
+                            description:
+                              Specifies the value for the Access-Control-Allow-Headers header R2
                               sets when requesting objects in this bucket from a
                               browser. Cross-origin requests that include custom
                               headers (e.g. x-user-id) should specify these
@@ -650,7 +685,8 @@ paths:
                         required:
                           - methods
                           - origins
-                        description: Object specifying allowed origins, methods and headers for this
+                        description:
+                          Object specifying allowed origins, methods and headers for this
                           CORS rule.
                       id:
                         type: string
@@ -659,14 +695,16 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Specifies the headers that can be exposed back, and accessed by,
+                        description:
+                          Specifies the headers that can be exposed back, and accessed by,
                           the JavaScript making the cross-origin request. If you
                           need to access headers beyond the safelisted response
                           headers, such as Content-Encoding or cf-cache-status,
                           you must specify it here.
                       maxAgeSeconds:
                         type: number
-                        description: Specifies the amount of time (in seconds) browsers are allowed to
+                        description:
+                          Specifies the amount of time (in seconds) browsers are allowed to
                           cache CORS preflight responses. Browsers may limit
                           this to 2 hours or less, even if the maximum value
                           (86400) is specified.
@@ -687,7 +725,8 @@ paths:
           - code: 7003
     delete:
       operationId: deleteBucketCors
-      description: "Delete the CORS policy for a bucket.  @example ```ts const cors =
+      description:
+        "Delete the CORS policy for a bucket.  @example ```ts const cors =
         await client.r2.buckets.cors.delete( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -705,7 +744,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -753,7 +793,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -774,7 +815,8 @@ paths:
                     description: Domain name of the custom domain to be added.
                   enabled:
                     type: boolean
-                    description: Whether this bucket is publicly accessible at the specified custom
+                    description:
+                      Whether this bucket is publicly accessible at the specified custom
                       domain.
                   status:
                     type: object
@@ -806,7 +848,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: An allowlist of ciphers for TLS termination. These ciphers must be
+                    description:
+                      An allowlist of ciphers for TLS termination. These ciphers must be
                       in the BoringSSL format.
                   minTLS:
                     type: number
@@ -815,7 +858,8 @@ paths:
                       - 1.1
                       - 1.2
                       - 1.3
-                    description: Minimum TLS Version the custom domain will accept for incoming
+                    description:
+                      Minimum TLS Version the custom domain will accept for incoming
                       connections. If not set, defaults to 1.0.
                   zoneId:
                     type: string
@@ -862,7 +906,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -881,11 +926,13 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: An allowlist of ciphers for TLS termination. These
+                  description:
+                    "Body param: An allowlist of ciphers for TLS termination. These
                     ciphers must be in the BoringSSL format."
                 enabled:
                   type: boolean
-                  description: "Body param: Whether to enable public bucket access at the
+                  description:
+                    "Body param: Whether to enable public bucket access at the
                     specified custom domain."
                 minTLS:
                   type: number
@@ -894,7 +941,8 @@ paths:
                     - 1.1
                     - 1.2
                     - 1.3
-                  description: "Body param: Minimum TLS Version the custom domain will accept for
+                  description:
+                    "Body param: Minimum TLS Version the custom domain will accept for
                     incoming connections. If not set, defaults to previous
                     value."
       responses:
@@ -912,11 +960,13 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: An allowlist of ciphers for TLS termination. These ciphers must be
+                    description:
+                      An allowlist of ciphers for TLS termination. These ciphers must be
                       in the BoringSSL format.
                   enabled:
                     type: boolean
-                    description: Whether this bucket is publicly accessible at the specified custom
+                    description:
+                      Whether this bucket is publicly accessible at the specified custom
                       domain.
                   minTLS:
                     type: number
@@ -925,7 +975,8 @@ paths:
                       - 1.1
                       - 1.2
                       - 1.3
-                    description: Minimum TLS Version the custom domain will accept for incoming
+                    description:
+                      Minimum TLS Version the custom domain will accept for incoming
                       connections. If not set, defaults to 1.0.
                 required:
                   - domain
@@ -960,7 +1011,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -990,7 +1042,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}/domains/custom:
     get:
       operationId: listBucketDomainCustoms
-      description: "Gets a list of all custom domains registered with an existing R2
+      description:
+        "Gets a list of all custom domains registered with an existing R2
         bucket.  @example ```ts const customs = await
         client.r2.buckets.domains.custom.list( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1009,7 +1062,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1035,7 +1089,8 @@ paths:
                           description: Domain name of the custom domain to be added.
                         enabled:
                           type: boolean
-                          description: Whether this bucket is publicly accessible at the specified custom
+                          description:
+                            Whether this bucket is publicly accessible at the specified custom
                             domain.
                         status:
                           type: object
@@ -1067,7 +1122,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: An allowlist of ciphers for TLS termination. These ciphers must be
+                          description:
+                            An allowlist of ciphers for TLS termination. These ciphers must be
                             in the BoringSSL format.
                         minTLS:
                           type: number
@@ -1076,7 +1132,8 @@ paths:
                             - 1.1
                             - 1.2
                             - 1.3
-                          description: Minimum TLS Version the custom domain will accept for incoming
+                          description:
+                            Minimum TLS Version the custom domain will accept for incoming
                             connections. If not set, defaults to 1.0.
                         zoneId:
                           type: string
@@ -1098,7 +1155,8 @@ paths:
           - code: 7003
     post:
       operationId: createBucketDomainCustom
-      description: "Register a new custom domain for an existing R2 bucket.  @example
+      description:
+        "Register a new custom domain for an existing R2 bucket.  @example
         ```ts const custom = await client.r2.buckets.domains.custom.create(
         'example-bucket', { account_id: '023e105f4ecef8ad9ca31a8372d0c353',
         domain: 'prefix.example-domain.com', enabled: true, zoneId:
@@ -1118,7 +1176,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1138,7 +1197,8 @@ paths:
                   description: "Body param: Name of the custom domain to be added."
                 enabled:
                   type: boolean
-                  description: "Body param: Whether to enable public bucket access at the custom
+                  description:
+                    "Body param: Whether to enable public bucket access at the custom
                     domain. If undefined, the domain will be enabled."
                 zoneId:
                   type: string
@@ -1147,7 +1207,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: An allowlist of ciphers for TLS termination. These
+                  description:
+                    "Body param: An allowlist of ciphers for TLS termination. These
                     ciphers must be in the BoringSSL format."
                 minTLS:
                   type: number
@@ -1156,7 +1217,8 @@ paths:
                     - 1.1
                     - 1.2
                     - 1.3
-                  description: "Body param: Minimum TLS Version the custom domain will accept for
+                  description:
+                    "Body param: Minimum TLS Version the custom domain will accept for
                     incoming connections. If not set, defaults to 1.0."
               required:
                 - domain
@@ -1175,7 +1237,8 @@ paths:
                     description: Domain name of the affected custom domain.
                   enabled:
                     type: boolean
-                    description: Whether this bucket is publicly accessible at the specified custom
+                    description:
+                      Whether this bucket is publicly accessible at the specified custom
                       domain.
                   zoneId:
                     type: string
@@ -1184,7 +1247,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: An allowlist of ciphers for TLS termination. These ciphers must be
+                    description:
+                      An allowlist of ciphers for TLS termination. These ciphers must be
                       in the BoringSSL format.
                   minTLS:
                     type: number
@@ -1193,7 +1257,8 @@ paths:
                       - 1.1
                       - 1.2
                       - 1.3
-                    description: Minimum TLS Version the custom domain will accept for incoming
+                    description:
+                      Minimum TLS Version the custom domain will accept for incoming
                       connections. If not set, defaults to 1.0.
                 required:
                   - domain
@@ -1212,7 +1277,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}/domains/managed:
     get:
       operationId: listBucketDomainManageds
-      description: "Gets state of public access over the bucket's R2-managed (r2.dev)
+      description:
+        "Gets state of public access over the bucket's R2-managed (r2.dev)
         domain.  @example ```ts const manageds = await
         client.r2.buckets.domains.managed.list( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1231,7 +1297,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1288,7 +1355,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1305,7 +1373,8 @@ paths:
               properties:
                 enabled:
                   type: boolean
-                  description: "Body param: Whether to enable public bucket access at the r2.dev
+                  description:
+                    "Body param: Whether to enable public bucket access at the r2.dev
                     domain."
               required:
                 - enabled
@@ -1405,7 +1474,8 @@ paths:
                           description: Timestamp when the rule was created.
                         description:
                           type: string
-                          description: A description that can be used to identify the event notification
+                          description:
+                            A description that can be used to identify the event notification
                             rule after creation.
                         prefix:
                           type: string
@@ -1459,7 +1529,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1492,7 +1563,8 @@ paths:
                         description: Array of R2 object actions that will trigger notifications.
                       description:
                         type: string
-                        description: A description that can be used to identify the event notification
+                        description:
+                          A description that can be used to identify the event notification
                           rule after creation.
                       prefix:
                         type: string
@@ -1526,7 +1598,8 @@ paths:
           - code: 7003
     delete:
       operationId: deleteBucketEventNotification
-      description: "Delete an event notification rule.  If no body is provided, all
+      description:
+        "Delete an event notification rule.  If no body is provided, all
         rules for specified queue will be deleted  .  @example ```ts const
         eventNotification = await client.r2.buckets.eventNotifications.delete(
         'example-bucket', 'queue_id', { account_id:
@@ -1551,7 +1624,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1578,7 +1652,8 @@ paths:
   /accounts/{account_id}/event_notifications/r2/{bucketName}/configuration:
     get:
       operationId: listBucketEventNotifications
-      description: "List all event notification rules for a bucket.  @example ```ts
+      description:
+        "List all event notification rules for a bucket.  @example ```ts
         const eventNotifications = await
         client.r2.buckets.eventNotifications.list( 'example-bucket', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1597,7 +1672,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1648,7 +1724,8 @@ paths:
                                 description: Timestamp when the rule was created.
                               description:
                                 type: string
-                                description: A description that can be used to identify the event notification
+                                description:
+                                  A description that can be used to identify the event notification
                                   rule after creation.
                               prefix:
                                 type: string
@@ -1675,7 +1752,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}/lifecycle:
     get:
       operationId: getBucketLifecycle
-      description: "Get object lifecycle rules for a bucket.  @example ```ts const
+      description:
+        "Get object lifecycle rules for a bucket.  @example ```ts const
         lifecycle = await client.r2.buckets.lifecycle.get( 'example-bucket', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -1693,7 +1771,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1722,7 +1801,8 @@ paths:
                           properties:
                             prefix:
                               type: string
-                              description: Transitions will only apply to objects/uploads in the bucket that
+                              description:
+                                Transitions will only apply to objects/uploads in the bucket that
                                 start with the given prefix, an empty prefix can
                                 be provided to scope rule to all
                                 objects/uploads.
@@ -1745,7 +1825,8 @@ paths:
                               required:
                                 - maxAge
                                 - type
-                              description: Condition for lifecycle transitions to apply after an object
+                              description:
+                                Condition for lifecycle transitions to apply after an object
                                 reaches an age in seconds.
                           description: Transition to abort ongoing multipart uploads.
                         deleteObjectsTransition:
@@ -1775,7 +1856,8 @@ paths:
                                   required:
                                     - date
                                     - type
-                              description: Condition for lifecycle transitions to apply after an object
+                              description:
+                                Condition for lifecycle transitions to apply after an object
                                 reaches an age in seconds.
                           description: Transition to delete objects.
                         storageClassTransitions:
@@ -1807,7 +1889,8 @@ paths:
                                     required:
                                       - date
                                       - type
-                                description: Condition for lifecycle transitions to apply after an object
+                                description:
+                                  Condition for lifecycle transitions to apply after an object
                                   reaches an age in seconds.
                               storageClass:
                                 type: string
@@ -1829,7 +1912,8 @@ paths:
           - code: 7003
     put:
       operationId: putBucketLifecycle
-      description: "Set the object lifecycle rules for a bucket.  @example ```ts const
+      description:
+        "Set the object lifecycle rules for a bucket.  @example ```ts const
         lifecycle = await client.r2.buckets.lifecycle.update( 'example-bucket',
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -1847,7 +1931,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -1875,7 +1960,8 @@ paths:
                         properties:
                           prefix:
                             type: string
-                            description: Transitions will only apply to objects/uploads in the bucket that
+                            description:
+                              Transitions will only apply to objects/uploads in the bucket that
                               start with the given prefix, an empty prefix can
                               be provided to scope rule to all objects/uploads.
                         required:
@@ -1899,7 +1985,8 @@ paths:
                             required:
                               - maxAge
                               - type
-                            description: Condition for lifecycle transitions to apply after an object
+                            description:
+                              Condition for lifecycle transitions to apply after an object
                               reaches an age in seconds.
                         description: Transition to abort ongoing multipart uploads.
                       deleteObjectsTransition:
@@ -1929,7 +2016,8 @@ paths:
                                 required:
                                   - date
                                   - type
-                            description: Condition for lifecycle transitions to apply after an object
+                            description:
+                              Condition for lifecycle transitions to apply after an object
                               reaches an age in seconds.
                         description: Transition to delete objects.
                       storageClassTransitions:
@@ -1961,7 +2049,8 @@ paths:
                                   required:
                                     - date
                                     - type
-                              description: Condition for lifecycle transitions to apply after an object
+                              description:
+                                Condition for lifecycle transitions to apply after an object
                                 reaches an age in seconds.
                             storageClass:
                               type: string
@@ -1991,7 +2080,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}/lock:
     get:
       operationId: getBucketLock
-      description: "Get lock rules for a bucket.  @example ```ts const lock = await
+      description:
+        "Get lock rules for a bucket.  @example ```ts const lock = await
         client.r2.buckets.locks.get( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -2009,7 +2099,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -2065,14 +2156,16 @@ paths:
                                     - Indefinite
                               required:
                                 - type
-                          description: Condition to apply a lock rule to an object for how long in
+                          description:
+                            Condition to apply a lock rule to an object for how long in
                             seconds.
                         enabled:
                           type: boolean
                           description: Whether or not this rule is in effect.
                         prefix:
                           type: string
-                          description: Rule will only apply to objects/uploads in the bucket that start
+                          description:
+                            Rule will only apply to objects/uploads in the bucket that start
                             with the given prefix, an empty prefix can be
                             provided to scope rule to all objects/uploads.
                       required:
@@ -2087,7 +2180,8 @@ paths:
           - code: 7003
     put:
       operationId: putBucketLock
-      description: "Set lock rules for a bucket.  @example ```ts const lock = await
+      description:
+        "Set lock rules for a bucket.  @example ```ts const lock = await
         client.r2.buckets.locks.update( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -2105,7 +2199,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -2160,14 +2255,16 @@ paths:
                                   - Indefinite
                             required:
                               - type
-                        description: Condition to apply a lock rule to an object for how long in
+                        description:
+                          Condition to apply a lock rule to an object for how long in
                           seconds.
                       enabled:
                         type: boolean
                         description: Whether or not this rule is in effect.
                       prefix:
                         type: string
-                        description: Rule will only apply to objects/uploads in the bucket that start
+                        description:
+                          Rule will only apply to objects/uploads in the bucket that start
                           with the given prefix, an empty prefix can be provided
                           to scope rule to all objects/uploads.
                     required:
@@ -2277,7 +2374,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}/objects/{objectKey}:
     get:
       operationId: getBucketObject
-      description: "Retrieves an object from an R2 bucket. Returns the object body
+      description:
+        "Retrieves an object from an R2 bucket. Returns the object body
         along with metadata headers.  For most workloads, we recommend using
         R2's [S3-compatible
         API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with
@@ -2308,7 +2406,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -2319,7 +2418,8 @@ paths:
         - name: If-Modified-Since
           in: header
           required: false
-          description: "Header param: Returns the object only if it has been modified
+          description:
+            "Header param: Returns the object only if it has been modified
             since the specified time. Must be formatted as an HTTP-date (RFC
             7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`."
           schema:
@@ -2327,7 +2427,8 @@ paths:
         - name: If-None-Match
           in: header
           required: false
-          description: "Header param: Returns the object only if its ETag does not match
+          description:
+            "Header param: Returns the object only if its ETag does not match
             the given value."
           schema:
             type: string
@@ -2365,7 +2466,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -2387,7 +2489,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: uploadBucketObject
-      description: "Uploads an object to an R2 bucket. The object body is provided as
+      description:
+        "Uploads an object to an R2 bucket. The object body is provided as
         the request body. Returns metadata about the uploaded object.  The
         maximum upload size for this endpoint is 300 MB. For most workloads, we
         recommend using R2's [S3-compatible
@@ -2418,7 +2521,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -2429,7 +2533,8 @@ paths:
         - name: cf-r2-storage-class
           in: header
           required: false
-          description: "Header param: Storage class for newly uploaded objects, unless
+          description:
+            "Header param: Storage class for newly uploaded objects, unless
             specified otherwise."
           schema:
             type: string
@@ -2458,7 +2563,8 @@ paths:
                     enum:
                       - Standard
                       - InfrequentAccess
-                    description: Storage class for newly uploaded objects, unless specified
+                    description:
+                      Storage class for newly uploaded objects, unless specified
                       otherwise.
                   uploaded:
                     type: string
@@ -2526,7 +2632,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: Jurisdiction where objects in this bucket are guaranteed to be
+          description:
+            Jurisdiction where objects in this bucket are guaranteed to be
             stored.
           schema:
             type: string
@@ -2623,7 +2730,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: Jurisdiction where objects in this bucket are guaranteed to be
+          description:
+            Jurisdiction where objects in this bucket are guaranteed to be
             stored.
           schema:
             type: string
@@ -2693,7 +2801,8 @@ paths:
   /accounts/{account_id}/r2/buckets/{bucketName}/sippy:
     get:
       operationId: getBucketSippy
-      description: "Gets configuration for Sippy for an existing R2 bucket.  @example
+      description:
+        "Gets configuration for Sippy for an existing R2 bucket.  @example
         ```ts const sippy = await client.r2.buckets.sippy.get( 'example-bucket',
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -2711,7 +2820,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -2732,7 +2842,8 @@ paths:
                     properties:
                       accessKeyId:
                         type: string
-                        description: ID of the Cloudflare API token used when writing objects to this
+                        description:
+                          ID of the Cloudflare API token used when writing objects to this
                           bucket.
                       account:
                         type: string
@@ -2782,7 +2893,8 @@ paths:
           - status: 403
     put:
       operationId: putBucketSippy
-      description: "Sets configuration for Sippy for an existing R2 bucket.  @example
+      description:
+        "Sets configuration for Sippy for an existing R2 bucket.  @example
         ```ts const sippy = await client.r2.buckets.sippy.update(
         'example-bucket', { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, );
         ```"
@@ -2801,7 +2913,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -2821,7 +2934,8 @@ paths:
                   properties:
                     accessKeyId:
                       type: string
-                      description: ID of a Cloudflare API token. This is the value labelled "Access
+                      description:
+                        ID of a Cloudflare API token. This is the value labelled "Access
                         Key ID" when creating an API. token from the [R2
                         dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).  Sippy
                         will use this token when writing objects to R2, so it is
@@ -2833,7 +2947,8 @@ paths:
                         - r2
                     secretAccessKey:
                       type: string
-                      description: Value of a Cloudflare API token. This is the value labelled "Secret
+                      description:
+                        Value of a Cloudflare API token. This is the value labelled "Secret
                         Access Key" when creating an API. token from the [R2
                         dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens).  Sippy
                         will use this token when writing objects to R2, so it is
@@ -2845,7 +2960,8 @@ paths:
                   properties:
                     accessKeyId:
                       type: string
-                      description: Access Key ID of an IAM credential (ideally scoped to a single S3
+                      description:
+                        Access Key ID of an IAM credential (ideally scoped to a single S3
                         bucket).
                     bucket:
                       type: string
@@ -2861,15 +2977,18 @@ paths:
                       description: Name of the AWS availability zone.
                     secretAccessKey:
                       type: string
-                      description: Secret Access Key of an IAM credential (ideally scoped to a single
+                      description:
+                        Secret Access Key of an IAM credential (ideally scoped to a single
                         S3 bucket).
                     clientEmail:
                       type: string
-                      description: Client email of an IAM credential (ideally scoped to a single GCS
+                      description:
+                        Client email of an IAM credential (ideally scoped to a single GCS
                         bucket).
                     privateKey:
                       type: string
-                      description: Private Key of an IAM credential (ideally scoped to a single GCS
+                      description:
+                        Private Key of an IAM credential (ideally scoped to a single GCS
                         bucket).
                     bucketUrl:
                       type: string
@@ -2888,7 +3007,8 @@ paths:
                     properties:
                       accessKeyId:
                         type: string
-                        description: ID of the Cloudflare API token used when writing objects to this
+                        description:
+                          ID of the Cloudflare API token used when writing objects to this
                           bucket.
                       account:
                         type: string
@@ -2936,7 +3056,8 @@ paths:
           - code: 7003
     delete:
       operationId: deleteBucketSippy
-      description: "Disables Sippy on this bucket.  @example ```ts const sippy = await
+      description:
+        "Disables Sippy on this bucket.  @example ```ts const sippy = await
         client.r2.buckets.sippy.delete( 'example-bucket', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -2954,7 +3075,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: "Header param: Jurisdiction where objects in this bucket are
+          description:
+            "Header param: Jurisdiction where objects in this bucket are
             guaranteed to be stored."
           schema:
             type: string
@@ -3011,7 +3133,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: Jurisdiction where objects in this bucket are guaranteed to be
+          description:
+            Jurisdiction where objects in this bucket are guaranteed to be
             stored.
           schema:
             type: string
@@ -3109,7 +3232,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: Jurisdiction where objects in this bucket are guaranteed to be
+          description:
+            Jurisdiction where objects in this bucket are guaranteed to be
             stored.
           schema:
             type: string
@@ -3212,7 +3336,8 @@ paths:
         - name: cf-r2-jurisdiction
           in: header
           required: false
-          description: Jurisdiction where objects in this bucket are guaranteed to be
+          description:
+            Jurisdiction where objects in this bucket are guaranteed to be
             stored.
           schema:
             type: string
@@ -3234,7 +3359,8 @@ paths:
   /accounts/{account_id}/slurper/source/connectivity-precheck:
     put:
       operationId: sourceSuperSlurperConnectivityPrecheck
-      description: "Check whether tokens are valid against the source bucket  @example
+      description:
+        "Check whether tokens are valid against the source bucket  @example
         ```ts const response = await
         client.r2.superSlurper.connectivityPrecheck.source({ account_id:
         'account_id', bucket: 'bucket', secret: { accessKeyId: 'accessKeyId',
@@ -3325,7 +3451,8 @@ paths:
   /accounts/{account_id}/slurper/target/connectivity-precheck:
     put:
       operationId: targetSuperSlurperConnectivityPrecheck
-      description: "Check whether tokens are valid against the target bucket  @example
+      description:
+        "Check whether tokens are valid against the target bucket  @example
         ```ts const response = await
         client.r2.superSlurper.connectivityPrecheck.target({ account_id:
         'account_id', bucket: 'bucket', secret: { accessKeyId: 'accessKeyId',
@@ -3391,7 +3518,8 @@ paths:
   /accounts/{account_id}/slurper/jobs/{jobId}:
     get:
       operationId: getSuperSlurperJob
-      description: "Retrieves detailed status and configuration for a specific R2
+      description:
+        "Retrieves detailed status and configuration for a specific R2
         Super Slurper migration job.  @example ```ts const job = await
         client.r2.superSlurper.jobs.get( 'job_id', { account_id: 'account_id' },
         ); ```"
@@ -3516,7 +3644,8 @@ paths:
   /accounts/{account_id}/slurper/jobs:
     get:
       operationId: listSuperSlurperJobs
-      description: "Lists all R2 Super Slurper migration jobs for the account with
+      description:
+        "Lists all R2 Super Slurper migration jobs for the account with
         their status.  @example ```ts // Automatically fetches more pages as
         needed. for await (const jobListResponse of
         client.r2.superSlurper.jobs.list( { account_id: 'account_id' }, )) { //
@@ -3649,7 +3778,8 @@ paths:
       x-distilled-pagination-class: JobListResponsesSinglePage
     post:
       operationId: createSuperSlurperJob
-      description: "Creates a new R2 Super Slurper migration job to transfer objects
+      description:
+        "Creates a new R2 Super Slurper migration job to transfer objects
         from a source bucket (e.g. S3, GCS, R2) to R2.  @example ```ts const job
         = await client.r2.superSlurper.jobs.create({ account_id: 'account_id',
         }); ```"
@@ -3828,7 +3958,8 @@ paths:
   /accounts/{account_id}/slurper/jobs/{jobId}/abort:
     put:
       operationId: abortSuperSlurperJob
-      description: "Cancels a specific R2 Super Slurper migration job. Any objects in
+      description:
+        "Cancels a specific R2 Super Slurper migration job. Any objects in
         the middle of a transfer will finish, but no new objects will start
         transferring.  @example ```ts const response = await
         client.r2.superSlurper.jobs.abort( 'job_id', { account_id: 'account_id'
@@ -3855,7 +3986,8 @@ paths:
   /accounts/{account_id}/slurper/jobs/{jobId}/pause:
     put:
       operationId: pauseSuperSlurperJob
-      description: "Pauses a running R2 Super Slurper migration job. The job can be
+      description:
+        "Pauses a running R2 Super Slurper migration job. The job can be
         resumed later to continue transferring.  @example ```ts const response =
         await client.r2.superSlurper.jobs.pause( 'job_id', { account_id:
         'account_id' }, ); ```"
@@ -3927,7 +4059,8 @@ paths:
   /accounts/{account_id}/slurper/jobs/{jobId}/resume:
     put:
       operationId: resumeSuperSlurperJob
-      description: "Resumes a paused R2 Super Slurper migration job, continuing the
+      description:
+        "Resumes a paused R2 Super Slurper migration job, continuing the
         transfer from where it stopped.  @example ```ts const response = await
         client.r2.superSlurper.jobs.resume( 'job_id', { account_id: 'account_id'
         }, ); ```"
@@ -3953,7 +4086,8 @@ paths:
   /accounts/{account_id}/slurper/jobs/{jobId}/logs:
     get:
       operationId: listSuperSlurperJobLogs
-      description: "Gets log entries for an R2 Super Slurper migration job, showing
+      description:
+        "Gets log entries for an R2 Super Slurper migration job, showing
         migration status changes, errors, etc.  @example ```ts // Automatically
         fetches more pages as needed. for await (const logListResponse of
         client.r2.superSlurper.jobs.logs.list( 'job_id', { account_id:

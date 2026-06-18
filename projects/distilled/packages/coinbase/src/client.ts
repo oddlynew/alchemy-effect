@@ -34,7 +34,7 @@ import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as crypto from "node:crypto";
-import { makeAPI } from "@distilled.cloud/core/client";
+import { makeAPI, type ApiErrorClass } from "@distilled.cloud/core/client";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Retry } from "./retry.ts";
 import {
@@ -222,15 +222,15 @@ const CoinbaseErrorResponse = Schema.Struct({
 const matchError = (
   status: number,
   errorBody: unknown,
-  _errors?: readonly unknown[],
+  _errors?: readonly ApiErrorClass[],
   headers?: Record<string, string | undefined>,
-): Effect.Effect<unknown, unknown> => {
+): Effect.Effect<never, unknown> => {
   if (
     errorBody &&
     typeof errorBody === "object" &&
     ("isValid" in errorBody || "success" in errorBody)
   ) {
-    return Effect.succeed(errorBody);
+    return Effect.fail(new UnknownCoinbaseError({ body: errorBody }));
   }
 
   try {
@@ -300,12 +300,12 @@ const matchError = (
  *
  * Uses JWT bearer token authentication signed with your CDP API Key Secret.
  */
-export const API = makeAPI<Credentials>({
-  credentials: Credentials as any,
-  getBaseUrl: (creds: any) => (creds as Config).apiBaseUrl,
+export const API = makeAPI<Config>({
+  credentials: Credentials,
+  getBaseUrl: (creds) => creds.apiBaseUrl,
   getAuthHeaders: () => ({}),
   getRequestHeaders: (_requestOptions, { method, parts, credentials }) => {
-    const c = credentials as Config;
+    const c = credentials;
     const baseUrl = new URL(c.apiBaseUrl);
     const uri = `${baseUrl.host}${baseUrl.pathname}${parts.path}`;
     const jwt = generateJwt(

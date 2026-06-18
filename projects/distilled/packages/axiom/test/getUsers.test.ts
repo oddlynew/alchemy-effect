@@ -6,28 +6,25 @@ import { getUsers } from "../src/operations/v2/getUsers";
 import { runEffect, testRunId } from "./setup";
 
 describe("getUsers", () => {
-  it(
-    "returns an array of users in the org",
-    async () => {
-      const users = await runEffect(getUsers({}));
+  it("returns an array of users in the org", { timeout: 30_000 }, async () => {
+    const users = await runEffect(getUsers({}));
 
-      expect(Array.isArray(users)).toBe(true);
-      expect(users.length).toBeGreaterThan(0);
+    expect(Array.isArray(users)).toBe(true);
+    expect(users.length).toBeGreaterThan(0);
 
-      for (const user of users) {
-        expect(typeof user.id).toBe("string");
-        expect(typeof user.email).toBe("string");
-        expect(typeof user.name).toBe("string");
-        expect(typeof user.role).toBe("object");
-        expect(typeof user.role.id).toBe("string");
-        expect(typeof user.role.name).toBe("string");
-      }
-    },
-    { timeout: 30_000 },
-  );
+    for (const user of users) {
+      expect(typeof user.id).toBe("string");
+      expect(typeof user.email).toBe("string");
+      expect(typeof user.name).toBe("string");
+      expect(typeof user.role).toBe("object");
+      expect(typeof user.role.id).toBe("string");
+      expect(typeof user.role.name).toBe("string");
+    }
+  });
 
   it(
     "returns Unauthorized when the caller's credentials are invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -48,6 +45,5 @@ describe("getUsers", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

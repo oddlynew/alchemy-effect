@@ -8,39 +8,36 @@ import { trimDataset } from "../src/operations/v2/trimDataset";
 import { runEffect, testRunId } from "./setup";
 
 describe("trimDataset", () => {
-  it(
-    "trims an existing dataset by duration",
-    async () => {
-      const datasetName = `distilled-axiom-trimds-${testRunId}`;
+  it("trims an existing dataset by duration", { timeout: 60_000 }, async () => {
+    const datasetName = `distilled-axiom-trimds-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        yield* createDataset({
-          name: datasetName,
-          description: "trimDataset test fixture",
-        });
+    const effect = Effect.gen(function* () {
+      yield* createDataset({
+        name: datasetName,
+        description: "trimDataset test fixture",
+      });
 
-        // Destructive op under test. Output schema is Void — the operation
-        // completing without error is the success signal.
-        const result = yield* trimDataset({
-          dataset_id: datasetName,
-          maxDuration: "1h",
-        });
+      // Destructive op under test. Output schema is Void — the operation
+      // completing without error is the success signal.
+      const result = yield* trimDataset({
+        dataset_id: datasetName,
+        maxDuration: "1h",
+      });
 
-        expect(result).toBeUndefined();
-      }).pipe(
-        Effect.ensuring(
-          // Best-effort cleanup.
-          deleteDataset({ dataset_id: datasetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(result).toBeUndefined();
+    }).pipe(
+      Effect.ensuring(
+        // Best-effort cleanup.
+        deleteDataset({ dataset_id: datasetName }).pipe(Effect.ignore),
+      ),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 60_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "returns NotFound for a dataset name that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         trimDataset({
@@ -51,11 +48,11 @@ describe("trimDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack dataset write access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -79,6 +76,5 @@ describe("trimDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

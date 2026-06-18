@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("takeSnapshot", () => {
   it(
     "creates a point-in-time snapshot at the given path",
+    { timeout: 60_000 },
     async () => {
       // Snapshots are written to a directory on the Typesense server. The
       // test container's filesystem must be writable at this path; /tmp is
@@ -20,11 +21,11 @@ describe("takeSnapshot", () => {
 
       expect(result.success).toBe(true);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       const apiBaseUrl = process.env.TYPESENSE_API_URL;
       if (!apiBaseUrl) {
@@ -49,6 +50,5 @@ describe("takeSnapshot", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

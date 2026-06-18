@@ -4,7 +4,10 @@
   },
   "response": {
     "properties": {
-      "result[].latest_deployment.source": { "optional": true, "nullable": true },
+      "result[].latest_deployment.source": {
+        "optional": true,
+        "nullable": true
+      },
       "result[].canonical_deployment.source": {
         "optional": true,
         "nullable": true

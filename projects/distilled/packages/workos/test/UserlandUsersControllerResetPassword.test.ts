@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUsersControllerResetPassword", () => {
   it(
     "resets a user's password using a valid token",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 5 }));
       const target = users.data.find((u) => u.email && u.email.length > 0);
@@ -28,10 +29,8 @@ describe("UserlandUsersControllerResetPassword", () => {
           email: target.email,
         }).pipe(
           Effect.matchEffect({
-            onSuccess: (token) =>
-              Effect.succeed({ ok: true as const, token }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onSuccess: (token) => Effect.succeed({ ok: true as const, token }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -61,11 +60,11 @@ describe("UserlandUsersControllerResetPassword", () => {
       expect(typeof result.user.id).toBe("string");
       expect(result.user.email).toBe(target.email);
     },
-    60_000,
   );
 
   it(
     "fails with BadRequest when token is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerResetPassword({
@@ -75,11 +74,11 @@ describe("UserlandUsersControllerResetPassword", () => {
       );
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the password fails environment policy",
+    { timeout: 30_000 },
     async () => {
       // A password matching a known-breached pattern is forbidden by policy.
       const error = await runEffect(
@@ -90,11 +89,11 @@ describe("UserlandUsersControllerResetPassword", () => {
       );
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent token",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerResetPassword({
@@ -104,11 +103,11 @@ describe("UserlandUsersControllerResetPassword", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a password that does not meet policy",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerResetPassword({
@@ -118,6 +117,5 @@ describe("UserlandUsersControllerResetPassword", () => {
       );
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteSynonymSet", () => {
   it(
     "deletes an existing synonym set and returns its name",
+    { timeout: 30_000 },
     async () => {
       const synonymSetName = `distilled-typesense-delsyn-${testRunId}`;
 
@@ -27,11 +28,11 @@ describe("deleteSynonymSet", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the synonym set does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteSynonymSet({
@@ -41,6 +42,5 @@ describe("deleteSynonymSet", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

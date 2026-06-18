@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getVirtualField", () => {
   it(
     "fetches a virtual field by id and returns its configuration",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-getvf-${testRunId}`;
       const fieldName = `distilled_axiom_getvf_${testRunId}`;
@@ -52,11 +53,11 @@ describe("getVirtualField", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a virtual-field id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getVirtualField({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -64,6 +65,5 @@ describe("getVirtualField", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

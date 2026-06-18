@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteDocuments", () => {
   it(
     "deletes documents matching a filter and returns num_deleted",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-deldocs-${testRunId}`;
 
@@ -50,11 +51,11 @@ describe("deleteDocuments", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteDocuments({
@@ -65,6 +66,5 @@ describe("deleteDocuments", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

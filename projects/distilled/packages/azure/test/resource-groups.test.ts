@@ -20,19 +20,16 @@ describe("ResourceGroups", () => {
   // ============================================================================
 
   describe("ResourceGroupsList", () => {
-    it(
-      "can list resource groups",
-      async () => {
-        const result = await runEffect(ResourceGroupsList({}));
+    it("can list resource groups", { timeout: 30_000 }, async () => {
+      const result = await runEffect(ResourceGroupsList({}));
 
-        expect(result).toBeDefined();
-        expect(Array.isArray(result.value)).toBe(true);
-      },
-      { timeout: 30_000 },
-    );
+      expect(result).toBeDefined();
+      expect(Array.isArray(result.value)).toBe(true);
+    });
 
     it(
       "can list resource groups with $top filter",
+      { timeout: 30_000 },
       async () => {
         const result = await runEffect(ResourceGroupsList({ $top: 5 }));
 
@@ -42,7 +39,6 @@ describe("ResourceGroups", () => {
           expect(result.value.length).toBeLessThanOrEqual(5);
         }
       },
-      { timeout: 30_000 },
     );
   });
 
@@ -53,6 +49,7 @@ describe("ResourceGroups", () => {
   describe("ResourceGroupsGet", () => {
     it(
       "error - NotFound for non-existent resource group",
+      { timeout: 30_000 },
       async () => {
         const error: any = await runEffect(
           ResourceGroupsGet({
@@ -71,7 +68,6 @@ describe("ResourceGroups", () => {
                 error._tag === "ResourceGroupNotFound")),
         ).toBe(true);
       },
-      { timeout: 30_000 },
     );
   });
 
@@ -84,6 +80,7 @@ describe("ResourceGroups", () => {
 
     it(
       "can create and then delete a resource group",
+      { timeout: 120_000 },
       async () => {
         // Create
         const created = await runEffect(
@@ -104,7 +101,6 @@ describe("ResourceGroups", () => {
         expect(created.location).toBe("eastus");
         expect(created.properties?.provisioningState).toBeDefined();
       },
-      { timeout: 120_000 },
     );
   });
 });

@@ -26,6 +26,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/cloudflare-solidstart"
+    "directory": "projects/alchemy/examples/cloudflare-solidstart"
   }
 }

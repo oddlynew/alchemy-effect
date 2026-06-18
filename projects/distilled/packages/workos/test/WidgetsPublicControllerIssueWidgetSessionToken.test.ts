@@ -5,11 +5,16 @@ import { UserlandUsersControllerList } from "../src/operations/UserlandUsersCont
 import { WidgetsPublicControllerIssueWidgetSessionToken } from "../src/operations/WidgetsPublicControllerIssueWidgetSessionToken.ts";
 import { runEffect, testRunId } from "./setup.ts";
 
-const typedErrorTags = ["BadRequest", "NotFound", "UnprocessableEntity"] as const;
+const typedErrorTags = [
+  "BadRequest",
+  "NotFound",
+  "UnprocessableEntity",
+] as const;
 
 describe("WidgetsPublicControllerIssueWidgetSessionToken", () => {
   it(
     "issues a widget session token for an organization, or surfaces a typed error",
+    { timeout: 60_000 },
     async () => {
       const orgs = await runEffect(OrganizationsControllerList({ limit: 1 }));
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
@@ -39,10 +44,8 @@ describe("WidgetsPublicControllerIssueWidgetSessionToken", () => {
           scopes: ["widgets:users-table:manage"],
         }).pipe(
           Effect.matchEffect({
-            onSuccess: (token) =>
-              Effect.succeed({ ok: true as const, token }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onSuccess: (token) => Effect.succeed({ ok: true as const, token }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -55,11 +58,11 @@ describe("WidgetsPublicControllerIssueWidgetSessionToken", () => {
         expect(typedErrorTags).toContain(result.error._tag);
       }
     },
-    60_000,
   );
 
   it(
     "fails with a typed BadRequest when scopes is empty",
+    { timeout: 30_000 },
     async () => {
       const orgs = await runEffect(OrganizationsControllerList({ limit: 1 }));
       const orgId =
@@ -75,11 +78,11 @@ describe("WidgetsPublicControllerIssueWidgetSessionToken", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         WidgetsPublicControllerIssueWidgetSessionToken({
@@ -92,11 +95,11 @@ describe("WidgetsPublicControllerIssueWidgetSessionToken", () => {
         error._tag,
       );
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         WidgetsPublicControllerIssueWidgetSessionToken({
@@ -106,6 +109,5 @@ describe("WidgetsPublicControllerIssueWidgetSessionToken", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

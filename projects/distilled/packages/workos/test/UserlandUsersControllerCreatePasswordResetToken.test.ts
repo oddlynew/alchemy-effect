@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUsersControllerCreatePasswordResetToken", () => {
   it(
     "creates a password reset token for an existing user",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 5 }));
 
@@ -26,10 +27,8 @@ describe("UserlandUsersControllerCreatePasswordResetToken", () => {
           email: target.email,
         }).pipe(
           Effect.matchEffect({
-            onSuccess: (token) =>
-              Effect.succeed({ ok: true as const, token }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onSuccess: (token) => Effect.succeed({ ok: true as const, token }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -50,11 +49,11 @@ describe("UserlandUsersControllerCreatePasswordResetToken", () => {
         );
       }
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when password reset is not permitted for the user",
+    { timeout: 30_000 },
     async () => {
       // Probe with a system-style email that typically maps to an SSO-only
       // identity in the test environment, where password reset is forbidden.
@@ -65,11 +64,11 @@ describe("UserlandUsersControllerCreatePasswordResetToken", () => {
       );
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent email",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerCreatePasswordResetToken({
@@ -78,11 +77,11 @@ describe("UserlandUsersControllerCreatePasswordResetToken", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed email",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerCreatePasswordResetToken({
@@ -91,6 +90,5 @@ describe("UserlandUsersControllerCreatePasswordResetToken", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

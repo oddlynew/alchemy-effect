@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/livestreams/{livestreamId}/active-livestream-session:
     get:
       operationId: getActiveLivestreamsForLivestreamIdLivestream
-      description: "Returns details of all active livestreams for the given livestream
+      description:
+        "Returns details of all active livestreams for the given livestream
         ID. Retreive the livestream ID using the `Start livestreaming a meeting`
         API.  @example ```ts const response = await
         client.realtimeKit.livestreams.getActiveLivestreamsForLivestreamId(
@@ -50,14 +51,16 @@ paths:
                             type: string
                           created_at:
                             type: string
-                            description: Timestamp the object was created at. The time is returned in ISO
+                            description:
+                              Timestamp the object was created at. The time is returned in ISO
                               format.
                           disabled:
                             type: string
                             description: Specifies if the livestream was disabled.
                           ingest_server:
                             type: string
-                            description: The server URL to which the RTMP encoder sends the video and audio
+                            description:
+                              The server URL to which the RTMP encoder sends the video and audio
                               data.
                           meeting_id:
                             type: string
@@ -80,7 +83,8 @@ paths:
                             description: Unique key for accessing each livestream.
                           updated_at:
                             type: string
-                            description: Timestamp the object was updated at. The time is returned in ISO
+                            description:
+                              Timestamp the object was updated at. The time is returned in ISO
                               format.
                       session:
                         type: object
@@ -89,31 +93,37 @@ paths:
                             type: string
                           created_at:
                             type: string
-                            description: Timestamp the object was created at. The time is returned in ISO
+                            description:
+                              Timestamp the object was created at. The time is returned in ISO
                               format.
                           err_message:
                             type: string
                           ingest_seconds:
                             type: string
-                            description: The time duration for which the input was given or the meeting was
+                            description:
+                              The time duration for which the input was given or the meeting was
                               streamed.
                           invoked_time:
                             type: string
-                            description: Timestamp the object was invoked. The time is returned in ISO
+                            description:
+                              Timestamp the object was invoked. The time is returned in ISO
                               format.
                           livestream_id:
                             type: string
                           started_time:
                             type: string
-                            description: Timestamp the object was started. The time is returned in ISO
+                            description:
+                              Timestamp the object was started. The time is returned in ISO
                               format.
                           stopped_time:
                             type: string
-                            description: Timestamp the object was stopped. The time is returned in ISO
+                            description:
+                              Timestamp the object was stopped. The time is returned in ISO
                               format.
                           updated_at:
                             type: string
-                            description: Timestamp the object was updated at. The time is returned in ISO
+                            description:
+                              Timestamp the object was updated at. The time is returned in ISO
                               format.
                           viewer_seconds:
                             type: string
@@ -163,7 +173,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: If the audio_config is passed, the URL for downloading the audio
+                        description:
+                          If the audio_config is passed, the URL for downloading the audio
                           recording is returned.
                       download_url:
                         oneOf:
@@ -195,7 +206,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording actually started after being invoked.
+                        description:
+                          Timestamp when this recording actually started after being invoked.
                           Usually a few seconds after `invoked_time`.
                       status:
                         type: string
@@ -211,7 +223,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording was stopped. Optional; is present
+                        description:
+                          Timestamp when this recording was stopped. Optional; is present
                           only when the recording has actually been stopped.
                       recording_duration:
                         type: number
@@ -238,7 +251,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/active-session:
     get:
       operationId: getActiveSessionActiveSession
-      description: "Returns details of an ongoing active session for the given meeting
+      description:
+        "Returns details of an ongoing active session for the given meeting
         ID.  @example ```ts const response = await
         client.realtimeKit.activeSession.getActiveSession( 'app_id',
         'meeting_id', { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, );
@@ -276,7 +290,8 @@ paths:
                         description: ID of the session
                       associated_id:
                         type: string
-                        description: ID of the meeting this session is associated with. In the case of
+                        description:
+                          ID of the meeting this session is associated with. In the case of
                           V2 meetings, it is always a UUID. In V1 meetings, it
                           is a room name of the form `abcdef-ghijkl`
                       created_at:
@@ -342,7 +357,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/livestreams:
     get:
       operationId: getAllLivestreamsLivestream
-      description: "Returns details of livestreams associated with the given App ID.
+      description:
+        "Returns details of livestreams associated with the given App ID.
         It includes livestreams created by your App and RealtimeKit meetings
         that are livestreamed by your App. If you only want details of
         livestreams created by your App and not RealtimeKit meetings, you can
@@ -364,7 +380,8 @@ paths:
         - name: end_time
           in: query
           required: false
-          description: "Query param: Specify the end time range in ISO format to access
+          description:
+            "Query param: Specify the end time range in ISO format to access
             the live stream."
           schema:
             type: string
@@ -378,7 +395,8 @@ paths:
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -400,7 +418,8 @@ paths:
         - name: start_time
           in: query
           required: false
-          description: "Query param: Specify the start time range in ISO format to access
+          description:
+            "Query param: Specify the start time range in ISO format to access
             the live stream."
           schema:
             type: string
@@ -431,14 +450,16 @@ paths:
                         description: The ID of the livestream.
                       created_at:
                         type: string
-                        description: Timestamp the object was created at. The time is returned in ISO
+                        description:
+                          Timestamp the object was created at. The time is returned in ISO
                           format.
                       disabled:
                         type: string
                         description: Specifies if the livestream was disabled.
                       ingest_server:
                         type: string
-                        description: The server URL to which the RTMP encoder sends the video and audio
+                        description:
+                          The server URL to which the RTMP encoder sends the video and audio
                           data.
                       meeting_id:
                         type: string
@@ -470,7 +491,8 @@ paths:
                         description: Unique key for accessing each livestream.
                       updated_at:
                         type: string
-                        description: Timestamp the object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp the object was updated at. The time is returned in ISO
                           format.
                   success:
                     type: boolean
@@ -527,7 +549,8 @@ paths:
                         description: Specifies if the livestream was disabled.
                       ingest_server:
                         type: string
-                        description: The server URL to which the RTMP encoder should send the video and
+                        description:
+                          The server URL to which the RTMP encoder should send the video and
                           audio data.
                       meeting_id:
                         oneOf:
@@ -595,7 +618,8 @@ paths:
   /accounts/{account_id}/realtime/kit/apps:
     get:
       operationId: getApp
-      description: "Fetch all apps for your account  @example ```ts const app = await
+      description:
+        "Fetch all apps for your account  @example ```ts const app = await
         client.realtimeKit.apps.get({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -608,7 +632,8 @@ paths:
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -668,7 +693,8 @@ paths:
           - status: 403
     post:
       operationId: postApp
-      description: "Create new app for your account  @example ```ts const response =
+      description:
+        "Create new app for your account  @example ```ts const response =
         await client.realtimeKit.apps.post({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', name: 'x', }); ```"
       parameters:
@@ -737,7 +763,8 @@ paths:
         - name: end_time
           in: query
           required: false
-          description: "Query param: Specify the end time as a Unix timestamp in seconds
+          description:
+            "Query param: Specify the end time as a Unix timestamp in seconds
             to access the livestream analytics."
           schema:
             type: number
@@ -750,7 +777,8 @@ paths:
         - name: start_time
           in: query
           required: false
-          description: "Query param: Specify the start time as a Unix timestamp in seconds
+          description:
+            "Query param: Specify the start time as a Unix timestamp in seconds
             to access the livestream analytics."
           schema:
             type: number
@@ -770,7 +798,8 @@ paths:
                         description: Count of total livestreams.
                       total_ingest_seconds:
                         type: number
-                        description: Total time duration for which the input was given or the meeting
+                        description:
+                          Total time duration for which the input was given or the meeting
                           was streamed.
                       total_viewer_seconds:
                         type: number
@@ -799,7 +828,8 @@ paths:
         - name: end_time
           in: query
           required: false
-          description: "Query param: Specify the end time as a Unix timestamp in seconds
+          description:
+            "Query param: Specify the end time as a Unix timestamp in seconds
             to access the livestream analytics."
           schema:
             type: number
@@ -812,7 +842,8 @@ paths:
         - name: start_time
           in: query
           required: false
-          description: "Query param: Specify the start time as a Unix timestamp in seconds
+          description:
+            "Query param: Specify the start time as a Unix timestamp in seconds
             to access the livestream analytics."
           schema:
             type: number
@@ -839,7 +870,8 @@ paths:
                           description: Analytics date.
                         total_ingest_seconds:
                           type: number
-                          description: Total time duration for which the input was given or the meeting
+                          description:
+                            Total time duration for which the input was given or the meeting
                             was streamed.
                         total_viewer_seconds:
                           type: number
@@ -849,7 +881,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/livestreams:
     post:
       operationId: startLivestreamingAMeetingLivestream
-      description: "Starts livestream of a meeting associated with the given meeting
+      description:
+        "Starts livestream of a meeting associated with the given meeting
         ID. Retreive the meeting ID using the `Create a meeting` API.  @example
         ```ts const response = await
         client.realtimeKit.livestreams.startLivestreamingAMeeting( 'app_id',
@@ -910,7 +943,8 @@ paths:
                         description: The livestream ID.
                       ingest_server:
                         type: string
-                        description: The server URL to which the RTMP encoder sends the video and audio
+                        description:
+                          The server URL to which the RTMP encoder sends the video and audio
                           data.
                       playback_url:
                         type: string
@@ -930,7 +964,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/active-livestream/stop:
     post:
       operationId: stopLivestreamingAMeetingLivestream
-      description: "Stops the active livestream of a meeting associated with the given
+      description:
+        "Stops the active livestream of a meeting associated with the given
         meeting ID. Retreive the meeting ID using the `Create a meeting`
         API.  @example ```ts const response = await
         client.realtimeKit.livestreams.stopLivestreamingAMeeting( 'app_id',
@@ -1011,11 +1046,13 @@ paths:
                         description: The livestream ID.
                       created_at:
                         type: string
-                        description: Timestamp the object was created at. The time is returned in ISO
+                        description:
+                          Timestamp the object was created at. The time is returned in ISO
                           format.
                       err_message:
                         type: string
-                        description: The server URL to which the RTMP encoder sends the video and audio
+                        description:
+                          The server URL to which the RTMP encoder sends the video and audio
                           data.
                       ingest_seconds:
                         type: number
@@ -1030,7 +1067,8 @@ paths:
                         description: The web address that viewers can use to watch the livestream.
                       updated_at:
                         type: string
-                        description: Timestamp the object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp the object was updated at. The time is returned in ISO
                           format.
                       viewer_seconds:
                         type: number
@@ -1066,7 +1104,8 @@ paths:
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -1095,14 +1134,16 @@ paths:
                             description: ID of the livestream.
                           created_at:
                             type: string
-                            description: Timestamp the object was created at. The time is returned in ISO
+                            description:
+                              Timestamp the object was created at. The time is returned in ISO
                               format.
                           disabled:
                             type: string
                             description: Specifies if the livestream was disabled.
                           ingest_server:
                             type: string
-                            description: The server URL to which the RTMP encoder sends the video and audio
+                            description:
+                              The server URL to which the RTMP encoder sends the video and audio
                               data.
                           meeting_id:
                             type: string
@@ -1125,7 +1166,8 @@ paths:
                             description: Unique key for accessing each livestream.
                           updated_at:
                             type: string
-                            description: Timestamp the object was updated at. The time is returned in ISO
+                            description:
+                              Timestamp the object was updated at. The time is returned in ISO
                               format.
                       paging:
                         type: object
@@ -1144,31 +1186,37 @@ paths:
                             description: ID of the session.
                           created_at:
                             type: string
-                            description: Timestamp the object was created at. The time is returned in ISO
+                            description:
+                              Timestamp the object was created at. The time is returned in ISO
                               format.
                           err_message:
                             type: string
                           ingest_seconds:
                             type: number
-                            description: The time duration for which the input was given or the meeting was
+                            description:
+                              The time duration for which the input was given or the meeting was
                               streamed.
                           invoked_time:
                             type: string
-                            description: Timestamp the object was invoked. The time is returned in ISO
+                            description:
+                              Timestamp the object was invoked. The time is returned in ISO
                               format.
                           livestream_id:
                             type: string
                           started_time:
                             type: string
-                            description: Timestamp the object was started. The time is returned in ISO
+                            description:
+                              Timestamp the object was started. The time is returned in ISO
                               format.
                           stopped_time:
                             type: string
-                            description: Timestamp the object was stopped. The time is returned in ISO
+                            description:
+                              Timestamp the object was stopped. The time is returned in ISO
                               format.
                           updated_at:
                             type: string
-                            description: Timestamp the object was updated at. The time is returned in ISO
+                            description:
+                              Timestamp the object was updated at. The time is returned in ISO
                               format.
                           viewer_seconds:
                             type: number
@@ -1178,7 +1226,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/meetings:
     get:
       operationId: getMeeting
-      description: "Returns all meetings for the given App ID.  @example ```ts const
+      description:
+        "Returns all meetings for the given App ID.  @example ```ts const
         meeting = await client.realtimeKit.meetings.get( 'app_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -1196,14 +1245,16 @@ paths:
         - name: end_time
           in: query
           required: false
-          description: "Query param: The end time range for which you want to retrieve the
+          description:
+            "Query param: The end time range for which you want to retrieve the
             meetings. The time must be specified in ISO format."
           schema:
             type: string
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -1216,14 +1267,16 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: The search query string. You can search using the
+          description:
+            "Query param: The search query string. You can search using the
             meeting ID or title."
           schema:
             type: string
         - name: start_time
           in: query
           required: false
-          description: "Query param: The start time range for which you want to retrieve
+          description:
+            "Query param: The start time range for which you want to retrieve
             the meetings. The time must be specified in ISO format."
           schema:
             type: string
@@ -1254,22 +1307,26 @@ paths:
                           description: ID of the meeting.
                         created_at:
                           type: string
-                          description: Timestamp the object was created at. The time is returned in ISO
+                          description:
+                            Timestamp the object was created at. The time is returned in ISO
                             format.
                         updated_at:
                           type: string
-                          description: Timestamp the object was updated at. The time is returned in ISO
+                          description:
+                            Timestamp the object was updated at. The time is returned in ISO
                             format.
                         live_stream_on_start:
                           type: boolean
-                          description: Specifies if the meeting should start getting livestreamed on
+                          description:
+                            Specifies if the meeting should start getting livestreamed on
                             start.
                         persist_chat:
                           type: boolean
                           description: Specifies if Chat within a meeting should persist for a week.
                         record_on_start:
                           type: boolean
-                          description: Specifies if the meeting should start getting recorded as soon as
+                          description:
+                            Specifies if the meeting should start getting recorded as soon as
                             someone joins the meeting.
                         recording_config:
                           type: object
@@ -1282,14 +1339,16 @@ paths:
                                   enum:
                                     - mono
                                     - stereo
-                                  description: Audio signal pathway within an audio file that carries a specific
+                                  description:
+                                    Audio signal pathway within an audio file that carries a specific
                                     sound source.
                                 codec:
                                   type: string
                                   enum:
                                     - MP3
                                     - AAC
-                                  description: Codec using which the recording will be encoded. If VP8/VP9 is
+                                  description:
+                                    Codec using which the recording will be encoded. If VP8/VP9 is
                                     selected for videoConfig, changing
                                     audioConfig is not allowed. In this case,
                                     the codec in the audioConfig is
@@ -1297,7 +1356,8 @@ paths:
                                 export_file:
                                   type: boolean
                                   description: Controls whether to export audio file seperately
-                              description: Object containing configuration regarding the audio that is being
+                              description:
+                                Object containing configuration regarding the audio that is being
                                 recorded.
                             file_name_prefix:
                               type: string
@@ -1310,7 +1370,8 @@ paths:
                                   description: RTMP URL to stream to
                             max_seconds:
                               type: number
-                              description: Specifies the maximum duration for recording in seconds, ranging
+                              description:
+                                Specifies the maximum duration for recording in seconds, ranging
                                 from a minimum of 60 seconds to a maximum of 24
                                 hours.
                             realtimekit_bucket_config:
@@ -1318,7 +1379,8 @@ paths:
                               properties:
                                 enabled:
                                   type: boolean
-                                  description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                                  description:
+                                    Controls whether recordings are uploaded to RealtimeKit's bucket.
                                     If set to false, `download_url`,
                                     `audio_download_url`, `download_url_expiry`
                                     won't be generated for a recording.
@@ -1351,20 +1413,23 @@ paths:
                                       description: SSH destination server host for SFTP type storage medium
                                     password:
                                       type: string
-                                      description: SSH destination server password for SFTP type storage medium when
+                                      description:
+                                        SSH destination server password for SFTP type storage medium when
                                         auth_method is "PASSWORD". If
                                         auth_method is "KEY", this specifies the
                                         password for the ssh private key.
                                     path:
                                       type: string
-                                      description: Path relative to the bucket root at which the recording will be
+                                      description:
+                                        Path relative to the bucket root at which the recording will be
                                         placed.
                                     port:
                                       type: number
                                       description: SSH destination server port for SFTP type storage medium
                                     private_key:
                                       type: string
-                                      description: Private key used to login to destination SSH server for SFTP type
+                                      description:
+                                        Private key used to login to destination SSH server for SFTP type
                                         storage medium, when auth_method used is
                                         "KEY"
                                     region:
@@ -1372,7 +1437,8 @@ paths:
                                       description: Region of the storage medium.
                                     secret:
                                       type: string
-                                      description: Secret key of the storage medium. Similar to `access_key`, it is
+                                      description:
+                                        Secret key of the storage medium. Similar to `access_key`, it is
                                         only writeable by clients, not readable.
                                     username:
                                       type: string
@@ -1423,23 +1489,27 @@ paths:
                                 width:
                                   type: number
                                   description: Width of the recording video in pixels
-                          description: Recording Configurations to be used for this meeting. This level of
+                          description:
+                            Recording Configurations to be used for this meeting. This level of
                             configs takes higher preference over App level
                             configs on the RealtimeKit developer portal.
                         session_keep_alive_time_in_secs:
                           type: number
-                          description: Time in seconds, for which a session remains active, after the last
+                          description:
+                            Time in seconds, for which a session remains active, after the last
                             participant has left the meeting.
                         status:
                           type: string
                           enum:
                             - ACTIVE
                             - INACTIVE
-                          description: Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
+                          description:
+                            Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
                             able to join an `INACTIVE` meeting.
                         summarize_on_end:
                           type: boolean
-                          description: Automatically generate summary of meetings using transcripts.
+                          description:
+                            Automatically generate summary of meetings using transcripts.
                             Requires Transcriptions to be enabled, and can be
                             retrieved via Webhooks or summary API.
                         title:
@@ -1513,14 +1583,16 @@ paths:
                             - one_on_one_meeting
                             - lecture
                             - code_review
-                          description: Defines the style of the summary, such as general, team meeting, or
+                          description:
+                            Defines the style of the summary, such as general, team meeting, or
                             sales call.
                         text_format:
                           type: string
                           enum:
                             - plain_text
                             - markdown
-                          description: Determines the text format of the summary, such as plain text or
+                          description:
+                            Determines the text format of the summary, such as plain text or
                             markdown.
                         word_limit:
                           type: number
@@ -1533,7 +1605,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: Adds specific terms to improve accurate detection during
+                          description:
+                            Adds specific terms to improve accurate detection during
                             transcription.
                         language:
                           type: string
@@ -1548,29 +1621,34 @@ paths:
                             - el
                             - fr
                             - nl
-                          description: Specifies the language code for transcription to ensure accurate
+                          description:
+                            Specifies the language code for transcription to ensure accurate
                             results.
                         profanity_filter:
                           type: boolean
                           description: Control the inclusion of offensive language in transcriptions.
                       description: Transcription Configurations
-                  description: "Body param: The AI Config allows you to customize the behavior of
+                  description:
+                    "Body param: The AI Config allows you to customize the behavior of
                     meeting transcriptions and summaries"
                 live_stream_on_start:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Specifies if the meeting should start getting
+                  description:
+                    "Body param: Specifies if the meeting should start getting
                     livestreamed on start."
                 persist_chat:
                   type: boolean
-                  description: "Body param: If a meeting is set to persist_chat, meeting chat
+                  description:
+                    "Body param: If a meeting is set to persist_chat, meeting chat
                     would remain for a week within the meeting space."
                 record_on_start:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Specifies if the meeting should start getting recorded
+                  description:
+                    "Body param: Specifies if the meeting should start getting recorded
                     as soon as someone joins the meeting."
                 recording_config:
                   type: object
@@ -1583,21 +1661,24 @@ paths:
                           enum:
                             - mono
                             - stereo
-                          description: Audio signal pathway within an audio file that carries a specific
+                          description:
+                            Audio signal pathway within an audio file that carries a specific
                             sound source.
                         codec:
                           type: string
                           enum:
                             - MP3
                             - AAC
-                          description: Codec using which the recording will be encoded. If VP8/VP9 is
+                          description:
+                            Codec using which the recording will be encoded. If VP8/VP9 is
                             selected for videoConfig, changing audioConfig is
                             not allowed. In this case, the codec in the
                             audioConfig is automatically set to vorbis.
                         export_file:
                           type: boolean
                           description: Controls whether to export audio file seperately
-                      description: Object containing configuration regarding the audio that is being
+                      description:
+                        Object containing configuration regarding the audio that is being
                         recorded.
                     file_name_prefix:
                       type: string
@@ -1610,14 +1691,16 @@ paths:
                           description: RTMP URL to stream to
                     max_seconds:
                       type: number
-                      description: Specifies the maximum duration for recording in seconds, ranging
+                      description:
+                        Specifies the maximum duration for recording in seconds, ranging
                         from a minimum of 60 seconds to a maximum of 24 hours.
                     realtimekit_bucket_config:
                       type: object
                       properties:
                         enabled:
                           type: boolean
-                          description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                          description:
+                            Controls whether recordings are uploaded to RealtimeKit's bucket.
                             If set to false, `download_url`,
                             `audio_download_url`, `download_url_expiry` won't be
                             generated for a recording.
@@ -1638,7 +1721,8 @@ paths:
                               description: Type of storage media.
                             access_key:
                               type: string
-                              description: Access key of the storage medium. Access key is not required for
+                              description:
+                                Access key of the storage medium. Access key is not required for
                                 the `gcs` storage media type.  Note that this
                                 field is not readable by clients, only
                                 writeable.
@@ -1656,27 +1740,31 @@ paths:
                               description: SSH destination server host for SFTP type storage medium
                             password:
                               type: string
-                              description: SSH destination server password for SFTP type storage medium when
+                              description:
+                                SSH destination server password for SFTP type storage medium when
                                 auth_method is "PASSWORD". If auth_method is
                                 "KEY", this specifies the password for the ssh
                                 private key.
                             path:
                               type: string
-                              description: Path relative to the bucket root at which the recording will be
+                              description:
+                                Path relative to the bucket root at which the recording will be
                                 placed.
                             port:
                               type: number
                               description: SSH destination server port for SFTP type storage medium
                             private_key:
                               type: string
-                              description: Private key used to login to destination SSH server for SFTP type
+                              description:
+                                Private key used to login to destination SSH server for SFTP type
                                 storage medium, when auth_method used is "KEY"
                             region:
                               type: string
                               description: Region of the storage medium.
                             secret:
                               type: string
-                              description: Secret key of the storage medium. Similar to `access_key`, it is
+                              description:
+                                Secret key of the storage medium. Similar to `access_key`, it is
                                 only writeable by clients, not readable.
                             username:
                               type: string
@@ -1727,16 +1815,19 @@ paths:
                         width:
                           type: number
                           description: Width of the recording video in pixels
-                  description: "Body param: Recording Configurations to be used for this meeting.
+                  description:
+                    "Body param: Recording Configurations to be used for this meeting.
                     This level of configs takes higher preference over App level
                     configs on the RealtimeKit developer portal."
                 session_keep_alive_time_in_secs:
                   type: number
-                  description: "Body param: Time in seconds, for which a session remains active,
+                  description:
+                    "Body param: Time in seconds, for which a session remains active,
                     after the last participant has left the meeting."
                 summarize_on_end:
                   type: boolean
-                  description: "Body param: Automatically generate summary of meetings using
+                  description:
+                    "Body param: Automatically generate summary of meetings using
                     transcripts. Requires Transcriptions to be enabled, and can
                     be retrieved via Webhooks or summary API."
                 title:
@@ -1746,7 +1837,8 @@ paths:
                   description: "Body param: Title of the meeting"
                 transcribe_on_end:
                   type: boolean
-                  description: "Body param: Automatically generate transcripts when the meeting
+                  description:
+                    "Body param: Automatically generate transcripts when the meeting
                     ends."
       responses:
         "200":
@@ -1767,11 +1859,13 @@ paths:
                         description: ID of the meeting.
                       created_at:
                         type: string
-                        description: Timestamp the object was created at. The time is returned in ISO
+                        description:
+                          Timestamp the object was created at. The time is returned in ISO
                           format.
                       updated_at:
                         type: string
-                        description: Timestamp the object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp the object was updated at. The time is returned in ISO
                           format.
                       ai_config:
                         type: object
@@ -1791,14 +1885,16 @@ paths:
                                   - one_on_one_meeting
                                   - lecture
                                   - code_review
-                                description: Defines the style of the summary, such as general, team meeting, or
+                                description:
+                                  Defines the style of the summary, such as general, team meeting, or
                                   sales call.
                               text_format:
                                 type: string
                                 enum:
                                   - plain_text
                                   - markdown
-                                description: Determines the text format of the summary, such as plain text or
+                                description:
+                                  Determines the text format of the summary, such as plain text or
                                   markdown.
                               word_limit:
                                 type: number
@@ -1811,7 +1907,8 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: Adds specific terms to improve accurate detection during
+                                description:
+                                  Adds specific terms to improve accurate detection during
                                   transcription.
                               language:
                                 type: string
@@ -1826,24 +1923,28 @@ paths:
                                   - el
                                   - fr
                                   - nl
-                                description: Specifies the language code for transcription to ensure accurate
+                                description:
+                                  Specifies the language code for transcription to ensure accurate
                                   results.
                               profanity_filter:
                                 type: boolean
                                 description: Control the inclusion of offensive language in transcriptions.
                             description: Transcription Configurations
-                        description: The AI Config allows you to customize the behavior of meeting
+                        description:
+                          The AI Config allows you to customize the behavior of meeting
                           transcriptions and summaries
                       live_stream_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting livestreamed on
+                        description:
+                          Specifies if the meeting should start getting livestreamed on
                           start.
                       persist_chat:
                         type: boolean
                         description: Specifies if Chat within a meeting should persist for a week.
                       record_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting recorded as soon as
+                        description:
+                          Specifies if the meeting should start getting recorded as soon as
                           someone joins the meeting.
                       recording_config:
                         type: object
@@ -1856,21 +1957,24 @@ paths:
                                 enum:
                                   - mono
                                   - stereo
-                                description: Audio signal pathway within an audio file that carries a specific
+                                description:
+                                  Audio signal pathway within an audio file that carries a specific
                                   sound source.
                               codec:
                                 type: string
                                 enum:
                                   - MP3
                                   - AAC
-                                description: Codec using which the recording will be encoded. If VP8/VP9 is
+                                description:
+                                  Codec using which the recording will be encoded. If VP8/VP9 is
                                   selected for videoConfig, changing audioConfig
                                   is not allowed. In this case, the codec in the
                                   audioConfig is automatically set to vorbis.
                               export_file:
                                 type: boolean
                                 description: Controls whether to export audio file seperately
-                            description: Object containing configuration regarding the audio that is being
+                            description:
+                              Object containing configuration regarding the audio that is being
                               recorded.
                           file_name_prefix:
                             type: string
@@ -1883,7 +1987,8 @@ paths:
                                 description: RTMP URL to stream to
                           max_seconds:
                             type: number
-                            description: Specifies the maximum duration for recording in seconds, ranging
+                            description:
+                              Specifies the maximum duration for recording in seconds, ranging
                               from a minimum of 60 seconds to a maximum of 24
                               hours.
                           realtimekit_bucket_config:
@@ -1891,7 +1996,8 @@ paths:
                             properties:
                               enabled:
                                 type: boolean
-                                description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                                description:
+                                  Controls whether recordings are uploaded to RealtimeKit's bucket.
                                   If set to false, `download_url`,
                                   `audio_download_url`, `download_url_expiry`
                                   won't be generated for a recording.
@@ -1924,20 +2030,23 @@ paths:
                                     description: SSH destination server host for SFTP type storage medium
                                   password:
                                     type: string
-                                    description: SSH destination server password for SFTP type storage medium when
+                                    description:
+                                      SSH destination server password for SFTP type storage medium when
                                       auth_method is "PASSWORD". If auth_method
                                       is "KEY", this specifies the password for
                                       the ssh private key.
                                   path:
                                     type: string
-                                    description: Path relative to the bucket root at which the recording will be
+                                    description:
+                                      Path relative to the bucket root at which the recording will be
                                       placed.
                                   port:
                                     type: number
                                     description: SSH destination server port for SFTP type storage medium
                                   private_key:
                                     type: string
-                                    description: Private key used to login to destination SSH server for SFTP type
+                                    description:
+                                      Private key used to login to destination SSH server for SFTP type
                                       storage medium, when auth_method used is
                                       "KEY"
                                   region:
@@ -1945,7 +2054,8 @@ paths:
                                     description: Region of the storage medium.
                                   secret:
                                     type: string
-                                    description: Secret key of the storage medium. Similar to `access_key`, it is
+                                    description:
+                                      Secret key of the storage medium. Similar to `access_key`, it is
                                       only writeable by clients, not readable.
                                   username:
                                     type: string
@@ -1996,23 +2106,27 @@ paths:
                               width:
                                 type: number
                                 description: Width of the recording video in pixels
-                        description: Recording Configurations to be used for this meeting. This level of
+                        description:
+                          Recording Configurations to be used for this meeting. This level of
                           configs takes higher preference over App level configs
                           on the RealtimeKit developer portal.
                       session_keep_alive_time_in_secs:
                         type: number
-                        description: Time in seconds, for which a session remains active, after the last
+                        description:
+                          Time in seconds, for which a session remains active, after the last
                           participant has left the meeting.
                       status:
                         type: string
                         enum:
                           - ACTIVE
                           - INACTIVE
-                        description: Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
+                        description:
+                          Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
                           able to join an `INACTIVE` meeting.
                       summarize_on_end:
                         type: boolean
-                        description: Automatically generate summary of meetings using transcripts.
+                        description:
+                          Automatically generate summary of meetings using transcripts.
                           Requires Transcriptions to be enabled, and can be
                           retrieved via Webhooks or summary API.
                       title:
@@ -2031,7 +2145,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/active-livestream:
     get:
       operationId: getMeetingActiveLivestreamsLivestream
-      description: "Returns details of all active livestreams for the given meeting
+      description:
+        "Returns details of all active livestreams for the given meeting
         ID.  @example ```ts const response = await
         client.realtimeKit.livestreams.getMeetingActiveLivestreams( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
@@ -2069,14 +2184,16 @@ paths:
                         description: The livestream ID.
                       created_at:
                         type: string
-                        description: Timestamp the object was created at. The time is returned in ISO
+                        description:
+                          Timestamp the object was created at. The time is returned in ISO
                           format.
                       disabled:
                         type: string
                         description: Specifies if the livestream was disabled.
                       ingest_server:
                         type: string
-                        description: The server URL to which the RTMP encoder sends the video and audio
+                        description:
+                          The server URL to which the RTMP encoder sends the video and audio
                           data.
                       meeting_id:
                         type: string
@@ -2100,7 +2217,8 @@ paths:
                         description: Unique key for accessing each livestream.
                       updated_at:
                         type: string
-                        description: Timestamp the object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp the object was updated at. The time is returned in ISO
                           format.
                   success:
                     type: boolean
@@ -2154,11 +2272,13 @@ paths:
                         description: ID of the meeting.
                       created_at:
                         type: string
-                        description: Timestamp the object was created at. The time is returned in ISO
+                        description:
+                          Timestamp the object was created at. The time is returned in ISO
                           format.
                       updated_at:
                         type: string
-                        description: Timestamp the object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp the object was updated at. The time is returned in ISO
                           format.
                       ai_config:
                         type: object
@@ -2178,14 +2298,16 @@ paths:
                                   - one_on_one_meeting
                                   - lecture
                                   - code_review
-                                description: Defines the style of the summary, such as general, team meeting, or
+                                description:
+                                  Defines the style of the summary, such as general, team meeting, or
                                   sales call.
                               text_format:
                                 type: string
                                 enum:
                                   - plain_text
                                   - markdown
-                                description: Determines the text format of the summary, such as plain text or
+                                description:
+                                  Determines the text format of the summary, such as plain text or
                                   markdown.
                               word_limit:
                                 type: number
@@ -2198,7 +2320,8 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: Adds specific terms to improve accurate detection during
+                                description:
+                                  Adds specific terms to improve accurate detection during
                                   transcription.
                               language:
                                 type: string
@@ -2213,24 +2336,28 @@ paths:
                                   - el
                                   - fr
                                   - nl
-                                description: Specifies the language code for transcription to ensure accurate
+                                description:
+                                  Specifies the language code for transcription to ensure accurate
                                   results.
                               profanity_filter:
                                 type: boolean
                                 description: Control the inclusion of offensive language in transcriptions.
                             description: Transcription Configurations
-                        description: The AI Config allows you to customize the behavior of meeting
+                        description:
+                          The AI Config allows you to customize the behavior of meeting
                           transcriptions and summaries
                       live_stream_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting livestreamed on
+                        description:
+                          Specifies if the meeting should start getting livestreamed on
                           start.
                       persist_chat:
                         type: boolean
                         description: Specifies if Chat within a meeting should persist for a week.
                       record_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting recorded as soon as
+                        description:
+                          Specifies if the meeting should start getting recorded as soon as
                           someone joins the meeting.
                       recording_config:
                         type: object
@@ -2243,21 +2370,24 @@ paths:
                                 enum:
                                   - mono
                                   - stereo
-                                description: Audio signal pathway within an audio file that carries a specific
+                                description:
+                                  Audio signal pathway within an audio file that carries a specific
                                   sound source.
                               codec:
                                 type: string
                                 enum:
                                   - MP3
                                   - AAC
-                                description: Codec using which the recording will be encoded. If VP8/VP9 is
+                                description:
+                                  Codec using which the recording will be encoded. If VP8/VP9 is
                                   selected for videoConfig, changing audioConfig
                                   is not allowed. In this case, the codec in the
                                   audioConfig is automatically set to vorbis.
                               export_file:
                                 type: boolean
                                 description: Controls whether to export audio file seperately
-                            description: Object containing configuration regarding the audio that is being
+                            description:
+                              Object containing configuration regarding the audio that is being
                               recorded.
                           file_name_prefix:
                             type: string
@@ -2270,7 +2400,8 @@ paths:
                                 description: RTMP URL to stream to
                           max_seconds:
                             type: number
-                            description: Specifies the maximum duration for recording in seconds, ranging
+                            description:
+                              Specifies the maximum duration for recording in seconds, ranging
                               from a minimum of 60 seconds to a maximum of 24
                               hours.
                           realtimekit_bucket_config:
@@ -2278,7 +2409,8 @@ paths:
                             properties:
                               enabled:
                                 type: boolean
-                                description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                                description:
+                                  Controls whether recordings are uploaded to RealtimeKit's bucket.
                                   If set to false, `download_url`,
                                   `audio_download_url`, `download_url_expiry`
                                   won't be generated for a recording.
@@ -2311,20 +2443,23 @@ paths:
                                     description: SSH destination server host for SFTP type storage medium
                                   password:
                                     type: string
-                                    description: SSH destination server password for SFTP type storage medium when
+                                    description:
+                                      SSH destination server password for SFTP type storage medium when
                                       auth_method is "PASSWORD". If auth_method
                                       is "KEY", this specifies the password for
                                       the ssh private key.
                                   path:
                                     type: string
-                                    description: Path relative to the bucket root at which the recording will be
+                                    description:
+                                      Path relative to the bucket root at which the recording will be
                                       placed.
                                   port:
                                     type: number
                                     description: SSH destination server port for SFTP type storage medium
                                   private_key:
                                     type: string
-                                    description: Private key used to login to destination SSH server for SFTP type
+                                    description:
+                                      Private key used to login to destination SSH server for SFTP type
                                       storage medium, when auth_method used is
                                       "KEY"
                                   region:
@@ -2332,7 +2467,8 @@ paths:
                                     description: Region of the storage medium.
                                   secret:
                                     type: string
-                                    description: Secret key of the storage medium. Similar to `access_key`, it is
+                                    description:
+                                      Secret key of the storage medium. Similar to `access_key`, it is
                                       only writeable by clients, not readable.
                                   username:
                                     type: string
@@ -2383,23 +2519,27 @@ paths:
                               width:
                                 type: number
                                 description: Width of the recording video in pixels
-                        description: Recording Configurations to be used for this meeting. This level of
+                        description:
+                          Recording Configurations to be used for this meeting. This level of
                           configs takes higher preference over App level configs
                           on the RealtimeKit developer portal.
                       session_keep_alive_time_in_secs:
                         type: number
-                        description: Time in seconds, for which a session remains active, after the last
+                        description:
+                          Time in seconds, for which a session remains active, after the last
                           participant has left the meeting.
                       status:
                         type: string
                         enum:
                           - ACTIVE
                           - INACTIVE
-                        description: Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
+                        description:
+                          Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
                           able to join an `INACTIVE` meeting.
                       summarize_on_end:
                         type: boolean
-                        description: Automatically generate summary of meetings using transcripts.
+                        description:
+                          Automatically generate summary of meetings using transcripts.
                           Requires Transcriptions to be enabled, and can be
                           retrieved via Webhooks or summary API.
                       title:
@@ -2417,7 +2557,8 @@ paths:
                   - success
     patch:
       operationId: updateMeetingByIdMeeting
-      description: "Updates a meeting in an App for the given meeting ID.  @example
+      description:
+        "Updates a meeting in an App for the given meeting ID.  @example
         ```ts const response = await
         client.realtimeKit.meetings.updateMeetingById( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
@@ -2464,14 +2605,16 @@ paths:
                             - one_on_one_meeting
                             - lecture
                             - code_review
-                          description: Defines the style of the summary, such as general, team meeting, or
+                          description:
+                            Defines the style of the summary, such as general, team meeting, or
                             sales call.
                         text_format:
                           type: string
                           enum:
                             - plain_text
                             - markdown
-                          description: Determines the text format of the summary, such as plain text or
+                          description:
+                            Determines the text format of the summary, such as plain text or
                             markdown.
                         word_limit:
                           type: number
@@ -2484,7 +2627,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: Adds specific terms to improve accurate detection during
+                          description:
+                            Adds specific terms to improve accurate detection during
                             transcription.
                         language:
                           type: string
@@ -2499,25 +2643,30 @@ paths:
                             - el
                             - fr
                             - nl
-                          description: Specifies the language code for transcription to ensure accurate
+                          description:
+                            Specifies the language code for transcription to ensure accurate
                             results.
                         profanity_filter:
                           type: boolean
                           description: Control the inclusion of offensive language in transcriptions.
                       description: Transcription Configurations
-                  description: "Body param: The AI Config allows you to customize the behavior of
+                  description:
+                    "Body param: The AI Config allows you to customize the behavior of
                     meeting transcriptions and summaries"
                 live_stream_on_start:
                   type: boolean
-                  description: "Body param: Specifies if the meeting should start getting
+                  description:
+                    "Body param: Specifies if the meeting should start getting
                     livestreamed on start."
                 persist_chat:
                   type: boolean
-                  description: "Body param: If a meeting is updated to persist_chat, meeting chat
+                  description:
+                    "Body param: If a meeting is updated to persist_chat, meeting chat
                     would remain for a week within the meeting space."
                 record_on_start:
                   type: boolean
-                  description: "Body param: Specifies if the meeting should start getting recorded
+                  description:
+                    "Body param: Specifies if the meeting should start getting recorded
                     as soon as someone joins the meeting."
                 recording_config:
                   type: object
@@ -2530,21 +2679,24 @@ paths:
                           enum:
                             - mono
                             - stereo
-                          description: Audio signal pathway within an audio file that carries a specific
+                          description:
+                            Audio signal pathway within an audio file that carries a specific
                             sound source.
                         codec:
                           type: string
                           enum:
                             - MP3
                             - AAC
-                          description: Codec using which the recording will be encoded. If VP8/VP9 is
+                          description:
+                            Codec using which the recording will be encoded. If VP8/VP9 is
                             selected for videoConfig, changing audioConfig is
                             not allowed. In this case, the codec in the
                             audioConfig is automatically set to vorbis.
                         export_file:
                           type: boolean
                           description: Controls whether to export audio file seperately
-                      description: Object containing configuration regarding the audio that is being
+                      description:
+                        Object containing configuration regarding the audio that is being
                         recorded.
                     file_name_prefix:
                       type: string
@@ -2557,14 +2709,16 @@ paths:
                           description: RTMP URL to stream to
                     max_seconds:
                       type: number
-                      description: Specifies the maximum duration for recording in seconds, ranging
+                      description:
+                        Specifies the maximum duration for recording in seconds, ranging
                         from a minimum of 60 seconds to a maximum of 24 hours.
                     realtimekit_bucket_config:
                       type: object
                       properties:
                         enabled:
                           type: boolean
-                          description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                          description:
+                            Controls whether recordings are uploaded to RealtimeKit's bucket.
                             If set to false, `download_url`,
                             `audio_download_url`, `download_url_expiry` won't be
                             generated for a recording.
@@ -2585,7 +2739,8 @@ paths:
                               description: Type of storage media.
                             access_key:
                               type: string
-                              description: Access key of the storage medium. Access key is not required for
+                              description:
+                                Access key of the storage medium. Access key is not required for
                                 the `gcs` storage media type.  Note that this
                                 field is not readable by clients, only
                                 writeable.
@@ -2603,27 +2758,31 @@ paths:
                               description: SSH destination server host for SFTP type storage medium
                             password:
                               type: string
-                              description: SSH destination server password for SFTP type storage medium when
+                              description:
+                                SSH destination server password for SFTP type storage medium when
                                 auth_method is "PASSWORD". If auth_method is
                                 "KEY", this specifies the password for the ssh
                                 private key.
                             path:
                               type: string
-                              description: Path relative to the bucket root at which the recording will be
+                              description:
+                                Path relative to the bucket root at which the recording will be
                                 placed.
                             port:
                               type: number
                               description: SSH destination server port for SFTP type storage medium
                             private_key:
                               type: string
-                              description: Private key used to login to destination SSH server for SFTP type
+                              description:
+                                Private key used to login to destination SSH server for SFTP type
                                 storage medium, when auth_method used is "KEY"
                             region:
                               type: string
                               description: Region of the storage medium.
                             secret:
                               type: string
-                              description: Secret key of the storage medium. Similar to `access_key`, it is
+                              description:
+                                Secret key of the storage medium. Similar to `access_key`, it is
                                 only writeable by clients, not readable.
                             username:
                               type: string
@@ -2674,23 +2833,27 @@ paths:
                         width:
                           type: number
                           description: Width of the recording video in pixels
-                  description: "Body param: Recording Configurations to be used for this meeting.
+                  description:
+                    "Body param: Recording Configurations to be used for this meeting.
                     This level of configs takes higher preference over App level
                     configs on the RealtimeKit developer portal."
                 session_keep_alive_time_in_secs:
                   type: number
-                  description: "Body param: Time in seconds, for which a session remains active,
+                  description:
+                    "Body param: Time in seconds, for which a session remains active,
                     after the last participant has left the meeting."
                 status:
                   type: string
                   enum:
                     - ACTIVE
                     - INACTIVE
-                  description: "Body param: Whether the meeting is `ACTIVE` or `INACTIVE`. Users
+                  description:
+                    "Body param: Whether the meeting is `ACTIVE` or `INACTIVE`. Users
                     will not be able to join an `INACTIVE` meeting."
                 summarize_on_end:
                   type: boolean
-                  description: "Body param: Automatically generate summary of meetings using
+                  description:
+                    "Body param: Automatically generate summary of meetings using
                     transcripts. Requires Transcriptions to be enabled, and can
                     be retrieved via Webhooks or summary API."
                 title:
@@ -2698,7 +2861,8 @@ paths:
                   description: "Body param: Title of the meeting"
                 transcribe_on_end:
                   type: boolean
-                  description: "Body param: Automatically generate transcripts when the meeting
+                  description:
+                    "Body param: Automatically generate transcripts when the meeting
                     ends."
       responses:
         "200":
@@ -2719,11 +2883,13 @@ paths:
                         description: ID of the meeting.
                       created_at:
                         type: string
-                        description: Timestamp the object was created at. The time is returned in ISO
+                        description:
+                          Timestamp the object was created at. The time is returned in ISO
                           format.
                       updated_at:
                         type: string
-                        description: Timestamp the object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp the object was updated at. The time is returned in ISO
                           format.
                       ai_config:
                         type: object
@@ -2743,14 +2909,16 @@ paths:
                                   - one_on_one_meeting
                                   - lecture
                                   - code_review
-                                description: Defines the style of the summary, such as general, team meeting, or
+                                description:
+                                  Defines the style of the summary, such as general, team meeting, or
                                   sales call.
                               text_format:
                                 type: string
                                 enum:
                                   - plain_text
                                   - markdown
-                                description: Determines the text format of the summary, such as plain text or
+                                description:
+                                  Determines the text format of the summary, such as plain text or
                                   markdown.
                               word_limit:
                                 type: number
@@ -2763,7 +2931,8 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: Adds specific terms to improve accurate detection during
+                                description:
+                                  Adds specific terms to improve accurate detection during
                                   transcription.
                               language:
                                 type: string
@@ -2778,24 +2947,28 @@ paths:
                                   - el
                                   - fr
                                   - nl
-                                description: Specifies the language code for transcription to ensure accurate
+                                description:
+                                  Specifies the language code for transcription to ensure accurate
                                   results.
                               profanity_filter:
                                 type: boolean
                                 description: Control the inclusion of offensive language in transcriptions.
                             description: Transcription Configurations
-                        description: The AI Config allows you to customize the behavior of meeting
+                        description:
+                          The AI Config allows you to customize the behavior of meeting
                           transcriptions and summaries
                       live_stream_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting livestreamed on
+                        description:
+                          Specifies if the meeting should start getting livestreamed on
                           start.
                       persist_chat:
                         type: boolean
                         description: Specifies if Chat within a meeting should persist for a week.
                       record_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting recorded as soon as
+                        description:
+                          Specifies if the meeting should start getting recorded as soon as
                           someone joins the meeting.
                       recording_config:
                         type: object
@@ -2808,21 +2981,24 @@ paths:
                                 enum:
                                   - mono
                                   - stereo
-                                description: Audio signal pathway within an audio file that carries a specific
+                                description:
+                                  Audio signal pathway within an audio file that carries a specific
                                   sound source.
                               codec:
                                 type: string
                                 enum:
                                   - MP3
                                   - AAC
-                                description: Codec using which the recording will be encoded. If VP8/VP9 is
+                                description:
+                                  Codec using which the recording will be encoded. If VP8/VP9 is
                                   selected for videoConfig, changing audioConfig
                                   is not allowed. In this case, the codec in the
                                   audioConfig is automatically set to vorbis.
                               export_file:
                                 type: boolean
                                 description: Controls whether to export audio file seperately
-                            description: Object containing configuration regarding the audio that is being
+                            description:
+                              Object containing configuration regarding the audio that is being
                               recorded.
                           file_name_prefix:
                             type: string
@@ -2835,7 +3011,8 @@ paths:
                                 description: RTMP URL to stream to
                           max_seconds:
                             type: number
-                            description: Specifies the maximum duration for recording in seconds, ranging
+                            description:
+                              Specifies the maximum duration for recording in seconds, ranging
                               from a minimum of 60 seconds to a maximum of 24
                               hours.
                           realtimekit_bucket_config:
@@ -2843,7 +3020,8 @@ paths:
                             properties:
                               enabled:
                                 type: boolean
-                                description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                                description:
+                                  Controls whether recordings are uploaded to RealtimeKit's bucket.
                                   If set to false, `download_url`,
                                   `audio_download_url`, `download_url_expiry`
                                   won't be generated for a recording.
@@ -2876,20 +3054,23 @@ paths:
                                     description: SSH destination server host for SFTP type storage medium
                                   password:
                                     type: string
-                                    description: SSH destination server password for SFTP type storage medium when
+                                    description:
+                                      SSH destination server password for SFTP type storage medium when
                                       auth_method is "PASSWORD". If auth_method
                                       is "KEY", this specifies the password for
                                       the ssh private key.
                                   path:
                                     type: string
-                                    description: Path relative to the bucket root at which the recording will be
+                                    description:
+                                      Path relative to the bucket root at which the recording will be
                                       placed.
                                   port:
                                     type: number
                                     description: SSH destination server port for SFTP type storage medium
                                   private_key:
                                     type: string
-                                    description: Private key used to login to destination SSH server for SFTP type
+                                    description:
+                                      Private key used to login to destination SSH server for SFTP type
                                       storage medium, when auth_method used is
                                       "KEY"
                                   region:
@@ -2897,7 +3078,8 @@ paths:
                                     description: Region of the storage medium.
                                   secret:
                                     type: string
-                                    description: Secret key of the storage medium. Similar to `access_key`, it is
+                                    description:
+                                      Secret key of the storage medium. Similar to `access_key`, it is
                                       only writeable by clients, not readable.
                                   username:
                                     type: string
@@ -2948,23 +3130,27 @@ paths:
                               width:
                                 type: number
                                 description: Width of the recording video in pixels
-                        description: Recording Configurations to be used for this meeting. This level of
+                        description:
+                          Recording Configurations to be used for this meeting. This level of
                           configs takes higher preference over App level configs
                           on the RealtimeKit developer portal.
                       session_keep_alive_time_in_secs:
                         type: number
-                        description: Time in seconds, for which a session remains active, after the last
+                        description:
+                          Time in seconds, for which a session remains active, after the last
                           participant has left the meeting.
                       status:
                         type: string
                         enum:
                           - ACTIVE
                           - INACTIVE
-                        description: Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
+                        description:
+                          Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
                           able to join an `INACTIVE` meeting.
                       summarize_on_end:
                         type: boolean
-                        description: Automatically generate summary of meetings using transcripts.
+                        description:
+                          Automatically generate summary of meetings using transcripts.
                           Requires Transcriptions to be enabled, and can be
                           retrieved via Webhooks or summary API.
                       title:
@@ -2982,7 +3168,8 @@ paths:
                   - success
     put:
       operationId: replaceMeetingByIdMeeting
-      description: "Replaces all the details for the given meeting ID.  @example ```ts
+      description:
+        "Replaces all the details for the given meeting ID.  @example ```ts
         const response = await client.realtimeKit.meetings.replaceMeetingById(
         'app_id', '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -3028,14 +3215,16 @@ paths:
                             - one_on_one_meeting
                             - lecture
                             - code_review
-                          description: Defines the style of the summary, such as general, team meeting, or
+                          description:
+                            Defines the style of the summary, such as general, team meeting, or
                             sales call.
                         text_format:
                           type: string
                           enum:
                             - plain_text
                             - markdown
-                          description: Determines the text format of the summary, such as plain text or
+                          description:
+                            Determines the text format of the summary, such as plain text or
                             markdown.
                         word_limit:
                           type: number
@@ -3048,7 +3237,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: Adds specific terms to improve accurate detection during
+                          description:
+                            Adds specific terms to improve accurate detection during
                             transcription.
                         language:
                           type: string
@@ -3063,29 +3253,34 @@ paths:
                             - el
                             - fr
                             - nl
-                          description: Specifies the language code for transcription to ensure accurate
+                          description:
+                            Specifies the language code for transcription to ensure accurate
                             results.
                         profanity_filter:
                           type: boolean
                           description: Control the inclusion of offensive language in transcriptions.
                       description: Transcription Configurations
-                  description: "Body param: The AI Config allows you to customize the behavior of
+                  description:
+                    "Body param: The AI Config allows you to customize the behavior of
                     meeting transcriptions and summaries"
                 live_stream_on_start:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Specifies if the meeting should start getting
+                  description:
+                    "Body param: Specifies if the meeting should start getting
                     livestreamed on start."
                 persist_chat:
                   type: boolean
-                  description: "Body param: If a meeting is set to persist_chat, meeting chat
+                  description:
+                    "Body param: If a meeting is set to persist_chat, meeting chat
                     would remain for a week within the meeting space."
                 record_on_start:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Specifies if the meeting should start getting recorded
+                  description:
+                    "Body param: Specifies if the meeting should start getting recorded
                     as soon as someone joins the meeting."
                 recording_config:
                   type: object
@@ -3098,21 +3293,24 @@ paths:
                           enum:
                             - mono
                             - stereo
-                          description: Audio signal pathway within an audio file that carries a specific
+                          description:
+                            Audio signal pathway within an audio file that carries a specific
                             sound source.
                         codec:
                           type: string
                           enum:
                             - MP3
                             - AAC
-                          description: Codec using which the recording will be encoded. If VP8/VP9 is
+                          description:
+                            Codec using which the recording will be encoded. If VP8/VP9 is
                             selected for videoConfig, changing audioConfig is
                             not allowed. In this case, the codec in the
                             audioConfig is automatically set to vorbis.
                         export_file:
                           type: boolean
                           description: Controls whether to export audio file seperately
-                      description: Object containing configuration regarding the audio that is being
+                      description:
+                        Object containing configuration regarding the audio that is being
                         recorded.
                     file_name_prefix:
                       type: string
@@ -3125,14 +3323,16 @@ paths:
                           description: RTMP URL to stream to
                     max_seconds:
                       type: number
-                      description: Specifies the maximum duration for recording in seconds, ranging
+                      description:
+                        Specifies the maximum duration for recording in seconds, ranging
                         from a minimum of 60 seconds to a maximum of 24 hours.
                     realtimekit_bucket_config:
                       type: object
                       properties:
                         enabled:
                           type: boolean
-                          description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                          description:
+                            Controls whether recordings are uploaded to RealtimeKit's bucket.
                             If set to false, `download_url`,
                             `audio_download_url`, `download_url_expiry` won't be
                             generated for a recording.
@@ -3153,7 +3353,8 @@ paths:
                               description: Type of storage media.
                             access_key:
                               type: string
-                              description: Access key of the storage medium. Access key is not required for
+                              description:
+                                Access key of the storage medium. Access key is not required for
                                 the `gcs` storage media type.  Note that this
                                 field is not readable by clients, only
                                 writeable.
@@ -3171,27 +3372,31 @@ paths:
                               description: SSH destination server host for SFTP type storage medium
                             password:
                               type: string
-                              description: SSH destination server password for SFTP type storage medium when
+                              description:
+                                SSH destination server password for SFTP type storage medium when
                                 auth_method is "PASSWORD". If auth_method is
                                 "KEY", this specifies the password for the ssh
                                 private key.
                             path:
                               type: string
-                              description: Path relative to the bucket root at which the recording will be
+                              description:
+                                Path relative to the bucket root at which the recording will be
                                 placed.
                             port:
                               type: number
                               description: SSH destination server port for SFTP type storage medium
                             private_key:
                               type: string
-                              description: Private key used to login to destination SSH server for SFTP type
+                              description:
+                                Private key used to login to destination SSH server for SFTP type
                                 storage medium, when auth_method used is "KEY"
                             region:
                               type: string
                               description: Region of the storage medium.
                             secret:
                               type: string
-                              description: Secret key of the storage medium. Similar to `access_key`, it is
+                              description:
+                                Secret key of the storage medium. Similar to `access_key`, it is
                                 only writeable by clients, not readable.
                             username:
                               type: string
@@ -3242,16 +3447,19 @@ paths:
                         width:
                           type: number
                           description: Width of the recording video in pixels
-                  description: "Body param: Recording Configurations to be used for this meeting.
+                  description:
+                    "Body param: Recording Configurations to be used for this meeting.
                     This level of configs takes higher preference over App level
                     configs on the RealtimeKit developer portal."
                 session_keep_alive_time_in_secs:
                   type: number
-                  description: "Body param: Time in seconds, for which a session remains active,
+                  description:
+                    "Body param: Time in seconds, for which a session remains active,
                     after the last participant has left the meeting."
                 summarize_on_end:
                   type: boolean
-                  description: "Body param: Automatically generate summary of meetings using
+                  description:
+                    "Body param: Automatically generate summary of meetings using
                     transcripts. Requires Transcriptions to be enabled, and can
                     be retrieved via Webhooks or summary API."
                 title:
@@ -3261,7 +3469,8 @@ paths:
                   description: "Body param: Title of the meeting"
                 transcribe_on_end:
                   type: boolean
-                  description: "Body param: Automatically generate transcripts when the meeting
+                  description:
+                    "Body param: Automatically generate transcripts when the meeting
                     ends."
       responses:
         "200":
@@ -3282,11 +3491,13 @@ paths:
                         description: ID of the meeting.
                       created_at:
                         type: string
-                        description: Timestamp the object was created at. The time is returned in ISO
+                        description:
+                          Timestamp the object was created at. The time is returned in ISO
                           format.
                       updated_at:
                         type: string
-                        description: Timestamp the object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp the object was updated at. The time is returned in ISO
                           format.
                       ai_config:
                         type: object
@@ -3306,14 +3517,16 @@ paths:
                                   - one_on_one_meeting
                                   - lecture
                                   - code_review
-                                description: Defines the style of the summary, such as general, team meeting, or
+                                description:
+                                  Defines the style of the summary, such as general, team meeting, or
                                   sales call.
                               text_format:
                                 type: string
                                 enum:
                                   - plain_text
                                   - markdown
-                                description: Determines the text format of the summary, such as plain text or
+                                description:
+                                  Determines the text format of the summary, such as plain text or
                                   markdown.
                               word_limit:
                                 type: number
@@ -3326,7 +3539,8 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: Adds specific terms to improve accurate detection during
+                                description:
+                                  Adds specific terms to improve accurate detection during
                                   transcription.
                               language:
                                 type: string
@@ -3341,24 +3555,28 @@ paths:
                                   - el
                                   - fr
                                   - nl
-                                description: Specifies the language code for transcription to ensure accurate
+                                description:
+                                  Specifies the language code for transcription to ensure accurate
                                   results.
                               profanity_filter:
                                 type: boolean
                                 description: Control the inclusion of offensive language in transcriptions.
                             description: Transcription Configurations
-                        description: The AI Config allows you to customize the behavior of meeting
+                        description:
+                          The AI Config allows you to customize the behavior of meeting
                           transcriptions and summaries
                       live_stream_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting livestreamed on
+                        description:
+                          Specifies if the meeting should start getting livestreamed on
                           start.
                       persist_chat:
                         type: boolean
                         description: Specifies if Chat within a meeting should persist for a week.
                       record_on_start:
                         type: boolean
-                        description: Specifies if the meeting should start getting recorded as soon as
+                        description:
+                          Specifies if the meeting should start getting recorded as soon as
                           someone joins the meeting.
                       recording_config:
                         type: object
@@ -3371,21 +3589,24 @@ paths:
                                 enum:
                                   - mono
                                   - stereo
-                                description: Audio signal pathway within an audio file that carries a specific
+                                description:
+                                  Audio signal pathway within an audio file that carries a specific
                                   sound source.
                               codec:
                                 type: string
                                 enum:
                                   - MP3
                                   - AAC
-                                description: Codec using which the recording will be encoded. If VP8/VP9 is
+                                description:
+                                  Codec using which the recording will be encoded. If VP8/VP9 is
                                   selected for videoConfig, changing audioConfig
                                   is not allowed. In this case, the codec in the
                                   audioConfig is automatically set to vorbis.
                               export_file:
                                 type: boolean
                                 description: Controls whether to export audio file seperately
-                            description: Object containing configuration regarding the audio that is being
+                            description:
+                              Object containing configuration regarding the audio that is being
                               recorded.
                           file_name_prefix:
                             type: string
@@ -3398,7 +3619,8 @@ paths:
                                 description: RTMP URL to stream to
                           max_seconds:
                             type: number
-                            description: Specifies the maximum duration for recording in seconds, ranging
+                            description:
+                              Specifies the maximum duration for recording in seconds, ranging
                               from a minimum of 60 seconds to a maximum of 24
                               hours.
                           realtimekit_bucket_config:
@@ -3406,7 +3628,8 @@ paths:
                             properties:
                               enabled:
                                 type: boolean
-                                description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                                description:
+                                  Controls whether recordings are uploaded to RealtimeKit's bucket.
                                   If set to false, `download_url`,
                                   `audio_download_url`, `download_url_expiry`
                                   won't be generated for a recording.
@@ -3439,20 +3662,23 @@ paths:
                                     description: SSH destination server host for SFTP type storage medium
                                   password:
                                     type: string
-                                    description: SSH destination server password for SFTP type storage medium when
+                                    description:
+                                      SSH destination server password for SFTP type storage medium when
                                       auth_method is "PASSWORD". If auth_method
                                       is "KEY", this specifies the password for
                                       the ssh private key.
                                   path:
                                     type: string
-                                    description: Path relative to the bucket root at which the recording will be
+                                    description:
+                                      Path relative to the bucket root at which the recording will be
                                       placed.
                                   port:
                                     type: number
                                     description: SSH destination server port for SFTP type storage medium
                                   private_key:
                                     type: string
-                                    description: Private key used to login to destination SSH server for SFTP type
+                                    description:
+                                      Private key used to login to destination SSH server for SFTP type
                                       storage medium, when auth_method used is
                                       "KEY"
                                   region:
@@ -3460,7 +3686,8 @@ paths:
                                     description: Region of the storage medium.
                                   secret:
                                     type: string
-                                    description: Secret key of the storage medium. Similar to `access_key`, it is
+                                    description:
+                                      Secret key of the storage medium. Similar to `access_key`, it is
                                       only writeable by clients, not readable.
                                   username:
                                     type: string
@@ -3511,23 +3738,27 @@ paths:
                               width:
                                 type: number
                                 description: Width of the recording video in pixels
-                        description: Recording Configurations to be used for this meeting. This level of
+                        description:
+                          Recording Configurations to be used for this meeting. This level of
                           configs takes higher preference over App level configs
                           on the RealtimeKit developer portal.
                       session_keep_alive_time_in_secs:
                         type: number
-                        description: Time in seconds, for which a session remains active, after the last
+                        description:
+                          Time in seconds, for which a session remains active, after the last
                           participant has left the meeting.
                       status:
                         type: string
                         enum:
                           - ACTIVE
                           - INACTIVE
-                        description: Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
+                        description:
+                          Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
                           able to join an `INACTIVE` meeting.
                       summarize_on_end:
                         type: boolean
-                        description: Automatically generate summary of meetings using transcripts.
+                        description:
+                          Automatically generate summary of meetings using transcripts.
                           Requires Transcriptions to be enabled, and can be
                           retrieved via Webhooks or summary API.
                       title:
@@ -3667,7 +3898,8 @@ paths:
                     properties:
                       created_at:
                         type: string
-                        description: Timestamp this object was created at. The time is returned in ISO
+                        description:
+                          Timestamp this object was created at. The time is returned in ISO
                           format.
                       custom_participant_id:
                         type: string
@@ -3677,7 +3909,8 @@ paths:
                         description: ID of the preset applied to this participant.
                       updated_at:
                         type: string
-                        description: Timestamp this object was updated at. The time is returned in ISO
+                        description:
+                          Timestamp this object was updated at. The time is returned in ISO
                           format.
                     required:
                       - created_at
@@ -3732,13 +3965,15 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: (Optional) A URL to a picture to be used for the
+                  description:
+                    "Body param: (Optional) A URL to a picture to be used for the
                     participant."
                 preset_name:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: (Optional) Name of the preset to apply to this
+                  description:
+                    "Body param: (Optional) Name of the preset to apply to this
                     participant."
       responses:
         "200":
@@ -3759,7 +3994,8 @@ paths:
                         description: ID of the participant.
                       token:
                         type: string
-                        description: The participant's auth token that can be used for joining a meeting
+                        description:
+                          The participant's auth token that can be used for joining a meeting
                           from the client side.
                       created_at:
                         type: string
@@ -3821,7 +4057,8 @@ paths:
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -3896,7 +4133,8 @@ paths:
                   - success
     post:
       operationId: addParticipantMeeting
-      description: "Adds a participant to the given meeting ID.  @example ```ts const
+      description:
+        "Adds a participant to the given meeting ID.  @example ```ts const
         response = await client.realtimeKit.meetings.addParticipant( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', custom_participant_id:
@@ -3927,7 +4165,8 @@ paths:
               properties:
                 custom_participant_id:
                   type: string
-                  description: "Body param: A unique participant ID. You must specify a unique ID
+                  description:
+                    "Body param: A unique participant ID. You must specify a unique ID
                     for the participant, for example, UUID, email address, and
                     so on."
                 preset_name:
@@ -3942,7 +4181,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: (Optional) A URL to a picture to be used for the
+                  description:
+                    "Body param: (Optional) A URL to a picture to be used for the
                     participant."
               required:
                 - custom_participant_id
@@ -3966,7 +4206,8 @@ paths:
                         description: ID of the participant.
                       token:
                         type: string
-                        description: The participant's auth token that can be used for joining a meeting
+                        description:
+                          The participant's auth token that can be used for joining a meeting
                           from the client side.
                       created_at:
                         type: string
@@ -4045,7 +4286,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: If the audio_config is passed, the URL for downloading the audio
+                        description:
+                          If the audio_config is passed, the URL for downloading the audio
                           recording is returned.
                       download_url:
                         oneOf:
@@ -4077,7 +4319,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording actually started after being invoked.
+                        description:
+                          Timestamp when this recording actually started after being invoked.
                           Usually a few seconds after `invoked_time`.
                       status:
                         type: string
@@ -4093,7 +4336,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording was stopped. Optional; is present
+                        description:
+                          Timestamp when this recording was stopped. Optional; is present
                           only when the recording has actually been stopped.
                       recording_duration:
                         type: number
@@ -4112,7 +4356,8 @@ paths:
                                 enum:
                                   - ORGANIZATION
                                   - USER
-                                description: The type can be an App or a user. If the type is `user`, then only
+                                description:
+                                  The type can be an App or a user. If the type is `user`, then only
                                   the `user_Id` and `name` are returned.
                               user_Id:
                                 type: string
@@ -4122,7 +4367,8 @@ paths:
                             enum:
                               - API_CALL
                               - RECORD_ON_START
-                            description: Specifies if the recording was started using the "Start a
+                            description:
+                              Specifies if the recording was started using the "Start a
                               Recording"API or using the parameter
                               RECORD_ON_START in the "Create a meeting" API.  If
                               the recording is initiated using the
@@ -4142,7 +4388,8 @@ paths:
                                 enum:
                                   - ORGANIZATION
                                   - USER
-                                description: The type can be an App or a user. If the type is `user`, then only
+                                description:
+                                  The type can be an App or a user. If the type is `user`, then only
                                   the `user_Id` and `name` are returned.
                               user_Id:
                                 type: string
@@ -4181,27 +4428,31 @@ paths:
                                 description: SSH destination server host for SFTP type storage medium
                               password:
                                 type: string
-                                description: SSH destination server password for SFTP type storage medium when
+                                description:
+                                  SSH destination server password for SFTP type storage medium when
                                   auth_method is "PASSWORD". If auth_method is
                                   "KEY", this specifies the password for the ssh
                                   private key.
                               path:
                                 type: string
-                                description: Path relative to the bucket root at which the recording will be
+                                description:
+                                  Path relative to the bucket root at which the recording will be
                                   placed.
                               port:
                                 type: number
                                 description: SSH destination server port for SFTP type storage medium
                               private_key:
                                 type: string
-                                description: Private key used to login to destination SSH server for SFTP type
+                                description:
+                                  Private key used to login to destination SSH server for SFTP type
                                   storage medium, when auth_method used is "KEY"
                               region:
                                 type: string
                                 description: Region of the storage medium.
                               secret:
                                 type: string
-                                description: Secret key of the storage medium. Similar to `access_key`, it is
+                                description:
+                                  Secret key of the storage medium. Similar to `access_key`, it is
                                   only writeable by clients, not readable.
                               username:
                                 type: string
@@ -4226,7 +4477,8 @@ paths:
                   - success
     put:
       operationId: pauseResumeStopRecordingRecording
-      description: "Pause/Resume/Stop a given recording ID.  @example ```ts const
+      description:
+        "Pause/Resume/Stop a given recording ID.  @example ```ts const
         response = await client.realtimeKit.recordings.pauseResumeStopRecording(
         '2a95132c15732412d22c1476fa83f27a', 'recording_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', action: 'stop', }, ); ```"
@@ -4284,7 +4536,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: If the audio_config is passed, the URL for downloading the audio
+                        description:
+                          If the audio_config is passed, the URL for downloading the audio
                           recording is returned.
                       download_url:
                         oneOf:
@@ -4316,7 +4569,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording actually started after being invoked.
+                        description:
+                          Timestamp when this recording actually started after being invoked.
                           Usually a few seconds after `invoked_time`.
                       status:
                         type: string
@@ -4332,7 +4586,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording was stopped. Optional; is present
+                        description:
+                          Timestamp when this recording was stopped. Optional; is present
                           only when the recording has actually been stopped.
                       recording_duration:
                         type: number
@@ -4351,7 +4606,8 @@ paths:
                                 enum:
                                   - ORGANIZATION
                                   - USER
-                                description: The type can be an App or a user. If the type is `user`, then only
+                                description:
+                                  The type can be an App or a user. If the type is `user`, then only
                                   the `user_Id` and `name` are returned.
                               user_Id:
                                 type: string
@@ -4361,7 +4617,8 @@ paths:
                             enum:
                               - API_CALL
                               - RECORD_ON_START
-                            description: Specifies if the recording was started using the "Start a
+                            description:
+                              Specifies if the recording was started using the "Start a
                               Recording"API or using the parameter
                               RECORD_ON_START in the "Create a meeting" API.  If
                               the recording is initiated using the
@@ -4381,7 +4638,8 @@ paths:
                                 enum:
                                   - ORGANIZATION
                                   - USER
-                                description: The type can be an App or a user. If the type is `user`, then only
+                                description:
+                                  The type can be an App or a user. If the type is `user`, then only
                                   the `user_Id` and `name` are returned.
                               user_Id:
                                 type: string
@@ -4420,27 +4678,31 @@ paths:
                                 description: SSH destination server host for SFTP type storage medium
                               password:
                                 type: string
-                                description: SSH destination server password for SFTP type storage medium when
+                                description:
+                                  SSH destination server password for SFTP type storage medium when
                                   auth_method is "PASSWORD". If auth_method is
                                   "KEY", this specifies the password for the ssh
                                   private key.
                               path:
                                 type: string
-                                description: Path relative to the bucket root at which the recording will be
+                                description:
+                                  Path relative to the bucket root at which the recording will be
                                   placed.
                               port:
                                 type: number
                                 description: SSH destination server port for SFTP type storage medium
                               private_key:
                                 type: string
-                                description: Private key used to login to destination SSH server for SFTP type
+                                description:
+                                  Private key used to login to destination SSH server for SFTP type
                                   storage medium, when auth_method used is "KEY"
                               region:
                                 type: string
                                 description: Region of the storage medium.
                               secret:
                                 type: string
-                                description: Secret key of the storage medium. Similar to `access_key`, it is
+                                description:
+                                  Secret key of the storage medium. Similar to `access_key`, it is
                                   only writeable by clients, not readable.
                               username:
                                 type: string
@@ -4466,7 +4728,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/analytics/daywise:
     get:
       operationId: getOrgAnalyticsLivestream
-      description: "Returns day-wise session and recording analytics data of an App
+      description:
+        "Returns day-wise session and recording analytics data of an App
         for the specified time range start_date to end_date. If start_date and
         end_date are not provided, the default time range is set from 30 days
         ago to the current date.  @example ```ts const response = await
@@ -4560,7 +4823,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/sessions/peer-report/{peerId}:
     get:
       operationId: getParticipantDataFromPeerIdSession
-      description: "Returns participant details for the given peer ID along with call
+      description:
+        "Returns participant details for the given peer ID along with call
         statistics.  @example ```ts const response = await
         client.realtimeKit.sessions.getParticipantDataFromPeerId( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
@@ -4597,7 +4861,8 @@ paths:
         - name: include_peer_events
           in: query
           required: false
-          description: "Query param: if true, response includes all the peer events of
+          description:
+            "Query param: if true, response includes all the peer events of
             participant."
           schema:
             type: boolean
@@ -4667,7 +4932,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/active-session/kick:
     post:
       operationId: kickParticipantsActiveSession
-      description: "Kicks one or more participants from an active session using user
+      description:
+        "Kicks one or more participants from an active session using user
         ID or custom participant ID.  @example ```ts const response = await
         client.realtimeKit.activeSession.kickParticipants( 'app_id',
         'meeting_id', { account_id: '023e105f4ecef8ad9ca31a8372d0c353',
@@ -4806,7 +5072,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/meetings/{meetingId}/active-session/poll:
     post:
       operationId: createPollActiveSession
-      description: "Creates a new poll in an active session for the given meeting
+      description:
+        "Creates a new poll in an active session for the given meeting
         ID.  @example ```ts const response = await
         client.realtimeKit.activeSession.createPoll( 'app_id', 'meeting_id', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', options: ['string'],
@@ -4848,7 +5115,8 @@ paths:
                   description: "Body param: if voters on a poll are anonymous"
                 hide_votes:
                   type: boolean
-                  description: "Body param: if votes on an option are visible before a person
+                  description:
+                    "Body param: if votes on an option are visible before a person
                     votes"
               required:
                 - options
@@ -4921,7 +5189,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/presets:
     get:
       operationId: getPreset
-      description: "Fetches all the presets belonging to an App.  @example ```ts const
+      description:
+        "Fetches all the presets belonging to an App.  @example ```ts const
         preset = await client.realtimeKit.presets.get( 'app_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -4939,7 +5208,8 @@ paths:
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -5004,7 +5274,8 @@ paths:
           - status: 403
     post:
       operationId: createPreset
-      description: "Creates a preset belonging to the current App  @example ```ts
+      description:
+        "Creates a preset belonging to the current App  @example ```ts
         const preset = await client.realtimeKit.presets.create('app_id', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', config: {
         max_screenshare_count: 0, max_video_streams: { ... }, media: { ... },
@@ -5933,7 +6204,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/presets/{presetId}:
     patch:
       operationId: patchPreset
-      description: "Update a preset by the provided preset ID  @example ```ts const
+      description:
+        "Update a preset by the provided preset ID  @example ```ts const
         preset = await client.realtimeKit.presets.update( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -6306,7 +6578,8 @@ paths:
           - status: 403
     delete:
       operationId: deletePreset
-      description: "Deletes a preset using the provided preset ID  @example ```ts
+      description:
+        "Deletes a preset using the provided preset ID  @example ```ts
         const preset = await client.realtimeKit.presets.delete( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -6350,7 +6623,8 @@ paths:
           - status: 403
     get:
       operationId: getPresetByIdPreset
-      description: "Fetches details of a preset using the provided preset ID  @example
+      description:
+        "Fetches details of a preset using the provided preset ID  @example
         ```ts const response = await client.realtimeKit.presets.getPresetById(
         'app_id', '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -6836,7 +7110,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/recordings:
     get:
       operationId: getRecordingsRecording
-      description: "Returns all recordings for an App. If the `meeting_id` parameter
+      description:
+        "Returns all recordings for an App. If the `meeting_id` parameter
         is passed, returns all recordings for the given meeting ID.  @example
         ```ts const response = await
         client.realtimeKit.recordings.getRecordings( 'app_id', { account_id:
@@ -6856,28 +7131,32 @@ paths:
         - name: end_time
           in: query
           required: false
-          description: "Query param: The end time range for which you want to retrieve the
+          description:
+            "Query param: The end time range for which you want to retrieve the
             meetings. The time must be specified in ISO format."
           schema:
             type: string
         - name: expired
           in: query
           required: false
-          description: "Query param: If passed, only shows expired/non-expired recordings
+          description:
+            "Query param: If passed, only shows expired/non-expired recordings
             on RealtimeKit's bucket"
           schema:
             type: boolean
         - name: meeting_id
           in: query
           required: false
-          description: "Query param: ID of a meeting. Optional. Will limit results to only
+          description:
+            "Query param: ID of a meeting. Optional. Will limit results to only
             this meeting if passed."
           schema:
             type: string
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -6890,7 +7169,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: The search query string. You can search using the
+          description:
+            "Query param: The search query string. You can search using the
             meeting ID or title."
           schema:
             type: string
@@ -6914,7 +7194,8 @@ paths:
         - name: start_time
           in: query
           required: false
-          description: "Query param: The start time range for which you want to retrieve
+          description:
+            "Query param: The start time range for which you want to retrieve
             the meetings. The time must be specified in ISO format."
           schema:
             type: string
@@ -6951,7 +7232,8 @@ paths:
                           oneOf:
                             - type: string
                           nullable: true
-                          description: If the audio_config is passed, the URL for downloading the audio
+                          description:
+                            If the audio_config is passed, the URL for downloading the audio
                             recording is returned.
                         download_url:
                           oneOf:
@@ -6983,7 +7265,8 @@ paths:
                           oneOf:
                             - type: string
                           nullable: true
-                          description: Timestamp when this recording actually started after being invoked.
+                          description:
+                            Timestamp when this recording actually started after being invoked.
                             Usually a few seconds after `invoked_time`.
                         status:
                           type: string
@@ -6999,7 +7282,8 @@ paths:
                           oneOf:
                             - type: string
                           nullable: true
-                          description: Timestamp when this recording was stopped. Optional; is present
+                          description:
+                            Timestamp when this recording was stopped. Optional; is present
                             only when the recording has actually been stopped.
                         meeting:
                           type: object
@@ -7009,22 +7293,26 @@ paths:
                               description: ID of the meeting.
                             created_at:
                               type: string
-                              description: Timestamp the object was created at. The time is returned in ISO
+                              description:
+                                Timestamp the object was created at. The time is returned in ISO
                                 format.
                             updated_at:
                               type: string
-                              description: Timestamp the object was updated at. The time is returned in ISO
+                              description:
+                                Timestamp the object was updated at. The time is returned in ISO
                                 format.
                             live_stream_on_start:
                               type: boolean
-                              description: Specifies if the meeting should start getting livestreamed on
+                              description:
+                                Specifies if the meeting should start getting livestreamed on
                                 start.
                             persist_chat:
                               type: boolean
                               description: Specifies if Chat within a meeting should persist for a week.
                             record_on_start:
                               type: boolean
-                              description: Specifies if the meeting should start getting recorded as soon as
+                              description:
+                                Specifies if the meeting should start getting recorded as soon as
                                 someone joins the meeting.
                             recording_config:
                               type: object
@@ -7037,14 +7325,16 @@ paths:
                                       enum:
                                         - mono
                                         - stereo
-                                      description: Audio signal pathway within an audio file that carries a specific
+                                      description:
+                                        Audio signal pathway within an audio file that carries a specific
                                         sound source.
                                     codec:
                                       type: string
                                       enum:
                                         - MP3
                                         - AAC
-                                      description: Codec using which the recording will be encoded. If VP8/VP9 is
+                                      description:
+                                        Codec using which the recording will be encoded. If VP8/VP9 is
                                         selected for videoConfig, changing
                                         audioConfig is not allowed. In this
                                         case, the codec in the audioConfig is
@@ -7052,7 +7342,8 @@ paths:
                                     export_file:
                                       type: boolean
                                       description: Controls whether to export audio file seperately
-                                  description: Object containing configuration regarding the audio that is being
+                                  description:
+                                    Object containing configuration regarding the audio that is being
                                     recorded.
                                 file_name_prefix:
                                   type: string
@@ -7065,7 +7356,8 @@ paths:
                                       description: RTMP URL to stream to
                                 max_seconds:
                                   type: number
-                                  description: Specifies the maximum duration for recording in seconds, ranging
+                                  description:
+                                    Specifies the maximum duration for recording in seconds, ranging
                                     from a minimum of 60 seconds to a maximum of
                                     24 hours.
                                 realtimekit_bucket_config:
@@ -7073,7 +7365,8 @@ paths:
                                   properties:
                                     enabled:
                                       type: boolean
-                                      description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                                      description:
+                                        Controls whether recordings are uploaded to RealtimeKit's bucket.
                                         If set to false, `download_url`,
                                         `audio_download_url`,
                                         `download_url_expiry` won't be generated
@@ -7107,21 +7400,24 @@ paths:
                                           description: SSH destination server host for SFTP type storage medium
                                         password:
                                           type: string
-                                          description: SSH destination server password for SFTP type storage medium when
+                                          description:
+                                            SSH destination server password for SFTP type storage medium when
                                             auth_method is "PASSWORD". If
                                             auth_method is "KEY", this specifies
                                             the password for the ssh private
                                             key.
                                         path:
                                           type: string
-                                          description: Path relative to the bucket root at which the recording will be
+                                          description:
+                                            Path relative to the bucket root at which the recording will be
                                             placed.
                                         port:
                                           type: number
                                           description: SSH destination server port for SFTP type storage medium
                                         private_key:
                                           type: string
-                                          description: Private key used to login to destination SSH server for SFTP type
+                                          description:
+                                            Private key used to login to destination SSH server for SFTP type
                                             storage medium, when auth_method
                                             used is "KEY"
                                         region:
@@ -7129,7 +7425,8 @@ paths:
                                           description: Region of the storage medium.
                                         secret:
                                           type: string
-                                          description: Secret key of the storage medium. Similar to `access_key`, it is
+                                          description:
+                                            Secret key of the storage medium. Similar to `access_key`, it is
                                             only writeable by clients, not
                                             readable.
                                         username:
@@ -7181,23 +7478,27 @@ paths:
                                     width:
                                       type: number
                                       description: Width of the recording video in pixels
-                              description: Recording Configurations to be used for this meeting. This level of
+                              description:
+                                Recording Configurations to be used for this meeting. This level of
                                 configs takes higher preference over App level
                                 configs on the RealtimeKit developer portal.
                             session_keep_alive_time_in_secs:
                               type: number
-                              description: Time in seconds, for which a session remains active, after the last
+                              description:
+                                Time in seconds, for which a session remains active, after the last
                                 participant has left the meeting.
                             status:
                               type: string
                               enum:
                                 - ACTIVE
                                 - INACTIVE
-                              description: Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
+                              description:
+                                Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be
                                 able to join an `INACTIVE` meeting.
                             summarize_on_end:
                               type: boolean
-                              description: Automatically generate summary of meetings using transcripts.
+                              description:
+                                Automatically generate summary of meetings using transcripts.
                                 Requires Transcriptions to be enabled, and can
                                 be retrieved via Webhooks or summary API.
                             title:
@@ -7240,20 +7541,23 @@ paths:
                                   description: SSH destination server host for SFTP type storage medium
                                 password:
                                   type: string
-                                  description: SSH destination server password for SFTP type storage medium when
+                                  description:
+                                    SSH destination server password for SFTP type storage medium when
                                     auth_method is "PASSWORD". If auth_method is
                                     "KEY", this specifies the password for the
                                     ssh private key.
                                 path:
                                   type: string
-                                  description: Path relative to the bucket root at which the recording will be
+                                  description:
+                                    Path relative to the bucket root at which the recording will be
                                     placed.
                                 port:
                                   type: number
                                   description: SSH destination server port for SFTP type storage medium
                                 private_key:
                                   type: string
-                                  description: Private key used to login to destination SSH server for SFTP type
+                                  description:
+                                    Private key used to login to destination SSH server for SFTP type
                                     storage medium, when auth_method used is
                                     "KEY"
                                 region:
@@ -7261,7 +7565,8 @@ paths:
                                   description: Region of the storage medium.
                                 secret:
                                   type: string
-                                  description: Secret key of the storage medium. Similar to `access_key`, it is
+                                  description:
+                                    Secret key of the storage medium. Similar to `access_key`, it is
                                     only writeable by clients, not readable.
                                 username:
                                   type: string
@@ -7302,7 +7607,8 @@ paths:
                   - success
     post:
       operationId: startRecordingsRecording
-      description: "Starts recording a meeting. The meeting can be started by an App
+      description:
+        "Starts recording a meeting. The meeting can be started by an App
         admin directly, or a participant with permissions to start a recording,
         based on the type of authorization used.  @example ```ts const response
         = await client.realtimeKit.recordings.startRecordings( 'app_id', {
@@ -7335,7 +7641,8 @@ paths:
               properties:
                 allow_multiple_recordings:
                   type: boolean
-                  description: "Body param: By default, a meeting allows only one recording to run
+                  description:
+                    "Body param: By default, a meeting allows only one recording to run
                     at a time. Enabling the `allow_multiple_recordings`
                     parameter to true allows you to initiate multiple recordings
                     concurrently in the same meeting. This allows you to record
@@ -7349,21 +7656,24 @@ paths:
                       enum:
                         - mono
                         - stereo
-                      description: Audio signal pathway within an audio file that carries a specific
+                      description:
+                        Audio signal pathway within an audio file that carries a specific
                         sound source.
                     codec:
                       type: string
                       enum:
                         - MP3
                         - AAC
-                      description: Codec using which the recording will be encoded. If VP8/VP9 is
+                      description:
+                        Codec using which the recording will be encoded. If VP8/VP9 is
                         selected for videoConfig, changing audioConfig is not
                         allowed. In this case, the codec in the audioConfig is
                         automatically set to vorbis.
                     export_file:
                       type: boolean
                       description: Controls whether to export audio file seperately
-                  description: "Body param: Object containing configuration regarding the audio
+                  description:
+                    "Body param: Object containing configuration regarding the audio
                     that is being recorded."
                 file_name_prefix:
                   type: string
@@ -7376,7 +7686,8 @@ paths:
                       enum:
                         - ID3
                       description: The metadata is presented in the form of ID3 tags.
-                  description: "Body param: Allows you to add timed metadata to your recordings,
+                  description:
+                    "Body param: Allows you to add timed metadata to your recordings,
                     which are digital markers inserted into a video file to
                     provide contextual information at specific points in the
                     content range. The ID3 tags containing this information are
@@ -7384,7 +7695,8 @@ paths:
                     The output files are generated in a compressed .tar format."
                 max_seconds:
                   type: number
-                  description: "Body param: Specifies the maximum duration for recording in
+                  description:
+                    "Body param: Specifies the maximum duration for recording in
                     seconds, ranging from a minimum of 60 seconds to a maximum
                     of 24 hours."
                 meeting_id:
@@ -7395,7 +7707,8 @@ paths:
                   properties:
                     enabled:
                       type: boolean
-                      description: Controls whether recordings are uploaded to RealtimeKit's bucket.
+                      description:
+                        Controls whether recordings are uploaded to RealtimeKit's bucket.
                         If set to false, `download_url`, `audio_download_url`,
                         `download_url_expiry` won't be generated for a
                         recording.
@@ -7424,7 +7737,8 @@ paths:
                           description: Type of storage media.
                         access_key:
                           type: string
-                          description: Access key of the storage medium. Access key is not required for
+                          description:
+                            Access key of the storage medium. Access key is not required for
                             the `gcs` storage media type.  Note that this field
                             is not readable by clients, only writeable.
                         auth_method:
@@ -7441,26 +7755,30 @@ paths:
                           description: SSH destination server host for SFTP type storage medium
                         password:
                           type: string
-                          description: SSH destination server password for SFTP type storage medium when
+                          description:
+                            SSH destination server password for SFTP type storage medium when
                             auth_method is "PASSWORD". If auth_method is "KEY",
                             this specifies the password for the ssh private key.
                         path:
                           type: string
-                          description: Path relative to the bucket root at which the recording will be
+                          description:
+                            Path relative to the bucket root at which the recording will be
                             placed.
                         port:
                           type: number
                           description: SSH destination server port for SFTP type storage medium
                         private_key:
                           type: string
-                          description: Private key used to login to destination SSH server for SFTP type
+                          description:
+                            Private key used to login to destination SSH server for SFTP type
                             storage medium, when auth_method used is "KEY"
                         region:
                           type: string
                           description: Region of the storage medium.
                         secret:
                           type: string
-                          description: Secret key of the storage medium. Similar to `access_key`, it is
+                          description:
+                            Secret key of the storage medium. Similar to `access_key`, it is
                             only writeable by clients, not readable.
                         username:
                           type: string
@@ -7537,7 +7855,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: If the audio_config is passed, the URL for downloading the audio
+                        description:
+                          If the audio_config is passed, the URL for downloading the audio
                           recording is returned.
                       download_url:
                         oneOf:
@@ -7569,7 +7888,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording actually started after being invoked.
+                        description:
+                          Timestamp when this recording actually started after being invoked.
                           Usually a few seconds after `invoked_time`.
                       status:
                         type: string
@@ -7585,7 +7905,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Timestamp when this recording was stopped. Optional; is present
+                        description:
+                          Timestamp when this recording was stopped. Optional; is present
                           only when the recording has actually been stopped.
                       recording_duration:
                         type: number
@@ -7604,7 +7925,8 @@ paths:
                                 enum:
                                   - ORGANIZATION
                                   - USER
-                                description: The type can be an App or a user. If the type is `user`, then only
+                                description:
+                                  The type can be an App or a user. If the type is `user`, then only
                                   the `user_Id` and `name` are returned.
                               user_Id:
                                 type: string
@@ -7614,7 +7936,8 @@ paths:
                             enum:
                               - API_CALL
                               - RECORD_ON_START
-                            description: Specifies if the recording was started using the "Start a
+                            description:
+                              Specifies if the recording was started using the "Start a
                               Recording"API or using the parameter
                               RECORD_ON_START in the "Create a meeting" API.  If
                               the recording is initiated using the
@@ -7634,7 +7957,8 @@ paths:
                                 enum:
                                   - ORGANIZATION
                                   - USER
-                                description: The type can be an App or a user. If the type is `user`, then only
+                                description:
+                                  The type can be an App or a user. If the type is `user`, then only
                                   the `user_Id` and `name` are returned.
                               user_Id:
                                 type: string
@@ -7673,27 +7997,31 @@ paths:
                                 description: SSH destination server host for SFTP type storage medium
                               password:
                                 type: string
-                                description: SSH destination server password for SFTP type storage medium when
+                                description:
+                                  SSH destination server password for SFTP type storage medium when
                                   auth_method is "PASSWORD". If auth_method is
                                   "KEY", this specifies the password for the ssh
                                   private key.
                               path:
                                 type: string
-                                description: Path relative to the bucket root at which the recording will be
+                                description:
+                                  Path relative to the bucket root at which the recording will be
                                   placed.
                               port:
                                 type: number
                                 description: SSH destination server port for SFTP type storage medium
                               private_key:
                                 type: string
-                                description: Private key used to login to destination SSH server for SFTP type
+                                description:
+                                  Private key used to login to destination SSH server for SFTP type
                                   storage medium, when auth_method used is "KEY"
                               region:
                                 type: string
                                 description: Region of the storage medium.
                               secret:
                                 type: string
-                                description: Secret key of the storage medium. Similar to `access_key`, it is
+                                description:
+                                  Secret key of the storage medium. Similar to `access_key`, it is
                                   only writeable by clients, not readable.
                               username:
                                 type: string
@@ -7719,7 +8047,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/sessions/{sessionId}/chat:
     get:
       operationId: getSessionChatSession
-      description: "Returns a URL to download all chat messages of the session ID in
+      description:
+        "Returns a URL to download all chat messages of the session ID in
         CSV format.  @example ```ts const response = await
         client.realtimeKit.sessions.getSessionChat( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
@@ -7810,7 +8139,8 @@ paths:
                         description: ID of the session
                       associated_id:
                         type: string
-                        description: ID of the meeting this session is associated with. In the case of
+                        description:
+                          ID of the meeting this session is associated with. In the case of
                           V2 meetings, it is always a UUID. In V1 meetings, it
                           is a room name of the form `abcdef-ghijkl`
                       created_at:
@@ -7907,7 +8237,8 @@ paths:
         - name: filters
           in: query
           required: false
-          description: "Query param: Comma separated list of filters to apply. Note that
+          description:
+            "Query param: Comma separated list of filters to apply. Note that
             there must be no spaces between the filters."
           schema:
             type: string
@@ -7920,7 +8251,8 @@ paths:
         - name: include_peer_events
           in: query
           required: false
-          description: "Query param: if true, response includes all the peer events of
+          description:
+            "Query param: if true, response includes all the peer events of
             participant."
           schema:
             type: boolean
@@ -7973,7 +8305,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/sessions/{sessionId}/participants:
     get:
       operationId: getSessionParticipantsSession
-      description: "Returns a list of participants for the given session ID.  @example
+      description:
+        "Returns a list of participants for the given session ID.  @example
         ```ts const response = await
         client.realtimeKit.sessions.getSessionParticipants( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
@@ -7998,14 +8331,16 @@ paths:
         - name: include_peer_events
           in: query
           required: false
-          description: "Query param: if true, response includes all the peer events of
+          description:
+            "Query param: if true, response includes all the peer events of
             participants."
           schema:
             type: boolean
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -8018,7 +8353,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: The search query string. You can search using
+          description:
+            "Query param: The search query string. You can search using
             participant ID, custom participant ID, or display name."
           schema:
             type: string
@@ -8043,7 +8379,8 @@ paths:
         - name: view
           in: query
           required: false
-          description: "Query param: In breakout room sessions, the view parameter can be
+          description:
+            "Query param: In breakout room sessions, the view parameter can be
             set to `raw` for session specific duration for participants or
             `consolidated` to accumulate breakout room durations."
           schema:
@@ -8102,7 +8439,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/sessions:
     get:
       operationId: getSessionsSession
-      description: "Returns details of all sessions of an App.  @example ```ts const
+      description:
+        "Returns details of all sessions of an App.  @example ```ts const
         response = await client.realtimeKit.sessions.getSessions('app_id', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -8120,21 +8458,24 @@ paths:
         - name: associated_id
           in: query
           required: false
-          description: "Query param: ID of the meeting that sessions should be associated
+          description:
+            "Query param: ID of the meeting that sessions should be associated
             with"
           schema:
             type: string
         - name: end_time
           in: query
           required: false
-          description: "Query param: The end time range for which you want to retrieve the
+          description:
+            "Query param: The end time range for which you want to retrieve the
             meetings. The time must be specified in ISO format."
           schema:
             type: string
         - name: page_no
           in: query
           required: false
-          description: "Query param: The page number from which you want your page search
+          description:
+            "Query param: The page number from which you want your page search
             results to be displayed."
           schema:
             type: number
@@ -8153,7 +8494,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Search string that matches sessions based on meeting
+          description:
+            "Query param: Search string that matches sessions based on meeting
             title, meeting ID, and session ID"
           schema:
             type: string
@@ -8178,7 +8520,8 @@ paths:
         - name: start_time
           in: query
           required: false
-          description: "Query param: The start time range for which you want to retrieve
+          description:
+            "Query param: The start time range for which you want to retrieve
             the meetings. The time must be specified in ISO format."
           schema:
             type: string
@@ -8212,7 +8555,8 @@ paths:
                               description: ID of the session
                             associated_id:
                               type: string
-                              description: ID of the meeting this session is associated with. In the case of
+                              description:
+                                ID of the meeting this session is associated with. In the case of
                                 V2 meetings, it is always a UUID. In V1
                                 meetings, it is a room name of the form
                                 `abcdef-ghijkl`
@@ -8288,7 +8632,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/sessions/{sessionId}/summary:
     get:
       operationId: getSessionSummarySession
-      description: "Returns a Summary URL to download the Summary of Transcripts for
+      description:
+        "Returns a Summary URL to download the Summary of Transcripts for
         the session ID as plain text.  @example ```ts const response = await
         client.realtimeKit.sessions.getSessionSummary( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
@@ -8379,7 +8724,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/sessions/{sessionId}/transcript:
     get:
       operationId: getSessionTranscriptsSession
-      description: "Returns a URL to download the transcript for the session ID in CSV
+      description:
+        "Returns a URL to download the transcript for the session ID in CSV
         format.  @example ```ts const response = await
         client.realtimeKit.sessions.getSessionTranscripts( 'app_id',
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id:
@@ -8440,7 +8786,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/recordings/track:
     post:
       operationId: startTrackRecordingRecording
-      description: "Starts track recording for a meeting. Track recording currently
+      description:
+        "Starts track recording for a meeting. Track recording currently
         records separate participant audio tracks as WebM files in the
         RealtimeKit bucket. Video track recording is in development. For more
         information, refer to [Track
@@ -8474,14 +8821,16 @@ paths:
                 layers:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Optional audio layer configuration. If omitted,
+                  description:
+                    "Body param: Optional audio layer configuration. If omitted,
                     RealtimeKit records all participant audio using the default
                     file name prefix."
                 user_ids:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Optional list of participant user IDs to record.
+                  description:
+                    "Body param: Optional list of participant user IDs to record.
                     Selective track recording (`user_ids`) is in early beta
                     contact support to use this feature."
               required:
@@ -8510,7 +8859,8 @@ paths:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: If the audio_config is passed, the URL for downloading the audio
+                            description:
+                              If the audio_config is passed, the URL for downloading the audio
                               recording is returned.
                           download_url:
                             oneOf:
@@ -8542,7 +8892,8 @@ paths:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: Timestamp when this recording actually started after being invoked.
+                            description:
+                              Timestamp when this recording actually started after being invoked.
                               Usually a few seconds after `invoked_time`.
                           status:
                             type: string
@@ -8558,7 +8909,8 @@ paths:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: Timestamp when this recording was stopped. Optional; is present
+                            description:
+                              Timestamp when this recording was stopped. Optional; is present
                               only when the recording has actually been stopped.
                           recording_duration:
                             type: number
@@ -8583,7 +8935,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/webhooks/{webhookId}:
     get:
       operationId: getWebhookByIdWebhook
-      description: "Returns webhook details for the given webhook ID.  @example ```ts
+      description:
+        "Returns webhook details for the given webhook ID.  @example ```ts
         const response = await client.realtimeKit.webhooks.getWebhookById(
         'app_id', 'webhook_id', { account_id: '023e105f4ecef8ad9ca31a8372d0c353'
         }, ); ```"
@@ -8668,7 +9021,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteWebhookWebhook
-      description: "Removes a webhook for the given webhook ID.  @example ```ts const
+      description:
+        "Removes a webhook for the given webhook ID.  @example ```ts const
         response = await client.realtimeKit.webhooks.deleteWebhook( 'app_id',
         'webhook_id', { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, );
         ```"
@@ -8710,7 +9064,8 @@ paths:
           - status: 403
     patch:
       operationId: editWebhookWebhook
-      description: "Edits the webhook details for the given webhook ID.  @example
+      description:
+        "Edits the webhook details for the given webhook ID.  @example
         ```ts const response = await client.realtimeKit.webhooks.editWebhook(
         'app_id', 'webhook_id', { account_id: '023e105f4ecef8ad9ca31a8372d0c353'
         }, ); ```"
@@ -8821,7 +9176,8 @@ paths:
                   - success
     put:
       operationId: replaceWebhookWebhook
-      description: "Replace all details for the given webhook ID.  @example ```ts
+      description:
+        "Replace all details for the given webhook ID.  @example ```ts
         const response = await client.realtimeKit.webhooks.replaceWebhook(
         'app_id', 'webhook_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', events: [ 'meeting.started',
@@ -8877,7 +9233,8 @@ paths:
                   description: "Body param: URL this webhook will send events to"
                 enabled:
                   type: boolean
-                  description: "Body param: Set whether or not the webhook should be active when
+                  description:
+                    "Body param: Set whether or not the webhook should be active when
                     created"
               required:
                 - events
@@ -8905,7 +9262,8 @@ paths:
   /accounts/{account_id}/realtime/kit/{appId}/webhooks:
     get:
       operationId: getWebhooksWebhook
-      description: "Returns details of all webhooks for an App.  @example ```ts const
+      description:
+        "Returns details of all webhooks for an App.  @example ```ts const
         response = await client.realtimeKit.webhooks.getWebhooks('app_id', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -8986,7 +9344,8 @@ paths:
           - status: 403
     post:
       operationId: createWebhookWebhook
-      description: "Adds a new webhook to an App.  @example ```ts const response =
+      description:
+        "Adds a new webhook to an App.  @example ```ts const response =
         await client.realtimeKit.webhooks.createWebhook( 'app_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', events: [ 'meeting.started',
         'meeting.ended', 'meeting.participantJoined', 'meeting.participantLeft',
@@ -9036,7 +9395,8 @@ paths:
                   description: "Body param: URL this webhook will send events to"
                 enabled:
                   type: boolean
-                  description: "Body param: Set whether or not the webhook should be active when
+                  description:
+                    "Body param: Set whether or not the webhook should be active when
                     created"
               required:
                 - events

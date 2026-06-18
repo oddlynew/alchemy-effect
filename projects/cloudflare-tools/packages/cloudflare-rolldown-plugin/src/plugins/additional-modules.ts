@@ -60,7 +60,9 @@ export const additionalModulesPlugin = createPlugin("additional-modules", () => 
         handler: withMagicString(async function (code, chunk, magicString) {
           const matches = code.matchAll(MODULE_REFERENCE_GLOBAL_REGEX);
           for (const match of matches) {
-            const [full, , id] = match;
+            const full = match[0];
+            const id = match[2];
+            if (!id) continue;
             const source = await this.fs.readFile(id);
             const referenceId = this.emitFile({
               type: "asset",

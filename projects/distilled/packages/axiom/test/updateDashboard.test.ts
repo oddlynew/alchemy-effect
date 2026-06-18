@@ -32,6 +32,7 @@ const minimalDashboard = (name: string, owner: string) => ({
 describe("updateDashboard", () => {
   it(
     "updates an existing dashboard when overwrite is true",
+    { timeout: 60_000 },
     async () => {
       const initialName = `distilled-axiom-updash-${testRunId}`;
       const renamed = `distilled-axiom-updash-renamed-${testRunId}`;
@@ -66,7 +67,6 @@ describe("updateDashboard", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   // Removed: "returns BadRequest when the dashboard body is structurally

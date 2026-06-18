@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("DirectoryUsersControllerFind", () => {
   it(
     "fails with NotFound for a non-existent directory user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DirectoryUsersControllerFind({
@@ -16,11 +17,11 @@ describe("DirectoryUsersControllerFind", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when reading a directory user in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DirectoryUsersControllerFind({
@@ -30,6 +31,5 @@ describe("DirectoryUsersControllerFind", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

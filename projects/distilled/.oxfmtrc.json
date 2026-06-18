@@ -8,5 +8,6 @@
   "ternaries": true,
   "experimental_sort_imports": {
     "order": "asc"
-  }
+  },
+  "ignorePatterns": ["packages/*/specs/**"]
 }

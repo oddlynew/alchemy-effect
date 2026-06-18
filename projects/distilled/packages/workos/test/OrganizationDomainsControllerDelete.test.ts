@@ -8,44 +8,41 @@ import { OrganizationsControllerDeleteOrganization } from "../src/operations/Org
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("OrganizationDomainsControllerDelete", () => {
-  it(
-    "deletes an organization domain",
-    async () => {
-      await runEffect(
-        Effect.gen(function* () {
-          const org = yield* OrganizationsControllerCreate({
-            name: `distilled-workos-domains-delete-${testRunId}`,
-          });
+  it("deletes an organization domain", { timeout: 60_000 }, async () => {
+    await runEffect(
+      Effect.gen(function* () {
+        const org = yield* OrganizationsControllerCreate({
+          name: `distilled-workos-domains-delete-${testRunId}`,
+        });
 
-          const domain = `distilled-delete-${testRunId}.example.com`;
+        const domain = `distilled-delete-${testRunId}.example.com`;
 
-          const created = yield* OrganizationDomainsControllerCreate({
-            organization_id: org.id,
-            domain,
-          });
+        const created = yield* OrganizationDomainsControllerCreate({
+          organization_id: org.id,
+          domain,
+        });
 
-          yield* OrganizationDomainsControllerDelete({ id: created.id }).pipe(
-            Effect.ensuring(
-              OrganizationsControllerDeleteOrganization({ id: org.id }).pipe(
-                Effect.ignore,
-              ),
+        yield* OrganizationDomainsControllerDelete({ id: created.id }).pipe(
+          Effect.ensuring(
+            OrganizationsControllerDeleteOrganization({ id: org.id }).pipe(
+              Effect.ignore,
             ),
-          );
+          ),
+        );
 
-          // After deletion, fetching by the same id should fail with NotFound.
-          const error = yield* OrganizationDomainsControllerGet({
-            id: created.id,
-          }).pipe(Effect.flip);
+        // After deletion, fetching by the same id should fail with NotFound.
+        const error = yield* OrganizationDomainsControllerGet({
+          id: created.id,
+        }).pipe(Effect.flip);
 
-          expect(error._tag).toBe("NotFound");
-        }),
-      );
-    },
-    60_000,
-  );
+        expect(error._tag).toBe("NotFound");
+      }),
+    );
+  });
 
   it(
     "fails with NotFound for a non-existent organization domain id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationDomainsControllerDelete({
@@ -55,6 +52,5 @@ describe("OrganizationDomainsControllerDelete", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

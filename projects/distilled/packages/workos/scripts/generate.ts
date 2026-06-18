@@ -14,8 +14,14 @@ import { generateFromOpenAPI } from "@distilled.cloud/core/openapi/generate";
 
 const rootDir = path.join(import.meta.dir, "..");
 
-const yamlPath = path.join(rootDir, "specs/openapi-spec/spec/open-api-spec.yaml");
-const jsonPath = path.join(rootDir, "specs/openapi-spec/spec/open-api-spec.json");
+const yamlPath = path.join(
+  rootDir,
+  "specs/openapi-spec/spec/open-api-spec.yaml",
+);
+const jsonPath = path.join(
+  rootDir,
+  "specs/openapi-spec/spec/open-api-spec.json",
+);
 const yamlContent = fs.readFileSync(yamlPath, "utf-8");
 const spec = YAML.parse(yamlContent);
 fs.writeFileSync(jsonPath, JSON.stringify(spec, null, 2));

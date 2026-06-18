@@ -24,6 +24,7 @@ const makeMonitor = (datasetName: string, monitorName: string) => ({
 describe("getMonitorHistory", () => {
   it(
     "returns an array of history entries for an existing monitor",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-monhist-${testRunId}`;
       const monitorName = `distilled-axiom-monhist-${testRunId}`;
@@ -73,11 +74,11 @@ describe("getMonitorHistory", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a well-formed monitor id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const now = Date.now();
       const startTime = new Date(now - 24 * 60 * 60 * 1000).toISOString();
@@ -93,11 +94,11 @@ describe("getMonitorHistory", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns UnprocessableEntity when startTime/endTime are not valid ISO 8601",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-monhist-422-${testRunId}`;
       const monitorName = `distilled-axiom-monhist-422-${testRunId}`;
@@ -136,6 +137,5 @@ describe("getMonitorHistory", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 });

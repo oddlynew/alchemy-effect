@@ -6,58 +6,51 @@ import { UserlandUserOrganizationMembershipsControllerList } from "../src/operat
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("UserlandUserOrganizationMembershipsControllerList", () => {
-  it(
-    "lists memberships for an organization",
-    async () => {
-      const name = `distilled-memberships-list-${testRunId}`;
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const org = yield* OrganizationsControllerCreate({ name });
-          return yield* UserlandUserOrganizationMembershipsControllerList({
-            organization_id: org.id,
-            limit: 5,
-          }).pipe(
-            Effect.ensuring(
-              OrganizationsControllerDeleteOrganization({ id: org.id }).pipe(
-                Effect.ignore,
-              ),
+  it("lists memberships for an organization", { timeout: 60_000 }, async () => {
+    const name = `distilled-memberships-list-${testRunId}`;
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const org = yield* OrganizationsControllerCreate({ name });
+        return yield* UserlandUserOrganizationMembershipsControllerList({
+          organization_id: org.id,
+          limit: 5,
+        }).pipe(
+          Effect.ensuring(
+            OrganizationsControllerDeleteOrganization({ id: org.id }).pipe(
+              Effect.ignore,
             ),
-          );
-        }),
-      );
+          ),
+        );
+      }),
+    );
 
-      expect(result).toBeDefined();
-      if (result.data !== undefined) {
-        expect(Array.isArray(result.data)).toBe(true);
-        expect(result.data.length).toBeLessThanOrEqual(5);
-        for (const membership of result.data) {
-          expect(typeof membership.id).toBe("string");
-          expect(typeof membership.user_id).toBe("string");
-          expect(typeof membership.organization_id).toBe("string");
-          expect(["active", "inactive", "pending"]).toContain(
-            membership.status,
-          );
-        }
+    expect(result).toBeDefined();
+    if (result.data !== undefined) {
+      expect(Array.isArray(result.data)).toBe(true);
+      expect(result.data.length).toBeLessThanOrEqual(5);
+      for (const membership of result.data) {
+        expect(typeof membership.id).toBe("string");
+        expect(typeof membership.user_id).toBe("string");
+        expect(typeof membership.organization_id).toBe("string");
+        expect(["active", "inactive", "pending"]).toContain(membership.status);
       }
-    },
-    60_000,
-  );
+    }
+  });
 
   it(
     "fails with BadRequest when neither user_id nor organization_id is provided",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
-        UserlandUserOrganizationMembershipsControllerList({}).pipe(
-          Effect.flip,
-        ),
+        UserlandUserOrganizationMembershipsControllerList({}).pipe(Effect.flip),
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when limit exceeds the allowed range",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerList({
@@ -67,6 +60,5 @@ describe("UserlandUserOrganizationMembershipsControllerList", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

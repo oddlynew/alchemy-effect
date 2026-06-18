@@ -8,12 +8,15 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("DataIntegrationsUserManagementControllerDeleteUserDataInstallation", () => {
   it(
     "deletes a user's connected account, or surfaces a typed NotFound",
+    { timeout: 120_000 },
     async () => {
       // We can't reliably create a connected-account binding from a test, so
       // we probe a real user with common provider slugs and only delete one
       // that exists. Either the SDK returns void (success) or it surfaces a
       // typed NotFound for an absent connection.
-      const users = await runEffect(UserlandUsersControllerList({ limit: 100 }));
+      const users = await runEffect(
+        UserlandUsersControllerList({ limit: 100 }),
+      );
       const candidateSlugs = ["github", "slack", "notion", "google"] as const;
 
       let seed: { user_id: string; slug: string } | undefined;
@@ -66,11 +69,11 @@ describe("DataIntegrationsUserManagementControllerDeleteUserDataInstallation", (
       );
       expect(followUp._tag).toBe("NotFound");
     },
-    120_000,
   );
 
   it(
     "fails with NotFound for a non-existent user/provider pair",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DataIntegrationsUserManagementControllerDeleteUserDataInstallation({
@@ -80,6 +83,5 @@ describe("DataIntegrationsUserManagementControllerDeleteUserDataInstallation", (
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

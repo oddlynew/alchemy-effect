@@ -37,7 +37,7 @@ describe("getV1Connections", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - lists connections", async () => {
+  it("happy path - lists connections", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1Connections({}));
     expect(result.data).toBeDefined();
     expect(Array.isArray(result.data)).toBe(true);
@@ -51,53 +51,65 @@ describe("getV1Connections", () => {
       expect(conn.database).toBeDefined();
       expect(conn.database.id).toBeDefined();
     }
-  }, 30_000);
+  });
 
-  it("happy path - lists connections filtered by databaseId", async () => {
-    const project = getTestProject("conn-list");
-    const databaseId = project.databaseId!;
-    const result = await runEffect(getV1Connections({ databaseId }));
-    expect(result.data).toBeDefined();
-    expect(Array.isArray(result.data)).toBe(true);
-    // All returned connections should belong to the specified database
-    for (const conn of result.data) {
-      expect(conn.database.id).toBe(databaseId);
-    }
-  }, 30_000);
+  it(
+    "happy path - lists connections filtered by databaseId",
+    { timeout: 30_000 },
+    async () => {
+      const project = getTestProject("conn-list");
+      const databaseId = project.databaseId!;
+      const result = await runEffect(getV1Connections({ databaseId }));
+      expect(result.data).toBeDefined();
+      expect(Array.isArray(result.data)).toBe(true);
+      // All returned connections should belong to the specified database
+      for (const conn of result.data) {
+        expect(conn.database.id).toBe(databaseId);
+      }
+    },
+  );
 
-  it("happy path - supports limit parameter", async () => {
+  it("happy path - supports limit parameter", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1Connections({ limit: 1 }));
     expect(result.data).toBeDefined();
     expect(result.data.length).toBeLessThanOrEqual(1);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - Unauthorized with invalid token", async () => {
-    await Effect.runPromise(
-      getV1Connections({}).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(BadTokenLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - Unauthorized with invalid token",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1Connections({}).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
+          }),
+          Effect.provide(BadTokenLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - UnprocessableEntity for non-existent databaseId filter", async () => {
-    await Effect.runPromise(
-      getV1Connections({ databaseId: "non-existent-db-id-00000000" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for non-existent databaseId filter",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1Connections({ databaseId: "non-existent-db-id-00000000" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

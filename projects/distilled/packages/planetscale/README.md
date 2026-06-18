@@ -23,7 +23,10 @@ const program = Effect.gen(function* () {
   return databases.data;
 });
 
-const PlanetScaleLive = Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv);
+const PlanetScaleLive = Layer.mergeAll(
+  FetchHttpClient.layer,
+  CredentialsFromEnv,
+);
 
 program.pipe(Effect.provide(PlanetScaleLive), Effect.runPromise);
 ```
@@ -47,7 +50,8 @@ import { getDatabase } from "@distilled.cloud/planetscale/Operations";
 getDatabase({ organization: "my-org", database: "missing" }).pipe(
   Effect.catchTags({
     NotFound: () => Effect.succeed(null),
-    UnknownPlanetScaleError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),
+    UnknownPlanetScaleError: (e) =>
+      Effect.fail(new Error(`Unknown: ${e.message}`)),
   }),
 );
 ```

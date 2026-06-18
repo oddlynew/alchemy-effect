@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteAnnotation", () => {
   it(
     "deletes an existing annotation and makes it unfetchable afterwards",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-deleteanno-${testRunId}`;
       const annotationType = `distilled-test-${testRunId}`;
@@ -46,11 +47,11 @@ describe("deleteAnnotation", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a well-formed id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Axiom annotation IDs are `ann_` + a 26-char Crockford-base32 suffix.
       // An id with the wrong suffix is rejected as 400 before the lookup,
@@ -63,23 +64,19 @@ describe("deleteAnnotation", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns UnprocessableEntity for a malformed annotation id",
+    { timeout: 30_000 },
     async () => {
       // Probed live: axiom returns 422 (code 605 "id in path should match
       // '^ann_'") for ids that don't start with `ann_`.
       const error = await runEffect(
-        deleteAnnotation({ id: "not-a-valid-annotation-id" }).pipe(
-          Effect.flip,
-        ),
+        deleteAnnotation({ id: "not-a-valid-annotation-id" }).pipe(Effect.flip),
       );
 
       expect((error as { _tag: string })._tag).toBe("UnprocessableEntity");
     },
-    { timeout: 30_000 },
   );
 });
-

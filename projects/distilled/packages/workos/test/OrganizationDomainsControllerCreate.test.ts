@@ -7,45 +7,42 @@ import { OrganizationsControllerDeleteOrganization } from "../src/operations/Org
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("OrganizationDomainsControllerCreate", () => {
-  it(
-    "creates an organization domain",
-    async () => {
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const org = yield* OrganizationsControllerCreate({
-            name: `distilled-workos-domains-create-${testRunId}`,
-          });
+  it("creates an organization domain", { timeout: 60_000 }, async () => {
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const org = yield* OrganizationsControllerCreate({
+          name: `distilled-workos-domains-create-${testRunId}`,
+        });
 
-          const domain = `distilled-${testRunId}.example.com`;
+        const domain = `distilled-${testRunId}.example.com`;
 
-          const created = yield* OrganizationDomainsControllerCreate({
-            organization_id: org.id,
-            domain,
-          });
+        const created = yield* OrganizationDomainsControllerCreate({
+          organization_id: org.id,
+          domain,
+        });
 
-          yield* OrganizationDomainsControllerDelete({ id: created.id }).pipe(
-            Effect.ignore,
-          );
-          yield* OrganizationsControllerDeleteOrganization({
-            id: org.id,
-          }).pipe(Effect.ignore);
+        yield* OrganizationDomainsControllerDelete({ id: created.id }).pipe(
+          Effect.ignore,
+        );
+        yield* OrganizationsControllerDeleteOrganization({
+          id: org.id,
+        }).pipe(Effect.ignore);
 
-          return created;
-        }),
-      );
+        return created;
+      }),
+    );
 
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(typeof result.organization_id).toBe("string");
-      expect(result.domain).toBe(`distilled-${testRunId}.example.com`);
-      expect(typeof result.created_at).toBe("string");
-      expect(typeof result.updated_at).toBe("string");
-    },
-    60_000,
-  );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(typeof result.organization_id).toBe("string");
+    expect(result.domain).toBe(`distilled-${testRunId}.example.com`);
+    expect(typeof result.created_at).toBe("string");
+    expect(typeof result.updated_at).toBe("string");
+  });
 
   it(
     "fails with Conflict when creating a domain that already exists on the organization",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -80,6 +77,5 @@ describe("OrganizationDomainsControllerCreate", () => {
 
       expect(error._tag).toBe("Conflict");
     },
-    60_000,
   );
 });

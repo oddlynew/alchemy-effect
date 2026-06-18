@@ -50,6 +50,7 @@ const defaultConfig: Required<WorkflowStepConfig> = {
     delay: 1000,
     backoff: "exponential",
   },
+  sensitive: "output",
   timeout: "10 minutes",
 };
 

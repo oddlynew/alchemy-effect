@@ -23,7 +23,7 @@ describe("getV1RegionsAccelerate", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - lists accelerate regions", async () => {
+  it("happy path - lists accelerate regions", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1RegionsAccelerate({}));
     expect(result.data).toBeDefined();
     expect(Array.isArray(result.data)).toBe(true);
@@ -32,21 +32,25 @@ describe("getV1RegionsAccelerate", () => {
     expect(region.id).toBeDefined();
     expect(region.name).toBeDefined();
     expect(region.type).toBeDefined();
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - Unauthorized with invalid token", async () => {
-    await Effect.runPromise(
-      getV1RegionsAccelerate({}).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(BadTokenLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - Unauthorized with invalid token",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1RegionsAccelerate({}).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
+          }),
+          Effect.provide(BadTokenLayer),
+        ),
+      );
+    },
+  );
 });

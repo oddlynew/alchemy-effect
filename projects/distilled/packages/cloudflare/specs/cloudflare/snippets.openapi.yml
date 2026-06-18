@@ -72,7 +72,8 @@ paths:
                     properties:
                       expression:
                         type: string
-                        description: Define the expression that determines which traffic matches the
+                        description:
+                          Define the expression that determines which traffic matches the
                           rule.
                       snippet_name:
                         type: string
@@ -188,7 +189,8 @@ paths:
                   properties:
                     main_module:
                       type: string
-                      description: Specify the name of the file that contains the main module of the
+                      description:
+                        Specify the name of the file that contains the main module of the
                         snippet.
                   required:
                     - main_module

@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("debug", () => {
   it(
     "returns the Typesense server's debug information including the version",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(debug({}));
 
@@ -18,11 +19,11 @@ describe("debug", () => {
         expect(result.version.length).toBeGreaterThan(0);
       }
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with an API key that the
       // Typesense server will reject. Typesense returns 401 with a JSON
@@ -49,6 +50,5 @@ describe("debug", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

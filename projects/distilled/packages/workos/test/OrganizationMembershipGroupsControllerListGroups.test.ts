@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationMembershipGroupsControllerListGroups", () => {
   it(
     "lists groups for an organization membership",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 5 }));
 
@@ -53,11 +54,11 @@ describe("OrganizationMembershipGroupsControllerListGroups", () => {
       }
       expect(result.list_metadata).toBeDefined();
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationMembershipGroupsControllerListGroups({
@@ -67,6 +68,5 @@ describe("OrganizationMembershipGroupsControllerListGroups", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

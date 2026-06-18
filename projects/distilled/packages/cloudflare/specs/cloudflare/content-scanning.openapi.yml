@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/content-upload-scan/settings:
     get:
       operationId: getSetting
-      description: "Retrieve the current status of Content Scanning.  @example ```ts
+      description:
+        "Retrieve the current status of Content Scanning.  @example ```ts
         const setting = await client.contentScanning.settings.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -29,7 +30,8 @@ paths:
                 properties:
                   modified:
                     type: string
-                    description: Defines the last modification date (ISO 8601) of the Content
+                    description:
+                      Defines the last modification date (ISO 8601) of the Content
                       Scanning status.
                   value:
                     type: string
@@ -75,7 +77,8 @@ paths:
                 properties:
                   modified:
                     type: string
-                    description: Defines the last modification date (ISO 8601) of the Content
+                    description:
+                      Defines the last modification date (ISO 8601) of the Content
                       Scanning status.
                   value:
                     type: string
@@ -91,7 +94,8 @@ paths:
   /zones/{zone_id}/content-upload-scan/enable:
     post:
       operationId: enableContentScanning
-      description: "Enable Content Scanning.  @example ```ts const response = await
+      description:
+        "Enable Content Scanning.  @example ```ts const response = await
         client.contentScanning.enable({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -111,7 +115,8 @@ paths:
   /zones/{zone_id}/content-upload-scan/disable:
     post:
       operationId: disableContentScanning
-      description: "Disable Content Scanning.  @example ```ts const response = await
+      description:
+        "Disable Content Scanning.  @example ```ts const response = await
         client.contentScanning.disable({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -167,12 +172,13 @@ paths:
           - status: 403
     post:
       operationId: createPayload
-      description: "Add custom scan expressions for Content Scanning.  @example ```ts
+      description:
+        'Add custom scan expressions for Content Scanning.  @example ```ts
         // Automatically fetches more pages as needed. for await (const
         payloadCreateResponse of client.contentScanning.payloads.create( {
-        zone_id: '023e105f4ecef8ad9ca31a8372d0c353', body: [ { payload:
-        'lookup_json_string(http.request.body.raw, \"file\")', }, ], }, )) { //
-        ... } ```"
+        zone_id: ''023e105f4ecef8ad9ca31a8372d0c353'', body: [ { payload:
+        ''lookup_json_string(http.request.body.raw, "file")'', }, ], }, )) { //
+        ... } ```'
       parameters:
         - name: zone_id
           in: path

@@ -38,7 +38,7 @@ describe("patchV1ProjectsById", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - updates project name", async () => {
+  it("happy path - updates project name", { timeout: 30_000 }, async () => {
     const project = getTestProject("proj-patch");
     const newName = `distilled-prisma-proj-renamed-${testRunId}`;
 
@@ -53,30 +53,34 @@ describe("patchV1ProjectsById", () => {
     expect(result.data.name).toBe(newName);
     expect(result.data.workspace).toBeDefined();
     expect(result.data.workspace.id).toBeDefined();
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent project id", async () => {
-    await Effect.runPromise(
-      patchV1ProjectsById({
-        id: "non-existent-proj-id-00000000",
-        name: "should-not-exist",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent project id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        patchV1ProjectsById({
+          id: "non-existent-proj-id-00000000",
+          name: "should-not-exist",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - Forbidden with invalid token", async () => {
+  it("error - Forbidden with invalid token", { timeout: 30_000 }, async () => {
     const project = getTestProject("proj-patch");
 
     await Effect.runPromise(
@@ -91,22 +95,26 @@ describe("patchV1ProjectsById", () => {
         Effect.provide(BadTokenLayer),
       ),
     );
-  }, 30_000);
+  });
 
-  it("error - UnprocessableEntity for malformed id", async () => {
-    await Effect.runPromise(
-      patchV1ProjectsById({
-        id: "",
-        name: "should-fail-validation",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        patchV1ProjectsById({
+          id: "",
+          name: "should-fail-validation",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

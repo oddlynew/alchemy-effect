@@ -27,13 +27,10 @@ function sdkVersionsPlugin(): Plugin {
     name: "sdk-versions",
     transformIndexHtml(html) {
       const versions = readPackageVersions();
-      return html.replace(
-        /data-package="([^"]+)"><\/span>/g,
-        (_, pkg) => {
-          const version = versions[pkg];
-          return `data-package="${pkg}">${version ? `v${version}` : ""}</span>`;
-        },
-      );
+      return html.replace(/data-package="([^"]+)"><\/span>/g, (_, pkg) => {
+        const version = versions[pkg];
+        return `data-package="${pkg}">${version ? `v${version}` : ""}</span>`;
+      });
     },
   };
 }

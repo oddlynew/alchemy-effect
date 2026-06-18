@@ -1552,7 +1552,9 @@ const convertShapeToSchema: (
                 .map((v) => `"${v}"`)
                 .join("\n  | ");
               const typeAlias = `export type ${schemaName} =\n  | ${literalUnion}\n  | (string & {});`;
-              const schemaDef = annotatePureExportConst(`export const ${schemaName} = S.String;`);
+              const schemaDef = annotatePureExportConst(
+                `export const ${schemaName} = S.String;`,
+              );
               return addAlias(Effect.succeed(`${typeAlias}\n${schemaDef}`), []);
             },
           ),
@@ -1583,7 +1585,9 @@ const convertShapeToSchema: (
               const literals = enumValues.join(", ");
               const literalUnion = enumValues.join(" | ");
               const typeAlias = `export type ${schemaName} = ${literalUnion};`;
-              const schemaDef = annotatePureExportConst(`export const ${schemaName} = S.Literals([${literals}]);`);
+              const schemaDef = annotatePureExportConst(
+                `export const ${schemaName} = S.Literals([${literals}]);`,
+              );
               return addAlias(Effect.succeed(`${typeAlias}\n${schemaDef}`), []);
             },
           ),
@@ -1638,8 +1642,12 @@ const convertShapeToSchema: (
                       );
                       const typeAlias = `export type ${schemaName} = ${memberTsType}[];`;
                       const schemaDef = isCyclic
-                        ? annotatePureExportConst(`export const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`)
-                        : annotatePureExportConst(`export const ${schemaName} = S.Array(${innerType})${sparsePipe};`);
+                        ? annotatePureExportConst(
+                            `export const ${schemaName} = S.Array(${innerType})${sparsePipe} as any as S.Schema<${schemaName}>;`,
+                          )
+                        : annotatePureExportConst(
+                            `export const ${schemaName} = S.Array(${innerType})${sparsePipe};`,
+                          );
                       return `${typeAlias}\n${schemaDef}`;
                     }),
                   ),
@@ -2010,7 +2018,9 @@ const convertShapeToSchema: (
                     // Generate interface + suspend(struct) pattern
                     // Trait annotations inside suspend, identifier outside
                     const interfaceDef = `export interface ${exportedName} { ${interfaceFields} }`;
-                    const schemaDef = annotatePureExportConst(`export const ${exportedName} = S.suspend(() => S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe})${outerAnnotation} as any as S.Schema<${exportedName}>;`);
+                    const schemaDef = annotatePureExportConst(
+                      `export const ${exportedName} = S.suspend(() => S.Struct({${schemaFields}})${encodeKeysPipe}${innerPipe})${outerAnnotation} as any as S.Schema<${exportedName}>;`,
+                    );
 
                     return `${interfaceDef}\n${schemaDef}`;
                   }),
@@ -2259,8 +2269,12 @@ const convertShapeToSchema: (
                       }
 
                       const schemaDef = isCyclic
-                        ? annotatePureExportConst(`export const ${schemaName} = ${recordExpr} as any as S.Schema<${schemaName}>;`)
-                        : annotatePureExportConst(`export const ${schemaName} = ${recordExpr};`);
+                        ? annotatePureExportConst(
+                            `export const ${schemaName} = ${recordExpr} as any as S.Schema<${schemaName}>;`,
+                          )
+                        : annotatePureExportConst(
+                            `export const ${schemaName} = ${recordExpr};`,
+                          );
                       return `${typeAlias}\n${schemaDef}`;
                     }),
                   ),
@@ -2627,7 +2641,9 @@ const generateClient = Effect.fn(function* (
             const outerAnnotation = `.annotate({ identifier: "${className}" })`;
 
             const interfaceDef = `export interface ${className} {}`;
-            const schemaDef = annotatePureExportConst(`export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`);
+            const schemaDef = annotatePureExportConst(
+              `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`,
+            );
             const definition = `${interfaceDef}\n${schemaDef}`;
             yield* Ref.update(sdkFile.schemas, (arr) => [
               ...arr,
@@ -2661,7 +2677,9 @@ const generateClient = Effect.fn(function* (
             const outerAnnotation = `.annotate({ identifier: "${className}" })`;
 
             const interfaceDef = `export interface ${className} {}`;
-            const schemaDef = annotatePureExportConst(`export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`);
+            const schemaDef = annotatePureExportConst(
+              `export const ${className} = S.suspend(() => S.Struct({})${innerPipe})${outerAnnotation} as any as S.Schema<${className}>;`,
+            );
             const definition = `${interfaceDef}\n${schemaDef}`;
             yield* Ref.update(sdkFile.schemas, (arr) => [
               ...arr,
@@ -3264,14 +3282,24 @@ BunRuntime.runMain(
       "partition",
       "partitions.json",
     );
-    const partitionsExists = yield* fs.exists(partitionsSrc).pipe(Effect.catch(() => Effect.succeed(false)));
+    const partitionsExists = yield* fs
+      .exists(partitionsSrc)
+      .pipe(Effect.catch(() => Effect.succeed(false)));
     if (partitionsExists) {
-      yield* fs.makeDirectory(path.join("src", "rules-engine"), { recursive: true });
-      const partitionsDest = path.join("src", "rules-engine", "partitions.json");
+      yield* fs.makeDirectory(path.join("src", "rules-engine"), {
+        recursive: true,
+      });
+      const partitionsDest = path.join(
+        "src",
+        "rules-engine",
+        "partitions.json",
+      );
       yield* fs.copyFile(partitionsSrc, partitionsDest);
       yield* Console.log("✅ partitions.json");
     } else {
-      yield* Console.log("⚠️  partitions.json not found (smithy submodule not initialized)");
+      yield* Console.log(
+        "⚠️  partitions.json not found (smithy submodule not initialized)",
+      );
     }
 
     const rootModelsPath = path.join(AWS_MODELS_PATH, "models");

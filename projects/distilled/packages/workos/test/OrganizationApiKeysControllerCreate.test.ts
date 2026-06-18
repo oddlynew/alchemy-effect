@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationApiKeysControllerCreate", () => {
   it(
     "creates an API key for an organization",
+    { timeout: 60_000 },
     async () => {
       const keyName = `distilled-key-${testRunId}`;
       const result = await runEffect(
@@ -36,11 +37,11 @@ describe("OrganizationApiKeysControllerCreate", () => {
       expect(typeof result.created_at).toBe("string");
       expect(typeof result.updated_at).toBe("string");
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationApiKeysControllerCreate({
@@ -50,11 +51,11 @@ describe("OrganizationApiKeysControllerCreate", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for an invalid permission",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -76,6 +77,5 @@ describe("OrganizationApiKeysControllerCreate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    60_000,
   );
 });

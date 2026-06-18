@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/healthchecks/{healthcheckId}:
     get:
       operationId: getHealthcheck
-      description: "Fetch a single configured health check.  @example ```ts const
+      description:
+        "Fetch a single configured health check.  @example ```ts const
         healthcheck = await client.healthchecks.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -38,7 +39,8 @@ paths:
                     description: Identifier
                   address:
                     type: string
-                    description: The hostname or IP address of the origin server to run health
+                    description:
+                      The hostname or IP address of the origin server to run health
                       checks on.
                   check_regions:
                     oneOf:
@@ -61,15 +63,18 @@ paths:
                             - NEAS
                             - ALL_REGIONS
                     nullable: true
-                    description: A list of regions from which to run health checks. Null means
+                    description:
+                      A list of regions from which to run health checks. Null means
                       Cloudflare will pick a default region.
                   consecutive_fails:
                     type: number
-                    description: The number of consecutive fails required from a health check before
+                    description:
+                      The number of consecutive fails required from a health check before
                       changing the health to unhealthy.
                   consecutive_successes:
                     type: number
-                    description: The number of consecutive successes required from a health check
+                    description:
+                      The number of consecutive successes required from a health check
                       before changing the health to healthy.
                   created_on:
                     type: string
@@ -88,7 +93,8 @@ paths:
                             description: Do not validate the certificate when the health check uses HTTPS.
                           expected_body:
                             type: string
-                            description: A case-insensitive sub-string to look for in the response body. If
+                            description:
+                              A case-insensitive sub-string to look for in the response body. If
                               this string is not found, the origin will be
                               marked as unhealthy.
                           expected_codes:
@@ -97,7 +103,8 @@ paths:
                                 items:
                                   type: string
                             nullable: true
-                            description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                            description:
+                              The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                               "2xx" for all codes starting with 2) of the health
                               check.
                           follow_redirects:
@@ -108,7 +115,8 @@ paths:
                               - type: object
                                 additionalProperties: true
                             nullable: true
-                            description: The HTTP request headers to send in the health check. It is
+                            description:
+                              The HTTP request headers to send in the health check. It is
                               recommended you set a Host header by default. The
                               User-Agent header cannot be overridden.
                           method:
@@ -122,13 +130,15 @@ paths:
                             description: The endpoint path to health check against.
                           port:
                             type: number
-                            description: Port number to connect to for the health check. Defaults to 80 if
+                            description:
+                              Port number to connect to for the health check. Defaults to 80 if
                               type is HTTP or 443 if type is HTTPS.
                     nullable: true
                     description: Parameters specific to an HTTP or HTTPS health check.
                   interval:
                     type: number
-                    description: The interval between each health check. Shorter intervals may give
+                    description:
+                      The interval between each health check. Shorter intervals may give
                       quicker notifications if the origin status changes, but
                       will increase load on the origin as we check from multiple
                       locations.
@@ -136,11 +146,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A short name to identify the health check. Only alphanumeric
+                    description:
+                      A short name to identify the health check. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   retries:
                     type: number
-                    description: The number of retries to attempt in case of a timeout before
+                    description:
+                      The number of retries to attempt in case of a timeout before
                       marking the origin as unhealthy. Retries are attempted
                       immediately.
                   status:
@@ -150,7 +162,8 @@ paths:
                       - healthy
                       - unhealthy
                       - suspended
-                    description: The current status of the origin server according to the health
+                    description:
+                      The current status of the origin server according to the health
                       check.
                   suspended:
                     type: boolean
@@ -174,7 +187,8 @@ paths:
                     description: The timeout (in seconds) before marking the health check as failed.
                   type:
                     type: string
-                    description: The protocol to use for the health check. Currently supported
+                    description:
+                      The protocol to use for the health check. Currently supported
                       protocols are 'HTTP', 'HTTPS' and 'TCP'.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -210,11 +224,13 @@ paths:
               properties:
                 address:
                   type: string
-                  description: "Body param: The hostname or IP address of the origin server to run
+                  description:
+                    "Body param: The hostname or IP address of the origin server to run
                     health checks on."
                 name:
                   type: string
-                  description: "Body param: A short name to identify the health check. Only
+                  description:
+                    "Body param: A short name to identify the health check. Only
                     alphanumeric characters, hyphens and underscores are
                     allowed."
                 check_regions:
@@ -238,15 +254,18 @@ paths:
                           - NEAS
                           - ALL_REGIONS
                   nullable: true
-                  description: "Body param: A list of regions from which to run health checks.
+                  description:
+                    "Body param: A list of regions from which to run health checks.
                     Null means Cloudflare will pick a default region."
                 consecutive_fails:
                   type: number
-                  description: "Body param: The number of consecutive fails required from a health
+                  description:
+                    "Body param: The number of consecutive fails required from a health
                     check before changing the health to unhealthy."
                 consecutive_successes:
                   type: number
-                  description: "Body param: The number of consecutive successes required from a
+                  description:
+                    "Body param: The number of consecutive successes required from a
                     health check before changing the health to healthy."
                 description:
                   type: string
@@ -260,7 +279,8 @@ paths:
                           description: Do not validate the certificate when the health check uses HTTPS.
                         expected_body:
                           type: string
-                          description: A case-insensitive sub-string to look for in the response body. If
+                          description:
+                            A case-insensitive sub-string to look for in the response body. If
                             this string is not found, the origin will be marked
                             as unhealthy.
                         expected_codes:
@@ -269,7 +289,8 @@ paths:
                               items:
                                 type: string
                           nullable: true
-                          description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                          description:
+                            The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                             "2xx" for all codes starting with 2) of the health
                             check.
                         follow_redirects:
@@ -280,7 +301,8 @@ paths:
                             - type: object
                               additionalProperties: true
                           nullable: true
-                          description: The HTTP request headers to send in the health check. It is
+                          description:
+                            The HTTP request headers to send in the health check. It is
                             recommended you set a Host header by default. The
                             User-Agent header cannot be overridden.
                         method:
@@ -294,24 +316,28 @@ paths:
                           description: The endpoint path to health check against.
                         port:
                           type: number
-                          description: Port number to connect to for the health check. Defaults to 80 if
+                          description:
+                            Port number to connect to for the health check. Defaults to 80 if
                             type is HTTP or 443 if type is HTTPS.
                   nullable: true
                   description: "Body param: Parameters specific to an HTTP or HTTPS health check."
                 interval:
                   type: number
-                  description: "Body param: The interval between each health check. Shorter
+                  description:
+                    "Body param: The interval between each health check. Shorter
                     intervals may give quicker notifications if the origin
                     status changes, but will increase load on the origin as we
                     check from multiple locations."
                 retries:
                   type: number
-                  description: "Body param: The number of retries to attempt in case of a timeout
+                  description:
+                    "Body param: The number of retries to attempt in case of a timeout
                     before marking the origin as unhealthy. Retries are
                     attempted immediately."
                 suspended:
                   type: boolean
-                  description: "Body param: If suspended, no health checks are sent to the
+                  description:
+                    "Body param: If suspended, no health checks are sent to the
                     origin."
                 tcp_config:
                   oneOf:
@@ -329,11 +355,13 @@ paths:
                   description: "Body param: Parameters specific to TCP health check."
                 timeout:
                   type: number
-                  description: "Body param: The timeout (in seconds) before marking the health
+                  description:
+                    "Body param: The timeout (in seconds) before marking the health
                     check as failed."
                 type:
                   type: string
-                  description: "Body param: The protocol to use for the health check. Currently
+                  description:
+                    "Body param: The protocol to use for the health check. Currently
                     supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
               required:
                 - address
@@ -351,7 +379,8 @@ paths:
                     description: Identifier
                   address:
                     type: string
-                    description: The hostname or IP address of the origin server to run health
+                    description:
+                      The hostname or IP address of the origin server to run health
                       checks on.
                   check_regions:
                     oneOf:
@@ -374,15 +403,18 @@ paths:
                             - NEAS
                             - ALL_REGIONS
                     nullable: true
-                    description: A list of regions from which to run health checks. Null means
+                    description:
+                      A list of regions from which to run health checks. Null means
                       Cloudflare will pick a default region.
                   consecutive_fails:
                     type: number
-                    description: The number of consecutive fails required from a health check before
+                    description:
+                      The number of consecutive fails required from a health check before
                       changing the health to unhealthy.
                   consecutive_successes:
                     type: number
-                    description: The number of consecutive successes required from a health check
+                    description:
+                      The number of consecutive successes required from a health check
                       before changing the health to healthy.
                   created_on:
                     type: string
@@ -401,7 +433,8 @@ paths:
                             description: Do not validate the certificate when the health check uses HTTPS.
                           expected_body:
                             type: string
-                            description: A case-insensitive sub-string to look for in the response body. If
+                            description:
+                              A case-insensitive sub-string to look for in the response body. If
                               this string is not found, the origin will be
                               marked as unhealthy.
                           expected_codes:
@@ -410,7 +443,8 @@ paths:
                                 items:
                                   type: string
                             nullable: true
-                            description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                            description:
+                              The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                               "2xx" for all codes starting with 2) of the health
                               check.
                           follow_redirects:
@@ -421,7 +455,8 @@ paths:
                               - type: object
                                 additionalProperties: true
                             nullable: true
-                            description: The HTTP request headers to send in the health check. It is
+                            description:
+                              The HTTP request headers to send in the health check. It is
                               recommended you set a Host header by default. The
                               User-Agent header cannot be overridden.
                           method:
@@ -435,13 +470,15 @@ paths:
                             description: The endpoint path to health check against.
                           port:
                             type: number
-                            description: Port number to connect to for the health check. Defaults to 80 if
+                            description:
+                              Port number to connect to for the health check. Defaults to 80 if
                               type is HTTP or 443 if type is HTTPS.
                     nullable: true
                     description: Parameters specific to an HTTP or HTTPS health check.
                   interval:
                     type: number
-                    description: The interval between each health check. Shorter intervals may give
+                    description:
+                      The interval between each health check. Shorter intervals may give
                       quicker notifications if the origin status changes, but
                       will increase load on the origin as we check from multiple
                       locations.
@@ -449,11 +486,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A short name to identify the health check. Only alphanumeric
+                    description:
+                      A short name to identify the health check. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   retries:
                     type: number
-                    description: The number of retries to attempt in case of a timeout before
+                    description:
+                      The number of retries to attempt in case of a timeout before
                       marking the origin as unhealthy. Retries are attempted
                       immediately.
                   status:
@@ -463,7 +502,8 @@ paths:
                       - healthy
                       - unhealthy
                       - suspended
-                    description: The current status of the origin server according to the health
+                    description:
+                      The current status of the origin server according to the health
                       check.
                   suspended:
                     type: boolean
@@ -487,7 +527,8 @@ paths:
                     description: The timeout (in seconds) before marking the health check as failed.
                   type:
                     type: string
-                    description: The protocol to use for the health check. Currently supported
+                    description:
+                      The protocol to use for the health check. Currently supported
                       protocols are 'HTTP', 'HTTPS' and 'TCP'.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -497,7 +538,8 @@ paths:
           - status: 403
     patch:
       operationId: patchHealthcheck
-      description: "Patch a configured health check.  @example ```ts const healthcheck
+      description:
+        "Patch a configured health check.  @example ```ts const healthcheck
         = await client.healthchecks.edit( '023e105f4ecef8ad9ca31a8372d0c353', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353', address: 'www.example.com',
         name: 'server-1', }, ); ```"
@@ -522,11 +564,13 @@ paths:
               properties:
                 address:
                   type: string
-                  description: "Body param: The hostname or IP address of the origin server to run
+                  description:
+                    "Body param: The hostname or IP address of the origin server to run
                     health checks on."
                 name:
                   type: string
-                  description: "Body param: A short name to identify the health check. Only
+                  description:
+                    "Body param: A short name to identify the health check. Only
                     alphanumeric characters, hyphens and underscores are
                     allowed."
                 check_regions:
@@ -550,15 +594,18 @@ paths:
                           - NEAS
                           - ALL_REGIONS
                   nullable: true
-                  description: "Body param: A list of regions from which to run health checks.
+                  description:
+                    "Body param: A list of regions from which to run health checks.
                     Null means Cloudflare will pick a default region."
                 consecutive_fails:
                   type: number
-                  description: "Body param: The number of consecutive fails required from a health
+                  description:
+                    "Body param: The number of consecutive fails required from a health
                     check before changing the health to unhealthy."
                 consecutive_successes:
                   type: number
-                  description: "Body param: The number of consecutive successes required from a
+                  description:
+                    "Body param: The number of consecutive successes required from a
                     health check before changing the health to healthy."
                 description:
                   type: string
@@ -572,7 +619,8 @@ paths:
                           description: Do not validate the certificate when the health check uses HTTPS.
                         expected_body:
                           type: string
-                          description: A case-insensitive sub-string to look for in the response body. If
+                          description:
+                            A case-insensitive sub-string to look for in the response body. If
                             this string is not found, the origin will be marked
                             as unhealthy.
                         expected_codes:
@@ -581,7 +629,8 @@ paths:
                               items:
                                 type: string
                           nullable: true
-                          description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                          description:
+                            The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                             "2xx" for all codes starting with 2) of the health
                             check.
                         follow_redirects:
@@ -592,7 +641,8 @@ paths:
                             - type: object
                               additionalProperties: true
                           nullable: true
-                          description: The HTTP request headers to send in the health check. It is
+                          description:
+                            The HTTP request headers to send in the health check. It is
                             recommended you set a Host header by default. The
                             User-Agent header cannot be overridden.
                         method:
@@ -606,24 +656,28 @@ paths:
                           description: The endpoint path to health check against.
                         port:
                           type: number
-                          description: Port number to connect to for the health check. Defaults to 80 if
+                          description:
+                            Port number to connect to for the health check. Defaults to 80 if
                             type is HTTP or 443 if type is HTTPS.
                   nullable: true
                   description: "Body param: Parameters specific to an HTTP or HTTPS health check."
                 interval:
                   type: number
-                  description: "Body param: The interval between each health check. Shorter
+                  description:
+                    "Body param: The interval between each health check. Shorter
                     intervals may give quicker notifications if the origin
                     status changes, but will increase load on the origin as we
                     check from multiple locations."
                 retries:
                   type: number
-                  description: "Body param: The number of retries to attempt in case of a timeout
+                  description:
+                    "Body param: The number of retries to attempt in case of a timeout
                     before marking the origin as unhealthy. Retries are
                     attempted immediately."
                 suspended:
                   type: boolean
-                  description: "Body param: If suspended, no health checks are sent to the
+                  description:
+                    "Body param: If suspended, no health checks are sent to the
                     origin."
                 tcp_config:
                   oneOf:
@@ -641,11 +695,13 @@ paths:
                   description: "Body param: Parameters specific to TCP health check."
                 timeout:
                   type: number
-                  description: "Body param: The timeout (in seconds) before marking the health
+                  description:
+                    "Body param: The timeout (in seconds) before marking the health
                     check as failed."
                 type:
                   type: string
-                  description: "Body param: The protocol to use for the health check. Currently
+                  description:
+                    "Body param: The protocol to use for the health check. Currently
                     supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
               required:
                 - address
@@ -663,7 +719,8 @@ paths:
                     description: Identifier
                   address:
                     type: string
-                    description: The hostname or IP address of the origin server to run health
+                    description:
+                      The hostname or IP address of the origin server to run health
                       checks on.
                   check_regions:
                     oneOf:
@@ -686,15 +743,18 @@ paths:
                             - NEAS
                             - ALL_REGIONS
                     nullable: true
-                    description: A list of regions from which to run health checks. Null means
+                    description:
+                      A list of regions from which to run health checks. Null means
                       Cloudflare will pick a default region.
                   consecutive_fails:
                     type: number
-                    description: The number of consecutive fails required from a health check before
+                    description:
+                      The number of consecutive fails required from a health check before
                       changing the health to unhealthy.
                   consecutive_successes:
                     type: number
-                    description: The number of consecutive successes required from a health check
+                    description:
+                      The number of consecutive successes required from a health check
                       before changing the health to healthy.
                   created_on:
                     type: string
@@ -713,7 +773,8 @@ paths:
                             description: Do not validate the certificate when the health check uses HTTPS.
                           expected_body:
                             type: string
-                            description: A case-insensitive sub-string to look for in the response body. If
+                            description:
+                              A case-insensitive sub-string to look for in the response body. If
                               this string is not found, the origin will be
                               marked as unhealthy.
                           expected_codes:
@@ -722,7 +783,8 @@ paths:
                                 items:
                                   type: string
                             nullable: true
-                            description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                            description:
+                              The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                               "2xx" for all codes starting with 2) of the health
                               check.
                           follow_redirects:
@@ -733,7 +795,8 @@ paths:
                               - type: object
                                 additionalProperties: true
                             nullable: true
-                            description: The HTTP request headers to send in the health check. It is
+                            description:
+                              The HTTP request headers to send in the health check. It is
                               recommended you set a Host header by default. The
                               User-Agent header cannot be overridden.
                           method:
@@ -747,13 +810,15 @@ paths:
                             description: The endpoint path to health check against.
                           port:
                             type: number
-                            description: Port number to connect to for the health check. Defaults to 80 if
+                            description:
+                              Port number to connect to for the health check. Defaults to 80 if
                               type is HTTP or 443 if type is HTTPS.
                     nullable: true
                     description: Parameters specific to an HTTP or HTTPS health check.
                   interval:
                     type: number
-                    description: The interval between each health check. Shorter intervals may give
+                    description:
+                      The interval between each health check. Shorter intervals may give
                       quicker notifications if the origin status changes, but
                       will increase load on the origin as we check from multiple
                       locations.
@@ -761,11 +826,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A short name to identify the health check. Only alphanumeric
+                    description:
+                      A short name to identify the health check. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   retries:
                     type: number
-                    description: The number of retries to attempt in case of a timeout before
+                    description:
+                      The number of retries to attempt in case of a timeout before
                       marking the origin as unhealthy. Retries are attempted
                       immediately.
                   status:
@@ -775,7 +842,8 @@ paths:
                       - healthy
                       - unhealthy
                       - suspended
-                    description: The current status of the origin server according to the health
+                    description:
+                      The current status of the origin server according to the health
                       check.
                   suspended:
                     type: boolean
@@ -799,12 +867,14 @@ paths:
                     description: The timeout (in seconds) before marking the health check as failed.
                   type:
                     type: string
-                    description: The protocol to use for the health check. Currently supported
+                    description:
+                      The protocol to use for the health check. Currently supported
                       protocols are 'HTTP', 'HTTPS' and 'TCP'.
       x-distilled-response-path: result
     delete:
       operationId: deleteHealthcheck
-      description: "Delete a health check.  @example ```ts const healthcheck = await
+      description:
+        "Delete a health check.  @example ```ts const healthcheck = await
         client.healthchecks.delete( '023e105f4ecef8ad9ca31a8372d0c353', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -839,7 +909,8 @@ paths:
   /zones/{zone_id}/healthchecks:
     get:
       operationId: listHealthchecks
-      description: "List configured health checks.  @example ```ts // Automatically
+      description:
+        "List configured health checks.  @example ```ts // Automatically
         fetches more pages as needed. for await (const healthcheck of
         client.healthchecks.list({ zone_id: '023e105f4ecef8ad9ca31a8372d0c353',
         })) { // ... } ```"
@@ -873,7 +944,8 @@ paths:
                     description: Identifier
                   address:
                     type: string
-                    description: The hostname or IP address of the origin server to run health
+                    description:
+                      The hostname or IP address of the origin server to run health
                       checks on.
                   check_regions:
                     oneOf:
@@ -896,15 +968,18 @@ paths:
                             - NEAS
                             - ALL_REGIONS
                     nullable: true
-                    description: A list of regions from which to run health checks. Null means
+                    description:
+                      A list of regions from which to run health checks. Null means
                       Cloudflare will pick a default region.
                   consecutive_fails:
                     type: number
-                    description: The number of consecutive fails required from a health check before
+                    description:
+                      The number of consecutive fails required from a health check before
                       changing the health to unhealthy.
                   consecutive_successes:
                     type: number
-                    description: The number of consecutive successes required from a health check
+                    description:
+                      The number of consecutive successes required from a health check
                       before changing the health to healthy.
                   created_on:
                     type: string
@@ -923,7 +998,8 @@ paths:
                             description: Do not validate the certificate when the health check uses HTTPS.
                           expected_body:
                             type: string
-                            description: A case-insensitive sub-string to look for in the response body. If
+                            description:
+                              A case-insensitive sub-string to look for in the response body. If
                               this string is not found, the origin will be
                               marked as unhealthy.
                           expected_codes:
@@ -932,7 +1008,8 @@ paths:
                                 items:
                                   type: string
                             nullable: true
-                            description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                            description:
+                              The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                               "2xx" for all codes starting with 2) of the health
                               check.
                           follow_redirects:
@@ -943,7 +1020,8 @@ paths:
                               - type: object
                                 additionalProperties: true
                             nullable: true
-                            description: The HTTP request headers to send in the health check. It is
+                            description:
+                              The HTTP request headers to send in the health check. It is
                               recommended you set a Host header by default. The
                               User-Agent header cannot be overridden.
                           method:
@@ -957,13 +1035,15 @@ paths:
                             description: The endpoint path to health check against.
                           port:
                             type: number
-                            description: Port number to connect to for the health check. Defaults to 80 if
+                            description:
+                              Port number to connect to for the health check. Defaults to 80 if
                               type is HTTP or 443 if type is HTTPS.
                     nullable: true
                     description: Parameters specific to an HTTP or HTTPS health check.
                   interval:
                     type: number
-                    description: The interval between each health check. Shorter intervals may give
+                    description:
+                      The interval between each health check. Shorter intervals may give
                       quicker notifications if the origin status changes, but
                       will increase load on the origin as we check from multiple
                       locations.
@@ -971,11 +1051,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A short name to identify the health check. Only alphanumeric
+                    description:
+                      A short name to identify the health check. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   retries:
                     type: number
-                    description: The number of retries to attempt in case of a timeout before
+                    description:
+                      The number of retries to attempt in case of a timeout before
                       marking the origin as unhealthy. Retries are attempted
                       immediately.
                   status:
@@ -985,7 +1067,8 @@ paths:
                       - healthy
                       - unhealthy
                       - suspended
-                    description: The current status of the origin server according to the health
+                    description:
+                      The current status of the origin server according to the health
                       check.
                   suspended:
                     type: boolean
@@ -1009,7 +1092,8 @@ paths:
                     description: The timeout (in seconds) before marking the health check as failed.
                   type:
                     type: string
-                    description: The protocol to use for the health check. Currently supported
+                    description:
+                      The protocol to use for the health check. Currently supported
                       protocols are 'HTTP', 'HTTPS' and 'TCP'.
       x-distilled-pagination-class: HealthchecksV4PagePaginationArray
       x-distilled-errors:
@@ -1017,7 +1101,8 @@ paths:
           - status: 403
     post:
       operationId: createHealthcheck
-      description: "Create a new health check.  @example ```ts const healthcheck =
+      description:
+        "Create a new health check.  @example ```ts const healthcheck =
         await client.healthchecks.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', address: 'www.example.com', name:
         'server-1', }); ```"
@@ -1037,11 +1122,13 @@ paths:
               properties:
                 address:
                   type: string
-                  description: "Body param: The hostname or IP address of the origin server to run
+                  description:
+                    "Body param: The hostname or IP address of the origin server to run
                     health checks on."
                 name:
                   type: string
-                  description: "Body param: A short name to identify the health check. Only
+                  description:
+                    "Body param: A short name to identify the health check. Only
                     alphanumeric characters, hyphens and underscores are
                     allowed."
                 check_regions:
@@ -1065,15 +1152,18 @@ paths:
                           - NEAS
                           - ALL_REGIONS
                   nullable: true
-                  description: "Body param: A list of regions from which to run health checks.
+                  description:
+                    "Body param: A list of regions from which to run health checks.
                     Null means Cloudflare will pick a default region."
                 consecutive_fails:
                   type: number
-                  description: "Body param: The number of consecutive fails required from a health
+                  description:
+                    "Body param: The number of consecutive fails required from a health
                     check before changing the health to unhealthy."
                 consecutive_successes:
                   type: number
-                  description: "Body param: The number of consecutive successes required from a
+                  description:
+                    "Body param: The number of consecutive successes required from a
                     health check before changing the health to healthy."
                 description:
                   type: string
@@ -1087,7 +1177,8 @@ paths:
                           description: Do not validate the certificate when the health check uses HTTPS.
                         expected_body:
                           type: string
-                          description: A case-insensitive sub-string to look for in the response body. If
+                          description:
+                            A case-insensitive sub-string to look for in the response body. If
                             this string is not found, the origin will be marked
                             as unhealthy.
                         expected_codes:
@@ -1096,7 +1187,8 @@ paths:
                               items:
                                 type: string
                           nullable: true
-                          description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                          description:
+                            The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                             "2xx" for all codes starting with 2) of the health
                             check.
                         follow_redirects:
@@ -1107,7 +1199,8 @@ paths:
                             - type: object
                               additionalProperties: true
                           nullable: true
-                          description: The HTTP request headers to send in the health check. It is
+                          description:
+                            The HTTP request headers to send in the health check. It is
                             recommended you set a Host header by default. The
                             User-Agent header cannot be overridden.
                         method:
@@ -1121,24 +1214,28 @@ paths:
                           description: The endpoint path to health check against.
                         port:
                           type: number
-                          description: Port number to connect to for the health check. Defaults to 80 if
+                          description:
+                            Port number to connect to for the health check. Defaults to 80 if
                             type is HTTP or 443 if type is HTTPS.
                   nullable: true
                   description: "Body param: Parameters specific to an HTTP or HTTPS health check."
                 interval:
                   type: number
-                  description: "Body param: The interval between each health check. Shorter
+                  description:
+                    "Body param: The interval between each health check. Shorter
                     intervals may give quicker notifications if the origin
                     status changes, but will increase load on the origin as we
                     check from multiple locations."
                 retries:
                   type: number
-                  description: "Body param: The number of retries to attempt in case of a timeout
+                  description:
+                    "Body param: The number of retries to attempt in case of a timeout
                     before marking the origin as unhealthy. Retries are
                     attempted immediately."
                 suspended:
                   type: boolean
-                  description: "Body param: If suspended, no health checks are sent to the
+                  description:
+                    "Body param: If suspended, no health checks are sent to the
                     origin."
                 tcp_config:
                   oneOf:
@@ -1156,11 +1253,13 @@ paths:
                   description: "Body param: Parameters specific to TCP health check."
                 timeout:
                   type: number
-                  description: "Body param: The timeout (in seconds) before marking the health
+                  description:
+                    "Body param: The timeout (in seconds) before marking the health
                     check as failed."
                 type:
                   type: string
-                  description: "Body param: The protocol to use for the health check. Currently
+                  description:
+                    "Body param: The protocol to use for the health check. Currently
                     supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
               required:
                 - address
@@ -1178,7 +1277,8 @@ paths:
                     description: Identifier
                   address:
                     type: string
-                    description: The hostname or IP address of the origin server to run health
+                    description:
+                      The hostname or IP address of the origin server to run health
                       checks on.
                   check_regions:
                     oneOf:
@@ -1201,15 +1301,18 @@ paths:
                             - NEAS
                             - ALL_REGIONS
                     nullable: true
-                    description: A list of regions from which to run health checks. Null means
+                    description:
+                      A list of regions from which to run health checks. Null means
                       Cloudflare will pick a default region.
                   consecutive_fails:
                     type: number
-                    description: The number of consecutive fails required from a health check before
+                    description:
+                      The number of consecutive fails required from a health check before
                       changing the health to unhealthy.
                   consecutive_successes:
                     type: number
-                    description: The number of consecutive successes required from a health check
+                    description:
+                      The number of consecutive successes required from a health check
                       before changing the health to healthy.
                   created_on:
                     type: string
@@ -1228,7 +1331,8 @@ paths:
                             description: Do not validate the certificate when the health check uses HTTPS.
                           expected_body:
                             type: string
-                            description: A case-insensitive sub-string to look for in the response body. If
+                            description:
+                              A case-insensitive sub-string to look for in the response body. If
                               this string is not found, the origin will be
                               marked as unhealthy.
                           expected_codes:
@@ -1237,7 +1341,8 @@ paths:
                                 items:
                                   type: string
                             nullable: true
-                            description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                            description:
+                              The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                               "2xx" for all codes starting with 2) of the health
                               check.
                           follow_redirects:
@@ -1248,7 +1353,8 @@ paths:
                               - type: object
                                 additionalProperties: true
                             nullable: true
-                            description: The HTTP request headers to send in the health check. It is
+                            description:
+                              The HTTP request headers to send in the health check. It is
                               recommended you set a Host header by default. The
                               User-Agent header cannot be overridden.
                           method:
@@ -1262,13 +1368,15 @@ paths:
                             description: The endpoint path to health check against.
                           port:
                             type: number
-                            description: Port number to connect to for the health check. Defaults to 80 if
+                            description:
+                              Port number to connect to for the health check. Defaults to 80 if
                               type is HTTP or 443 if type is HTTPS.
                     nullable: true
                     description: Parameters specific to an HTTP or HTTPS health check.
                   interval:
                     type: number
-                    description: The interval between each health check. Shorter intervals may give
+                    description:
+                      The interval between each health check. Shorter intervals may give
                       quicker notifications if the origin status changes, but
                       will increase load on the origin as we check from multiple
                       locations.
@@ -1276,11 +1384,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A short name to identify the health check. Only alphanumeric
+                    description:
+                      A short name to identify the health check. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   retries:
                     type: number
-                    description: The number of retries to attempt in case of a timeout before
+                    description:
+                      The number of retries to attempt in case of a timeout before
                       marking the origin as unhealthy. Retries are attempted
                       immediately.
                   status:
@@ -1290,7 +1400,8 @@ paths:
                       - healthy
                       - unhealthy
                       - suspended
-                    description: The current status of the origin server according to the health
+                    description:
+                      The current status of the origin server according to the health
                       check.
                   suspended:
                     type: boolean
@@ -1314,7 +1425,8 @@ paths:
                     description: The timeout (in seconds) before marking the health check as failed.
                   type:
                     type: string
-                    description: The protocol to use for the health check. Currently supported
+                    description:
+                      The protocol to use for the health check. Currently supported
                       protocols are 'HTTP', 'HTTPS' and 'TCP'.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -1326,7 +1438,8 @@ paths:
   /zones/{zone_id}/healthchecks/preview/{healthcheckId}:
     get:
       operationId: getPreview
-      description: "Fetch a single configured health check preview.  @example ```ts
+      description:
+        "Fetch a single configured health check preview.  @example ```ts
         const healthcheck = await client.healthchecks.previews.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1355,7 +1468,8 @@ paths:
                     description: Identifier
                   address:
                     type: string
-                    description: The hostname or IP address of the origin server to run health
+                    description:
+                      The hostname or IP address of the origin server to run health
                       checks on.
                   check_regions:
                     oneOf:
@@ -1378,15 +1492,18 @@ paths:
                             - NEAS
                             - ALL_REGIONS
                     nullable: true
-                    description: A list of regions from which to run health checks. Null means
+                    description:
+                      A list of regions from which to run health checks. Null means
                       Cloudflare will pick a default region.
                   consecutive_fails:
                     type: number
-                    description: The number of consecutive fails required from a health check before
+                    description:
+                      The number of consecutive fails required from a health check before
                       changing the health to unhealthy.
                   consecutive_successes:
                     type: number
-                    description: The number of consecutive successes required from a health check
+                    description:
+                      The number of consecutive successes required from a health check
                       before changing the health to healthy.
                   created_on:
                     type: string
@@ -1405,7 +1522,8 @@ paths:
                             description: Do not validate the certificate when the health check uses HTTPS.
                           expected_body:
                             type: string
-                            description: A case-insensitive sub-string to look for in the response body. If
+                            description:
+                              A case-insensitive sub-string to look for in the response body. If
                               this string is not found, the origin will be
                               marked as unhealthy.
                           expected_codes:
@@ -1414,7 +1532,8 @@ paths:
                                 items:
                                   type: string
                             nullable: true
-                            description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                            description:
+                              The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                               "2xx" for all codes starting with 2) of the health
                               check.
                           follow_redirects:
@@ -1425,7 +1544,8 @@ paths:
                               - type: object
                                 additionalProperties: true
                             nullable: true
-                            description: The HTTP request headers to send in the health check. It is
+                            description:
+                              The HTTP request headers to send in the health check. It is
                               recommended you set a Host header by default. The
                               User-Agent header cannot be overridden.
                           method:
@@ -1439,13 +1559,15 @@ paths:
                             description: The endpoint path to health check against.
                           port:
                             type: number
-                            description: Port number to connect to for the health check. Defaults to 80 if
+                            description:
+                              Port number to connect to for the health check. Defaults to 80 if
                               type is HTTP or 443 if type is HTTPS.
                     nullable: true
                     description: Parameters specific to an HTTP or HTTPS health check.
                   interval:
                     type: number
-                    description: The interval between each health check. Shorter intervals may give
+                    description:
+                      The interval between each health check. Shorter intervals may give
                       quicker notifications if the origin status changes, but
                       will increase load on the origin as we check from multiple
                       locations.
@@ -1453,11 +1575,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A short name to identify the health check. Only alphanumeric
+                    description:
+                      A short name to identify the health check. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   retries:
                     type: number
-                    description: The number of retries to attempt in case of a timeout before
+                    description:
+                      The number of retries to attempt in case of a timeout before
                       marking the origin as unhealthy. Retries are attempted
                       immediately.
                   status:
@@ -1467,7 +1591,8 @@ paths:
                       - healthy
                       - unhealthy
                       - suspended
-                    description: The current status of the origin server according to the health
+                    description:
+                      The current status of the origin server according to the health
                       check.
                   suspended:
                     type: boolean
@@ -1491,7 +1616,8 @@ paths:
                     description: The timeout (in seconds) before marking the health check as failed.
                   type:
                     type: string
-                    description: The protocol to use for the health check. Currently supported
+                    description:
+                      The protocol to use for the health check. Currently supported
                       protocols are 'HTTP', 'HTTPS' and 'TCP'.
       x-distilled-response-path: result
     delete:
@@ -1546,11 +1672,13 @@ paths:
               properties:
                 address:
                   type: string
-                  description: "Body param: The hostname or IP address of the origin server to run
+                  description:
+                    "Body param: The hostname or IP address of the origin server to run
                     health checks on."
                 name:
                   type: string
-                  description: "Body param: A short name to identify the health check. Only
+                  description:
+                    "Body param: A short name to identify the health check. Only
                     alphanumeric characters, hyphens and underscores are
                     allowed."
                 check_regions:
@@ -1574,15 +1702,18 @@ paths:
                           - NEAS
                           - ALL_REGIONS
                   nullable: true
-                  description: "Body param: A list of regions from which to run health checks.
+                  description:
+                    "Body param: A list of regions from which to run health checks.
                     Null means Cloudflare will pick a default region."
                 consecutive_fails:
                   type: number
-                  description: "Body param: The number of consecutive fails required from a health
+                  description:
+                    "Body param: The number of consecutive fails required from a health
                     check before changing the health to unhealthy."
                 consecutive_successes:
                   type: number
-                  description: "Body param: The number of consecutive successes required from a
+                  description:
+                    "Body param: The number of consecutive successes required from a
                     health check before changing the health to healthy."
                 description:
                   type: string
@@ -1596,7 +1727,8 @@ paths:
                           description: Do not validate the certificate when the health check uses HTTPS.
                         expected_body:
                           type: string
-                          description: A case-insensitive sub-string to look for in the response body. If
+                          description:
+                            A case-insensitive sub-string to look for in the response body. If
                             this string is not found, the origin will be marked
                             as unhealthy.
                         expected_codes:
@@ -1605,7 +1737,8 @@ paths:
                               items:
                                 type: string
                           nullable: true
-                          description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                          description:
+                            The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                             "2xx" for all codes starting with 2) of the health
                             check.
                         follow_redirects:
@@ -1616,7 +1749,8 @@ paths:
                             - type: object
                               additionalProperties: true
                           nullable: true
-                          description: The HTTP request headers to send in the health check. It is
+                          description:
+                            The HTTP request headers to send in the health check. It is
                             recommended you set a Host header by default. The
                             User-Agent header cannot be overridden.
                         method:
@@ -1630,24 +1764,28 @@ paths:
                           description: The endpoint path to health check against.
                         port:
                           type: number
-                          description: Port number to connect to for the health check. Defaults to 80 if
+                          description:
+                            Port number to connect to for the health check. Defaults to 80 if
                             type is HTTP or 443 if type is HTTPS.
                   nullable: true
                   description: "Body param: Parameters specific to an HTTP or HTTPS health check."
                 interval:
                   type: number
-                  description: "Body param: The interval between each health check. Shorter
+                  description:
+                    "Body param: The interval between each health check. Shorter
                     intervals may give quicker notifications if the origin
                     status changes, but will increase load on the origin as we
                     check from multiple locations."
                 retries:
                   type: number
-                  description: "Body param: The number of retries to attempt in case of a timeout
+                  description:
+                    "Body param: The number of retries to attempt in case of a timeout
                     before marking the origin as unhealthy. Retries are
                     attempted immediately."
                 suspended:
                   type: boolean
-                  description: "Body param: If suspended, no health checks are sent to the
+                  description:
+                    "Body param: If suspended, no health checks are sent to the
                     origin."
                 tcp_config:
                   oneOf:
@@ -1665,11 +1803,13 @@ paths:
                   description: "Body param: Parameters specific to TCP health check."
                 timeout:
                   type: number
-                  description: "Body param: The timeout (in seconds) before marking the health
+                  description:
+                    "Body param: The timeout (in seconds) before marking the health
                     check as failed."
                 type:
                   type: string
-                  description: "Body param: The protocol to use for the health check. Currently
+                  description:
+                    "Body param: The protocol to use for the health check. Currently
                     supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
               required:
                 - address
@@ -1687,7 +1827,8 @@ paths:
                     description: Identifier
                   address:
                     type: string
-                    description: The hostname or IP address of the origin server to run health
+                    description:
+                      The hostname or IP address of the origin server to run health
                       checks on.
                   check_regions:
                     oneOf:
@@ -1710,15 +1851,18 @@ paths:
                             - NEAS
                             - ALL_REGIONS
                     nullable: true
-                    description: A list of regions from which to run health checks. Null means
+                    description:
+                      A list of regions from which to run health checks. Null means
                       Cloudflare will pick a default region.
                   consecutive_fails:
                     type: number
-                    description: The number of consecutive fails required from a health check before
+                    description:
+                      The number of consecutive fails required from a health check before
                       changing the health to unhealthy.
                   consecutive_successes:
                     type: number
-                    description: The number of consecutive successes required from a health check
+                    description:
+                      The number of consecutive successes required from a health check
                       before changing the health to healthy.
                   created_on:
                     type: string
@@ -1737,7 +1881,8 @@ paths:
                             description: Do not validate the certificate when the health check uses HTTPS.
                           expected_body:
                             type: string
-                            description: A case-insensitive sub-string to look for in the response body. If
+                            description:
+                              A case-insensitive sub-string to look for in the response body. If
                               this string is not found, the origin will be
                               marked as unhealthy.
                           expected_codes:
@@ -1746,7 +1891,8 @@ paths:
                                 items:
                                   type: string
                             nullable: true
-                            description: The expected HTTP response codes (e.g. "200") or code ranges (e.g.
+                            description:
+                              The expected HTTP response codes (e.g. "200") or code ranges (e.g.
                               "2xx" for all codes starting with 2) of the health
                               check.
                           follow_redirects:
@@ -1757,7 +1903,8 @@ paths:
                               - type: object
                                 additionalProperties: true
                             nullable: true
-                            description: The HTTP request headers to send in the health check. It is
+                            description:
+                              The HTTP request headers to send in the health check. It is
                               recommended you set a Host header by default. The
                               User-Agent header cannot be overridden.
                           method:
@@ -1771,13 +1918,15 @@ paths:
                             description: The endpoint path to health check against.
                           port:
                             type: number
-                            description: Port number to connect to for the health check. Defaults to 80 if
+                            description:
+                              Port number to connect to for the health check. Defaults to 80 if
                               type is HTTP or 443 if type is HTTPS.
                     nullable: true
                     description: Parameters specific to an HTTP or HTTPS health check.
                   interval:
                     type: number
-                    description: The interval between each health check. Shorter intervals may give
+                    description:
+                      The interval between each health check. Shorter intervals may give
                       quicker notifications if the origin status changes, but
                       will increase load on the origin as we check from multiple
                       locations.
@@ -1785,11 +1934,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A short name to identify the health check. Only alphanumeric
+                    description:
+                      A short name to identify the health check. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   retries:
                     type: number
-                    description: The number of retries to attempt in case of a timeout before
+                    description:
+                      The number of retries to attempt in case of a timeout before
                       marking the origin as unhealthy. Retries are attempted
                       immediately.
                   status:
@@ -1799,7 +1950,8 @@ paths:
                       - healthy
                       - unhealthy
                       - suspended
-                    description: The current status of the origin server according to the health
+                    description:
+                      The current status of the origin server according to the health
                       check.
                   suspended:
                     type: boolean
@@ -1823,6 +1975,7 @@ paths:
                     description: The timeout (in seconds) before marking the health check as failed.
                   type:
                     type: string
-                    description: The protocol to use for the health check. Currently supported
+                    description:
+                      The protocol to use for the health check. Currently supported
                       protocols are 'HTTP', 'HTTPS' and 'TCP'.
       x-distilled-response-path: result

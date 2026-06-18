@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@alchemy.run/typescript-config/bun.json",
   "include": [
     "alchemy.run.ts",
     "src/**/*.ts",
@@ -8,6 +8,7 @@
     "vite.config.ts"
   ],
   "compilerOptions": {
+    "composite": true,
     "rootDir": ".",
     "module": "ESNext",
     "moduleResolution": "Bundler",

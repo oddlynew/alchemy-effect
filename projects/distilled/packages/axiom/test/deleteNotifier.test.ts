@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteNotifier", () => {
   it(
     "deletes an existing notifier and subsequent fetches return NotFound",
+    { timeout: 60_000 },
     async () => {
       const notifierName = `distilled-axiom-delnotifier-${testRunId}`;
       let createdId: string | undefined;
@@ -52,11 +53,11 @@ describe("deleteNotifier", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a well-formed notifier id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Axiom notifier ids are prefixed with `notify_`. A syntactically valid
       // but non-existent id should produce a 404 → NotFound.
@@ -68,6 +69,5 @@ describe("deleteNotifier", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

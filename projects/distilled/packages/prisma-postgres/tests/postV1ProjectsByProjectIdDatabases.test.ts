@@ -39,58 +39,66 @@ describe("postV1ProjectsByProjectIdDatabases", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - creates a database in a project", async () => {
-    const project = getTestProject("projdb-create");
-    const dbName = `distilled-prisma-projdb-${testRunId}`;
+  it(
+    "happy path - creates a database in a project",
+    { timeout: 60_000 },
+    async () => {
+      const project = getTestProject("projdb-create");
+      const dbName = `distilled-prisma-projdb-${testRunId}`;
 
-    await runEffect(
-      Effect.gen(function* () {
-        const result = yield* postV1ProjectsByProjectIdDatabases({
-          projectId: project.projectId,
-          name: dbName,
-          region: "us-east-1",
-        });
+      await runEffect(
+        Effect.gen(function* () {
+          const result = yield* postV1ProjectsByProjectIdDatabases({
+            projectId: project.projectId,
+            name: dbName,
+            region: "us-east-1",
+          });
 
-        expect(result.data.id).toBeDefined();
-        expect(result.data.name).toBe(dbName);
-        expect(result.data.project.id).toBe(project.projectId);
-        expect(result.data.status).toBeDefined();
-        expect(result.data.connections).toBeDefined();
-        expect(result.data.region).toBeDefined();
+          expect(result.data.id).toBeDefined();
+          expect(result.data.name).toBe(dbName);
+          expect(result.data.project.id).toBe(project.projectId);
+          expect(result.data.status).toBeDefined();
+          expect(result.data.connections).toBeDefined();
+          expect(result.data.region).toBeDefined();
 
-        return result;
-      }).pipe(
-        Effect.tap((result) =>
-          deleteV1DatabasesByDatabaseId({ databaseId: result.data.id }).pipe(
-            Effect.ignore,
+          return result;
+        }).pipe(
+          Effect.tap((result) =>
+            deleteV1DatabasesByDatabaseId({ databaseId: result.data.id }).pipe(
+              Effect.ignore,
+            ),
           ),
         ),
-      ),
-    );
-  }, 60_000);
+      );
+    },
+  );
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent projectId", async () => {
-    await Effect.runPromise(
-      postV1ProjectsByProjectIdDatabases({
-        projectId: "non-existent-proj-id-00000000",
-        region: "us-east-1",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent projectId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        postV1ProjectsByProjectIdDatabases({
+          projectId: "non-existent-proj-id-00000000",
+          region: "us-east-1",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - Forbidden with invalid token", async () => {
+  it("error - Forbidden with invalid token", { timeout: 30_000 }, async () => {
     const project = getTestProject("projdb-create");
 
     await Effect.runPromise(
@@ -105,22 +113,26 @@ describe("postV1ProjectsByProjectIdDatabases", () => {
         Effect.provide(BadTokenLayer),
       ),
     );
-  }, 30_000);
+  });
 
-  it("error - BadRequest or UnprocessableEntity for empty projectId", async () => {
-    await Effect.runPromise(
-      postV1ProjectsByProjectIdDatabases({
-        projectId: "",
-        region: "us-east-1",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["BadRequest", "UnprocessableEntity", "NotFound"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - BadRequest or UnprocessableEntity for empty projectId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        postV1ProjectsByProjectIdDatabases({
+          projectId: "",
+          region: "us-east-1",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["BadRequest", "UnprocessableEntity", "NotFound"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

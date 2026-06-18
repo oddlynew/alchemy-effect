@@ -40,7 +40,7 @@ describe("deleteV1DatabasesByDatabaseId", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - deletes a database", async () => {
+  it("happy path - deletes a database", { timeout: 60_000 }, async () => {
     const project = getTestProject("db-del");
     const dbName = `distilled-prisma-db-del-${testRunId}`;
 
@@ -65,29 +65,33 @@ describe("deleteV1DatabasesByDatabaseId", () => {
         expect((err as any)._tag).toBe("NotFound");
       }),
     );
-  }, 60_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent databaseId", async () => {
-    await Effect.runPromise(
-      deleteV1DatabasesByDatabaseId({
-        databaseId: "non-existent-db-id-00000000",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1DatabasesByDatabaseId({
+          databaseId: "non-existent-db-id-00000000",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - Forbidden with invalid token", async () => {
+  it("error - Forbidden with invalid token", { timeout: 30_000 }, async () => {
     const project = getTestProject("db-del");
     const databaseId = project.databaseId!;
 
@@ -100,19 +104,23 @@ describe("deleteV1DatabasesByDatabaseId", () => {
         Effect.provide(BadTokenLayer),
       ),
     );
-  }, 30_000);
+  });
 
-  it("error - UnprocessableEntity for malformed databaseId", async () => {
-    await Effect.runPromise(
-      deleteV1DatabasesByDatabaseId({ databaseId: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1DatabasesByDatabaseId({ databaseId: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

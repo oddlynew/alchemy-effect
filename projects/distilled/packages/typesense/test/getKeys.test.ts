@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getKeys", () => {
   it(
     "lists all API keys including ones we just created",
+    { timeout: 30_000 },
     async () => {
       let createdKeyId: number | undefined;
       const description = `distilled-typesense-getkeys-${testRunId}`;
@@ -44,11 +45,11 @@ describe("getKeys", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with an API key that the
       // Typesense server will reject. Typesense returns 401 with a JSON
@@ -75,6 +76,5 @@ describe("getKeys", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

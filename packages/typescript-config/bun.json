@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Bun Library",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM"],
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "types": ["bun"]
+  }
+}

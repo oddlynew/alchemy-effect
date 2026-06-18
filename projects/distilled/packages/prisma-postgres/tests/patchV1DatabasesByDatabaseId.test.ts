@@ -38,7 +38,7 @@ describe("patchV1DatabasesByDatabaseId", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - updates database name", async () => {
+  it("happy path - updates database name", { timeout: 30_000 }, async () => {
     const project = getTestProject("db-patch");
     const databaseId = project.databaseId!;
     const newName = `distilled-prisma-db-renamed-${testRunId}`;
@@ -55,30 +55,34 @@ describe("patchV1DatabasesByDatabaseId", () => {
     expect(result.data.status).toBeDefined();
     expect(result.data.project).toBeDefined();
     expect(result.data.project.id).toBe(project.projectId);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent databaseId", async () => {
-    await Effect.runPromise(
-      patchV1DatabasesByDatabaseId({
-        databaseId: "non-existent-db-id-00000000",
-        name: "should-not-exist",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        patchV1DatabasesByDatabaseId({
+          databaseId: "non-existent-db-id-00000000",
+          name: "should-not-exist",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - Forbidden with invalid token", async () => {
+  it("error - Forbidden with invalid token", { timeout: 30_000 }, async () => {
     const project = getTestProject("db-patch");
     const databaseId = project.databaseId!;
 
@@ -94,22 +98,26 @@ describe("patchV1DatabasesByDatabaseId", () => {
         Effect.provide(BadTokenLayer),
       ),
     );
-  }, 30_000);
+  });
 
-  it("error - UnprocessableEntity for malformed databaseId", async () => {
-    await Effect.runPromise(
-      patchV1DatabasesByDatabaseId({
-        databaseId: "",
-        name: "should-fail-validation",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        patchV1DatabasesByDatabaseId({
+          databaseId: "",
+          name: "should-fail-validation",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

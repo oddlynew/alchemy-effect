@@ -642,7 +642,11 @@ function pathToFunctionName(path: OperationStep[]): string {
   if (path.length === 0) throw new Error("empty path");
   if (path.length === 1) return path[0].name;
   return (
-    path[0].name + path.slice(1).map((s) => toPascalCase(s.name)).join("")
+    path[0].name +
+    path
+      .slice(1)
+      .map((s) => toPascalCase(s.name))
+      .join("")
   );
 }
 
@@ -682,8 +686,7 @@ function buildPathDocument(
   ): string => {
     const argList = step.args
       .map((arg) => {
-        const varName =
-          argRenames.get(`${step.name}.${arg.name}`) ?? arg.name;
+        const varName = argRenames.get(`${step.name}.${arg.name}`) ?? arg.name;
         return `${arg.name}: $${varName}`;
       })
       .join(", ");
@@ -759,7 +762,13 @@ function generateOperation(
   // ---- Output schema (selection set on the leaf step's return type) ----
   const leaf = path[path.length - 1];
   const maxDepth = config.maxDepth ?? 3;
-  const selection = expandSelection(leaf.returnType, ctx, 1, maxDepth, new Set());
+  const selection = expandSelection(
+    leaf.returnType,
+    ctx,
+    1,
+    maxDepth,
+    new Set(),
+  );
   const outputSchemaBody = outputTypeToEffect(
     leaf.returnType,
     selection,
@@ -925,8 +934,9 @@ export function generateFromGraphQL(config: GraphQLGeneratorConfig): void {
 
   // Write barrel
   const barrel =
-    operations.map((op) => `export * from "./${op.functionName}.ts";`).join("\n") +
-    "\n";
+    operations
+      .map((op) => `export * from "./${op.functionName}.ts";`)
+      .join("\n") + "\n";
   fs.writeFileSync(path.join(outputDir, "index.ts"), barrel);
 
   console.log(

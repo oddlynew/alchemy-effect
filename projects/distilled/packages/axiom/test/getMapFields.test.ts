@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getMapFields", () => {
   it(
     "returns an array of map field names for an existing dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-getmapfields-${testRunId}`;
 
@@ -34,11 +35,11 @@ describe("getMapFields", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a dataset name that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getMapFields({
@@ -48,6 +49,5 @@ describe("getMapFields", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

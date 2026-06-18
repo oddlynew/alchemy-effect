@@ -1,13 +1,7 @@
 {
   "errors": {
-    "TableNotFound": [
-      { "code": 1014, "message": { "includes": "not found" } }
-    ],
-    "InvalidSql": [
-      { "code": 1014 }
-    ],
-    "PipelineAlreadyExists": [
-      { "code": 1003 }
-    ]
+    "TableNotFound": [{ "code": 1014, "message": { "includes": "not found" } }],
+    "InvalidSql": [{ "code": 1014 }],
+    "PipelineAlreadyExists": [{ "code": 1003 }]
   }
 }

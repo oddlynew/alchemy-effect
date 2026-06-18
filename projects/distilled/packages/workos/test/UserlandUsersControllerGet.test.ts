@@ -5,37 +5,32 @@ import { UserlandUsersControllerList } from "../src/operations/UserlandUsersCont
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("UserlandUsersControllerGet", () => {
-  it(
-    "fetches a user by id",
-    async () => {
-      const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
+  it("fetches a user by id", { timeout: 60_000 }, async () => {
+    const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
-      if (users.data.length === 0) {
-        const error = await runEffect(
-          UserlandUsersControllerGet({
-            id: `user_does_not_exist_${testRunId}`,
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
-
-      const seed = users.data[0] as { id: string };
-      const result = await runEffect(
-        UserlandUsersControllerGet({ id: seed.id }),
+    if (users.data.length === 0) {
+      const error = await runEffect(
+        UserlandUsersControllerGet({
+          id: `user_does_not_exist_${testRunId}`,
+        }).pipe(Effect.flip),
       );
-      expect(result).toBeDefined();
-      expect(result.id).toBe(seed.id);
-      expect(typeof result.email).toBe("string");
-      expect(typeof result.email_verified).toBe("boolean");
-      expect(typeof result.created_at).toBe("string");
-      expect(typeof result.updated_at).toBe("string");
-    },
-    60_000,
-  );
+      expect(error._tag).toBe("NotFound");
+      return;
+    }
+
+    const seed = users.data[0] as { id: string };
+    const result = await runEffect(UserlandUsersControllerGet({ id: seed.id }));
+    expect(result).toBeDefined();
+    expect(result.id).toBe(seed.id);
+    expect(typeof result.email).toBe("string");
+    expect(typeof result.email_verified).toBe("boolean");
+    expect(typeof result.created_at).toBe("string");
+    expect(typeof result.updated_at).toBe("string");
+  });
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerGet({
@@ -44,6 +39,5 @@ describe("UserlandUsersControllerGet", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

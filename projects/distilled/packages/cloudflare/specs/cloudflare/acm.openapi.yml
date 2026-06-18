@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/acm/custom_trust_store/{customOriginTrustStoreId}:
     get:
       operationId: getCustomTrustStore
-      description: "Retrieves details about a specific root CA certificate in the
+      description:
+        "Retrieves details about a specific root CA certificate in the
         custom origin trust store, including expiration and subject
         information.  @example ```ts const customTrustStore = await
         client.acm.customTrustStore.get( '023e105f4ecef8ad9ca31a8372d0c353', {
@@ -39,7 +40,8 @@ paths:
                     description: Identifier.
                   certificate:
                     type: string
-                    description: The root CA certificate in PEM format. Only root CA certificates
+                    description:
+                      The root CA certificate in PEM format. Only root CA certificates
                       are accepted; intermediate and leaf certificates are not
                       supported.
                   expires_on:
@@ -88,7 +90,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteCustomTrustStore
-      description: "Removes a root CA certificate from the custom origin trust store.
+      description:
+        "Removes a root CA certificate from the custom origin trust store.
         Origins using certificates signed by this CA will no longer be
         trusted.  @example ```ts const customTrustStore = await
         client.acm.customTrustStore.delete( '023e105f4ecef8ad9ca31a8372d0c353',
@@ -175,7 +178,8 @@ paths:
                     description: Identifier.
                   certificate:
                     type: string
-                    description: The root CA certificate in PEM format. Only root CA certificates
+                    description:
+                      The root CA certificate in PEM format. Only root CA certificates
                       are accepted; intermediate and leaf certificates are not
                       supported.
                   expires_on:
@@ -220,7 +224,8 @@ paths:
           - status: 403
     post:
       operationId: createCustomTrustStore
-      description: "Upload a root CA certificate to the Custom Origin Trust Store for
+      description:
+        "Upload a root CA certificate to the Custom Origin Trust Store for
         a Zone. Only root CA certificates are accepted.  @example ```ts const
         customTrustStore = await client.acm.customTrustStore.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', certificate: '-----BEGIN
@@ -242,7 +247,8 @@ paths:
               properties:
                 certificate:
                   type: string
-                  description: "Body param: The root CA certificate in PEM format. Only root CA
+                  description:
+                    "Body param: The root CA certificate in PEM format. Only root CA
                     certificates are accepted; intermediate and leaf
                     certificates are not supported."
               required:
@@ -260,7 +266,8 @@ paths:
                     description: Identifier.
                   certificate:
                     type: string
-                    description: The root CA certificate in PEM format. Only root CA certificates
+                    description:
+                      The root CA certificate in PEM format. Only root CA certificates
                       are accepted; intermediate and leaf certificates are not
                       supported.
                   expires_on:
@@ -308,7 +315,8 @@ paths:
   /zones/{zone_id}/acm/total_tls:
     get:
       operationId: getTotalTl
-      description: "Get Total TLS Settings for a Zone.  @example ```ts const totalTLS
+      description:
+        "Get Total TLS Settings for a Zone.  @example ```ts const totalTLS
         = await client.acm.totalTLS.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -332,16 +340,19 @@ paths:
                       - google
                       - lets_encrypt
                       - ssl_com
-                    description: The Certificate Authority that Total TLS certificates will be
+                    description:
+                      The Certificate Authority that Total TLS certificates will be
                       issued through.
                   enabled:
                     type: boolean
-                    description: If enabled, Total TLS will order a hostname specific TLS
+                    description:
+                      If enabled, Total TLS will order a hostname specific TLS
                       certificate for any proxied A, AAAA, or CNAME record in
                       your zone.
                   validity_period:
                     type: number
-                    description: The validity period in days for the certificates ordered via Total
+                    description:
+                      The validity period in days for the certificates ordered via Total
                       TLS.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -372,7 +383,8 @@ paths:
               properties:
                 enabled:
                   type: boolean
-                  description: "Body param: If enabled, Total TLS will order a hostname specific
+                  description:
+                    "Body param: If enabled, Total TLS will order a hostname specific
                     TLS certificate for any proxied A, AAAA, or CNAME record in
                     your zone."
                 certificate_authority:
@@ -381,7 +393,8 @@ paths:
                     - google
                     - lets_encrypt
                     - ssl_com
-                  description: "Body param: The Certificate Authority that Total TLS certificates
+                  description:
+                    "Body param: The Certificate Authority that Total TLS certificates
                     will be issued through."
               required:
                 - enabled
@@ -399,17 +412,20 @@ paths:
                       - google
                       - lets_encrypt
                       - ssl_com
-                    description: The Certificate Authority that Total TLS certificates will be
+                    description:
+                      The Certificate Authority that Total TLS certificates will be
                       issued through.
                   enabled:
                     type: boolean
-                    description: If enabled, Total TLS will order a hostname specific TLS
+                    description:
+                      If enabled, Total TLS will order a hostname specific TLS
                       certificate for any proxied A, AAAA, or CNAME record in
                       your zone.
                   validity_period:
                     type: number
                     enum:
                       - 90
-                    description: The validity period in days for the certificates ordered via Total
+                    description:
+                      The validity period in days for the certificates ordered via Total
                       TLS.
       x-distilled-response-path: result

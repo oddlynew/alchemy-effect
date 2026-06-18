@@ -4,33 +4,30 @@ import { AuthorizationRolesControllerCreate } from "../src/operations/Authorizat
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("AuthorizationRolesControllerCreate", () => {
-  it(
-    "creates a new environment role",
-    async () => {
-      const slug = `role_happy_${testRunId}`;
-      const role = await runEffect(
-        AuthorizationRolesControllerCreate({
-          slug,
-          name: `Happy Role ${testRunId}`,
-          description: "Test role created by distilled SDK tests",
-        }),
-      );
+  it("creates a new environment role", { timeout: 30_000 }, async () => {
+    const slug = `role_happy_${testRunId}`;
+    const role = await runEffect(
+      AuthorizationRolesControllerCreate({
+        slug,
+        name: `Happy Role ${testRunId}`,
+        description: "Test role created by distilled SDK tests",
+      }),
+    );
 
-      expect(role).toBeDefined();
-      expect(role.slug).toBe(slug);
-      expect(typeof role.id).toBe("string");
-      expect(typeof role.name).toBe("string");
-      expect(["EnvironmentRole", "OrganizationRole"]).toContain(role.type);
-      expect(typeof role.resource_type_slug).toBe("string");
-      expect(Array.isArray(role.permissions)).toBe(true);
-      expect(typeof role.created_at).toBe("string");
-      expect(typeof role.updated_at).toBe("string");
-    },
-    30_000,
-  );
+    expect(role).toBeDefined();
+    expect(role.slug).toBe(slug);
+    expect(typeof role.id).toBe("string");
+    expect(typeof role.name).toBe("string");
+    expect(["EnvironmentRole", "OrganizationRole"]).toContain(role.type);
+    expect(typeof role.resource_type_slug).toBe("string");
+    expect(Array.isArray(role.permissions)).toBe(true);
+    expect(typeof role.created_at).toBe("string");
+    expect(typeof role.updated_at).toBe("string");
+  });
 
   it(
     "fails with BadRequest when required fields are missing",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolesControllerCreate({
@@ -41,11 +38,11 @@ describe("AuthorizationRolesControllerCreate", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound when the resource_type_slug does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolesControllerCreate({
@@ -57,11 +54,11 @@ describe("AuthorizationRolesControllerCreate", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when targeting a resource_type in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolesControllerCreate({
@@ -73,11 +70,11 @@ describe("AuthorizationRolesControllerCreate", () => {
 
       expect(["Forbidden", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when creating a role with an existing slug",
+    { timeout: 30_000 },
     async () => {
       const slug = `role_conflict_${testRunId}`;
 
@@ -99,11 +96,11 @@ describe("AuthorizationRolesControllerCreate", () => {
 
       expect(error._tag).toBe("Conflict");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the slug is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolesControllerCreate({
@@ -114,6 +111,5 @@ describe("AuthorizationRolesControllerCreate", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

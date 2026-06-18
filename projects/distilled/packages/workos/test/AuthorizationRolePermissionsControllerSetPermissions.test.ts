@@ -7,6 +7,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationRolePermissionsControllerSetPermissions", () => {
   it(
     "replaces the permissions on an environment role",
+    { timeout: 30_000 },
     async (ctx) => {
       const slug = `role_setperms_${testRunId}`;
 
@@ -37,11 +38,11 @@ describe("AuthorizationRolePermissionsControllerSetPermissions", () => {
       expect(typeof result.created_at).toBe("string");
       expect(typeof result.updated_at).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when permissions is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerSetPermissions({
@@ -52,11 +53,11 @@ describe("AuthorizationRolePermissionsControllerSetPermissions", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent role slug",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerSetPermissions({
@@ -67,11 +68,11 @@ describe("AuthorizationRolePermissionsControllerSetPermissions", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the caller cannot modify the role",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerSetPermissions({
@@ -82,11 +83,11 @@ describe("AuthorizationRolePermissionsControllerSetPermissions", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when targeting the built-in admin role",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerSetPermissions({
@@ -97,6 +98,5 @@ describe("AuthorizationRolePermissionsControllerSetPermissions", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

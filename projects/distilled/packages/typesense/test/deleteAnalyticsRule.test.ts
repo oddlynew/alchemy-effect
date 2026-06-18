@@ -44,15 +44,11 @@ describe("deleteAnalyticsRule", () => {
       );
     }
 
-    const createRule = await rawFetch(
-      "PUT",
-      `/analytics/rules/${ruleName}`,
-      {
-        type: "log",
-        collection: collectionName,
-        event_type: "click",
-      },
-    );
+    const createRule = await rawFetch("PUT", `/analytics/rules/${ruleName}`, {
+      type: "log",
+      collection: collectionName,
+      event_type: "click",
+    });
     if (!createRule.ok) {
       throw new Error(
         `Failed to create test analytics rule: ${createRule.status} ${await createRule.text()}`,
@@ -64,13 +60,12 @@ describe("deleteAnalyticsRule", () => {
     // Defensive: the rule is normally deleted by the happy-path test, but
     // ensure both rule and collection are gone if the test failed early.
     await rawFetch("DELETE", `/analytics/rules/${ruleName}`).catch(() => {});
-    await rawFetch("DELETE", `/collections/${collectionName}`).catch(
-      () => {},
-    );
+    await rawFetch("DELETE", `/collections/${collectionName}`).catch(() => {});
   }, 30_000);
 
   it(
     "deletes an existing analytics rule and returns its full record",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(deleteAnalyticsRule({ ruleName }));
 
@@ -79,11 +74,11 @@ describe("deleteAnalyticsRule", () => {
       expect(result.collection).toBe(collectionName);
       expect(result.event_type).toBe("click");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the analytics rule does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteAnalyticsRule({
@@ -93,6 +88,5 @@ describe("deleteAnalyticsRule", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

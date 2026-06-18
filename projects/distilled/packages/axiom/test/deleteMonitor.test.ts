@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteMonitor", () => {
   it(
     "deletes an existing monitor and subsequent fetches return NotFound",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-delmon-${testRunId}`;
       const monitorName = `distilled-axiom-mon-${testRunId}`;
@@ -70,22 +71,19 @@ describe("deleteMonitor", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a well-formed monitor id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Axiom monitor ids are prefixed with `mon_`. A syntactically valid
       // but non-existent id should produce a 404 → NotFound.
       const error = await runEffect(
-        deleteMonitor({ id: `mon_doesnotexist${testRunId}` }).pipe(
-          Effect.flip,
-        ),
+        deleteMonitor({ id: `mon_doesnotexist${testRunId}` }).pipe(Effect.flip),
       );
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

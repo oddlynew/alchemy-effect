@@ -41,7 +41,7 @@ export const CategorySchema = S.Literals([
   AbortedError,
   NotFoundError,
   AlreadyExistsError,
-  DependencyViolationError
+  DependencyViolationError,
 ]);
 export type CategorySchema = typeof CategorySchema.Type;
 

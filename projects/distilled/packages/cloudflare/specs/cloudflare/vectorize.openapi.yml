@@ -36,7 +36,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: A list of vector identifiers to retrieve from the
+                  description:
+                    "Body param: A list of vector identifiers to retrieve from the
                     index indicated by the path."
       responses:
         "200":
@@ -75,7 +76,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: A list of vector identifiers to delete from the index
+                  description:
+                    "Body param: A list of vector identifiers to delete from the index
                     indicated by the path."
       responses:
         "200":
@@ -87,7 +89,8 @@ paths:
                 properties:
                   mutationId:
                     type: string
-                    description: The unique identifier for the async mutation operation containing
+                    description:
+                      The unique identifier for the async mutation operation containing
                       the changeset.
       x-distilled-response-path: result
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}:
@@ -134,14 +137,16 @@ paths:
                       - metric
                   created_on:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   description:
                     type: string
                     description: Specifies the description of the index.
                   modified_on:
                     type: string
-                    description: Specifies the timestamp the resource was modified as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was modified as an ISO8601
                       string.
                   name:
                     type: string
@@ -153,7 +158,8 @@ paths:
           - code: 3005
     delete:
       operationId: deleteIndex
-      description: "Deletes the specified Vectorize Index.  @example ```ts const index
+      description:
+        "Deletes the specified Vectorize Index.  @example ```ts const index
         = await client.vectorize.indexes.delete( 'example-index', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -220,14 +226,16 @@ paths:
                       - metric
                   created_on:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   description:
                     type: string
                     description: Specifies the description of the index.
                   modified_on:
                     type: string
-                    description: Specifies the timestamp the resource was modified as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was modified as an ISO8601
                       string.
                   name:
                     type: string
@@ -241,7 +249,8 @@ paths:
               includes: index deleted
     post:
       operationId: createIndex
-      description: "Creates and returns a new Vectorize Index.  @example ```ts const
+      description:
+        "Creates and returns a new Vectorize Index.  @example ```ts const
         createIndex = await client.vectorize.indexes.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', config: { dimensions: 768, metric:
         'cosine' }, name: 'example-index', }); ```"
@@ -289,7 +298,8 @@ paths:
                           description: Specifies the preset to use for the index.
                       required:
                         - preset
-                  description: "Body param: Specifies the type of configuration to use for the
+                  description:
+                    "Body param: Specifies the type of configuration to use for the
                     index."
                 name:
                   type: string
@@ -326,14 +336,16 @@ paths:
                       - metric
                   created_on:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   description:
                     type: string
                     description: Specifies the description of the index.
                   modified_on:
                     type: string
-                    description: Specifies the timestamp the resource was modified as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was modified as an ISO8601
                       string.
                   name:
                     type: string
@@ -348,7 +360,8 @@ paths:
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/info:
     get:
       operationId: infoIndex
-      description: "Get information about a vectorize index.  @example ```ts const
+      description:
+        "Get information about a vectorize index.  @example ```ts const
         response = await client.vectorize.indexes.info( 'example-index', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -378,11 +391,13 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Specifies the timestamp the last mutation batch was processed as an
+                    description:
+                      Specifies the timestamp the last mutation batch was processed as an
                       ISO8601 string.
                   processedUpToMutation:
                     type: string
-                    description: The unique identifier for the async mutation operation containing
+                    description:
+                      The unique identifier for the async mutation operation containing
                       the changeset.
                   vectorCount:
                     type: number
@@ -391,7 +406,8 @@ paths:
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/insert:
     post:
       operationId: insertIndex
-      description: "Inserts vectors into the specified index and returns a mutation id
+      description:
+        "Inserts vectors into the specified index and returns a mutation id
         corresponding to the vectors enqueued for insertion.  @example ```ts
         const response = await client.vectorize.indexes.insert( 'example-index',
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353', body:
@@ -434,13 +450,15 @@ paths:
                 properties:
                   mutationId:
                     type: string
-                    description: The unique identifier for the async mutation operation containing
+                    description:
+                      The unique identifier for the async mutation operation containing
                       the changeset.
       x-distilled-response-path: result
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/query:
     post:
       operationId: queryIndex
-      description: "Finds vectors closest to a given vector in an index.  @example
+      description:
+        "Finds vectors closest to a given vector in an index.  @example
         ```ts const response = await client.vectorize.indexes.query(
         'example-index', { account_id: '023e105f4ecef8ad9ca31a8372d0c353',
         vector: [0.5, 0.5, 0.5], }, ); ```"
@@ -467,10 +485,12 @@ paths:
                   type: array
                   items:
                     type: number
-                  description: "Body param: The search vector that will be used to find the
+                  description:
+                    "Body param: The search vector that will be used to find the
                     nearest neighbors."
                 filter:
-                  description: "Body param: A metadata filter expression used to limit nearest
+                  description:
+                    "Body param: A metadata filter expression used to limit nearest
                     neighbor results."
                 returnMetadata:
                   type: string
@@ -478,11 +498,13 @@ paths:
                     - none
                     - indexed
                     - all
-                  description: "Body param: Whether to return no metadata, indexed metadata or all
+                  description:
+                    "Body param: Whether to return no metadata, indexed metadata or all
                     metadata associated with the closest vectors."
                 returnValues:
                   type: boolean
-                  description: "Body param: Whether to return the values associated with the
+                  description:
+                    "Body param: Whether to return the values associated with the
                     closest vectors."
                 topK:
                   type: number
@@ -527,7 +549,8 @@ paths:
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/upsert:
     post:
       operationId: upsertIndex
-      description: "Upserts vectors into the specified index, creating them if they do
+      description:
+        "Upserts vectors into the specified index, creating them if they do
         not exist and returns a mutation id corresponding to the vectors
         enqueued for upsertion.  @example ```ts const response = await
         client.vectorize.indexes.upsert( 'example-index', { account_id:
@@ -571,13 +594,15 @@ paths:
                 properties:
                   mutationId:
                     type: string
-                    description: The unique identifier for the async mutation operation containing
+                    description:
+                      The unique identifier for the async mutation operation containing
                       the changeset.
       x-distilled-response-path: result
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/metadata_index/list:
     get:
       operationId: listIndexMetadataIndexes
-      description: "List Metadata Indexes for the specified Vectorize Index.  @example
+      description:
+        "List Metadata Indexes for the specified Vectorize Index.  @example
         ```ts const metadataIndices = await
         client.vectorize.indexes.metadataIndex.list( 'example-index', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -631,7 +656,8 @@ paths:
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/metadata_index/create:
     post:
       operationId: createIndexMetadataIndex
-      description: "Enable metadata filtering based on metadata property. Limited to
+      description:
+        "Enable metadata filtering based on metadata property. Limited to
         10 properties.  @example ```ts const metadataIndex = await
         client.vectorize.indexes.metadataIndex.create( 'example-index', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', indexType: 'string',
@@ -678,7 +704,8 @@ paths:
                 properties:
                   mutationId:
                     type: string
-                    description: The unique identifier for the async mutation operation containing
+                    description:
+                      The unique identifier for the async mutation operation containing
                       the changeset.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -691,7 +718,8 @@ paths:
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/metadata_index/delete:
     post:
       operationId: deleteIndexMetadataIndex
-      description: "Allow Vectorize to delete the specified metadata index.  @example
+      description:
+        "Allow Vectorize to delete the specified metadata index.  @example
         ```ts const metadataIndex = await
         client.vectorize.indexes.metadataIndex.delete( 'example-index', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', propertyName:
@@ -717,7 +745,8 @@ paths:
               properties:
                 propertyName:
                   type: string
-                  description: "Body param: Specifies the metadata property for which the index
+                  description:
+                    "Body param: Specifies the metadata property for which the index
                     must be deleted."
               required:
                 - propertyName
@@ -731,7 +760,8 @@ paths:
                 properties:
                   mutationId:
                     type: string
-                    description: The unique identifier for the async mutation operation containing
+                    description:
+                      The unique identifier for the async mutation operation containing
                       the changeset.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -744,7 +774,8 @@ paths:
   /accounts/{account_id}/vectorize/v2/indexes/{indexName}/list:
     get:
       operationId: listVectorsIndex
-      description: "Returns a paginated list of vector identifiers from the specified
+      description:
+        "Returns a paginated list of vector identifiers from the specified
         index.  @example ```ts const response = await
         client.vectorize.indexes.listVectors( 'example-index', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"

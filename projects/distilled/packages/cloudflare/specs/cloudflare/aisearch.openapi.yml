@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/ai-search/instances/{id}/chat/completions:
     post:
       operationId: chatCompletionsInstance
-      description: "Performs a chat completion request against an AI Search instance,
+      description:
+        "Performs a chat completion request against an AI Search instance,
         using indexed content as context for generating responses.  @example
         ```ts const response = await client.aiSearch.instances.chatCompletions(
         'my-ai-search', { account_id: 'c3dc5f0b34a14ff8e1b3ec04895e1b22',
@@ -131,7 +132,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -144,7 +146,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -153,7 +156,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Overrides the
+                          description:
+                            Metadata fields to boost search results by. Overrides the
                             instance-level boost_by config. Direction defaults
                             to 'asc' for numeric/datetime fields, 'exists' for
                             text/boolean fields. Fields must match 'timestamp'
@@ -173,7 +177,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -325,7 +330,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/chat/completions:
     post:
       operationId: chatCompletionsNamespace
-      description: "Performs a chat completion request against multiple AI Search
+      description:
+        "Performs a chat completion request against multiple AI Search
         instances in parallel, merging retrieved content as context for
         generating a response.  @example ```ts const response = await
         client.aiSearch.namespaces.chatCompletions( 'my-namespace', {
@@ -432,7 +438,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -445,7 +452,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -454,7 +462,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Overrides the
+                          description:
+                            Metadata fields to boost search results by. Overrides the
                             instance-level boost_by config. Direction defaults
                             to 'asc' for numeric/datetime fields, 'exists' for
                             text/boolean fields. Fields must match 'timestamp'
@@ -474,7 +483,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -665,7 +675,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/chat/completions:
     post:
       operationId: chatCompletionsNamespaceInstance
-      description: "Performs a chat completion request against an AI Search instance,
+      description:
+        "Performs a chat completion request against an AI Search instance,
         using indexed content as context for generating responses.  @example
         ```ts const response = await
         client.aiSearch.namespaces.instances.chatCompletions( 'my-namespace',
@@ -793,7 +804,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -806,7 +818,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -815,7 +828,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Overrides the
+                          description:
+                            Metadata fields to boost search results by. Overrides the
                             instance-level boost_by config. Direction defaults
                             to 'asc' for numeric/datetime fields, 'exists' for
                             text/boolean fields. Fields must match 'timestamp'
@@ -835,7 +849,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -987,7 +1002,8 @@ paths:
   /accounts/{account_id}/ai-search/instances:
     get:
       operationId: listInstances
-      description: "List instances.  @example ```ts // Automatically fetches more
+      description:
+        "List instances.  @example ```ts // Automatically fetches more
         pages as needed. for await (const instanceListResponse of
         client.aiSearch.instances.list( { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, )) { // ... } ```"
@@ -1034,7 +1050,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Filter instances whose id contains this string
+          description:
+            "Query param: Filter instances whose id contains this string
             (case-insensitive)."
           schema:
             type: string
@@ -1048,7 +1065,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -1114,7 +1132,8 @@ paths:
                       - 172800
                       - 259200
                       - 518400
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -1179,7 +1198,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -1190,7 +1210,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -1284,7 +1305,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -1297,7 +1319,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -1306,7 +1329,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -1317,7 +1341,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -1373,7 +1398,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -1381,7 +1407,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -1419,12 +1446,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -1433,7 +1462,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -1443,7 +1473,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -1454,7 +1485,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -1491,7 +1523,8 @@ paths:
                       - 21600
                       - 43200
                       - 86400
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -1514,7 +1547,8 @@ paths:
           - status: 403
     post:
       operationId: createInstance
-      description: "Create a new instance.  @example ```ts const instance = await
+      description:
+        "Create a new instance.  @example ```ts const instance = await
         client.aiSearch.instances.create({ account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22', id: 'my-ai-search', }); ```"
       parameters:
@@ -1533,7 +1567,8 @@ paths:
               properties:
                 id:
                   type: string
-                  description: "Body param: AI Search instance ID. Lowercase alphanumeric,
+                  description:
+                    "Body param: AI Search instance ID. Lowercase alphanumeric,
                     hyphens, and underscores."
                 ai_gateway_id:
                   oneOf:
@@ -1588,7 +1623,8 @@ paths:
                   description: Body param
                 cache_ttl:
                   type: number
-                  description: "Body param: Cache entry TTL in seconds. Allowed values: 600
+                  description:
+                    "Body param: Cache entry TTL in seconds. Allowed values: 600
                     (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h),
                     43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400
                     (6d)."
@@ -1654,7 +1690,8 @@ paths:
                   required:
                     - keyword
                     - vector
-                  description: "Body param: Controls which storage backends are used during
+                  description:
+                    "Body param: Controls which storage backends are used during
                     indexing. Defaults to vector-only."
                 indexing_options:
                   oneOf:
@@ -1665,7 +1702,8 @@ paths:
                           enum:
                             - porter
                             - trigram
-                          description: Tokenizer used for keyword search indexing. porter provides
+                          description:
+                            Tokenizer used for keyword search indexing. porter provides
                             word-level tokenization with Porter stemming (good
                             for natural language queries). trigram enables
                             character-level substring matching (good for partial
@@ -1747,7 +1785,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -1760,7 +1799,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -1769,7 +1809,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Each entry specifies a
+                          description:
+                            Metadata fields to boost search results by. Each entry specifies a
                             metadata field and an optional direction. Direction
                             defaults to 'asc' for numeric/datetime fields and
                             'exists' for text/boolean fields. Fields must match
@@ -1779,7 +1820,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -1840,7 +1882,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to exclude. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /admin/  matches /admin/users and
                             /admin/settings/advanced)"
@@ -1848,7 +1891,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to include. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /blog/  matches /blog/post and
                             /blog/2024/post)"
@@ -1886,12 +1930,14 @@ paths:
                                     properties:
                                       path:
                                         type: string
-                                        description: "Glob pattern to match against the page URL path. Uses standard
+                                        description:
+                                          "Glob pattern to match against the page URL path. Uses standard
                                           glob syntax: \\  matches within a
                                           segment, \\ \\ crosses directories."
                                       selector:
                                         type: string
-                                        description: CSS selector to extract content from pages matching the path
+                                        description:
+                                          CSS selector to extract content from pages matching the path
                                           pattern. Must not contain disallowed
                                           characters (;, `, $, {, }, \). Must
                                           target a single element; if multiple
@@ -1900,7 +1946,8 @@ paths:
                                     required:
                                       - path
                                       - selector
-                                  description: List of path-to-selector mappings for extracting specific content
+                                  description:
+                                    List of path-to-selector mappings for extracting specific content
                                     from crawled pages. Each entry pairs a URL
                                     glob pattern with a CSS selector. The first
                                     matching path wins. Only the matched HTML
@@ -1910,7 +1957,8 @@ paths:
                                 include_headers:
                                   type: object
                                   additionalProperties: true
-                                  description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                  description:
+                                    Up to 5 custom HTTP headers sent with each crawl request. Names
                                     must be RFC-7230 token characters (no
                                     spaces, colons, or control characters);
                                     values must be HTAB + printable ASCII (no
@@ -1921,7 +1969,8 @@ paths:
                                   type: array
                                   items:
                                     type: string
-                                  description: List of specific sitemap URLs to use for crawling. Only valid when
+                                  description:
+                                    List of specific sitemap URLs to use for crawling. Only valid when
                                     parse_type is 'sitemap'.
                                 use_browser_rendering:
                                   type: boolean
@@ -1948,7 +1997,8 @@ paths:
                   description: Body param
                 sync_interval:
                   type: number
-                  description: "Body param: Interval between automatic syncs, in seconds. Allowed
+                  description:
+                    "Body param: Interval between automatic syncs, in seconds. Allowed
                     values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h),
                     14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
                 token_id:
@@ -1973,7 +2023,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -2029,7 +2080,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -2094,7 +2146,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -2105,7 +2158,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -2203,7 +2257,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -2216,7 +2271,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -2225,7 +2281,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -2236,7 +2293,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -2292,7 +2350,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -2300,7 +2359,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -2338,12 +2398,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -2352,7 +2414,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -2362,7 +2425,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -2373,7 +2437,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -2401,7 +2466,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -2511,7 +2577,8 @@ paths:
                   description: Body param
                 cache_ttl:
                   type: number
-                  description: "Body param: Cache entry TTL in seconds. Allowed values: 600
+                  description:
+                    "Body param: Cache entry TTL in seconds. Allowed values: 600
                     (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h),
                     43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400
                     (6d)."
@@ -2574,7 +2641,8 @@ paths:
                   required:
                     - keyword
                     - vector
-                  description: "Body param: Controls which storage backends are used during
+                  description:
+                    "Body param: Controls which storage backends are used during
                     indexing. Defaults to vector-only."
                 indexing_options:
                   oneOf:
@@ -2585,7 +2653,8 @@ paths:
                           enum:
                             - porter
                             - trigram
-                          description: Tokenizer used for keyword search indexing. porter provides
+                          description:
+                            Tokenizer used for keyword search indexing. porter provides
                             word-level tokenization with Porter stemming (good
                             for natural language queries). trigram enables
                             character-level substring matching (good for partial
@@ -2670,7 +2739,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -2683,7 +2753,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -2692,7 +2763,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Each entry specifies a
+                          description:
+                            Metadata fields to boost search results by. Each entry specifies a
                             metadata field and an optional direction. Direction
                             defaults to 'asc' for numeric/datetime fields and
                             'exists' for text/boolean fields. Fields must match
@@ -2702,7 +2774,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -2758,7 +2831,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to exclude. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /admin/  matches /admin/users and
                             /admin/settings/advanced)"
@@ -2766,7 +2840,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to include. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /blog/  matches /blog/post and
                             /blog/2024/post)"
@@ -2804,12 +2879,14 @@ paths:
                                     properties:
                                       path:
                                         type: string
-                                        description: "Glob pattern to match against the page URL path. Uses standard
+                                        description:
+                                          "Glob pattern to match against the page URL path. Uses standard
                                           glob syntax: \\  matches within a
                                           segment, \\ \\ crosses directories."
                                       selector:
                                         type: string
-                                        description: CSS selector to extract content from pages matching the path
+                                        description:
+                                          CSS selector to extract content from pages matching the path
                                           pattern. Must not contain disallowed
                                           characters (;, `, $, {, }, \). Must
                                           target a single element; if multiple
@@ -2818,7 +2895,8 @@ paths:
                                     required:
                                       - path
                                       - selector
-                                  description: List of path-to-selector mappings for extracting specific content
+                                  description:
+                                    List of path-to-selector mappings for extracting specific content
                                     from crawled pages. Each entry pairs a URL
                                     glob pattern with a CSS selector. The first
                                     matching path wins. Only the matched HTML
@@ -2828,7 +2906,8 @@ paths:
                                 include_headers:
                                   type: object
                                   additionalProperties: true
-                                  description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                  description:
+                                    Up to 5 custom HTTP headers sent with each crawl request. Names
                                     must be RFC-7230 token characters (no
                                     spaces, colons, or control characters);
                                     values must be HTAB + printable ASCII (no
@@ -2839,7 +2918,8 @@ paths:
                                   type: array
                                   items:
                                     type: string
-                                  description: List of specific sitemap URLs to use for crawling. Only valid when
+                                  description:
+                                    List of specific sitemap URLs to use for crawling. Only valid when
                                     parse_type is 'sitemap'.
                                 use_browser_rendering:
                                   type: boolean
@@ -2904,7 +2984,8 @@ paths:
                   description: Body param
                 sync_interval:
                   type: number
-                  description: "Body param: Interval between automatic syncs, in seconds. Allowed
+                  description:
+                    "Body param: Interval between automatic syncs, in seconds. Allowed
                     values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h),
                     14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
                 system_prompt_ai_search:
@@ -2935,7 +3016,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -2991,7 +3073,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -3056,7 +3139,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -3067,7 +3151,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -3165,7 +3250,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -3178,7 +3264,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -3187,7 +3274,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -3198,7 +3286,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -3254,7 +3343,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -3262,7 +3352,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -3300,12 +3391,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -3314,7 +3407,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -3324,7 +3418,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -3335,7 +3430,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -3363,7 +3459,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -3417,7 +3514,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -3473,7 +3571,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -3538,7 +3637,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -3549,7 +3649,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -3647,7 +3748,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -3660,7 +3762,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -3669,7 +3772,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -3680,7 +3784,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -3736,7 +3841,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -3744,7 +3850,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -3782,12 +3889,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -3796,7 +3905,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -3806,7 +3916,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -3817,7 +3928,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -3845,7 +3957,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -3894,7 +4007,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -3950,7 +4064,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -4015,7 +4130,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -4026,7 +4142,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -4124,7 +4241,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -4137,7 +4255,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -4146,7 +4265,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -4157,7 +4277,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -4213,7 +4334,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -4221,7 +4343,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -4259,12 +4382,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -4273,7 +4398,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -4283,7 +4409,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -4294,7 +4421,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -4322,7 +4450,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -4348,7 +4477,8 @@ paths:
   /accounts/{account_id}/ai-search/instances/{id}/search:
     post:
       operationId: searchInstance
-      description: "Executes a semantic search query against an AI Search instance to
+      description:
+        "Executes a semantic search query against an AI Search instance to
         find relevant indexed content.  @example ```ts const response = await
         client.aiSearch.instances.search( 'my-ai-search', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, ); ```"
@@ -4448,7 +4578,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -4461,7 +4592,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -4470,7 +4602,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Overrides the
+                          description:
+                            Metadata fields to boost search results by. Overrides the
                             instance-level boost_by config. Direction defaults
                             to 'asc' for numeric/datetime fields, 'exists' for
                             text/boolean fields. Fields must match 'timestamp'
@@ -4490,7 +4623,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -4531,7 +4665,8 @@ paths:
                   description: Body param
                 query:
                   type: string
-                  description: "Body param: A simple text query string. Alternative to 'messages'
+                  description:
+                    "Body param: A simple text query string. Alternative to 'messages'
                     — provide either this or 'messages', not both."
       responses:
         "200":
@@ -4598,7 +4733,8 @@ paths:
   /accounts/{account_id}/ai-search/instances/{id}/stats:
     get:
       operationId: statsInstance
-      description: "Retrieves usage statistics for AI Search instances.  @example
+      description:
+        "Retrieves usage statistics for AI Search instances.  @example
         ```ts const response = await client.aiSearch.instances.stats(
         'my-ai-search', { account_id: 'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, );
         ```"
@@ -4625,7 +4761,8 @@ paths:
                     type: number
                   degraded:
                     type: boolean
-                    description: True when status counts are unavailable (e.g. legacy stats query
+                    description:
+                      True when status counts are unavailable (e.g. legacy stats query
                       exceeded D1 statement-size limit). Counts are omitted in
                       this case.
                   engine:
@@ -4688,7 +4825,8 @@ paths:
   /accounts/{account_id}/ai-search/instances/{id}/jobs/{jobId}:
     get:
       operationId: getInstanceJob
-      description: "Retrieves details for a specific AI Search indexing job.  @example
+      description:
+        "Retrieves details for a specific AI Search indexing job.  @example
         ```ts const job = await client.aiSearch.instances.jobs.get(
         'my-ai-search', 'job_id', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, ); ```"
@@ -4747,7 +4885,8 @@ paths:
   /accounts/{account_id}/ai-search/instances/{id}/jobs:
     get:
       operationId: listInstanceJobs
-      description: "Lists indexing jobs for an AI Search instance.  @example ```ts //
+      description:
+        "Lists indexing jobs for an AI Search instance.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         jobListResponse of client.aiSearch.instances.jobs.list( 'my-ai-search',
         { account_id: 'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, )) { // ... } ```"
@@ -4804,7 +4943,8 @@ paths:
       x-distilled-pagination-class: JobListResponsesV4PagePaginationArray
     post:
       operationId: createInstanceJob
-      description: "Creates a new indexing job for an AI Search instance.  @example
+      description:
+        "Creates a new indexing job for an AI Search instance.  @example
         ```ts const job = await client.aiSearch.instances.jobs.create(
         'my-ai-search', { account_id: 'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, );
         ```"
@@ -4876,7 +5016,8 @@ paths:
   /accounts/{account_id}/ai-search/instances/{id}/jobs/{jobId}/logs:
     get:
       operationId: logsInstanceJob
-      description: "Lists log entries for an AI Search indexing job.  @example ```ts
+      description:
+        "Lists log entries for an AI Search indexing job.  @example ```ts
         const response = await client.aiSearch.instances.jobs.logs(
         'my-ai-search', 'job_id', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, ); ```"
@@ -4943,7 +5084,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces:
     get:
       operationId: listNamespaces
-      description: "List namespaces.  @example ```ts // Automatically fetches more
+      description:
+        "List namespaces.  @example ```ts // Automatically fetches more
         pages as needed. for await (const namespaceListResponse of
         client.aiSearch.namespaces.list( { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, )) { // ... } ```"
@@ -4967,7 +5109,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Filter namespaces whose name or description contains
+          description:
+            "Query param: Filter namespaces whose name or description contains
             this string (case-insensitive)."
           schema:
             type: string
@@ -4994,7 +5137,8 @@ paths:
       x-distilled-pagination-class: NamespaceListResponsesV4PagePaginationArray
     post:
       operationId: createNamespace
-      description: "Create a new namespace.  @example ```ts const namespace = await
+      description:
+        "Create a new namespace.  @example ```ts const namespace = await
         client.aiSearch.namespaces.create({ account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22', name: 'name', }); ```"
       parameters:
@@ -5018,7 +5162,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: Optional description for the namespace. Max 256
+                  description:
+                    "Body param: Optional description for the namespace. Max 256
                     characters."
               required:
                 - name
@@ -5077,7 +5222,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: Optional description for the namespace. Max 256
+                  description:
+                    "Body param: Optional description for the namespace. Max 256
                     characters."
       responses:
         "200":
@@ -5282,7 +5428,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -5295,7 +5442,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -5304,7 +5452,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Overrides the
+                          description:
+                            Metadata fields to boost search results by. Overrides the
                             instance-level boost_by config. Direction defaults
                             to 'asc' for numeric/datetime fields, 'exists' for
                             text/boolean fields. Fields must match 'timestamp'
@@ -5324,7 +5473,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -5367,7 +5517,8 @@ paths:
                   description: Body param
                 query:
                   type: string
-                  description: "Body param: A simple text query string. Alternative to 'messages'
+                  description:
+                    "Body param: A simple text query string. Alternative to 'messages'
                     — provide either this or 'messages', not both."
               required:
                 - ai_search_options
@@ -5451,7 +5602,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances:
     get:
       operationId: listNamespaceInstances
-      description: "List instances.  @example ```ts // Automatically fetches more
+      description:
+        "List instances.  @example ```ts // Automatically fetches more
         pages as needed. for await (const instanceListResponse of
         client.aiSearch.namespaces.instances.list( 'my-namespace', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, )) { // ... } ```"
@@ -5503,7 +5655,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Filter instances whose id contains this string
+          description:
+            "Query param: Filter instances whose id contains this string
             (case-insensitive)."
           schema:
             type: string
@@ -5517,7 +5670,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -5583,7 +5737,8 @@ paths:
                       - 172800
                       - 259200
                       - 518400
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -5648,7 +5803,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -5659,7 +5815,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -5753,7 +5910,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -5766,7 +5924,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -5775,7 +5934,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -5786,7 +5946,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -5842,7 +6003,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -5850,7 +6012,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -5888,12 +6051,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -5902,7 +6067,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -5912,7 +6078,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -5923,7 +6090,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -5960,7 +6128,8 @@ paths:
                       - 21600
                       - 43200
                       - 86400
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -5988,7 +6157,8 @@ paths:
           - status: 403
     post:
       operationId: createNamespaceInstance
-      description: "Create a new instance.  @example ```ts const instance = await
+      description:
+        "Create a new instance.  @example ```ts const instance = await
         client.aiSearch.namespaces.instances.create( 'my-namespace', {
         account_id: 'c3dc5f0b34a14ff8e1b3ec04895e1b22', id: 'my-ai-search', },
         ); ```"
@@ -6013,7 +6183,8 @@ paths:
               properties:
                 id:
                   type: string
-                  description: "Body param: AI Search instance ID. Lowercase alphanumeric,
+                  description:
+                    "Body param: AI Search instance ID. Lowercase alphanumeric,
                     hyphens, and underscores."
                 ai_gateway_id:
                   oneOf:
@@ -6068,7 +6239,8 @@ paths:
                   description: Body param
                 cache_ttl:
                   type: number
-                  description: "Body param: Cache entry TTL in seconds. Allowed values: 600
+                  description:
+                    "Body param: Cache entry TTL in seconds. Allowed values: 600
                     (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h),
                     43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400
                     (6d)."
@@ -6134,7 +6306,8 @@ paths:
                   required:
                     - keyword
                     - vector
-                  description: "Body param: Controls which storage backends are used during
+                  description:
+                    "Body param: Controls which storage backends are used during
                     indexing. Defaults to vector-only."
                 indexing_options:
                   oneOf:
@@ -6145,7 +6318,8 @@ paths:
                           enum:
                             - porter
                             - trigram
-                          description: Tokenizer used for keyword search indexing. porter provides
+                          description:
+                            Tokenizer used for keyword search indexing. porter provides
                             word-level tokenization with Porter stemming (good
                             for natural language queries). trigram enables
                             character-level substring matching (good for partial
@@ -6227,7 +6401,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -6240,7 +6415,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -6249,7 +6425,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Each entry specifies a
+                          description:
+                            Metadata fields to boost search results by. Each entry specifies a
                             metadata field and an optional direction. Direction
                             defaults to 'asc' for numeric/datetime fields and
                             'exists' for text/boolean fields. Fields must match
@@ -6259,7 +6436,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -6320,7 +6498,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to exclude. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /admin/  matches /admin/users and
                             /admin/settings/advanced)"
@@ -6328,7 +6507,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to include. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /blog/  matches /blog/post and
                             /blog/2024/post)"
@@ -6366,12 +6546,14 @@ paths:
                                     properties:
                                       path:
                                         type: string
-                                        description: "Glob pattern to match against the page URL path. Uses standard
+                                        description:
+                                          "Glob pattern to match against the page URL path. Uses standard
                                           glob syntax: \\  matches within a
                                           segment, \\ \\ crosses directories."
                                       selector:
                                         type: string
-                                        description: CSS selector to extract content from pages matching the path
+                                        description:
+                                          CSS selector to extract content from pages matching the path
                                           pattern. Must not contain disallowed
                                           characters (;, `, $, {, }, \). Must
                                           target a single element; if multiple
@@ -6380,7 +6562,8 @@ paths:
                                     required:
                                       - path
                                       - selector
-                                  description: List of path-to-selector mappings for extracting specific content
+                                  description:
+                                    List of path-to-selector mappings for extracting specific content
                                     from crawled pages. Each entry pairs a URL
                                     glob pattern with a CSS selector. The first
                                     matching path wins. Only the matched HTML
@@ -6390,7 +6573,8 @@ paths:
                                 include_headers:
                                   type: object
                                   additionalProperties: true
-                                  description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                  description:
+                                    Up to 5 custom HTTP headers sent with each crawl request. Names
                                     must be RFC-7230 token characters (no
                                     spaces, colons, or control characters);
                                     values must be HTAB + printable ASCII (no
@@ -6401,7 +6585,8 @@ paths:
                                   type: array
                                   items:
                                     type: string
-                                  description: List of specific sitemap URLs to use for crawling. Only valid when
+                                  description:
+                                    List of specific sitemap URLs to use for crawling. Only valid when
                                     parse_type is 'sitemap'.
                                 use_browser_rendering:
                                   type: boolean
@@ -6428,7 +6613,8 @@ paths:
                   description: Body param
                 sync_interval:
                   type: number
-                  description: "Body param: Interval between automatic syncs, in seconds. Allowed
+                  description:
+                    "Body param: Interval between automatic syncs, in seconds. Allowed
                     values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h),
                     14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
                 token_id:
@@ -6453,7 +6639,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -6509,7 +6696,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -6574,7 +6762,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -6585,7 +6774,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -6683,7 +6873,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -6696,7 +6887,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -6705,7 +6897,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -6716,7 +6909,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -6772,7 +6966,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -6780,7 +6975,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -6818,12 +7014,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -6832,7 +7030,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -6842,7 +7041,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -6853,7 +7053,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -6881,7 +7082,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -7009,7 +7211,8 @@ paths:
                   description: Body param
                 cache_ttl:
                   type: number
-                  description: "Body param: Cache entry TTL in seconds. Allowed values: 600
+                  description:
+                    "Body param: Cache entry TTL in seconds. Allowed values: 600
                     (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h),
                     43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400
                     (6d)."
@@ -7072,7 +7275,8 @@ paths:
                   required:
                     - keyword
                     - vector
-                  description: "Body param: Controls which storage backends are used during
+                  description:
+                    "Body param: Controls which storage backends are used during
                     indexing. Defaults to vector-only."
                 indexing_options:
                   oneOf:
@@ -7083,7 +7287,8 @@ paths:
                           enum:
                             - porter
                             - trigram
-                          description: Tokenizer used for keyword search indexing. porter provides
+                          description:
+                            Tokenizer used for keyword search indexing. porter provides
                             word-level tokenization with Porter stemming (good
                             for natural language queries). trigram enables
                             character-level substring matching (good for partial
@@ -7168,7 +7373,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -7181,7 +7387,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -7190,7 +7397,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Each entry specifies a
+                          description:
+                            Metadata fields to boost search results by. Each entry specifies a
                             metadata field and an optional direction. Direction
                             defaults to 'asc' for numeric/datetime fields and
                             'exists' for text/boolean fields. Fields must match
@@ -7200,7 +7408,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -7256,7 +7465,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to exclude. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /admin/  matches /admin/users and
                             /admin/settings/advanced)"
@@ -7264,7 +7474,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                          description:
+                            "List of path patterns to include. Uses micromatch glob syntax: \\
                             matches within a path segment,  matches across path
                             segments (e.g., /blog/  matches /blog/post and
                             /blog/2024/post)"
@@ -7302,12 +7513,14 @@ paths:
                                     properties:
                                       path:
                                         type: string
-                                        description: "Glob pattern to match against the page URL path. Uses standard
+                                        description:
+                                          "Glob pattern to match against the page URL path. Uses standard
                                           glob syntax: \\  matches within a
                                           segment, \\ \\ crosses directories."
                                       selector:
                                         type: string
-                                        description: CSS selector to extract content from pages matching the path
+                                        description:
+                                          CSS selector to extract content from pages matching the path
                                           pattern. Must not contain disallowed
                                           characters (;, `, $, {, }, \). Must
                                           target a single element; if multiple
@@ -7316,7 +7529,8 @@ paths:
                                     required:
                                       - path
                                       - selector
-                                  description: List of path-to-selector mappings for extracting specific content
+                                  description:
+                                    List of path-to-selector mappings for extracting specific content
                                     from crawled pages. Each entry pairs a URL
                                     glob pattern with a CSS selector. The first
                                     matching path wins. Only the matched HTML
@@ -7326,7 +7540,8 @@ paths:
                                 include_headers:
                                   type: object
                                   additionalProperties: true
-                                  description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                  description:
+                                    Up to 5 custom HTTP headers sent with each crawl request. Names
                                     must be RFC-7230 token characters (no
                                     spaces, colons, or control characters);
                                     values must be HTAB + printable ASCII (no
@@ -7337,7 +7552,8 @@ paths:
                                   type: array
                                   items:
                                     type: string
-                                  description: List of specific sitemap URLs to use for crawling. Only valid when
+                                  description:
+                                    List of specific sitemap URLs to use for crawling. Only valid when
                                     parse_type is 'sitemap'.
                                 use_browser_rendering:
                                   type: boolean
@@ -7402,7 +7618,8 @@ paths:
                   description: Body param
                 sync_interval:
                   type: number
-                  description: "Body param: Interval between automatic syncs, in seconds. Allowed
+                  description:
+                    "Body param: Interval between automatic syncs, in seconds. Allowed
                     values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h),
                     14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
                 system_prompt_ai_search:
@@ -7433,7 +7650,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -7489,7 +7707,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -7554,7 +7773,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -7565,7 +7785,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -7663,7 +7884,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -7676,7 +7898,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -7685,7 +7908,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -7696,7 +7920,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -7752,7 +7977,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -7760,7 +7986,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -7798,12 +8025,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -7812,7 +8041,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -7822,7 +8052,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -7833,7 +8064,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -7861,7 +8093,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -7933,7 +8166,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -7989,7 +8223,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -8054,7 +8289,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -8065,7 +8301,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -8163,7 +8400,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -8176,7 +8414,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -8185,7 +8424,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -8196,7 +8436,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -8252,7 +8493,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -8260,7 +8502,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -8298,12 +8541,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -8312,7 +8557,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -8322,7 +8568,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -8333,7 +8580,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -8361,7 +8609,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -8424,7 +8673,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: AI Search instance ID. Lowercase alphanumeric, hyphens, and
+                    description:
+                      AI Search instance ID. Lowercase alphanumeric, hyphens, and
                       underscores.
                   created_at:
                     type: string
@@ -8480,7 +8730,8 @@ paths:
                     nullable: true
                   cache_ttl:
                     type: number
-                    description: "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
+                    description:
+                      "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800
                       (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h),
                       86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
                   chunk_overlap:
@@ -8545,7 +8796,8 @@ paths:
                     required:
                       - keyword
                       - vector
-                    description: Controls which storage backends are used during indexing. Defaults
+                    description:
+                      Controls which storage backends are used during indexing. Defaults
                       to vector-only.
                   indexing_options:
                     oneOf:
@@ -8556,7 +8808,8 @@ paths:
                             enum:
                               - porter
                               - trigram
-                            description: Tokenizer used for keyword search indexing. porter provides
+                            description:
+                              Tokenizer used for keyword search indexing. porter provides
                               word-level tokenization with Porter stemming (good
                               for natural language queries). trigram enables
                               character-level substring matching (good for
@@ -8654,7 +8907,8 @@ paths:
                               properties:
                                 field:
                                   type: string
-                                  description: Metadata field name to boost by. Use 'timestamp' for document
+                                  description:
+                                    Metadata field name to boost by. Use 'timestamp' for document
                                     freshness, or any custom_metadata field.
                                     Numeric and datetime fields support all four
                                     directions (asc, desc, exists, not_exists);
@@ -8667,7 +8921,8 @@ paths:
                                     - desc
                                     - exists
                                     - not_exists
-                                  description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                  description:
+                                    Boost direction. 'desc' = higher values rank higher (e.g. newer
                                     timestamps). 'asc' = lower values rank
                                     higher. 'exists' = boost chunks that have
                                     the field. 'not_exists' = boost chunks that
@@ -8676,7 +8931,8 @@ paths:
                                     text/boolean fields.
                               required:
                                 - field
-                            description: Metadata fields to boost search results by. Each entry specifies a
+                            description:
+                              Metadata fields to boost search results by. Each entry specifies a
                               metadata field and an optional direction.
                               Direction defaults to 'asc' for numeric/datetime
                               fields and 'exists' for text/boolean fields.
@@ -8687,7 +8943,8 @@ paths:
                             enum:
                               - and
                               - or
-                            description: Controls which documents are candidates for BM25 scoring. 'and'
+                            description:
+                              Controls which documents are candidates for BM25 scoring. 'and'
                               restricts candidates to documents containing all
                               query terms; 'or' includes any document containing
                               at least one term, ranked by BM25 relevance.
@@ -8743,7 +9000,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to exclude. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to exclude. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /admin/  matches /admin/users
                               and /admin/settings/advanced)"
@@ -8751,7 +9009,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: "List of path patterns to include. Uses micromatch glob syntax: \\
+                            description:
+                              "List of path patterns to include. Uses micromatch glob syntax: \\
                               matches within a path segment,  matches across
                               path segments (e.g., /blog/  matches /blog/post
                               and /blog/2024/post)"
@@ -8789,12 +9048,14 @@ paths:
                                       properties:
                                         path:
                                           type: string
-                                          description: "Glob pattern to match against the page URL path. Uses standard
+                                          description:
+                                            "Glob pattern to match against the page URL path. Uses standard
                                             glob syntax: \\  matches within a
                                             segment, \\ \\ crosses directories."
                                         selector:
                                           type: string
-                                          description: CSS selector to extract content from pages matching the path
+                                          description:
+                                            CSS selector to extract content from pages matching the path
                                             pattern. Must not contain disallowed
                                             characters (;, `, $, {, }, \). Must
                                             target a single element; if multiple
@@ -8803,7 +9064,8 @@ paths:
                                       required:
                                         - path
                                         - selector
-                                    description: List of path-to-selector mappings for extracting specific content
+                                    description:
+                                      List of path-to-selector mappings for extracting specific content
                                       from crawled pages. Each entry pairs a URL
                                       glob pattern with a CSS selector. The
                                       first matching path wins. Only the matched
@@ -8813,7 +9075,8 @@ paths:
                                   include_headers:
                                     type: object
                                     additionalProperties: true
-                                    description: Up to 5 custom HTTP headers sent with each crawl request. Names
+                                    description:
+                                      Up to 5 custom HTTP headers sent with each crawl request. Names
                                       must be RFC-7230 token characters (no
                                       spaces, colons, or control characters);
                                       values must be HTAB + printable ASCII (no
@@ -8824,7 +9087,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
-                                    description: List of specific sitemap URLs to use for crawling. Only valid when
+                                    description:
+                                      List of specific sitemap URLs to use for crawling. Only valid when
                                       parse_type is 'sitemap'.
                                   use_browser_rendering:
                                     type: boolean
@@ -8852,7 +9116,8 @@ paths:
                     type: string
                   sync_interval:
                     type: number
-                    description: "Interval between automatic syncs, in seconds. Allowed values: 900
+                    description:
+                      "Interval between automatic syncs, in seconds. Allowed values: 900
                       (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h),
                       21600 (6h), 43200 (12h), 86400 (24h)."
                   token_id:
@@ -8886,7 +9151,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/search:
     post:
       operationId: searchNamespaceInstance
-      description: "Executes a semantic search query against an AI Search instance to
+      description:
+        "Executes a semantic search query against an AI Search instance to
         find relevant indexed content.  @example ```ts const response = await
         client.aiSearch.namespaces.instances.search( 'my-namespace',
         'my-ai-search', { account_id: 'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, );
@@ -8992,7 +9258,8 @@ paths:
                             properties:
                               field:
                                 type: string
-                                description: Metadata field name to boost by. Use 'timestamp' for document
+                                description:
+                                  Metadata field name to boost by. Use 'timestamp' for document
                                   freshness, or any custom_metadata field.
                                   Numeric and datetime fields support all four
                                   directions (asc, desc, exists, not_exists);
@@ -9005,7 +9272,8 @@ paths:
                                   - desc
                                   - exists
                                   - not_exists
-                                description: Boost direction. 'desc' = higher values rank higher (e.g. newer
+                                description:
+                                  Boost direction. 'desc' = higher values rank higher (e.g. newer
                                   timestamps). 'asc' = lower values rank higher.
                                   'exists' = boost chunks that have the field.
                                   'not_exists' = boost chunks that lack the
@@ -9014,7 +9282,8 @@ paths:
                                   text/boolean fields.
                             required:
                               - field
-                          description: Metadata fields to boost search results by. Overrides the
+                          description:
+                            Metadata fields to boost search results by. Overrides the
                             instance-level boost_by config. Direction defaults
                             to 'asc' for numeric/datetime fields, 'exists' for
                             text/boolean fields. Fields must match 'timestamp'
@@ -9034,7 +9303,8 @@ paths:
                           enum:
                             - and
                             - or
-                          description: Controls which documents are candidates for BM25 scoring. 'and'
+                          description:
+                            Controls which documents are candidates for BM25 scoring. 'and'
                             restricts candidates to documents containing all
                             query terms; 'or' includes any document containing
                             at least one term, ranked by BM25 relevance.
@@ -9075,7 +9345,8 @@ paths:
                   description: Body param
                 query:
                   type: string
-                  description: "Body param: A simple text query string. Alternative to 'messages'
+                  description:
+                    "Body param: A simple text query string. Alternative to 'messages'
                     — provide either this or 'messages', not both."
       responses:
         "200":
@@ -9142,7 +9413,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/stats:
     get:
       operationId: statsNamespaceInstance
-      description: "Retrieves usage statistics for AI Search instances.  @example
+      description:
+        "Retrieves usage statistics for AI Search instances.  @example
         ```ts const response = await client.aiSearch.namespaces.instances.stats(
         'my-namespace', 'my-ai-search', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, ); ```"
@@ -9174,7 +9446,8 @@ paths:
                     type: number
                   degraded:
                     type: boolean
-                    description: True when status counts are unavailable (e.g. legacy stats query
+                    description:
+                      True when status counts are unavailable (e.g. legacy stats query
                       exceeded D1 statement-size limit). Counts are omitted in
                       this case.
                   engine:
@@ -9292,7 +9565,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Identifies which data source this item belongs to. "builtin" for
+                    description:
+                      Identifies which data source this item belongs to. "builtin" for
                       uploaded files, "{type}:{source}" for external sources,
                       null for legacy items.
                   status:
@@ -9321,7 +9595,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteNamespaceInstanceItem
-      description: "Deletes a file from a managed AI Search instance and triggers a
+      description:
+        "Deletes a file from a managed AI Search instance and triggers a
         reindex.  @example ```ts const item = await
         client.aiSearch.namespaces.instances.items.delete( 'my-namespace',
         'my-ai-search', 'item_id', { account_id:
@@ -9362,7 +9637,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: syncNamespaceInstanceItem
-      description: "Syncs an item to an AI Search instance index.  @example ```ts
+      description:
+        "Syncs an item to an AI Search instance index.  @example ```ts
         const response = await client.aiSearch.namespaces.instances.items.sync(
         'my-namespace', 'my-ai-search', 'item_id', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22', next_action: 'INDEX', }, ); ```"
@@ -9402,7 +9678,8 @@ paths:
                   description: Body param
                 wait_for_completion:
                   type: boolean
-                  description: "Body param: Wait for indexing to fully complete before responding.
+                  description:
+                    "Body param: Wait for indexing to fully complete before responding.
                     On RAGs with vector indexing enabled, this additionally
                     waits for Vectorize ingestion confirmation (up to 40s) so
                     the returned item reflects a queryable state. On timeout the
@@ -9448,7 +9725,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Identifies which data source this item belongs to. "builtin" for
+                    description:
+                      Identifies which data source this item belongs to. "builtin" for
                       uploaded files, "{type}:{source}" for external sources,
                       null for legacy items.
                   status:
@@ -9478,7 +9756,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items:
     get:
       operationId: listNamespaceInstanceItems
-      description: "Lists indexed items in an AI Search instance.  @example ```ts //
+      description:
+        "Lists indexed items in an AI Search instance.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         itemListResponse of client.aiSearch.namespaces.instances.items.list(
         'my-namespace', 'my-ai-search', { account_id:
@@ -9513,14 +9792,16 @@ paths:
         - name: item_id
           in: query
           required: false
-          description: "Query param: Filter items by their unique ID. Returns at most one
+          description:
+            "Query param: Filter items by their unique ID. Returns at most one
             item."
           schema:
             type: string
         - name: metadata_filter
           in: query
           required: false
-          description: 'Query param: JSON-encoded metadata filter using Vectorize filter
+          description:
+            'Query param: JSON-encoded metadata filter using Vectorize filter
             syntax. Examples: {"folder":"reports/"},
             {"timestamp":{"$gte":1700000000000}},
             {"folder":{"$in":["docs/","reports/"]}}'
@@ -9535,7 +9816,8 @@ paths:
         - name: sort_by
           in: query
           required: false
-          description: 'Query param: Sort order for items. "status" (default) sorts by
+          description:
+            'Query param: Sort order for items. "status" (default) sorts by
             status priority then last_seen_at. "modified_at" sorts by file
             modification time (most recent first), falling back to created_at.'
           schema:
@@ -9546,7 +9828,8 @@ paths:
         - name: source
           in: query
           required: false
-          description: 'Query param: Filter items by source_id. Use "builtin" for uploaded
+          description:
+            'Query param: Filter items by source_id. Use "builtin" for uploaded
             files, or a source identifier like
             "web-crawler:https://example.com".'
           schema:
@@ -9602,7 +9885,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Identifies which data source this item belongs to. "builtin" for
+                    description:
+                      Identifies which data source this item belongs to. "builtin" for
                       uploaded files, "{type}:{source}" for external sources,
                       null for legacy items.
                   status:
@@ -9666,14 +9950,16 @@ paths:
                     file:
                       type: string
                       format: binary
-                      description: The file to upload (max 4MB). Filename must not exceed 128
+                      description:
+                        The file to upload (max 4MB). Filename must not exceed 128
                         characters.
                     metadata:
                       type: string
                       description: JSON string of custom metadata key-value pairs.
                     wait_for_completion:
                       type: boolean
-                      description: Wait for indexing to fully complete before responding. On RAGs with
+                      description:
+                        Wait for indexing to fully complete before responding. On RAGs with
                         vector indexing enabled, this additionally waits for
                         Vectorize ingestion confirmation (up to 40s) so the
                         returned item reflects a queryable state. On timeout the
@@ -9722,7 +10008,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Identifies which data source this item belongs to. "builtin" for
+                    description:
+                      Identifies which data source this item belongs to. "builtin" for
                       uploaded files, "{type}:{source}" for external sources,
                       null for legacy items.
                   status:
@@ -9791,7 +10078,8 @@ paths:
                   description: Body param
                 wait_for_completion:
                   type: boolean
-                  description: "Body param: Wait for indexing to fully complete before responding.
+                  description:
+                    "Body param: Wait for indexing to fully complete before responding.
                     On RAGs with vector indexing enabled, this additionally
                     waits for Vectorize ingestion confirmation (up to 40s) so
                     the returned item reflects a queryable state. On timeout the
@@ -9838,7 +10126,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Identifies which data source this item belongs to. "builtin" for
+                    description:
+                      Identifies which data source this item belongs to. "builtin" for
                       uploaded files, "{type}:{source}" for external sources,
                       null for legacy items.
                   status:
@@ -10061,7 +10350,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{jobId}:
     get:
       operationId: getNamespaceInstanceJob
-      description: "Retrieves details for a specific AI Search indexing job.  @example
+      description:
+        "Retrieves details for a specific AI Search indexing job.  @example
         ```ts const job = await client.aiSearch.namespaces.instances.jobs.get(
         'my-namespace', 'my-ai-search', 'job_id', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, ); ```"
@@ -10117,7 +10407,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchNamespaceInstanceJob
-      description: "Updates the status of an AI Search indexing job.  @example ```ts
+      description:
+        "Updates the status of an AI Search indexing job.  @example ```ts
         const job = await client.aiSearch.namespaces.instances.jobs.update(
         'my-namespace', 'my-ai-search', 'job_id', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22', action: 'cancel', }, ); ```"
@@ -10189,7 +10480,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs:
     get:
       operationId: listNamespaceInstanceJobs
-      description: "Lists indexing jobs for an AI Search instance.  @example ```ts //
+      description:
+        "Lists indexing jobs for an AI Search instance.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         jobListResponse of client.aiSearch.namespaces.instances.jobs.list(
         'my-namespace', 'my-ai-search', { account_id:
@@ -10252,7 +10544,8 @@ paths:
       x-distilled-pagination-class: JobListResponsesV4PagePaginationArray
     post:
       operationId: createNamespaceInstanceJob
-      description: "Creates a new indexing job for an AI Search instance.  @example
+      description:
+        "Creates a new indexing job for an AI Search instance.  @example
         ```ts const job = await
         client.aiSearch.namespaces.instances.jobs.create( 'my-namespace',
         'my-ai-search', { account_id: 'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, );
@@ -10316,7 +10609,8 @@ paths:
   /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{jobId}/logs:
     get:
       operationId: logsNamespaceInstanceJob
-      description: "Lists log entries for an AI Search indexing job.  @example ```ts
+      description:
+        "Lists log entries for an AI Search indexing job.  @example ```ts
         const response = await client.aiSearch.namespaces.instances.jobs.logs(
         'my-namespace', 'my-ai-search', 'job_id', { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, ); ```"
@@ -10381,7 +10675,8 @@ paths:
   /accounts/{account_id}/ai-search/tokens:
     get:
       operationId: listTokens
-      description: "List tokens.  @example ```ts // Automatically fetches more pages
+      description:
+        "List tokens.  @example ```ts // Automatically fetches more pages
         as needed. for await (const tokenListResponse of
         client.aiSearch.tokens.list( { account_id:
         'c3dc5f0b34a14ff8e1b3ec04895e1b22' }, )) { // ... } ```"
@@ -10405,7 +10700,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Filter tokens whose name contains this string
+          description:
+            "Query param: Filter tokens whose name contains this string
             (case-insensitive)."
           schema:
             type: string

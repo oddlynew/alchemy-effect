@@ -1,7 +1,16 @@
 {
   "errors": {
-    "UnrecognizedEventType": [{ "code": 0, "message": { "includes": "Unrecognized event types" } }],
-    "SubscriptionNotFound": [{ "status": 404, "message": { "includes": "No subscription with this ID" } }],
-    "QueueNotFound": [{ "status": 404, "message": { "includes": "Queue does not exist" } }]
+    "UnrecognizedEventType": [
+      { "code": 0, "message": { "includes": "Unrecognized event types" } }
+    ],
+    "SubscriptionNotFound": [
+      {
+        "status": 404,
+        "message": { "includes": "No subscription with this ID" }
+      }
+    ],
+    "QueueNotFound": [
+      { "status": 404, "message": { "includes": "Queue does not exist" } }
+    ]
   }
 }

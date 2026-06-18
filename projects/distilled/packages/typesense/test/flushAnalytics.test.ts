@@ -8,16 +8,17 @@ import { runEffect, testRunId } from "./setup";
 describe("flushAnalytics", () => {
   it(
     "flushes in-memory analytics to disk and returns ok: true",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(flushAnalytics({}));
 
       expect(result.ok).toBe(true);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with an API key that the
       // Typesense server will reject. Typesense returns 401 with a JSON
@@ -44,6 +45,5 @@ describe("flushAnalytics", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

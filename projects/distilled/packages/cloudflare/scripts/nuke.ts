@@ -324,7 +324,11 @@ const nukeAll = (dryRun: boolean, nukeConfig: NukeConfig, accountId: string) =>
       perPage: 1000,
     }).pipe(
       Effect.map((r) => r.result),
-      Effect.catch(() => Effect.succeed([] as readonly { script?: string | null; class?: string | null }[])),
+      Effect.catch(() =>
+        Effect.succeed(
+          [] as readonly { script?: string | null; class?: string | null }[],
+        ),
+      ),
     );
     const doClassesByScript = new Map<string, Set<string>>();
     for (const ns of doNamespaces) {
@@ -532,8 +536,7 @@ const nukeAll = (dryRun: boolean, nukeConfig: NukeConfig, accountId: string) =>
       ),
       getId: (d) => d.uuid ?? "",
       getName: (d) => d.name ?? undefined,
-      delete: (d) =>
-        D1.deleteDatabase({ accountId, databaseId: d.uuid ?? "" }),
+      delete: (d) => D1.deleteDatabase({ accountId, databaseId: d.uuid ?? "" }),
     });
 
     // ----- KV namespaces -----
@@ -547,8 +550,7 @@ const nukeAll = (dryRun: boolean, nukeConfig: NukeConfig, accountId: string) =>
       ),
       getId: (n) => n.id,
       getName: (n) => n.title,
-      delete: (n) =>
-        KV.deleteNamespace({ accountId, namespaceId: n.id }),
+      delete: (n) => KV.deleteNamespace({ accountId, namespaceId: n.id }),
     });
 
     // ----- AI Gateway -----
@@ -590,8 +592,7 @@ const nukeAll = (dryRun: boolean, nukeConfig: NukeConfig, accountId: string) =>
       ),
       getId: (s) => s.id,
       getName: (s) => s.name,
-      delete: (s) =>
-        SecretsStore.deleteStore({ accountId, storeId: s.id }),
+      delete: (s) => SecretsStore.deleteStore({ accountId, storeId: s.id }),
     });
 
     // ----- Containers -----
@@ -689,8 +690,7 @@ const nukeAll = (dryRun: boolean, nukeConfig: NukeConfig, accountId: string) =>
       ),
       getId: (b: any) => b.name ?? "",
       getName: (b: any) => b.name ?? undefined,
-      getMeta: (b: any) =>
-        b.location ? `location: ${b.location}` : undefined,
+      getMeta: (b: any) => (b.location ? `location: ${b.location}` : undefined),
       delete: (b: any) =>
         R2.deleteBucket({ accountId, bucketName: b.name ?? "" }),
     });
@@ -737,9 +737,7 @@ const nukeAll = (dryRun: boolean, nukeConfig: NukeConfig, accountId: string) =>
       nukeConfig,
       list: User.listTokens({}).pipe(
         Effect.map((r) =>
-          (r.result ?? []).filter(
-            (t) => t.id && !excludedTokenIds.has(t.id),
-          ),
+          (r.result ?? []).filter((t) => t.id && !excludedTokenIds.has(t.id)),
         ),
         Effect.catch(() => Effect.succeed([])),
       ),
@@ -756,17 +754,14 @@ const nukeAll = (dryRun: boolean, nukeConfig: NukeConfig, accountId: string) =>
       nukeConfig,
       list: Accounts.listTokens({ accountId, perPage: 1000 }).pipe(
         Effect.map((r) =>
-          (r.result ?? []).filter(
-            (t) => t.id && !excludedTokenIds.has(t.id),
-          ),
+          (r.result ?? []).filter((t) => t.id && !excludedTokenIds.has(t.id)),
         ),
         Effect.catch(() => Effect.succeed([])),
       ),
       getId: (t) => t.id ?? "",
       getName: (t) => t.name ?? undefined,
       getMeta: tokenMeta,
-      delete: (t) =>
-        Accounts.deleteToken({ accountId, tokenId: t.id ?? "" }),
+      delete: (t) => Accounts.deleteToken({ accountId, tokenId: t.id ?? "" }),
     });
   });
 
@@ -836,7 +831,8 @@ process.on("unhandledRejection", (reason) => {
   console.error(`${RED}Unhandled rejection:${RESET}`, reason);
 });
 process.on("exit", (code) => {
-  if (code !== 0) console.error(`${DIM}Process exiting with code ${code}${RESET}`);
+  if (code !== 0)
+    console.error(`${DIM}Process exiting with code ${code}${RESET}`);
 });
 
 BunRuntime.runMain(

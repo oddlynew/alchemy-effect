@@ -66,6 +66,7 @@ describe("retrieveAnalyticsRules", () => {
 
   it(
     "lists all analytics rules including ones we just created",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(retrieveAnalyticsRules({}));
 
@@ -77,11 +78,11 @@ describe("retrieveAnalyticsRules", () => {
       expect(ours?.collection).toBe(collectionName);
       expect(ours?.event_type).toBe("click");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       if (!apiBaseUrl) {
         throw new Error("TYPESENSE_API_URL must be set to run typesense tests");
@@ -103,6 +104,5 @@ describe("retrieveAnalyticsRules", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

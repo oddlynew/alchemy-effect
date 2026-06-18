@@ -3,9 +3,9 @@
  * Delete every Neon project visible to `NEON_API_KEY`.
  *
  * Usage:
- *   doppler run -c dev --project alchemy-v2 -- bun packages/alchemy/scripts/cleanup-neon-projects.ts
- *   DRY_RUN=1 doppler run -c dev --project alchemy-v2 -- bun packages/alchemy/scripts/cleanup-neon-projects.ts
- *   CONCURRENCY=4 doppler run -c dev --project alchemy-v2 -- bun packages/alchemy/scripts/cleanup-neon-projects.ts
+ *   doppler run -c dev --project alchemy-v2 -- bun projects/alchemy/packages/alchemy/scripts/cleanup-neon-projects.ts
+ *   DRY_RUN=1 doppler run -c dev --project alchemy-v2 -- bun projects/alchemy/packages/alchemy/scripts/cleanup-neon-projects.ts
+ *   CONCURRENCY=4 doppler run -c dev --project alchemy-v2 -- bun projects/alchemy/packages/alchemy/scripts/cleanup-neon-projects.ts
  *
  * Environment:
  *   NEON_API_KEY   Required. Injected by Doppler (`alchemy-v2` / `dev`) or `.env` via `bun download:env`.

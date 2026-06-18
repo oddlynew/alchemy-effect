@@ -53,7 +53,8 @@ paths:
         - name: worker_id
           in: query
           required: false
-          description: "Query param: Worker identifier. Required for worker_version
+          description:
+            "Query param: Worker identifier. Required for worker_version
             resources."
           schema:
             type: string
@@ -71,7 +72,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -106,7 +108,8 @@ paths:
                           access_application_policy resources
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -142,7 +145,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -173,7 +177,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -204,7 +209,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -235,7 +241,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -266,7 +273,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -297,7 +305,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -332,7 +341,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -363,7 +373,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -398,7 +409,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -433,7 +445,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -464,7 +477,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -499,7 +513,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -530,7 +545,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -561,7 +577,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -592,7 +609,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -623,7 +641,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -654,7 +673,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -689,7 +709,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -720,7 +741,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -751,7 +773,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -782,7 +805,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -813,7 +837,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -844,7 +869,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -875,7 +901,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -910,7 +937,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -960,7 +988,8 @@ paths:
         - name: If-Match
           in: header
           required: false
-          description: "Header param: ETag value for optimistic concurrency control. When
+          description:
+            "Header param: ETag value for optimistic concurrency control. When
             provided, the server will verify the current resource ETag matches
             before applying the write. Returns 412 Precondition Failed if the
             resource has been modified since the ETag was obtained. Omit this
@@ -1000,11 +1029,13 @@ paths:
                     - stream_video
                     - worker
                     - worker_version
-                  description: "Body param: Enum for base account-level resource types (those with
+                  description:
+                    "Body param: Enum for base account-level resource types (those with
                     no extra required fields)."
                 worker_id:
                   type: string
-                  description: "Body param: Worker ID is required only for worker_version
+                  description:
+                    "Body param: Worker ID is required only for worker_version
                     resources"
                 tags:
                   type: object
@@ -1027,7 +1058,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1062,7 +1094,8 @@ paths:
                           access_application_policy resources
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1098,7 +1131,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1129,7 +1163,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1160,7 +1195,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1191,7 +1227,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1222,7 +1259,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1253,7 +1291,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1288,7 +1327,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1319,7 +1359,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1354,7 +1395,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1389,7 +1431,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1420,7 +1463,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1455,7 +1499,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1486,7 +1531,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1517,7 +1563,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1548,7 +1595,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1579,7 +1627,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1610,7 +1659,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1645,7 +1695,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1676,7 +1727,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1707,7 +1759,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1738,7 +1791,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1769,7 +1823,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1800,7 +1855,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1831,7 +1887,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1866,7 +1923,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -1913,7 +1971,8 @@ paths:
         - name: If-Match
           in: header
           required: false
-          description: "Header param: ETag value for optimistic concurrency control. When
+          description:
+            "Header param: ETag value for optimistic concurrency control. When
             provided, the server will verify the current resource ETag matches
             before applying the write. Returns 412 Precondition Failed if the
             resource has been modified since the ETag was obtained. Omit this
@@ -1985,7 +2044,8 @@ paths:
         - name: tag
           in: query
           required: false
-          description: "Query param: Filter resources by tag criteria. This parameter can
+          description:
+            "Query param: Filter resources by tag criteria. This parameter can
             be repeated multiple times, with AND logic between
             parameters.  Supported syntax:  -  Key-only  : `tag=<key>` -
             Resource must have the tag key (e.g., `tag=production`)
@@ -2005,7 +2065,8 @@ paths:
         - name: type
           in: query
           required: false
-          description: "Query param: Filter by resource type. Can be repeated to filter by
+          description:
+            "Query param: Filter by resource type. Can be repeated to filter by
             multiple types (OR logic). Example: ?type=zone&type=worker"
           schema:
             type: array
@@ -2053,7 +2114,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2088,7 +2150,8 @@ paths:
                           access_application_policy resources
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2124,7 +2187,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2155,7 +2219,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2186,7 +2251,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2217,7 +2283,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2248,7 +2315,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2279,7 +2347,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2314,7 +2383,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2345,7 +2415,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2380,7 +2451,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2415,7 +2487,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2446,7 +2519,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2481,7 +2555,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2512,7 +2587,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2543,7 +2619,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2574,7 +2651,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2605,7 +2683,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2636,7 +2715,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2671,7 +2751,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2702,7 +2783,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2733,7 +2815,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2764,7 +2847,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2795,7 +2879,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2826,7 +2911,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2857,7 +2943,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2892,7 +2979,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -2924,7 +3012,8 @@ paths:
   /accounts/{account_id}/tags/values/{tagKey}:
     get:
       operationId: listValues
-      description: Lists all distinct values for a given tag key, optionally filtered
+      description:
+        Lists all distinct values for a given tag key, optionally filtered
         by resource type.
       parameters:
         - name: tagKey
@@ -3019,7 +3108,8 @@ paths:
         - name: access_application_id
           in: query
           required: false
-          description: "Query param: Access application ID identifier. Required for
+          description:
+            "Query param: Access application ID identifier. Required for
             access_application_policy resources."
           schema:
             type: string
@@ -3037,7 +3127,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3072,7 +3163,8 @@ paths:
                           access_application_policy resources
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3108,7 +3200,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3139,7 +3232,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3170,7 +3264,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3201,7 +3296,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3232,7 +3328,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3263,7 +3360,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3298,7 +3396,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3329,7 +3428,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3364,7 +3464,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3399,7 +3500,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3430,7 +3532,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3465,7 +3568,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3496,7 +3600,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3527,7 +3632,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3558,7 +3664,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3589,7 +3696,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3620,7 +3728,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3655,7 +3764,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3686,7 +3796,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3717,7 +3828,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3748,7 +3860,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3779,7 +3892,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3810,7 +3924,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3841,7 +3956,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3876,7 +3992,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -3927,7 +4044,8 @@ paths:
         - name: If-Match
           in: header
           required: false
-          description: "Header param: ETag value for optimistic concurrency control. When
+          description:
+            "Header param: ETag value for optimistic concurrency control. When
             provided, the server will verify the current resource ETag matches
             before applying the write. Returns 412 Precondition Failed if the
             resource has been modified since the ETag was obtained. Omit this
@@ -3954,7 +4072,8 @@ paths:
                     - managed_client_certificate
                     - zone
                     - access_application_policy
-                  description: "Body param: Enum for base zone-level resource types (those with no
+                  description:
+                    "Body param: Enum for base zone-level resource types (those with no
                     extra required fields)."
                 tags:
                   type: object
@@ -3962,7 +4081,8 @@ paths:
                   description: "Body param: Contains key-value pairs of tags."
                 access_application_id:
                   type: string
-                  description: "Body param: Access application ID is required only for
+                  description:
+                    "Body param: Access application ID is required only for
                     access_application_policy resources"
               required:
                 - resource_id
@@ -3981,7 +4101,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4016,7 +4137,8 @@ paths:
                           access_application_policy resources
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4052,7 +4174,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4083,7 +4206,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4114,7 +4238,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4145,7 +4270,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4176,7 +4302,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4207,7 +4334,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4242,7 +4370,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4273,7 +4402,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4308,7 +4438,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4343,7 +4474,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4374,7 +4506,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4409,7 +4542,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4440,7 +4574,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4471,7 +4606,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4502,7 +4638,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4533,7 +4670,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4564,7 +4702,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4599,7 +4738,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4630,7 +4770,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4661,7 +4802,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4692,7 +4834,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4723,7 +4866,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4754,7 +4898,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4785,7 +4930,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4820,7 +4966,8 @@ paths:
                         description: Identifies the unique resource.
                       etag:
                         type: string
-                        description: ETag identifier for optimistic concurrency control. Formatted as
+                        description:
+                          ETag identifier for optimistic concurrency control. Formatted as
                           "v1:<hash>" where the hash is the base64url-encoded
                           SHA-256 (truncated to 128 bits) of the tags map
                           canonicalized using RFC 8785 (JSON Canonicalization
@@ -4869,7 +5016,8 @@ paths:
         - name: If-Match
           in: header
           required: false
-          description: "Header param: ETag value for optimistic concurrency control. When
+          description:
+            "Header param: ETag value for optimistic concurrency control. When
             provided, the server will verify the current resource ETag matches
             before applying the write. Returns 412 Precondition Failed if the
             resource has been modified since the ETag was obtained. Omit this

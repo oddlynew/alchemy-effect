@@ -1,8 +1,6 @@
 {
   "errors": {
-    "ZoneNotEntitled": [
-      { "code": 1034 }
-    ],
+    "ZoneNotEntitled": [{ "code": 1034 }],
     "Forbidden": [{ "status": 403 }]
   }
 }

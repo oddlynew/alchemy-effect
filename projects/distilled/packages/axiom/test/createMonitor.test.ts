@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createMonitor", () => {
   it(
     "creates a Threshold monitor backed by a fresh dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-createmon-${testRunId}`;
       const monitorName = `distilled-axiom-mon-${testRunId}`;
@@ -59,7 +60,6 @@ describe("createMonitor", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   // Removed: the client-side schema requires `name` and `type`, so

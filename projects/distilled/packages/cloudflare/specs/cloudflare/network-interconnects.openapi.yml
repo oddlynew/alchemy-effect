@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/cni/cnis/{cni}:
     get:
       operationId: getCni
-      description: "Get information about a CNI object  @example ```ts const cni =
+      description:
+        "Get information about a CNI object  @example ```ts const cni =
         await client.networkInterconnects.cnis.get(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
         ```"
@@ -40,7 +41,8 @@ paths:
                     description: Customer account tag
                   cust_ip:
                     type: string
-                    description: Customer end of the point-to-point link  This should always be
+                    description:
+                      Customer end of the point-to-point link  This should always be
                       inside the same prefix as `p2p_ip`.
                   interconnect:
                     type: string
@@ -71,13 +73,15 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Extra set of static prefixes to advertise to the customer's end of
+                        description:
+                          Extra set of static prefixes to advertise to the customer's end of
                           the session
                       md5_key:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: "MD5 key to use for session authentication.  Note that _this is not
+                        description:
+                          "MD5 key to use for session authentication.  Note that _this is not
                           a security measure_. MD5 is not a valid security
                           mechanism, and the key is not treated as a secret
                           value. This is _only_ supported for preventing
@@ -105,7 +109,8 @@ paths:
                   - p2p_ip
     put:
       operationId: updateCni
-      description: "Modify stored information about a CNI object  @example ```ts const
+      description:
+        "Modify stored information about a CNI object  @example ```ts const
         cni = await client.networkInterconnects.cnis.update(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id', id:
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', account: 'account', cust_ip:
@@ -139,7 +144,8 @@ paths:
                   description: "Body param: Customer account tag"
                 cust_ip:
                   type: string
-                  description: "Body param: Customer end of the point-to-point link  This should
+                  description:
+                    "Body param: Customer end of the point-to-point link  This should
                     always be inside the same prefix as `p2p_ip`."
                 interconnect:
                   type: string
@@ -171,13 +177,15 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: Extra set of static prefixes to advertise to the customer's end of
+                      description:
+                        Extra set of static prefixes to advertise to the customer's end of
                         the session
                     md5_key:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: "MD5 key to use for session authentication.  Note that _this is not
+                      description:
+                        "MD5 key to use for session authentication.  Note that _this is not
                         a security measure_. MD5 is not a valid security
                         mechanism, and the key is not treated as a secret value.
                         This is _only_ supported for preventing
@@ -219,7 +227,8 @@ paths:
                     description: Customer account tag
                   cust_ip:
                     type: string
-                    description: Customer end of the point-to-point link  This should always be
+                    description:
+                      Customer end of the point-to-point link  This should always be
                       inside the same prefix as `p2p_ip`.
                   interconnect:
                     type: string
@@ -250,13 +259,15 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Extra set of static prefixes to advertise to the customer's end of
+                        description:
+                          Extra set of static prefixes to advertise to the customer's end of
                           the session
                       md5_key:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: "MD5 key to use for session authentication.  Note that _this is not
+                        description:
+                          "MD5 key to use for session authentication.  Note that _this is not
                           a security measure_. MD5 is not a valid security
                           mechanism, and the key is not treated as a secret
                           value. This is _only_ supported for preventing
@@ -335,7 +346,8 @@ paths:
         - name: slot
           in: query
           required: false
-          description: "Query param: If specified, only show CNIs associated with the
+          description:
+            "Query param: If specified, only show CNIs associated with the
             specified slot"
           schema:
             oneOf:
@@ -344,7 +356,8 @@ paths:
         - name: tunnel_id
           in: query
           required: false
-          description: "Query param: If specified, only show cnis associated with the
+          description:
+            "Query param: If specified, only show cnis associated with the
             specified tunnel id"
           schema:
             oneOf:
@@ -370,7 +383,8 @@ paths:
                           description: Customer account tag
                         cust_ip:
                           type: string
-                          description: Customer end of the point-to-point link  This should always be
+                          description:
+                            Customer end of the point-to-point link  This should always be
                             inside the same prefix as `p2p_ip`.
                         interconnect:
                           type: string
@@ -401,13 +415,15 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: Extra set of static prefixes to advertise to the customer's end of
+                              description:
+                                Extra set of static prefixes to advertise to the customer's end of
                                 the session
                             md5_key:
                               oneOf:
                                 - type: string
                               nullable: true
-                              description: "MD5 key to use for session authentication.  Note that _this is not
+                              description:
+                                "MD5 key to use for session authentication.  Note that _this is not
                                 a security measure_. MD5 is not a valid security
                                 mechanism, and the key is not treated as a
                                 secret value. This is _only_ supported for
@@ -491,13 +507,15 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: Extra set of static prefixes to advertise to the customer's end of
+                      description:
+                        Extra set of static prefixes to advertise to the customer's end of
                         the session
                     md5_key:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: "MD5 key to use for session authentication.  Note that _this is not
+                      description:
+                        "MD5 key to use for session authentication.  Note that _this is not
                         a security measure_. MD5 is not a valid security
                         mechanism, and the key is not treated as a secret value.
                         This is _only_ supported for preventing
@@ -536,7 +554,8 @@ paths:
                     description: Customer account tag
                   cust_ip:
                     type: string
-                    description: Customer end of the point-to-point link  This should always be
+                    description:
+                      Customer end of the point-to-point link  This should always be
                       inside the same prefix as `p2p_ip`.
                   interconnect:
                     type: string
@@ -567,13 +586,15 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Extra set of static prefixes to advertise to the customer's end of
+                        description:
+                          Extra set of static prefixes to advertise to the customer's end of
                           the session
                       md5_key:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: "MD5 key to use for session authentication.  Note that _this is not
+                        description:
+                          "MD5 key to use for session authentication.  Note that _this is not
                           a security measure_. MD5 is not a valid security
                           mechanism, and the key is not treated as a secret
                           value. This is _only_ supported for preventing
@@ -602,7 +623,8 @@ paths:
   /accounts/{account_id}/cni/interconnects/{icon}:
     get:
       operationId: getInterconnect
-      description: "Get information about an interconnect object  @example ```ts const
+      description:
+        "Get information about an interconnect object  @example ```ts const
         interconnect = await client.networkInterconnects.interconnects.get(
         'icon', { account_id: 'account_id' }, ); ```"
       parameters:
@@ -717,7 +739,8 @@ paths:
   /accounts/{account_id}/cni/interconnects:
     get:
       operationId: listInterconnects
-      description: "List existing interconnects  @example ```ts const interconnects =
+      description:
+        "List existing interconnects  @example ```ts const interconnects =
         await client.networkInterconnects.interconnects.list({ account_id:
         'account_id', }); ```"
       parameters:
@@ -746,7 +769,8 @@ paths:
         - name: site
           in: query
           required: false
-          description: "Query param: If specified, only show interconnects located at the
+          description:
+            "Query param: If specified, only show interconnects located at the
             given site"
           schema:
             oneOf:
@@ -755,7 +779,8 @@ paths:
         - name: type
           in: query
           required: false
-          description: "Query param: If specified, only show interconnects of the given
+          description:
+            "Query param: If specified, only show interconnects of the given
             type"
           schema:
             oneOf:
@@ -851,7 +876,8 @@ paths:
                   - items
     post:
       operationId: createInterconnect
-      description: "Create a new interconnect  @example ```ts const interconnect =
+      description:
+        "Create a new interconnect  @example ```ts const interconnect =
         await client.networkInterconnects.interconnects.create({ account_id:
         'account_id', account: 'account', slot_id:
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', type: 'type', }); ```"
@@ -898,7 +924,8 @@ paths:
                     - 10G
                     - 20G
                     - 50G
-                  description: "Body param: Bandwidth structure as visible through the
+                  description:
+                    "Body param: Bandwidth structure as visible through the
                     customer-facing API."
                 pairing_key:
                   type: string
@@ -986,7 +1013,8 @@ paths:
   /accounts/{account_id}/cni/interconnects/{icon}/status:
     get:
       operationId: statusInterconnect
-      description: "Get the current status of an interconnect object  @example ```ts
+      description:
+        "Get the current status of an interconnect object  @example ```ts
         const response = await client.networkInterconnects.interconnects.status(
         'icon', { account_id: 'account_id' }, ); ```"
       parameters:
@@ -1075,7 +1103,8 @@ paths:
   /accounts/{account_id}/cni/settings:
     get:
       operationId: getSetting
-      description: "Get the current settings for the active account  @example ```ts
+      description:
+        "Get the current settings for the active account  @example ```ts
         const setting = await client.networkInterconnects.settings.get({
         account_id: 'account_id', }); ```"
       parameters:
@@ -1102,7 +1131,8 @@ paths:
           - status: 403
     put:
       operationId: putSetting
-      description: "Update the current settings for the active account  @example ```ts
+      description:
+        "Update the current settings for the active account  @example ```ts
         const setting = await client.networkInterconnects.settings.update({
         account_id: 'account_id', }); ```"
       parameters:
@@ -1142,7 +1172,8 @@ paths:
   /accounts/{account_id}/cni/slots/{slot}:
     get:
       operationId: getSlot
-      description: "Get information about the specified slot  @example ```ts const
+      description:
+        "Get information about the specified slot  @example ```ts const
         slot = await client.networkInterconnects.slots.get(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
         ```"
@@ -1214,7 +1245,8 @@ paths:
         - name: address_contains
           in: query
           required: false
-          description: "Query param: If specified, only show slots with the given text in
+          description:
+            "Query param: If specified, only show slots with the given text in
             their address field"
           schema:
             oneOf:
@@ -1239,7 +1271,8 @@ paths:
         - name: occupied
           in: query
           required: false
-          description: "Query param: If specified, only show slots with a specific
+          description:
+            "Query param: If specified, only show slots with a specific
             occupied/unoccupied state"
           schema:
             oneOf:
@@ -1248,7 +1281,8 @@ paths:
         - name: site
           in: query
           required: false
-          description: "Query param: If specified, only show slots located at the given
+          description:
+            "Query param: If specified, only show slots located at the given
             site"
           schema:
             oneOf:
@@ -1257,7 +1291,8 @@ paths:
         - name: speed
           in: query
           required: false
-          description: "Query param: If specified, only show slots that support the given
+          description:
+            "Query param: If specified, only show slots that support the given
             speed"
           schema:
             oneOf:

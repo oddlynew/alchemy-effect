@@ -6,43 +6,38 @@ import { upsertSynonymSetItem } from "../src/operations/upsertSynonymSetItem";
 import { runEffect, testRunId } from "./setup";
 
 describe("upsertSynonymSetItem", () => {
-  it(
-    "creates a synonym set item",
-    async () => {
-      const synonymSetName = `distilled-typesense-upssynitem-${testRunId}`;
-      const itemId = `item-${testRunId}`;
+  it("creates a synonym set item", { timeout: 30_000 }, async () => {
+    const synonymSetName = `distilled-typesense-upssynitem-${testRunId}`;
+    const itemId = `item-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        // Parent synonym set must exist before items can be added.
-        yield* upsertSynonymSet({
-          synonymSetName,
-          items: [],
-        });
+    const effect = Effect.gen(function* () {
+      // Parent synonym set must exist before items can be added.
+      yield* upsertSynonymSet({
+        synonymSetName,
+        items: [],
+      });
 
-        const result = yield* upsertSynonymSetItem({
-          synonymSetName,
-          itemId,
-          synonyms: ["sneaker", "shoe", "trainer"],
-        });
+      const result = yield* upsertSynonymSetItem({
+        synonymSetName,
+        itemId,
+        synonyms: ["sneaker", "shoe", "trainer"],
+      });
 
-        expect(result.id).toBe(itemId);
-        expect(Array.isArray(result.synonyms)).toBe(true);
-        expect(result.synonyms).toContain("sneaker");
-        expect(result.synonyms).toContain("shoe");
-        expect(result.synonyms).toContain("trainer");
-      }).pipe(
-        Effect.ensuring(
-          deleteSynonymSet({ synonymSetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(result.id).toBe(itemId);
+      expect(Array.isArray(result.synonyms)).toBe(true);
+      expect(result.synonyms).toContain("sneaker");
+      expect(result.synonyms).toContain("shoe");
+      expect(result.synonyms).toContain("trainer");
+    }).pipe(
+      Effect.ensuring(deleteSynonymSet({ synonymSetName }).pipe(Effect.ignore)),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with BadRequest when the synonyms array is empty",
+    { timeout: 30_000 },
     async () => {
       const synonymSetName = `distilled-typesense-upssynitem-bad-${testRunId}`;
       const itemId = `item-${testRunId}`;
@@ -71,6 +66,5 @@ describe("upsertSynonymSetItem", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 });

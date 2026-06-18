@@ -1,7 +1,10 @@
 {
   "errors": {
     "SettingUnavailableForPlan": [
-      { "status": 403, "message": { "includes": "not available for your plan" } }
+      {
+        "status": 403,
+        "message": { "includes": "not available for your plan" }
+      }
     ],
     "Forbidden": [{ "status": 403 }]
   }

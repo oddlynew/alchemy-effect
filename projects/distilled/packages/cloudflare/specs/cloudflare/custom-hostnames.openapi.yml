@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/custom_hostnames/{customHostnameId}/certificate_pack/{certificatePackId}/certificates/{certificateId}:
     put:
       operationId: putCertificatePackCertificate
-      description: "Replace a single custom certificate within a certificate pack that
+      description:
+        "Replace a single custom certificate within a certificate pack that
         contains two bundled certificates. The replacement must adhere to the
         following constraints. You can only replace an RSA certificate with
         another RSA certificate or an ECDSA certificate with another ECDSA
@@ -80,15 +81,18 @@ paths:
                   custom_metadata:
                     type: object
                     additionalProperties: true
-                    description: Unique key/value metadata for this hostname. These are per-hostname
+                    description:
+                      Unique key/value metadata for this hostname. These are per-hostname
                       (customer) settings.
                   custom_origin_server:
                     type: string
-                    description: a valid hostname that’s been added to your DNS zone as an A, AAAA,
+                    description:
+                      a valid hostname that’s been added to your DNS zone as an A, AAAA,
                       or CNAME record.
                   custom_origin_sni:
                     type: string
-                    description: A hostname that will be sent to your custom origin server as SNI
+                    description:
+                      A hostname that will be sent to your custom origin server as SNI
                       for TLS handshake. This can be a valid subdomain of the
                       zone or custom origin server name or the string
                       ':request_host_header:' which will cause the host header
@@ -117,10 +121,12 @@ paths:
                         description: Token to be served.
                       http_url:
                         type: string
-                        description: The HTTP URL that will be checked during custom hostname
+                        description:
+                          The HTTP URL that will be checked during custom hostname
                           verification and where the customer should host the
                           token.
-                    description: This presents the token to be served by the given http url to
+                    description:
+                      This presents the token to be served by the given http url to
                       activate a hostname.
                   ssl:
                     type: object
@@ -134,7 +140,8 @@ paths:
                           - ubiquitous
                           - optimal
                           - force
-                        description: A ubiquitous bundle has the highest probability of being verified
+                        description:
+                          A ubiquitous bundle has the highest probability of being verified
                           everywhere, even by clients using outdated or unusual
                           trust stores. An optimal bundle uses the shortest
                           chain and newest intermediates. And the force bundle
@@ -171,11 +178,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -185,11 +194,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                         description: DCV Delegation records for domain validation.
                       expires_on:
@@ -220,7 +231,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: An allowlist of ciphers for TLS termination. These ciphers must be
+                            description:
+                              An allowlist of ciphers for TLS termination. These ciphers must be
                               in the BoringSSL format.
                           early_hints:
                             type: string
@@ -280,7 +292,8 @@ paths:
                         type: string
                         enum:
                           - dv
-                        description: Level of validation to be used for this hostname. Domain validation
+                        description:
+                          Level of validation to be used for this hostname. Domain validation
                           (dv) must be used.
                       uploaded_on:
                         type: string
@@ -293,7 +306,8 @@ paths:
                             message:
                               type: string
                               description: A domain validation error.
-                        description: Domain validation errors that have been received by the certificate
+                        description:
+                          Domain validation errors that have been received by the certificate
                           authority (CA).
                       validation_records:
                         type: array
@@ -310,11 +324,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -324,11 +340,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                       wildcard:
                         type: boolean
@@ -357,7 +375,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       hostname.
                 required:
                   - id
@@ -365,7 +384,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteCertificatePackCertificate
-      description: "Delete a single custom certificate from a certificate pack that
+      description:
+        "Delete a single custom certificate from a certificate pack that
         contains two bundled certificates. Deletion is subject to the following
         constraints. You cannot delete a certificate if it is the only remaining
         certificate in the pack. At least one certificate must remain in the
@@ -410,7 +430,8 @@ paths:
   /zones/{zone_id}/custom_hostnames/{customHostnameId}:
     get:
       operationId: getCustomHostname
-      description: "Retrieves detailed information about a specific custom hostname,
+      description:
+        "Retrieves detailed information about a specific custom hostname,
         including SSL certificate status, ownership verification, and origin
         configuration.  @example ```ts const customHostname = await
         client.customHostnames.get( '023e105f4ecef8ad9ca31a8372d0c353', {
@@ -447,15 +468,18 @@ paths:
                   custom_metadata:
                     type: object
                     additionalProperties: true
-                    description: Unique key/value metadata for this hostname. These are per-hostname
+                    description:
+                      Unique key/value metadata for this hostname. These are per-hostname
                       (customer) settings.
                   custom_origin_server:
                     type: string
-                    description: a valid hostname that’s been added to your DNS zone as an A, AAAA,
+                    description:
+                      a valid hostname that’s been added to your DNS zone as an A, AAAA,
                       or CNAME record.
                   custom_origin_sni:
                     type: string
-                    description: A hostname that will be sent to your custom origin server as SNI
+                    description:
+                      A hostname that will be sent to your custom origin server as SNI
                       for TLS handshake. This can be a valid subdomain of the
                       zone or custom origin server name or the string
                       ':request_host_header:' which will cause the host header
@@ -484,10 +508,12 @@ paths:
                         description: Token to be served.
                       http_url:
                         type: string
-                        description: The HTTP URL that will be checked during custom hostname
+                        description:
+                          The HTTP URL that will be checked during custom hostname
                           verification and where the customer should host the
                           token.
-                    description: This presents the token to be served by the given http url to
+                    description:
+                      This presents the token to be served by the given http url to
                       activate a hostname.
                   ssl:
                     type: object
@@ -501,7 +527,8 @@ paths:
                           - ubiquitous
                           - optimal
                           - force
-                        description: A ubiquitous bundle has the highest probability of being verified
+                        description:
+                          A ubiquitous bundle has the highest probability of being verified
                           everywhere, even by clients using outdated or unusual
                           trust stores. An optimal bundle uses the shortest
                           chain and newest intermediates. And the force bundle
@@ -538,11 +565,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -552,11 +581,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                         description: DCV Delegation records for domain validation.
                       expires_on:
@@ -587,7 +618,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: An allowlist of ciphers for TLS termination. These ciphers must be
+                            description:
+                              An allowlist of ciphers for TLS termination. These ciphers must be
                               in the BoringSSL format.
                           early_hints:
                             type: string
@@ -647,7 +679,8 @@ paths:
                         type: string
                         enum:
                           - dv
-                        description: Level of validation to be used for this hostname. Domain validation
+                        description:
+                          Level of validation to be used for this hostname. Domain validation
                           (dv) must be used.
                       uploaded_on:
                         type: string
@@ -660,7 +693,8 @@ paths:
                             message:
                               type: string
                               description: A domain validation error.
-                        description: Domain validation errors that have been received by the certificate
+                        description:
+                          Domain validation errors that have been received by the certificate
                           authority (CA).
                       validation_records:
                         type: array
@@ -677,11 +711,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -691,11 +727,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                       wildcard:
                         type: boolean
@@ -724,7 +762,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       hostname.
                 required:
                   - id
@@ -741,17 +780,18 @@ paths:
           - status: 403
     patch:
       operationId: patchCustomHostname
-      description: "Modify SSL configuration for a custom hostname. When sent with SSL
+      description:
+        'Modify SSL configuration for a custom hostname. When sent with SSL
         config that matches existing config, used to indicate that hostname
         should pass domain control validation (DCV). Can also be used to change
-        validation type, e.g., from 'http' to 'email'. Bundle an existing
-        certificate with another certificate by using the \"custom_cert_bundle\"
+        validation type, e.g., from ''http'' to ''email''. Bundle an existing
+        certificate with another certificate by using the "custom_cert_bundle"
         field. The bundling process supports combining certificates as long as
         the following condition is met. One certificate must use the RSA
         algorithm, and the other must use the ECDSA algorithm.  @example ```ts
         const response = await client.customHostnames.edit(
-        '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
-        '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
+        ''023e105f4ecef8ad9ca31a8372d0c353'', { zone_id:
+        ''023e105f4ecef8ad9ca31a8372d0c353'' }, ); ```'
       parameters:
         - name: customHostnameId
           in: path
@@ -774,15 +814,18 @@ paths:
                 custom_metadata:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Unique key/value metadata for this hostname. These are
+                  description:
+                    "Body param: Unique key/value metadata for this hostname. These are
                     per-hostname (customer) settings."
                 custom_origin_server:
                   type: string
-                  description: "Body param: a valid hostname that’s been added to your DNS zone as
+                  description:
+                    "Body param: a valid hostname that’s been added to your DNS zone as
                     an A, AAAA, or CNAME record."
                 custom_origin_sni:
                   type: string
-                  description: "Body param: A hostname that will be sent to your custom origin
+                  description:
+                    "Body param: A hostname that will be sent to your custom origin
                     server as SNI for TLS handshake. This can be a valid
                     subdomain of the zone or custom origin server name or the
                     string ':request_host_header:' which will cause the host
@@ -797,7 +840,8 @@ paths:
                         - ubiquitous
                         - optimal
                         - force
-                      description: A ubiquitous bundle has the highest probability of being verified
+                      description:
+                        A ubiquitous bundle has the highest probability of being verified
                         everywhere, even by clients using outdated or unusual
                         trust stores. An optimal bundle uses the shortest chain
                         and newest intermediates. And the force bundle verifies
@@ -812,7 +856,8 @@ paths:
                       description: The Certificate Authority that will issue the certificate.
                     cloudflare_branding:
                       type: boolean
-                      description: Whether or not to add Cloudflare Branding for the order. This will
+                      description:
+                        Whether or not to add Cloudflare Branding for the order. This will
                         add a subdomain of sni.cloudflaressl.com as the Common
                         Name if set to true.
                     custom_cert_bundle:
@@ -853,7 +898,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: An allowlist of ciphers for TLS termination. These ciphers must be
+                          description:
+                            An allowlist of ciphers for TLS termination. These ciphers must be
                             in the BoringSSL format.
                         early_hints:
                           type: string
@@ -886,12 +932,14 @@ paths:
                       type: string
                       enum:
                         - dv
-                      description: Level of validation to be used for this hostname. Domain validation
+                      description:
+                        Level of validation to be used for this hostname. Domain validation
                         (dv) must be used.
                     wildcard:
                       type: boolean
                       description: Indicates whether the certificate covers a wildcard.
-                  description: "Body param: SSL properties used when creating the custom
+                  description:
+                    "Body param: SSL properties used when creating the custom
                     hostname."
       responses:
         "200":
@@ -913,15 +961,18 @@ paths:
                   custom_metadata:
                     type: object
                     additionalProperties: true
-                    description: Unique key/value metadata for this hostname. These are per-hostname
+                    description:
+                      Unique key/value metadata for this hostname. These are per-hostname
                       (customer) settings.
                   custom_origin_server:
                     type: string
-                    description: a valid hostname that’s been added to your DNS zone as an A, AAAA,
+                    description:
+                      a valid hostname that’s been added to your DNS zone as an A, AAAA,
                       or CNAME record.
                   custom_origin_sni:
                     type: string
-                    description: A hostname that will be sent to your custom origin server as SNI
+                    description:
+                      A hostname that will be sent to your custom origin server as SNI
                       for TLS handshake. This can be a valid subdomain of the
                       zone or custom origin server name or the string
                       ':request_host_header:' which will cause the host header
@@ -950,10 +1001,12 @@ paths:
                         description: Token to be served.
                       http_url:
                         type: string
-                        description: The HTTP URL that will be checked during custom hostname
+                        description:
+                          The HTTP URL that will be checked during custom hostname
                           verification and where the customer should host the
                           token.
-                    description: This presents the token to be served by the given http url to
+                    description:
+                      This presents the token to be served by the given http url to
                       activate a hostname.
                   ssl:
                     type: object
@@ -967,7 +1020,8 @@ paths:
                           - ubiquitous
                           - optimal
                           - force
-                        description: A ubiquitous bundle has the highest probability of being verified
+                        description:
+                          A ubiquitous bundle has the highest probability of being verified
                           everywhere, even by clients using outdated or unusual
                           trust stores. An optimal bundle uses the shortest
                           chain and newest intermediates. And the force bundle
@@ -1004,11 +1058,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -1018,11 +1074,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                         description: DCV Delegation records for domain validation.
                       expires_on:
@@ -1053,7 +1111,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: An allowlist of ciphers for TLS termination. These ciphers must be
+                            description:
+                              An allowlist of ciphers for TLS termination. These ciphers must be
                               in the BoringSSL format.
                           early_hints:
                             type: string
@@ -1113,7 +1172,8 @@ paths:
                         type: string
                         enum:
                           - dv
-                        description: Level of validation to be used for this hostname. Domain validation
+                        description:
+                          Level of validation to be used for this hostname. Domain validation
                           (dv) must be used.
                       uploaded_on:
                         type: string
@@ -1126,7 +1186,8 @@ paths:
                             message:
                               type: string
                               description: A domain validation error.
-                        description: Domain validation errors that have been received by the certificate
+                        description:
+                          Domain validation errors that have been received by the certificate
                           authority (CA).
                       validation_records:
                         type: array
@@ -1143,11 +1204,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -1157,11 +1220,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                       wildcard:
                         type: boolean
@@ -1190,7 +1255,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       hostname.
                 required:
                   - id
@@ -1268,7 +1334,8 @@ paths:
         - name: id
           in: query
           required: false
-          description: "Query param: Hostname ID to match against. This ID was generated
+          description:
+            "Query param: Hostname ID to match against. This ID was generated
             and returned during the initial custom_hostname creation. This
             parameter cannot be used with the 'hostname' parameter."
           schema:
@@ -1276,7 +1343,8 @@ paths:
         - name: certificate_authority
           in: query
           required: false
-          description: "Query param: Filter by the certificate authority that issued the
+          description:
+            "Query param: Filter by the certificate authority that issued the
             SSL certificate."
           schema:
             type: string
@@ -1308,7 +1376,8 @@ paths:
             properties:
               contain:
                 type: string
-                description: Filters hostnames by a substring match on the hostname value. This
+                description:
+                  Filters hostnames by a substring match on the hostname value. This
                   parameter cannot be used with the 'id' parameter.
         - name: hostname_status
           in: query
@@ -1345,7 +1414,8 @@ paths:
         - name: ssl
           in: query
           required: false
-          description: "Query param: Whether to filter hostnames based on if they have SSL
+          description:
+            "Query param: Whether to filter hostnames based on if they have SSL
             enabled."
           schema:
             type: number
@@ -1383,7 +1453,8 @@ paths:
         - name: wildcard
           in: query
           required: false
-          description: "Query param: Filter by whether the custom hostname is a wildcard
+          description:
+            "Query param: Filter by whether the custom hostname is a wildcard
             hostname."
           schema:
             type: boolean
@@ -1407,15 +1478,18 @@ paths:
                   custom_metadata:
                     type: object
                     additionalProperties: true
-                    description: Unique key/value metadata for this hostname. These are per-hostname
+                    description:
+                      Unique key/value metadata for this hostname. These are per-hostname
                       (customer) settings.
                   custom_origin_server:
                     type: string
-                    description: a valid hostname that’s been added to your DNS zone as an A, AAAA,
+                    description:
+                      a valid hostname that’s been added to your DNS zone as an A, AAAA,
                       or CNAME record.
                   custom_origin_sni:
                     type: string
-                    description: A hostname that will be sent to your custom origin server as SNI
+                    description:
+                      A hostname that will be sent to your custom origin server as SNI
                       for TLS handshake. This can be a valid subdomain of the
                       zone or custom origin server name or the string
                       ':request_host_header:' which will cause the host header
@@ -1444,10 +1518,12 @@ paths:
                         description: Token to be served.
                       http_url:
                         type: string
-                        description: The HTTP URL that will be checked during custom hostname
+                        description:
+                          The HTTP URL that will be checked during custom hostname
                           verification and where the customer should host the
                           token.
-                    description: This presents the token to be served by the given http url to
+                    description:
+                      This presents the token to be served by the given http url to
                       activate a hostname.
                   ssl:
                     type: object
@@ -1461,7 +1537,8 @@ paths:
                           - ubiquitous
                           - optimal
                           - force
-                        description: A ubiquitous bundle has the highest probability of being verified
+                        description:
+                          A ubiquitous bundle has the highest probability of being verified
                           everywhere, even by clients using outdated or unusual
                           trust stores. An optimal bundle uses the shortest
                           chain and newest intermediates. And the force bundle
@@ -1498,11 +1575,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -1512,11 +1591,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                         description: DCV Delegation records for domain validation.
                       expires_on:
@@ -1547,7 +1628,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: An allowlist of ciphers for TLS termination. These ciphers must be
+                            description:
+                              An allowlist of ciphers for TLS termination. These ciphers must be
                               in the BoringSSL format.
                           early_hints:
                             type: string
@@ -1607,7 +1689,8 @@ paths:
                         type: string
                         enum:
                           - dv
-                        description: Level of validation to be used for this hostname. Domain validation
+                        description:
+                          Level of validation to be used for this hostname. Domain validation
                           (dv) must be used.
                       uploaded_on:
                         type: string
@@ -1620,7 +1703,8 @@ paths:
                             message:
                               type: string
                               description: A domain validation error.
-                        description: Domain validation errors that have been received by the certificate
+                        description:
+                          Domain validation errors that have been received by the certificate
                           authority (CA).
                       validation_records:
                         type: array
@@ -1637,11 +1721,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -1651,11 +1737,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                       wildcard:
                         type: boolean
@@ -1684,7 +1772,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       hostname.
                 required:
                   - id
@@ -1698,7 +1787,8 @@ paths:
           - status: 403
     post:
       operationId: createCustomHostname
-      description: "Add a new custom hostname and request that an SSL certificate be
+      description:
+        "Add a new custom hostname and request that an SSL certificate be
         issued for it. One of three validation methods—http, txt, email—should
         be used, with 'http' recommended if the CNAME is already in place (or
         will be soon). Specifying 'email' will send an email to the WHOIS
@@ -1728,12 +1818,14 @@ paths:
               properties:
                 hostname:
                   type: string
-                  description: "Body param: The custom hostname that will point to your hostname
+                  description:
+                    "Body param: The custom hostname that will point to your hostname
                     via CNAME."
                 custom_metadata:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Unique key/value metadata for this hostname. These are
+                  description:
+                    "Body param: Unique key/value metadata for this hostname. These are
                     per-hostname (customer) settings."
                 ssl:
                   type: object
@@ -1744,7 +1836,8 @@ paths:
                         - ubiquitous
                         - optimal
                         - force
-                      description: A ubiquitous bundle has the highest probability of being verified
+                      description:
+                        A ubiquitous bundle has the highest probability of being verified
                         everywhere, even by clients using outdated or unusual
                         trust stores. An optimal bundle uses the shortest chain
                         and newest intermediates. And the force bundle verifies
@@ -1759,7 +1852,8 @@ paths:
                       description: The Certificate Authority that will issue the certificate.
                     cloudflare_branding:
                       type: boolean
-                      description: Whether or not to add Cloudflare Branding for the order. This will
+                      description:
+                        Whether or not to add Cloudflare Branding for the order. This will
                         add a subdomain of sni.cloudflaressl.com as the Common
                         Name if set to true.
                     custom_cert_bundle:
@@ -1800,7 +1894,8 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: An allowlist of ciphers for TLS termination. These ciphers must be
+                          description:
+                            An allowlist of ciphers for TLS termination. These ciphers must be
                             in the BoringSSL format.
                         early_hints:
                           type: string
@@ -1833,12 +1928,14 @@ paths:
                       type: string
                       enum:
                         - dv
-                      description: Level of validation to be used for this hostname. Domain validation
+                      description:
+                        Level of validation to be used for this hostname. Domain validation
                         (dv) must be used.
                     wildcard:
                       type: boolean
                       description: Indicates whether the certificate covers a wildcard.
-                  description: "Body param: SSL properties used when creating the custom
+                  description:
+                    "Body param: SSL properties used when creating the custom
                     hostname."
               required:
                 - hostname
@@ -1862,15 +1959,18 @@ paths:
                   custom_metadata:
                     type: object
                     additionalProperties: true
-                    description: Unique key/value metadata for this hostname. These are per-hostname
+                    description:
+                      Unique key/value metadata for this hostname. These are per-hostname
                       (customer) settings.
                   custom_origin_server:
                     type: string
-                    description: a valid hostname that’s been added to your DNS zone as an A, AAAA,
+                    description:
+                      a valid hostname that’s been added to your DNS zone as an A, AAAA,
                       or CNAME record.
                   custom_origin_sni:
                     type: string
-                    description: A hostname that will be sent to your custom origin server as SNI
+                    description:
+                      A hostname that will be sent to your custom origin server as SNI
                       for TLS handshake. This can be a valid subdomain of the
                       zone or custom origin server name or the string
                       ':request_host_header:' which will cause the host header
@@ -1899,10 +1999,12 @@ paths:
                         description: Token to be served.
                       http_url:
                         type: string
-                        description: The HTTP URL that will be checked during custom hostname
+                        description:
+                          The HTTP URL that will be checked during custom hostname
                           verification and where the customer should host the
                           token.
-                    description: This presents the token to be served by the given http url to
+                    description:
+                      This presents the token to be served by the given http url to
                       activate a hostname.
                   ssl:
                     type: object
@@ -1916,7 +2018,8 @@ paths:
                           - ubiquitous
                           - optimal
                           - force
-                        description: A ubiquitous bundle has the highest probability of being verified
+                        description:
+                          A ubiquitous bundle has the highest probability of being verified
                           everywhere, even by clients using outdated or unusual
                           trust stores. An optimal bundle uses the shortest
                           chain and newest intermediates. And the force bundle
@@ -1953,11 +2056,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -1967,11 +2072,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                         description: DCV Delegation records for domain validation.
                       expires_on:
@@ -2002,7 +2109,8 @@ paths:
                             type: array
                             items:
                               type: string
-                            description: An allowlist of ciphers for TLS termination. These ciphers must be
+                            description:
+                              An allowlist of ciphers for TLS termination. These ciphers must be
                               in the BoringSSL format.
                           early_hints:
                             type: string
@@ -2062,7 +2170,8 @@ paths:
                         type: string
                         enum:
                           - dv
-                        description: Level of validation to be used for this hostname. Domain validation
+                        description:
+                          Level of validation to be used for this hostname. Domain validation
                           (dv) must be used.
                       uploaded_on:
                         type: string
@@ -2075,7 +2184,8 @@ paths:
                             message:
                               type: string
                               description: A domain validation error.
-                        description: Domain validation errors that have been received by the certificate
+                        description:
+                          Domain validation errors that have been received by the certificate
                           authority (CA).
                       validation_records:
                         type: array
@@ -2092,11 +2202,13 @@ paths:
                               type: array
                               items:
                                 type: string
-                              description: The set of email addresses that the certificate authority (CA) will
+                              description:
+                                The set of email addresses that the certificate authority (CA) will
                                 use to complete domain validation.
                             http_body:
                               type: string
-                              description: The content that the certificate authority (CA) will expect to find
+                              description:
+                                The content that the certificate authority (CA) will expect to find
                                 at the http_url during the domain validation.
                             http_url:
                               type: string
@@ -2106,11 +2218,13 @@ paths:
                               description: Status of the validation record.
                             txt_name:
                               type: string
-                              description: The hostname that the certificate authority (CA) will check for a
+                              description:
+                                The hostname that the certificate authority (CA) will check for a
                                 TXT record during domain validation .
                             txt_value:
                               type: string
-                              description: The TXT record that the certificate authority (CA) will check
+                              description:
+                                The TXT record that the certificate authority (CA) will check
                                 during domain validation.
                       wildcard:
                         type: boolean
@@ -2139,7 +2253,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       hostname.
                 required:
                   - id
@@ -2152,7 +2267,8 @@ paths:
   /zones/{zone_id}/custom_hostnames/fallback_origin:
     get:
       operationId: getFallbackOrigin
-      description: "Retrieves the current fallback origin configuration for custom
+      description:
+        "Retrieves the current fallback origin configuration for custom
         hostnames on a zone. The fallback origin handles traffic when specific
         custom hostname origins are unavailable.  @example ```ts const
         fallbackOrigin = await client.customHostnames.fallbackOrigin.get({
@@ -2179,11 +2295,13 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       fallback origin.
                   origin:
                     type: string
-                    description: Your origin hostname that requests to your custom hostnames will be
+                    description:
+                      Your origin hostname that requests to your custom hostnames will be
                       sent to.
                   status:
                     type: string
@@ -2208,7 +2326,8 @@ paths:
           - status: 403
     put:
       operationId: putFallbackOrigin
-      description: "Updates the fallback origin configuration for custom hostnames on
+      description:
+        "Updates the fallback origin configuration for custom hostnames on
         a zone. Sets the default origin server for custom hostname
         traffic.  @example ```ts const fallbackOrigin = await
         client.customHostnames.fallbackOrigin.update({ zone_id:
@@ -2230,7 +2349,8 @@ paths:
               properties:
                 origin:
                   type: string
-                  description: "Body param: Your origin hostname that requests to your custom
+                  description:
+                    "Body param: Your origin hostname that requests to your custom
                     hostnames will be sent to."
               required:
                 - origin
@@ -2249,11 +2369,13 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       fallback origin.
                   origin:
                     type: string
-                    description: Your origin hostname that requests to your custom hostnames will be
+                    description:
+                      Your origin hostname that requests to your custom hostnames will be
                       sent to.
                   status:
                     type: string
@@ -2274,7 +2396,8 @@ paths:
           - code: 1456
     delete:
       operationId: deleteFallbackOrigin
-      description: "Removes the fallback origin configuration for custom hostnames on
+      description:
+        "Removes the fallback origin configuration for custom hostnames on
         a zone. Custom hostnames without specific origins will no longer have a
         fallback.  @example ```ts const fallbackOrigin = await
         client.customHostnames.fallbackOrigin.delete({ zone_id:
@@ -2301,11 +2424,13 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: These are errors that were encountered while trying to activate a
+                    description:
+                      These are errors that were encountered while trying to activate a
                       fallback origin.
                   origin:
                     type: string
-                    description: Your origin hostname that requests to your custom hostnames will be
+                    description:
+                      Your origin hostname that requests to your custom hostnames will be
                       sent to.
                   status:
                     type: string

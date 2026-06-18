@@ -1,10 +1,6 @@
 {
   "errors": {
-    "InvalidStreamName": [
-      { "code": 2 }
-    ],
-    "StreamAlreadyExists": [
-      { "code": 1003 }
-    ]
+    "InvalidStreamName": [{ "code": 2 }],
+    "StreamAlreadyExists": [{ "code": 1003 }]
   }
 }

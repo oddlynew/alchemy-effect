@@ -6,43 +6,40 @@ import { upsertCurationSetItem } from "../src/operations/upsertCurationSetItem";
 import { runEffect, testRunId } from "./setup";
 
 describe("upsertCurationSetItem", () => {
-  it(
-    "creates a curation set item",
-    async () => {
-      const curationSetName = `distilled-typesense-upscurationitem-${testRunId}`;
-      const itemId = `item-${testRunId}`;
+  it("creates a curation set item", { timeout: 30_000 }, async () => {
+    const curationSetName = `distilled-typesense-upscurationitem-${testRunId}`;
+    const itemId = `item-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        // Parent curation set must exist before items can be added.
-        yield* upsertCurationSet({
-          curationSetName,
-          items: [],
-          description: "test curation set",
-        });
+    const effect = Effect.gen(function* () {
+      // Parent curation set must exist before items can be added.
+      yield* upsertCurationSet({
+        curationSetName,
+        items: [],
+        description: "test curation set",
+      });
 
-        const result = yield* upsertCurationSetItem({
-          curationSetName,
-          itemId,
-          rule: { query: "shoe", match: "exact" },
-          includes: [{ id: "doc-1", position: 1 }],
-        });
+      const result = yield* upsertCurationSetItem({
+        curationSetName,
+        itemId,
+        rule: { query: "shoe", match: "exact" },
+        includes: [{ id: "doc-1", position: 1 }],
+      });
 
-        expect(result.id).toBe(itemId);
-        expect(result.rule.query).toBe("shoe");
-        expect(result.rule.match).toBe("exact");
-      }).pipe(
-        Effect.ensuring(
-          deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(result.id).toBe(itemId);
+      expect(result.rule.query).toBe("shoe");
+      expect(result.rule.match).toBe("exact");
+    }).pipe(
+      Effect.ensuring(
+        deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
+      ),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with BadRequest when the item's rule has no condition",
+    { timeout: 30_000 },
     async () => {
       const curationSetName = `distilled-typesense-upscurationitem-bad-${testRunId}`;
       const itemId = `item-${testRunId}`;
@@ -72,6 +69,5 @@ describe("upsertCurationSetItem", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 });

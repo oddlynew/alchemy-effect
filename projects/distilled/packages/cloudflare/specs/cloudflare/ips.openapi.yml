@@ -30,7 +30,8 @@ paths:
                     properties:
                       etag:
                         type: string
-                        description: A digest of the IP data. Useful for determining if the data has
+                        description:
+                          A digest of the IP data. Useful for determining if the data has
                           changed.
                       ipv4_cidrs:
                         type: array
@@ -46,7 +47,8 @@ paths:
                     properties:
                       etag:
                         type: string
-                        description: A digest of the IP data. Useful for determining if the data has
+                        description:
+                          A digest of the IP data. Useful for determining if the data has
                           changed.
                       ipv4_cidrs:
                         type: array
@@ -62,6 +64,7 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: List IPv4 and IPv6 CIDRs, only populated if `?networks=jdcloud` is
+                        description:
+                          List IPv4 and IPv6 CIDRs, only populated if `?networks=jdcloud` is
                           used.
       x-distilled-response-path: result

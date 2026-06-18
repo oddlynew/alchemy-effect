@@ -5,33 +5,30 @@ import { UserlandUserInvitesControllerRevoke } from "../src/operations/UserlandU
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("UserlandUserInvitesControllerRevoke", () => {
-  it(
-    "revokes a pending invitation",
-    async () => {
-      const email = `distilled-invite-revoke-${testRunId}@example.com`;
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const created = yield* UserlandUserInvitesControllerCreate({
-            email,
-            expires_in_days: 7,
-          });
-          return yield* UserlandUserInvitesControllerRevoke({
-            id: created.id,
-          });
-        }),
-      );
+  it("revokes a pending invitation", { timeout: 30_000 }, async () => {
+    const email = `distilled-invite-revoke-${testRunId}@example.com`;
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const created = yield* UserlandUserInvitesControllerCreate({
+          email,
+          expires_in_days: 7,
+        });
+        return yield* UserlandUserInvitesControllerRevoke({
+          id: created.id,
+        });
+      }),
+    );
 
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(result.email).toBe(email);
-      expect(result.state).toBe("revoked");
-      expect(typeof result.revoked_at).toBe("string");
-    },
-    30_000,
-  );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(result.email).toBe(email);
+    expect(result.state).toBe("revoked");
+    expect(typeof result.revoked_at).toBe("string");
+  });
 
   it(
     "fails with BadRequest for a non-existent invitation id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserInvitesControllerRevoke({
@@ -40,6 +37,5 @@ describe("UserlandUserInvitesControllerRevoke", () => {
       );
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

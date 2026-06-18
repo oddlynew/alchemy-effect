@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/d1/database/{databaseId}/time_travel/bookmark:
     get:
       operationId: getBookmarkDatabaseTimeTravel
-      description: "Retrieves the current bookmark, or the nearest bookmark at or
+      description:
+        "Retrieves the current bookmark, or the nearest bookmark at or
         before a provided timestamp. Bookmarks can be used with the restore
         endpoint to revert the database to a previous point in time.  @example
         ```ts const response = await client.d1.database.timeTravel.getBookmark(
@@ -30,7 +31,8 @@ paths:
         - name: timestamp
           in: query
           required: false
-          description: "Query param: An optional ISO 8601 timestamp. If provided, returns
+          description:
+            "Query param: An optional ISO 8601 timestamp. If provided, returns
             the nearest available bookmark at or before this timestamp. If
             omitted, returns the current bookmark."
           schema:
@@ -45,7 +47,8 @@ paths:
                 properties:
                   bookmark:
                     type: string
-                    description: A bookmark representing a specific state of the database at a
+                    description:
+                      A bookmark representing a specific state of the database at a
                       specific point in time.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -60,7 +63,8 @@ paths:
   /accounts/{account_id}/d1/database:
     get:
       operationId: listDatabases
-      description: "Returns a list of D1 databases.  @example ```ts // Automatically
+      description:
+        "Returns a list of D1 databases.  @example ```ts // Automatically
         fetches more pages as needed. for await (const databaseListResponse of
         client.d1.database.list( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -97,7 +101,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   jurisdiction:
                     type: string
@@ -105,7 +110,8 @@ paths:
                       - eu
                       - fedramp
                     nullable: true
-                    description: Specify the location to restrict the D1 database to run and store
+                    description:
+                      Specify the location to restrict the D1 database to run and store
                       data. If this option is present, the location hint is
                       ignored.
                   name:
@@ -119,7 +125,8 @@ paths:
       x-distilled-pagination-class: DatabaseListResponsesV4PagePaginationArray
     post:
       operationId: createDatabase
-      description: "Returns the created D1 database.  @example ```ts const d1 = await
+      description:
+        "Returns the created D1 database.  @example ```ts const d1 = await
         client.d1.database.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', name: 'my-database', }); ```"
       parameters:
@@ -144,7 +151,8 @@ paths:
                   enum:
                     - eu
                     - fedramp
-                  description: "Body param: Specify the location to restrict the D1 database to
+                  description:
+                    "Body param: Specify the location to restrict the D1 database to
                     run and store data. If this option is present, the location
                     hint is ignored."
                 primary_location_hint:
@@ -156,7 +164,8 @@ paths:
                     - eeur
                     - apac
                     - oc
-                  description: "Body param: Specify the region to create the D1 primary, if
+                  description:
+                    "Body param: Specify the region to create the D1 primary, if
                     available. If this option is omitted, the D1 will be created
                     as close as possible to the current user."
                 read_replication:
@@ -167,7 +176,8 @@ paths:
                       enum:
                         - auto
                         - disabled
-                      description: The read replication mode for the database. Use 'auto' to create
+                      description:
+                        The read replication mode for the database. Use 'auto' to create
                         replicas and allow D1 automatically place them around
                         the world, or 'disabled' to not use any database
                         replicas (it can take a few hours for all replicas to be
@@ -187,7 +197,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   file_size:
                     type: number
@@ -198,7 +209,8 @@ paths:
                       - eu
                       - fedramp
                     nullable: true
-                    description: Specify the location to restrict the D1 database to run and store
+                    description:
+                      Specify the location to restrict the D1 database to run and store
                       data. If this option is present, the location hint is
                       ignored.
                   name:
@@ -214,7 +226,8 @@ paths:
                         enum:
                           - auto
                           - disabled
-                        description: The read replication mode for the database. Mode 'auto' denotes
+                        description:
+                          The read replication mode for the database. Mode 'auto' denotes
                           that D1 creates replicas and automatically places them
                           around the world. Mode 'disabled' denotes that no
                           database replicas are used.
@@ -237,7 +250,8 @@ paths:
   /accounts/{account_id}/d1/database/{databaseId}:
     get:
       operationId: getDatabase
-      description: "Returns the specified D1 database.  @example ```ts const d1 =
+      description:
+        "Returns the specified D1 database.  @example ```ts const d1 =
         await client.d1.database.get( 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -255,7 +269,8 @@ paths:
         - name: fields
           in: query
           required: false
-          description: "Query param: Comma-separated list of fields to include in the
+          description:
+            "Query param: Comma-separated list of fields to include in the
             response. When omitted, all fields are returned."
           schema:
             type: array
@@ -281,7 +296,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   file_size:
                     type: number
@@ -292,7 +308,8 @@ paths:
                       - eu
                       - fedramp
                     nullable: true
-                    description: Specify the location to restrict the D1 database to run and store
+                    description:
+                      Specify the location to restrict the D1 database to run and store
                       data. If this option is present, the location hint is
                       ignored.
                   name:
@@ -308,7 +325,8 @@ paths:
                         enum:
                           - auto
                           - disabled
-                        description: The read replication mode for the database. Mode 'auto' denotes
+                        description:
+                          The read replication mode for the database. Mode 'auto' denotes
                           that D1 creates replicas and automatically places them
                           around the world. Mode 'disabled' denotes that no
                           database replicas are used.
@@ -330,7 +348,8 @@ paths:
           - code: 0
     put:
       operationId: updateDatabase
-      description: "Updates the specified D1 database.  @example ```ts const d1 =
+      description:
+        "Updates the specified D1 database.  @example ```ts const d1 =
         await client.d1.database.update( 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353', read_replication: {
         mode: 'auto' }, }, ); ```"
@@ -361,7 +380,8 @@ paths:
                       enum:
                         - auto
                         - disabled
-                      description: The read replication mode for the database. Use 'auto' to create
+                      description:
+                        The read replication mode for the database. Use 'auto' to create
                         replicas and allow D1 automatically place them around
                         the world, or 'disabled' to not use any database
                         replicas (it can take a few hours for all replicas to be
@@ -381,7 +401,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   file_size:
                     type: number
@@ -392,7 +413,8 @@ paths:
                       - eu
                       - fedramp
                     nullable: true
-                    description: Specify the location to restrict the D1 database to run and store
+                    description:
+                      Specify the location to restrict the D1 database to run and store
                       data. If this option is present, the location hint is
                       ignored.
                   name:
@@ -408,7 +430,8 @@ paths:
                         enum:
                           - auto
                           - disabled
-                        description: The read replication mode for the database. Mode 'auto' denotes
+                        description:
+                          The read replication mode for the database. Mode 'auto' denotes
                           that D1 creates replicas and automatically places them
                           around the world. Mode 'disabled' denotes that no
                           database replicas are used.
@@ -430,7 +453,8 @@ paths:
           - code: 7404
     patch:
       operationId: patchDatabase
-      description: "Updates partially the specified D1 database.  @example ```ts const
+      description:
+        "Updates partially the specified D1 database.  @example ```ts const
         d1 = await client.d1.database.edit(
         'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -461,7 +485,8 @@ paths:
                       enum:
                         - auto
                         - disabled
-                      description: The read replication mode for the database. Use 'auto' to create
+                      description:
+                        The read replication mode for the database. Use 'auto' to create
                         replicas and allow D1 automatically place them around
                         the world, or 'disabled' to not use any database
                         replicas (it can take a few hours for all replicas to be
@@ -479,7 +504,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: Specifies the timestamp the resource was created as an ISO8601
+                    description:
+                      Specifies the timestamp the resource was created as an ISO8601
                       string.
                   file_size:
                     type: number
@@ -490,7 +516,8 @@ paths:
                       - eu
                       - fedramp
                     nullable: true
-                    description: Specify the location to restrict the D1 database to run and store
+                    description:
+                      Specify the location to restrict the D1 database to run and store
                       data. If this option is present, the location hint is
                       ignored.
                   name:
@@ -506,7 +533,8 @@ paths:
                         enum:
                           - auto
                           - disabled
-                        description: The read replication mode for the database. Mode 'auto' denotes
+                        description:
+                          The read replication mode for the database. Mode 'auto' denotes
                           that D1 creates replicas and automatically places them
                           around the world. Mode 'disabled' denotes that no
                           database replicas are used.
@@ -528,7 +556,8 @@ paths:
           - code: 7404
     delete:
       operationId: deleteDatabase
-      description: "Deletes the specified D1 database.  @example ```ts const database
+      description:
+        "Deletes the specified D1 database.  @example ```ts const database
         = await client.d1.database.delete(
         'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -561,7 +590,8 @@ paths:
   /accounts/{account_id}/d1/database/{databaseId}/export:
     post:
       operationId: exportDatabase
-      description: "Returns a URL where the SQL contents of your D1 can be downloaded.
+      description:
+        "Returns a URL where the SQL contents of your D1 can be downloaded.
         Note: this process may take some time for larger DBs, during which your
         D1 will be unavailable to serve queries. To avoid blocking your DB
         unnecessarily, an in-progress export must be continually polled or will
@@ -592,11 +622,13 @@ paths:
                   type: string
                   enum:
                     - polling
-                  description: "Body param: Specifies that you will poll this endpoint until the
+                  description:
+                    "Body param: Specifies that you will poll this endpoint until the
                     export completes"
                 current_bookmark:
                   type: string
-                  description: "Body param: To poll an in-progress export, provide the current
+                  description:
+                    "Body param: To poll an in-progress export, provide the current
                     bookmark (returned by your first polling response)"
                 dump_options:
                   type: object
@@ -611,7 +643,8 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: "Filter the export to just one or more tables. Passing an empty
+                      description:
+                        "Filter the export to just one or more tables. Passing an empty
                         array is the same as not passing anything and means:
                         export all tables."
                   description: Body param
@@ -627,7 +660,8 @@ paths:
                 properties:
                   at_bookmark:
                     type: string
-                    description: The current time-travel bookmark for your D1, used to poll for
+                    description:
+                      The current time-travel bookmark for your D1, used to poll for
                       updates. Will not change for the duration of the export
                       task.
                   error:
@@ -706,7 +740,8 @@ paths:
                   description: "Body param: Indicates you have a new SQL file to upload."
                 etag:
                   type: string
-                  description: "Body param: Required when action is 'init' or 'ingest'. An md5
+                  description:
+                    "Body param: Required when action is 'init' or 'ingest'. An md5
                     hash of the file you're uploading. Used to check if it
                     already exists, and validate its contents before ingesting."
                 filename:
@@ -714,7 +749,8 @@ paths:
                   description: "Body param: The filename you have successfully uploaded."
                 current_bookmark:
                   type: string
-                  description: "Body param: This identifies the currently-running import, checking
+                  description:
+                    "Body param: This identifies the currently-running import, checking
                     its status."
               required:
                 - action
@@ -728,17 +764,20 @@ paths:
                 properties:
                   at_bookmark:
                     type: string
-                    description: The current time-travel bookmark for your D1, used to poll for
+                    description:
+                      The current time-travel bookmark for your D1, used to poll for
                       updates. Will not change for the duration of the import.
                       Only returned if an import process is currently running or
                       recently finished.
                   error:
                     type: string
-                    description: Only present when status = 'error'. Contains the error message that
+                    description:
+                      Only present when status = 'error'. Contains the error message that
                       prevented the import from succeeding.
                   filename:
                     type: string
-                    description: Derived from the database ID and etag, to use in avoiding repeated
+                    description:
+                      Derived from the database ID and etag, to use in avoiding repeated
                       uploads. Only returned when for the 'init' action.
                   messages:
                     type: array
@@ -750,42 +789,50 @@ paths:
                     properties:
                       final_bookmark:
                         type: string
-                        description: The time-travel bookmark if you need restore your D1 to directly
+                        description:
+                          The time-travel bookmark if you need restore your D1 to directly
                           after the import succeeded.
                       meta:
                         type: object
                         properties:
                           changed_db:
                             type: boolean
-                            description: Denotes if the database has been altered in some way, like deleting
+                            description:
+                              Denotes if the database has been altered in some way, like deleting
                               rows.
                           changes:
                             type: number
-                            description: Rough indication of how many rows were modified by the query, as
+                            description:
+                              Rough indication of how many rows were modified by the query, as
                               provided by SQLite's `sqlite3_total_changes()`.
                           duration:
                             type: number
-                            description: The duration of the SQL query execution inside the database. Does
+                            description:
+                              The duration of the SQL query execution inside the database. Does
                               not include any network communication.
                           last_row_id:
                             type: number
-                            description: The row ID of the last inserted row in a table with an `INTEGER
+                            description:
+                              The row ID of the last inserted row in a table with an `INTEGER
                               PRIMARY KEY` as provided by SQLite. Tables created
                               with `WITHOUT ROWID` do not populate this.
                           rows_read:
                             type: number
-                            description: Number of rows read during the SQL query execution, including
+                            description:
+                              Number of rows read during the SQL query execution, including
                               indices (not all rows are necessarily returned).
                           rows_written:
                             type: number
-                            description: Number of rows written during the SQL query execution, including
+                            description:
+                              Number of rows written during the SQL query execution, including
                               indices.
                           served_by_colo:
                             type: string
                             description: The three letters airport code of the colo that handled the query.
                           served_by_primary:
                             type: boolean
-                            description: Denotes if the query has been handled by the database primary
+                            description:
+                              Denotes if the query has been handled by the database primary
                               instance.
                           served_by_region:
                             type: string
@@ -796,7 +843,8 @@ paths:
                               - EEUR
                               - APAC
                               - OC
-                            description: Region location hint of the database instance that handled the
+                            description:
+                              Region location hint of the database instance that handled the
                               query.
                           size_after:
                             type: number
@@ -806,7 +854,8 @@ paths:
                             properties:
                               sql_duration_ms:
                                 type: number
-                                description: The duration of the SQL query execution inside the database. Does
+                                description:
+                                  The duration of the SQL query execution inside the database. Does
                                   not include any network communication.
                             description: Various durations for the query.
                       num_queries:
@@ -826,7 +875,8 @@ paths:
                       - import
                   upload_url:
                     type: string
-                    description: The R2 presigned URL to use for uploading. Only returned when for
+                    description:
+                      The R2 presigned URL to use for uploading. Only returned when for
                       the 'init' action.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -861,7 +911,8 @@ paths:
               properties:
                 sql:
                   type: string
-                  description: "Body param: Your SQL query. Supports multiple statements, joined
+                  description:
+                    "Body param: Your SQL query. Supports multiple statements, joined
                     by semicolons, which will be executed as a batch."
                 params:
                   type: array
@@ -875,7 +926,8 @@ paths:
                     properties:
                       sql:
                         type: string
-                        description: Your SQL query. Supports multiple statements, joined by semicolons,
+                        description:
+                          Your SQL query. Supports multiple statements, joined by semicolons,
                           which will be executed as a batch.
                       params:
                         type: array
@@ -897,35 +949,42 @@ paths:
                     properties:
                       changed_db:
                         type: boolean
-                        description: Denotes if the database has been altered in some way, like deleting
+                        description:
+                          Denotes if the database has been altered in some way, like deleting
                           rows.
                       changes:
                         type: number
-                        description: Rough indication of how many rows were modified by the query, as
+                        description:
+                          Rough indication of how many rows were modified by the query, as
                           provided by SQLite's `sqlite3_total_changes()`.
                       duration:
                         type: number
-                        description: The duration of the SQL query execution inside the database. Does
+                        description:
+                          The duration of the SQL query execution inside the database. Does
                           not include any network communication.
                       last_row_id:
                         type: number
-                        description: The row ID of the last inserted row in a table with an `INTEGER
+                        description:
+                          The row ID of the last inserted row in a table with an `INTEGER
                           PRIMARY KEY` as provided by SQLite. Tables created
                           with `WITHOUT ROWID` do not populate this.
                       rows_read:
                         type: number
-                        description: Number of rows read during the SQL query execution, including
+                        description:
+                          Number of rows read during the SQL query execution, including
                           indices (not all rows are necessarily returned).
                       rows_written:
                         type: number
-                        description: Number of rows written during the SQL query execution, including
+                        description:
+                          Number of rows written during the SQL query execution, including
                           indices.
                       served_by_colo:
                         type: string
                         description: The three letters airport code of the colo that handled the query.
                       served_by_primary:
                         type: boolean
-                        description: Denotes if the query has been handled by the database primary
+                        description:
+                          Denotes if the query has been handled by the database primary
                           instance.
                       served_by_region:
                         type: string
@@ -936,7 +995,8 @@ paths:
                           - EEUR
                           - APAC
                           - OC
-                        description: Region location hint of the database instance that handled the
+                        description:
+                          Region location hint of the database instance that handled the
                           query.
                       size_after:
                         type: number
@@ -946,7 +1006,8 @@ paths:
                         properties:
                           sql_duration_ms:
                             type: number
-                            description: The duration of the SQL query execution inside the database. Does
+                            description:
+                              The duration of the SQL query execution inside the database. Does
                               not include any network communication.
                         description: Various durations for the query.
                   results:
@@ -958,7 +1019,8 @@ paths:
   /accounts/{account_id}/d1/database/{databaseId}/raw:
     post:
       operationId: rawDatabase
-      description: "Returns the query result rows as arrays rather than objects. This
+      description:
+        "Returns the query result rows as arrays rather than objects. This
         is a performance-optimized version of the /query endpoint.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
         databaseRawResponse of client.d1.database.raw(
@@ -986,7 +1048,8 @@ paths:
               properties:
                 sql:
                   type: string
-                  description: "Body param: Your SQL query. Supports multiple statements, joined
+                  description:
+                    "Body param: Your SQL query. Supports multiple statements, joined
                     by semicolons, which will be executed as a batch."
                 params:
                   type: array
@@ -1000,7 +1063,8 @@ paths:
                     properties:
                       sql:
                         type: string
-                        description: Your SQL query. Supports multiple statements, joined by semicolons,
+                        description:
+                          Your SQL query. Supports multiple statements, joined by semicolons,
                           which will be executed as a batch.
                       params:
                         type: array
@@ -1022,35 +1086,42 @@ paths:
                     properties:
                       changed_db:
                         type: boolean
-                        description: Denotes if the database has been altered in some way, like deleting
+                        description:
+                          Denotes if the database has been altered in some way, like deleting
                           rows.
                       changes:
                         type: number
-                        description: Rough indication of how many rows were modified by the query, as
+                        description:
+                          Rough indication of how many rows were modified by the query, as
                           provided by SQLite's `sqlite3_total_changes()`.
                       duration:
                         type: number
-                        description: The duration of the SQL query execution inside the database. Does
+                        description:
+                          The duration of the SQL query execution inside the database. Does
                           not include any network communication.
                       last_row_id:
                         type: number
-                        description: The row ID of the last inserted row in a table with an `INTEGER
+                        description:
+                          The row ID of the last inserted row in a table with an `INTEGER
                           PRIMARY KEY` as provided by SQLite. Tables created
                           with `WITHOUT ROWID` do not populate this.
                       rows_read:
                         type: number
-                        description: Number of rows read during the SQL query execution, including
+                        description:
+                          Number of rows read during the SQL query execution, including
                           indices (not all rows are necessarily returned).
                       rows_written:
                         type: number
-                        description: Number of rows written during the SQL query execution, including
+                        description:
+                          Number of rows written during the SQL query execution, including
                           indices.
                       served_by_colo:
                         type: string
                         description: The three letters airport code of the colo that handled the query.
                       served_by_primary:
                         type: boolean
-                        description: Denotes if the query has been handled by the database primary
+                        description:
+                          Denotes if the query has been handled by the database primary
                           instance.
                       served_by_region:
                         type: string
@@ -1061,7 +1132,8 @@ paths:
                           - EEUR
                           - APAC
                           - OC
-                        description: Region location hint of the database instance that handled the
+                        description:
+                          Region location hint of the database instance that handled the
                           query.
                       size_after:
                         type: number
@@ -1071,7 +1143,8 @@ paths:
                         properties:
                           sql_duration_ms:
                             type: number
-                            description: The duration of the SQL query execution inside the database. Does
+                            description:
+                              The duration of the SQL query execution inside the database. Does
                               not include any network communication.
                         description: Various durations for the query.
                   results:
@@ -1092,7 +1165,8 @@ paths:
   /accounts/{account_id}/d1/database/{databaseId}/time_travel/restore:
     post:
       operationId: restoreDatabaseTimeTravel
-      description: "Restores a D1 database to a previous point in time either via a
+      description:
+        "Restores a D1 database to a previous point in time either via a
         bookmark or a timestamp.  @example ```ts const response = await
         client.d1.database.timeTravel.restore(
         'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', { account_id:
@@ -1112,14 +1186,16 @@ paths:
         - name: bookmark
           in: query
           required: false
-          description: "Query param: A bookmark to restore the database to. Required if
+          description:
+            "Query param: A bookmark to restore the database to. Required if
             `timestamp` is not provided."
           schema:
             type: string
         - name: timestamp
           in: query
           required: false
-          description: "Query param: An ISO 8601 timestamp to restore the database to.
+          description:
+            "Query param: An ISO 8601 timestamp to restore the database to.
             Required if `bookmark` is not provided."
           schema:
             type: string
@@ -1133,14 +1209,16 @@ paths:
                 properties:
                   bookmark:
                     type: string
-                    description: The new bookmark representing the state of the database after the
+                    description:
+                      The new bookmark representing the state of the database after the
                       restore operation.
                   message:
                     type: string
                     description: A message describing the result of the restore operation.
                   previous_bookmark:
                     type: string
-                    description: The bookmark representing the state of the database before the
+                    description:
+                      The bookmark representing the state of the database before the
                       restore operation. Can be used to undo the restore if
                       needed.
       x-distilled-response-path: result

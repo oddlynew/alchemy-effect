@@ -8,6 +8,7 @@ const clientId = process.env.WORKOS_CLIENT_ID ?? `client_test_${testRunId}`;
 describe("UserlandSsoControllerDeviceAuthorization", () => {
   it(
     "issues a device code and verification URL",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -24,11 +25,11 @@ describe("UserlandSsoControllerDeviceAuthorization", () => {
       expect(result.verification_uri.startsWith("http")).toBe(true);
       expect(typeof result.expires_in).toBe("number");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when client_id is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSsoControllerDeviceAuthorization({
@@ -37,11 +38,11 @@ describe("UserlandSsoControllerDeviceAuthorization", () => {
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when client_id belongs to another environment",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSsoControllerDeviceAuthorization({
@@ -50,6 +51,5 @@ describe("UserlandSsoControllerDeviceAuthorization", () => {
       );
       expect(["BadRequest", "Forbidden"]).toContain(error._tag);
     },
-    30_000,
   );
 });

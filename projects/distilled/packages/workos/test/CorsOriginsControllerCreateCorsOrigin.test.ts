@@ -4,25 +4,22 @@ import { CorsOriginsControllerCreateCorsOrigin } from "../src/operations/CorsOri
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("CorsOriginsControllerCreateCorsOrigin", () => {
-  it(
-    "creates a CORS origin",
-    async () => {
-      const origin = `https://distilled-cors-${testRunId}.example.com`;
-      const result = await runEffect(
-        CorsOriginsControllerCreateCorsOrigin({ origin }),
-      );
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(result.origin).toBe(origin);
-      expect(typeof result.object).toBe("string");
-      expect(typeof result.created_at).toBe("string");
-      expect(typeof result.updated_at).toBe("string");
-    },
-    30_000,
-  );
+  it("creates a CORS origin", { timeout: 30_000 }, async () => {
+    const origin = `https://distilled-cors-${testRunId}.example.com`;
+    const result = await runEffect(
+      CorsOriginsControllerCreateCorsOrigin({ origin }),
+    );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(result.origin).toBe(origin);
+    expect(typeof result.object).toBe("string");
+    expect(typeof result.created_at).toBe("string");
+    expect(typeof result.updated_at).toBe("string");
+  });
 
   it(
     "fails with Conflict when the origin already exists",
+    { timeout: 30_000 },
     async () => {
       const origin = `https://distilled-cors-conflict-${testRunId}.example.com`;
       await runEffect(CorsOriginsControllerCreateCorsOrigin({ origin }));
@@ -32,11 +29,11 @@ describe("CorsOriginsControllerCreateCorsOrigin", () => {
       );
       expect(error._tag).toBe("Conflict");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed origin",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         CorsOriginsControllerCreateCorsOrigin({
@@ -45,6 +42,5 @@ describe("CorsOriginsControllerCreateCorsOrigin", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

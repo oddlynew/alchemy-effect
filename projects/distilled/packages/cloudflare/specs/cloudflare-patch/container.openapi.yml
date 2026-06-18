@@ -514,7 +514,17 @@ components:
 
     InstanceType:
       type: string
-      enum: [lite, dev, basic, standard, standard-1, standard-2, standard-3, standard-4]
+      enum:
+        [
+          lite,
+          dev,
+          basic,
+          standard,
+          standard-1,
+          standard-2,
+          standard-3,
+          standard-4,
+        ]
 
     ApplicationConstraints:
       type: object

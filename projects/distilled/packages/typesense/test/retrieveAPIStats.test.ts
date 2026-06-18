@@ -6,27 +6,24 @@ import { retrieveAPIStats } from "../src/operations/retrieveAPIStats";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrieveAPIStats", () => {
-  it(
-    "retrieves API stats",
-    async () => {
-      const result = await runEffect(retrieveAPIStats({}));
+  it("retrieves API stats", { timeout: 30_000 }, async () => {
+    const result = await runEffect(retrieveAPIStats({}));
 
-      expect(result).toBeDefined();
-      expect(typeof result).toBe("object");
-      // All fields are optional so we just sanity-check that any present
-      // numeric fields are actually numbers.
-      if (result.total_requests_per_second !== undefined) {
-        expect(typeof result.total_requests_per_second).toBe("number");
-      }
-      if (result.search_latency_ms !== undefined) {
-        expect(typeof result.search_latency_ms).toBe("number");
-      }
-    },
-    { timeout: 30_000 },
-  );
+    expect(result).toBeDefined();
+    expect(typeof result).toBe("object");
+    // All fields are optional so we just sanity-check that any present
+    // numeric fields are actually numbers.
+    if (result.total_requests_per_second !== undefined) {
+      expect(typeof result.total_requests_per_second).toBe("number");
+    }
+    if (result.search_latency_ms !== undefined) {
+      expect(typeof result.search_latency_ms).toBe("number");
+    }
+  });
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       const apiBaseUrl = process.env.TYPESENSE_API_URL;
       if (!apiBaseUrl) {
@@ -49,6 +46,5 @@ describe("retrieveAPIStats", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

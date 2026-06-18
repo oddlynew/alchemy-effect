@@ -80,10 +80,9 @@ describe("deleteConversationModel", () => {
     // ensure both model and history collection are gone if the test failed
     // early.
     if (createdModelId) {
-      await rawFetch(
-        "DELETE",
-        `/conversations/models/${createdModelId}`,
-      ).catch(() => {});
+      await rawFetch("DELETE", `/conversations/models/${createdModelId}`).catch(
+        () => {},
+      );
     }
     await rawFetch("DELETE", `/collections/${historyCollection}`).catch(
       () => {},
@@ -92,6 +91,7 @@ describe("deleteConversationModel", () => {
 
   it(
     "deletes an existing conversation model and returns its id",
+    { timeout: 30_000 },
     async () => {
       if (!createdModelId) {
         throw new Error("conversation model was not provisioned in beforeAll");
@@ -103,11 +103,11 @@ describe("deleteConversationModel", () => {
 
       expect(result.id).toBe(createdModelId);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the conversation model does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteConversationModel({
@@ -117,6 +117,5 @@ describe("deleteConversationModel", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

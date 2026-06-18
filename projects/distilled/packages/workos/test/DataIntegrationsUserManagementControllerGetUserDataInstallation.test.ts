@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("DataIntegrationsUserManagementControllerGetUserDataInstallation", () => {
   it(
     "fetches a user's connected account, or surfaces a typed NotFound",
+    { timeout: 60_000 },
     async () => {
       // We can't reliably create a connected-account binding from a test, so
       // we probe a real user with a common provider slug. Either the SDK
@@ -25,8 +26,7 @@ describe("DataIntegrationsUserManagementControllerGetUserDataInstallation", () =
           Effect.matchEffect({
             onSuccess: (account) =>
               Effect.succeed({ ok: true as const, account }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -46,11 +46,11 @@ describe("DataIntegrationsUserManagementControllerGetUserDataInstallation", () =
         expect(result.error._tag).toBe("NotFound");
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent user/provider pair",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DataIntegrationsUserManagementControllerGetUserDataInstallation({
@@ -60,6 +60,5 @@ describe("DataIntegrationsUserManagementControllerGetUserDataInstallation", () =
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

@@ -180,8 +180,7 @@ function isExcluded(
   return config.exclude?.find((rule) => {
     if (rule.type !== type) return false;
     if (rule.ids?.includes(id)) return true;
-    if (name && rule.namePatterns?.some((p) => matchGlob(p, name)))
-      return true;
+    if (name && rule.namePatterns?.some((p) => matchGlob(p, name))) return true;
     return false;
   });
 }
@@ -233,9 +232,7 @@ const nukeClusterOnlineArchives = (
           `      ${RED}[DELETE]${RESET} OnlineArchive: ${id} ${DIM}(cluster: ${clusterName})${RESET}`,
         );
       } else {
-        yield* Console.log(
-          `      ${RED}[DELETE]${RESET} OnlineArchive: ${id}`,
-        );
+        yield* Console.log(`      ${RED}[DELETE]${RESET} OnlineArchive: ${id}`);
         yield* deleteGroupClusterOnlineArchive({
           groupId,
           clusterName,
@@ -269,7 +266,7 @@ const nukeClusterSearchIndexes = (
       Effect.catch(() =>
         Console.log(
           `      ${RED}Failed to list search indexes for cluster ${clusterName}${RESET}`,
-        ).pipe(Effect.map(() => ([]))),
+        ).pipe(Effect.map(() => [])),
       ),
     );
 
@@ -534,7 +531,11 @@ const nukeDatabaseUsers = (
         yield* Console.log(
           `    ${RED}[DELETE]${RESET} DatabaseUser: ${username} ${DIM}(db: ${databaseName})${RESET}`,
         );
-        yield* deleteGroupDatabaseUser({ groupId, databaseName, username }).pipe(
+        yield* deleteGroupDatabaseUser({
+          groupId,
+          databaseName,
+          username,
+        }).pipe(
           Effect.andThen(() => {
             totalDeleted++;
           }),
@@ -559,7 +560,7 @@ const nukeCustomDbRoles = (
       Effect.catch(() =>
         Console.log(
           `    ${RED}Failed to list custom DB roles for project ${groupId}${RESET}`,
-        ).pipe(Effect.map(() => ([]))),
+        ).pipe(Effect.map(() => [])),
       ),
     );
 
@@ -634,9 +635,7 @@ const nukeNetworkPeering = (
           `    ${RED}[DELETE]${RESET} NetworkPeer: ${id} ${DIM}(status: ${peer.statusName ?? "unknown"})${RESET}`,
         );
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} NetworkPeer: ${id}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} NetworkPeer: ${id}`);
         yield* deleteGroupPeer({ groupId, peerId: id }).pipe(
           Effect.andThen(() => {
             totalDeleted++;
@@ -683,9 +682,7 @@ const nukeContainers = (
           `    ${RED}[DELETE]${RESET} Container: ${id} ${DIM}(provider: ${container.providerName ?? "unknown"})${RESET}`,
         );
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} Container: ${id}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} Container: ${id}`);
         yield* deleteGroupContainer({ groupId, containerId: id }).pipe(
           Effect.andThen(() => {
             totalDeleted++;
@@ -715,7 +712,7 @@ const nukePrivateEndpoints = (
         Effect.catch(() =>
           Console.log(
             `    ${RED}Failed to list private endpoints (${provider}) for project ${groupId}${RESET}`,
-          ).pipe(Effect.map(() => ([]))),
+          ).pipe(Effect.map(() => [])),
         ),
       );
 
@@ -823,7 +820,7 @@ const nukeDataFederation = (
       Effect.catch(() =>
         Console.log(
           `    ${RED}Failed to list data federation for project ${groupId}${RESET}`,
-        ).pipe(Effect.map(() => ([]))),
+        ).pipe(Effect.map(() => [])),
       ),
     );
 
@@ -894,9 +891,7 @@ const nukeAlertConfigs = (
           `    ${RED}[DELETE]${RESET} AlertConfig: ${id} ${DIM}(event: ${alert.eventTypeName ?? "unknown"})${RESET}`,
         );
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} AlertConfig: ${id}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} AlertConfig: ${id}`);
         yield* deleteGroupAlertConfig({ groupId, alertConfigId: id }).pipe(
           Effect.andThen(() => {
             totalDeleted++;
@@ -1103,13 +1098,9 @@ const nukeIntegrations = (
       }
 
       if (dryRun) {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} Integration: ${type}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} Integration: ${type}`);
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} Integration: ${type}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} Integration: ${type}`);
         yield* deleteGroupIntegration({
           groupId,
           integrationType: type,
@@ -1155,13 +1146,9 @@ const nukeLogIntegrations = (
       }
 
       if (dryRun) {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} LogIntegration: ${id}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} LogIntegration: ${id}`);
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} LogIntegration: ${id}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} LogIntegration: ${id}`);
         yield* deleteGroupLogIntegration({ groupId, id }).pipe(
           Effect.andThen(() => {
             totalDeleted++;
@@ -1195,12 +1182,7 @@ const nukeGroupServiceAccounts = (
       const id = sa.clientId ?? sa.id ?? sa._id ?? "";
       const name = sa.name ?? "";
       totalFound++;
-      const excluded = isExcluded(
-        nukeConfig,
-        "GroupServiceAccount",
-        id,
-        name,
-      );
+      const excluded = isExcluded(nukeConfig, "GroupServiceAccount", id, name);
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -1497,11 +1479,7 @@ const nukeStreamVpcPeeringConnections = (
     for (const conn of getResults(response)) {
       const id = conn.id ?? conn._id ?? "";
       totalFound++;
-      const excluded = isExcluded(
-        nukeConfig,
-        "StreamVpcPeeringConnection",
-        id,
-      );
+      const excluded = isExcluded(nukeConfig, "StreamVpcPeeringConnection", id);
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -1680,11 +1658,7 @@ const nukeOrgApiKeys = (
     }
   });
 
-const nukeOrgTeams = (
-  dryRun: boolean,
-  nukeConfig: NukeConfig,
-  orgId: string,
-) =>
+const nukeOrgTeams = (dryRun: boolean, nukeConfig: NukeConfig, orgId: string) =>
   Effect.gen(function* () {
     const response = yield* listOrgTeams({ orgId }).pipe(
       Effect.catch(() =>
@@ -1748,12 +1722,7 @@ const nukeOrgServiceAccounts = (
       const id = sa.clientId ?? sa.id ?? sa._id ?? "";
       const name = sa.name ?? "";
       totalFound++;
-      const excluded = isExcluded(
-        nukeConfig,
-        "OrgServiceAccount",
-        id,
-        name,
-      );
+      const excluded = isExcluded(nukeConfig, "OrgServiceAccount", id, name);
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -1984,17 +1953,11 @@ const nuke = Command.make(
       // Summary
       yield* Console.log(`\n${BOLD}Summary${RESET}`);
       yield* Console.log(`  Total found:   ${totalFound}`);
-      yield* Console.log(
-        `  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`,
-      );
+      yield* Console.log(`  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`);
       if (!config.dryRun) {
-        yield* Console.log(
-          `  ${GREEN}Deleted:       ${totalDeleted}${RESET}`,
-        );
+        yield* Console.log(`  ${GREEN}Deleted:       ${totalDeleted}${RESET}`);
         if (totalFailed > 0) {
-          yield* Console.log(
-            `  ${RED}Failed:        ${totalFailed}${RESET}`,
-          );
+          yield* Console.log(`  ${RED}Failed:        ${totalFailed}${RESET}`);
         }
       }
     }).pipe(

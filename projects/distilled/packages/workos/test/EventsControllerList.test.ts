@@ -4,33 +4,30 @@ import { EventsControllerList } from "../src/operations/EventsControllerList.ts"
 import { runEffect } from "./setup.ts";
 
 describe("EventsControllerList", () => {
-  it(
-    "lists events filtered by event type",
-    async () => {
-      const result = await runEffect(
-        EventsControllerList({
-          events: "dsync.user.created",
-          limit: 10,
-        }),
-      );
+  it("lists events filtered by event type", { timeout: 30_000 }, async () => {
+    const result = await runEffect(
+      EventsControllerList({
+        events: "dsync.user.created",
+        limit: 10,
+      }),
+    );
 
-      expect(result).toBeDefined();
-      expect(typeof result.object).toBe("string");
-      expect(Array.isArray(result.data)).toBe(true);
-      expect(result.list_metadata).toBeDefined();
+    expect(result).toBeDefined();
+    expect(typeof result.object).toBe("string");
+    expect(Array.isArray(result.data)).toBe(true);
+    expect(result.list_metadata).toBeDefined();
 
-      for (const event of result.data) {
-        expect(typeof event.id).toBe("string");
-        expect(typeof event.event).toBe("string");
-        expect(typeof event.created_at).toBe("string");
-        expect(typeof event.data).toBe("object");
-      }
-    },
-    30_000,
-  );
+    for (const event of result.data) {
+      expect(typeof event.id).toBe("string");
+      expect(typeof event.event).toBe("string");
+      expect(typeof event.created_at).toBe("string");
+      expect(typeof event.data).toBe("object");
+    }
+  });
 
   it(
     "fails with BadRequest when no events filter is provided",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         EventsControllerList({ limit: 10 }).pipe(Effect.flip),
@@ -38,11 +35,11 @@ describe("EventsControllerList", () => {
 
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for an unknown event type",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         EventsControllerList({
@@ -52,6 +49,5 @@ describe("EventsControllerList", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

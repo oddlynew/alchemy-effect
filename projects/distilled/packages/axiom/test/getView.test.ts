@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getView", () => {
   it(
     "fetches a view by id and returns its configuration",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-ax-gvds-${testRunId}`;
       const viewName = `distilled-ax-gvview-${testRunId}`;
@@ -46,11 +47,11 @@ describe("getView", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a view id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getView({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -58,6 +59,5 @@ describe("getView", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

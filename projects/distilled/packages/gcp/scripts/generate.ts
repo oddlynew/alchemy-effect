@@ -620,9 +620,7 @@ function generateSchema(
       // generated `interface Name` mirrors the struct fields), so the
       // explicit type annotation on `export const` is enough — no cast
       // needed.
-      lines.push(
-        `}).annotate({ identifier: ${JSON.stringify(name)} });`,
-      );
+      lines.push(`}).annotate({ identifier: ${JSON.stringify(name)} });`);
     }
   } else if (schema.type === "object" && schema.additionalProperties) {
     // Map type

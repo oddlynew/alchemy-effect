@@ -181,9 +181,9 @@ const nukeDashboards = (dryRun: boolean, nukeConfig: NukeConfig) =>
 
     const dashboards = yield* listDashboards({ limit: 1000 }).pipe(
       Effect.catch((e) =>
-        Console.log(`  ${RED}Failed to list dashboards: ${String(e)}${RESET}`).pipe(
-          Effect.map(() => [] as any[]),
-        ),
+        Console.log(
+          `  ${RED}Failed to list dashboards: ${String(e)}${RESET}`,
+        ).pipe(Effect.map(() => [] as any[])),
       ),
     );
 
@@ -224,14 +224,8 @@ const nukeViews = (dryRun: boolean, nukeConfig: NukeConfig) =>
 
     for (const v of views) {
       const id = (v as any).id ?? v.name;
-      yield* deleteOne(
-        dryRun,
-        "View",
-        v.name,
-        id,
-        v.name,
-        nukeConfig,
-        () => deleteView({ id }),
+      yield* deleteOne(dryRun, "View", v.name, id, v.name, nukeConfig, () =>
+        deleteView({ id }),
       );
     }
   });
@@ -242,9 +236,9 @@ const nukeMonitors = (dryRun: boolean, nukeConfig: NukeConfig) =>
 
     const monitors = yield* getMonitors({}).pipe(
       Effect.catch((e) =>
-        Console.log(`  ${RED}Failed to list monitors: ${String(e)}${RESET}`).pipe(
-          Effect.map(() => [] as any[]),
-        ),
+        Console.log(
+          `  ${RED}Failed to list monitors: ${String(e)}${RESET}`,
+        ).pipe(Effect.map(() => [] as any[])),
       ),
     );
 
@@ -359,14 +353,8 @@ const nukeRoles = (dryRun: boolean, nukeConfig: NukeConfig) =>
         );
         continue;
       }
-      yield* deleteOne(
-        dryRun,
-        "Role",
-        r.name,
-        r.id,
-        r.name,
-        nukeConfig,
-        () => deleteRole({ id: r.id }),
+      yield* deleteOne(dryRun, "Role", r.name, r.id, r.name, nukeConfig, () =>
+        deleteRole({ id: r.id }),
       );
     }
   });
@@ -395,14 +383,8 @@ const nukeGroups = (dryRun: boolean, nukeConfig: NukeConfig) =>
         );
         continue;
       }
-      yield* deleteOne(
-        dryRun,
-        "Group",
-        g.name,
-        g.id,
-        g.name,
-        nukeConfig,
-        () => deleteGroup({ id: g.id }),
+      yield* deleteOne(dryRun, "Group", g.name, g.id, g.name, nukeConfig, () =>
+        deleteGroup({ id: g.id }),
       );
     }
   });
@@ -447,9 +429,9 @@ const nukeAPITokens = (
 
     const tokens = yield* getAPITokens({}).pipe(
       Effect.catch((e) =>
-        Console.log(`  ${RED}Failed to list API tokens: ${String(e)}${RESET}`).pipe(
-          Effect.map(() => [] as any[]),
-        ),
+        Console.log(
+          `  ${RED}Failed to list API tokens: ${String(e)}${RESET}`,
+        ).pipe(Effect.map(() => [] as any[])),
       ),
     );
 
@@ -545,9 +527,9 @@ const nukeDatasets = (dryRun: boolean, nukeConfig: NukeConfig) =>
 
     const datasets = yield* getDatasets({}).pipe(
       Effect.catch((e) =>
-        Console.log(`  ${RED}Failed to list datasets: ${String(e)}${RESET}`).pipe(
-          Effect.map(() => [] as any[]),
-        ),
+        Console.log(
+          `  ${RED}Failed to list datasets: ${String(e)}${RESET}`,
+        ).pipe(Effect.map(() => [] as any[])),
       ),
     );
 
@@ -659,7 +641,9 @@ const nuke = Command.make(
   (cfg) =>
     Effect.gen(function* () {
       const nukeConfig = loadNukeConfig();
-      const mode = cfg.dryRun ? `${YELLOW}DRY RUN${RESET}` : `${RED}LIVE${RESET}`;
+      const mode = cfg.dryRun
+        ? `${YELLOW}DRY RUN${RESET}`
+        : `${RED}LIVE${RESET}`;
       yield* Console.log(
         `\n${BOLD}Axiom Nuke${RESET} ${DIM}(${mode}${DIM})${RESET}`,
       );
@@ -693,7 +677,8 @@ const nuke = Command.make(
         );
       }
 
-      const rawToken = process.env.AXIOM_TOKEN ?? process.env.AXIOM_API_KEY ?? "";
+      const rawToken =
+        process.env.AXIOM_TOKEN ?? process.env.AXIOM_API_KEY ?? "";
 
       // Deletion order (leaves -> roots):
       // 1. Dashboards (UI-only, independent)
@@ -731,9 +716,7 @@ const nuke = Command.make(
           yield* Console.log(`  ${RED}Failed:        ${totalFailed}${RESET}`);
         }
       } else {
-        yield* Console.log(
-          `  ${DIM}(dry-run: no deletions performed)${RESET}`,
-        );
+        yield* Console.log(`  ${DIM}(dry-run: no deletions performed)${RESET}`);
       }
     }).pipe(
       Effect.provide(CredentialsFromEnv),

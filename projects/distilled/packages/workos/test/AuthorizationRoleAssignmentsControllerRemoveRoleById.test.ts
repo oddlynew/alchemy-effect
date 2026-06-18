@@ -6,6 +6,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationRoleAssignmentsControllerRemoveRoleById", () => {
   it(
     "removes a role assignment by id for an organization membership",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -17,11 +18,11 @@ describe("AuthorizationRoleAssignmentsControllerRemoveRoleById", () => {
 
       expect(result).toBeUndefined();
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent role assignment id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRoleAssignmentsControllerRemoveRoleById({
@@ -32,11 +33,11 @@ describe("AuthorizationRoleAssignmentsControllerRemoveRoleById", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the membership belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRoleAssignmentsControllerRemoveRoleById({
@@ -47,6 +48,5 @@ describe("AuthorizationRoleAssignmentsControllerRemoveRoleById", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

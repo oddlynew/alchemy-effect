@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getCurrentUser", () => {
   it(
     "returns the authenticated user's profile and role",
+    { timeout: 30_000 },
     async () => {
       const user = await runEffect(getCurrentUser({}));
 
@@ -20,11 +21,11 @@ describe("getCurrentUser", () => {
       expect(typeof user.role.id).toBe("string");
       expect(typeof user.role.name).toBe("string");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials are invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -45,6 +46,5 @@ describe("getCurrentUser", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

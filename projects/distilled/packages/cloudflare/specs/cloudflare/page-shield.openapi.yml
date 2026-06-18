@@ -78,7 +78,8 @@ paths:
   /zones/{zone_id}/page_shield/connections:
     get:
       operationId: listConnections
-      description: "Lists all connections detected by Page Shield.  @example ```ts //
+      description:
+        "Lists all connections detected by Page Shield.  @example ```ts //
         Automatically fetches more pages as needed. for await (const connection
         of client.pageShield.connections.list( { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -101,21 +102,24 @@ paths:
         - name: exclude_cdn_cgi
           in: query
           required: false
-          description: "Query param: When true, excludes connections seen in a `/cdn-cgi`
+          description:
+            "Query param: When true, excludes connections seen in a `/cdn-cgi`
             path from the returned connections. The default value is true."
           schema:
             type: boolean
         - name: exclude_urls
           in: query
           required: false
-          description: "Query param: Excludes connections whose URL contains one of the
+          description:
+            "Query param: Excludes connections whose URL contains one of the
             URL-encoded URLs separated by commas."
           schema:
             type: string
         - name: export
           in: query
           required: false
-          description: "Query param: Export the list of connections as a file, limited to
+          description:
+            "Query param: Export the list of connections as a file, limited to
             50000 entries."
           schema:
             type: string
@@ -143,7 +147,8 @@ paths:
         - name: page
           in: query
           required: false
-          description: 'Query param: The current page number of the paginated results.  We
+          description:
+            'Query param: The current page number of the paginated results.  We
             additionally support a special value "all". When "all" is used, the
             API will return all the connections with the applied filters in a
             single page. This feature is best-effort and it may only work for
@@ -153,7 +158,8 @@ paths:
         - name: page_url
           in: query
           required: false
-          description: "Query param: Includes connections that match one or more page URLs
+          description:
+            "Query param: Includes connections that match one or more page URLs
             (separated by commas) where they were last seen  Wildcards are
             supported at the start and end of each page URL to support starts
             with, ends with and contains. If no wildcards are used, results will
@@ -169,7 +175,8 @@ paths:
         - name: prioritize_malicious
           in: query
           required: false
-          description: "Query param: When true, malicious connections appear first in the
+          description:
+            "Query param: When true, malicious connections appear first in the
             returned connections."
           schema:
             type: boolean
@@ -185,7 +192,8 @@ paths:
         - name: urls
           in: query
           required: false
-          description: "Query param: Includes connections whose URL contain one or more
+          description:
+            "Query param: Includes connections whose URL contain one or more
             URL-encoded URLs separated by commas."
           schema:
             type: string
@@ -242,7 +250,8 @@ paths:
   /zones/{zone_id}/page_shield/cookies/{cookieId}:
     get:
       operationId: getCooky
-      description: "Fetches a cookie collected by Page Shield by cookie ID.  @example
+      description:
+        "Fetches a cookie collected by Page Shield by cookie ID.  @example
         ```ts const cookie = await client.pageShield.cookies.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -315,7 +324,8 @@ paths:
   /zones/{zone_id}/page_shield/cookies:
     get:
       operationId: listCookies
-      description: "Lists all cookies collected by Page Shield.  @example ```ts //
+      description:
+        "Lists all cookies collected by Page Shield.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         cookieListResponse of client.pageShield.cookies.list( { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -338,14 +348,16 @@ paths:
         - name: domain
           in: query
           required: false
-          description: "Query param: Filters the returned cookies that match the specified
+          description:
+            "Query param: Filters the returned cookies that match the specified
             domain attribute"
           schema:
             type: string
         - name: export
           in: query
           required: false
-          description: "Query param: Export the list of cookies as a file, limited to
+          description:
+            "Query param: Export the list of cookies as a file, limited to
             50000 entries."
           schema:
             type: string
@@ -354,7 +366,8 @@ paths:
         - name: hosts
           in: query
           required: false
-          description: "Query param: Includes cookies that match one or more URL-encoded
+          description:
+            "Query param: Includes cookies that match one or more URL-encoded
             hostnames separated by commas.  Wildcards are supported at the start
             and end of each hostname to support starts with, ends with and
             contains. If no wildcards are used, results will be filtered by
@@ -364,14 +377,16 @@ paths:
         - name: http_only
           in: query
           required: false
-          description: "Query param: Filters the returned cookies that are set with
+          description:
+            "Query param: Filters the returned cookies that are set with
             HttpOnly"
           schema:
             type: boolean
         - name: name
           in: query
           required: false
-          description: "Query param: Filters the returned cookies that match the specified
+          description:
+            "Query param: Filters the returned cookies that match the specified
             name. Wildcards are supported at the start and end to support starts
             with, ends with and contains. e.g. session\\"
           schema:
@@ -388,7 +403,8 @@ paths:
         - name: page
           in: query
           required: false
-          description: 'Query param: The current page number of the paginated results.  We
+          description:
+            'Query param: The current page number of the paginated results.  We
             additionally support a special value "all". When "all" is used, the
             API will return all the cookies with the applied filters in a single
             page. This feature is best-effort and it may only work for zones
@@ -398,7 +414,8 @@ paths:
         - name: page_url
           in: query
           required: false
-          description: "Query param: Includes connections that match one or more page URLs
+          description:
+            "Query param: Includes connections that match one or more page URLs
             (separated by commas) where they were last seen  Wildcards are
             supported at the start and end of each page URL to support starts
             with, ends with and contains. If no wildcards are used, results will
@@ -408,7 +425,8 @@ paths:
         - name: path
           in: query
           required: false
-          description: "Query param: Filters the returned cookies that match the specified
+          description:
+            "Query param: Filters the returned cookies that match the specified
             path attribute"
           schema:
             type: string
@@ -421,7 +439,8 @@ paths:
         - name: same_site
           in: query
           required: false
-          description: "Query param: Filters the returned cookies that match the specified
+          description:
+            "Query param: Filters the returned cookies that match the specified
             same_site attribute"
           schema:
             type: string
@@ -438,7 +457,8 @@ paths:
         - name: type
           in: query
           required: false
-          description: "Query param: Filters the returned cookies that match the specified
+          description:
+            "Query param: Filters the returned cookies that match the specified
             type attribute"
           schema:
             type: string
@@ -502,7 +522,8 @@ paths:
   /zones/{zone_id}/page_shield:
     get:
       operationId: getPageShield
-      description: "Fetches the Page Shield settings.  @example ```ts const setting =
+      description:
+        "Fetches the Page Shield settings.  @example ```ts const setting =
         await client.pageShield.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -532,7 +553,8 @@ paths:
                       https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report
                   use_connection_url_path:
                     type: boolean
-                    description: When true, the paths associated with connections URLs will also be
+                    description:
+                      When true, the paths associated with connections URLs will also be
                       analyzed.
                 required:
                   - enabled
@@ -545,7 +567,8 @@ paths:
           - status: 403
     put:
       operationId: putPageShield
-      description: "Updates Page Shield settings.  @example ```ts const pageShield =
+      description:
+        "Updates Page Shield settings.  @example ```ts const pageShield =
         await client.pageShield.update({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -567,12 +590,14 @@ paths:
                   description: "Body param: When true, indicates that Page Shield is enabled."
                 use_cloudflare_reporting_endpoint:
                   type: boolean
-                  description: "Body param: When true, CSP reports will be sent to
+                  description:
+                    "Body param: When true, CSP reports will be sent to
                     https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor\
                     /report"
                 use_connection_url_path:
                   type: boolean
-                  description: "Body param: When true, the paths associated with connections URLs
+                  description:
+                    "Body param: When true, the paths associated with connections URLs
                     will also be analyzed."
       responses:
         "200":
@@ -594,7 +619,8 @@ paths:
                       https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report
                   use_connection_url_path:
                     type: boolean
-                    description: When true, the paths associated with connections URLs will also be
+                    description:
+                      When true, the paths associated with connections URLs will also be
                       analyzed.
                 required:
                   - enabled
@@ -612,7 +638,8 @@ paths:
   /zones/{zone_id}/page_shield/policies/{policyId}:
     get:
       operationId: getPolicy
-      description: "Fetches a Page Shield policy by ID.  @example ```ts const policy =
+      description:
+        "Fetches a Page Shield policy by ID.  @example ```ts const policy =
         await client.pageShield.policies.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -654,7 +681,8 @@ paths:
                     description: Whether the policy is enabled
                   expression:
                     type: string
-                    description: The expression which must match for the policy to be applied, using
+                    description:
+                      The expression which must match for the policy to be applied, using
                       the Cloudflare Firewall rule expression syntax
                   value:
                     type: string
@@ -676,7 +704,8 @@ paths:
           - status: 403
     put:
       operationId: updatePolicy
-      description: "Update a Page Shield policy by ID.  @example ```ts const policy =
+      description:
+        "Update a Page Shield policy by ID.  @example ```ts const policy =
         await client.pageShield.policies.update(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -714,7 +743,8 @@ paths:
                   description: "Body param: Whether the policy is enabled"
                 expression:
                   type: string
-                  description: "Body param: The expression which must match for the policy to be
+                  description:
+                    "Body param: The expression which must match for the policy to be
                     applied, using the Cloudflare Firewall rule expression
                     syntax"
                 value:
@@ -746,7 +776,8 @@ paths:
                     description: Whether the policy is enabled
                   expression:
                     type: string
-                    description: The expression which must match for the policy to be applied, using
+                    description:
+                      The expression which must match for the policy to be applied, using
                       the Cloudflare Firewall rule expression syntax
                   value:
                     type: string
@@ -796,7 +827,8 @@ paths:
   /zones/{zone_id}/page_shield/policies:
     get:
       operationId: listPolicies
-      description: "Lists all Page Shield policies.  @example ```ts // Automatically
+      description:
+        "Lists all Page Shield policies.  @example ```ts // Automatically
         fetches more pages as needed. for await (const policyListResponse of
         client.pageShield.policies.list( { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -833,7 +865,8 @@ paths:
                     description: Whether the policy is enabled
                   expression:
                     type: string
-                    description: The expression which must match for the policy to be applied, using
+                    description:
+                      The expression which must match for the policy to be applied, using
                       the Cloudflare Firewall rule expression syntax
                   value:
                     type: string
@@ -851,12 +884,13 @@ paths:
           - status: 403
     post:
       operationId: createPolicy
-      description: "Create a Page Shield policy.  @example ```ts const policy = await
+      description:
+        'Create a Page Shield policy.  @example ```ts const policy = await
         client.pageShield.policies.create({ zone_id:
-        '023e105f4ecef8ad9ca31a8372d0c353', action: 'allow', description:
-        'Checkout page CSP policy', enabled: true, expression:
-        'ends_with(http.request.uri.path, \"/checkout\")', value: \"script-src
-        'none';\", }); ```"
+        ''023e105f4ecef8ad9ca31a8372d0c353'', action: ''allow'', description:
+        ''Checkout page CSP policy'', enabled: true, expression:
+        ''ends_with(http.request.uri.path, "/checkout")'', value: "script-src
+        ''none'';", }); ```'
       parameters:
         - name: zone_id
           in: path
@@ -886,7 +920,8 @@ paths:
                   description: "Body param: Whether the policy is enabled"
                 expression:
                   type: string
-                  description: "Body param: The expression which must match for the policy to be
+                  description:
+                    "Body param: The expression which must match for the policy to be
                     applied, using the Cloudflare Firewall rule expression
                     syntax"
                 value:
@@ -924,7 +959,8 @@ paths:
                     description: Whether the policy is enabled
                   expression:
                     type: string
-                    description: The expression which must match for the policy to be applied, using
+                    description:
+                      The expression which must match for the policy to be applied, using
                       the Cloudflare Firewall rule expression syntax
                   value:
                     type: string
@@ -948,7 +984,8 @@ paths:
   /zones/{zone_id}/page_shield/scripts/{scriptId}:
     get:
       operationId: getScript
-      description: "Fetches a script detected by Page Shield by script ID.  @example
+      description:
+        "Fetches a script detected by Page Shield by script ID.  @example
         ```ts const script = await client.pageShield.scripts.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -996,7 +1033,8 @@ paths:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: "@deprecated The dataflow score of the JavaScript content. This
+                    description:
+                      "@deprecated The dataflow score of the JavaScript content. This
                       field has been deprecated in favour of
                       js_integrity_score."
                   domain_reported_malicious:
@@ -1040,7 +1078,8 @@ paths:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: "@deprecated The obfuscation score of the JavaScript content. This
+                    description:
+                      "@deprecated The obfuscation score of the JavaScript content. This
                       field has been deprecated in favour of
                       js_integrity_score."
                   page_urls:
@@ -1064,7 +1103,8 @@ paths:
                               oneOf:
                                 - type: number
                               nullable: true
-                              description: "@deprecated The dataflow score of the JavaScript content. This
+                              description:
+                                "@deprecated The dataflow score of the JavaScript content. This
                                 field has been deprecated in favour of
                                 js_integrity_score."
                             fetched_at:
@@ -1096,7 +1136,8 @@ paths:
                               oneOf:
                                 - type: number
                               nullable: true
-                              description: "@deprecated The obfuscation score of the JavaScript content. This
+                              description:
+                                "@deprecated The obfuscation score of the JavaScript content. This
                                 field has been deprecated in favour of
                                 js_integrity_score."
                     nullable: true
@@ -1112,7 +1153,8 @@ paths:
   /zones/{zone_id}/page_shield/scripts:
     get:
       operationId: listScripts
-      description: "Lists all scripts detected by Page Shield.  @example ```ts //
+      description:
+        "Lists all scripts detected by Page Shield.  @example ```ts //
         Automatically fetches more pages as needed. for await (const script of
         client.pageShield.scripts.list({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', })) { // ... } ```"
@@ -1135,14 +1177,16 @@ paths:
         - name: exclude_cdn_cgi
           in: query
           required: false
-          description: "Query param: When true, excludes scripts seen in a `/cdn-cgi` path
+          description:
+            "Query param: When true, excludes scripts seen in a `/cdn-cgi` path
             from the returned scripts. The default value is true."
           schema:
             type: boolean
         - name: exclude_duplicates
           in: query
           required: false
-          description: "Query param: When true, excludes duplicate scripts. We consider a
+          description:
+            "Query param: When true, excludes duplicate scripts. We consider a
             script duplicate of another if their javascript content matches and
             they share the same url host and zone hostname. In such case, we
             return the most recent script for the URL host and zone hostname
@@ -1152,14 +1196,16 @@ paths:
         - name: exclude_urls
           in: query
           required: false
-          description: "Query param: Excludes scripts whose URL contains one of the
+          description:
+            "Query param: Excludes scripts whose URL contains one of the
             URL-encoded URLs separated by commas."
           schema:
             type: string
         - name: export
           in: query
           required: false
-          description: "Query param: Export the list of scripts as a file, limited to
+          description:
+            "Query param: Export the list of scripts as a file, limited to
             50000 entries."
           schema:
             type: string
@@ -1168,7 +1214,8 @@ paths:
         - name: hosts
           in: query
           required: false
-          description: "Query param: Includes scripts that match one or more URL-encoded
+          description:
+            "Query param: Includes scripts that match one or more URL-encoded
             hostnames separated by commas.  Wildcards are supported at the start
             and end of each hostname to support starts with, ends with and
             contains. If no wildcards are used, results will be filtered by
@@ -1187,7 +1234,8 @@ paths:
         - name: page
           in: query
           required: false
-          description: 'Query param: The current page number of the paginated results.  We
+          description:
+            'Query param: The current page number of the paginated results.  We
             additionally support a special value "all". When "all" is used, the
             API will return all the scripts with the applied filters in a single
             page. This feature is best-effort and it may only work for zones
@@ -1197,7 +1245,8 @@ paths:
         - name: page_url
           in: query
           required: false
-          description: "Query param: Includes scripts that match one or more page URLs
+          description:
+            "Query param: Includes scripts that match one or more page URLs
             (separated by commas) where they were last seen  Wildcards are
             supported at the start and end of each page URL to support starts
             with, ends with and contains. If no wildcards are used, results will
@@ -1213,14 +1262,16 @@ paths:
         - name: prioritize_malicious
           in: query
           required: false
-          description: "Query param: When true, malicious scripts appear first in the
+          description:
+            "Query param: When true, malicious scripts appear first in the
             returned scripts."
           schema:
             type: boolean
         - name: status
           in: query
           required: false
-          description: "Query param: Filters the returned scripts using a comma-separated
+          description:
+            "Query param: Filters the returned scripts using a comma-separated
             list of scripts statuses. Accepted values: `active`, `infrequent`,
             and `inactive`. The default value is `active`."
           schema:
@@ -1228,7 +1279,8 @@ paths:
         - name: urls
           in: query
           required: false
-          description: "Query param: Includes scripts whose URL contain one or more
+          description:
+            "Query param: Includes scripts whose URL contain one or more
             URL-encoded URLs separated by commas."
           schema:
             type: string
@@ -1264,7 +1316,8 @@ paths:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: "@deprecated The dataflow score of the JavaScript content. This
+                    description:
+                      "@deprecated The dataflow score of the JavaScript content. This
                       field has been deprecated in favour of
                       js_integrity_score."
                   domain_reported_malicious:
@@ -1308,7 +1361,8 @@ paths:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: "@deprecated The obfuscation score of the JavaScript content. This
+                    description:
+                      "@deprecated The obfuscation score of the JavaScript content. This
                       field has been deprecated in favour of
                       js_integrity_score."
                   page_urls:

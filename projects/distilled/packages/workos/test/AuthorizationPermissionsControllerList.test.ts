@@ -6,6 +6,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationPermissionsControllerList", () => {
   it(
     "lists permissions in the WorkOS environment",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(
         AuthorizationPermissionsControllerList({
@@ -22,7 +23,5 @@ describe("AuthorizationPermissionsControllerList", () => {
         expect(typeof permission.system).toBe("boolean");
       }
     },
-    30_000,
   );
-
 });

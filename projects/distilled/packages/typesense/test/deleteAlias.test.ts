@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteAlias", () => {
   it(
     "deletes an existing alias and returns its name + target collection",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-delalias-col-${testRunId}`;
       const aliasName = `distilled-typesense-delalias-${testRunId}`;
@@ -37,11 +38,11 @@ describe("deleteAlias", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the alias does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteAlias({
@@ -51,6 +52,5 @@ describe("deleteAlias", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

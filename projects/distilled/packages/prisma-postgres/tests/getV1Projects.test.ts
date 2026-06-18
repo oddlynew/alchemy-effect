@@ -23,7 +23,7 @@ describe("getV1Projects", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - lists projects", async () => {
+  it("happy path - lists projects", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1Projects({}));
     expect(result.data).toBeDefined();
     expect(Array.isArray(result.data)).toBe(true);
@@ -36,27 +36,31 @@ describe("getV1Projects", () => {
       expect(project.workspace).toBeDefined();
       expect(project.workspace.id).toBeDefined();
     }
-  }, 30_000);
+  });
 
-  it("happy path - supports limit parameter", async () => {
+  it("happy path - supports limit parameter", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1Projects({ limit: 1 }));
     expect(result.data).toBeDefined();
     expect(result.data.length).toBeLessThanOrEqual(1);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - Unauthorized with invalid token", async () => {
-    await Effect.runPromise(
-      getV1Projects({}).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(BadTokenLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - Unauthorized with invalid token",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1Projects({}).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
+          }),
+          Effect.provide(BadTokenLayer),
+        ),
+      );
+    },
+  );
 });

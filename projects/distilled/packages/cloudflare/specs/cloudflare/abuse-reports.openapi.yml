@@ -35,7 +35,8 @@ paths:
                     description: Public facing ID of abuse report, aka abuse_rand.
                   cdate:
                     type: string
-                    description: Creation date of report. Time in RFC 3339 format
+                    description:
+                      Creation date of report. Time in RFC 3339 format
                       (https://www.rfc-editor.org/rfc/rfc3339.html)
                   domain:
                     type: string
@@ -51,7 +52,8 @@ paths:
                         description: How many mitigations are active.
                       external_host_notified:
                         type: boolean
-                        description: Whether the report has been forwarded to an external hosting
+                        description:
+                          Whether the report has been forwarded to an external hosting
                           provider.
                       in_review_count:
                         type: number
@@ -156,12 +158,14 @@ paths:
                   description: "Body param: The report type for submitted reports."
                 address1:
                   type: string
-                  description: "Body param: Text not exceeding 100 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 100 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 agent_name:
                   type: string
-                  description: "Body param: The name of the copyright holder. Text not exceeding
+                  description:
+                    "Body param: The name of the copyright holder. Text not exceeding
                     60 characters. This field may be released by Cloudflare to
                     third parties such as the Lumen Database
                     (https://lumendatabase.org/)."
@@ -169,21 +173,25 @@ paths:
                   type: number
                   enum:
                     - 1
-                  description: "Body param: Can be `0` for false or `1` for true. Must be value: 1
+                  description:
+                    "Body param: Can be `0` for false or `1` for true. Must be value: 1
                     for DMCA reports"
                 city:
                   type: string
-                  description: "Body param: Text not exceeding 255 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 255 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 country:
                   type: string
-                  description: "Body param: Text not exceeding 255 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 255 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 email:
                   type: string
-                  description: "Body param: A valid email of the abuse reporter. This field may be
+                  description:
+                    "Body param: A valid email of the abuse reporter. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 email2:
@@ -194,16 +202,19 @@ paths:
                   enum:
                     - send
                     - send-anon
-                  description: "Body param: Notification type based on the abuse type. NOTE:
+                  description:
+                    "Body param: Notification type based on the abuse type. NOTE:
                     Copyright (DMCA) and Trademark reports cannot be anonymous."
                 name:
                   type: string
-                  description: "Body param: Text not exceeding 255 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 255 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 original_work:
                   type: string
-                  description: "Body param: Text not exceeding 255 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 255 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 owner_notification:
@@ -212,22 +223,26 @@ paths:
                     - send
                     - send-anon
                     - none
-                  description: "Body param: Notification type based on the abuse type. NOTE:
+                  description:
+                    "Body param: Notification type based on the abuse type. NOTE:
                     Copyright (DMCA) and Trademark reports cannot be anonymous."
                 signature:
                   type: string
-                  description: "Body param: Required for DMCA reports, should be same as Name. An
+                  description:
+                    "Body param: Required for DMCA reports, should be same as Name. An
                     affirmation that all information in the report is true and
                     accurate while agreeing to the policies of Cloudflare's
                     abuse reports"
                 state:
                   type: string
-                  description: "Body param: Text not exceeding 255 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 255 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 urls:
                   type: string
-                  description: "Body param: A list of valid URLs separated by ‘\\n’ (new line
+                  description:
+                    "Body param: A list of valid URLs separated by ‘\\n’ (new line
                     character). The list of the URLs should not exceed 250 URLs.
                     All URLs should have the same hostname. Each URL should be
                     unique. This field may be released by Cloudflare to third
@@ -235,11 +250,13 @@ paths:
                     (https://lumendatabase.org/)."
                 comments:
                   type: string
-                  description: "Body param: Any additional comments about the infringement not
+                  description:
+                    "Body param: Any additional comments about the infringement not
                     exceeding 2000 characters"
                 company:
                   type: string
-                  description: "Body param: Text not exceeding 100 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 100 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 reported_country:
@@ -250,7 +267,8 @@ paths:
                   description: "Body param: Text not exceeding 255 characters"
                 tele:
                   type: string
-                  description: "Body param: Text not exceeding 20 characters. This field may be
+                  description:
+                    "Body param: Text not exceeding 20 characters. This field may be
                     released by Cloudflare to third parties such as the Lumen
                     Database (https://lumendatabase.org/)."
                 title:
@@ -258,7 +276,8 @@ paths:
                   description: "Body param: Text not exceeding 255 characters"
                 justification:
                   type: string
-                  description: "Body param: A detailed description of the infringement, including
+                  description:
+                    "Body param: A detailed description of the infringement, including
                     any necessary access details and the exact steps needed to
                     view the content, not exceeding 5000 characters."
                 trademark_number:
@@ -272,20 +291,23 @@ paths:
                   description: "Body param: Text not exceeding 1000 characters"
                 destination_ips:
                   type: string
-                  description: "Body param: A list of IP addresses separated by ‘\\n’ (new line
+                  description:
+                    "Body param: A list of IP addresses separated by ‘\\n’ (new line
                     character). The list of destination IPs should not exceed 30
                     IP addresses. Each one of the IP addresses ought to be
                     unique."
                 ports_protocols:
                   type: string
-                  description: "Body param: A comma separated list of ports and protocols e.g.
+                  description:
+                    "Body param: A comma separated list of ports and protocols e.g.
                     80/TCP, 22/UDP. The total size of the field should not
                     exceed 2000 characters. Each individual port/protocol should
                     not exceed 100 characters. The list should not have more
                     than 30 unique ports and protocols."
                 source_ips:
                   type: string
-                  description: "Body param: A list of IP addresses separated by ‘\\n’ (new line
+                  description:
+                    "Body param: A list of IP addresses separated by ‘\\n’ (new line
                     character). The list of source IPs should not exceed 30 IP
                     addresses. Each one of the IP addresses ought to be unique."
                 ncmec_notification:
@@ -293,21 +315,24 @@ paths:
                   enum:
                     - send
                     - send-anon
-                  description: "Body param: Notification type based on the abuse type. NOTE:
+                  description:
+                    "Body param: Notification type based on the abuse type. NOTE:
                     Copyright (DMCA) and Trademark reports cannot be anonymous."
                 reg_who_request:
                   type: object
                   properties:
                     reg_who_good_faith_affirmation:
                       type: boolean
-                      description: Affirmation that the request is made in good faith per RDP 10.2.4.
+                      description:
+                        Affirmation that the request is made in good faith per RDP 10.2.4.
                         Must be true.
                     reg_who_lawful_processing_agreement:
                       type: boolean
                       description: Agreement to process data lawfully per RDP 10.2.5. Must be true.
                     reg_who_legal_basis:
                       type: string
-                      description: Legal rights and rationale for the request per RDP 10.2.3. Required
+                      description:
+                        Legal rights and rationale for the request per RDP 10.2.3. Required
                         for all WHOIS requests.
                     reg_who_request_type:
                       type: string
@@ -337,11 +362,13 @@ paths:
                           - tech_email
                           - tech_phone
                           - tech_address
-                      description: The specific WHOIS data elements being requested per RDP 10.2.2.
+                      description:
+                        The specific WHOIS data elements being requested per RDP 10.2.2.
                         Required for all WHOIS requests.
                     reg_who_authorization_statement:
                       type: string
-                      description: Optional authorization statement or power of attorney per RDP
+                      description:
+                        Optional authorization statement or power of attorney per RDP
                         10.2.1.3.
                     reg_who_requestor_type:
                       type: string
@@ -356,11 +383,13 @@ paths:
                     - reg_who_legal_basis
                     - reg_who_request_type
                     - reg_who_requested_data_elements
-                  description: "Body param: RDP-mandated fields for registrar WHOIS data
+                  description:
+                    "Body param: RDP-mandated fields for registrar WHOIS data
                     disclosure requests."
                 ncsei_subject_representation:
                   type: boolean
-                  description: "Body param: If the submitter is the target of NCSEI in the URLs of
+                  description:
+                    "Body param: If the submitter is the target of NCSEI in the URLs of
                     the abuse report."
               required:
                 - act
@@ -422,7 +451,8 @@ paths:
         - name: mitigation_status
           in: query
           required: false
-          description: "Query param: Filter reports that have any mitigations in the given
+          description:
+            "Query param: Filter reports that have any mitigations in the given
             status."
           schema:
             type: string
@@ -435,7 +465,8 @@ paths:
         - name: sort
           in: query
           required: false
-          description: "Query param: A property to sort by, followed by the order (id,
+          description:
+            "Query param: A property to sort by, followed by the order (id,
             cdate, domain, type, status)"
           schema:
             type: string
@@ -482,7 +513,8 @@ paths:
                           description: Public facing ID of abuse report, aka abuse_rand.
                         cdate:
                           type: string
-                          description: Creation date of report. Time in RFC 3339 format
+                          description:
+                            Creation date of report. Time in RFC 3339 format
                             (https://www.rfc-editor.org/rfc/rfc3339.html)
                         domain:
                           type: string
@@ -498,7 +530,8 @@ paths:
                               description: How many mitigations are active.
                             external_host_notified:
                               type: boolean
-                              description: Whether the report has been forwarded to an external hosting
+                              description:
+                                Whether the report has been forwarded to an external hosting
                                 provider.
                             in_review_count:
                               type: number
@@ -596,14 +629,16 @@ paths:
         - name: effective_after
           in: query
           required: false
-          description: "Query param: Returns mitigation that were dispatched after the
+          description:
+            "Query param: Returns mitigation that were dispatched after the
             given date"
           schema:
             type: string
         - name: effective_before
           in: query
           required: false
-          description: "Query param: Returns mitigations that were dispatched before the
+          description:
+            "Query param: Returns mitigations that were dispatched before the
             given date"
           schema:
             type: string
@@ -647,7 +682,8 @@ paths:
         - name: type
           in: query
           required: false
-          description: "Query param: Filter by the type of mitigation. This filter
+          description:
+            "Query param: Filter by the type of mitigation. This filter
             parameter can be specified multiple times to include multiple types
             of mitigations in the result set, e.g.
             ?type=rate_limit_cache&type=legal_block."
@@ -691,7 +727,8 @@ paths:
                           description: ID of remediation.
                         effective_date:
                           type: string
-                          description: Date when the mitigation will become active. Time in RFC 3339
+                          description:
+                            Date when the mitigation will become active. Time in RFC 3339
                             format (https://www.rfc-editor.org/rfc/rfc3339.html)
                         entity_id:
                           type: string
@@ -800,7 +837,8 @@ paths:
                     description: ID of remediation.
                   effective_date:
                     type: string
-                    description: Date when the mitigation will become active. Time in RFC 3339
+                    description:
+                      Date when the mitigation will become active. Time in RFC 3339
                       format (https://www.rfc-editor.org/rfc/rfc3339.html)
                   entity_id:
                     type: string

@@ -58,6 +58,7 @@ describe("updateConversationModel", () => {
 
   it(
     "updates a conversation model and returns its id",
+    { timeout: 60_000 },
     async () => {
       // Typesense validates the LLM API key by making a real call when the
       // model is created/updated, so this test requires OPENAI_API_KEY.
@@ -102,11 +103,11 @@ describe("updateConversationModel", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "fails with NotFound when the conversation model does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateConversationModel({
@@ -117,11 +118,11 @@ describe("updateConversationModel", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the update body has an invalid model_name",
+    { timeout: 60_000 },
     async () => {
       if (!openaiApiKey) {
         throw new Error(
@@ -167,6 +168,5 @@ describe("updateConversationModel", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 });

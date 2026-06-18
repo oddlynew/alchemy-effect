@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("exportDocuments", () => {
   it(
     "exports documents from an existing collection",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-export-${testRunId}`;
 
@@ -36,11 +37,11 @@ describe("exportDocuments", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         exportDocuments({
@@ -50,6 +51,5 @@ describe("exportDocuments", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteKey", () => {
   it(
     "deletes an existing key and returns its id",
+    { timeout: 30_000 },
     async () => {
       let createdKeyId: number | undefined;
 
@@ -37,11 +38,11 @@ describe("deleteKey", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the key id does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteKey({ keyId: 999_999_999 }).pipe(Effect.flip),
@@ -49,11 +50,11 @@ describe("deleteKey", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the key id is not a valid integer",
+    { timeout: 30_000 },
     async () => {
       // Typesense parses the path segment as an integer and returns
       // 400 "Bad request" when it is malformed.
@@ -65,6 +66,5 @@ describe("deleteKey", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

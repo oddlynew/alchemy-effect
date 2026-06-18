@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/calls/apps/{appId}:
     get:
       operationId: getSfu
-      description: "Fetches details for a single Calls app.  @example ```ts const sfu
+      description:
+        "Fetches details for a single Calls app.  @example ```ts const sfu
         = await client.calls.sfu.get( '2a95132c15732412d22c1476fa83f27a', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -52,7 +53,8 @@ paths:
           - status: 403
     put:
       operationId: updateSfu
-      description: "Edit details for a single app.  @example ```ts const sfu = await
+      description:
+        "Edit details for a single app.  @example ```ts const sfu = await
         client.calls.sfu.update( '2a95132c15732412d22c1476fa83f27a', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -76,7 +78,8 @@ paths:
               properties:
                 name:
                   type: string
-                  description: "Body param: A short description of Calls app, not shown to end
+                  description:
+                    "Body param: A short description of Calls app, not shown to end
                     users."
       responses:
         "200":
@@ -106,7 +109,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteSfu
-      description: "Deletes an app from Cloudflare Calls  @example ```ts const sfu =
+      description:
+        "Deletes an app from Cloudflare Calls  @example ```ts const sfu =
         await client.calls.sfu.delete( '2a95132c15732412d22c1476fa83f27a', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -150,7 +154,8 @@ paths:
   /accounts/{account_id}/calls/apps:
     post:
       operationId: createSfu
-      description: "Creates a new Cloudflare calls app. An app is an unique enviroment
+      description:
+        "Creates a new Cloudflare calls app. An app is an unique enviroment
         where each Session can access all Tracks within the app.  @example ```ts
         const sfu = await client.calls.sfu.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -170,7 +175,8 @@ paths:
               properties:
                 name:
                   type: string
-                  description: "Body param: A short description of Calls app, not shown to end
+                  description:
+                    "Body param: A short description of Calls app, not shown to end
                     users."
       responses:
         "200":
@@ -236,7 +242,8 @@ paths:
   /accounts/{account_id}/calls/turn_keys/{keyId}:
     get:
       operationId: getTurn
-      description: "Fetches details for a single TURN key.  @example ```ts const turn
+      description:
+        "Fetches details for a single TURN key.  @example ```ts const turn
         = await client.calls.turn.get( '2a95132c15732412d22c1476fa83f27a', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -279,7 +286,8 @@ paths:
           - status: 403
     put:
       operationId: updateTurn
-      description: "Edit details for a single TURN key.  @example ```ts const turn =
+      description:
+        "Edit details for a single TURN key.  @example ```ts const turn =
         await client.calls.turn.update( '2a95132c15732412d22c1476fa83f27a', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -303,7 +311,8 @@ paths:
               properties:
                 name:
                   type: string
-                  description: "Body param: A short description of a TURN key, not shown to end
+                  description:
+                    "Body param: A short description of a TURN key, not shown to end
                     users."
       responses:
         "200":
@@ -333,7 +342,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteTurn
-      description: "Deletes a TURN key from Cloudflare Calls  @example ```ts const
+      description:
+        "Deletes a TURN key from Cloudflare Calls  @example ```ts const
         turn = await client.calls.turn.delete(
         '2a95132c15732412d22c1476fa83f27a', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -378,7 +388,8 @@ paths:
   /accounts/{account_id}/calls/turn_keys:
     get:
       operationId: listTurns
-      description: "Lists all TURN keys in the Cloudflare account  @example ```ts //
+      description:
+        "Lists all TURN keys in the Cloudflare account  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         turnListResponse of client.calls.turn.list( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -412,7 +423,8 @@ paths:
       x-distilled-pagination-class: TURNListResponsesSinglePage
     post:
       operationId: createTurn
-      description: "Creates a new Cloudflare Calls TURN key.  @example ```ts const
+      description:
+        "Creates a new Cloudflare Calls TURN key.  @example ```ts const
         turn = await client.calls.turn.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -431,7 +443,8 @@ paths:
               properties:
                 name:
                   type: string
-                  description: "Body param: A short description of a TURN key, not shown to end
+                  description:
+                    "Body param: A short description of a TURN key, not shown to end
                     users."
       responses:
         "200":

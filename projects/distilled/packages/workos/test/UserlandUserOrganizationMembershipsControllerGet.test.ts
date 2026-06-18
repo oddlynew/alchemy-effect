@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUserOrganizationMembershipsControllerGet", () => {
   it(
     "fetches an organization membership by id",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -50,11 +51,11 @@ describe("UserlandUserOrganizationMembershipsControllerGet", () => {
       expect(typeof result.role.slug).toBe("string");
       expect(typeof result.directory_managed).toBe("boolean");
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerGet({
@@ -63,6 +64,5 @@ describe("UserlandUserOrganizationMembershipsControllerGet", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

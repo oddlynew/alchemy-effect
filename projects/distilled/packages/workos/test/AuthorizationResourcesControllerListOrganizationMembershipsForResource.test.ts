@@ -7,6 +7,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationResourcesControllerListOrganizationMembershipsForResource", () => {
   it(
     "lists organization memberships for a resource",
+    { timeout: 30_000 },
     async (ctx) => {
       const list = await runOrSkipOnEnvLimitation(
         ctx,
@@ -43,11 +44,11 @@ describe("AuthorizationResourcesControllerListOrganizationMembershipsForResource
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.list_metadata).toBeDefined();
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when permission_slug is missing",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerListOrganizationMembershipsForResource({
@@ -58,11 +59,11 @@ describe("AuthorizationResourcesControllerListOrganizationMembershipsForResource
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent resource id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerListOrganizationMembershipsForResource({
@@ -73,11 +74,11 @@ describe("AuthorizationResourcesControllerListOrganizationMembershipsForResource
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the resource is in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerListOrganizationMembershipsForResource({
@@ -88,11 +89,11 @@ describe("AuthorizationResourcesControllerListOrganizationMembershipsForResource
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the permission slug is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerListOrganizationMembershipsForResource({
@@ -103,6 +104,5 @@ describe("AuthorizationResourcesControllerListOrganizationMembershipsForResource
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

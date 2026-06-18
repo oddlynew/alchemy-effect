@@ -12,6 +12,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getAliases", () => {
   it(
     "lists all aliases including ones we just created",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-getaliases-col-${testRunId}`;
       const aliasName = `distilled-typesense-getaliases-${testRunId}`;
@@ -43,11 +44,11 @@ describe("getAliases", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with an API key that the
       // Typesense server will reject. Typesense returns 401 with a JSON
@@ -74,6 +75,5 @@ describe("getAliases", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

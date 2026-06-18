@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/flagship/apps/{appId}:
     get:
       operationId: getApp
-      description: Returns an app's name and audit fields. Flag definitions are not
+      description:
+        Returns an app's name and audit fields. Flag definitions are not
         included.
       parameters:
         - name: appId
@@ -41,7 +42,8 @@ paths:
                     type: string
                   updated_by:
                     type: string
-                    description: Email of the actor who last modified the app, or `edge-gateway` for
+                    description:
+                      Email of the actor who last modified the app, or `edge-gateway` for
                       gateway-authenticated changes.
                 required:
                   - id
@@ -98,7 +100,8 @@ paths:
                     type: string
                   updated_by:
                     type: string
-                    description: Email of the actor who last modified the app, or `edge-gateway` for
+                    description:
+                      Email of the actor who last modified the app, or `edge-gateway` for
                       gateway-authenticated changes.
                 required:
                   - id
@@ -114,7 +117,8 @@ paths:
               includes: App not found
     delete:
       operationId: deleteApp
-      description: Deletes an app and all its flags and changelog history. Returns 409
+      description:
+        Deletes an app and all its flags and changelog history. Returns 409
         if any Worker still references this app via a Flagship binding.
       parameters:
         - name: appId
@@ -149,7 +153,8 @@ paths:
   /accounts/{account_id}/flagship/apps:
     get:
       operationId: listApps
-      description: Lists all apps in the account. Returns identity and audit fields
+      description:
+        Lists all apps in the account. Returns identity and audit fields
         only — flag definitions are not included.
       parameters:
         - name: account_id
@@ -176,7 +181,8 @@ paths:
                     type: string
                   updated_by:
                     type: string
-                    description: Email of the actor who last modified the app, or `edge-gateway` for
+                    description:
+                      Email of the actor who last modified the app, or `edge-gateway` for
                       gateway-authenticated changes.
                 required:
                   - id
@@ -187,7 +193,8 @@ paths:
       x-distilled-pagination-class: AppListResponsesSinglePage
     post:
       operationId: createApp
-      description: Creates an app. The returned `id` is used in all subsequent flag,
+      description:
+        Creates an app. The returned `id` is used in all subsequent flag,
         changelog, and evaluation requests.
       parameters:
         - name: account_id
@@ -226,7 +233,8 @@ paths:
                     type: string
                   updated_by:
                     type: string
-                    description: Email of the actor who last modified the app, or `edge-gateway` for
+                    description:
+                      Email of the actor who last modified the app, or `edge-gateway` for
                       gateway-authenticated changes.
                 required:
                   - id
@@ -263,7 +271,8 @@ paths:
         - name: targetingKey
           in: query
           required: false
-          description: "Query param: Context targeting key (per OpenFeature spec); used
+          description:
+            "Query param: Context targeting key (per OpenFeature spec); used
             for percentage rollout bucketing."
           schema:
             type: string
@@ -303,7 +312,8 @@ paths:
   /accounts/{account_id}/flagship/apps/{appId}/flags/{flagKey}:
     get:
       operationId: getAppFlag
-      description: Returns the full flag definition including rules, variations, and
+      description:
+        Returns the full flag definition including rules, variations, and
         audit fields.
       parameters:
         - name: appId
@@ -332,15 +342,18 @@ paths:
                 properties:
                   default_variation:
                     type: string
-                    description: Variation served when no rule matches or the flag is disabled. Must
+                    description:
+                      Variation served when no rule matches or the flag is disabled. Must
                       be a key in `variations`.
                   enabled:
                     type: boolean
-                    description: When false, the flag bypasses all rules and always serves
+                    description:
+                      When false, the flag bypasses all rules and always serves
                       `default_variation`.
                   key:
                     type: string
-                    description: Unique identifier for the flag within an app. Used in all
+                    description:
+                      Unique identifier for the flag within an app. Used in all
                       evaluation and SDK calls.
                   rules:
                     type: array
@@ -370,7 +383,8 @@ paths:
                                       - in
                                       - not_in
                                   value:
-                                    description: Value to compare against the context attribute. Must be an array
+                                    description:
+                                      Value to compare against the context attribute. Must be an array
                                       for `in` and `not_in`; numeric and
                                       ISO-8601 datetime strings are accepted by
                                       the ordering operators.
@@ -403,7 +417,8 @@ paths:
                                                 - in
                                                 - not_in
                                             value:
-                                              description: Value to compare against the context attribute. Must be an array
+                                              description:
+                                                Value to compare against the context attribute. Must be an array
                                                 for `in` and `not_in`; numeric
                                                 and ISO-8601 datetime strings
                                                 are accepted by the ordering
@@ -437,7 +452,8 @@ paths:
                                                           - in
                                                           - not_in
                                                       value:
-                                                        description: Value to compare against the context attribute. Must be an array
+                                                        description:
+                                                          Value to compare against the context attribute. Must be an array
                                                           for `in` and `not_in`;
                                                           numeric and ISO-8601
                                                           datetime strings are
@@ -472,7 +488,8 @@ paths:
                                                                     - in
                                                                     - not_in
                                                                 value:
-                                                                  description: Value to compare against the context attribute. Must be an array
+                                                                  description:
+                                                                    Value to compare against the context attribute. Must be an array
                                                                     for `in` and
                                                                     `not_in`; numeric
                                                                     and ISO-8601
@@ -508,7 +525,8 @@ paths:
                                                                               - in
                                                                               - not_in
                                                                           value:
-                                                                            description: Value to compare against the context attribute. Must be an array
+                                                                            description:
+                                                                              Value to compare against the context attribute. Must be an array
                                                                               for `in` and
                                                                               `not_in`; numeric
                                                                               and ISO-8601
@@ -544,7 +562,8 @@ paths:
                                                                                         - in
                                                                                         - not_in
                                                                                     value:
-                                                                                      description: Value to compare against the context attribute. Must be an array
+                                                                                      description:
+                                                                                        Value to compare against the context attribute. Must be an array
                                                                                         for `in` and
                                                                                         `not_in`; numeric
                                                                                         and ISO-8601
@@ -567,7 +586,10 @@ paths:
                                                                                           - type: object
                                                                                             additionalProperties: true
                                                                                           - type: array
-                                                                                            items: {}
+                                                                                            items:
+                                                                                              {
+                                                                                                ,
+                                                                                              }
                                                                                         nullable: true
                                                                                     logical_operator:
                                                                                       type: string
@@ -617,27 +639,32 @@ paths:
                                 required:
                                   - clauses
                                   - logical_operator
-                          description: Conditions the context must satisfy for this rule to match. An
+                          description:
+                            Conditions the context must satisfy for this rule to match. An
                             empty array matches all contexts.
                         priority:
                           type: number
-                          description: Evaluation order; lower numbers are evaluated first. Must be unique
+                          description:
+                            Evaluation order; lower numbers are evaluated first. Must be unique
                             across the flag's rules.
                         serve_variation:
                           type: string
-                          description: Variation served when this rule matches. Must be a key in
+                          description:
+                            Variation served when this rule matches. Must be a key in
                             `variations`.
                         rollout:
                           type: object
                           properties:
                             percentage:
                               type: number
-                              description: Percentage of matching traffic (0–100) served this variation. For
+                              description:
+                                Percentage of matching traffic (0–100) served this variation. For
                                 multi-way splits, use cumulative upper bounds
                                 across rules (e.g. 30, 70, 100).
                             attribute:
                               type: string
-                              description: Context attribute used for sticky bucketing. Defaults to
+                              description:
+                                Context attribute used for sticky bucketing. Defaults to
                                 `targetingKey`. If absent at evaluation time,
                                 bucketing is random per request.
                           required:
@@ -646,13 +673,15 @@ paths:
                         - conditions
                         - priority
                         - serve_variation
-                    description: Targeting rules evaluated in ascending `priority`; the first
+                    description:
+                      Targeting rules evaluated in ascending `priority`; the first
                       matching rule wins. An empty array means the flag always
                       serves `default_variation`.
                   variations:
                     type: object
                     additionalProperties: true
-                    description: Map of variation name to value. All values must be the same type
+                    description:
+                      Map of variation name to value. All values must be the same type
                       (boolean, string, number, or JSON object/array). Each
                       serialized value must be 10KB or smaller.
                   description:
@@ -666,7 +695,8 @@ paths:
                       - string
                       - number
                       - json
-                    description: Value type of the flag's variations. Inferred from the variation
+                    description:
+                      Value type of the flag's variations. Inferred from the variation
                       values on write, so it may be omitted in requests.
                   updated_at:
                     type: string
@@ -690,7 +720,8 @@ paths:
               includes: App not found
     put:
       operationId: updateAppFlag
-      description: Replaces the entire flag definition. Omitted fields are dropped,
+      description:
+        Replaces the entire flag definition. Omitted fields are dropped,
         not preserved — read before writing. Each update appends a changelog
         entry.
       parameters:
@@ -719,15 +750,18 @@ paths:
               properties:
                 default_variation:
                   type: string
-                  description: "Body param: Variation served when no rule matches or the flag is
+                  description:
+                    "Body param: Variation served when no rule matches or the flag is
                     disabled. Must be a key in `variations`."
                 enabled:
                   type: boolean
-                  description: "Body param: When false, the flag bypasses all rules and always
+                  description:
+                    "Body param: When false, the flag bypasses all rules and always
                     serves `default_variation`."
                 key:
                   type: string
-                  description: "Body param: Unique identifier for the flag within an app. Used in
+                  description:
+                    "Body param: Unique identifier for the flag within an app. Used in
                     all evaluation and SDK calls."
                 rules:
                   type: array
@@ -757,7 +791,8 @@ paths:
                                     - in
                                     - not_in
                                 value:
-                                  description: Value to compare against the context attribute. Must be an array
+                                  description:
+                                    Value to compare against the context attribute. Must be an array
                                     for `in` and `not_in`; numeric and ISO-8601
                                     datetime strings are accepted by the
                                     ordering operators.
@@ -790,7 +825,8 @@ paths:
                                               - in
                                               - not_in
                                           value:
-                                            description: Value to compare against the context attribute. Must be an array
+                                            description:
+                                              Value to compare against the context attribute. Must be an array
                                               for `in` and `not_in`; numeric and
                                               ISO-8601 datetime strings are
                                               accepted by the ordering
@@ -824,7 +860,8 @@ paths:
                                                         - in
                                                         - not_in
                                                     value:
-                                                      description: Value to compare against the context attribute. Must be an array
+                                                      description:
+                                                        Value to compare against the context attribute. Must be an array
                                                         for `in` and `not_in`;
                                                         numeric and ISO-8601
                                                         datetime strings are
@@ -859,7 +896,8 @@ paths:
                                                                   - in
                                                                   - not_in
                                                               value:
-                                                                description: Value to compare against the context attribute. Must be an array
+                                                                description:
+                                                                  Value to compare against the context attribute. Must be an array
                                                                   for `in` and
                                                                   `not_in`; numeric
                                                                   and ISO-8601
@@ -895,7 +933,8 @@ paths:
                                                                             - in
                                                                             - not_in
                                                                         value:
-                                                                          description: Value to compare against the context attribute. Must be an array
+                                                                          description:
+                                                                            Value to compare against the context attribute. Must be an array
                                                                             for `in` and
                                                                             `not_in`; numeric
                                                                             and ISO-8601
@@ -931,7 +970,8 @@ paths:
                                                                                       - in
                                                                                       - not_in
                                                                                   value:
-                                                                                    description: Value to compare against the context attribute. Must be an array
+                                                                                    description:
+                                                                                      Value to compare against the context attribute. Must be an array
                                                                                       for `in` and
                                                                                       `not_in`; numeric
                                                                                       and ISO-8601
@@ -954,7 +994,10 @@ paths:
                                                                                         - type: object
                                                                                           additionalProperties: true
                                                                                         - type: array
-                                                                                          items: {}
+                                                                                          items:
+                                                                                            {
+                                                                                              ,
+                                                                                            }
                                                                                       nullable: true
                                                                                   logical_operator:
                                                                                     type: string
@@ -1004,27 +1047,32 @@ paths:
                               required:
                                 - clauses
                                 - logical_operator
-                        description: Conditions the context must satisfy for this rule to match. An
+                        description:
+                          Conditions the context must satisfy for this rule to match. An
                           empty array matches all contexts.
                       priority:
                         type: number
-                        description: Evaluation order; lower numbers are evaluated first. Must be unique
+                        description:
+                          Evaluation order; lower numbers are evaluated first. Must be unique
                           across the flag's rules.
                       serve_variation:
                         type: string
-                        description: Variation served when this rule matches. Must be a key in
+                        description:
+                          Variation served when this rule matches. Must be a key in
                           `variations`.
                       rollout:
                         type: object
                         properties:
                           percentage:
                             type: number
-                            description: Percentage of matching traffic (0–100) served this variation. For
+                            description:
+                              Percentage of matching traffic (0–100) served this variation. For
                               multi-way splits, use cumulative upper bounds
                               across rules (e.g. 30, 70, 100).
                           attribute:
                             type: string
-                            description: Context attribute used for sticky bucketing. Defaults to
+                            description:
+                              Context attribute used for sticky bucketing. Defaults to
                               `targetingKey`. If absent at evaluation time,
                               bucketing is random per request.
                         required:
@@ -1033,13 +1081,15 @@ paths:
                       - conditions
                       - priority
                       - serve_variation
-                  description: "Body param: Targeting rules evaluated in ascending `priority`; the
+                  description:
+                    "Body param: Targeting rules evaluated in ascending `priority`; the
                     first matching rule wins. An empty array means the flag
                     always serves `default_variation`."
                 variations:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Map of variation name to value. All values must be the
+                  description:
+                    "Body param: Map of variation name to value. All values must be the
                     same type (boolean, string, number, or JSON object/array).
                     Each serialized value must be 10KB or smaller."
                 description:
@@ -1054,7 +1104,8 @@ paths:
                     - string
                     - number
                     - json
-                  description: "Body param: Value type of the flag's variations. Inferred from the
+                  description:
+                    "Body param: Value type of the flag's variations. Inferred from the
                     variation values on write, so it may be omitted in
                     requests."
               required:
@@ -1073,15 +1124,18 @@ paths:
                 properties:
                   default_variation:
                     type: string
-                    description: Variation served when no rule matches or the flag is disabled. Must
+                    description:
+                      Variation served when no rule matches or the flag is disabled. Must
                       be a key in `variations`.
                   enabled:
                     type: boolean
-                    description: When false, the flag bypasses all rules and always serves
+                    description:
+                      When false, the flag bypasses all rules and always serves
                       `default_variation`.
                   key:
                     type: string
-                    description: Unique identifier for the flag within an app. Used in all
+                    description:
+                      Unique identifier for the flag within an app. Used in all
                       evaluation and SDK calls.
                   rules:
                     type: array
@@ -1111,7 +1165,8 @@ paths:
                                       - in
                                       - not_in
                                   value:
-                                    description: Value to compare against the context attribute. Must be an array
+                                    description:
+                                      Value to compare against the context attribute. Must be an array
                                       for `in` and `not_in`; numeric and
                                       ISO-8601 datetime strings are accepted by
                                       the ordering operators.
@@ -1144,7 +1199,8 @@ paths:
                                                 - in
                                                 - not_in
                                             value:
-                                              description: Value to compare against the context attribute. Must be an array
+                                              description:
+                                                Value to compare against the context attribute. Must be an array
                                                 for `in` and `not_in`; numeric
                                                 and ISO-8601 datetime strings
                                                 are accepted by the ordering
@@ -1178,7 +1234,8 @@ paths:
                                                           - in
                                                           - not_in
                                                       value:
-                                                        description: Value to compare against the context attribute. Must be an array
+                                                        description:
+                                                          Value to compare against the context attribute. Must be an array
                                                           for `in` and `not_in`;
                                                           numeric and ISO-8601
                                                           datetime strings are
@@ -1213,7 +1270,8 @@ paths:
                                                                     - in
                                                                     - not_in
                                                                 value:
-                                                                  description: Value to compare against the context attribute. Must be an array
+                                                                  description:
+                                                                    Value to compare against the context attribute. Must be an array
                                                                     for `in` and
                                                                     `not_in`; numeric
                                                                     and ISO-8601
@@ -1249,7 +1307,8 @@ paths:
                                                                               - in
                                                                               - not_in
                                                                           value:
-                                                                            description: Value to compare against the context attribute. Must be an array
+                                                                            description:
+                                                                              Value to compare against the context attribute. Must be an array
                                                                               for `in` and
                                                                               `not_in`; numeric
                                                                               and ISO-8601
@@ -1285,7 +1344,8 @@ paths:
                                                                                         - in
                                                                                         - not_in
                                                                                     value:
-                                                                                      description: Value to compare against the context attribute. Must be an array
+                                                                                      description:
+                                                                                        Value to compare against the context attribute. Must be an array
                                                                                         for `in` and
                                                                                         `not_in`; numeric
                                                                                         and ISO-8601
@@ -1308,7 +1368,10 @@ paths:
                                                                                           - type: object
                                                                                             additionalProperties: true
                                                                                           - type: array
-                                                                                            items: {}
+                                                                                            items:
+                                                                                              {
+                                                                                                ,
+                                                                                              }
                                                                                         nullable: true
                                                                                     logical_operator:
                                                                                       type: string
@@ -1358,27 +1421,32 @@ paths:
                                 required:
                                   - clauses
                                   - logical_operator
-                          description: Conditions the context must satisfy for this rule to match. An
+                          description:
+                            Conditions the context must satisfy for this rule to match. An
                             empty array matches all contexts.
                         priority:
                           type: number
-                          description: Evaluation order; lower numbers are evaluated first. Must be unique
+                          description:
+                            Evaluation order; lower numbers are evaluated first. Must be unique
                             across the flag's rules.
                         serve_variation:
                           type: string
-                          description: Variation served when this rule matches. Must be a key in
+                          description:
+                            Variation served when this rule matches. Must be a key in
                             `variations`.
                         rollout:
                           type: object
                           properties:
                             percentage:
                               type: number
-                              description: Percentage of matching traffic (0–100) served this variation. For
+                              description:
+                                Percentage of matching traffic (0–100) served this variation. For
                                 multi-way splits, use cumulative upper bounds
                                 across rules (e.g. 30, 70, 100).
                             attribute:
                               type: string
-                              description: Context attribute used for sticky bucketing. Defaults to
+                              description:
+                                Context attribute used for sticky bucketing. Defaults to
                                 `targetingKey`. If absent at evaluation time,
                                 bucketing is random per request.
                           required:
@@ -1387,13 +1455,15 @@ paths:
                         - conditions
                         - priority
                         - serve_variation
-                    description: Targeting rules evaluated in ascending `priority`; the first
+                    description:
+                      Targeting rules evaluated in ascending `priority`; the first
                       matching rule wins. An empty array means the flag always
                       serves `default_variation`.
                   variations:
                     type: object
                     additionalProperties: true
-                    description: Map of variation name to value. All values must be the same type
+                    description:
+                      Map of variation name to value. All values must be the same type
                       (boolean, string, number, or JSON object/array). Each
                       serialized value must be 10KB or smaller.
                   description:
@@ -1407,7 +1477,8 @@ paths:
                       - string
                       - number
                       - json
-                    description: Value type of the flag's variations. Inferred from the variation
+                    description:
+                      Value type of the flag's variations. Inferred from the variation
                       values on write, so it may be omitted in requests.
                   updated_at:
                     type: string
@@ -1431,7 +1502,8 @@ paths:
               includes: App not found
     delete:
       operationId: deleteAppFlag
-      description: Permanently deletes a flag. Subsequent evaluations fall back to the
+      description:
+        Permanently deletes a flag. Subsequent evaluations fall back to the
         caller-supplied default. Cannot be undone.
       parameters:
         - name: appId
@@ -1510,15 +1582,18 @@ paths:
                 properties:
                   default_variation:
                     type: string
-                    description: Variation served when no rule matches or the flag is disabled. Must
+                    description:
+                      Variation served when no rule matches or the flag is disabled. Must
                       be a key in `variations`.
                   enabled:
                     type: boolean
-                    description: When false, the flag bypasses all rules and always serves
+                    description:
+                      When false, the flag bypasses all rules and always serves
                       `default_variation`.
                   key:
                     type: string
-                    description: Unique identifier for the flag within an app. Used in all
+                    description:
+                      Unique identifier for the flag within an app. Used in all
                       evaluation and SDK calls.
                   rules:
                     type: array
@@ -1548,7 +1623,8 @@ paths:
                                       - in
                                       - not_in
                                   value:
-                                    description: Value to compare against the context attribute. Must be an array
+                                    description:
+                                      Value to compare against the context attribute. Must be an array
                                       for `in` and `not_in`; numeric and
                                       ISO-8601 datetime strings are accepted by
                                       the ordering operators.
@@ -1581,7 +1657,8 @@ paths:
                                                 - in
                                                 - not_in
                                             value:
-                                              description: Value to compare against the context attribute. Must be an array
+                                              description:
+                                                Value to compare against the context attribute. Must be an array
                                                 for `in` and `not_in`; numeric
                                                 and ISO-8601 datetime strings
                                                 are accepted by the ordering
@@ -1615,7 +1692,8 @@ paths:
                                                           - in
                                                           - not_in
                                                       value:
-                                                        description: Value to compare against the context attribute. Must be an array
+                                                        description:
+                                                          Value to compare against the context attribute. Must be an array
                                                           for `in` and `not_in`;
                                                           numeric and ISO-8601
                                                           datetime strings are
@@ -1650,7 +1728,8 @@ paths:
                                                                     - in
                                                                     - not_in
                                                                 value:
-                                                                  description: Value to compare against the context attribute. Must be an array
+                                                                  description:
+                                                                    Value to compare against the context attribute. Must be an array
                                                                     for `in` and
                                                                     `not_in`; numeric
                                                                     and ISO-8601
@@ -1686,7 +1765,8 @@ paths:
                                                                               - in
                                                                               - not_in
                                                                           value:
-                                                                            description: Value to compare against the context attribute. Must be an array
+                                                                            description:
+                                                                              Value to compare against the context attribute. Must be an array
                                                                               for `in` and
                                                                               `not_in`; numeric
                                                                               and ISO-8601
@@ -1722,7 +1802,8 @@ paths:
                                                                                         - in
                                                                                         - not_in
                                                                                     value:
-                                                                                      description: Value to compare against the context attribute. Must be an array
+                                                                                      description:
+                                                                                        Value to compare against the context attribute. Must be an array
                                                                                         for `in` and
                                                                                         `not_in`; numeric
                                                                                         and ISO-8601
@@ -1745,7 +1826,10 @@ paths:
                                                                                           - type: object
                                                                                             additionalProperties: true
                                                                                           - type: array
-                                                                                            items: {}
+                                                                                            items:
+                                                                                              {
+                                                                                                ,
+                                                                                              }
                                                                                         nullable: true
                                                                                     logical_operator:
                                                                                       type: string
@@ -1795,27 +1879,32 @@ paths:
                                 required:
                                   - clauses
                                   - logical_operator
-                          description: Conditions the context must satisfy for this rule to match. An
+                          description:
+                            Conditions the context must satisfy for this rule to match. An
                             empty array matches all contexts.
                         priority:
                           type: number
-                          description: Evaluation order; lower numbers are evaluated first. Must be unique
+                          description:
+                            Evaluation order; lower numbers are evaluated first. Must be unique
                             across the flag's rules.
                         serve_variation:
                           type: string
-                          description: Variation served when this rule matches. Must be a key in
+                          description:
+                            Variation served when this rule matches. Must be a key in
                             `variations`.
                         rollout:
                           type: object
                           properties:
                             percentage:
                               type: number
-                              description: Percentage of matching traffic (0–100) served this variation. For
+                              description:
+                                Percentage of matching traffic (0–100) served this variation. For
                                 multi-way splits, use cumulative upper bounds
                                 across rules (e.g. 30, 70, 100).
                             attribute:
                               type: string
-                              description: Context attribute used for sticky bucketing. Defaults to
+                              description:
+                                Context attribute used for sticky bucketing. Defaults to
                                 `targetingKey`. If absent at evaluation time,
                                 bucketing is random per request.
                           required:
@@ -1824,13 +1913,15 @@ paths:
                         - conditions
                         - priority
                         - serve_variation
-                    description: Targeting rules evaluated in ascending `priority`; the first
+                    description:
+                      Targeting rules evaluated in ascending `priority`; the first
                       matching rule wins. An empty array means the flag always
                       serves `default_variation`.
                   variations:
                     type: object
                     additionalProperties: true
-                    description: Map of variation name to value. All values must be the same type
+                    description:
+                      Map of variation name to value. All values must be the same type
                       (boolean, string, number, or JSON object/array). Each
                       serialized value must be 10KB or smaller.
                   description:
@@ -1844,7 +1935,8 @@ paths:
                       - string
                       - number
                       - json
-                    description: Value type of the flag's variations. Inferred from the variation
+                    description:
+                      Value type of the flag's variations. Inferred from the variation
                       values on write, so it may be omitted in requests.
                   updated_at:
                     type: string
@@ -1864,7 +1956,8 @@ paths:
               includes: App not found
     post:
       operationId: createAppFlag
-      description: Creates a flag. Returns 409 if the key already exists. `type` is
+      description:
+        Creates a flag. Returns 409 if the key already exists. `type` is
         inferred from variation values and may be omitted.
       parameters:
         - name: appId
@@ -1887,15 +1980,18 @@ paths:
               properties:
                 default_variation:
                   type: string
-                  description: "Body param: Variation served when no rule matches or the flag is
+                  description:
+                    "Body param: Variation served when no rule matches or the flag is
                     disabled. Must be a key in `variations`."
                 enabled:
                   type: boolean
-                  description: "Body param: When false, the flag bypasses all rules and always
+                  description:
+                    "Body param: When false, the flag bypasses all rules and always
                     serves `default_variation`."
                 key:
                   type: string
-                  description: "Body param: Unique identifier for the flag within an app. Used in
+                  description:
+                    "Body param: Unique identifier for the flag within an app. Used in
                     all evaluation and SDK calls."
                 rules:
                   type: array
@@ -1925,7 +2021,8 @@ paths:
                                     - in
                                     - not_in
                                 value:
-                                  description: Value to compare against the context attribute. Must be an array
+                                  description:
+                                    Value to compare against the context attribute. Must be an array
                                     for `in` and `not_in`; numeric and ISO-8601
                                     datetime strings are accepted by the
                                     ordering operators.
@@ -1958,7 +2055,8 @@ paths:
                                               - in
                                               - not_in
                                           value:
-                                            description: Value to compare against the context attribute. Must be an array
+                                            description:
+                                              Value to compare against the context attribute. Must be an array
                                               for `in` and `not_in`; numeric and
                                               ISO-8601 datetime strings are
                                               accepted by the ordering
@@ -1992,7 +2090,8 @@ paths:
                                                         - in
                                                         - not_in
                                                     value:
-                                                      description: Value to compare against the context attribute. Must be an array
+                                                      description:
+                                                        Value to compare against the context attribute. Must be an array
                                                         for `in` and `not_in`;
                                                         numeric and ISO-8601
                                                         datetime strings are
@@ -2027,7 +2126,8 @@ paths:
                                                                   - in
                                                                   - not_in
                                                               value:
-                                                                description: Value to compare against the context attribute. Must be an array
+                                                                description:
+                                                                  Value to compare against the context attribute. Must be an array
                                                                   for `in` and
                                                                   `not_in`; numeric
                                                                   and ISO-8601
@@ -2063,7 +2163,8 @@ paths:
                                                                             - in
                                                                             - not_in
                                                                         value:
-                                                                          description: Value to compare against the context attribute. Must be an array
+                                                                          description:
+                                                                            Value to compare against the context attribute. Must be an array
                                                                             for `in` and
                                                                             `not_in`; numeric
                                                                             and ISO-8601
@@ -2099,7 +2200,8 @@ paths:
                                                                                       - in
                                                                                       - not_in
                                                                                   value:
-                                                                                    description: Value to compare against the context attribute. Must be an array
+                                                                                    description:
+                                                                                      Value to compare against the context attribute. Must be an array
                                                                                       for `in` and
                                                                                       `not_in`; numeric
                                                                                       and ISO-8601
@@ -2122,7 +2224,10 @@ paths:
                                                                                         - type: object
                                                                                           additionalProperties: true
                                                                                         - type: array
-                                                                                          items: {}
+                                                                                          items:
+                                                                                            {
+                                                                                              ,
+                                                                                            }
                                                                                       nullable: true
                                                                                   logical_operator:
                                                                                     type: string
@@ -2172,27 +2277,32 @@ paths:
                               required:
                                 - clauses
                                 - logical_operator
-                        description: Conditions the context must satisfy for this rule to match. An
+                        description:
+                          Conditions the context must satisfy for this rule to match. An
                           empty array matches all contexts.
                       priority:
                         type: number
-                        description: Evaluation order; lower numbers are evaluated first. Must be unique
+                        description:
+                          Evaluation order; lower numbers are evaluated first. Must be unique
                           across the flag's rules.
                       serve_variation:
                         type: string
-                        description: Variation served when this rule matches. Must be a key in
+                        description:
+                          Variation served when this rule matches. Must be a key in
                           `variations`.
                       rollout:
                         type: object
                         properties:
                           percentage:
                             type: number
-                            description: Percentage of matching traffic (0–100) served this variation. For
+                            description:
+                              Percentage of matching traffic (0–100) served this variation. For
                               multi-way splits, use cumulative upper bounds
                               across rules (e.g. 30, 70, 100).
                           attribute:
                             type: string
-                            description: Context attribute used for sticky bucketing. Defaults to
+                            description:
+                              Context attribute used for sticky bucketing. Defaults to
                               `targetingKey`. If absent at evaluation time,
                               bucketing is random per request.
                         required:
@@ -2201,13 +2311,15 @@ paths:
                       - conditions
                       - priority
                       - serve_variation
-                  description: "Body param: Targeting rules evaluated in ascending `priority`; the
+                  description:
+                    "Body param: Targeting rules evaluated in ascending `priority`; the
                     first matching rule wins. An empty array means the flag
                     always serves `default_variation`."
                 variations:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Map of variation name to value. All values must be the
+                  description:
+                    "Body param: Map of variation name to value. All values must be the
                     same type (boolean, string, number, or JSON object/array).
                     Each serialized value must be 10KB or smaller."
                 description:
@@ -2222,7 +2334,8 @@ paths:
                     - string
                     - number
                     - json
-                  description: "Body param: Value type of the flag's variations. Inferred from the
+                  description:
+                    "Body param: Value type of the flag's variations. Inferred from the
                     variation values on write, so it may be omitted in
                     requests."
               required:
@@ -2241,15 +2354,18 @@ paths:
                 properties:
                   default_variation:
                     type: string
-                    description: Variation served when no rule matches or the flag is disabled. Must
+                    description:
+                      Variation served when no rule matches or the flag is disabled. Must
                       be a key in `variations`.
                   enabled:
                     type: boolean
-                    description: When false, the flag bypasses all rules and always serves
+                    description:
+                      When false, the flag bypasses all rules and always serves
                       `default_variation`.
                   key:
                     type: string
-                    description: Unique identifier for the flag within an app. Used in all
+                    description:
+                      Unique identifier for the flag within an app. Used in all
                       evaluation and SDK calls.
                   rules:
                     type: array
@@ -2279,7 +2395,8 @@ paths:
                                       - in
                                       - not_in
                                   value:
-                                    description: Value to compare against the context attribute. Must be an array
+                                    description:
+                                      Value to compare against the context attribute. Must be an array
                                       for `in` and `not_in`; numeric and
                                       ISO-8601 datetime strings are accepted by
                                       the ordering operators.
@@ -2312,7 +2429,8 @@ paths:
                                                 - in
                                                 - not_in
                                             value:
-                                              description: Value to compare against the context attribute. Must be an array
+                                              description:
+                                                Value to compare against the context attribute. Must be an array
                                                 for `in` and `not_in`; numeric
                                                 and ISO-8601 datetime strings
                                                 are accepted by the ordering
@@ -2346,7 +2464,8 @@ paths:
                                                           - in
                                                           - not_in
                                                       value:
-                                                        description: Value to compare against the context attribute. Must be an array
+                                                        description:
+                                                          Value to compare against the context attribute. Must be an array
                                                           for `in` and `not_in`;
                                                           numeric and ISO-8601
                                                           datetime strings are
@@ -2381,7 +2500,8 @@ paths:
                                                                     - in
                                                                     - not_in
                                                                 value:
-                                                                  description: Value to compare against the context attribute. Must be an array
+                                                                  description:
+                                                                    Value to compare against the context attribute. Must be an array
                                                                     for `in` and
                                                                     `not_in`; numeric
                                                                     and ISO-8601
@@ -2417,7 +2537,8 @@ paths:
                                                                               - in
                                                                               - not_in
                                                                           value:
-                                                                            description: Value to compare against the context attribute. Must be an array
+                                                                            description:
+                                                                              Value to compare against the context attribute. Must be an array
                                                                               for `in` and
                                                                               `not_in`; numeric
                                                                               and ISO-8601
@@ -2453,7 +2574,8 @@ paths:
                                                                                         - in
                                                                                         - not_in
                                                                                     value:
-                                                                                      description: Value to compare against the context attribute. Must be an array
+                                                                                      description:
+                                                                                        Value to compare against the context attribute. Must be an array
                                                                                         for `in` and
                                                                                         `not_in`; numeric
                                                                                         and ISO-8601
@@ -2476,7 +2598,10 @@ paths:
                                                                                           - type: object
                                                                                             additionalProperties: true
                                                                                           - type: array
-                                                                                            items: {}
+                                                                                            items:
+                                                                                              {
+                                                                                                ,
+                                                                                              }
                                                                                         nullable: true
                                                                                     logical_operator:
                                                                                       type: string
@@ -2526,27 +2651,32 @@ paths:
                                 required:
                                   - clauses
                                   - logical_operator
-                          description: Conditions the context must satisfy for this rule to match. An
+                          description:
+                            Conditions the context must satisfy for this rule to match. An
                             empty array matches all contexts.
                         priority:
                           type: number
-                          description: Evaluation order; lower numbers are evaluated first. Must be unique
+                          description:
+                            Evaluation order; lower numbers are evaluated first. Must be unique
                             across the flag's rules.
                         serve_variation:
                           type: string
-                          description: Variation served when this rule matches. Must be a key in
+                          description:
+                            Variation served when this rule matches. Must be a key in
                             `variations`.
                         rollout:
                           type: object
                           properties:
                             percentage:
                               type: number
-                              description: Percentage of matching traffic (0–100) served this variation. For
+                              description:
+                                Percentage of matching traffic (0–100) served this variation. For
                                 multi-way splits, use cumulative upper bounds
                                 across rules (e.g. 30, 70, 100).
                             attribute:
                               type: string
-                              description: Context attribute used for sticky bucketing. Defaults to
+                              description:
+                                Context attribute used for sticky bucketing. Defaults to
                                 `targetingKey`. If absent at evaluation time,
                                 bucketing is random per request.
                           required:
@@ -2555,13 +2685,15 @@ paths:
                         - conditions
                         - priority
                         - serve_variation
-                    description: Targeting rules evaluated in ascending `priority`; the first
+                    description:
+                      Targeting rules evaluated in ascending `priority`; the first
                       matching rule wins. An empty array means the flag always
                       serves `default_variation`.
                   variations:
                     type: object
                     additionalProperties: true
-                    description: Map of variation name to value. All values must be the same type
+                    description:
+                      Map of variation name to value. All values must be the same type
                       (boolean, string, number, or JSON object/array). Each
                       serialized value must be 10KB or smaller.
                   description:
@@ -2575,7 +2707,8 @@ paths:
                       - string
                       - number
                       - json
-                    description: Value type of the flag's variations. Inferred from the variation
+                    description:
+                      Value type of the flag's variations. Inferred from the variation
                       values on write, so it may be omitted in requests.
                   updated_at:
                     type: string
@@ -2600,7 +2733,8 @@ paths:
   /accounts/{account_id}/flagship/apps/{appId}/flags/{flagKey}/changelog:
     get:
       operationId: listAppFlagChangelogs
-      description: Returns the audit history for a flag, newest first. Each entry
+      description:
+        Returns the audit history for a flag, newest first. Each entry
         includes the event type and full flag state after the change; `update`
         entries include a field-level diff. Capped at 200 entries per flag.
       parameters:
@@ -2645,15 +2779,18 @@ paths:
                         properties:
                           default_variation:
                             type: string
-                            description: Variation served when no rule matches or the flag is disabled. Must
+                            description:
+                              Variation served when no rule matches or the flag is disabled. Must
                               be a key in `variations`.
                           enabled:
                             type: boolean
-                            description: When false, the flag bypasses all rules and always serves
+                            description:
+                              When false, the flag bypasses all rules and always serves
                               `default_variation`.
                           key:
                             type: string
-                            description: Unique identifier for the flag within an app. Used in all
+                            description:
+                              Unique identifier for the flag within an app. Used in all
                               evaluation and SDK calls.
                           rules:
                             type: array
@@ -2683,7 +2820,8 @@ paths:
                                               - in
                                               - not_in
                                           value:
-                                            description: Value to compare against the context attribute. Must be an array
+                                            description:
+                                              Value to compare against the context attribute. Must be an array
                                               for `in` and `not_in`; numeric and
                                               ISO-8601 datetime strings are
                                               accepted by the ordering
@@ -2717,7 +2855,8 @@ paths:
                                                         - in
                                                         - not_in
                                                     value:
-                                                      description: Value to compare against the context attribute. Must be an array
+                                                      description:
+                                                        Value to compare against the context attribute. Must be an array
                                                         for `in` and `not_in`;
                                                         numeric and ISO-8601
                                                         datetime strings are
@@ -2752,7 +2891,8 @@ paths:
                                                                   - in
                                                                   - not_in
                                                               value:
-                                                                description: Value to compare against the context attribute. Must be an array
+                                                                description:
+                                                                  Value to compare against the context attribute. Must be an array
                                                                   for `in` and
                                                                   `not_in`; numeric
                                                                   and ISO-8601
@@ -2788,7 +2928,8 @@ paths:
                                                                             - in
                                                                             - not_in
                                                                         value:
-                                                                          description: Value to compare against the context attribute. Must be an array
+                                                                          description:
+                                                                            Value to compare against the context attribute. Must be an array
                                                                             for `in` and
                                                                             `not_in`; numeric
                                                                             and ISO-8601
@@ -2824,7 +2965,8 @@ paths:
                                                                                       - in
                                                                                       - not_in
                                                                                   value:
-                                                                                    description: Value to compare against the context attribute. Must be an array
+                                                                                    description:
+                                                                                      Value to compare against the context attribute. Must be an array
                                                                                       for `in` and
                                                                                       `not_in`; numeric
                                                                                       and ISO-8601
@@ -2860,7 +3002,8 @@ paths:
                                                                                                 - in
                                                                                                 - not_in
                                                                                             value:
-                                                                                              description: Value to compare against the context attribute. Must be an array
+                                                                                              description:
+                                                                                                Value to compare against the context attribute. Must be an array
                                                                                                 for `in` and
                                                                                                 `not_in`; numeric
                                                                                                 and ISO-8601
@@ -2883,7 +3026,10 @@ paths:
                                                                                                   - type: object
                                                                                                     additionalProperties: true
                                                                                                   - type: array
-                                                                                                    items: {}
+                                                                                                    items:
+                                                                                                      {
+                                                                                                        ,
+                                                                                                      }
                                                                                                 nullable: true
                                                                                             logical_operator:
                                                                                               type: string
@@ -2933,27 +3079,32 @@ paths:
                                         required:
                                           - clauses
                                           - logical_operator
-                                  description: Conditions the context must satisfy for this rule to match. An
+                                  description:
+                                    Conditions the context must satisfy for this rule to match. An
                                     empty array matches all contexts.
                                 priority:
                                   type: number
-                                  description: Evaluation order; lower numbers are evaluated first. Must be unique
+                                  description:
+                                    Evaluation order; lower numbers are evaluated first. Must be unique
                                     across the flag's rules.
                                 serve_variation:
                                   type: string
-                                  description: Variation served when this rule matches. Must be a key in
+                                  description:
+                                    Variation served when this rule matches. Must be a key in
                                     `variations`.
                                 rollout:
                                   type: object
                                   properties:
                                     percentage:
                                       type: number
-                                      description: Percentage of matching traffic (0–100) served this variation. For
+                                      description:
+                                        Percentage of matching traffic (0–100) served this variation. For
                                         multi-way splits, use cumulative upper
                                         bounds across rules (e.g. 30, 70, 100).
                                     attribute:
                                       type: string
-                                      description: Context attribute used for sticky bucketing. Defaults to
+                                      description:
+                                        Context attribute used for sticky bucketing. Defaults to
                                         `targetingKey`. If absent at evaluation
                                         time, bucketing is random per request.
                                   required:
@@ -2962,13 +3113,15 @@ paths:
                                 - conditions
                                 - priority
                                 - serve_variation
-                            description: Targeting rules evaluated in ascending `priority`; the first
+                            description:
+                              Targeting rules evaluated in ascending `priority`; the first
                               matching rule wins. An empty array means the flag
                               always serves `default_variation`.
                           variations:
                             type: object
                             additionalProperties: true
-                            description: Map of variation name to value. All values must be the same type
+                            description:
+                              Map of variation name to value. All values must be the same type
                               (boolean, string, number, or JSON object/array).
                               Each serialized value must be 10KB or smaller.
                           description:
@@ -2982,7 +3135,8 @@ paths:
                               - string
                               - number
                               - json
-                            description: Value type of the flag's variations. Inferred from the variation
+                            description:
+                              Value type of the flag's variations. Inferred from the variation
                               values on write, so it may be omitted in requests.
                           updated_at:
                             type: string
@@ -3011,15 +3165,18 @@ paths:
                         properties:
                           default_variation:
                             type: string
-                            description: Variation served when no rule matches or the flag is disabled. Must
+                            description:
+                              Variation served when no rule matches or the flag is disabled. Must
                               be a key in `variations`.
                           enabled:
                             type: boolean
-                            description: When false, the flag bypasses all rules and always serves
+                            description:
+                              When false, the flag bypasses all rules and always serves
                               `default_variation`.
                           key:
                             type: string
-                            description: Unique identifier for the flag within an app. Used in all
+                            description:
+                              Unique identifier for the flag within an app. Used in all
                               evaluation and SDK calls.
                           rules:
                             type: array
@@ -3049,7 +3206,8 @@ paths:
                                               - in
                                               - not_in
                                           value:
-                                            description: Value to compare against the context attribute. Must be an array
+                                            description:
+                                              Value to compare against the context attribute. Must be an array
                                               for `in` and `not_in`; numeric and
                                               ISO-8601 datetime strings are
                                               accepted by the ordering
@@ -3083,7 +3241,8 @@ paths:
                                                         - in
                                                         - not_in
                                                     value:
-                                                      description: Value to compare against the context attribute. Must be an array
+                                                      description:
+                                                        Value to compare against the context attribute. Must be an array
                                                         for `in` and `not_in`;
                                                         numeric and ISO-8601
                                                         datetime strings are
@@ -3118,7 +3277,8 @@ paths:
                                                                   - in
                                                                   - not_in
                                                               value:
-                                                                description: Value to compare against the context attribute. Must be an array
+                                                                description:
+                                                                  Value to compare against the context attribute. Must be an array
                                                                   for `in` and
                                                                   `not_in`; numeric
                                                                   and ISO-8601
@@ -3154,7 +3314,8 @@ paths:
                                                                             - in
                                                                             - not_in
                                                                         value:
-                                                                          description: Value to compare against the context attribute. Must be an array
+                                                                          description:
+                                                                            Value to compare against the context attribute. Must be an array
                                                                             for `in` and
                                                                             `not_in`; numeric
                                                                             and ISO-8601
@@ -3190,7 +3351,8 @@ paths:
                                                                                       - in
                                                                                       - not_in
                                                                                   value:
-                                                                                    description: Value to compare against the context attribute. Must be an array
+                                                                                    description:
+                                                                                      Value to compare against the context attribute. Must be an array
                                                                                       for `in` and
                                                                                       `not_in`; numeric
                                                                                       and ISO-8601
@@ -3226,7 +3388,8 @@ paths:
                                                                                                 - in
                                                                                                 - not_in
                                                                                             value:
-                                                                                              description: Value to compare against the context attribute. Must be an array
+                                                                                              description:
+                                                                                                Value to compare against the context attribute. Must be an array
                                                                                                 for `in` and
                                                                                                 `not_in`; numeric
                                                                                                 and ISO-8601
@@ -3249,7 +3412,10 @@ paths:
                                                                                                   - type: object
                                                                                                     additionalProperties: true
                                                                                                   - type: array
-                                                                                                    items: {}
+                                                                                                    items:
+                                                                                                      {
+                                                                                                        ,
+                                                                                                      }
                                                                                                 nullable: true
                                                                                             logical_operator:
                                                                                               type: string
@@ -3299,27 +3465,32 @@ paths:
                                         required:
                                           - clauses
                                           - logical_operator
-                                  description: Conditions the context must satisfy for this rule to match. An
+                                  description:
+                                    Conditions the context must satisfy for this rule to match. An
                                     empty array matches all contexts.
                                 priority:
                                   type: number
-                                  description: Evaluation order; lower numbers are evaluated first. Must be unique
+                                  description:
+                                    Evaluation order; lower numbers are evaluated first. Must be unique
                                     across the flag's rules.
                                 serve_variation:
                                   type: string
-                                  description: Variation served when this rule matches. Must be a key in
+                                  description:
+                                    Variation served when this rule matches. Must be a key in
                                     `variations`.
                                 rollout:
                                   type: object
                                   properties:
                                     percentage:
                                       type: number
-                                      description: Percentage of matching traffic (0–100) served this variation. For
+                                      description:
+                                        Percentage of matching traffic (0–100) served this variation. For
                                         multi-way splits, use cumulative upper
                                         bounds across rules (e.g. 30, 70, 100).
                                     attribute:
                                       type: string
-                                      description: Context attribute used for sticky bucketing. Defaults to
+                                      description:
+                                        Context attribute used for sticky bucketing. Defaults to
                                         `targetingKey`. If absent at evaluation
                                         time, bucketing is random per request.
                                   required:
@@ -3328,13 +3499,15 @@ paths:
                                 - conditions
                                 - priority
                                 - serve_variation
-                            description: Targeting rules evaluated in ascending `priority`; the first
+                            description:
+                              Targeting rules evaluated in ascending `priority`; the first
                               matching rule wins. An empty array means the flag
                               always serves `default_variation`.
                           variations:
                             type: object
                             additionalProperties: true
-                            description: Map of variation name to value. All values must be the same type
+                            description:
+                              Map of variation name to value. All values must be the same type
                               (boolean, string, number, or JSON object/array).
                               Each serialized value must be 10KB or smaller.
                           description:
@@ -3348,7 +3521,8 @@ paths:
                               - string
                               - number
                               - json
-                            description: Value type of the flag's variations. Inferred from the variation
+                            description:
+                              Value type of the flag's variations. Inferred from the variation
                               values on write, so it may be omitted in requests.
                           updated_at:
                             type: string
@@ -3377,15 +3551,18 @@ paths:
                         properties:
                           default_variation:
                             type: string
-                            description: Variation served when no rule matches or the flag is disabled. Must
+                            description:
+                              Variation served when no rule matches or the flag is disabled. Must
                               be a key in `variations`.
                           enabled:
                             type: boolean
-                            description: When false, the flag bypasses all rules and always serves
+                            description:
+                              When false, the flag bypasses all rules and always serves
                               `default_variation`.
                           key:
                             type: string
-                            description: Unique identifier for the flag within an app. Used in all
+                            description:
+                              Unique identifier for the flag within an app. Used in all
                               evaluation and SDK calls.
                           rules:
                             type: array
@@ -3415,7 +3592,8 @@ paths:
                                               - in
                                               - not_in
                                           value:
-                                            description: Value to compare against the context attribute. Must be an array
+                                            description:
+                                              Value to compare against the context attribute. Must be an array
                                               for `in` and `not_in`; numeric and
                                               ISO-8601 datetime strings are
                                               accepted by the ordering
@@ -3449,7 +3627,8 @@ paths:
                                                         - in
                                                         - not_in
                                                     value:
-                                                      description: Value to compare against the context attribute. Must be an array
+                                                      description:
+                                                        Value to compare against the context attribute. Must be an array
                                                         for `in` and `not_in`;
                                                         numeric and ISO-8601
                                                         datetime strings are
@@ -3484,7 +3663,8 @@ paths:
                                                                   - in
                                                                   - not_in
                                                               value:
-                                                                description: Value to compare against the context attribute. Must be an array
+                                                                description:
+                                                                  Value to compare against the context attribute. Must be an array
                                                                   for `in` and
                                                                   `not_in`; numeric
                                                                   and ISO-8601
@@ -3520,7 +3700,8 @@ paths:
                                                                             - in
                                                                             - not_in
                                                                         value:
-                                                                          description: Value to compare against the context attribute. Must be an array
+                                                                          description:
+                                                                            Value to compare against the context attribute. Must be an array
                                                                             for `in` and
                                                                             `not_in`; numeric
                                                                             and ISO-8601
@@ -3556,7 +3737,8 @@ paths:
                                                                                       - in
                                                                                       - not_in
                                                                                   value:
-                                                                                    description: Value to compare against the context attribute. Must be an array
+                                                                                    description:
+                                                                                      Value to compare against the context attribute. Must be an array
                                                                                       for `in` and
                                                                                       `not_in`; numeric
                                                                                       and ISO-8601
@@ -3592,7 +3774,8 @@ paths:
                                                                                                 - in
                                                                                                 - not_in
                                                                                             value:
-                                                                                              description: Value to compare against the context attribute. Must be an array
+                                                                                              description:
+                                                                                                Value to compare against the context attribute. Must be an array
                                                                                                 for `in` and
                                                                                                 `not_in`; numeric
                                                                                                 and ISO-8601
@@ -3615,7 +3798,10 @@ paths:
                                                                                                   - type: object
                                                                                                     additionalProperties: true
                                                                                                   - type: array
-                                                                                                    items: {}
+                                                                                                    items:
+                                                                                                      {
+                                                                                                        ,
+                                                                                                      }
                                                                                                 nullable: true
                                                                                             logical_operator:
                                                                                               type: string
@@ -3665,27 +3851,32 @@ paths:
                                         required:
                                           - clauses
                                           - logical_operator
-                                  description: Conditions the context must satisfy for this rule to match. An
+                                  description:
+                                    Conditions the context must satisfy for this rule to match. An
                                     empty array matches all contexts.
                                 priority:
                                   type: number
-                                  description: Evaluation order; lower numbers are evaluated first. Must be unique
+                                  description:
+                                    Evaluation order; lower numbers are evaluated first. Must be unique
                                     across the flag's rules.
                                 serve_variation:
                                   type: string
-                                  description: Variation served when this rule matches. Must be a key in
+                                  description:
+                                    Variation served when this rule matches. Must be a key in
                                     `variations`.
                                 rollout:
                                   type: object
                                   properties:
                                     percentage:
                                       type: number
-                                      description: Percentage of matching traffic (0–100) served this variation. For
+                                      description:
+                                        Percentage of matching traffic (0–100) served this variation. For
                                         multi-way splits, use cumulative upper
                                         bounds across rules (e.g. 30, 70, 100).
                                     attribute:
                                       type: string
-                                      description: Context attribute used for sticky bucketing. Defaults to
+                                      description:
+                                        Context attribute used for sticky bucketing. Defaults to
                                         `targetingKey`. If absent at evaluation
                                         time, bucketing is random per request.
                                   required:
@@ -3694,13 +3885,15 @@ paths:
                                 - conditions
                                 - priority
                                 - serve_variation
-                            description: Targeting rules evaluated in ascending `priority`; the first
+                            description:
+                              Targeting rules evaluated in ascending `priority`; the first
                               matching rule wins. An empty array means the flag
                               always serves `default_variation`.
                           variations:
                             type: object
                             additionalProperties: true
-                            description: Map of variation name to value. All values must be the same type
+                            description:
+                              Map of variation name to value. All values must be the same type
                               (boolean, string, number, or JSON object/array).
                               Each serialized value must be 10KB or smaller.
                           description:
@@ -3714,7 +3907,8 @@ paths:
                               - string
                               - number
                               - json
-                            description: Value type of the flag's variations. Inferred from the variation
+                            description:
+                              Value type of the flag's variations. Inferred from the variation
                               values on write, so it may be omitted in requests.
                           updated_at:
                             type: string

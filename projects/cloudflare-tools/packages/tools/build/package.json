@@ -11,6 +11,7 @@
     "dev": "tsc --watch"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*",
     "rolldown": "catalog:",
     "tsdown": "catalog:"

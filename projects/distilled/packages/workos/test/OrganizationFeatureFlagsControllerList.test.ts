@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationFeatureFlagsControllerList", () => {
   it(
     "lists feature flags for an organization",
+    { timeout: 60_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -40,11 +41,11 @@ describe("OrganizationFeatureFlagsControllerList", () => {
         expect(Array.isArray(flag.tags)).toBe(true);
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationFeatureFlagsControllerList({
@@ -53,6 +54,5 @@ describe("OrganizationFeatureFlagsControllerList", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

@@ -9,6 +9,7 @@ const apiKey = process.env.TYPESENSE_API_KEY;
 describe("importStemmingDictionary", () => {
   it(
     "imports a stemming dictionary and returns undefined (Schema.Void)",
+    { timeout: 30_000 },
     async () => {
       const dictionaryId = `distilled-typesense-impstem-${testRunId}`;
 
@@ -35,11 +36,11 @@ describe("importStemmingDictionary", () => {
         ).catch(() => {});
       }
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the request body is malformed / missing word mappings",
+    { timeout: 30_000 },
     async () => {
       // Sending only `id` with no word/root pairs results in an empty
       // (or malformed) JSONL stream from Typesense's perspective → 400.
@@ -51,6 +52,5 @@ describe("importStemmingDictionary", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

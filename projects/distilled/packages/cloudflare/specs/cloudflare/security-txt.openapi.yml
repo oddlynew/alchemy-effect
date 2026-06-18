@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/security-center/securitytxt:
     get:
       operationId: getSecurityTxt
-      description: "Retrieves the current security.txt file configuration for a zone,
+      description:
+        "Retrieves the current security.txt file configuration for a zone,
         used for security vulnerability reporting.  @example ```ts const
         securityTXT = await client.securityTXT.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -66,7 +67,8 @@ paths:
           - status: 403
     put:
       operationId: putSecurityTxt
-      description: "Updates the security.txt file configuration for a zone, which
+      description:
+        "Updates the security.txt file configuration for a zone, which
         provides security researchers with vulnerability reporting
         information.  @example ```ts const securityTXT = await
         client.securityTXT.update({ zone_id: '023e105f4ecef8ad9ca31a8372d0c353',

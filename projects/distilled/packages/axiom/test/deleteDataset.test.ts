@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteDataset", () => {
   it(
     "deletes an existing dataset and makes it unfetchable afterwards",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-deleteds-${testRunId}`;
 
@@ -36,11 +37,11 @@ describe("deleteDataset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a dataset name that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteDataset({
@@ -50,11 +51,11 @@ describe("deleteDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack dataset delete access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -77,6 +78,5 @@ describe("deleteDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

@@ -6,6 +6,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUsersControllerGetEmailVerification", () => {
   it(
     "returns email verification details when present, or NotFound otherwise",
+    { timeout: 30_000 },
     async () => {
       // Email verification codes are issued via internal flows that don't
       // surface their id through any other SDK operation, so we can't
@@ -18,8 +19,7 @@ describe("UserlandUsersControllerGetEmailVerification", () => {
           Effect.matchEffect({
             onSuccess: (verification) =>
               Effect.succeed({ ok: true as const, verification }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -35,11 +35,11 @@ describe("UserlandUsersControllerGetEmailVerification", () => {
         expect(result.error._tag).toBe("NotFound");
       }
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent email verification id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerGetEmailVerification({
@@ -48,6 +48,5 @@ describe("UserlandUsersControllerGetEmailVerification", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

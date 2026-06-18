@@ -6,6 +6,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationControllerListEffectivePermissions", () => {
   it(
     "lists effective permissions for an organization membership on a resource",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -20,11 +21,11 @@ describe("AuthorizationControllerListEffectivePermissions", () => {
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.list_metadata).toBeDefined();
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationControllerListEffectivePermissions({
@@ -35,11 +36,11 @@ describe("AuthorizationControllerListEffectivePermissions", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the membership belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationControllerListEffectivePermissions({
@@ -50,11 +51,11 @@ describe("AuthorizationControllerListEffectivePermissions", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the membership id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationControllerListEffectivePermissions({
@@ -65,6 +66,5 @@ describe("AuthorizationControllerListEffectivePermissions", () => {
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

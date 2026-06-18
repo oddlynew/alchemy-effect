@@ -20,6 +20,7 @@ const minimalDashboard = (name: string, owner: string) => ({
 describe("deleteDashboard", () => {
   it(
     "deletes an existing dashboard and subsequent fetches return NotFound",
+    { timeout: 60_000 },
     async () => {
       const name = `distilled-axiom-deldash-${testRunId}`;
       let createdUid: string | undefined;
@@ -52,11 +53,11 @@ describe("deleteDashboard", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a dashboard uid that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteDashboard({ uid: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -64,6 +65,5 @@ describe("deleteDashboard", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

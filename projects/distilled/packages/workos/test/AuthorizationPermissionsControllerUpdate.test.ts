@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationPermissionsControllerUpdate", () => {
   it(
     "updates a permission's name and description",
+    { timeout: 30_000 },
     async () => {
       const slug = `update_perm_${testRunId}`;
 
@@ -38,11 +39,11 @@ describe("AuthorizationPermissionsControllerUpdate", () => {
       expect(permission.name).toBe(`Updated Name ${testRunId}`);
       expect(permission.description).toBe("Updated description");
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent permission slug",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationPermissionsControllerUpdate({
@@ -53,11 +54,11 @@ describe("AuthorizationPermissionsControllerUpdate", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when updating a system permission",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -83,11 +84,11 @@ describe("AuthorizationPermissionsControllerUpdate", () => {
 
       expect(error._tag).toBe("Forbidden");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when name is empty",
+    { timeout: 30_000 },
     async () => {
       const slug = `update_perm_422_${testRunId}`;
 
@@ -115,6 +116,5 @@ describe("AuthorizationPermissionsControllerUpdate", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

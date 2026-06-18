@@ -3,29 +3,27 @@
 Effect-native SDKs for cloud providers with exhaustive error typing, retry policies, and streaming pagination.
 
 ```typescript
-import * as Effect from "effect/Effect"
-import * as Stream from "effect/Stream"
-import * as Lambda from "@distilled.cloud/aws/lambda"
-import * as S3 from "@distilled.cloud/aws/s3"
+import * as Effect from "effect/Effect";
+import * as Stream from "effect/Stream";
+import * as Lambda from "@distilled.cloud/aws/lambda";
+import * as S3 from "@distilled.cloud/aws/s3";
 
-const bucket = yield* S3.getBucket({
-  Bucket: "my-bucket"
-}).pipe(
-  Effect.catch("NoSuchBucket", () =>
-    Effect.void
-  )
-)
+const bucket =
+  yield *
+  S3.getBucket({
+    Bucket: "my-bucket",
+  }).pipe(Effect.catch("NoSuchBucket", () => Effect.void));
 
-const functions = yield* Lambda.listFunctions
-  .items({})
-  .pipe(Stream.take(10), Stream.runCollect)
+const functions =
+  yield *
+  Lambda.listFunctions.items({}).pipe(Stream.take(10), Stream.runCollect);
 ```
 
 ## Generating SDKS
 
 To generate an SDK just clone the distilled repo. run bun install then run the create-sdk-full command.
 
-Every SDK has all of its sources as git submodules; you can either supply a git repo or an http url to an openapi (and a repo that updates nightly based on that http url will be generated). It's also reccommended you use --note to specify where the openapi spec is in the repo (agents will struggly to find it on their own). 
+Every SDK has all of its sources as git submodules; you can either supply a git repo or an http url to an openapi (and a repo that updates nightly based on that http url will be generated). It's also reccommended you use --note to specify where the openapi spec is in the repo (agents will struggly to find it on their own).
 
 e.g. bun scripts/create-sdk-full.ts discord https://github.com/discord/discord-api-spec --note "use the spec is in /specs/openapi.json from the provided repo"
 
@@ -35,21 +33,21 @@ For larger SDKs its very likely you hit 5hr limits on claude, you can just run t
 
 ## Packages
 
-| Package | Description |
-|---------|-------------|
-| [`@distilled.cloud/core`](./packages/core) | Shared client, traits, errors, and categories |
-| [`@distilled.cloud/aws`](./packages/aws) | AWS SDK from Smithy models (S3, Lambda, DynamoDB, 200+ services) |
-| [`@distilled.cloud/cloudflare`](./packages/cloudflare) | Cloudflare SDK (Workers, R2, KV, D1, Queues, DNS) |
-| [`@distilled.cloud/coinbase`](./packages/coinbase) | Coinbase CDP SDK (EVM/Solana wallets, swaps, faucets, onramp) |
-| [`@distilled.cloud/fly-io`](./packages/fly-io) | Fly.io SDK from OpenAPI spec |
-| [`@distilled.cloud/gcp`](./packages/gcp) | GCP SDK from Discovery Documents |
-| [`@distilled.cloud/mongodb-atlas`](./packages/mongodb-atlas) | MongoDB Atlas SDK from OpenAPI spec |
-| [`@distilled.cloud/neon`](./packages/neon) | Neon serverless Postgres SDK from OpenAPI spec |
-| [`@distilled.cloud/planetscale`](./packages/planetscale) | PlanetScale MySQL SDK from OpenAPI spec |
-| [`@distilled.cloud/prisma-postgres`](./packages/prisma-postgres) | Prisma Postgres SDK from OpenAPI spec |
-| [`@distilled.cloud/stripe`](./packages/stripe) | Stripe SDK from OpenAPI spec |
-| [`@distilled.cloud/supabase`](./packages/supabase) | Supabase Management API SDK from OpenAPI spec |
-| [`@distilled.cloud/turso`](./packages/turso) | Turso SDK from OpenAPI spec |
+| Package                                                          | Description                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`@distilled.cloud/core`](./packages/core)                       | Shared client, traits, errors, and categories                    |
+| [`@distilled.cloud/aws`](./packages/aws)                         | AWS SDK from Smithy models (S3, Lambda, DynamoDB, 200+ services) |
+| [`@distilled.cloud/cloudflare`](./packages/cloudflare)           | Cloudflare SDK (Workers, R2, KV, D1, Queues, DNS)                |
+| [`@distilled.cloud/coinbase`](./packages/coinbase)               | Coinbase CDP SDK (EVM/Solana wallets, swaps, faucets, onramp)    |
+| [`@distilled.cloud/fly-io`](./packages/fly-io)                   | Fly.io SDK from OpenAPI spec                                     |
+| [`@distilled.cloud/gcp`](./packages/gcp)                         | GCP SDK from Discovery Documents                                 |
+| [`@distilled.cloud/mongodb-atlas`](./packages/mongodb-atlas)     | MongoDB Atlas SDK from OpenAPI spec                              |
+| [`@distilled.cloud/neon`](./packages/neon)                       | Neon serverless Postgres SDK from OpenAPI spec                   |
+| [`@distilled.cloud/planetscale`](./packages/planetscale)         | PlanetScale MySQL SDK from OpenAPI spec                          |
+| [`@distilled.cloud/prisma-postgres`](./packages/prisma-postgres) | Prisma Postgres SDK from OpenAPI spec                            |
+| [`@distilled.cloud/stripe`](./packages/stripe)                   | Stripe SDK from OpenAPI spec                                     |
+| [`@distilled.cloud/supabase`](./packages/supabase)               | Supabase Management API SDK from OpenAPI spec                    |
+| [`@distilled.cloud/turso`](./packages/turso)                     | Turso SDK from OpenAPI spec                                      |
 
 ## Getting Started
 
@@ -97,11 +95,11 @@ The `.gitmodules` file also has `ignore = dirty` on every submodule, so most of 
 
 ### Why `ignore = dirty`?
 
-| Setting | Tracks submodule HEAD changes | Scans submodule working tree |
-|---------|------|------|
-| `ignore = none` (default) | Yes | Yes (slow) |
-| `ignore = dirty` | Yes | No (fast) |
-| `ignore = all` | No | No (breaks `git add` after `specs:update`) |
+| Setting                   | Tracks submodule HEAD changes | Scans submodule working tree               |
+| ------------------------- | ----------------------------- | ------------------------------------------ |
+| `ignore = none` (default) | Yes                           | Yes (slow)                                 |
+| `ignore = dirty`          | Yes                           | No (fast)                                  |
+| `ignore = all`            | No                            | No (breaks `git add` after `specs:update`) |
 
 `dirty` skips the expensive working tree scan but still detects when a submodule's committed SHA changes. After `specs:update`, `git status` will show the updated submodule and `git add` / `git commit` work normally.
 
@@ -127,33 +125,33 @@ bun run specs:fetch    # run inside a package directory
 bun run specs:update   # run inside a package directory
 ```
 
-| Package | Submodules |
-|---------|-----------|
-| `aws` | `api-models-aws`, `aws-sdk-js-v3`, `smithy`, `smithy-typescript` |
-| `cloudflare` | `cloudflare-typescript` |
-| `coinbase` | `cdp-sdk` |
-| `fly-io` | `distilled-spec-fly-io` |
-| `gcp` | `distilled-spec-gcp` |
-| `mongodb-atlas` | `distilled-spec-mongodb-atlas` |
-| `neon` | `distilled-spec-neon` |
-| `planetscale` | `distilled-spec-planetscale` |
-| `prisma-postgres` | `distilled-spec-prisma-postgres` |
-| `stripe` | `stripe-openapi` |
-| `supabase` | `distilled-spec-supabase` |
-| `turso` | `turso-docs` |
+| Package           | Submodules                                                       |
+| ----------------- | ---------------------------------------------------------------- |
+| `aws`             | `api-models-aws`, `aws-sdk-js-v3`, `smithy`, `smithy-typescript` |
+| `cloudflare`      | `cloudflare-typescript`                                          |
+| `coinbase`        | `cdp-sdk`                                                        |
+| `fly-io`          | `distilled-spec-fly-io`                                          |
+| `gcp`             | `distilled-spec-gcp`                                             |
+| `mongodb-atlas`   | `distilled-spec-mongodb-atlas`                                   |
+| `neon`            | `distilled-spec-neon`                                            |
+| `planetscale`     | `distilled-spec-planetscale`                                     |
+| `prisma-postgres` | `distilled-spec-prisma-postgres`                                 |
+| `stripe`          | `stripe-openapi`                                                 |
+| `supabase`        | `distilled-spec-supabase`                                        |
+| `turso`           | `turso-docs`                                                     |
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| `bun run build` | Build core, then all packages |
-| `bun run typecheck` | Type check all packages |
-| `bun run check` | Full check (types + lint + format) |
-| `bun run test` | Run all tests |
-| `bun run fmt` | Format all packages |
-| `bun run lint` | Lint all packages |
-| `bun run generate` | Regenerate all SDKs from specs |
-| `bun run create-sdk <name> --specs <url>...` | Scaffold a new SDK package |
+| Script                                       | Description                        |
+| -------------------------------------------- | ---------------------------------- |
+| `bun run build`                              | Build core, then all packages      |
+| `bun run typecheck`                          | Type check all packages            |
+| `bun run check`                              | Full check (types + lint + format) |
+| `bun run test`                               | Run all tests                      |
+| `bun run fmt`                                | Format all packages                |
+| `bun run lint`                               | Lint all packages                  |
+| `bun run generate`                           | Regenerate all SDKs from specs     |
+| `bun run create-sdk <name> --specs <url>...` | Scaffold a new SDK package         |
 
 ## Deployment
 

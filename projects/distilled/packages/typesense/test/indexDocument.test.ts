@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("indexDocument", () => {
   it(
     "indexes a new document into an existing collection",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-idxdoc-${testRunId}`;
       const documentId = `doc-${testRunId}`;
@@ -49,11 +50,11 @@ describe("indexDocument", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         indexDocument({
@@ -65,6 +66,5 @@ describe("indexDocument", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

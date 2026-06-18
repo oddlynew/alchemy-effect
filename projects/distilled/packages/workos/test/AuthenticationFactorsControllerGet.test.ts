@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthenticationFactorsControllerGet", () => {
   it(
     "retrieves an authentication factor by id",
+    { timeout: 30_000 },
     async () => {
       const factor = await runEffect(
         Effect.gen(function* () {
@@ -27,11 +28,11 @@ describe("AuthenticationFactorsControllerGet", () => {
       expect(factor.totp?.issuer).toBe(`distilled-workos-${testRunId}`);
       expect(factor.totp?.user).toBe(`get-user-${testRunId}`);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent factor id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthenticationFactorsControllerGet({
@@ -41,6 +42,5 @@ describe("AuthenticationFactorsControllerGet", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

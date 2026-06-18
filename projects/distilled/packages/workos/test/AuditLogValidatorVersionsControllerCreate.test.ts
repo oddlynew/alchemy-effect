@@ -6,6 +6,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuditLogValidatorVersionsControllerCreate", () => {
   it(
     "creates a new schema version for an audit log action",
+    { timeout: 60_000 },
     async () => {
       const actionName = `distilled.workos.create_schema.${testRunId}`;
 
@@ -23,11 +24,11 @@ describe("AuditLogValidatorVersionsControllerCreate", () => {
       expect(result.targets.length).toBe(1);
       expect(result.targets[0].type).toBe("user");
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity when targets is empty",
+    { timeout: 30_000 },
     async () => {
       const actionName = `distilled.workos.invalid_schema.${testRunId}`;
 
@@ -40,6 +41,5 @@ describe("AuditLogValidatorVersionsControllerCreate", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

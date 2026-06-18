@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/dcv_delegation/uuid:
     get:
       operationId: getDcvDelegation
-      description: Retrieve the account and zone specific unique identifier used as
+      description:
+        Retrieve the account and zone specific unique identifier used as
         part of the CNAME target for DCV Delegation.
       parameters:
         - name: zone_id

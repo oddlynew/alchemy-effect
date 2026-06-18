@@ -1,7 +1,8 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "@alchemy.run/typescript-config/bun.json",
   "include": ["src/workers/**/*.ts"],
   "compilerOptions": {
+    "composite": true,
     "tsBuildInfoFile": ".cache/tsconfig.workers.tsbuildinfo",
     "outDir": ".cache/workers",
     "rootDir": "src",

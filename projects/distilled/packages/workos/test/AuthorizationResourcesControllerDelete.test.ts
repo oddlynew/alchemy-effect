@@ -5,48 +5,45 @@ import { AuthorizationResourcesControllerList } from "../src/operations/Authoriz
 import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 
 describe("AuthorizationResourcesControllerDelete", () => {
-  it(
-    "deletes an authorization resource",
-    async (ctx) => {
-      const list = await runOrSkipOnEnvLimitation(
-        ctx,
-        AuthorizationResourcesControllerList({ limit: 1 }),
-      );
+  it("deletes an authorization resource", { timeout: 30_000 }, async (ctx) => {
+    const list = await runOrSkipOnEnvLimitation(
+      ctx,
+      AuthorizationResourcesControllerList({ limit: 1 }),
+    );
 
-      if (list.data.length === 0) {
-        // No seed resource available — exercise the operation against a
-        // missing id so the call still hits the live API.
-        const error = await runEffect(
-          AuthorizationResourcesControllerDelete({
-            resource_id: `resource_does_not_exist_${testRunId}`,
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
-
-      const seed = list.data[0] as { id: string };
-      await runOrSkipOnEnvLimitation(
-        ctx,
-        AuthorizationResourcesControllerDelete({
-          resource_id: seed.id,
-          cascade_delete: true,
-        }),
-      );
-
-      // After deletion, fetching by the same id should fail with NotFound.
+    if (list.data.length === 0) {
+      // No seed resource available — exercise the operation against a
+      // missing id so the call still hits the live API.
       const error = await runEffect(
         AuthorizationResourcesControllerDelete({
-          resource_id: seed.id,
+          resource_id: `resource_does_not_exist_${testRunId}`,
         }).pipe(Effect.flip),
       );
       expect(error._tag).toBe("NotFound");
-    },
-    30_000,
-  );
+      return;
+    }
+
+    const seed = list.data[0] as { id: string };
+    await runOrSkipOnEnvLimitation(
+      ctx,
+      AuthorizationResourcesControllerDelete({
+        resource_id: seed.id,
+        cascade_delete: true,
+      }),
+    );
+
+    // After deletion, fetching by the same id should fail with NotFound.
+    const error = await runEffect(
+      AuthorizationResourcesControllerDelete({
+        resource_id: seed.id,
+      }).pipe(Effect.flip),
+    );
+    expect(error._tag).toBe("NotFound");
+  });
 
   it(
     "fails with BadRequest when the request is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerDelete({
@@ -56,11 +53,11 @@ describe("AuthorizationResourcesControllerDelete", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent resource id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerDelete({
@@ -70,11 +67,11 @@ describe("AuthorizationResourcesControllerDelete", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when deleting a resource in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerDelete({
@@ -84,11 +81,11 @@ describe("AuthorizationResourcesControllerDelete", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when the resource has descendants and cascade_delete is not set",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerDelete({
@@ -99,6 +96,5 @@ describe("AuthorizationResourcesControllerDelete", () => {
 
       expect(["Conflict", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

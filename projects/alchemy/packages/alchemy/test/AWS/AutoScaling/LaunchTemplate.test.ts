@@ -25,7 +25,7 @@ const { test } = Test.make({ providers: AWS.providers() });
 //   errorTag: "InvalidLaunchTemplateName.NotFoundException"
 //   operation: "DescribeLaunchTemplates"
 //   message: "At least one of the launch templates specified in the request does not exist."
-// Needed distilled patch: distilled/packages/aws service `ec2`, operation
+// Needed distilled patch: projects/distilled/packages/aws service `ec2`, operation
 // `describeLaunchTemplates` — add `InvalidLaunchTemplateName.NotFoundException`
 // and `InvalidLaunchTemplateId.NotFound` to its error union (then the provider
 // can catch them typed). Run this test by setting

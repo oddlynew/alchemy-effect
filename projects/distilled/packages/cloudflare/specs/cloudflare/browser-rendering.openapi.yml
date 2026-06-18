@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/browser-rendering/content:
     post:
       operationId: createContent
-      description: "Fetches rendered HTML content from provided URL or HTML. Check
+      description:
+        "Fetches rendered HTML content from provided URL or HTML. Check
         available options like `gotoOptions` and `waitFor ` to control page load
         behaviour.  @example ```ts const content = await
         client.browserRendering.content.create({ account_id: 'account_id', url:
@@ -39,7 +40,8 @@ paths:
                   description: "Body param: URL to navigate to, eg. `https://example.com`."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -57,7 +59,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -68,14 +71,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -100,7 +105,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -115,7 +121,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -208,7 +215,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -233,7 +241,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 setExtraHTTPHeaders:
                   type: object
@@ -282,7 +291,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -290,7 +300,8 @@ paths:
                   description: "Body param: Waits for a specified timeout before continuing."
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
       responses:
         "200":
@@ -303,7 +314,8 @@ paths:
   /accounts/{account_id}/browser-rendering/crawl/{jobId}:
     get:
       operationId: getCrawl
-      description: "Returns the result of a crawl job.  @example ```ts const crawl =
+      description:
+        "Returns the result of a crawl job.  @example ```ts const crawl =
         await client.browserRendering.crawl.get('x', { account_id: 'account_id',
         }); ```"
       parameters:
@@ -440,7 +452,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteCrawl
-      description: "Cancels an ongoing crawl job by setting its status to cancelled
+      description:
+        "Cancels an ongoing crawl job by setting its status to cancelled
         and stopping all queued URLs.  @example ```ts const crawl = await
         client.browserRendering.crawl.delete( 'job_id', { account_id:
         'account_id' }, ); ```"
@@ -477,7 +490,8 @@ paths:
   /accounts/{account_id}/browser-rendering/crawl:
     post:
       operationId: createCrawl
-      description: "Starts a crawl job for the provided URL and its children. Check
+      description:
+        "Starts a crawl job for the provided URL and its children. Check
         available options like `gotoOptions` and `waitFor ` to control page load
         behaviour.  @example ```ts const crawl = await
         client.browserRendering.crawl.create({ account_id: 'account_id', url:
@@ -507,7 +521,8 @@ paths:
                   description: "Body param: URL to navigate to, eg. `https://example.com`."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -525,7 +540,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -536,14 +552,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -568,7 +586,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -583,7 +602,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -644,14 +664,16 @@ paths:
                       - search
                       - ai-input
                       - ai-train
-                  description: "Body param: List of crawl purposes to respect Content-Signal
+                  description:
+                    "Body param: List of crawl purposes to respect Content-Signal
                     directives in robots.txt. Allowed values: 'search',
                     'ai-input', 'ai-train'. Learn more:
                     https://contentsignals.org/. Default: ['search', 'ai-input',
                     'ai-train']."
                 depth:
                   type: number
-                  description: "Body param: Maximum number of levels deep the crawler will
+                  description:
+                    "Body param: Maximum number of levels deep the crawler will
                     traverse from the starting URL."
                 emulateMediaType:
                   type: string
@@ -708,16 +730,19 @@ paths:
                         properties:
                           model:
                             type: string
-                            description: AI model to use for the request. Must be formed as
+                            description:
+                              AI model to use for the request. Must be formed as
                               `<provider>/<model_name>`, e.g.
                               `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.
                           authorization:
                             type: string
-                            description: "Authorization token for the AI model: `Bearer <token>`. Not needed
+                            description:
+                              "Authorization token for the AI model: `Bearer <token>`. Not needed
                               for workers-ai models."
                         required:
                           - model
-                      description: Optional list of custom AI models to use for the request. The
+                      description:
+                        Optional list of custom AI models to use for the request. The
                         models will be tried in the order provided, and in case
                         a model returns an error, the next one will be used as
                         fallback.
@@ -733,7 +758,8 @@ paths:
                             - type: object
                               additionalProperties: true
                           nullable: true
-                          description: "Schema for the response format. More information here:
+                          description:
+                            "Schema for the response format. More information here:
                             https://developers.cloudflare.com/workers-ai/json-m\
                             ode/"
                       required:
@@ -744,11 +770,13 @@ paths:
                   description: "Body param: Maximum number of URLs to crawl."
                 maxAge:
                   type: number
-                  description: "Body param: Maximum age of a resource that can be returned from
+                  description:
+                    "Body param: Maximum age of a resource that can be returned from
                     cache in seconds. Default is 1 day."
                 modifiedSince:
                   type: number
-                  description: "Body param: Unix timestamp (seconds since epoch) indicating to
+                  description:
+                    "Body param: Unix timestamp (seconds since epoch) indicating to
                     only crawl pages that were modified since this time. For
                     sitemap URLs with a lastmod field, this is compared
                     directly. For other URLs, the crawler will use
@@ -765,31 +793,36 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: "Exclude links matching the provided wildcard patterns in the crawl
+                      description:
+                        "Exclude links matching the provided wildcard patterns in the crawl
                         job. Example: 'https://example.com/privacy/  '."
                     includeExternalLinks:
                       type: boolean
-                      description: Include external links in the crawl job. If set to true,
+                      description:
+                        Include external links in the crawl job. If set to true,
                         includeSubdomains is ignored.
                     includePatterns:
                       type: array
                       items:
                         type: string
-                      description: "Include only links matching the provided wildcard patterns in the
+                      description:
+                        "Include only links matching the provided wildcard patterns in the
                         crawl job. Include patterns are evaluated before exclude
                         patterns. URLs that match any of the specified include
                         patterns will be included in the crawl job. Example:
                         'https://example.com/blog/  '."
                     includeSubdomains:
                       type: boolean
-                      description: Include links to subdomains in the crawl job. This option is
+                      description:
+                        Include links to subdomains in the crawl job. This option is
                         ignored if includeExternalLinks is true.
                   description: "Body param: Additional options for the crawler."
                 rejectRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -814,14 +847,16 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 render:
                   type: boolean
                   enum:
                     - true
                     - false
-                  description: "Body param: Whether to render the page or fetch static content.
+                  description:
+                    "Body param: Whether to render the page or fetch static content.
                     True by default."
                 setExtraHTTPHeaders:
                   type: object
@@ -836,7 +871,8 @@ paths:
                     - sitemaps
                     - links
                     - all
-                  description: "Body param: Source of links to crawl. 'sitemaps' - only crawl URLs
+                  description:
+                    "Body param: Source of links to crawl. 'sitemaps' - only crawl URLs
                     from sitemaps, 'links' - only crawl URLs scraped from pages,
                     'all' - crawl both sitemap and scraped links (default)."
                 viewport:
@@ -876,7 +912,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -895,7 +932,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser:
     post:
       operationId: createDevtoolBrowser
-      description: "Get a browser session ID.  @example ```ts const browser = await
+      description:
+        "Get a browser session ID.  @example ```ts const browser = await
         client.browserRendering.devtools.browser.create({ account_id:
         'account_id', }); ```"
       parameters:
@@ -961,7 +999,8 @@ paths:
         - name: keep_alive
           in: query
           required: false
-          description: "Query param: Keep-alive time in ms (only valid when acquiring new
+          description:
+            "Query param: Keep-alive time in ms (only valid when acquiring new
             session)."
           schema:
             type: number
@@ -983,7 +1022,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser/{sessionId}:
     delete:
       operationId: deleteDevtoolBrowser
-      description: "Closes an existing browser session.  @example ```ts const browser
+      description:
+        "Closes an existing browser session.  @example ```ts const browser
         = await client.browserRendering.devtools.browser.delete(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
         ```"
@@ -1036,7 +1076,8 @@ paths:
         - name: keep_alive
           in: query
           required: false
-          description: "Query param: Keep-alive time in ms (only valid when acquiring new
+          description:
+            "Query param: Keep-alive time in ms (only valid when acquiring new
             session)."
           schema:
             type: number
@@ -1058,7 +1099,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser/{sessionId}/json/protocol:
     get:
       operationId: protocolDevtoolBrowser
-      description: "Returns the complete Chrome DevTools Protocol schema including all
+      description:
+        "Returns the complete Chrome DevTools Protocol schema including all
         domains, commands, events, and types. This schema describes the entire
         CDP API surface.  @example ```ts const response = await
         client.browserRendering.devtools.browser.protocol(
@@ -1139,7 +1181,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser/{sessionId}/json/version:
     get:
       operationId: versionDevtoolBrowser
-      description: "Get browser version metadata.  @example ```ts const response =
+      description:
+        "Get browser version metadata.  @example ```ts const response =
         await client.browserRendering.devtools.browser.version(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
         ```"
@@ -1191,7 +1234,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser/{sessionId}/page/{targetId}:
     get:
       operationId: getDevtoolBrowserPage
-      description: "Establishes a WebSocket connection to a specific Chrome DevTools
+      description:
+        "Establishes a WebSocket connection to a specific Chrome DevTools
         target or page.  @example ```ts await
         client.browserRendering.devtools.browser.page.get(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', 'target_id', { account_id:
@@ -1219,7 +1263,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser/{sessionId}/json/list/{targetId}:
     get:
       operationId: getDevtoolBrowserTarget
-      description: "Returns the debuggable target with the given ID.  @example ```ts
+      description:
+        "Returns the debuggable target with the given ID.  @example ```ts
         const target = await
         client.browserRendering.devtools.browser.targets.get(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', 'target_id', { account_id:
@@ -1277,7 +1322,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser/{sessionId}/json/list:
     get:
       operationId: listDevtoolBrowserTargets
-      description: "Returns a list of all debuggable targets including tabs, pages,
+      description:
+        "Returns a list of all debuggable targets including tabs, pages,
         service workers, and other browser contexts.  @example ```ts const
         targets = await client.browserRendering.devtools.browser.targets.list(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
@@ -1429,7 +1475,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/browser/{sessionId}/json/close/{targetId}:
     get:
       operationId: closeDevtoolBrowserTarget
-      description: "Closes a specific browser target (tab, page, etc.) by its ID.
+      description:
+        "Closes a specific browser target (tab, page, etc.) by its ID.
         Returns 'Target is closing' on success or an error if the target is not
         found.  @example ```ts const response = await
         client.browserRendering.devtools.browser.targets.close(
@@ -1468,7 +1515,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/session/{sessionId}:
     get:
       operationId: getDevtoolSession
-      description: "Get details for a specific browser session.  @example ```ts const
+      description:
+        "Get details for a specific browser session.  @example ```ts const
         session = await client.browserRendering.devtools.session.get(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
         ```"
@@ -1530,7 +1578,8 @@ paths:
   /accounts/{account_id}/browser-rendering/devtools/session:
     get:
       operationId: listDevtoolSessions
-      description: "List active browser sessions.  @example ```ts const sessions =
+      description:
+        "List active browser sessions.  @example ```ts const sessions =
         await client.browserRendering.devtools.session.list({ account_id:
         'account_id', }); ```"
       parameters:
@@ -1627,11 +1676,13 @@ paths:
               properties:
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -1649,7 +1700,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -1660,14 +1712,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -1692,7 +1746,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -1707,7 +1762,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -1767,16 +1823,19 @@ paths:
                     properties:
                       model:
                         type: string
-                        description: AI model to use for the request. Must be formed as
+                        description:
+                          AI model to use for the request. Must be formed as
                           `<provider>/<model_name>`, e.g.
                           `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`.
                       authorization:
                         type: string
-                        description: "Authorization token for the AI model: `Bearer <token>`. Not needed
+                        description:
+                          "Authorization token for the AI model: `Bearer <token>`. Not needed
                           for workers-ai models."
                     required:
                       - model
-                  description: "Body param: Optional list of custom AI models to use for the
+                  description:
+                    "Body param: Optional list of custom AI models to use for the
                     request. The models will be tried in the order provided, and
                     in case a model returns an error, the next one will be used
                     as fallback."
@@ -1823,7 +1882,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -1848,7 +1908,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 response_format:
                   type: object
@@ -1860,7 +1921,8 @@ paths:
                         - type: object
                           additionalProperties: true
                       nullable: true
-                      description: "Schema for the response format. More information here:
+                      description:
+                        "Schema for the response format. More information here:
                         https://developers.cloudflare.com/workers-ai/json-mode/"
                   required:
                     - type
@@ -1912,7 +1974,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -1933,7 +1996,8 @@ paths:
   /accounts/{account_id}/browser-rendering/links:
     post:
       operationId: createLink
-      description: "Get links from a web page.  @example ```ts const links = await
+      description:
+        "Get links from a web page.  @example ```ts const links = await
         client.browserRendering.links.create({ account_id: 'account_id', html:
         '<h1>Hello World!</h1>', }); ```"
       parameters:
@@ -1958,11 +2022,13 @@ paths:
               properties:
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -1980,7 +2046,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -1991,14 +2058,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -2023,7 +2092,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -2038,7 +2108,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -2134,7 +2205,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -2159,7 +2231,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 setExtraHTTPHeaders:
                   type: object
@@ -2211,7 +2284,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -2233,7 +2307,8 @@ paths:
   /accounts/{account_id}/browser-rendering/markdown:
     post:
       operationId: createMarkdown
-      description: "Gets markdown of a webpage from provided URL or HTML. Control page
+      description:
+        "Gets markdown of a webpage from provided URL or HTML. Control page
         loading with `gotoOptions` and `waitFor ` options.  @example ```ts const
         markdown = await client.browserRendering.markdown.create({ account_id:
         'account_id', url: 'https://www.example.com/', }); ```"
@@ -2262,7 +2337,8 @@ paths:
                   description: "Body param: URL to navigate to, eg. `https://example.com`."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -2280,7 +2356,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -2291,14 +2368,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -2323,7 +2402,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -2338,7 +2418,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -2431,7 +2512,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -2456,7 +2538,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 setExtraHTTPHeaders:
                   type: object
@@ -2505,7 +2588,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -2513,7 +2597,8 @@ paths:
                   description: "Body param: Waits for a specified timeout before continuing."
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
       responses:
         "200":
@@ -2526,7 +2611,8 @@ paths:
   /accounts/{account_id}/browser-rendering/pdf:
     post:
       operationId: createPdf
-      description: "Fetches rendered PDF from provided URL or HTML. Check available
+      description:
+        "Fetches rendered PDF from provided URL or HTML. Check available
         options like `gotoOptions` and `waitFor ` to control page load
         behaviour.  @example ```ts const pdf = await
         client.browserRendering.pdf.create({ account_id: 'account_id', html:
@@ -2554,11 +2640,13 @@ paths:
               properties:
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -2576,7 +2664,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -2587,14 +2676,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -2619,7 +2710,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -2634,7 +2726,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -2780,7 +2873,8 @@ paths:
                       description: Set the PDF margins. Useful when setting header and footer.
                     omitBackground:
                       type: boolean
-                      description: Hides default white background and allows generating pdfs with
+                      description:
+                        Hides default white background and allows generating pdfs with
                         transparency.
                     outline:
                       type: boolean
@@ -2796,7 +2890,8 @@ paths:
                       description: Set to true to print background graphics.
                     scale:
                       type: number
-                      description: Scales the rendering of the web page. Amount must be between 0.1
+                      description:
+                        Scales the rendering of the web page. Amount must be between 0.1
                         and 2.
                     tagged:
                       type: boolean
@@ -2815,7 +2910,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -2840,7 +2936,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 setExtraHTTPHeaders:
                   type: object
@@ -2889,7 +2986,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -2941,11 +3039,13 @@ paths:
                   description: Body param
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -2963,7 +3063,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -2974,14 +3075,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -3006,7 +3109,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -3021,7 +3125,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -3114,7 +3219,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -3139,7 +3245,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 setExtraHTTPHeaders:
                   type: object
@@ -3188,7 +3295,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -3262,7 +3370,8 @@ paths:
   /accounts/{account_id}/browser-rendering/screenshot:
     post:
       operationId: createScreenshot
-      description: "Takes a screenshot of a webpage from provided URL or HTML. Control
+      description:
+        "Takes a screenshot of a webpage from provided URL or HTML. Control
         page loading with `gotoOptions` and `waitFor ` options. Customize
         screenshots with `viewport`, `fullPage`, `clip` and others.  @example
         ```ts const screenshot = await
@@ -3290,11 +3399,13 @@ paths:
               properties:
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -3312,7 +3423,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -3323,14 +3435,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -3355,7 +3469,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -3370,7 +3485,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -3463,7 +3579,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -3488,7 +3605,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 screenshotOptions:
                   type: object
@@ -3590,7 +3708,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:
@@ -3657,11 +3776,13 @@ paths:
               properties:
                 html:
                   type: string
-                  description: "Body param: Set the content of the page, eg: `<h1>Hello
+                  description:
+                    "Body param: Set the content of the page, eg: `<h1>Hello
                     World!!</h1>`. Either `html` or `url` must be set."
                 actionTimeout:
                   type: number
-                  description: "Body param: The maximum duration allowed for the browser action to
+                  description:
+                    "Body param: The maximum duration allowed for the browser action to
                     complete after the page has loaded (such as taking
                     screenshots, extracting content, or generating PDFs). If
                     this time limit is exceeded, the action stops and returns a
@@ -3679,7 +3800,8 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: "Body param: Adds a `<script>` tag into the page with the desired
+                  description:
+                    "Body param: Adds a `<script>` tag into the page with the desired
                     URL or content."
                 addStyleTag:
                   type: array
@@ -3690,14 +3812,16 @@ paths:
                         type: string
                       url:
                         type: string
-                  description: 'Body param: Adds a `<link rel="stylesheet">` tag into the page
+                  description:
+                    'Body param: Adds a `<link rel="stylesheet">` tag into the page
                     with the desired URL or a `<style type="text/css">` tag with
                     the content.'
                 allowRequestPattern:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Only allow requests that match the provided regex
+                  description:
+                    "Body param: Only allow requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 allowResourceTypes:
                   type: array
@@ -3722,7 +3846,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Only allow requests that match the provided resource
+                  description:
+                    "Body param: Only allow requests that match the provided resource
                     types, eg. 'image' or 'script'."
                 authenticate:
                   type: object
@@ -3737,7 +3862,8 @@ paths:
                   description: "Body param: Provide credentials for HTTP authentication."
                 bestAttempt:
                   type: boolean
-                  description: "Body param: Attempt to proceed when 'awaited' events fail or
+                  description:
+                    "Body param: Attempt to proceed when 'awaited' events fail or
                     timeout."
                 cookies:
                   type: array
@@ -3840,7 +3966,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Block undesired requests that match the provided regex
+                  description:
+                    "Body param: Block undesired requests that match the provided regex
                     patterns, eg. '/^.\\ \\.(css)'."
                 rejectResourceTypes:
                   type: array
@@ -3865,7 +3992,8 @@ paths:
                       - cspviolationreport
                       - preflight
                       - other
-                  description: "Body param: Block undesired requests that match the provided
+                  description:
+                    "Body param: Block undesired requests that match the provided
                     resource types, eg. 'image' or 'script'."
                 screenshotOptions:
                   type: object
@@ -3954,7 +4082,8 @@ paths:
                         - true
                   required:
                     - selector
-                  description: "Body param: Wait for the selector to appear in page. Check
+                  description:
+                    "Body param: Wait for the selector to appear in page. Check
                     [options](https://pptr.dev/api/puppeteer.page.waitforselect\
                     or)."
                 waitForTimeout:

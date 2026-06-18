@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getFieldsForDataset", () => {
   it(
     "returns an array of fields for an existing dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-getfields-${testRunId}`;
 
@@ -37,11 +38,11 @@ describe("getFieldsForDataset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a dataset name that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getFieldsForDataset({
@@ -51,11 +52,11 @@ describe("getFieldsForDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack dataset read access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -78,6 +79,5 @@ describe("getFieldsForDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

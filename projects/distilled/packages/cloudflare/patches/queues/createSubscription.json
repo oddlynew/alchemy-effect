@@ -1,7 +1,16 @@
 {
   "errors": {
-    "UnrecognizedEventType": [{ "code": 0, "message": { "includes": "Unrecognized event types" } }],
-    "SubscriptionAlreadyExists": [{ "status": 405, "message": { "includes": "do not support multiple subscriptions" } }],
-    "QueueNotFound": [{ "status": 404, "message": { "includes": "Queue does not exist" } }]
+    "UnrecognizedEventType": [
+      { "code": 0, "message": { "includes": "Unrecognized event types" } }
+    ],
+    "SubscriptionAlreadyExists": [
+      {
+        "status": 405,
+        "message": { "includes": "do not support multiple subscriptions" }
+      }
+    ],
+    "QueueNotFound": [
+      { "status": 404, "message": { "includes": "Queue does not exist" } }
+    ]
   }
 }

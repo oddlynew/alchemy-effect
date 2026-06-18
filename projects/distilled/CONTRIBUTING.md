@@ -2,7 +2,7 @@
 
 To generate an SDK just clone the distilled repo. run bun install then run the create-sdk-full command.
 
-Every SDK has all of its sources as git submodules; you can either supply a git repo or an http url to an openapi (and a repo that updates nightly based on that http url will be generated). It's also reccommended you use --note to specify where the openapi spec is in the repo (agents will struggly to find it on their own). 
+Every SDK has all of its sources as git submodules; you can either supply a git repo or an http url to an openapi (and a repo that updates nightly based on that http url will be generated). It's also reccommended you use --note to specify where the openapi spec is in the repo (agents will struggly to find it on their own).
 
 e.g. bun scripts/create-sdk-full.ts discord https://github.com/discord/discord-api-spec --note "use the spec is in /specs/openapi.json from the provided repo"
 

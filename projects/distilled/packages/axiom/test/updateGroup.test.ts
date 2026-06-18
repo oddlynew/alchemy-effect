@@ -9,6 +9,7 @@ describe("updateGroup", () => {
   // NotFound nor UnprocessableEntity can be reached here.
   it(
     "returns Forbidden on non-Enterprise plans",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateGroup({
@@ -19,6 +20,5 @@ describe("updateGroup", () => {
 
       expect((error as { _tag: string })._tag).toBe("Forbidden");
     },
-    { timeout: 30_000 },
   );
 });

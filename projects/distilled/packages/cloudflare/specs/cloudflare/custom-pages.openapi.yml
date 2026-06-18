@@ -24,11 +24,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -45,7 +47,8 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: The unique name of the custom asset. Can only contain letters (A-Z,
+                    description:
+                      The unique name of the custom asset. Can only contain letters (A-Z,
                       a-z), numbers (0-9), and underscores (\_).
                   size_bytes:
                     type: number
@@ -56,7 +59,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: updateAsset
-      description: "Updates the configuration of an existing custom asset.  @example
+      description:
+        "Updates the configuration of an existing custom asset.  @example
         ```ts const asset = await client.customPages.assets.update(
         'my_custom_error_page', { description: 'Custom 500 error page', url:
         'https://example.com/error.html', account_id: 'account_id', }, ); ```"
@@ -69,14 +73,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -111,7 +117,8 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: The unique name of the custom asset. Can only contain letters (A-Z,
+                    description:
+                      The unique name of the custom asset. Can only contain letters (A-Z,
                       a-z), numbers (0-9), and underscores (\_).
                   size_bytes:
                     type: number
@@ -137,11 +144,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -153,14 +162,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -189,7 +200,8 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: The unique name of the custom asset. Can only contain letters (A-Z,
+                    description:
+                      The unique name of the custom asset. Can only contain letters (A-Z,
                       a-z), numbers (0-9), and underscores (\_).
                   size_bytes:
                     type: number
@@ -200,7 +212,8 @@ paths:
       x-distilled-pagination-class: AssetListResponsesV4PagePaginationArray
     post:
       operationId: createAsset
-      description: "Creates a new custom asset.  @example ```ts const asset = await
+      description:
+        "Creates a new custom asset.  @example ```ts const asset = await
         client.customPages.assets.create({ description: 'Custom 500 error page',
         name: 'my_custom_error_page', url: 'https://example.com/error.html',
         account_id: 'account_id', }); ```"
@@ -208,14 +221,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -231,7 +246,8 @@ paths:
                   description: "Body param: A short description of the custom asset."
                 name:
                   type: string
-                  description: "Body param: The unique name of the custom asset. Can only contain
+                  description:
+                    "Body param: The unique name of the custom asset. Can only contain
                     letters (A-Z, a-z), numbers (0-9), and underscores (\\_)."
                 url:
                   type: string
@@ -255,7 +271,8 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: The unique name of the custom asset. Can only contain letters (A-Z,
+                    description:
+                      The unique name of the custom asset. Can only contain letters (A-Z,
                       a-z), numbers (0-9), and underscores (\_).
                   size_bytes:
                     type: number
@@ -282,11 +299,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -322,7 +341,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: putCustomPage
-      description: "Updates the configuration of an existing custom page.  @example
+      description:
+        "Updates the configuration of an existing custom page.  @example
         ```ts const customPage = await client.customPages.update(
         'ratelimit_block', { state: 'default', url: 'http://www.example.com',
         account_id: 'account_id', }, ); ```"
@@ -330,14 +350,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -404,14 +426,16 @@ paths:
         - name: account_id
           in: query
           required: false
-          description: The Account ID to use for this endpoint. Mutually exclusive with
+          description:
+            The Account ID to use for this endpoint. Mutually exclusive with
             the Zone ID.
           schema:
             type: string
         - name: zone_id
           in: query
           required: false
-          description: The Zone ID to use for this endpoint. Mutually exclusive with the
+          description:
+            The Zone ID to use for this endpoint. Mutually exclusive with the
             Account ID.
           schema:
             type: string

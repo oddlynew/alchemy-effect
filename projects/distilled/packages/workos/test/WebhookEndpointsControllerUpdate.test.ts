@@ -10,6 +10,7 @@ const conflictOrUnprocessable = ["Conflict", "UnprocessableEntity"] as const;
 describe("WebhookEndpointsControllerUpdate", () => {
   it(
     "updates a webhook endpoint, then cleans up",
+    { timeout: 60_000 },
     async () => {
       const endpointUrl = `https://distilled-${testRunId}-update.distilled.test/webhooks`;
       const updatedUrl = `https://distilled-${testRunId}-update-2.distilled.test/webhooks`;
@@ -49,11 +50,11 @@ describe("WebhookEndpointsControllerUpdate", () => {
         ),
       );
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent endpoint id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         WebhookEndpointsControllerUpdate({
@@ -63,11 +64,11 @@ describe("WebhookEndpointsControllerUpdate", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with a typed Conflict when changing the endpoint_url to one already registered",
+    { timeout: 90_000 },
     async () => {
       const urlA = `https://distilled-${testRunId}-conflict-a.distilled.test/webhooks`;
       const urlB = `https://distilled-${testRunId}-conflict-b.distilled.test/webhooks`;
@@ -115,11 +116,11 @@ describe("WebhookEndpointsControllerUpdate", () => {
         ),
       );
     },
-    90_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed endpoint_url update",
+    { timeout: 60_000 },
     async () => {
       const endpointUrl = `https://distilled-${testRunId}-unproc.distilled.test/webhooks`;
       let createdId: string | undefined;
@@ -150,6 +151,5 @@ describe("WebhookEndpointsControllerUpdate", () => {
         ),
       );
     },
-    60_000,
   );
 });

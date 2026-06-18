@@ -6,6 +6,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandSessionsControllerLogout", () => {
   it(
     "logs out the session, returning a void response",
+    { timeout: 30_000 },
     async () => {
       // Without a real authenticated session we can't obtain a true sid; the
       // logout endpoint accepts well-formed session ids and resolves with a
@@ -17,8 +18,7 @@ describe("UserlandSessionsControllerLogout", () => {
         }).pipe(
           Effect.matchEffect({
             onSuccess: () => Effect.succeed({ ok: true as const }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -30,17 +30,16 @@ describe("UserlandSessionsControllerLogout", () => {
         expect(result.error._tag).toBe("UnprocessableEntity");
       }
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when session_id is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSessionsControllerLogout({ session_id: "" }).pipe(Effect.flip),
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

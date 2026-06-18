@@ -11,7 +11,10 @@
       "result[].validation_data.method": { "optional": true, "nullable": true },
       "result[].validation_data.status": { "optional": true, "nullable": true },
       "result[].verification_data": { "optional": true, "nullable": true },
-      "result[].verification_data.status": { "optional": true, "nullable": true }
+      "result[].verification_data.status": {
+        "optional": true,
+        "nullable": true
+      }
     }
   }
 }

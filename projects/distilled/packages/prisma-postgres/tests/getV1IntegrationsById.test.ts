@@ -35,51 +35,65 @@ describe("getV1IntegrationsById", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - gets an integration by id", async (ctx) => {
-    if (!existingIntegrationId) {
-      ctx.skip();
-      return;
-    }
+  it(
+    "happy path - gets an integration by id",
+    { timeout: 30_000 },
+    async (ctx) => {
+      if (!existingIntegrationId) {
+        ctx.skip();
+        return;
+      }
 
-    const result = await runEffect(
-      getV1IntegrationsById({ id: existingIntegrationId }),
-    );
+      const result = await runEffect(
+        getV1IntegrationsById({ id: existingIntegrationId }),
+      );
 
-    expect(result.data.id).toBe(existingIntegrationId);
-    expect(result.data.url).toBeDefined();
-    expect(result.data.scopes).toBeDefined();
-    expect(result.data.client).toBeDefined();
-    expect(result.data.client.id).toBeDefined();
-    expect(result.data.createdByUser).toBeDefined();
-  }, 30_000);
+      expect(result.data.id).toBe(existingIntegrationId);
+      expect(result.data.url).toBeDefined();
+      expect(result.data.scopes).toBeDefined();
+      expect(result.data.client).toBeDefined();
+      expect(result.data.client.id).toBeDefined();
+      expect(result.data.createdByUser).toBeDefined();
+    },
+  );
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent integration id", async () => {
-    await Effect.runPromise(
-      getV1IntegrationsById({ id: "non-existent-integ-id-00000000" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent integration id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1IntegrationsById({ id: "non-existent-integ-id-00000000" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - UnprocessableEntity for malformed id", async () => {
-    await Effect.runPromise(
-      getV1IntegrationsById({ id: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1IntegrationsById({ id: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

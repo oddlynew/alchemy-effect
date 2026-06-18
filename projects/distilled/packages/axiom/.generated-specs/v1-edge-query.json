@@ -25,14 +25,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "batchQuery",
         "parameters": [
           {
@@ -79,9 +75,7 @@
                 "type": "array",
                 "items": {
                   "type": "object",
-                  "required": [
-                    "queryId"
-                  ],
+                  "required": ["queryId"],
                   "properties": {
                     "aplRequest": {
                       "$ref": "#/components/schemas/APLRequestWithOptions"
@@ -128,14 +122,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "queryMetrics",
         "parameters": [
           {
@@ -144,10 +134,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": [
-                "metrics-v1",
-                "metrics-v2"
-              ]
+              "enum": ["metrics-v1", "metrics-v2"]
             }
           }
         ],
@@ -195,9 +182,7 @@
       },
       "options": {
         "security": [],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "getMetricsSpec",
         "responses": {
           "200": {
@@ -226,14 +211,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "getDatasetMetrics",
         "parameters": [
           {
@@ -273,11 +254,7 @@
                   "type": "object",
                   "additionalProperties": {
                     "type": "object",
-                    "required": [
-                      "type",
-                      "temporality",
-                      "unit"
-                    ],
+                    "required": ["type", "temporality", "unit"],
                     "properties": {
                       "temporality": {
                         "description": "The aggregation temporality",
@@ -302,11 +279,7 @@
                   "type": "object",
                   "additionalProperties": {
                     "type": "object",
-                    "required": [
-                      "type",
-                      "temporality",
-                      "unit"
-                    ],
+                    "required": ["type", "temporality", "unit"],
                     "properties": {
                       "temporality": {
                         "description": "The aggregation temporality",
@@ -365,14 +338,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "findMetrics",
         "parameters": [
           {
@@ -474,14 +443,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "getDatasetMetricTags",
         "parameters": [
           {
@@ -582,14 +547,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "getDatasetMetricTagValues",
         "parameters": [
           {
@@ -699,14 +660,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "getDatasetTags",
         "parameters": [
           {
@@ -798,14 +755,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "getDatasetTagValues",
         "parameters": [
           {
@@ -906,14 +859,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "query|read"
-            ]
+            "Auth": ["query|read"]
           }
         ],
-        "tags": [
-          "query"
-        ],
+        "tags": ["query"],
         "operationId": "queryApl",
         "parameters": [
           {
@@ -922,11 +871,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "legacy",
-                "tabular",
-                "tabular-rows"
-              ]
+              "enum": ["legacy", "tabular", "tabular-rows"]
             }
           },
           {
@@ -1065,9 +1010,7 @@
     "schemas": {
       "APLRequestWithOptions": {
         "type": "object",
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "properties": {
           "apl": {
             "description": "APL query string",
@@ -1150,9 +1093,7 @@
       },
       "FindMetricsRequest": {
         "type": "object",
-        "required": [
-          "value"
-        ],
+        "required": ["value"],
         "properties": {
           "value": {
             "description": "The tag value to search for matching metrics",
@@ -1184,10 +1125,7 @@
       },
       "MetricsRequestWithOptions": {
         "type": "object",
-        "required": [
-          "startTime",
-          "endTime"
-        ],
+        "required": ["startTime", "endTime"],
         "properties": {
           "endTime": {
             "description": "End time for the query range",
@@ -1235,26 +1173,13 @@
             "description": "CompileErrorCode is a special error code that is only available for Compile Errors\nIt is an integer value that can be used to identify the error",
             "type": "integer",
             "format": "int64",
-            "enum": [
-              1,
-              2,
-              16,
-              17,
-              32,
-              33,
-              34
-            ]
+            "enum": [1, 2, 16, 17, 32, 33, 34]
           },
           "errorType": {
             "description": "Error Type is an integer value indicating the kind of error",
             "type": "integer",
             "format": "int64",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ]
+            "enum": [1, 2, 3, 4]
           },
           "line": {
             "description": "Line is the line associated with this compile type error",

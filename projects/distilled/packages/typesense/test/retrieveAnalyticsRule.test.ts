@@ -45,15 +45,11 @@ describe("retrieveAnalyticsRule", () => {
       );
     }
 
-    const createRule = await rawFetch(
-      "PUT",
-      `/analytics/rules/${ruleName}`,
-      {
-        type: "log",
-        collection: collectionName,
-        event_type: "click",
-      },
-    );
+    const createRule = await rawFetch("PUT", `/analytics/rules/${ruleName}`, {
+      type: "log",
+      collection: collectionName,
+      event_type: "click",
+    });
     if (!createRule.ok) {
       throw new Error(
         `Failed to create test analytics rule: ${createRule.status} ${await createRule.text()}`,
@@ -66,21 +62,18 @@ describe("retrieveAnalyticsRule", () => {
     await rawFetch("DELETE", `/collections/${collectionName}`).catch(() => {});
   }, 30_000);
 
-  it(
-    "retrieves an analytics rule by name",
-    async () => {
-      const result = await runEffect(retrieveAnalyticsRule({ ruleName }));
+  it("retrieves an analytics rule by name", { timeout: 30_000 }, async () => {
+    const result = await runEffect(retrieveAnalyticsRule({ ruleName }));
 
-      expect(result.name).toBe(ruleName);
-      expect(result.type).toBe("log");
-      expect(result.collection).toBe(collectionName);
-      expect(result.event_type).toBe("click");
-    },
-    { timeout: 30_000 },
-  );
+    expect(result.name).toBe(ruleName);
+    expect(result.type).toBe("log");
+    expect(result.collection).toBe(collectionName);
+    expect(result.event_type).toBe("click");
+  });
 
   it(
     "fails with NotFound when the analytics rule does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         retrieveAnalyticsRule({
@@ -90,6 +83,5 @@ describe("retrieveAnalyticsRule", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

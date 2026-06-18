@@ -9,6 +9,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuditLogExportsControllerExport", () => {
   it(
     "gets an existing audit log export by id",
+    { timeout: 60_000 },
     async (ctx) => {
       const rangeEnd = new Date();
       const rangeStart = new Date(rangeEnd.getTime() - 24 * 60 * 60 * 1000);
@@ -43,11 +44,11 @@ describe("AuditLogExportsControllerExport", () => {
         }),
       );
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent audit log export id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuditLogExportsControllerExport({
@@ -57,6 +58,5 @@ describe("AuditLogExportsControllerExport", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

@@ -7,44 +7,39 @@ import { upsertSynonymSetItem } from "../src/operations/upsertSynonymSetItem";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrieveSynonymSetItems", () => {
-  it(
-    "lists all items in a synonym set",
-    async () => {
-      const synonymSetName = `distilled-typesense-retsynitems-${testRunId}`;
-      const itemId = `item-${testRunId}`;
+  it("lists all items in a synonym set", { timeout: 30_000 }, async () => {
+    const synonymSetName = `distilled-typesense-retsynitems-${testRunId}`;
+    const itemId = `item-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        yield* upsertSynonymSet({
-          synonymSetName,
-          items: [],
-        });
+    const effect = Effect.gen(function* () {
+      yield* upsertSynonymSet({
+        synonymSetName,
+        items: [],
+      });
 
-        yield* upsertSynonymSetItem({
-          synonymSetName,
-          itemId,
-          synonyms: ["sneaker", "shoe", "trainer"],
-        });
+      yield* upsertSynonymSetItem({
+        synonymSetName,
+        itemId,
+        synonyms: ["sneaker", "shoe", "trainer"],
+      });
 
-        const result = yield* retrieveSynonymSetItems({ synonymSetName });
+      const result = yield* retrieveSynonymSetItems({ synonymSetName });
 
-        expect(Array.isArray(result)).toBe(true);
-        const ours = result.find((i) => i.id === itemId);
-        expect(ours).toBeDefined();
-        expect(ours?.synonyms).toContain("sneaker");
-        expect(ours?.synonyms).toContain("shoe");
-      }).pipe(
-        Effect.ensuring(
-          deleteSynonymSet({ synonymSetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(Array.isArray(result)).toBe(true);
+      const ours = result.find((i) => i.id === itemId);
+      expect(ours).toBeDefined();
+      expect(ours?.synonyms).toContain("sneaker");
+      expect(ours?.synonyms).toContain("shoe");
+    }).pipe(
+      Effect.ensuring(deleteSynonymSet({ synonymSetName }).pipe(Effect.ignore)),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the synonym set does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         retrieveSynonymSetItems({
@@ -54,6 +49,5 @@ describe("retrieveSynonymSetItems", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

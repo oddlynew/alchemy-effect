@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/binary/{hash}:
     get:
       operationId: getBinaryStorage
-      description: "Retrieves a binary file from the Cloudforce One binary storage for
+      description:
+        "Retrieves a binary file from the Cloudforce One binary storage for
         analysis.  @example ```ts await
         client.cloudforceOne.binaryStorage.get('hash', { account_id:
         'account_id', }); ```"
@@ -31,7 +32,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/binary:
     post:
       operationId: createBinaryStorage
-      description: "Uploads a binary file to Cloudforce One's binary database for
+      description:
+        "Uploads a binary file to Cloudforce One's binary database for
         malware analysis and threat intelligence correlation.  @example ```ts
         const binaryStorage = await client.cloudforceOne.binaryStorage.create({
         account_id: 'account_id', file: fs.createReadStream('path/to/file'), });
@@ -165,7 +167,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: updateRequest
-      description: "Updating a request alters the request in the Cloudforce One queue.
+      description:
+        "Updating a request alters the request in the Cloudforce One queue.
         This API may be used to update any attributes of the request after the
         initial submission. Only fields that you choose to update need to be add
         to the request body.  @example ```ts const item = await
@@ -280,7 +283,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteRequest
-      description: "Deletes a Cloudforce One intelligence request and all associated
+      description:
+        "Deletes a Cloudforce One intelligence request and all associated
         data.  @example ```ts const request = await
         client.cloudforceOne.requests.delete(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -355,7 +359,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/requests:
     post:
       operationId: listRequests
-      description: "Lists Cloudforce One intelligence requests with filtering and
+      description:
+        "Lists Cloudforce One intelligence requests with filtering and
         pagination.  @example ```ts // Automatically fetches more pages as
         needed. for await (const listItem of client.cloudforceOne.requests.list(
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353', page: 0, per_page: 10,
@@ -489,7 +494,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/requests/new:
     post:
       operationId: createRequest
-      description: "Creating a request adds the request into the Cloudforce One queue
+      description:
+        "Creating a request adds the request into the Cloudforce One queue
         for analysis. In addition to the content, a short title, type, priority,
         and releasability should be provided. If one is not provided, a default
         will be assigned.  @example ```ts const item = await
@@ -675,7 +681,8 @@ paths:
                     description: Anniversary date is when annual quota limit is refreshed.
                   quarter_anniversary_date:
                     type: string
-                    description: Quarter anniversary date is when quota limit is refreshed each
+                    description:
+                      Quarter anniversary date is when quota limit is refreshed each
                       quarter.
                   quota:
                     type: number
@@ -687,7 +694,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/requests/types:
     get:
       operationId: typesRequest
-      description: "Lists available request types for Cloudforce One intelligence
+      description:
+        "Lists available request types for Cloudforce One intelligence
         requests.  @example ```ts // Automatically fetches more pages as needed.
         for await (const requestTypesResponse of
         client.cloudforceOne.requests.types( { account_id:
@@ -1237,7 +1245,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/requests/priority/{priorityId}:
     get:
       operationId: getRequestPriority
-      description: "Retrieves a specific priority intelligence request from Cloudforce
+      description:
+        "Retrieves a specific priority intelligence request from Cloudforce
         One.  @example ```ts const item = await
         client.cloudforceOne.requests.priority.get(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -1632,7 +1641,8 @@ paths:
                     description: Anniversary date is when annual quota limit is refreshed.
                   quarter_anniversary_date:
                     type: string
-                    description: Quarter anniversary date is when quota limit is refreshed each
+                    description:
+                      Quarter anniversary date is when quota limit is refreshed each
                       quarter.
                   quota:
                     type: number
@@ -1644,7 +1654,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/scans/config:
     get:
       operationId: listScanConfigs
-      description: "List Scan Configs  @example ```ts // Automatically fetches more
+      description:
+        "List Scan Configs  @example ```ts // Automatically fetches more
         pages as needed. for await (const configListResponse of
         client.cloudforceOne.scans.config.list( { account_id: 'account_id' }, ))
         { // ... } ```"
@@ -1675,13 +1686,15 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: Defines a list of IP addresses or CIDR blocks to scan. The maximum
+                    description:
+                      Defines a list of IP addresses or CIDR blocks to scan. The maximum
                       number of total IP addresses allowed is 5000.
                   ports:
                     type: array
                     items:
                       type: string
-                    description: Defines a list of ports to scan. Valid values are:"default", "all",
+                    description:
+                      Defines a list of ports to scan. Valid values are:"default", "all",
                       or a comma-separated list of ports or range of ports (e.g.
                       ["1-80", "443"]). "default" scans the 100 most commonly
                       open ports.
@@ -1694,7 +1707,8 @@ paths:
       x-distilled-pagination-class: ConfigListResponsesSinglePage
     post:
       operationId: createScanConfig
-      description: "Create a new Scan Config  @example ```ts const config = await
+      description:
+        "Create a new Scan Config  @example ```ts const config = await
         client.cloudforceOne.scans.config.create({ account_id: 'account_id',
         ips: ['1.1.1.1', '2606:4700:4700::1111'], }); ```"
       parameters:
@@ -1715,17 +1729,20 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Defines a list of IP addresses or CIDR blocks to scan.
+                  description:
+                    "Body param: Defines a list of IP addresses or CIDR blocks to scan.
                     The maximum number of total IP addresses allowed is 5000."
                 frequency:
                   type: number
-                  description: "Body param: Defines the number of days between each scan (0 =
+                  description:
+                    "Body param: Defines the number of days between each scan (0 =
                     One-off scan)."
                 ports:
                   type: array
                   items:
                     type: string
-                  description: 'Body param: Defines a list of ports to scan. Valid values
+                  description:
+                    'Body param: Defines a list of ports to scan. Valid values
                     are:"default", "all", or a comma-separated list of ports or
                     range of ports (e.g. ["1-80", "443"]). "default" scans the
                     100 most commonly open ports.'
@@ -1751,13 +1768,15 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: Defines a list of IP addresses or CIDR blocks to scan. The maximum
+                    description:
+                      Defines a list of IP addresses or CIDR blocks to scan. The maximum
                       number of total IP addresses allowed is 5000.
                   ports:
                     type: array
                     items:
                       type: string
-                    description: Defines a list of ports to scan. Valid values are:"default", "all",
+                    description:
+                      Defines a list of ports to scan. Valid values are:"default", "all",
                       or a comma-separated list of ports or range of ports (e.g.
                       ["1-80", "443"]). "default" scans the 100 most commonly
                       open ports.
@@ -1771,7 +1790,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/scans/config/{configId}:
     patch:
       operationId: patchScanConfig
-      description: "Update an existing Scan Config  @example ```ts const response =
+      description:
+        "Update an existing Scan Config  @example ```ts const response =
         await client.cloudforceOne.scans.config.edit( 'config_id', { account_id:
         'account_id' }, ); ```"
       parameters:
@@ -1795,19 +1815,22 @@ paths:
               properties:
                 frequency:
                   type: number
-                  description: "Body param: Defines the number of days between each scan (0 =
+                  description:
+                    "Body param: Defines the number of days between each scan (0 =
                     One-off scan)."
                 ips:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Defines a list of IP addresses or CIDR blocks to scan.
+                  description:
+                    "Body param: Defines a list of IP addresses or CIDR blocks to scan.
                     The maximum number of total IP addresses allowed is 5000."
                 ports:
                   type: array
                   items:
                     type: string
-                  description: 'Body param: Defines a list of ports to scan. Valid values
+                  description:
+                    'Body param: Defines a list of ports to scan. Valid values
                     are:"default", "all", or a comma-separated list of ports or
                     range of ports (e.g. ["1-80", "443"]). "default" scans the
                     100 most commonly open ports.'
@@ -1831,13 +1854,15 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: Defines a list of IP addresses or CIDR blocks to scan. The maximum
+                    description:
+                      Defines a list of IP addresses or CIDR blocks to scan. The maximum
                       number of total IP addresses allowed is 5000.
                   ports:
                     type: array
                     items:
                       type: string
-                    description: Defines a list of ports to scan. Valid values are:"default", "all",
+                    description:
+                      Defines a list of ports to scan. Valid values are:"default", "all",
                       or a comma-separated list of ports or range of ports (e.g.
                       ["1-80", "443"]). "default" scans the 100 most commonly
                       open ports.
@@ -1881,7 +1906,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/scans/results/{configId}:
     get:
       operationId: getScanResult
-      description: "Get the Latest Scan Result  @example ```ts const result = await
+      description:
+        "Get the Latest Scan Result  @example ```ts const result = await
         client.cloudforceOne.scans.results.get( 'config_id', { account_id:
         'account_id' }, ); ```"
       parameters:
@@ -2223,7 +2249,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events:
     get:
       operationId: listThreatEvents
-      description: "Use `datasetId=all` or `datasetId= ` to query all event datasets
+      description:
+        "Use `datasetId=all` or `datasetId= ` to query all event datasets
         for the account (limited to 10). When `datasetId` is unspecified, events
         are listed from the default Cloudforce One Threat Events dataset. To
         list existing datasets, use the [`List
@@ -2242,7 +2269,8 @@ paths:
         - name: cursor
           in: query
           required: false
-          description: "Query param: Cursor for pagination. When provided, filters are
+          description:
+            "Query param: Cursor for pagination. When provided, filters are
             embedded in the cursor so you only need to pass cursor and pageSize.
             Returned in the previous response's result_info.cursor field. Use
             cursor-based pagination for deep pagination (beyond 100,000 records)
@@ -2252,7 +2280,8 @@ paths:
         - name: datasetId
           in: query
           required: false
-          description: "Query param: Dataset IDs to query events from (array of UUIDs), or
+          description:
+            "Query param: Dataset IDs to query events from (array of UUIDs), or
             special value 'all' or '\\ ' to query all event datasets for the
             account. If not provided, uses the default dataset."
           schema:
@@ -2293,7 +2322,8 @@ paths:
         - name: page
           in: query
           required: false
-          description: "Query param: Page number (1-indexed) for offset-based pagination.
+          description:
+            "Query param: Page number (1-indexed) for offset-based pagination.
             Limited to offset of 100,000 records. For deep pagination, use
             cursor-based pagination instead."
           schema:
@@ -2315,7 +2345,8 @@ paths:
               properties:
                 field:
                   type: string
-                  description: "Event field to search on. Allowed: attacker, attackerCountry,
+                  description:
+                    "Event field to search on. Allowed: attacker, attackerCountry,
                     category, createdAt, date, event, indicator, indicatorType,
                     killChain, mitreAttack, tags, targetCountry, targetIndustry,
                     tlp, uuid."
@@ -2334,7 +2365,8 @@ paths:
                     - endsWith
                     - in
                     - find
-                  description: Search operator. Use 'in' for bulk lookup of up to 100 values at
+                  description:
+                    Search operator. Use 'in' for bulk lookup of up to 100 values at
                     once, e.g. {field:'tags', op:'in', value:['malware','apt']}.
                 value:
                   oneOf:
@@ -2345,7 +2377,8 @@ paths:
                         oneOf:
                           - type: string
                           - type: number
-                  description: Search value. String or number for most operators. Array for 'in'
+                  description:
+                    Search value. String or number for most operators. Array for 'in'
                     operator (max 100 items).
       responses:
         "200":
@@ -2532,7 +2565,8 @@ paths:
                     required:
                       - indicatorType
                       - value
-                  description: "Body param: Array of indicators for this event. Supports multiple
+                  description:
+                    "Body param: Array of indicators for this event. Supports multiple
                     indicators per event for complex scenarios."
                 indicatorType:
                   type: string
@@ -2739,7 +2773,8 @@ paths:
                           required:
                             - indicatorType
                             - value
-                        description: Array of indicators for this event. Supports multiple indicators
+                        description:
+                          Array of indicators for this event. Supports multiple indicators
                           per event for complex scenarios.
                       indicatorType:
                         type: string
@@ -2765,7 +2800,8 @@ paths:
                   description: Body param
                 includeCreatedEvents:
                   type: boolean
-                  description: "Body param: When true, response includes array of created event
+                  description:
+                    "Body param: When true, response includes array of created event
                     UUIDs and shard IDs. Useful for tracking which events were
                     created and where."
               required:
@@ -2812,7 +2848,8 @@ paths:
                         - eventIndex
                         - shardId
                         - uuid
-                    description: Array of created events with UUIDs and shard locations. Only
+                    description:
+                      Array of created events with UUIDs and shard locations. Only
                       present when includeCreatedEvents=true
                   errors:
                     type: array
@@ -2837,7 +2874,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/attackers:
     get:
       operationId: listThreatEventAttackers
-      description: "Lists attackers across multiple datasets  @example ```ts const
+      description:
+        "Lists attackers across multiple datasets  @example ```ts const
         attackers = await client.cloudforceOne.threatEvents.attackers.list({
         account_id: 'account_id', }); ```"
       parameters:
@@ -2850,7 +2888,8 @@ paths:
         - name: datasetIds
           in: query
           required: false
-          description: "Query param: Array of dataset IDs to query attackers from. If not
+          description:
+            "Query param: Array of dataset IDs to query attackers from. If not
             provided, uses the default dataset."
           schema:
             type: array
@@ -3028,7 +3067,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/categories:
     get:
       operationId: listThreatEventCategories
-      description: "Lists categories across multiple datasets  @example ```ts const
+      description:
+        "Lists categories across multiple datasets  @example ```ts const
         categories = await client.cloudforceOne.threatEvents.categories.list({
         account_id: 'account_id', }); ```"
       parameters:
@@ -3041,7 +3081,8 @@ paths:
         - name: datasetIds
           in: query
           required: false
-          description: "Query param: Array of dataset IDs to query categories from. If not
+          description:
+            "Query param: Array of dataset IDs to query categories from. If not
             provided, uses the default dataset."
           schema:
             type: array
@@ -3080,7 +3121,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/categories/create:
     post:
       operationId: createThreatEventCategory
-      description: "Creates a new category  @example ```ts const category = await
+      description:
+        "Creates a new category  @example ```ts const category = await
         client.cloudforceOne.threatEvents.categories.create( { account_id:
         'account_id', killChain: 0, name: 'name', }, ); ```"
       parameters:
@@ -3150,7 +3192,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/countries:
     get:
       operationId: listThreatEventCountries
-      description: "Retrieves countries information for all countries  @example ```ts
+      description:
+        "Retrieves countries information for all countries  @example ```ts
         const countries = await
         client.cloudforceOne.threatEvents.countries.list({ account_id:
         'account_id', }); ```"
@@ -3230,7 +3273,8 @@ paths:
                   - uuid
     patch:
       operationId: patchThreatEventDataset
-      description: "Updates an existing dataset  @example ```ts const response = await
+      description:
+        "Updates an existing dataset  @example ```ts const response = await
         client.cloudforceOne.threatEvents.datasets.edit(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id',
         isPublic: true, name: 'x', }, ); ```"
@@ -3255,11 +3299,13 @@ paths:
               properties:
                 isPublic:
                   type: boolean
-                  description: "Body param: If true, then anyone can search the dataset. If false,
+                  description:
+                    "Body param: If true, then anyone can search the dataset. If false,
                     then its limited to the account."
                 name:
                   type: string
-                  description: "Body param: Used to describe the dataset within the account
+                  description:
+                    "Body param: Used to describe the dataset within the account
                     context."
               required:
                 - isPublic
@@ -3285,7 +3331,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/dataset:
     get:
       operationId: listThreatEventDatasets
-      description: "Lists all datasets in an account  @example ```ts const datasets =
+      description:
+        "Lists all datasets in an account  @example ```ts const datasets =
         await client.cloudforceOne.threatEvents.datasets.list({ account_id:
         'account_id', }); ```"
       parameters:
@@ -3337,11 +3384,13 @@ paths:
               properties:
                 isPublic:
                   type: boolean
-                  description: "Body param: If true, then anyone can search the dataset. If false,
+                  description:
+                    "Body param: If true, then anyone can search the dataset. If false,
                     then its limited to the account."
                 name:
                   type: string
-                  description: "Body param: Used to describe the dataset within the account
+                  description:
+                    "Body param: Used to describe the dataset within the account
                     context."
               required:
                 - isPublic
@@ -3367,7 +3416,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/raw/{datasetId}/{eventId}:
     get:
       operationId: rawThreatEventDataset
-      description: "Retrieves the raw data associated with an event. Searches across
+      description:
+        "Retrieves the raw data associated with an event. Searches across
         all shards in the dataset.  @example ```ts const response = await
         client.cloudforceOne.threatEvents.datasets.raw( 'dataset_id',
         'event_id', { account_id: 'account_id' }, ); ```"
@@ -3418,7 +3468,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/event_tag/{eventId}/create:
     post:
       operationId: createThreatEventEventTag
-      description: "Adds a tag to an event  @example ```ts const eventTag = await
+      description:
+        "Adds a tag to an event  @example ```ts const eventTag = await
         client.cloudforceOne.threatEvents.eventTags.create( 'event_id', {
         account_id: 'account_id', tags: ['botnet'] }, ); ```"
       parameters:
@@ -3463,7 +3514,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/event_tag/{eventId}:
     delete:
       operationId: deleteThreatEventEventTag
-      description: "Removes a tag from an event  @example ```ts const eventTag = await
+      description:
+        "Removes a tag from an event  @example ```ts const eventTag = await
         client.cloudforceOne.threatEvents.eventTags.delete( 'event_id', {
         account_id: 'account_id' }, ); ```"
       parameters:
@@ -3626,7 +3678,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/relate/{eventId}:
     delete:
       operationId: deleteThreatEventRelate
-      description: "Removes an event reference  @example ```ts const relate = await
+      description:
+        "Removes an event reference  @example ```ts const relate = await
         client.cloudforceOne.threatEvents.relate.delete( 'event_id', {
         account_id: 'account_id' }, ); ```"
       parameters:
@@ -3657,7 +3710,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/tags/create:
     post:
       operationId: createThreatEventTag
-      description: "Creates a new tag to be used accross threat events.  @example
+      description:
+        "Creates a new tag to be used accross threat events.  @example
         ```ts const tag = await client.cloudforceOne.threatEvents.tags.create({
         account_id: 'account_id', value: 'APT28', }); ```"
       parameters:
@@ -3786,7 +3840,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/events/targetIndustries:
     get:
       operationId: listThreatEventTargetIndustries
-      description: "Lists target industries across multiple datasets  @example ```ts
+      description:
+        "Lists target industries across multiple datasets  @example ```ts
         const targetIndustries = await
         client.cloudforceOne.threatEvents.targetIndustries.list( { account_id:
         'account_id' }, ); ```"
@@ -3800,7 +3855,8 @@ paths:
         - name: datasetIds
           in: query
           required: false
-          description: "Query param: Array of dataset IDs to query target industries from.
+          description:
+            "Query param: Array of dataset IDs to query target industries from.
             If not provided, uses the default dataset."
           schema:
             type: array

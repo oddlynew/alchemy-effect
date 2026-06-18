@@ -6,38 +6,41 @@ import { UserlandUsersControllerList } from "../src/operations/UserlandUsersCont
 import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 
 describe("SsoControllerLogout", () => {
-  it(
-    "logs out using a logout token",
-    async (ctx) => {
-      const users = await runOrSkipOnEnvLimitation(ctx, UserlandUsersControllerList({ limit: 1 }));
+  it("logs out using a logout token", { timeout: 60_000 }, async (ctx) => {
+    const users = await runOrSkipOnEnvLimitation(
+      ctx,
+      UserlandUsersControllerList({ limit: 1 }),
+    );
 
-      if (users.data.length === 0) {
-        // No seed user available — exercise the operation against a missing
-        // token so the call still hits the live API.
-        const error = await runEffect(
-          SsoControllerLogout({
-            token: `logout_token_does_not_exist_${testRunId}`,
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
-
-      const seedUser = users.data[0] as { id: string };
-      const authorize = await runOrSkipOnEnvLimitation(
-        ctx,
-        SsoControllerLogoutAuthorize({ profile_id: seedUser.id }),
+    if (users.data.length === 0) {
+      // No seed user available — exercise the operation against a missing
+      // token so the call still hits the live API.
+      const error = await runEffect(
+        SsoControllerLogout({
+          token: `logout_token_does_not_exist_${testRunId}`,
+        }).pipe(Effect.flip),
       );
-      expect(typeof authorize.logout_token).toBe("string");
-      expect(typeof authorize.logout_url).toBe("string");
+      expect(error._tag).toBe("NotFound");
+      return;
+    }
 
-      await runOrSkipOnEnvLimitation(ctx, SsoControllerLogout({ token: authorize.logout_token }));
-    },
-    60_000,
-  );
+    const seedUser = users.data[0] as { id: string };
+    const authorize = await runOrSkipOnEnvLimitation(
+      ctx,
+      SsoControllerLogoutAuthorize({ profile_id: seedUser.id }),
+    );
+    expect(typeof authorize.logout_token).toBe("string");
+    expect(typeof authorize.logout_url).toBe("string");
+
+    await runOrSkipOnEnvLimitation(
+      ctx,
+      SsoControllerLogout({ token: authorize.logout_token }),
+    );
+  });
 
   it(
     "fails with NotFound for a non-existent logout token",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         SsoControllerLogout({
@@ -46,6 +49,5 @@ describe("SsoControllerLogout", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

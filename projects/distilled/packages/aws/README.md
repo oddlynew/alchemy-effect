@@ -71,19 +71,19 @@ You can also use a specific provider directly:
 
 ```typescript
 // Environment variables only
-Credentials.fromEnv()
+Credentials.fromEnv();
 
 // SSO profile (run `aws sso login` first)
-Credentials.fromSSO("my-profile")
+Credentials.fromSSO("my-profile");
 
 // Shared credentials file (~/.aws/credentials)
-Credentials.fromIni()
+Credentials.fromIni();
 
 // Static credentials
 Credentials.fromCredentials({
   accessKeyId: "AKIA...",
   secretAccessKey: "...",
-})
+});
 ```
 
 Credentials are cached and automatically refreshed 5 minutes before expiration.

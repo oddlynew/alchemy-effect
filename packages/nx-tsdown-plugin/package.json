@@ -1,0 +1,49 @@
+{
+  "name": "@alchemy.run/nx-tsdown-plugin",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Nx plugin that infers build targets for packages with tsdown.config.ts files.",
+  "keywords": [
+    "build-tools",
+    "nx",
+    "plugin",
+    "tsdown"
+  ],
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "prepare": "tsdown"
+  },
+  "devDependencies": {
+    "@nx/devkit": "catalog:",
+    "@alchemy.run/oxlint-config": "workspace:*",
+    "@alchemy.run/typescript-config": "workspace:*",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@nx/devkit": "catalog:"
+  },
+  "nx": {
+    "name": "nx-tsdown-plugin",
+    "tags": [
+      "type:tooling",
+      "scope:repo"
+    ]
+  }
+}

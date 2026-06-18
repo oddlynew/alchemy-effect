@@ -6,6 +6,7 @@ import { runEffect } from "./setup.ts";
 describe("SsoControllerGetProfile", () => {
   it(
     "returns a profile or fails with NotFound when no access token is associated with the request",
+    { timeout: 30_000 },
     async () => {
       // The endpoint normally exchanges an SSO access token for a profile.
       // Our test client authenticates with WORKOS_API_KEY rather than a
@@ -15,7 +16,8 @@ describe("SsoControllerGetProfile", () => {
       const result = await runEffect(
         SsoControllerGetProfile({}).pipe(
           Effect.matchEffect({
-            onSuccess: (profile) => Effect.succeed({ ok: true as const, profile }),
+            onSuccess: (profile) =>
+              Effect.succeed({ ok: true as const, profile }),
             onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
@@ -34,11 +36,11 @@ describe("SsoControllerGetProfile", () => {
         expect(result.error._tag).toBe("Unauthorized");
       }
     },
-    30_000,
   );
 
   it(
     "fails with NotFound when called without a valid SSO access token",
+    { timeout: 30_000 },
     async () => {
       // With API-key authentication and no SSO access token in scope, the
       // server cannot resolve a profile and returns NotFound.
@@ -47,6 +49,5 @@ describe("SsoControllerGetProfile", () => {
       );
       expect(error._tag).toBe("Unauthorized");
     },
-    30_000,
   );
 });

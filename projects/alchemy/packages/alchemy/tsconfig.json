@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@alchemy.run/typescript-config/bun.json",
   "include": ["package.json", "src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
   "compilerOptions": {
     "composite": true,
@@ -19,22 +19,22 @@
   },
   "references": [
     {
-      "path": "../../distilled/packages/aws/tsconfig.json"
+      "path": "../../../distilled/packages/aws/tsconfig.json"
     },
     {
-      "path": "../../distilled/packages/cloudflare/tsconfig.json"
+      "path": "../../../distilled/packages/cloudflare/tsconfig.json"
     },
     {
-      "path": "../../distilled/packages/planetscale/tsconfig.json"
+      "path": "../../../distilled/packages/planetscale/tsconfig.json"
     },
     {
-      "path": "../../distilled/packages/core/tsconfig.json"
+      "path": "../../../distilled/packages/core/tsconfig.json"
     },
     {
-      "path": "../../distilled/packages/neon/tsconfig.json"
+      "path": "../../../distilled/packages/neon/tsconfig.json"
     },
     {
-      "path": "../../distilled/packages/axiom/tsconfig.json"
+      "path": "../../../distilled/packages/axiom/tsconfig.json"
     }
   ]
 }

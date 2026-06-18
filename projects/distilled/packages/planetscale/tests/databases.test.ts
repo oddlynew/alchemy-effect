@@ -285,7 +285,7 @@ describe("databases", () => {
       expect(isApiError(error)).toBe(true);
     });
 
-    it("can create and delete a database", async () => {
+    it("can create and delete a database", { timeout: 600000 }, async () => {
       const db = getDb();
       const dbName = `distilled-test-create-${testRunId}`;
       let createdDb: { id: string; name: string } | null = null;
@@ -329,7 +329,7 @@ describe("databases", () => {
           );
         }
       }
-    }, 600000); // 10 minute timeout
+    }); // 10 minute timeout
   });
 
   describe("deleteDatabase", () => {

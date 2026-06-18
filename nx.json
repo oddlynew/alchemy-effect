@@ -1,0 +1,228 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "tui": {
+    "enabled": true,
+    "autoExit": true
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "{workspaceRoot}/bun.lock"],
+    "taskSources": [
+      "default",
+      "!{projectRoot}/**/*.md",
+      "!{projectRoot}/docs/**",
+      "!{projectRoot}/README.md"
+    ],
+    "production": [
+      "taskSources",
+      "!{projectRoot}/**/*.spec.*",
+      "!{projectRoot}/**/*.test.*",
+      "!{projectRoot}/**/__tests__/**",
+      "!{projectRoot}/test/**",
+      "!{projectRoot}/vitest.config.*",
+      "!{projectRoot}/playwright.config.*"
+    ]
+  },
+  "pluginsConfig": {
+    "@nx/js": {
+      "projectsAffectedByDependencyUpdates": "all"
+    }
+  },
+  "release": {
+    "groups": {
+      "alchemy": {
+        "projects": [
+          "alchemy",
+          "@alchemy.run/better-auth",
+          "@alchemy.run/pr-package"
+        ],
+        "projectsRelationship": "fixed",
+        "releaseTag": {
+          "pattern": "v{version}"
+        }
+      },
+      "distilled": {
+        "projects": [
+          "@distilled.cloud/aws",
+          "@distilled.cloud/axiom",
+          "@distilled.cloud/azure",
+          "@distilled.cloud/cloudflare",
+          "@distilled.cloud/coinbase",
+          "@distilled.cloud/core",
+          "@distilled.cloud/expo-eas",
+          "@distilled.cloud/fly-io",
+          "@distilled.cloud/gcp",
+          "@distilled.cloud/kubernetes",
+          "@distilled.cloud/mongodb-atlas",
+          "@distilled.cloud/neon",
+          "@distilled.cloud/planetscale",
+          "@distilled.cloud/posthog",
+          "@distilled.cloud/prisma-postgres",
+          "@distilled.cloud/stripe",
+          "@distilled.cloud/supabase",
+          "@distilled.cloud/turso",
+          "@distilled.cloud/typesense",
+          "@distilled.cloud/workos"
+        ],
+        "projectsRelationship": "fixed",
+        "releaseTag": {
+          "pattern": "distilled-v{version}"
+        }
+      },
+      "cloudflare-tools": {
+        "projects": [
+          "@distilled.cloud/cloudflare-rolldown-plugin",
+          "@distilled.cloud/cloudflare-runtime",
+          "@distilled.cloud/cloudflare-vite-plugin"
+        ],
+        "projectsRelationship": "fixed",
+        "releaseTag": {
+          "pattern": "cloudflare-tools-v{version}"
+        }
+      }
+    },
+    "conventionalCommits": {
+      "useCommitScope": true
+    },
+    "version": {
+      "conventionalCommits": true,
+      "fallbackCurrentVersionResolver": "disk",
+      "updateDependents": "never"
+    },
+    "changelog": {
+      "workspaceChangelog": false,
+      "projectChangelogs": {
+        "createRelease": false,
+        "renderOptions": {
+          "authors": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      }
+    }
+  },
+  "parallel": 6,
+  "targetDefaults": [
+    {
+      "target": "build",
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "outputs": [
+        "{projectRoot}/lib",
+        "{projectRoot}/dist",
+        "{projectRoot}/.cache",
+        "{projectRoot}/.tsbuild",
+        "{projectRoot}/tsconfig.tsbuildinfo"
+      ],
+      "cache": true
+    },
+    {
+      "target": "typecheck",
+      "dependsOn": ["^build"],
+      "inputs": ["taskSources", "^production"],
+      "outputs": [
+        "{projectRoot}/.cache",
+        "{projectRoot}/.tsbuild",
+        "{projectRoot}/tsconfig.tsbuildinfo"
+      ],
+      "cache": true
+    },
+    {
+      "target": "test",
+      "dependsOn": ["build", "^build"],
+      "inputs": [
+        "taskSources",
+        "^production",
+        {
+          "env": "CI"
+        }
+      ],
+      "outputs": [],
+      "cache": true
+    },
+    {
+      "target": "lint",
+      "inputs": ["taskSources"],
+      "outputs": [],
+      "cache": true
+    },
+    {
+      "target": "dev",
+      "cache": false,
+      "continuous": true,
+      "dependsOn": ["^build"]
+    },
+    {
+      "target": "deploy",
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    {
+      "target": "nx-release-publish",
+      "cache": false,
+      "dependsOn": ["build", "^build"]
+    },
+    {
+      "target": "destroy",
+      "cache": false
+    },
+    {
+      "target": "plan",
+      "cache": false
+    }
+  ],
+  "plugins": [
+    {
+      "plugin": "@alchemy.run/nx-tsdown-plugin",
+      "exclude": [
+        ".vendor/**",
+        "projects/cloudflare-tools/workers-sdk/**",
+        "projects/distilled/packages/*/specs/**"
+      ],
+      "options": {
+        "buildTargetName": "build"
+      }
+    },
+    {
+      "plugin": "@alchemy.run/nx-tsgo-plugin",
+      "exclude": [
+        ".vendor/**",
+        "projects/alchemy/apps/website/**",
+        "projects/alchemy/examples/**",
+        "projects/cloudflare-tools/fixtures/**",
+        "projects/cloudflare-tools/workers-sdk/**",
+        "projects/distilled/packages/*/specs/**"
+      ],
+      "options": {
+        "typecheckTargetName": "typecheck"
+      }
+    },
+    {
+      "plugin": "@alchemy.run/nx-alchemy-plugin",
+      "exclude": [
+        ".vendor/**",
+        "projects/cloudflare-tools/workers-sdk/**",
+        "projects/distilled/packages/*/specs/**"
+      ],
+      "options": {
+        "devTargetName": "dev",
+        "deployTargetName": "deploy",
+        "destroyTargetName": "destroy",
+        "planTargetName": "plan"
+      }
+    },
+    {
+      "plugin": "@alchemy.run/nx-oxlint-plugin",
+      "exclude": [
+        ".vendor/**",
+        "projects/cloudflare-tools/workers-sdk/**",
+        "projects/distilled/packages/*/specs/**"
+      ],
+      "options": {
+        "lintTargetName": "lint",
+        "typeAware": true
+      }
+    }
+  ],
+  "neverConnectToCloud": true,
+  "analytics": false
+}

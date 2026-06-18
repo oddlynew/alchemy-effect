@@ -6,6 +6,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationRoleAssignmentsControllerRemoveRoleByCriteria", () => {
   it(
     "fails with NotFound for a non-existent organization membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRoleAssignmentsControllerRemoveRoleByCriteria({
@@ -15,11 +16,11 @@ describe("AuthorizationRoleAssignmentsControllerRemoveRoleByCriteria", () => {
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the membership belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRoleAssignmentsControllerRemoveRoleByCriteria({
@@ -29,11 +30,11 @@ describe("AuthorizationRoleAssignmentsControllerRemoveRoleByCriteria", () => {
 
       expect(["Forbidden", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the membership id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRoleAssignmentsControllerRemoveRoleByCriteria({
@@ -43,6 +44,5 @@ describe("AuthorizationRoleAssignmentsControllerRemoveRoleByCriteria", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

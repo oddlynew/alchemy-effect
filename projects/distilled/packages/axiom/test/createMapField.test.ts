@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createMapField", () => {
   it(
     "creates a map field on an existing dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-createmap-${testRunId}`;
       const mapFieldName = `mapfield_${testRunId}`;
@@ -33,11 +34,11 @@ describe("createMapField", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a dataset name that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         createMapField({
@@ -48,7 +49,6 @@ describe("createMapField", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   // Removed: "returns UnprocessableEntity when the name is empty". Probed

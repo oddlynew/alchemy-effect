@@ -25,7 +25,7 @@ describe("deleteV1ConnectionsById", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - deletes a connection", async () => {
+  it("happy path - deletes a connection", { timeout: 30_000 }, async () => {
     const project = getTestProject("conn-del");
     const databaseId = project.databaseId!;
     const connName = `distilled-prisma-conn-del-${testRunId}`;
@@ -50,35 +50,45 @@ describe("deleteV1ConnectionsById", () => {
         expect((err as any)._tag).toBe("NotFound");
       }),
     );
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent connection id", async () => {
-    await Effect.runPromise(
-      deleteV1ConnectionsById({ id: "non-existent-conn-id-00000000" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent connection id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1ConnectionsById({ id: "non-existent-conn-id-00000000" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - UnprocessableEntity for malformed id", async () => {
-    await Effect.runPromise(
-      deleteV1ConnectionsById({ id: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1ConnectionsById({ id: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

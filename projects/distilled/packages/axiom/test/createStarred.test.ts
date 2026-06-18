@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createStarred", () => {
   it(
     "creates a starred APL query against a fresh dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-starred-${testRunId}`;
       const queryName = `distilled-axiom-starred-${testRunId}`;
@@ -51,7 +52,6 @@ describe("createStarred", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   // Removed: the client-side schema now requires kind/name/query/who/

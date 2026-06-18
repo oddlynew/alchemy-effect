@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationOrganizationRolesControllerGet", () => {
   it(
     "fails with NotFound for a non-existent role slug",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -32,11 +33,11 @@ describe("AuthorizationOrganizationRolesControllerGet", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolesControllerGet({
@@ -47,6 +48,5 @@ describe("AuthorizationOrganizationRolesControllerGet", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

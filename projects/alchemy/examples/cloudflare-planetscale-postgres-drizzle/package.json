@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/cloudflare-planetscale-postgres-drizzle"
+    "directory": "projects/alchemy/examples/cloudflare-planetscale-postgres-drizzle"
   },
   "type": "module",
   "scripts": {
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@types/pg": "^8.11.0",
-    "drizzle-kit": "1.0.0-rc.1"
+    "drizzle-kit": "1.0.0-rc.1",
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

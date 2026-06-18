@@ -641,17 +641,11 @@ const nuke = Command.make(
       // Summary
       yield* Console.log(`\n${BOLD}Summary${RESET}`);
       yield* Console.log(`  Total found:   ${totalFound}`);
-      yield* Console.log(
-        `  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`,
-      );
+      yield* Console.log(`  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`);
       if (!config.dryRun) {
-        yield* Console.log(
-          `  ${GREEN}Deleted:       ${totalDeleted}${RESET}`,
-        );
+        yield* Console.log(`  ${GREEN}Deleted:       ${totalDeleted}${RESET}`);
         if (totalFailed > 0) {
-          yield* Console.log(
-            `  ${RED}Failed:        ${totalFailed}${RESET}`,
-          );
+          yield* Console.log(`  ${RED}Failed:        ${totalFailed}${RESET}`);
         }
       }
     }).pipe(

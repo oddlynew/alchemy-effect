@@ -24,11 +24,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -60,11 +62,13 @@ paths:
                             type: string
                             enum:
                               - ip
-                            description: The configuration target. You must set the target to `ip` when
+                            description:
+                              The configuration target. You must set the target to `ip` when
                               specifying an IP address in the rule.
                           value:
                             type: string
-                            description: The IP address to match. This address will be compared to the IP
+                            description:
+                              The IP address to match. This address will be compared to the IP
                               address of incoming requests.
                       - type: object
                         properties:
@@ -72,7 +76,8 @@ paths:
                             type: string
                             enum:
                               - ip6
-                            description: The configuration target. You must set the target to `ip6` when
+                            description:
+                              The configuration target. You must set the target to `ip6` when
                               specifying an IPv6 address in the rule.
                           value:
                             type: string
@@ -83,11 +88,13 @@ paths:
                             type: string
                             enum:
                               - ip_range
-                            description: The configuration target. You must set the target to `ip_range`
+                            description:
+                              The configuration target. You must set the target to `ip_range`
                               when specifying an IP address range in the rule.
                           value:
                             type: string
-                            description: The IP address range to match. You can only use prefix lengths
+                            description:
+                              The IP address range to match. You can only use prefix lengths
                               `/16` and `/24` for IPv4 ranges, and prefix
                               lengths `/32`, `/48`, and `/64` for IPv6 ranges.
                       - type: object
@@ -96,7 +103,8 @@ paths:
                             type: string
                             enum:
                               - asn
-                            description: The configuration target. You must set the target to `asn` when
+                            description:
+                              The configuration target. You must set the target to `asn` when
                               specifying an Autonomous System Number (ASN) in
                               the rule.
                           value:
@@ -108,11 +116,13 @@ paths:
                             type: string
                             enum:
                               - country
-                            description: The configuration target. You must set the target to `country` when
+                            description:
+                              The configuration target. You must set the target to `country` when
                               specifying a country code in the rule.
                           value:
                             type: string
-                            description: "The two-letter ISO-3166-1 alpha-2 code to match. For more
+                            description:
+                              "The two-letter ISO-3166-1 alpha-2 code to match. For more
                               information, refer to [IP Access rules:
                               Parameters](https://developers.cloudflare.com/waf\
                               /tools/ip-access-rules/parameters/#country)."
@@ -134,7 +144,8 @@ paths:
                     description: The timestamp of when the rule was last modified.
                   notes:
                     type: string
-                    description: An informative summary of the rule, typically used as a reminder or
+                    description:
+                      An informative summary of the rule, typically used as a reminder or
                       explanation.
                   scope:
                     type: object
@@ -168,7 +179,8 @@ paths:
           - status: 403
     patch:
       operationId: patchAccessRule
-      description: "Updates an IP Access rule defined.  Note: This operation will
+      description:
+        "Updates an IP Access rule defined.  Note: This operation will
         affect all zones in the account or zone.  @example ```ts const response
         = await client.firewall.accessRules.edit(
         '023e105f4ecef8ad9ca31a8372d0c353', { configuration: {}, mode:
@@ -182,14 +194,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -208,11 +222,13 @@ paths:
                           type: string
                           enum:
                             - ip
-                          description: The configuration target. You must set the target to `ip` when
+                          description:
+                            The configuration target. You must set the target to `ip` when
                             specifying an IP address in the rule.
                         value:
                           type: string
-                          description: The IP address to match. This address will be compared to the IP
+                          description:
+                            The IP address to match. This address will be compared to the IP
                             address of incoming requests.
                     - type: object
                       properties:
@@ -220,7 +236,8 @@ paths:
                           type: string
                           enum:
                             - ip6
-                          description: The configuration target. You must set the target to `ip6` when
+                          description:
+                            The configuration target. You must set the target to `ip6` when
                             specifying an IPv6 address in the rule.
                         value:
                           type: string
@@ -231,11 +248,13 @@ paths:
                           type: string
                           enum:
                             - ip_range
-                          description: The configuration target. You must set the target to `ip_range`
+                          description:
+                            The configuration target. You must set the target to `ip_range`
                             when specifying an IP address range in the rule.
                         value:
                           type: string
-                          description: The IP address range to match. You can only use prefix lengths
+                          description:
+                            The IP address range to match. You can only use prefix lengths
                             `/16` and `/24` for IPv4 ranges, and prefix lengths
                             `/32`, `/48`, and `/64` for IPv6 ranges.
                     - type: object
@@ -244,7 +263,8 @@ paths:
                           type: string
                           enum:
                             - asn
-                          description: The configuration target. You must set the target to `asn` when
+                          description:
+                            The configuration target. You must set the target to `asn` when
                             specifying an Autonomous System Number (ASN) in the
                             rule.
                         value:
@@ -256,11 +276,13 @@ paths:
                           type: string
                           enum:
                             - country
-                          description: The configuration target. You must set the target to `country` when
+                          description:
+                            The configuration target. You must set the target to `country` when
                             specifying a country code in the rule.
                         value:
                           type: string
-                          description: "The two-letter ISO-3166-1 alpha-2 code to match. For more
+                          description:
+                            "The two-letter ISO-3166-1 alpha-2 code to match. For more
                             information, refer to [IP Access rules:
                             Parameters](https://developers.cloudflare.com/waf/t\
                             ools/ip-access-rules/parameters/#country)."
@@ -276,7 +298,8 @@ paths:
                   description: "Body param: The action to apply to a matched request."
                 notes:
                   type: string
-                  description: "Body param: An informative summary of the rule, typically used as
+                  description:
+                    "Body param: An informative summary of the rule, typically used as
                     a reminder or explanation."
               required:
                 - configuration
@@ -311,11 +334,13 @@ paths:
                             type: string
                             enum:
                               - ip
-                            description: The configuration target. You must set the target to `ip` when
+                            description:
+                              The configuration target. You must set the target to `ip` when
                               specifying an IP address in the rule.
                           value:
                             type: string
-                            description: The IP address to match. This address will be compared to the IP
+                            description:
+                              The IP address to match. This address will be compared to the IP
                               address of incoming requests.
                       - type: object
                         properties:
@@ -323,7 +348,8 @@ paths:
                             type: string
                             enum:
                               - ip6
-                            description: The configuration target. You must set the target to `ip6` when
+                            description:
+                              The configuration target. You must set the target to `ip6` when
                               specifying an IPv6 address in the rule.
                           value:
                             type: string
@@ -334,11 +360,13 @@ paths:
                             type: string
                             enum:
                               - ip_range
-                            description: The configuration target. You must set the target to `ip_range`
+                            description:
+                              The configuration target. You must set the target to `ip_range`
                               when specifying an IP address range in the rule.
                           value:
                             type: string
-                            description: The IP address range to match. You can only use prefix lengths
+                            description:
+                              The IP address range to match. You can only use prefix lengths
                               `/16` and `/24` for IPv4 ranges, and prefix
                               lengths `/32`, `/48`, and `/64` for IPv6 ranges.
                       - type: object
@@ -347,7 +375,8 @@ paths:
                             type: string
                             enum:
                               - asn
-                            description: The configuration target. You must set the target to `asn` when
+                            description:
+                              The configuration target. You must set the target to `asn` when
                               specifying an Autonomous System Number (ASN) in
                               the rule.
                           value:
@@ -359,11 +388,13 @@ paths:
                             type: string
                             enum:
                               - country
-                            description: The configuration target. You must set the target to `country` when
+                            description:
+                              The configuration target. You must set the target to `country` when
                               specifying a country code in the rule.
                           value:
                             type: string
-                            description: "The two-letter ISO-3166-1 alpha-2 code to match. For more
+                            description:
+                              "The two-letter ISO-3166-1 alpha-2 code to match. For more
                               information, refer to [IP Access rules:
                               Parameters](https://developers.cloudflare.com/waf\
                               /tools/ip-access-rules/parameters/#country)."
@@ -385,7 +416,8 @@ paths:
                     description: The timestamp of when the rule was last modified.
                   notes:
                     type: string
-                    description: An informative summary of the rule, typically used as a reminder or
+                    description:
+                      An informative summary of the rule, typically used as a reminder or
                       explanation.
                   scope:
                     type: object
@@ -434,11 +466,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -469,14 +503,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -507,7 +543,8 @@ paths:
                 description: Defines the target to search in existing rules.
               value:
                 type: string
-                description: "Defines the target value to search for in existing rules: an IP
+                description:
+                  "Defines the target value to search for in existing rules: an IP
                   address, an IP address range, or a country code, depending on
                   the provided `configuration.target`. Notes: You can search for
                   a single IPv4 address, an IP address range with a subnet of
@@ -525,7 +562,8 @@ paths:
         - name: match
           in: query
           required: false
-          description: "Query param: Defines the search requirements. When set to `all`,
+          description:
+            "Query param: Defines the search requirements. When set to `all`,
             all the search requirements must match. When set to `any`, only one
             of the search requirements has to match."
           schema:
@@ -548,7 +586,8 @@ paths:
         - name: notes
           in: query
           required: false
-          description: "Query param: Defines the string to search for in the notes of
+          description:
+            "Query param: Defines the string to search for in the notes of
             existing IP Access rules. Notes: For example, the string 'attack'
             would match IP Access rules with notes 'Attack 26/02' and 'Attack
             27/02'. The search is case insensitive."
@@ -594,11 +633,13 @@ paths:
                             type: string
                             enum:
                               - ip
-                            description: The configuration target. You must set the target to `ip` when
+                            description:
+                              The configuration target. You must set the target to `ip` when
                               specifying an IP address in the rule.
                           value:
                             type: string
-                            description: The IP address to match. This address will be compared to the IP
+                            description:
+                              The IP address to match. This address will be compared to the IP
                               address of incoming requests.
                       - type: object
                         properties:
@@ -606,7 +647,8 @@ paths:
                             type: string
                             enum:
                               - ip6
-                            description: The configuration target. You must set the target to `ip6` when
+                            description:
+                              The configuration target. You must set the target to `ip6` when
                               specifying an IPv6 address in the rule.
                           value:
                             type: string
@@ -617,11 +659,13 @@ paths:
                             type: string
                             enum:
                               - ip_range
-                            description: The configuration target. You must set the target to `ip_range`
+                            description:
+                              The configuration target. You must set the target to `ip_range`
                               when specifying an IP address range in the rule.
                           value:
                             type: string
-                            description: The IP address range to match. You can only use prefix lengths
+                            description:
+                              The IP address range to match. You can only use prefix lengths
                               `/16` and `/24` for IPv4 ranges, and prefix
                               lengths `/32`, `/48`, and `/64` for IPv6 ranges.
                       - type: object
@@ -630,7 +674,8 @@ paths:
                             type: string
                             enum:
                               - asn
-                            description: The configuration target. You must set the target to `asn` when
+                            description:
+                              The configuration target. You must set the target to `asn` when
                               specifying an Autonomous System Number (ASN) in
                               the rule.
                           value:
@@ -642,11 +687,13 @@ paths:
                             type: string
                             enum:
                               - country
-                            description: The configuration target. You must set the target to `country` when
+                            description:
+                              The configuration target. You must set the target to `country` when
                               specifying a country code in the rule.
                           value:
                             type: string
-                            description: "The two-letter ISO-3166-1 alpha-2 code to match. For more
+                            description:
+                              "The two-letter ISO-3166-1 alpha-2 code to match. For more
                               information, refer to [IP Access rules:
                               Parameters](https://developers.cloudflare.com/waf\
                               /tools/ip-access-rules/parameters/#country)."
@@ -668,7 +715,8 @@ paths:
                     description: The timestamp of when the rule was last modified.
                   notes:
                     type: string
-                    description: An informative summary of the rule, typically used as a reminder or
+                    description:
+                      An informative summary of the rule, typically used as a reminder or
                       explanation.
                   scope:
                     type: object
@@ -697,7 +745,8 @@ paths:
           - status: 403
     post:
       operationId: createAccessRule
-      description: "Creates a new IP Access rule for an account or zone. The rule will
+      description:
+        "Creates a new IP Access rule for an account or zone. The rule will
         apply to all zones in the account or zone.  Note: To create an IP Access
         rule that applies to a single zone, refer to the [IP Access rules for a
         zone](#ip-access-rules-for-a-zone) endpoints.  @example ```ts const
@@ -707,14 +756,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -733,11 +784,13 @@ paths:
                           type: string
                           enum:
                             - ip
-                          description: The configuration target. You must set the target to `ip` when
+                          description:
+                            The configuration target. You must set the target to `ip` when
                             specifying an IP address in the rule.
                         value:
                           type: string
-                          description: The IP address to match. This address will be compared to the IP
+                          description:
+                            The IP address to match. This address will be compared to the IP
                             address of incoming requests.
                     - type: object
                       properties:
@@ -745,7 +798,8 @@ paths:
                           type: string
                           enum:
                             - ip6
-                          description: The configuration target. You must set the target to `ip6` when
+                          description:
+                            The configuration target. You must set the target to `ip6` when
                             specifying an IPv6 address in the rule.
                         value:
                           type: string
@@ -756,11 +810,13 @@ paths:
                           type: string
                           enum:
                             - ip_range
-                          description: The configuration target. You must set the target to `ip_range`
+                          description:
+                            The configuration target. You must set the target to `ip_range`
                             when specifying an IP address range in the rule.
                         value:
                           type: string
-                          description: The IP address range to match. You can only use prefix lengths
+                          description:
+                            The IP address range to match. You can only use prefix lengths
                             `/16` and `/24` for IPv4 ranges, and prefix lengths
                             `/32`, `/48`, and `/64` for IPv6 ranges.
                     - type: object
@@ -769,7 +825,8 @@ paths:
                           type: string
                           enum:
                             - asn
-                          description: The configuration target. You must set the target to `asn` when
+                          description:
+                            The configuration target. You must set the target to `asn` when
                             specifying an Autonomous System Number (ASN) in the
                             rule.
                         value:
@@ -781,11 +838,13 @@ paths:
                           type: string
                           enum:
                             - country
-                          description: The configuration target. You must set the target to `country` when
+                          description:
+                            The configuration target. You must set the target to `country` when
                             specifying a country code in the rule.
                         value:
                           type: string
-                          description: "The two-letter ISO-3166-1 alpha-2 code to match. For more
+                          description:
+                            "The two-letter ISO-3166-1 alpha-2 code to match. For more
                             information, refer to [IP Access rules:
                             Parameters](https://developers.cloudflare.com/waf/t\
                             ools/ip-access-rules/parameters/#country)."
@@ -801,7 +860,8 @@ paths:
                   description: "Body param: The action to apply to a matched request."
                 notes:
                   type: string
-                  description: "Body param: An informative summary of the rule, typically used as
+                  description:
+                    "Body param: An informative summary of the rule, typically used as
                     a reminder or explanation."
               required:
                 - configuration
@@ -836,11 +896,13 @@ paths:
                             type: string
                             enum:
                               - ip
-                            description: The configuration target. You must set the target to `ip` when
+                            description:
+                              The configuration target. You must set the target to `ip` when
                               specifying an IP address in the rule.
                           value:
                             type: string
-                            description: The IP address to match. This address will be compared to the IP
+                            description:
+                              The IP address to match. This address will be compared to the IP
                               address of incoming requests.
                       - type: object
                         properties:
@@ -848,7 +910,8 @@ paths:
                             type: string
                             enum:
                               - ip6
-                            description: The configuration target. You must set the target to `ip6` when
+                            description:
+                              The configuration target. You must set the target to `ip6` when
                               specifying an IPv6 address in the rule.
                           value:
                             type: string
@@ -859,11 +922,13 @@ paths:
                             type: string
                             enum:
                               - ip_range
-                            description: The configuration target. You must set the target to `ip_range`
+                            description:
+                              The configuration target. You must set the target to `ip_range`
                               when specifying an IP address range in the rule.
                           value:
                             type: string
-                            description: The IP address range to match. You can only use prefix lengths
+                            description:
+                              The IP address range to match. You can only use prefix lengths
                               `/16` and `/24` for IPv4 ranges, and prefix
                               lengths `/32`, `/48`, and `/64` for IPv6 ranges.
                       - type: object
@@ -872,7 +937,8 @@ paths:
                             type: string
                             enum:
                               - asn
-                            description: The configuration target. You must set the target to `asn` when
+                            description:
+                              The configuration target. You must set the target to `asn` when
                               specifying an Autonomous System Number (ASN) in
                               the rule.
                           value:
@@ -884,11 +950,13 @@ paths:
                             type: string
                             enum:
                               - country
-                            description: The configuration target. You must set the target to `country` when
+                            description:
+                              The configuration target. You must set the target to `country` when
                               specifying a country code in the rule.
                           value:
                             type: string
-                            description: "The two-letter ISO-3166-1 alpha-2 code to match. For more
+                            description:
+                              "The two-letter ISO-3166-1 alpha-2 code to match. For more
                               information, refer to [IP Access rules:
                               Parameters](https://developers.cloudflare.com/waf\
                               /tools/ip-access-rules/parameters/#country)."
@@ -910,7 +978,8 @@ paths:
                     description: The timestamp of when the rule was last modified.
                   notes:
                     type: string
-                    description: An informative summary of the rule, typically used as a reminder or
+                    description:
+                      An informative summary of the rule, typically used as a reminder or
                       explanation.
                   scope:
                     type: object
@@ -944,7 +1013,8 @@ paths:
   /zones/{zone_id}/firewall/lockdowns/{lockDownsId}:
     get:
       operationId: getLockdown
-      description: "Fetches the details of a Zone Lockdown rule.  @example ```ts const
+      description:
+        "Fetches the details of a Zone Lockdown rule.  @example ```ts const
         lockdown = await client.firewall.lockdowns.get(
         '372e67954025e0ba6aaa6d586b9e0b59', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -981,12 +1051,14 @@ paths:
                               type: string
                               enum:
                                 - ip
-                              description: The configuration target. You must set the target to `ip` when
+                              description:
+                                The configuration target. You must set the target to `ip` when
                                 specifying an IP address in the Zone Lockdown
                                 rule.
                             value:
                               type: string
-                              description: The IP address to match. This address will be compared to the IP
+                              description:
+                                The IP address to match. This address will be compared to the IP
                                 address of incoming requests.
                         - type: object
                           properties:
@@ -994,14 +1066,17 @@ paths:
                               type: string
                               enum:
                                 - ip_range
-                              description: The configuration target. You must set the target to `ip_range`
+                              description:
+                                The configuration target. You must set the target to `ip_range`
                                 when specifying an IP address range in the Zone
                                 Lockdown rule.
                             value:
                               type: string
-                              description: The IP address range to match. You can only use prefix lengths
+                              description:
+                                The IP address range to match. You can only use prefix lengths
                                 `/16` and `/24`.
-                    description: A list of IP addresses or CIDR ranges that will be allowed to
+                    description:
+                      A list of IP addresses or CIDR ranges that will be allowed to
                       access the URLs specified in the Zone Lockdown rule. You
                       can include any number of `ip` or `ip_range`
                       configurations.
@@ -1021,7 +1096,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the rule definition. You can use wildcards.
+                    description:
+                      The URLs to include in the rule definition. You can use wildcards.
                       Each entered URL will be escaped before use, which means
                       you can only use simple wildcard patterns.
                   priority:
@@ -1044,7 +1120,8 @@ paths:
           - status: 403
     put:
       operationId: updateLockdown
-      description: "Updates an existing Zone Lockdown rule.  @example ```ts const
+      description:
+        "Updates an existing Zone Lockdown rule.  @example ```ts const
         lockdown = await client.firewall.lockdowns.update(
         '372e67954025e0ba6aaa6d586b9e0b59', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', configurations: [{}], urls:
@@ -1078,12 +1155,14 @@ paths:
                             type: string
                             enum:
                               - ip
-                            description: The configuration target. You must set the target to `ip` when
+                            description:
+                              The configuration target. You must set the target to `ip` when
                               specifying an IP address in the Zone Lockdown
                               rule.
                           value:
                             type: string
-                            description: The IP address to match. This address will be compared to the IP
+                            description:
+                              The IP address to match. This address will be compared to the IP
                               address of incoming requests.
                       - type: object
                         properties:
@@ -1091,14 +1170,17 @@ paths:
                             type: string
                             enum:
                               - ip_range
-                            description: The configuration target. You must set the target to `ip_range`
+                            description:
+                              The configuration target. You must set the target to `ip_range`
                               when specifying an IP address range in the Zone
                               Lockdown rule.
                           value:
                             type: string
-                            description: The IP address range to match. You can only use prefix lengths
+                            description:
+                              The IP address range to match. You can only use prefix lengths
                               `/16` and `/24`.
-                  description: "Body param: A list of IP addresses or CIDR ranges that will be
+                  description:
+                    "Body param: A list of IP addresses or CIDR ranges that will be
                     allowed to access the URLs specified in the Zone Lockdown
                     rule. You can include any number of `ip` or `ip_range`
                     configurations."
@@ -1106,7 +1188,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: The URLs to include in the current WAF override. You
+                  description:
+                    "Body param: The URLs to include in the current WAF override. You
                     can use wildcards. Each entered URL will be escaped before
                     use, which means you can only use simple wildcard patterns."
                 description:
@@ -1139,12 +1222,14 @@ paths:
                               type: string
                               enum:
                                 - ip
-                              description: The configuration target. You must set the target to `ip` when
+                              description:
+                                The configuration target. You must set the target to `ip` when
                                 specifying an IP address in the Zone Lockdown
                                 rule.
                             value:
                               type: string
-                              description: The IP address to match. This address will be compared to the IP
+                              description:
+                                The IP address to match. This address will be compared to the IP
                                 address of incoming requests.
                         - type: object
                           properties:
@@ -1152,14 +1237,17 @@ paths:
                               type: string
                               enum:
                                 - ip_range
-                              description: The configuration target. You must set the target to `ip_range`
+                              description:
+                                The configuration target. You must set the target to `ip_range`
                                 when specifying an IP address range in the Zone
                                 Lockdown rule.
                             value:
                               type: string
-                              description: The IP address range to match. You can only use prefix lengths
+                              description:
+                                The IP address range to match. You can only use prefix lengths
                                 `/16` and `/24`.
-                    description: A list of IP addresses or CIDR ranges that will be allowed to
+                    description:
+                      A list of IP addresses or CIDR ranges that will be allowed to
                       access the URLs specified in the Zone Lockdown rule. You
                       can include any number of `ip` or `ip_range`
                       configurations.
@@ -1179,7 +1267,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the rule definition. You can use wildcards.
+                    description:
+                      The URLs to include in the rule definition. You can use wildcards.
                       Each entered URL will be escaped before use, which means
                       you can only use simple wildcard patterns.
                   priority:
@@ -1206,7 +1295,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteLockdown
-      description: "Deletes an existing Zone Lockdown rule.  @example ```ts const
+      description:
+        "Deletes an existing Zone Lockdown rule.  @example ```ts const
         lockdown = await client.firewall.lockdowns.delete(
         '372e67954025e0ba6aaa6d586b9e0b59', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1245,7 +1335,8 @@ paths:
   /zones/{zone_id}/firewall/lockdowns:
     get:
       operationId: listLockdowns
-      description: "Fetches Zone Lockdown rules. You can filter the results using
+      description:
+        "Fetches Zone Lockdown rules. You can filter the results using
         several optional parameters.  @example ```ts // Automatically fetches
         more pages as needed. for await (const lockdown of
         client.firewall.lockdowns.list( { zone_id:
@@ -1276,14 +1367,16 @@ paths:
         - name: description
           in: query
           required: false
-          description: "Query param: A string to search for in the description of existing
+          description:
+            "Query param: A string to search for in the description of existing
             rules."
           schema:
             type: string
         - name: description_search
           in: query
           required: false
-          description: "Query param: A string to search for in the description of existing
+          description:
+            "Query param: A string to search for in the description of existing
             rules."
           schema:
             type: string
@@ -1296,7 +1389,8 @@ paths:
         - name: ip_range_search
           in: query
           required: false
-          description: "Query param: A single IP address range to search for in existing
+          description:
+            "Query param: A single IP address range to search for in existing
             rules."
           schema:
             type: string
@@ -1315,7 +1409,8 @@ paths:
         - name: priority
           in: query
           required: false
-          description: "Query param: The priority of the rule to control the processing
+          description:
+            "Query param: The priority of the rule to control the processing
             order. A lower number indicates higher priority. If not provided,
             any rules with a configured priority will be processed before rules
             without a priority."
@@ -1324,7 +1419,8 @@ paths:
         - name: uri_search
           in: query
           required: false
-          description: "Query param: A single URI to search for in the list of URLs of
+          description:
+            "Query param: A single URI to search for in the list of URLs of
             existing rules."
           schema:
             type: string
@@ -1349,12 +1445,14 @@ paths:
                               type: string
                               enum:
                                 - ip
-                              description: The configuration target. You must set the target to `ip` when
+                              description:
+                                The configuration target. You must set the target to `ip` when
                                 specifying an IP address in the Zone Lockdown
                                 rule.
                             value:
                               type: string
-                              description: The IP address to match. This address will be compared to the IP
+                              description:
+                                The IP address to match. This address will be compared to the IP
                                 address of incoming requests.
                         - type: object
                           properties:
@@ -1362,14 +1460,17 @@ paths:
                               type: string
                               enum:
                                 - ip_range
-                              description: The configuration target. You must set the target to `ip_range`
+                              description:
+                                The configuration target. You must set the target to `ip_range`
                                 when specifying an IP address range in the Zone
                                 Lockdown rule.
                             value:
                               type: string
-                              description: The IP address range to match. You can only use prefix lengths
+                              description:
+                                The IP address range to match. You can only use prefix lengths
                                 `/16` and `/24`.
-                    description: A list of IP addresses or CIDR ranges that will be allowed to
+                    description:
+                      A list of IP addresses or CIDR ranges that will be allowed to
                       access the URLs specified in the Zone Lockdown rule. You
                       can include any number of `ip` or `ip_range`
                       configurations.
@@ -1389,7 +1490,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the rule definition. You can use wildcards.
+                    description:
+                      The URLs to include in the rule definition. You can use wildcards.
                       Each entered URL will be escaped before use, which means
                       you can only use simple wildcard patterns.
                 required:
@@ -1406,7 +1508,8 @@ paths:
           - status: 403
     post:
       operationId: createLockdown
-      description: "Creates a new Zone Lockdown rule.  @example ```ts const lockdown =
+      description:
+        "Creates a new Zone Lockdown rule.  @example ```ts const lockdown =
         await client.firewall.lockdowns.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', configurations: [{}], urls:
         ['shop.example.com/ '], }); ```"
@@ -1434,12 +1537,14 @@ paths:
                             type: string
                             enum:
                               - ip
-                            description: The configuration target. You must set the target to `ip` when
+                            description:
+                              The configuration target. You must set the target to `ip` when
                               specifying an IP address in the Zone Lockdown
                               rule.
                           value:
                             type: string
-                            description: The IP address to match. This address will be compared to the IP
+                            description:
+                              The IP address to match. This address will be compared to the IP
                               address of incoming requests.
                       - type: object
                         properties:
@@ -1447,14 +1552,17 @@ paths:
                             type: string
                             enum:
                               - ip_range
-                            description: The configuration target. You must set the target to `ip_range`
+                            description:
+                              The configuration target. You must set the target to `ip_range`
                               when specifying an IP address range in the Zone
                               Lockdown rule.
                           value:
                             type: string
-                            description: The IP address range to match. You can only use prefix lengths
+                            description:
+                              The IP address range to match. You can only use prefix lengths
                               `/16` and `/24`.
-                  description: "Body param: A list of IP addresses or CIDR ranges that will be
+                  description:
+                    "Body param: A list of IP addresses or CIDR ranges that will be
                     allowed to access the URLs specified in the Zone Lockdown
                     rule. You can include any number of `ip` or `ip_range`
                     configurations."
@@ -1462,20 +1570,24 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: The URLs to include in the current WAF override. You
+                  description:
+                    "Body param: The URLs to include in the current WAF override. You
                     can use wildcards. Each entered URL will be escaped before
                     use, which means you can only use simple wildcard patterns."
                 description:
                   type: string
-                  description: "Body param: An informative summary of the rule. This value is
+                  description:
+                    "Body param: An informative summary of the rule. This value is
                     sanitized and any tags will be removed."
                 paused:
                   type: boolean
-                  description: "Body param: When true, indicates that the rule is currently
+                  description:
+                    "Body param: When true, indicates that the rule is currently
                     paused."
                 priority:
                   type: number
-                  description: "Body param: The priority of the rule to control the processing
+                  description:
+                    "Body param: The priority of the rule to control the processing
                     order. A lower number indicates higher priority. If not
                     provided, any rules with a configured priority will be
                     processed before rules without a priority."
@@ -1503,12 +1615,14 @@ paths:
                               type: string
                               enum:
                                 - ip
-                              description: The configuration target. You must set the target to `ip` when
+                              description:
+                                The configuration target. You must set the target to `ip` when
                                 specifying an IP address in the Zone Lockdown
                                 rule.
                             value:
                               type: string
-                              description: The IP address to match. This address will be compared to the IP
+                              description:
+                                The IP address to match. This address will be compared to the IP
                                 address of incoming requests.
                         - type: object
                           properties:
@@ -1516,14 +1630,17 @@ paths:
                               type: string
                               enum:
                                 - ip_range
-                              description: The configuration target. You must set the target to `ip_range`
+                              description:
+                                The configuration target. You must set the target to `ip_range`
                                 when specifying an IP address range in the Zone
                                 Lockdown rule.
                             value:
                               type: string
-                              description: The IP address range to match. You can only use prefix lengths
+                              description:
+                                The IP address range to match. You can only use prefix lengths
                                 `/16` and `/24`.
-                    description: A list of IP addresses or CIDR ranges that will be allowed to
+                    description:
+                      A list of IP addresses or CIDR ranges that will be allowed to
                       access the URLs specified in the Zone Lockdown rule. You
                       can include any number of `ip` or `ip_range`
                       configurations.
@@ -1543,7 +1660,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the rule definition. You can use wildcards.
+                    description:
+                      The URLs to include in the rule definition. You can use wildcards.
                       Each entered URL will be escaped before use, which means
                       you can only use simple wildcard patterns.
                   priority:
@@ -1604,7 +1722,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -1621,7 +1740,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -1645,7 +1765,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -1667,7 +1788,8 @@ paths:
       x-distilled-pagination-class: FirewallRulesSinglePage
     get:
       operationId: listRules
-      description: Fetches firewall rules in a zone. You can filter the results using
+      description:
+        Fetches firewall rules in a zone. You can filter the results using
         several optional parameters.  @deprecated The Firewall Rules API is
         deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
@@ -1710,7 +1832,8 @@ paths:
         - name: paused
           in: query
           required: false
-          description: "Query param: When true, indicates that the firewall rule is
+          description:
+            "Query param: When true, indicates that the firewall rule is
             currently paused."
           schema:
             type: boolean
@@ -1735,7 +1858,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -1752,7 +1876,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -1776,7 +1901,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -1798,7 +1924,8 @@ paths:
       x-distilled-pagination-class: FirewallRulesV4PagePaginationArray
     post:
       operationId: createRule
-      description: Create one or more firewall rules.  @deprecated The Firewall Rules
+      description:
+        Create one or more firewall rules.  @deprecated The Firewall Rules
         API is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -1833,13 +1960,16 @@ paths:
                       properties:
                         body:
                           type: string
-                          description: The response body to return. The value must conform to the
+                          description:
+                            The response body to return. The value must conform to the
                             configured content type.
                         content_type:
                           type: string
-                          description: "The content type of the body. Must be one of the following:
+                          description:
+                            "The content type of the body. Must be one of the following:
                             `text/plain`, `text/xml`, or `application/json`."
-                      description: 'A custom content type and reponse to return when the threshold is
+                      description:
+                        'A custom content type and reponse to return when the threshold is
                         exceeded. The custom response configured in this object
                         will override the custom error for the zone. This object
                         is optional. Notes: If you omit this object, Cloudflare
@@ -1849,14 +1979,16 @@ paths:
                         should not provide the "response" object.'
                     timeout:
                       type: number
-                      description: "The time in seconds during which Cloudflare will perform the
+                      description:
+                        'The time in seconds during which Cloudflare will perform the
                         mitigation action. Must be an integer value greater than
-                        or equal to the period. Notes: If \"mode\" is
-                        \"challenge\", \"managed_challenge\", or
-                        \"js_challenge\", Cloudflare will use the zone's
+                        or equal to the period. Notes: If "mode" is
+                        "challenge", "managed_challenge", or
+                        "js_challenge", Cloudflare will use the zone''s
                         Challenge Passage time and you should not provide this
-                        value."
-                  description: "Body param: The action to perform when the threshold of matched
+                        value.'
+                  description:
+                    "Body param: The action to perform when the threshold of matched
                     traffic within the configured period is exceeded."
                 filter:
                   type: object
@@ -1866,7 +1998,8 @@ paths:
                       description: An informative summary of the filter.
                     expression:
                       type: string
-                      description: The filter expression. For more information, refer to
+                      description:
+                        The filter expression. For more information, refer to
                         [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                     paused:
                       type: boolean
@@ -1899,7 +2032,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -1916,7 +2050,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -1940,7 +2075,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -1962,7 +2098,8 @@ paths:
       x-distilled-pagination-class: FirewallRulesSinglePage
     patch:
       operationId: bulkPatchRules
-      description: Updates the priority of existing firewall rules.  @deprecated The
+      description:
+        Updates the priority of existing firewall rules.  @deprecated The
         Firewall Rules API is deprecated in favour of using the Ruleset Engine.
         See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
@@ -2000,7 +2137,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -2017,7 +2155,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -2041,7 +2180,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -2063,7 +2203,8 @@ paths:
       x-distilled-pagination-class: FirewallRulesSinglePage
     delete:
       operationId: bulkDeleteRules
-      description: Deletes existing firewall rules.  @deprecated The Firewall Rules
+      description:
+        Deletes existing firewall rules.  @deprecated The Firewall Rules
         API is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -2095,7 +2236,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -2112,7 +2254,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -2136,7 +2279,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -2159,7 +2303,8 @@ paths:
   /zones/{zone_id}/firewall/rules/{ruleId}:
     get:
       operationId: getRule
-      description: Fetches the details of a firewall rule.  @deprecated The Firewall
+      description:
+        Fetches the details of a firewall rule.  @deprecated The Firewall
         Rules API is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -2196,7 +2341,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -2213,7 +2359,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -2237,7 +2384,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -2259,7 +2407,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: updateRule
-      description: Updates an existing firewall rule.  @deprecated The Firewall Rules
+      description:
+        Updates an existing firewall rule.  @deprecated The Firewall Rules
         API is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -2299,13 +2448,16 @@ paths:
                       properties:
                         body:
                           type: string
-                          description: The response body to return. The value must conform to the
+                          description:
+                            The response body to return. The value must conform to the
                             configured content type.
                         content_type:
                           type: string
-                          description: "The content type of the body. Must be one of the following:
+                          description:
+                            "The content type of the body. Must be one of the following:
                             `text/plain`, `text/xml`, or `application/json`."
-                      description: 'A custom content type and reponse to return when the threshold is
+                      description:
+                        'A custom content type and reponse to return when the threshold is
                         exceeded. The custom response configured in this object
                         will override the custom error for the zone. This object
                         is optional. Notes: If you omit this object, Cloudflare
@@ -2315,14 +2467,16 @@ paths:
                         should not provide the "response" object.'
                     timeout:
                       type: number
-                      description: "The time in seconds during which Cloudflare will perform the
+                      description:
+                        'The time in seconds during which Cloudflare will perform the
                         mitigation action. Must be an integer value greater than
-                        or equal to the period. Notes: If \"mode\" is
-                        \"challenge\", \"managed_challenge\", or
-                        \"js_challenge\", Cloudflare will use the zone's
+                        or equal to the period. Notes: If "mode" is
+                        "challenge", "managed_challenge", or
+                        "js_challenge", Cloudflare will use the zone''s
                         Challenge Passage time and you should not provide this
-                        value."
-                  description: "Body param: The action to perform when the threshold of matched
+                        value.'
+                  description:
+                    "Body param: The action to perform when the threshold of matched
                     traffic within the configured period is exceeded."
                 filter:
                   type: object
@@ -2332,7 +2486,8 @@ paths:
                       description: An informative summary of the filter.
                     expression:
                       type: string
-                      description: The filter expression. For more information, refer to
+                      description:
+                        The filter expression. For more information, refer to
                         [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                     paused:
                       type: boolean
@@ -2365,7 +2520,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -2382,7 +2538,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -2406,7 +2563,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -2428,7 +2586,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchRule
-      description: Updates the priority of an existing firewall rule.  @deprecated The
+      description:
+        Updates the priority of an existing firewall rule.  @deprecated The
         Firewall Rules API is deprecated in favour of using the Ruleset Engine.
         See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
@@ -2466,7 +2625,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -2483,7 +2643,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -2507,7 +2668,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -2529,7 +2691,8 @@ paths:
       x-distilled-pagination-class: FirewallRulesSinglePage
     delete:
       operationId: deleteRule
-      description: Deletes an existing firewall rule.  @deprecated The Firewall Rules
+      description:
+        Deletes an existing firewall rule.  @deprecated The Firewall Rules
         API is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -2566,7 +2729,8 @@ paths:
                       - allow
                       - log
                       - bypass
-                    description: The action to apply to a matched request. The `log` action is only
+                    description:
+                      The action to apply to a matched request. The `log` action is only
                       available on an Enterprise plan.
                   description:
                     type: string
@@ -2583,7 +2747,8 @@ paths:
                             description: An informative summary of the filter.
                           expression:
                             type: string
-                            description: The filter expression. For more information, refer to
+                            description:
+                              The filter expression. For more information, refer to
                               [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                           paused:
                             type: boolean
@@ -2607,7 +2772,8 @@ paths:
                     description: When true, indicates that the firewall rule is currently paused.
                   priority:
                     type: number
-                    description: The priority of the rule. Optional value used to define the
+                    description:
+                      The priority of the rule. Optional value used to define the
                       processing order. A lower number indicates a higher
                       priority. If not provided, rules with a defined priority
                       will be processed before rules without a priority.
@@ -2630,7 +2796,8 @@ paths:
   /zones/{zone_id}/firewall/ua_rules/{uaRuleId}:
     get:
       operationId: getUaRule
-      description: "Fetches the details of a User Agent Blocking rule.  @example ```ts
+      description:
+        "Fetches the details of a User Agent Blocking rule.  @example ```ts
         const uaRule = await client.firewall.uaRules.get(
         '372e67954025e0ba6aaa6d586b9e0b59', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -2662,11 +2829,13 @@ paths:
                     properties:
                       target:
                         type: string
-                        description: The configuration target for this rule. You must set the target to
+                        description:
+                          The configuration target for this rule. You must set the target to
                           `ua` for User Agent Blocking rules.
                       value:
                         type: string
-                        description: The exact user agent string to match. This value will be compared
+                        description:
+                          The exact user agent string to match. This value will be compared
                           to the received `User-Agent` HTTP header value.
                     description: The configuration object for the current rule.
                   description:
@@ -2694,7 +2863,8 @@ paths:
           - status: 403
     put:
       operationId: updateUaRule
-      description: "Updates an existing User Agent Blocking rule.  @example ```ts
+      description:
+        "Updates an existing User Agent Blocking rule.  @example ```ts
         const uaRule = await client.firewall.uaRules.update(
         '372e67954025e0ba6aaa6d586b9e0b59', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', configuration: {}, mode:
@@ -2726,11 +2896,13 @@ paths:
                           type: string
                           enum:
                             - ip
-                          description: The configuration target. You must set the target to `ip` when
+                          description:
+                            The configuration target. You must set the target to `ip` when
                             specifying an IP address in the rule.
                         value:
                           type: string
-                          description: The IP address to match. This address will be compared to the IP
+                          description:
+                            The IP address to match. This address will be compared to the IP
                             address of incoming requests.
                     - type: object
                       properties:
@@ -2738,7 +2910,8 @@ paths:
                           type: string
                           enum:
                             - ip6
-                          description: The configuration target. You must set the target to `ip6` when
+                          description:
+                            The configuration target. You must set the target to `ip6` when
                             specifying an IPv6 address in the rule.
                         value:
                           type: string
@@ -2749,11 +2922,13 @@ paths:
                           type: string
                           enum:
                             - ip_range
-                          description: The configuration target. You must set the target to `ip_range`
+                          description:
+                            The configuration target. You must set the target to `ip_range`
                             when specifying an IP address range in the rule.
                         value:
                           type: string
-                          description: The IP address range to match. You can only use prefix lengths
+                          description:
+                            The IP address range to match. You can only use prefix lengths
                             `/16` and `/24` for IPv4 ranges, and prefix lengths
                             `/32`, `/48`, and `/64` for IPv6 ranges.
                     - type: object
@@ -2762,7 +2937,8 @@ paths:
                           type: string
                           enum:
                             - asn
-                          description: The configuration target. You must set the target to `asn` when
+                          description:
+                            The configuration target. You must set the target to `asn` when
                             specifying an Autonomous System Number (ASN) in the
                             rule.
                         value:
@@ -2774,11 +2950,13 @@ paths:
                           type: string
                           enum:
                             - country
-                          description: The configuration target. You must set the target to `country` when
+                          description:
+                            The configuration target. You must set the target to `country` when
                             specifying a country code in the rule.
                         value:
                           type: string
-                          description: "The two-letter ISO-3166-1 alpha-2 code to match. For more
+                          description:
+                            "The two-letter ISO-3166-1 alpha-2 code to match. For more
                             information, refer to [IP Access rules:
                             Parameters](https://developers.cloudflare.com/waf/t\
                             ools/ip-access-rules/parameters/#country)."
@@ -2802,11 +2980,13 @@ paths:
                   description: "Body param: The action to apply to a matched request."
                 description:
                   type: string
-                  description: "Body param: An informative summary of the rule. This value is
+                  description:
+                    "Body param: An informative summary of the rule. This value is
                     sanitized and any tags will be removed."
                 paused:
                   type: boolean
-                  description: "Body param: When true, indicates that the rule is currently
+                  description:
+                    "Body param: When true, indicates that the rule is currently
                     paused."
               required:
                 - configuration
@@ -2827,11 +3007,13 @@ paths:
                     properties:
                       target:
                         type: string
-                        description: The configuration target for this rule. You must set the target to
+                        description:
+                          The configuration target for this rule. You must set the target to
                           `ua` for User Agent Blocking rules.
                       value:
                         type: string
-                        description: The exact user agent string to match. This value will be compared
+                        description:
+                          The exact user agent string to match. This value will be compared
                           to the received `User-Agent` HTTP header value.
                     description: The configuration object for the current rule.
                   description:
@@ -2863,7 +3045,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteUaRule
-      description: "Deletes an existing User Agent Blocking rule.  @example ```ts
+      description:
+        "Deletes an existing User Agent Blocking rule.  @example ```ts
         const uaRule = await client.firewall.uaRules.delete(
         '372e67954025e0ba6aaa6d586b9e0b59', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -2895,11 +3078,13 @@ paths:
                     properties:
                       target:
                         type: string
-                        description: The configuration target for this rule. You must set the target to
+                        description:
+                          The configuration target for this rule. You must set the target to
                           `ua` for User Agent Blocking rules.
                       value:
                         type: string
-                        description: The exact user agent string to match. This value will be compared
+                        description:
+                          The exact user agent string to match. This value will be compared
                           to the received `User-Agent` HTTP header value.
                     description: The configuration object for the current rule.
                   description:
@@ -2928,7 +3113,8 @@ paths:
   /zones/{zone_id}/firewall/ua_rules:
     get:
       operationId: listUaRules
-      description: "Fetches User Agent Blocking rules in a zone. You can filter the
+      description:
+        "Fetches User Agent Blocking rules in a zone. You can filter the
         results using several optional parameters.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         uaRuleListResponse of client.firewall.uaRules.list( { zone_id:
@@ -2953,21 +3139,24 @@ paths:
         - name: description
           in: query
           required: false
-          description: "Query param: A string to search for in the description of existing
+          description:
+            "Query param: A string to search for in the description of existing
             rules."
           schema:
             type: string
         - name: paused
           in: query
           required: false
-          description: "Query param: When true, indicates that the rule is currently
+          description:
+            "Query param: When true, indicates that the rule is currently
             paused."
           schema:
             type: boolean
         - name: user_agent
           in: query
           required: false
-          description: "Query param: A string to search for in the user agent values of
+          description:
+            "Query param: A string to search for in the user agent values of
             existing rules."
           schema:
             type: string
@@ -2987,11 +3176,13 @@ paths:
                     properties:
                       target:
                         type: string
-                        description: The configuration target for this rule. You must set the target to
+                        description:
+                          The configuration target for this rule. You must set the target to
                           `ua` for User Agent Blocking rules.
                       value:
                         type: string
-                        description: The exact user agent string to match. This value will be compared
+                        description:
+                          The exact user agent string to match. This value will be compared
                           to the received `User-Agent` HTTP header value.
                     description: The configuration object for the current rule.
                   description:
@@ -3014,7 +3205,8 @@ paths:
           - status: 403
     post:
       operationId: createUaRule
-      description: "Creates a new User Agent Blocking rule in a zone.  @example ```ts
+      description:
+        "Creates a new User Agent Blocking rule in a zone.  @example ```ts
         const uaRule = await client.firewall.uaRules.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', configuration: {}, mode:
         'challenge', }); ```"
@@ -3039,7 +3231,8 @@ paths:
                       type: string
                       enum:
                         - ua
-                      description: The configuration target. You must set the target to `ua` when
+                      description:
+                        The configuration target. You must set the target to `ua` when
                         specifying a user agent in the rule.
                     value:
                       type: string
@@ -3056,11 +3249,13 @@ paths:
                   description: "Body param: The action to apply to a matched request."
                 description:
                   type: string
-                  description: "Body param: An informative summary of the rule. This value is
+                  description:
+                    "Body param: An informative summary of the rule. This value is
                     sanitized and any tags will be removed."
                 paused:
                   type: boolean
-                  description: "Body param: When true, indicates that the rule is currently
+                  description:
+                    "Body param: When true, indicates that the rule is currently
                     paused."
               required:
                 - configuration
@@ -3081,11 +3276,13 @@ paths:
                     properties:
                       target:
                         type: string
-                        description: The configuration target for this rule. You must set the target to
+                        description:
+                          The configuration target for this rule. You must set the target to
                           `ua` for User Agent Blocking rules.
                       value:
                         type: string
-                        description: The exact user agent string to match. This value will be compared
+                        description:
+                          The exact user agent string to match. This value will be compared
                           to the received `User-Agent` HTTP header value.
                     description: The configuration object for the current rule.
                   description:
@@ -3113,7 +3310,8 @@ paths:
   /zones/{zone_id}/firewall/waf/overrides/{overridesId}:
     get:
       operationId: getWafOverride
-      description: "Fetches the details of a URI-based WAF override.    Note:  Applies
+      description:
+        "Fetches the details of a URI-based WAF override.    Note:  Applies
         only to the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3149,7 +3347,8 @@ paths:
                   groups:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to enable or disable WAF rule groups for
+                    description:
+                      An object that allows you to enable or disable WAF rule groups for
                       the current WAF override. Each key of this object must be
                       the ID of a WAF rule group, and each value must be a valid
                       WAF action (usually `default` or `disable`). When creating
@@ -3160,7 +3359,8 @@ paths:
                     description: When true, indicates that the rule is currently paused.
                   priority:
                     type: number
-                    description: The relative priority of the current URI-based WAF override when
+                    description:
+                      The relative priority of the current URI-based WAF override when
                       multiple overrides match a single URL. A lower number
                       indicates higher priority. Higher priority overrides may
                       overwrite values set by lower priority overrides.
@@ -3212,12 +3412,14 @@ paths:
                           - disable
                           - default
                         description: The WAF rule action to apply.
-                    description: Specifies that, when a WAF rule matches, its configured action will
+                    description:
+                      Specifies that, when a WAF rule matches, its configured action will
                       be replaced by the action configured in this object.
                   rules:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to override the action of specific WAF
+                    description:
+                      An object that allows you to override the action of specific WAF
                       rules. Each key of this object must be the ID of a WAF
                       rule, and each value must be a valid WAF action. Unless
                       you are disabling a rule, ensure that you also enable the
@@ -3228,13 +3430,15 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the current WAF override. You can use
+                    description:
+                      The URLs to include in the current WAF override. You can use
                       wildcards. Each entered URL will be escaped before use,
                       which means you can only use simple wildcard patterns.
       x-distilled-response-path: result
     put:
       operationId: updateWafOverride
-      description: "Updates an existing URI-based WAF override.    Note:  Applies only
+      description:
+        "Updates an existing URI-based WAF override.    Note:  Applies only
         to the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3309,13 +3513,15 @@ paths:
                         - disable
                         - default
                       description: The WAF rule action to apply.
-                  description: "Body param: Specifies that, when a WAF rule matches, its
+                  description:
+                    "Body param: Specifies that, when a WAF rule matches, its
                     configured action will be replaced by the action configured
                     in this object."
                 rules:
                   type: object
                   additionalProperties: true
-                  description: "Body param: An object that allows you to override the action of
+                  description:
+                    "Body param: An object that allows you to override the action of
                     specific WAF rules. Each key of this object must be the ID
                     of a WAF rule, and each value must be a valid WAF action.
                     Unless you are disabling a rule, ensure that you also enable
@@ -3326,7 +3532,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: The URLs to include in the current WAF override. You
+                  description:
+                    "Body param: The URLs to include in the current WAF override. You
                     can use wildcards. Each entered URL will be escaped before
                     use, which means you can only use simple wildcard patterns."
               required:
@@ -3353,7 +3560,8 @@ paths:
                   groups:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to enable or disable WAF rule groups for
+                    description:
+                      An object that allows you to enable or disable WAF rule groups for
                       the current WAF override. Each key of this object must be
                       the ID of a WAF rule group, and each value must be a valid
                       WAF action (usually `default` or `disable`). When creating
@@ -3364,7 +3572,8 @@ paths:
                     description: When true, indicates that the rule is currently paused.
                   priority:
                     type: number
-                    description: The relative priority of the current URI-based WAF override when
+                    description:
+                      The relative priority of the current URI-based WAF override when
                       multiple overrides match a single URL. A lower number
                       indicates higher priority. Higher priority overrides may
                       overwrite values set by lower priority overrides.
@@ -3416,12 +3625,14 @@ paths:
                           - disable
                           - default
                         description: The WAF rule action to apply.
-                    description: Specifies that, when a WAF rule matches, its configured action will
+                    description:
+                      Specifies that, when a WAF rule matches, its configured action will
                       be replaced by the action configured in this object.
                   rules:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to override the action of specific WAF
+                    description:
+                      An object that allows you to override the action of specific WAF
                       rules. Each key of this object must be the ID of a WAF
                       rule, and each value must be a valid WAF action. Unless
                       you are disabling a rule, ensure that you also enable the
@@ -3432,13 +3643,15 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the current WAF override. You can use
+                    description:
+                      The URLs to include in the current WAF override. You can use
                       wildcards. Each entered URL will be escaped before use,
                       which means you can only use simple wildcard patterns.
       x-distilled-response-path: result
     delete:
       operationId: deleteWafOverride
-      description: "Deletes an existing URI-based WAF override.    Note:  Applies only
+      description:
+        "Deletes an existing URI-based WAF override.    Note:  Applies only
         to the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3470,7 +3683,8 @@ paths:
   /zones/{zone_id}/firewall/waf/overrides:
     get:
       operationId: listWafOverrides
-      description: "Fetches the URI-based WAF overrides in a zone.    Note:  Applies
+      description:
+        "Fetches the URI-based WAF overrides in a zone.    Note:  Applies
         only to the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3511,7 +3725,8 @@ paths:
                   groups:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to enable or disable WAF rule groups for
+                    description:
+                      An object that allows you to enable or disable WAF rule groups for
                       the current WAF override. Each key of this object must be
                       the ID of a WAF rule group, and each value must be a valid
                       WAF action (usually `default` or `disable`). When creating
@@ -3522,7 +3737,8 @@ paths:
                     description: When true, indicates that the rule is currently paused.
                   priority:
                     type: number
-                    description: The relative priority of the current URI-based WAF override when
+                    description:
+                      The relative priority of the current URI-based WAF override when
                       multiple overrides match a single URL. A lower number
                       indicates higher priority. Higher priority overrides may
                       overwrite values set by lower priority overrides.
@@ -3574,12 +3790,14 @@ paths:
                           - disable
                           - default
                         description: The WAF rule action to apply.
-                    description: Specifies that, when a WAF rule matches, its configured action will
+                    description:
+                      Specifies that, when a WAF rule matches, its configured action will
                       be replaced by the action configured in this object.
                   rules:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to override the action of specific WAF
+                    description:
+                      An object that allows you to override the action of specific WAF
                       rules. Each key of this object must be the ID of a WAF
                       rule, and each value must be a valid WAF action. Unless
                       you are disabling a rule, ensure that you also enable the
@@ -3590,13 +3808,15 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the current WAF override. You can use
+                    description:
+                      The URLs to include in the current WAF override. You can use
                       wildcards. Each entered URL will be escaped before use,
                       which means you can only use simple wildcard patterns.
       x-distilled-pagination-class: OverridesV4PagePaginationArray
     post:
       operationId: createWafOverride
-      description: "Creates a URI-based WAF override for a zone.    Note:  Applies
+      description:
+        "Creates a URI-based WAF override for a zone.    Note:  Applies
         only to the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3619,7 +3839,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: The URLs to include in the current WAF override. You
+                  description:
+                    "Body param: The URLs to include in the current WAF override. You
                     can use wildcards. Each entered URL will be escaped before
                     use, which means you can only use simple wildcard patterns."
               required:
@@ -3643,7 +3864,8 @@ paths:
                   groups:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to enable or disable WAF rule groups for
+                    description:
+                      An object that allows you to enable or disable WAF rule groups for
                       the current WAF override. Each key of this object must be
                       the ID of a WAF rule group, and each value must be a valid
                       WAF action (usually `default` or `disable`). When creating
@@ -3654,7 +3876,8 @@ paths:
                     description: When true, indicates that the rule is currently paused.
                   priority:
                     type: number
-                    description: The relative priority of the current URI-based WAF override when
+                    description:
+                      The relative priority of the current URI-based WAF override when
                       multiple overrides match a single URL. A lower number
                       indicates higher priority. Higher priority overrides may
                       overwrite values set by lower priority overrides.
@@ -3706,12 +3929,14 @@ paths:
                           - disable
                           - default
                         description: The WAF rule action to apply.
-                    description: Specifies that, when a WAF rule matches, its configured action will
+                    description:
+                      Specifies that, when a WAF rule matches, its configured action will
                       be replaced by the action configured in this object.
                   rules:
                     type: object
                     additionalProperties: true
-                    description: An object that allows you to override the action of specific WAF
+                    description:
+                      An object that allows you to override the action of specific WAF
                       rules. Each key of this object must be the ID of a WAF
                       rule, and each value must be a valid WAF action. Unless
                       you are disabling a rule, ensure that you also enable the
@@ -3722,14 +3947,16 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: The URLs to include in the current WAF override. You can use
+                    description:
+                      The URLs to include in the current WAF override. You can use
                       wildcards. Each entered URL will be escaped before use,
                       which means you can only use simple wildcard patterns.
       x-distilled-response-path: result
   /zones/{zone_id}/firewall/waf/packages/{packageId}:
     get:
       operationId: getWafPackage
-      description: "Fetches the details of a WAF package.    Note:  Applies only to
+      description:
+        "Fetches the details of a WAF package.    Note:  Applies only to
         the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3810,7 +4037,8 @@ paths:
   /zones/{zone_id}/firewall/waf/packages:
     get:
       operationId: listWafPackages
-      description: "Fetches WAF packages for a zone.    Note:  Applies only to the
+      description:
+        "Fetches WAF packages for a zone.    Note:  Applies only to the
         [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3844,7 +4072,8 @@ paths:
         - name: match
           in: query
           required: false
-          description: "Query param: When set to `all`, all the search requirements must
+          description:
+            "Query param: When set to `all`, all the search requirements must
             match. When set to `any`, only one of the search requirements has to
             match."
           schema:
@@ -3876,7 +4105,8 @@ paths:
   /zones/{zone_id}/firewall/waf/packages/{packageId}/groups/{groupId}:
     get:
       operationId: getWafPackageGroup
-      description: "Fetches the details of a WAF rule group.    Note:  Applies only to
+      description:
+        "Fetches the details of a WAF rule group.    Note:  Applies only to
         the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3942,7 +4172,8 @@ paths:
                   enum:
                     - on
                     - off
-                  description: "Body param: Defines the state of the rules contained in the rule
+                  description:
+                    "Body param: Defines the state of the rules contained in the rule
                     group. When `on`, the rules in the group are
                     configurable/usable."
       responses:
@@ -3955,7 +4186,8 @@ paths:
   /zones/{zone_id}/firewall/waf/packages/{packageId}/groups:
     get:
       operationId: listWafPackageGroups
-      description: "Fetches the WAF rule groups in a WAF package.    Note:  Applies
+      description:
+        "Fetches the WAF rule groups in a WAF package.    Note:  Applies
         only to the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -3985,7 +4217,8 @@ paths:
         - name: direction
           in: query
           required: false
-          description: "Query param: Defines the direction used to sort returned rule
+          description:
+            "Query param: Defines the direction used to sort returned rule
             groups."
           schema:
             type: string
@@ -3995,7 +4228,8 @@ paths:
         - name: match
           in: query
           required: false
-          description: "Query param: Defines the condition for search requirements. When
+          description:
+            "Query param: Defines the condition for search requirements. When
             set to `all`, all the search requirements must match. When set to
             `any`, only one of the search requirements has to match."
           schema:
@@ -4006,7 +4240,8 @@ paths:
         - name: mode
           in: query
           required: false
-          description: "Query param: Defines the state of the rules contained in the rule
+          description:
+            "Query param: Defines the state of the rules contained in the rule
             group. When `on`, the rules in the group are configurable/usable."
           schema:
             type: string
@@ -4055,7 +4290,8 @@ paths:
                     enum:
                       - on
                       - off
-                    description: Defines the state of the rules contained in the rule group. When
+                    description:
+                      Defines the state of the rules contained in the rule group. When
                       `on`, the rules in the group are configurable/usable.
                   name:
                     type: string
@@ -4073,7 +4309,8 @@ paths:
                     description: Defines the available states for the rule group.
                   modified_rules_count:
                     type: number
-                    description: Defines the number of rules within the group that have been
+                    description:
+                      Defines the number of rules within the group that have been
                       modified from their default configuration.
                   package_id:
                     type: string
@@ -4119,7 +4356,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchWafPackageRule
-      description: "Updates a WAF rule. You can only update the mode/action of the
+      description:
+        "Updates a WAF rule. You can only update the mode/action of the
         rule.    Note:  Applies only to the [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -4158,7 +4396,8 @@ paths:
                     - challenge
                     - on
                     - off
-                  description: "Body param: Defines the mode/action of the rule when triggered.
+                  description:
+                    "Body param: Defines the mode/action of the rule when triggered.
                     You must use a value from the `allowed_modes` array of the
                     current rule."
       responses:
@@ -4180,7 +4419,8 @@ paths:
                           enum:
                             - on
                             - off
-                        description: Defines the available modes for the current WAF rule. Applies to
+                        description:
+                          Defines the available modes for the current WAF rule. Applies to
                           anomaly detection WAF rules.
                       description:
                         type: string
@@ -4200,7 +4440,8 @@ paths:
                         enum:
                           - on
                           - off
-                        description: Defines the mode anomaly. When set to `on`, the current WAF rule
+                        description:
+                          Defines the mode anomaly. When set to `on`, the current WAF rule
                           will be used when evaluating the request. Applies to
                           anomaly detection WAF rules.
                       package_id:
@@ -4208,7 +4449,8 @@ paths:
                         description: Defines the unique identifier of a WAF package.
                       priority:
                         type: string
-                        description: Defines the order in which the individual WAF rule is executed
+                        description:
+                          Defines the order in which the individual WAF rule is executed
                           within its rule group.
                     required:
                       - id
@@ -4233,7 +4475,8 @@ paths:
                             - simulate
                             - block
                             - challenge
-                        description: Defines the list of possible actions of the WAF rule when it is
+                        description:
+                          Defines the list of possible actions of the WAF rule when it is
                           triggered.
                       default_mode:
                         type: string
@@ -4264,14 +4507,16 @@ paths:
                           - simulate
                           - block
                           - challenge
-                        description: Defines the action that the current WAF rule will perform when
+                        description:
+                          Defines the action that the current WAF rule will perform when
                           triggered. Applies to traditional (deny) WAF rules.
                       package_id:
                         type: string
                         description: Defines the unique identifier of a WAF package.
                       priority:
                         type: string
-                        description: Defines the order in which the individual WAF rule is executed
+                        description:
+                          Defines the order in which the individual WAF rule is executed
                           within its rule group.
                     required:
                       - id
@@ -4313,14 +4558,16 @@ paths:
                         enum:
                           - on
                           - off
-                        description: When set to `on`, the current rule will be used when evaluating the
+                        description:
+                          When set to `on`, the current rule will be used when evaluating the
                           request. Applies to traditional (allow) WAF rules.
                       package_id:
                         type: string
                         description: Defines the unique identifier of a WAF package.
                       priority:
                         type: string
-                        description: Defines the order in which the individual WAF rule is executed
+                        description:
+                          Defines the order in which the individual WAF rule is executed
                           within its rule group.
                     required:
                       - id
@@ -4334,7 +4581,8 @@ paths:
   /zones/{zone_id}/firewall/waf/packages/{packageId}/rules:
     get:
       operationId: listWafPackageRules
-      description: "Fetches WAF rules in a WAF package.    Note:  Applies only to the
+      description:
+        "Fetches WAF rules in a WAF package.    Note:  Applies only to the
         [previous version of WAF managed
         rules](https://developers.cloudflare.com/support/firewall/managed-rules\
         -web-application-firewall-waf/understanding-waf-managed-rules-web-appli\
@@ -4385,7 +4633,8 @@ paths:
         - name: match
           in: query
           required: false
-          description: "Query param: Defines the search requirements. When set to `all`,
+          description:
+            "Query param: Defines the search requirements. When set to `all`,
             all the search requirements must match. When set to `any`, only one
             of the search requirements has to match."
           schema:
@@ -4396,7 +4645,8 @@ paths:
         - name: mode
           in: query
           required: false
-          description: "Query param: Defines the action/mode a rule has been overridden to
+          description:
+            "Query param: Defines the action/mode a rule has been overridden to
             perform."
           schema:
             type: string
@@ -4418,7 +4668,8 @@ paths:
         - name: priority
           in: query
           required: false
-          description: "Query param: Defines the order in which the individual WAF rule is
+          description:
+            "Query param: Defines the order in which the individual WAF rule is
             executed within its rule group."
           schema:
             type: string
@@ -4441,7 +4692,8 @@ paths:
                           enum:
                             - on
                             - off
-                        description: Defines the available modes for the current WAF rule. Applies to
+                        description:
+                          Defines the available modes for the current WAF rule. Applies to
                           anomaly detection WAF rules.
                       description:
                         type: string
@@ -4461,7 +4713,8 @@ paths:
                         enum:
                           - on
                           - off
-                        description: Defines the mode anomaly. When set to `on`, the current WAF rule
+                        description:
+                          Defines the mode anomaly. When set to `on`, the current WAF rule
                           will be used when evaluating the request. Applies to
                           anomaly detection WAF rules.
                       package_id:
@@ -4469,7 +4722,8 @@ paths:
                         description: Defines the unique identifier of a WAF package.
                       priority:
                         type: string
-                        description: Defines the order in which the individual WAF rule is executed
+                        description:
+                          Defines the order in which the individual WAF rule is executed
                           within its rule group.
                     required:
                       - id
@@ -4494,7 +4748,8 @@ paths:
                             - simulate
                             - block
                             - challenge
-                        description: Defines the list of possible actions of the WAF rule when it is
+                        description:
+                          Defines the list of possible actions of the WAF rule when it is
                           triggered.
                       default_mode:
                         type: string
@@ -4525,14 +4780,16 @@ paths:
                           - simulate
                           - block
                           - challenge
-                        description: Defines the action that the current WAF rule will perform when
+                        description:
+                          Defines the action that the current WAF rule will perform when
                           triggered. Applies to traditional (deny) WAF rules.
                       package_id:
                         type: string
                         description: Defines the unique identifier of a WAF package.
                       priority:
                         type: string
-                        description: Defines the order in which the individual WAF rule is executed
+                        description:
+                          Defines the order in which the individual WAF rule is executed
                           within its rule group.
                     required:
                       - id
@@ -4574,14 +4831,16 @@ paths:
                         enum:
                           - on
                           - off
-                        description: When set to `on`, the current rule will be used when evaluating the
+                        description:
+                          When set to `on`, the current rule will be used when evaluating the
                           request. Applies to traditional (allow) WAF rules.
                       package_id:
                         type: string
                         description: Defines the unique identifier of a WAF package.
                       priority:
                         type: string
-                        description: Defines the order in which the individual WAF rule is executed
+                        description:
+                          Defines the order in which the individual WAF rule is executed
                           within its rule group.
                     required:
                       - id

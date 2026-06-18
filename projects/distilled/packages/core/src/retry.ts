@@ -8,6 +8,7 @@
  * for that SDK without wrapping every call with `Effect.retry`.
  */
 import * as Config from "effect/Config";
+import * as ConfigProvider from "effect/ConfigProvider";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -146,6 +147,7 @@ const serverRetryHintCapMsConfig: Config.Config<number> = Config.string(
 export const readServerRetryHintCapMsFromEnv = (): number =>
   Effect.runSync(
     serverRetryHintCapMsConfig.pipe(
+      Effect.provide(ConfigProvider.layer(ConfigProvider.fromEnv())),
       Effect.orElseSucceed(() => DEFAULT_SERVER_RETRY_HINT_CAP_MS),
     ),
   );
@@ -158,6 +160,7 @@ const resolveServerRetryHintCapMs = (): Effect.Effect<number, never, never> =>
       if (Number.isFinite(n) && n >= 0) return Math.trunc(n);
     }
     return yield* serverRetryHintCapMsConfig.pipe(
+      Effect.provide(ConfigProvider.layer(ConfigProvider.fromEnv())),
       Effect.orElseSucceed(() => DEFAULT_SERVER_RETRY_HINT_CAP_MS),
     );
   });

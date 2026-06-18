@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateAnnotation", () => {
   it(
     "updates an existing annotation's title and description",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-updateanno-${testRunId}`;
       const annotationType = `distilled-test-${testRunId}`;
@@ -50,11 +51,11 @@ describe("updateAnnotation", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a well-formed id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Axiom annotation IDs are `ann_` + a 26-char Crockford-base32 suffix.
       // Anything else is rejected as 400 before the lookup.
@@ -67,11 +68,11 @@ describe("updateAnnotation", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns UnprocessableEntity for a malformed annotation id",
+    { timeout: 30_000 },
     async () => {
       // Probed live: axiom returns 422 (code 605, "id in path should match
       // '^ann_'") for ids that don't match the `ann_<token>` shape.
@@ -84,7 +85,6 @@ describe("updateAnnotation", () => {
 
       expect((error as { _tag: string })._tag).toBe("UnprocessableEntity");
     },
-    { timeout: 30_000 },
   );
 
   // Removed: "returns UnprocessableEntity when updating with invalid

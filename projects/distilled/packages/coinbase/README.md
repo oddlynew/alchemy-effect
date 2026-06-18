@@ -52,8 +52,10 @@ createEvmAccount({ name: "my-wallet" }).pipe(
   Effect.catchTags({
     AlreadyExists: () => Effect.succeed(null),
     PolicyViolation: (e) => Effect.fail(new Error(`Policy: ${e.errorMessage}`)),
-    InsufficientBalance: (e) => Effect.fail(new Error(`Balance: ${e.errorMessage}`)),
-    UnknownCoinbaseError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),
+    InsufficientBalance: (e) =>
+      Effect.fail(new Error(`Balance: ${e.errorMessage}`)),
+    UnknownCoinbaseError: (e) =>
+      Effect.fail(new Error(`Unknown: ${e.message}`)),
   }),
 );
 ```

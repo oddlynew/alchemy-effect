@@ -55,7 +55,7 @@ test.provider.skipIf(process.env.ALCHEMY_RUN_LIVE_AWS_WEBSITE_TESTS !== "true")(
 //   SchemaError: Missing key
 //     at ["FunctionList"]["Items"][0]["FunctionConfig"]["Comment"]
 // Fix (coordinator-owned): make `FunctionConfig.Comment` optional —
-//   distilled/packages/aws/patches/cloudfront.json
+//   projects/distilled/packages/aws/patches/cloudfront.json
 //   { "structures": { "FunctionConfig": { "members": { "Comment": { "optional": true } } } } }
 // then regenerate the cloudfront service. Verified: with that patch the list()
 // op enumerates all functions and this test passes live. Once patched, enable

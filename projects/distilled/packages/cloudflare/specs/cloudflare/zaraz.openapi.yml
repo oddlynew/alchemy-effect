@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/settings/zaraz/config:
     get:
       operationId: getConfig
-      description: "Gets latest Zaraz configuration for a zone. It can be preview or
+      description:
+        "Gets latest Zaraz configuration for a zone. It can be preview or
         published configuration, whichever was the last updated. Secret
         variables values will not be included.  @example ```ts const
         configuration = await client.zaraz.config.get({ zone_id:
@@ -94,18 +95,21 @@ paths:
                   tools:
                     type: object
                     additionalProperties: true
-                    description: Tools set up under Zaraz configuration, where key is the
+                    description:
+                      Tools set up under Zaraz configuration, where key is the
                       alpha-numeric tool ID and value is the tool configuration
                       object.
                   triggers:
                     type: object
                     additionalProperties: true
-                    description: Triggers set up under Zaraz configuration, where key is the trigger
+                    description:
+                      Triggers set up under Zaraz configuration, where key is the trigger
                       alpha-numeric ID and value is the trigger configuration.
                   variables:
                     type: object
                     additionalProperties: true
-                    description: Variables set up under Zaraz configuration, where key is the
+                    description:
+                      Variables set up under Zaraz configuration, where key is the
                       variable alpha-numeric ID and value is the variable
                       configuration. Values of variables of type secret are not
                       included.
@@ -203,7 +207,8 @@ paths:
           - status: 404
     put:
       operationId: putConfig
-      description: "Updates Zaraz configuration for a zone.  @example ```ts const
+      description:
+        "Updates Zaraz configuration for a zone.  @example ```ts const
         configuration = await client.zaraz.config.update({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', dataLayer: true, debugKey:
         'debugKey', settings: { autoInjectScript: true }, tools: { foo: { ... },
@@ -288,19 +293,22 @@ paths:
                 tools:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Tools set up under Zaraz configuration, where key is
+                  description:
+                    "Body param: Tools set up under Zaraz configuration, where key is
                     the alpha-numeric tool ID and value is the tool
                     configuration object."
                 triggers:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Triggers set up under Zaraz configuration, where key
+                  description:
+                    "Body param: Triggers set up under Zaraz configuration, where key
                     is the trigger alpha-numeric ID and value is the trigger
                     configuration."
                 variables:
                   type: object
                   additionalProperties: true
-                  description: "Body param: Variables set up under Zaraz configuration, where key
+                  description:
+                    "Body param: Variables set up under Zaraz configuration, where key
                     is the variable alpha-numeric ID and value is the variable
                     configuration. Values of variables of type secret are not
                     included."
@@ -463,18 +471,21 @@ paths:
                   tools:
                     type: object
                     additionalProperties: true
-                    description: Tools set up under Zaraz configuration, where key is the
+                    description:
+                      Tools set up under Zaraz configuration, where key is the
                       alpha-numeric tool ID and value is the tool configuration
                       object.
                   triggers:
                     type: object
                     additionalProperties: true
-                    description: Triggers set up under Zaraz configuration, where key is the trigger
+                    description:
+                      Triggers set up under Zaraz configuration, where key is the trigger
                       alpha-numeric ID and value is the trigger configuration.
                   variables:
                     type: object
                     additionalProperties: true
-                    description: Variables set up under Zaraz configuration, where key is the
+                    description:
+                      Variables set up under Zaraz configuration, where key is the
                       variable alpha-numeric ID and value is the variable
                       configuration. Values of variables of type secret are not
                       included.
@@ -568,7 +579,8 @@ paths:
   /zones/{zone_id}/settings/zaraz/default:
     get:
       operationId: getDefault
-      description: "Gets default Zaraz configuration for a zone.  @example ```ts const
+      description:
+        "Gets default Zaraz configuration for a zone.  @example ```ts const
         configuration = await client.zaraz.default.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -651,18 +663,21 @@ paths:
                   tools:
                     type: object
                     additionalProperties: true
-                    description: Tools set up under Zaraz configuration, where key is the
+                    description:
+                      Tools set up under Zaraz configuration, where key is the
                       alpha-numeric tool ID and value is the tool configuration
                       object.
                   triggers:
                     type: object
                     additionalProperties: true
-                    description: Triggers set up under Zaraz configuration, where key is the trigger
+                    description:
+                      Triggers set up under Zaraz configuration, where key is the trigger
                       alpha-numeric ID and value is the trigger configuration.
                   variables:
                     type: object
                     additionalProperties: true
-                    description: Variables set up under Zaraz configuration, where key is the
+                    description:
+                      Variables set up under Zaraz configuration, where key is the
                       variable alpha-numeric ID and value is the variable
                       configuration. Values of variables of type secret are not
                       included.
@@ -756,7 +771,8 @@ paths:
   /zones/{zone_id}/settings/zaraz/export:
     get:
       operationId: getExport
-      description: "Exports full current published Zaraz configuration for a zone,
+      description:
+        "Exports full current published Zaraz configuration for a zone,
         secret variables included.  @example ```ts const configuration = await
         client.zaraz.export.get({ zone_id: '023e105f4ecef8ad9ca31a8372d0c353',
         }); ```"
@@ -840,18 +856,21 @@ paths:
                   tools:
                     type: object
                     additionalProperties: true
-                    description: Tools set up under Zaraz configuration, where key is the
+                    description:
+                      Tools set up under Zaraz configuration, where key is the
                       alpha-numeric tool ID and value is the tool configuration
                       object.
                   triggers:
                     type: object
                     additionalProperties: true
-                    description: Triggers set up under Zaraz configuration, where key is the trigger
+                    description:
+                      Triggers set up under Zaraz configuration, where key is the trigger
                       alpha-numeric ID and value is the trigger configuration.
                   variables:
                     type: object
                     additionalProperties: true
-                    description: Variables set up under Zaraz configuration, where key is the
+                    description:
+                      Variables set up under Zaraz configuration, where key is the
                       variable alpha-numeric ID and value is the variable
                       configuration. Values of variables of type secret are not
                       included.
@@ -944,7 +963,8 @@ paths:
   /zones/{zone_id}/settings/zaraz/history:
     get:
       operationId: listHistories
-      description: "Lists a history of published Zaraz configuration records for a
+      description:
+        "Lists a history of published Zaraz configuration records for a
         zone.  @example ```ts // Automatically fetches more pages as needed. for
         await (const historyListResponse of client.zaraz.history.list( {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -958,14 +978,16 @@ paths:
         - name: limit
           in: query
           required: false
-          description: "Query param: Maximum amount of results to list. Default value is
+          description:
+            "Query param: Maximum amount of results to list. Default value is
             10."
           schema:
             type: number
         - name: offset
           in: query
           required: false
-          description: "Query param: Ordinal number to start listing the results with.
+          description:
+            "Query param: Ordinal number to start listing the results with.
             Default value is 0."
           schema:
             type: number
@@ -1006,14 +1028,16 @@ paths:
                     description: Date and time the configuration was created.
                   description:
                     type: string
-                    description: Configuration description provided by the user who published this
+                    description:
+                      Configuration description provided by the user who published this
                       configuration.
                   updatedAt:
                     type: string
                     description: Date and time the configuration was last updated.
                   userId:
                     type: string
-                    description: Alpha-numeric ID of the account user who published the
+                    description:
+                      Alpha-numeric ID of the account user who published the
                       configuration.
                 required:
                   - id
@@ -1024,7 +1048,8 @@ paths:
       x-distilled-pagination-class: HistoryListResponsesSinglePage
     put:
       operationId: putHistory
-      description: "Restores a historical published Zaraz configuration by ID for a
+      description:
+        "Restores a historical published Zaraz configuration by ID for a
         zone.  @example ```ts const configuration = await
         client.zaraz.history.update({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', body: 12345, }); ```"
@@ -1114,18 +1139,21 @@ paths:
                   tools:
                     type: object
                     additionalProperties: true
-                    description: Tools set up under Zaraz configuration, where key is the
+                    description:
+                      Tools set up under Zaraz configuration, where key is the
                       alpha-numeric tool ID and value is the tool configuration
                       object.
                   triggers:
                     type: object
                     additionalProperties: true
-                    description: Triggers set up under Zaraz configuration, where key is the trigger
+                    description:
+                      Triggers set up under Zaraz configuration, where key is the trigger
                       alpha-numeric ID and value is the trigger configuration.
                   variables:
                     type: object
                     additionalProperties: true
-                    description: Variables set up under Zaraz configuration, where key is the
+                    description:
+                      Variables set up under Zaraz configuration, where key is the
                       variable alpha-numeric ID and value is the variable
                       configuration. Values of variables of type secret are not
                       included.
@@ -1219,7 +1247,8 @@ paths:
   /zones/{zone_id}/settings/zaraz/history/configs:
     get:
       operationId: getHistoryConfig
-      description: "Gets a history of published Zaraz configurations by ID(s) for a
+      description:
+        "Gets a history of published Zaraz configurations by ID(s) for a
         zone.  @example ```ts const config = await
         client.zaraz.history.configs.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', ids: [0], }); ```"
@@ -1250,7 +1279,8 @@ paths:
   /zones/{zone_id}/settings/zaraz/publish:
     post:
       operationId: createPublish
-      description: "Publish current Zaraz preview configuration for a zone.  @example
+      description:
+        "Publish current Zaraz preview configuration for a zone.  @example
         ```ts const publish = await client.zaraz.publish.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -1277,7 +1307,8 @@ paths:
   /zones/{zone_id}/settings/zaraz/workflow:
     get:
       operationId: getWorkflow
-      description: "Gets Zaraz workflow for a zone.  @example ```ts const workflow =
+      description:
+        "Gets Zaraz workflow for a zone.  @example ```ts const workflow =
         await client.zaraz.workflow.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -1305,7 +1336,8 @@ paths:
           - status: 404
     put:
       operationId: putZaraz
-      description: "Updates Zaraz workflow for a zone.  @example ```ts const workflow
+      description:
+        "Updates Zaraz workflow for a zone.  @example ```ts const workflow
         = await client.zaraz.update({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', workflow: 'realtime', }); ```"
       parameters:

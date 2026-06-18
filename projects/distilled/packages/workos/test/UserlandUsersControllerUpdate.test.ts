@@ -4,11 +4,16 @@ import { UserlandUsersControllerList } from "../src/operations/UserlandUsersCont
 import { UserlandUsersControllerUpdate } from "../src/operations/UserlandUsersControllerUpdate.ts";
 import { runEffect, testRunId } from "./setup.ts";
 
-const typedErrorTags = ["BadRequest", "NotFound", "UnprocessableEntity"] as const;
+const typedErrorTags = [
+  "BadRequest",
+  "NotFound",
+  "UnprocessableEntity",
+] as const;
 
 describe("UserlandUsersControllerUpdate", () => {
   it(
     "updates a user (no-op body) and returns the user",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -35,11 +40,11 @@ describe("UserlandUsersControllerUpdate", () => {
       expect(typeof result.created_at).toBe("string");
       expect(typeof result.updated_at).toBe("string");
     },
-    60_000,
   );
 
   it(
     "fails with a typed BadRequest for a clearly invalid id format",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerUpdate({
@@ -48,11 +53,11 @@ describe("UserlandUsersControllerUpdate", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed UnprocessableEntity for an excessively long id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerUpdate({
@@ -61,6 +66,5 @@ describe("UserlandUsersControllerUpdate", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

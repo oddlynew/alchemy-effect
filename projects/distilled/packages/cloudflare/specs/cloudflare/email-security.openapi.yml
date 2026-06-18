@@ -31,7 +31,8 @@ paths:
         - name: submission
           in: query
           required: false
-          description: "Query param: When true, search the submissions datastore only.
+          description:
+            "Query param: When true, search the submissions datastore only.
             When false or omitted, search the regular datastore only."
           schema:
             type: boolean
@@ -66,7 +67,8 @@ paths:
                           description: Type of action performed
                         completed_timestamp:
                           type: string
-                          description: "@deprecated Deprecated, use `completed_at` instead. End of life:
+                          description:
+                            "@deprecated Deprecated, use `completed_at` instead. End of life:
                             November 1, 2026."
                         properties:
                           type: object
@@ -151,7 +153,8 @@ paths:
                     description: Message processing properties
                   ts:
                     type: string
-                    description: "@deprecated Deprecated, use `scanned_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `scanned_at` instead. End of life:
                       November 1, 2026."
                   alert_id:
                     oneOf:
@@ -264,7 +267,8 @@ paths:
                                 - type: string
                               nullable: true
                     nullable: true
-                    description: "@deprecated Deprecated, use the `findings` field from `GET
+                    description:
+                      "@deprecated Deprecated, use the `findings` field from `GET
                       /investigate/{investigate_id}/detections` instead. End of
                       life: November 1, 2026. Detection findings for this
                       message."
@@ -519,7 +523,8 @@ paths:
         - name: start
           in: query
           required: false
-          description: "Query param: The beginning of the search date range. Defaults to
+          description:
+            "Query param: The beginning of the search date range. Defaults to
             `now - 30 days`."
           schema:
             type: string
@@ -560,7 +565,8 @@ paths:
                           description: Type of action performed
                         completed_timestamp:
                           type: string
-                          description: "@deprecated Deprecated, use `completed_at` instead. End of life:
+                          description:
+                            "@deprecated Deprecated, use `completed_at` instead. End of life:
                             November 1, 2026."
                         properties:
                           type: object
@@ -645,7 +651,8 @@ paths:
                     description: Message processing properties
                   ts:
                     type: string
-                    description: "@deprecated Deprecated, use `scanned_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `scanned_at` instead. End of life:
                       November 1, 2026."
                   alert_id:
                     oneOf:
@@ -758,7 +765,8 @@ paths:
                                 - type: string
                               nullable: true
                     nullable: true
-                    description: "@deprecated Deprecated, use the `findings` field from `GET
+                    description:
+                      "@deprecated Deprecated, use the `findings` field from `GET
                       /investigate/{investigate_id}/detections` instead. End of
                       life: November 1, 2026. Detection findings for this
                       message."
@@ -891,7 +899,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/{investigateId}/detections:
     get:
       operationId: getInvestigateDetection
-      description: "Returns detection details such as threat categories and sender
+      description:
+        "Returns detection details such as threat categories and sender
         information for non-benign messages.  @example ```ts const detection =
         await client.emailSecurity.investigate.detections.get(
         '4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678', { account_id:
@@ -1208,7 +1217,8 @@ paths:
                     description: When the move operation completed (UTC)
                   completed_timestamp:
                     type: string
-                    description: "@deprecated Deprecated, use `completed_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `completed_at` instead. End of life:
                       November 1, 2026."
                   destination:
                     oneOf:
@@ -1244,7 +1254,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/move:
     post:
       operationId: bulkInvestigateMove
-      description: "Moves multiple messages to a specified mailbox folder (Inbox,
+      description:
+        "Moves multiple messages to a specified mailbox folder (Inbox,
         JunkEmail, DeletedItems, RecoverableItemsDeletions, or
         RecoverableItemsPurges). Requires active integration.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
@@ -1261,7 +1272,8 @@ paths:
         - name: postfix_ids
           in: query
           required: false
-          description: "@deprecated Body param: Deprecated, use `ids` instead. End of
+          description:
+            "@deprecated Body param: Deprecated, use `ids` instead. End of
             life: November 1, 2026. List of message IDs to move."
           schema:
             type: array
@@ -1308,7 +1320,8 @@ paths:
                     description: When the move operation completed (UTC)
                   completed_timestamp:
                     type: string
-                    description: "@deprecated Deprecated, use `completed_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `completed_at` instead. End of life:
                       November 1, 2026."
                   destination:
                     oneOf:
@@ -1344,7 +1357,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/{investigateId}/preview:
     get:
       operationId: getInvestigatePreview
-      description: "Returns a preview of the message body as a base64 encoded PNG
+      description:
+        "Returns a preview of the message body as a base64 encoded PNG
         image for non-benign messages.  @example ```ts const preview = await
         client.emailSecurity.investigate.preview.get(
         '4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678', { account_id:
@@ -1378,7 +1392,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/preview:
     post:
       operationId: createInvestigatePreview
-      description: "Generates a preview image for a message that was not flagged as a
+      description:
+        "Generates a preview image for a message that was not flagged as a
         detection. Useful for investigating benign messages. Returns a
         base64-encoded PNG screenshot of the email body.  @example ```ts const
         preview = await client.emailSecurity.investigate.preview.create({
@@ -1420,7 +1435,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/{investigateId}/raw:
     get:
       operationId: getInvestigateRaw
-      description: "Returns the raw eml of any non-benign message.  @example ```ts
+      description:
+        "Returns the raw eml of any non-benign message.  @example ```ts
         const raw = await client.emailSecurity.investigate.raw.get(
         '4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1453,7 +1469,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/{investigateId}/reclassify:
     post:
       operationId: createInvestigateReclassify
-      description: "Submits a request to reclassify an email's disposition. Use for
+      description:
+        "Submits a request to reclassify an email's disposition. Use for
         reporting false positives or false negatives. Optionally provide the raw
         EML content for reanalysis. The reclassification is processed
         asynchronously.  @example ```ts const reclassify = await
@@ -1508,7 +1525,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/release:
     post:
       operationId: bulkInvestigateRelease
-      description: "Releases one or more quarantined messages, delivering them to the
+      description:
+        "Releases one or more quarantined messages, delivering them to the
         intended recipients. Use when a message was incorrectly quarantined.
         Returns delivery status for each recipient.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
@@ -1555,7 +1573,8 @@ paths:
                     nullable: true
                   postfix_id:
                     type: string
-                    description: "@deprecated Deprecated, use `id` instead. End of life: November 1,
+                    description:
+                      "@deprecated Deprecated, use `id` instead. End of life: November 1,
                       2026."
                   undelivered:
                     oneOf:
@@ -1569,7 +1588,8 @@ paths:
   /accounts/{account_id}/email-security/investigate/{investigateId}/trace:
     get:
       operationId: getInvestigateTrace
-      description: "Retrieves delivery and processing trace information for an email
+      description:
+        "Retrieves delivery and processing trace information for an email
         message. Shows the delivery path, retraction history, and move
         operations performed on the message. Useful for debugging delivery
         issues.  @example ```ts const trace = await
@@ -1616,7 +1636,8 @@ paths:
                                   type: string
                                 ts:
                                   type: string
-                                  description: "@deprecated Deprecated, use `logged_at` instead. End of life:
+                                  description:
+                                    "@deprecated Deprecated, use `logged_at` instead. End of life:
                                     November 1, 2026."
                         nullable: true
                       pending:
@@ -1643,7 +1664,8 @@ paths:
                                   type: string
                                 ts:
                                   type: string
-                                  description: "@deprecated Deprecated, use `logged_at` instead. End of life:
+                                  description:
+                                    "@deprecated Deprecated, use `logged_at` instead. End of life:
                                     November 1, 2026."
                         nullable: true
                       pending:
@@ -1657,7 +1679,8 @@ paths:
   /accounts/{account_id}/email-security/phishguard/reports:
     get:
       operationId: listPhishguardReports
-      description: "Retrieves PhishGuard security alert reports for a specified date
+      description:
+        "Retrieves PhishGuard security alert reports for a specified date
         range. Reports include detected threats, dispositions, and contextual
         information. Use for security monitoring and threat analysis.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
@@ -1673,28 +1696,32 @@ paths:
         - name: end
           in: query
           required: false
-          description: "Query param: End of the time range (RFC3339). Takes precedence
+          description:
+            "Query param: End of the time range (RFC3339). Takes precedence
             over to_date."
           schema:
             type: string
         - name: from_date
           in: query
           required: false
-          description: "Query param: Deprecated, use `start` instead. Start date in
+          description:
+            "Query param: Deprecated, use `start` instead. Start date in
             YYYY-MM-DD format."
           schema:
             type: string
         - name: start
           in: query
           required: false
-          description: "Query param: Start of the time range (RFC3339). Takes precedence
+          description:
+            "Query param: Start of the time range (RFC3339). Takes precedence
             over from_date."
           schema:
             type: string
         - name: to_date
           in: query
           required: false
-          description: "Query param: Deprecated, use `end` instead. End date in YYYY-MM-DD
+          description:
+            "Query param: Deprecated, use `end` instead. End date in YYYY-MM-DD
             format."
           schema:
             type: string
@@ -1818,7 +1845,8 @@ paths:
                     type: string
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   comments:
                     oneOf:
@@ -1826,7 +1854,8 @@ paths:
                     nullable: true
                   is_acceptable_sender:
                     type: boolean
-                    description: Messages from this sender will be exempted from Spam, Spoof and
+                    description:
+                      Messages from this sender will be exempted from Spam, Spoof and
                       Bulk dispositions. Note - This will not exempt messages
                       with Malicious or Suspicious dispositions.
                   is_exempt_recipient:
@@ -1840,7 +1869,8 @@ paths:
                     type: boolean
                   is_sender:
                     type: boolean
-                    description: "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
+                    description:
+                      "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
                       instead. End of life: July 1, 2026."
                   is_spoof:
                     type: boolean
@@ -1849,7 +1879,8 @@ paths:
                       2026."
                   is_trusted_sender:
                     type: boolean
-                    description: Messages from this sender will bypass all detections and link
+                    description:
+                      Messages from this sender will bypass all detections and link
                       following
                   modified_at:
                     type: string
@@ -1862,12 +1893,14 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
                   verify_sender:
                     type: boolean
-                    description: Enforce DMARC, SPF or DKIM authentication. When on, Email Security
+                    description:
+                      Enforce DMARC, SPF or DKIM authentication. When on, Email Security
                       only honors policies that pass authentication.
                 required:
                   - id
@@ -1885,7 +1918,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSettingAllowPolicy
-      description: "Updates an existing allow policy. Only provided fields will be
+      description:
+        "Updates an existing allow policy. Only provided fields will be
         modified. Changes take effect for new emails matching the
         pattern.  @example ```ts const response = await
         client.emailSecurity.settings.allowPolicies.edit(
@@ -1917,7 +1951,8 @@ paths:
                   description: Body param
                 is_acceptable_sender:
                   type: boolean
-                  description: "Body param: Messages from this sender will be exempted from Spam,
+                  description:
+                    "Body param: Messages from this sender will be exempted from Spam,
                     Spoof and Bulk dispositions. Note - This will not exempt
                     messages with Malicious or Suspicious dispositions."
                 is_exempt_recipient:
@@ -1925,22 +1960,26 @@ paths:
                   description: "Body param: Messages to this recipient will bypass all detections"
                 is_recipient:
                   type: boolean
-                  description: "@deprecated Body param: Deprecated as of July 1, 2025. Use
+                  description:
+                    "@deprecated Body param: Deprecated as of July 1, 2025. Use
                     `is_exempt_recipient` instead. End of life: July 1, 2026."
                 is_regex:
                   type: boolean
                   description: Body param
                 is_sender:
                   type: boolean
-                  description: "@deprecated Body param: Deprecated as of July 1, 2025. Use
+                  description:
+                    "@deprecated Body param: Deprecated as of July 1, 2025. Use
                     `is_trusted_sender` instead. End of life: July 1, 2026."
                 is_spoof:
                   type: boolean
-                  description: "@deprecated Body param: Deprecated as of July 1, 2025. Use
+                  description:
+                    "@deprecated Body param: Deprecated as of July 1, 2025. Use
                     `is_acceptable_sender` instead. End of life: July 1, 2026."
                 is_trusted_sender:
                   type: boolean
-                  description: "Body param: Messages from this sender will bypass all detections
+                  description:
+                    "Body param: Messages from this sender will bypass all detections
                     and link following"
                 pattern:
                   type: string
@@ -1952,12 +1991,14 @@ paths:
                     - DOMAIN
                     - IP
                     - UNKNOWN
-                  description: "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
+                  description:
+                    "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
                     and cannot be used when creating or updating policies, but
                     may be returned for existing entries."
                 verify_sender:
                   type: boolean
-                  description: "Body param: Enforce DMARC, SPF or DKIM authentication. When on,
+                  description:
+                    "Body param: Enforce DMARC, SPF or DKIM authentication. When on,
                     Email Security only honors policies that pass
                     authentication."
       responses:
@@ -1975,7 +2016,8 @@ paths:
                     type: string
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   comments:
                     oneOf:
@@ -1983,7 +2025,8 @@ paths:
                     nullable: true
                   is_acceptable_sender:
                     type: boolean
-                    description: Messages from this sender will be exempted from Spam, Spoof and
+                    description:
+                      Messages from this sender will be exempted from Spam, Spoof and
                       Bulk dispositions. Note - This will not exempt messages
                       with Malicious or Suspicious dispositions.
                   is_exempt_recipient:
@@ -1997,7 +2040,8 @@ paths:
                     type: boolean
                   is_sender:
                     type: boolean
-                    description: "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
+                    description:
+                      "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
                       instead. End of life: July 1, 2026."
                   is_spoof:
                     type: boolean
@@ -2006,7 +2050,8 @@ paths:
                       2026."
                   is_trusted_sender:
                     type: boolean
-                    description: Messages from this sender will bypass all detections and link
+                    description:
+                      Messages from this sender will bypass all detections and link
                       following
                   modified_at:
                     type: string
@@ -2019,12 +2064,14 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
                   verify_sender:
                     type: boolean
-                    description: Enforce DMARC, SPF or DKIM authentication. When on, Email Security
+                    description:
+                      Enforce DMARC, SPF or DKIM authentication. When on, Email Security
                       only honors policies that pass authentication.
                 required:
                   - id
@@ -2042,7 +2089,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteSettingAllowPolicy
-      description: "Removes an allow policy. After deletion, emails matching this
+      description:
+        "Removes an allow policy. After deletion, emails matching this
         pattern will be subject to normal security scanning and disposition
         actions.  @example ```ts const allowPolicy = await
         client.emailSecurity.settings.allowPolicies.delete(
@@ -2086,7 +2134,8 @@ paths:
   /accounts/{account_id}/email-security/settings/allow_policies:
     get:
       operationId: listSettingAllowPolicies
-      description: "Returns a paginated list of email allow policies. These policies
+      description:
+        "Returns a paginated list of email allow policies. These policies
         exempt matching emails from security detection, allowing them to bypass
         disposition actions. Supports filtering by pattern type and policy
         attributes.  @example ```ts // Automatically fetches more pages as
@@ -2122,7 +2171,8 @@ paths:
         - name: is_acceptable_sender
           in: query
           required: false
-          description: "Query param: Filter to show only policies where messages from the
+          description:
+            "Query param: Filter to show only policies where messages from the
             sender are exempted from Spam, Spoof, and Bulk dispositions (not
             Malicious or Suspicious)."
           schema:
@@ -2130,14 +2180,16 @@ paths:
         - name: is_exempt_recipient
           in: query
           required: false
-          description: "Query param: Filter to show only policies where messages to the
+          description:
+            "Query param: Filter to show only policies where messages to the
             recipient bypass all detections."
           schema:
             type: boolean
         - name: is_trusted_sender
           in: query
           required: false
-          description: "Query param: Filter to show only policies where messages from the
+          description:
+            "Query param: Filter to show only policies where messages from the
             sender bypass all detections and link following."
           schema:
             type: boolean
@@ -2159,7 +2211,8 @@ paths:
         - name: pattern_type
           in: query
           required: false
-          description: "Query param: Type of pattern matching. Note: UNKNOWN is deprecated
+          description:
+            "Query param: Type of pattern matching. Note: UNKNOWN is deprecated
             and cannot be used when creating or updating policies, but may be
             returned for existing entries."
           schema:
@@ -2172,14 +2225,16 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Search term for filtering records. Behavior may
+          description:
+            "Query param: Search term for filtering records. Behavior may
             change."
           schema:
             type: string
         - name: verify_sender
           in: query
           required: false
-          description: "Query param: Filter to show only policies that enforce DMARC, SPF,
+          description:
+            "Query param: Filter to show only policies that enforce DMARC, SPF,
             or DKIM authentication."
           schema:
             type: boolean
@@ -2198,7 +2253,8 @@ paths:
                     type: string
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   comments:
                     oneOf:
@@ -2206,7 +2262,8 @@ paths:
                     nullable: true
                   is_acceptable_sender:
                     type: boolean
-                    description: Messages from this sender will be exempted from Spam, Spoof and
+                    description:
+                      Messages from this sender will be exempted from Spam, Spoof and
                       Bulk dispositions. Note - This will not exempt messages
                       with Malicious or Suspicious dispositions.
                   is_exempt_recipient:
@@ -2220,7 +2277,8 @@ paths:
                     type: boolean
                   is_sender:
                     type: boolean
-                    description: "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
+                    description:
+                      "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
                       instead. End of life: July 1, 2026."
                   is_spoof:
                     type: boolean
@@ -2229,7 +2287,8 @@ paths:
                       2026."
                   is_trusted_sender:
                     type: boolean
-                    description: Messages from this sender will bypass all detections and link
+                    description:
+                      Messages from this sender will bypass all detections and link
                       following
                   modified_at:
                     type: string
@@ -2242,12 +2301,14 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
                   verify_sender:
                     type: boolean
-                    description: Enforce DMARC, SPF or DKIM authentication. When on, Email Security
+                    description:
+                      Enforce DMARC, SPF or DKIM authentication. When on, Email Security
                       only honors policies that pass authentication.
                 required:
                   - id
@@ -2288,7 +2349,8 @@ paths:
               properties:
                 is_acceptable_sender:
                   type: boolean
-                  description: "Body param: Messages from this sender will be exempted from Spam,
+                  description:
+                    "Body param: Messages from this sender will be exempted from Spam,
                     Spoof and Bulk dispositions. Note - This will not exempt
                     messages with Malicious or Suspicious dispositions."
                 is_exempt_recipient:
@@ -2299,7 +2361,8 @@ paths:
                   description: Body param
                 is_trusted_sender:
                   type: boolean
-                  description: "Body param: Messages from this sender will bypass all detections
+                  description:
+                    "Body param: Messages from this sender will bypass all detections
                     and link following"
                 pattern:
                   type: string
@@ -2311,12 +2374,14 @@ paths:
                     - DOMAIN
                     - IP
                     - UNKNOWN
-                  description: "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
+                  description:
+                    "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
                     and cannot be used when creating or updating policies, but
                     may be returned for existing entries."
                 verify_sender:
                   type: boolean
-                  description: "Body param: Enforce DMARC, SPF or DKIM authentication. When on,
+                  description:
+                    "Body param: Enforce DMARC, SPF or DKIM authentication. When on,
                     Email Security only honors policies that pass
                     authentication."
                 comments:
@@ -2326,15 +2391,18 @@ paths:
                   description: Body param
                 is_recipient:
                   type: boolean
-                  description: "@deprecated Body param: Deprecated as of July 1, 2025. Use
+                  description:
+                    "@deprecated Body param: Deprecated as of July 1, 2025. Use
                     `is_exempt_recipient` instead. End of life: July 1, 2026."
                 is_sender:
                   type: boolean
-                  description: "@deprecated Body param: Deprecated as of July 1, 2025. Use
+                  description:
+                    "@deprecated Body param: Deprecated as of July 1, 2025. Use
                     `is_trusted_sender` instead. End of life: July 1, 2026."
                 is_spoof:
                   type: boolean
-                  description: "@deprecated Body param: Deprecated as of July 1, 2025. Use
+                  description:
+                    "@deprecated Body param: Deprecated as of July 1, 2025. Use
                     `is_acceptable_sender` instead. End of life: July 1, 2026."
               required:
                 - is_acceptable_sender
@@ -2359,7 +2427,8 @@ paths:
                     type: string
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   comments:
                     oneOf:
@@ -2367,7 +2436,8 @@ paths:
                     nullable: true
                   is_acceptable_sender:
                     type: boolean
-                    description: Messages from this sender will be exempted from Spam, Spoof and
+                    description:
+                      Messages from this sender will be exempted from Spam, Spoof and
                       Bulk dispositions. Note - This will not exempt messages
                       with Malicious or Suspicious dispositions.
                   is_exempt_recipient:
@@ -2381,7 +2451,8 @@ paths:
                     type: boolean
                   is_sender:
                     type: boolean
-                    description: "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
+                    description:
+                      "@deprecated Deprecated as of July 1, 2025. Use `is_trusted_sender`
                       instead. End of life: July 1, 2026."
                   is_spoof:
                     type: boolean
@@ -2390,7 +2461,8 @@ paths:
                       2026."
                   is_trusted_sender:
                     type: boolean
-                    description: Messages from this sender will bypass all detections and link
+                    description:
+                      Messages from this sender will bypass all detections and link
                       following
                   modified_at:
                     type: string
@@ -2403,12 +2475,14 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
                   verify_sender:
                     type: boolean
-                    description: Enforce DMARC, SPF or DKIM authentication. When on, Email Security
+                    description:
+                      Enforce DMARC, SPF or DKIM authentication. When on, Email Security
                       only honors policies that pass authentication.
                 required:
                   - id
@@ -2425,7 +2499,8 @@ paths:
   /accounts/{account_id}/email-security/settings/block_senders/{patternId}:
     get:
       operationId: getSettingBlockSender
-      description: "Retrieves details for a specific blocked sender pattern including
+      description:
+        "Retrieves details for a specific blocked sender pattern including
         its pattern type, value, and metadata.  @example ```ts const blockSender
         = await client.emailSecurity.settings.blockSenders.get(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -2463,7 +2538,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -2476,7 +2552,8 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
       x-distilled-response-path: result
@@ -2491,7 +2568,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSettingBlockSender
-      description: "Updates an existing blocked sender pattern. Only provided fields
+      description:
+        "Updates an existing blocked sender pattern. Only provided fields
         will be modified. The pattern will continue blocking emails until
         deleted.  @example ```ts const response = await
         client.emailSecurity.settings.blockSenders.edit(
@@ -2534,7 +2612,8 @@ paths:
                     - DOMAIN
                     - IP
                     - UNKNOWN
-                  description: "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
+                  description:
+                    "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
                     and cannot be used when creating or updating policies, but
                     may be returned for existing entries."
       responses:
@@ -2558,7 +2637,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -2571,7 +2651,8 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
       x-distilled-response-path: result
@@ -2586,7 +2667,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteSettingBlockSender
-      description: "Removes a blocked sender pattern. After deletion, emails from this
+      description:
+        "Removes a blocked sender pattern. After deletion, emails from this
         sender will no longer be automatically blocked based on this
         rule.  @example ```ts const blockSender = await
         client.emailSecurity.settings.blockSenders.delete(
@@ -2630,7 +2712,8 @@ paths:
   /accounts/{account_id}/email-security/settings/block_senders:
     get:
       operationId: listSettingBlockSenders
-      description: "Returns a paginated list of blocked email sender patterns. These
+      description:
+        "Returns a paginated list of blocked email sender patterns. These
         patterns prevent emails from matching senders from being delivered.
         Supports filtering by pattern type and searching across
         patterns.  @example ```ts // Automatically fetches more pages as needed.
@@ -2692,7 +2775,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Search term for filtering records. Behavior may
+          description:
+            "Query param: Search term for filtering records. Behavior may
             change."
           schema:
             type: string
@@ -2717,7 +2801,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -2730,7 +2815,8 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
       x-distilled-pagination-class: BlockSenderListResponsesV4PagePaginationArray
@@ -2743,7 +2829,8 @@ paths:
           - status: 403
     post:
       operationId: createSettingBlockSender
-      description: "Creates a new blocked sender pattern. Emails matching this pattern
+      description:
+        "Creates a new blocked sender pattern. Emails matching this pattern
         will be blocked from delivery. Patterns can be email addresses, domains,
         or IP addresses, and support regular expressions.  @example ```ts const
         blockSender = await client.emailSecurity.settings.blockSenders.create({
@@ -2776,7 +2863,8 @@ paths:
                     - DOMAIN
                     - IP
                     - UNKNOWN
-                  description: "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
+                  description:
+                    "Body param: Type of pattern matching. Note: UNKNOWN is deprecated
                     and cannot be used when creating or updating policies, but
                     may be returned for existing entries."
                 comments:
@@ -2809,7 +2897,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -2822,7 +2911,8 @@ paths:
                       - DOMAIN
                       - IP
                       - UNKNOWN
-                    description: "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
+                    description:
+                      "Type of pattern matching. Note: UNKNOWN is deprecated and cannot
                       be used when creating or updating policies, but may be
                       returned for existing entries."
       x-distilled-response-path: result
@@ -2836,7 +2926,8 @@ paths:
   /accounts/{account_id}/email-security/settings/domains/{domainId}:
     get:
       operationId: getSettingDomain
-      description: "Retrieves detailed information for a specific protected email
+      description:
+        "Retrieves detailed information for a specific protected email
         domain including its delivery configuration, SPF/DMARC status, and
         authorization state.  @example ```ts const domain = await
         client.emailSecurity.settings.domains.get(
@@ -2948,7 +3039,8 @@ paths:
                       type: string
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   lookback_hops:
                     type: number
@@ -3005,7 +3097,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSettingDomain
-      description: "Updates configuration for a protected email domain. Only provided
+      description:
+        "Updates configuration for a protected email domain. Only provided
         fields will be modified. Changes affect delivery mode, security
         settings, and regional processing.  @example ```ts const response =
         await client.emailSecurity.settings.domains.edit(
@@ -3193,7 +3286,8 @@ paths:
                       type: string
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   lookback_hops:
                     type: number
@@ -3250,7 +3344,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteSettingDomain
-      description: "Removes email security protection from a domain. After deletion,
+      description:
+        "Removes email security protection from a domain. After deletion,
         emails for this domain will no longer be processed by Email Security.
         This action cannot be undone.  @example ```ts const domain = await
         client.emailSecurity.settings.domains.delete(
@@ -3377,7 +3472,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Search term for filtering records. Behavior may
+          description:
+            "Query param: Search term for filtering records. Behavior may
             change."
           schema:
             type: string
@@ -3486,7 +3582,8 @@ paths:
                       type: string
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   lookback_hops:
                     type: number
@@ -3542,7 +3639,8 @@ paths:
   /accounts/{account_id}/email-security/settings/impersonation_registry/{impersonationRegistryId}:
     get:
       operationId: getSettingImpersonationRegistry
-      description: "Retrieves details for a specific impersonation registry entry
+      description:
+        "Retrieves details for a specific impersonation registry entry
         including the protected identity, email pattern, and synchronization
         source if directory-synced.  @example ```ts const impersonationRegistry
         = await client.emailSecurity.settings.impersonationRegistry.get(
@@ -3596,7 +3694,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -3621,7 +3720,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSettingImpersonationRegistry
-      description: "Updates an existing impersonation registry entry. Only provided
+      description:
+        "Updates an existing impersonation registry entry. Only provided
         fields will be modified. Directory-synced entries can't be
         updated.  @example ```ts const response = await
         client.emailSecurity.settings.impersonationRegistry.edit(
@@ -3719,7 +3819,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -3744,7 +3845,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteSettingImpersonationRegistry
-      description: "Removes an entry from the impersonation registry. After deletion,
+      description:
+        "Removes an entry from the impersonation registry. After deletion,
         this identity will no longer be protected from impersonation.  @example
         ```ts const impersonationRegistry = await
         client.emailSecurity.settings.impersonationRegistry.delete(
@@ -3846,7 +3948,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Search term for filtering records. Behavior may
+          description:
+            "Query param: Search term for filtering records. Behavior may
             change."
           schema:
             type: string
@@ -3886,7 +3989,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4008,7 +4112,8 @@ paths:
                     type: boolean
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4077,14 +4182,16 @@ paths:
                     description: Excluded subdomains that are exempt from TLS requirements.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
       x-distilled-response-path: result
     patch:
       operationId: patchSettingSendingDomainRestriction
-      description: "Updates an existing sending domain restriction. Only provided
+      description:
+        "Updates an existing sending domain restriction. Only provided
         fields will be modified. Changes affect which domains require TLS and
         which subdomains are excluded.  @example ```ts const response = await
         client.emailSecurity.settings.sendingDomainRestrictions.edit(
@@ -4121,7 +4228,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Excluded subdomains that are exempt from TLS
+                  description:
+                    "Body param: Excluded subdomains that are exempt from TLS
                     requirements."
       responses:
         "200":
@@ -4150,14 +4258,16 @@ paths:
                     description: Excluded subdomains that are exempt from TLS requirements.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
       x-distilled-response-path: result
     delete:
       operationId: deleteSettingSendingDomainRestriction
-      description: "Removes a sending domain restriction. After deletion, TLS will no
+      description:
+        "Removes a sending domain restriction. After deletion, TLS will no
         longer be enforced for emails from this domain.  @example ```ts const
         sendingDomainRestriction = await
         client.emailSecurity.settings.sendingDomainRestrictions.delete(
@@ -4192,7 +4302,8 @@ paths:
   /accounts/{account_id}/email-security/settings/sending_domain_restrictions:
     get:
       operationId: listSettingSendingDomainRestrictions
-      description: "Returns a paginated list of sending domain restrictions. These
+      description:
+        "Returns a paginated list of sending domain restrictions. These
         restrictions enforce TLS requirements for emails from specific domains.
         Mail without TLS from restricted domains will be dropped unless the
         subdomain is in the exclude list. Supports sorting and
@@ -4238,7 +4349,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Search term for filtering records. Behavior may
+          description:
+            "Query param: Search term for filtering records. Behavior may
             change."
           schema:
             type: string
@@ -4269,7 +4381,8 @@ paths:
                     description: Excluded subdomains that are exempt from TLS requirements.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4304,7 +4417,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Excluded subdomains that are exempt from TLS
+                  description:
+                    "Body param: Excluded subdomains that are exempt from TLS
                     requirements."
                 comments:
                   oneOf:
@@ -4341,7 +4455,8 @@ paths:
                     description: Excluded subdomains that are exempt from TLS requirements.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4349,7 +4464,8 @@ paths:
   /accounts/{account_id}/email-security/settings/trusted_domains/{trustedDomainId}:
     get:
       operationId: getSettingTrustedDomain
-      description: "Retrieves details for a specific trusted domain pattern including
+      description:
+        "Retrieves details for a specific trusted domain pattern including
         its pattern value, whether it uses regex matching, and which detection
         types it affects.  @example ```ts const trustedDomain = await
         client.emailSecurity.settings.trustedDomains.get(
@@ -4386,18 +4502,21 @@ paths:
                     type: string
                   is_recent:
                     type: boolean
-                    description: Select to prevent recently registered domains from triggering a
+                    description:
+                      Select to prevent recently registered domains from triggering a
                       Suspicious or Malicious disposition.
                   is_regex:
                     type: boolean
                   is_similarity:
                     type: boolean
-                    description: Select for partner or other approved domains that have similar
+                    description:
+                      Select for partner or other approved domains that have similar
                       spelling to your connected domains. Prevents listed
                       domains from triggering a Spoof disposition.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4415,7 +4534,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSettingTrustedDomain
-      description: "Updates an existing trusted domain pattern. Only provided fields
+      description:
+        "Updates an existing trusted domain pattern. Only provided fields
         will be modified. Changes take effect for new emails matching the
         pattern.  @example ```ts const response = await
         client.emailSecurity.settings.trustedDomains.edit(
@@ -4447,14 +4567,16 @@ paths:
                   description: Body param
                 is_recent:
                   type: boolean
-                  description: "Body param: Select to prevent recently registered domains from
+                  description:
+                    "Body param: Select to prevent recently registered domains from
                     triggering a Suspicious or Malicious disposition."
                 is_regex:
                   type: boolean
                   description: Body param
                 is_similarity:
                   type: boolean
-                  description: "Body param: Select for partner or other approved domains that have
+                  description:
+                    "Body param: Select for partner or other approved domains that have
                     similar spelling to your connected domains. Prevents listed
                     domains from triggering a Spoof disposition."
                 pattern:
@@ -4479,18 +4601,21 @@ paths:
                     type: string
                   is_recent:
                     type: boolean
-                    description: Select to prevent recently registered domains from triggering a
+                    description:
+                      Select to prevent recently registered domains from triggering a
                       Suspicious or Malicious disposition.
                   is_regex:
                     type: boolean
                   is_similarity:
                     type: boolean
-                    description: Select for partner or other approved domains that have similar
+                    description:
+                      Select for partner or other approved domains that have similar
                       spelling to your connected domains. Prevents listed
                       domains from triggering a Spoof disposition.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4508,7 +4633,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteSettingTrustedDomain
-      description: "Removes a trusted domain pattern. After deletion, emails from this
+      description:
+        "Removes a trusted domain pattern. After deletion, emails from this
         domain will be subject to normal recent domain and similarity
         checks.  @example ```ts const trustedDomain = await
         client.emailSecurity.settings.trustedDomains.delete(
@@ -4588,7 +4714,8 @@ paths:
         - name: is_recent
           in: query
           required: false
-          description: "Query param: Filter to show only recently registered domains that
+          description:
+            "Query param: Filter to show only recently registered domains that
             are trusted to prevent triggering Suspicious or Malicious
             dispositions."
           schema:
@@ -4596,7 +4723,8 @@ paths:
         - name: is_similarity
           in: query
           required: false
-          description: "Query param: Filter to show only proximity domains (partner or
+          description:
+            "Query param: Filter to show only proximity domains (partner or
             approved domains with similar spelling to connected domains) that
             prevent Spoof dispositions."
           schema:
@@ -4619,7 +4747,8 @@ paths:
         - name: search
           in: query
           required: false
-          description: "Query param: Search term for filtering records. Behavior may
+          description:
+            "Query param: Search term for filtering records. Behavior may
             change."
           schema:
             type: string
@@ -4642,18 +4771,21 @@ paths:
                     type: string
                   is_recent:
                     type: boolean
-                    description: Select to prevent recently registered domains from triggering a
+                    description:
+                      Select to prevent recently registered domains from triggering a
                       Suspicious or Malicious disposition.
                   is_regex:
                     type: boolean
                   is_similarity:
                     type: boolean
-                    description: Select for partner or other approved domains that have similar
+                    description:
+                      Select for partner or other approved domains that have similar
                       spelling to your connected domains. Prevents listed
                       domains from triggering a Spoof disposition.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4669,7 +4801,8 @@ paths:
           - status: 403
     post:
       operationId: createSettingTrustedDomain
-      description: "Creates a new trusted domain pattern. Use for partner domains or
+      description:
+        "Creates a new trusted domain pattern. Use for partner domains or
         approved senders that should bypass recent domain registration and
         similarity checks. Configure whether it prevents recent domain or spoof
         dispositions.  @example ```ts const trustedDomain = await
@@ -4692,14 +4825,16 @@ paths:
               properties:
                 is_recent:
                   type: boolean
-                  description: "Body param: Select to prevent recently registered domains from
+                  description:
+                    "Body param: Select to prevent recently registered domains from
                     triggering a Suspicious or Malicious disposition."
                 is_regex:
                   type: boolean
                   description: Body param
                 is_similarity:
                   type: boolean
-                  description: "Body param: Select for partner or other approved domains that have
+                  description:
+                    "Body param: Select for partner or other approved domains that have
                     similar spelling to your connected domains. Prevents listed
                     domains from triggering a Spoof disposition."
                 pattern:
@@ -4734,18 +4869,21 @@ paths:
                     type: string
                   is_recent:
                     type: boolean
-                    description: Select to prevent recently registered domains from triggering a
+                    description:
+                      Select to prevent recently registered domains from triggering a
                       Suspicious or Malicious disposition.
                   is_regex:
                     type: boolean
                   is_similarity:
                     type: boolean
-                    description: Select for partner or other approved domains that have similar
+                    description:
+                      Select for partner or other approved domains that have similar
                       spelling to your connected domains. Prevents listed
                       domains from triggering a Spoof disposition.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4802,7 +4940,8 @@ paths:
                     description: Optional note describing the reason for the ignore pattern.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4813,7 +4952,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchSettingUrlIgnorePattern
-      description: "Updates an existing URL rewrite ignore pattern. Only provided
+      description:
+        "Updates an existing URL rewrite ignore pattern. Only provided
         fields will be modified.  @example ```ts const response = await
         client.emailSecurity.settings.urlIgnorePatterns.edit(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -4841,11 +4981,13 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: Optional note describing the reason for the ignore
+                  description:
+                    "Body param: Optional note describing the reason for the ignore
                     pattern."
                 pattern:
                   type: string
-                  description: "Body param: Regular expression matching URLs that should not be
+                  description:
+                    "Body param: Regular expression matching URLs that should not be
                     rewritten."
       responses:
         "200":
@@ -4870,7 +5012,8 @@ paths:
                     description: Optional note describing the reason for the ignore pattern.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4916,7 +5059,8 @@ paths:
   /accounts/{account_id}/email-security/settings/url_ignore_patterns:
     get:
       operationId: listSettingUrlIgnorePatterns
-      description: "Returns a paginated list of URL rewrite ignore patterns for the
+      description:
+        "Returns a paginated list of URL rewrite ignore patterns for the
         account. URLs matching these patterns will not be rewritten.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
         urlIgnorePatternListResponse of
@@ -4962,7 +5106,8 @@ paths:
                     description: Optional note describing the reason for the ignore pattern.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -4994,13 +5139,15 @@ paths:
               properties:
                 pattern:
                   type: string
-                  description: "Body param: Regular expression matching URLs that should not be
+                  description:
+                    "Body param: Regular expression matching URLs that should not be
                     rewritten."
                 comments:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: Optional note describing the reason for the ignore
+                  description:
+                    "Body param: Optional note describing the reason for the ignore
                     pattern."
               required:
                 - pattern
@@ -5027,7 +5174,8 @@ paths:
                     description: Optional note describing the reason for the ignore pattern.
                   last_modified:
                     type: string
-                    description: "@deprecated Deprecated, use `modified_at` instead. End of life:
+                    description:
+                      "@deprecated Deprecated, use `modified_at` instead. End of life:
                       November 1, 2026."
                   modified_at:
                     type: string
@@ -5039,7 +5187,8 @@ paths:
   /accounts/{account_id}/email-security/submissions:
     get:
       operationId: listSubmissions
-      description: "Returns information for submissions made to reclassify emails.
+      description:
+        "Returns information for submissions made to reclassify emails.
         Shows the status, outcome, and disposition changes for reclassification
         requests made by users or the security team. Useful for tracking false
         positive/negative reports.  @example ```ts // Automatically fetches more
@@ -5072,7 +5221,8 @@ paths:
         - name: escalated_from_user
           in: query
           required: false
-          description: "Query param: When true, return only submissions that were
+          description:
+            "Query param: When true, return only submissions that were
             escalated by an end user (vs. by the security team). When false,
             return only submissions that were not escalated by an end user. When
             omitted, no filter is applied."
@@ -5128,7 +5278,8 @@ paths:
         - name: start
           in: query
           required: false
-          description: "Query param: The beginning of the search date range. Defaults to
+          description:
+            "Query param: The beginning of the search date range. Defaults to
             `now - 30 days`."
           schema:
             type: string

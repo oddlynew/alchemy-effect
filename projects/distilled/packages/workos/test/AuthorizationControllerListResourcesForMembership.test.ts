@@ -6,6 +6,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationControllerListResourcesForMembership", () => {
   it(
     "lists resources for an organization membership",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -21,11 +22,11 @@ describe("AuthorizationControllerListResourcesForMembership", () => {
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.list_metadata).toBeDefined();
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when neither parent_resource_id nor parent_resource_external_id+slug are provided",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationControllerListResourcesForMembership({
@@ -36,11 +37,11 @@ describe("AuthorizationControllerListResourcesForMembership", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationControllerListResourcesForMembership({
@@ -52,11 +53,11 @@ describe("AuthorizationControllerListResourcesForMembership", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the membership belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationControllerListResourcesForMembership({
@@ -68,11 +69,11 @@ describe("AuthorizationControllerListResourcesForMembership", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when both parent_resource_id and parent_resource_external_id are provided",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationControllerListResourcesForMembership({
@@ -86,6 +87,5 @@ describe("AuthorizationControllerListResourcesForMembership", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

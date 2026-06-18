@@ -1,0 +1,17 @@
+{
+  "extends": "@alchemy.run/typescript-config/neutral.json",
+  "compilerOptions": {
+    "composite": true,
+    "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "isolatedDeclarations": true,
+    "lib": ["ES2024", "WebWorker"],
+    "types": ["@cloudflare/workers-types", "bun"],
+    "rootDir": "src",
+    "outDir": ".tsbuild/src"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.test.ts", "src/**/__tests__/**/*.ts"]
+}

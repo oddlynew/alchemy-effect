@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteCollection", () => {
   it(
     "deletes an existing collection and returns its full schema record",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-delcol-${testRunId}`;
 
@@ -39,11 +40,11 @@ describe("deleteCollection", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteCollection({
@@ -53,6 +54,5 @@ describe("deleteCollection", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

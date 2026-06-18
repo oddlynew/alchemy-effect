@@ -8,6 +8,7 @@ describe("updateRole", () => {
   // returns 403 Forbidden before id lookup / body validation.
   it(
     "returns Forbidden on non-Enterprise plans",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateRole({
@@ -19,6 +20,5 @@ describe("updateRole", () => {
 
       expect((error as { _tag: string })._tag).toBe("Forbidden");
     },
-    { timeout: 30_000 },
   );
 });

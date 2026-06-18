@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createVirtualField", () => {
   it(
     "creates a virtual field against a fresh dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-vfield-${testRunId}`;
       const fieldName = `distilled_axiom_vfield_${testRunId}`;
@@ -48,7 +49,6 @@ describe("createVirtualField", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   // Removed: the client-side schema requires dataset/name/expression, so

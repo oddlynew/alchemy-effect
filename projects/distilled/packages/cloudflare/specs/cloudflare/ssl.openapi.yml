@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/ssl/analyze:
     post:
       operationId: createAnalyze
-      description: "Returns the set of hostnames, the signature algorithm, and the
+      description:
+        "Returns the set of hostnames, the signature algorithm, and the
         expiration date of the certificate.  @example ```ts const analyze =
         await client.ssl.analyze.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -33,14 +34,16 @@ paths:
                     - ubiquitous
                     - optimal
                     - force
-                  description: "Body param: A ubiquitous bundle has the highest probability of
+                  description:
+                    "Body param: A ubiquitous bundle has the highest probability of
                     being verified everywhere, even by clients using outdated or
                     unusual trust stores. An optimal bundle uses the shortest
                     chain and newest intermediates. And the force bundle
                     verifies the chain, but does not otherwise modify it."
                 certificate:
                   type: string
-                  description: "Body param: The zone's SSL certificate or certificate and the
+                  description:
+                    "Body param: The zone's SSL certificate or certificate and the
                     intermediate(s)."
       responses:
         "200":
@@ -52,7 +55,8 @@ paths:
   /zones/{zone_id}/ssl/certificate_packs/{certificatePackId}:
     get:
       operationId: getCertificatePack
-      description: "For a given zone, get a certificate pack.  @example ```ts const
+      description:
+        "For a given zone, get a certificate pack.  @example ```ts const
         certificatePack = await client.ssl.certificatePacks.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -138,7 +142,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: Comma separated list of valid host names for the certificate packs.
+                    description:
+                      Comma separated list of valid host names for the certificate packs.
                       Must contain the zone apex, may not contain more than 50
                       hosts, and may not be empty.
                   status:
@@ -184,13 +189,15 @@ paths:
                       - google
                       - lets_encrypt
                       - ssl_com
-                    description: Certificate Authority selected for the order. For information on
+                    description:
+                      Certificate Authority selected for the order. For information on
                       any certificate authority specific details or restrictions
                       [see this page for more
                       details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
                   cloudflare_branding:
                     type: boolean
-                    description: Whether or not to add Cloudflare Branding for the order. This will
+                    description:
+                      Whether or not to add Cloudflare Branding for the order. This will
                       add a subdomain of sni.cloudflaressl.com as the Common
                       Name if set to true.
                   dcv_delegation_records:
@@ -208,11 +215,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -222,11 +231,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: DCV Delegation records for domain validation.
                   primary_certificate:
@@ -240,7 +251,8 @@ paths:
                         message:
                           type: string
                           description: A domain validation error.
-                    description: Domain validation errors that have been received by the certificate
+                    description:
+                      Domain validation errors that have been received by the certificate
                       authority (CA).
                   validation_method:
                     type: string
@@ -264,11 +276,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -278,11 +292,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: Certificates' validation records.
                   validity_days:
@@ -303,7 +319,8 @@ paths:
           - status: 403
     patch:
       operationId: patchCertificatePack
-      description: "For a given zone, restart validation or add cloudflare branding
+      description:
+        "For a given zone, restart validation or add cloudflare branding
         for an advanced certificate pack. The former is only a validation
         operation for a Certificate Pack in a validation_timed_out
         status.  @example ```ts const response = await
@@ -330,7 +347,8 @@ paths:
               properties:
                 cloudflare_branding:
                   type: boolean
-                  description: "Body param: Whether or not to add Cloudflare Branding for the
+                  description:
+                    "Body param: Whether or not to add Cloudflare Branding for the
                     order. This will add a subdomain of sni.cloudflaressl.com as
                     the Common Name if set to true."
       responses:
@@ -403,7 +421,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: Comma separated list of valid host names for the certificate packs.
+                    description:
+                      Comma separated list of valid host names for the certificate packs.
                       Must contain the zone apex, may not contain more than 50
                       hosts, and may not be empty.
                   status:
@@ -449,13 +468,15 @@ paths:
                       - google
                       - lets_encrypt
                       - ssl_com
-                    description: Certificate Authority selected for the order. For information on
+                    description:
+                      Certificate Authority selected for the order. For information on
                       any certificate authority specific details or restrictions
                       [see this page for more
                       details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
                   cloudflare_branding:
                     type: boolean
-                    description: Whether or not to add Cloudflare Branding for the order. This will
+                    description:
+                      Whether or not to add Cloudflare Branding for the order. This will
                       add a subdomain of sni.cloudflaressl.com as the Common
                       Name if set to true.
                   dcv_delegation_records:
@@ -473,11 +494,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -487,11 +510,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: DCV Delegation records for domain validation.
                   primary_certificate:
@@ -505,7 +530,8 @@ paths:
                         message:
                           type: string
                           description: A domain validation error.
-                    description: Domain validation errors that have been received by the certificate
+                    description:
+                      Domain validation errors that have been received by the certificate
                       authority (CA).
                   validation_method:
                     type: string
@@ -529,11 +555,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -543,11 +571,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: Certificates' validation records.
                   validity_days:
@@ -568,7 +598,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteCertificatePack
-      description: "For a given zone, delete an advanced certificate pack.  @example
+      description:
+        "For a given zone, delete an advanced certificate pack.  @example
         ```ts const certificatePack = await client.ssl.certificatePacks.delete(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -605,7 +636,8 @@ paths:
   /zones/{zone_id}/ssl/certificate_packs:
     get:
       operationId: listCertificatePacks
-      description: "For a given zone, list all active certificate packs.  @example
+      description:
+        "For a given zone, list all active certificate packs.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
         certificatePackListResponse of client.ssl.certificatePacks.list( {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -639,7 +671,8 @@ paths:
         - name: status
           in: query
           required: false
-          description: "Query param: Include Certificate Packs of all statuses, not just
+          description:
+            "Query param: Include Certificate Packs of all statuses, not just
             active ones."
           schema:
             type: string
@@ -715,7 +748,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: Comma separated list of valid host names for the certificate packs.
+                    description:
+                      Comma separated list of valid host names for the certificate packs.
                       Must contain the zone apex, may not contain more than 50
                       hosts, and may not be empty.
                   status:
@@ -761,13 +795,15 @@ paths:
                       - google
                       - lets_encrypt
                       - ssl_com
-                    description: Certificate Authority selected for the order. For information on
+                    description:
+                      Certificate Authority selected for the order. For information on
                       any certificate authority specific details or restrictions
                       [see this page for more
                       details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
                   cloudflare_branding:
                     type: boolean
-                    description: Whether or not to add Cloudflare Branding for the order. This will
+                    description:
+                      Whether or not to add Cloudflare Branding for the order. This will
                       add a subdomain of sni.cloudflaressl.com as the Common
                       Name if set to true.
                   dcv_delegation_records:
@@ -785,11 +821,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -799,11 +837,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: DCV Delegation records for domain validation.
                   primary_certificate:
@@ -817,7 +857,8 @@ paths:
                         message:
                           type: string
                           description: A domain validation error.
-                    description: Domain validation errors that have been received by the certificate
+                    description:
+                      Domain validation errors that have been received by the certificate
                       authority (CA).
                   validation_method:
                     type: string
@@ -841,11 +882,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -855,11 +898,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: Certificates' validation records.
                   validity_days:
@@ -883,7 +928,8 @@ paths:
   /zones/{zone_id}/ssl/certificate_packs/order:
     post:
       operationId: createCertificatePack
-      description: "For a given zone, order an advanced certificate pack.  @example
+      description:
+        "For a given zone, order an advanced certificate pack.  @example
         ```ts const certificatePack = await client.ssl.certificatePacks.create({
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353', certificate_authority:
         'lets_encrypt', hosts: [ 'example.com', ' .example.com',
@@ -909,7 +955,8 @@ paths:
                     - google
                     - lets_encrypt
                     - ssl_com
-                  description: "Body param: Certificate Authority selected for the order. For
+                  description:
+                    "Body param: Certificate Authority selected for the order. For
                     information on any certificate authority specific details or
                     restrictions [see this page for more
                     details](https://developers.cloudflare.com/ssl/reference/ce\
@@ -918,7 +965,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Comma separated list of valid host names for the
+                  description:
+                    "Body param: Comma separated list of valid host names for the
                     certificate packs. Must contain the zone apex, may not
                     contain more than 50 hosts, and may not be empty."
                 type:
@@ -938,7 +986,8 @@ paths:
                   description: "Body param: Validity Days selected for the order."
                 cloudflare_branding:
                   type: boolean
-                  description: "Body param: Whether or not to add Cloudflare Branding for the
+                  description:
+                    "Body param: Whether or not to add Cloudflare Branding for the
                     order. This will add a subdomain of sni.cloudflaressl.com as
                     the Common Name if set to true."
               required:
@@ -1017,7 +1066,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: Comma separated list of valid host names for the certificate packs.
+                    description:
+                      Comma separated list of valid host names for the certificate packs.
                       Must contain the zone apex, may not contain more than 50
                       hosts, and may not be empty.
                   status:
@@ -1063,13 +1113,15 @@ paths:
                       - google
                       - lets_encrypt
                       - ssl_com
-                    description: Certificate Authority selected for the order. For information on
+                    description:
+                      Certificate Authority selected for the order. For information on
                       any certificate authority specific details or restrictions
                       [see this page for more
                       details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).
                   cloudflare_branding:
                     type: boolean
-                    description: Whether or not to add Cloudflare Branding for the order. This will
+                    description:
+                      Whether or not to add Cloudflare Branding for the order. This will
                       add a subdomain of sni.cloudflaressl.com as the Common
                       Name if set to true.
                   dcv_delegation_records:
@@ -1087,11 +1139,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -1101,11 +1155,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: DCV Delegation records for domain validation.
                   primary_certificate:
@@ -1119,7 +1175,8 @@ paths:
                         message:
                           type: string
                           description: A domain validation error.
-                    description: Domain validation errors that have been received by the certificate
+                    description:
+                      Domain validation errors that have been received by the certificate
                       authority (CA).
                   validation_method:
                     type: string
@@ -1143,11 +1200,13 @@ paths:
                           type: array
                           items:
                             type: string
-                          description: The set of email addresses that the certificate authority (CA) will
+                          description:
+                            The set of email addresses that the certificate authority (CA) will
                             use to complete domain validation.
                         http_body:
                           type: string
-                          description: The content that the certificate authority (CA) will expect to find
+                          description:
+                            The content that the certificate authority (CA) will expect to find
                             at the http_url during the domain validation.
                         http_url:
                           type: string
@@ -1157,11 +1216,13 @@ paths:
                           description: Status of the validation record.
                         txt_name:
                           type: string
-                          description: The hostname that the certificate authority (CA) will check for a
+                          description:
+                            The hostname that the certificate authority (CA) will check for a
                             TXT record during domain validation .
                         txt_value:
                           type: string
-                          description: The TXT record that the certificate authority (CA) will check
+                          description:
+                            The TXT record that the certificate authority (CA) will check
                             during domain validation.
                     description: Certificates' validation records.
                   validity_days:
@@ -1182,7 +1243,8 @@ paths:
   /zones/{zone_id}/ssl/certificate_packs/quota:
     get:
       operationId: getCertificatePackQuota
-      description: "For a given zone, list certificate pack quotas.  @example ```ts
+      description:
+        "For a given zone, list certificate pack quotas.  @example ```ts
         const quota = await client.ssl.certificatePacks.quota.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -1278,7 +1340,8 @@ paths:
                 properties:
                   enabled:
                     type: boolean
-                    description: Disabling Universal SSL removes any currently active Universal SSL
+                    description:
+                      Disabling Universal SSL removes any currently active Universal SSL
                       certificates for your zone from the edge and prevents any
                       future Universal SSL certificates from being ordered. If
                       there are no advanced certificates or custom certificates
@@ -1304,7 +1367,8 @@ paths:
           - status: 403
     patch:
       operationId: patchUniversalSetting
-      description: "Patch Universal SSL Settings for a Zone.  @example ```ts const
+      description:
+        "Patch Universal SSL Settings for a Zone.  @example ```ts const
         universalSSLSettings = await client.ssl.universal.settings.edit({
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -1323,7 +1387,8 @@ paths:
               properties:
                 enabled:
                   type: boolean
-                  description: "Body param: Disabling Universal SSL removes any currently active
+                  description:
+                    "Body param: Disabling Universal SSL removes any currently active
                     Universal SSL certificates for your zone from the edge and
                     prevents any future Universal SSL certificates from being
                     ordered. If there are no advanced certificates or custom
@@ -1353,7 +1418,8 @@ paths:
                 properties:
                   enabled:
                     type: boolean
-                    description: Disabling Universal SSL removes any currently active Universal SSL
+                    description:
+                      Disabling Universal SSL removes any currently active Universal SSL
                       certificates for your zone from the edge and prevents any
                       future Universal SSL certificates from being ordered. If
                       there are no advanced certificates or custom certificates
@@ -1461,7 +1527,8 @@ paths:
                       description: Certificate's required verification information.
                     verification_status:
                       type: boolean
-                      description: Status of the required verification information, omitted if
+                      description:
+                        Status of the required verification information, omitted if
                         verification status is unknown.
                     verification_type:
                       type: string
@@ -1475,7 +1542,8 @@ paths:
   /zones/{zone_id}/ssl/verification/{certificatePackId}:
     patch:
       operationId: patchVerification
-      description: "Edit SSL validation method for a certificate pack. A PATCH request
+      description:
+        "Edit SSL validation method for a certificate pack. A PATCH request
         will request an immediate validation check on any certificate, and
         return the updated status. If a validation method is provided, the
         validation will be immediately attempted using that method.  @example

@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getUser", () => {
   it(
     "fetches a user by id and returns their profile",
+    { timeout: 30_000 },
     async () => {
       // Resolve an existing user id from the org rather than managing one here;
       // getUsers is guaranteed to return at least the authenticated caller.
@@ -22,11 +23,11 @@ describe("getUser", () => {
       expect(user.role.id).toBe(target.role.id);
       expect(user.role.name).toBe(target.role.name);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns NotFound for a user id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getUser({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -34,6 +35,5 @@ describe("getUser", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

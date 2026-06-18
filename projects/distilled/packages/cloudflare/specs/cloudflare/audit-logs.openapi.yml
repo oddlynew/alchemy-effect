@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/audit_logs:
     get:
       operationId: listAuditLogs
-      description: Gets a list of audit logs for an account. Can be filtered by who
+      description:
+        Gets a list of audit logs for an account. Can be filtered by who
         made the change, on which zone, and the timeframe of the change.
       parameters:
         - name: account_id
@@ -56,12 +57,14 @@ paths:
                 description: Filters by the email address of the actor that made the change.
               ip:
                 type: string
-                description: Filters by the IP address of the request that made the change by
+                description:
+                  Filters by the IP address of the request that made the change by
                   specific IP address or valid CIDR Range.
         - name: before
           in: query
           required: false
-          description: "Query param: Limits the returned results to logs older than the
+          description:
+            "Query param: Limits the returned results to logs older than the
             specified date. A `full-date` that conforms to RFC3339."
           schema: {}
         - name: direction
@@ -76,21 +79,24 @@ paths:
         - name: export
           in: query
           required: false
-          description: "Query param: Indicates that this request is an export of logs in
+          description:
+            "Query param: Indicates that this request is an export of logs in
             CSV format."
           schema:
             type: boolean
         - name: hide_user_logs
           in: query
           required: false
-          description: "Query param: Indicates whether or not to hide user level audit
+          description:
+            "Query param: Indicates whether or not to hide user level audit
             logs."
           schema:
             type: boolean
         - name: since
           in: query
           required: false
-          description: "Query param: Limits the returned results to logs newer than the
+          description:
+            "Query param: Limits the returned results to logs newer than the
             specified date. A `full-date` that conforms to RFC3339."
           schema: {}
         - name: zone
@@ -128,7 +134,8 @@ paths:
                     properties:
                       id:
                         type: string
-                        description: The ID of the actor that performed the action. If a user performed
+                        description:
+                          The ID of the actor that performed the action. If a user performed
                           the action, this will be their User ID.
                       email:
                         type: string
@@ -142,13 +149,15 @@ paths:
                           - user
                           - admin
                           - Cloudflare
-                        description: The type of actor, whether a User, Cloudflare Admin, or an
+                        description:
+                          The type of actor, whether a User, Cloudflare Admin, or an
                           Automated System.
                   interface:
                     type: string
                     description: The source of the event.
                   metadata:
-                    description: An object which can lend more context to the action being logged.
+                    description:
+                      An object which can lend more context to the action being logged.
                       This is a flexible value and varies between different
                       actions.
                   newValue:
@@ -171,10 +180,12 @@ paths:
                         description: An identifier for the resource that was affected by the action.
                       type:
                         type: string
-                        description: A short string that describes the resource that was affected by the
+                        description:
+                          A short string that describes the resource that was affected by the
                           action.
                   when:
                     type: string
-                    description: A UTC RFC3339 timestamp that specifies when the action being logged
+                    description:
+                      A UTC RFC3339 timestamp that specifies when the action being logged
                       occured.
       x-distilled-pagination-class: AuditLogsV4PagePaginationArray

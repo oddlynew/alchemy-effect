@@ -5,33 +5,30 @@ import { UserlandMagicAuthControllerSendMagicAuthCodeAndReturn } from "../src/op
 import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 
 describe("UserlandMagicAuthControllerGet", () => {
-  it(
-    "fetches a magic auth code by id",
-    async (ctx) => {
-      const email = `distilled-magic-get-${testRunId}@example.com`;
-      const result = await runOrSkipOnEnvLimitation(
-        ctx,
-        Effect.gen(function* () {
-          const created =
-            yield* UserlandMagicAuthControllerSendMagicAuthCodeAndReturn({
-              email,
-            });
-          return yield* UserlandMagicAuthControllerGet({ id: created.id });
-        }),
-      );
+  it("fetches a magic auth code by id", { timeout: 30_000 }, async (ctx) => {
+    const email = `distilled-magic-get-${testRunId}@example.com`;
+    const result = await runOrSkipOnEnvLimitation(
+      ctx,
+      Effect.gen(function* () {
+        const created =
+          yield* UserlandMagicAuthControllerSendMagicAuthCodeAndReturn({
+            email,
+          });
+        return yield* UserlandMagicAuthControllerGet({ id: created.id });
+      }),
+    );
 
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(result.email).toBe(email);
-      expect(typeof result.user_id).toBe("string");
-      expect(typeof result.code).toBe("string");
-      expect(typeof result.expires_at).toBe("string");
-    },
-    30_000,
-  );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(result.email).toBe(email);
+    expect(typeof result.user_id).toBe("string");
+    expect(typeof result.code).toBe("string");
+    expect(typeof result.expires_at).toBe("string");
+  });
 
   it(
     "fails with NotFound for a non-existent magic auth code id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandMagicAuthControllerGet({
@@ -40,6 +37,5 @@ describe("UserlandMagicAuthControllerGet", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

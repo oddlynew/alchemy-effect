@@ -5,34 +5,29 @@ import { upsertStopwordsSet } from "../src/operations/upsertStopwordsSet";
 import { runEffect, testRunId } from "./setup";
 
 describe("upsertStopwordsSet", () => {
-  it(
-    "creates a stopwords set",
-    async () => {
-      const setId = `distilled-typesense-upsstop-${testRunId}`;
+  it("creates a stopwords set", { timeout: 30_000 }, async () => {
+    const setId = `distilled-typesense-upsstop-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        const result = yield* upsertStopwordsSet({
-          setId,
-          stopwords: ["the", "a", "an"],
-          locale: "en",
-        });
+    const effect = Effect.gen(function* () {
+      const result = yield* upsertStopwordsSet({
+        setId,
+        stopwords: ["the", "a", "an"],
+        locale: "en",
+      });
 
-        expect(result.id).toBe(setId);
-        expect(Array.isArray(result.stopwords)).toBe(true);
-        expect(result.stopwords).toContain("the");
-        expect(result.stopwords).toContain("a");
-        expect(result.locale).toBe("en");
-      }).pipe(
-        Effect.ensuring(deleteStopwordsSet({ setId }).pipe(Effect.ignore)),
-      );
+      expect(result.id).toBe(setId);
+      expect(Array.isArray(result.stopwords)).toBe(true);
+      expect(result.stopwords).toContain("the");
+      expect(result.stopwords).toContain("a");
+      expect(result.locale).toBe("en");
+    }).pipe(Effect.ensuring(deleteStopwordsSet({ setId }).pipe(Effect.ignore)));
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with BadRequest when stopwords is empty",
+    { timeout: 30_000 },
     async () => {
       const setId = `distilled-typesense-upsstop-bad-${testRunId}`;
 
@@ -51,6 +46,5 @@ describe("upsertStopwordsSet", () => {
       const error = await runEffect(effect);
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("retrieveCurationSets", () => {
   it(
     "lists all curation sets including ones we just created",
+    { timeout: 30_000 },
     async () => {
       const curationSetName = `distilled-typesense-retcurationsets-${testRunId}`;
 
@@ -39,11 +40,11 @@ describe("retrieveCurationSets", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       const apiBaseUrl = process.env.TYPESENSE_API_URL;
       if (!apiBaseUrl) {
@@ -66,6 +67,5 @@ describe("retrieveCurationSets", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

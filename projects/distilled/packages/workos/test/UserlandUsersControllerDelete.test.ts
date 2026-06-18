@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUsersControllerDelete", () => {
   it(
     "deletes a user, then GET returns NotFound",
+    { timeout: 60_000 },
     async () => {
       // Try to create an ephemeral user we can safely delete. The Create input
       // schema is empty, so creation may fail with a typed error if the live
@@ -43,11 +44,11 @@ describe("UserlandUsersControllerDelete", () => {
       );
       expect(followUp._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerDelete({
@@ -56,6 +57,5 @@ describe("UserlandUsersControllerDelete", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

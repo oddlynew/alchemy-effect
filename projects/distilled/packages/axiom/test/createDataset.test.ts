@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createDataset", () => {
   it(
     "creates a dataset and returns the expected shape",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-createds-${testRunId}`;
 
@@ -34,11 +35,11 @@ describe("createDataset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns BadRequest for an invalid dataset name format",
+    { timeout: 30_000 },
     async () => {
       // Probes confirmed axiom returns 400 for invalid dataset name formats
       // (names with characters outside the allowed alphabet).
@@ -51,7 +52,6 @@ describe("createDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 
   // Removed: the client-side schema requires `name`, so `createDataset({})`
@@ -60,6 +60,7 @@ describe("createDataset", () => {
 
   it(
     "returns Unauthorized when the caller's credentials lack dataset write access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -83,6 +84,5 @@ describe("createDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

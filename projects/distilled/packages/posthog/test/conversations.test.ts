@@ -142,8 +142,7 @@ describe("Conversations", () => {
       ticket_number: 0,
       channel_source: "widget",
       channel_detail: {},
-      distinct_id:
-        overrides.distinct_id ?? `distilled-conv-${testRunId}`,
+      distinct_id: overrides.distinct_id ?? `distilled-conv-${testRunId}`,
       assignee: {
         id: null,
         type: "unassigned",
@@ -507,12 +506,13 @@ describe("Conversations", () => {
           createdId = created.id;
 
           // Act: PATCH only the email_subject field.
-          const result =
-            yield* Conversations.conversationsTicketsPartialUpdate({
+          const result = yield* Conversations.conversationsTicketsPartialUpdate(
+            {
               project_id: getProjectId(),
               id: created.id,
               email_subject: updatedSubject,
-            });
+            },
+          );
 
           // Assert: server reflects the partial update; identity preserved.
           expect(result).toBeDefined();
@@ -1111,7 +1111,9 @@ describe("Conversations", () => {
         expect(typeof result.count).toBe("number");
         expect(result.count).toBeGreaterThanOrEqual(1);
         expect(Array.isArray(result.results)).toBe(true);
-        const found = result.results.find((v) => v.short_id === created.short_id);
+        const found = result.results.find(
+          (v) => v.short_id === created.short_id,
+        );
         expect(found).toBeDefined();
         expect(found?.name).toBe(name);
         for (const v of result.results) {

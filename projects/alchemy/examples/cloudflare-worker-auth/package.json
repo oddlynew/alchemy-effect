@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/cloudflare-worker-auth"
+    "directory": "projects/alchemy/examples/cloudflare-worker-auth"
   },
   "type": "module",
   "scripts": {
@@ -23,5 +23,8 @@
     "@effect/platform-node": "catalog:",
     "alchemy": "workspace:*",
     "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

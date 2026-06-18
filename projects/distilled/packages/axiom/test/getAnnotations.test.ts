@@ -7,25 +7,22 @@ import { getAnnotations } from "../src/operations/v2/getAnnotations";
 import { runEffect, testRunId } from "./setup";
 
 describe("getAnnotations", () => {
-  it(
-    "returns an array of annotations",
-    async () => {
-      const result = await runEffect(getAnnotations({}));
+  it("returns an array of annotations", { timeout: 30_000 }, async () => {
+    const result = await runEffect(getAnnotations({}));
 
-      expect(Array.isArray(result)).toBe(true);
-      // Every element must match the schema shape.
-      for (const annotation of result) {
-        expect(typeof annotation.id).toBe("string");
-        expect(typeof annotation.type).toBe("string");
-        expect(typeof annotation.time).toBe("string");
-        expect(Array.isArray(annotation.datasets)).toBe(true);
-      }
-    },
-    { timeout: 30_000 },
-  );
+    expect(Array.isArray(result)).toBe(true);
+    // Every element must match the schema shape.
+    for (const annotation of result) {
+      expect(typeof annotation.id).toBe("string");
+      expect(typeof annotation.type).toBe("string");
+      expect(typeof annotation.time).toBe("string");
+      expect(Array.isArray(annotation.datasets)).toBe(true);
+    }
+  });
 
   it(
     "returns annotations filtered by dataset, including a freshly created one",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-getannotations-${testRunId}`;
       const annotationType = `distilled-test-${testRunId}`;
@@ -67,11 +64,11 @@ describe("getAnnotations", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns BadRequest when given an invalid start date format",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getAnnotations({ start: "not-a-valid-rfc3339-date" }).pipe(Effect.flip),
@@ -80,11 +77,11 @@ describe("getAnnotations", () => {
       // Axiom maps 400 responses to the typed BadRequest error class.
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns BadRequest when given an invalid end date format",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getAnnotations({
@@ -95,6 +92,5 @@ describe("getAnnotations", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

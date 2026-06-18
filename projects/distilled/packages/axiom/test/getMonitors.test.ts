@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getMonitors", () => {
   it(
     "returns an array of monitor configurations",
+    { timeout: 30_000 },
     async () => {
       const monitors = await runEffect(getMonitors({}));
 
@@ -24,11 +25,11 @@ describe("getMonitors", () => {
         );
       }
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack monitor read access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -49,6 +50,5 @@ describe("getMonitors", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

@@ -183,7 +183,8 @@ paths:
   /zones/{zone_id}/web3/hostnames:
     get:
       operationId: listHostnames
-      description: "List Web3 Hostnames  @example ```ts // Automatically fetches more
+      description:
+        "List Web3 Hostnames  @example ```ts // Automatically fetches more
         pages as needed. for await (const hostname of
         client.web3.hostnames.list({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', })) { // ... } ```"
@@ -259,7 +260,8 @@ paths:
               properties:
                 name:
                   type: string
-                  description: "Body param: Specify the hostname that points to the target gateway
+                  description:
+                    "Body param: Specify the hostname that points to the target gateway
                     via CNAME."
                 target:
                   type: string
@@ -327,7 +329,8 @@ paths:
   /zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list:
     get:
       operationId: getHostnameIpfsUniversalPathContentList
-      description: "IPFS Universal Path Gateway Content List Details  @example ```ts
+      description:
+        "IPFS Universal Path Gateway Content List Details  @example ```ts
         const contentList = await
         client.web3.hostnames.ipfsUniversalPaths.contentLists.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -367,7 +370,8 @@ paths:
           - status: 403
     put:
       operationId: putHostnameIpfsUniversalPathContentList
-      description: "Update IPFS Universal Path Gateway Content List  @example ```ts
+      description:
+        "Update IPFS Universal Path Gateway Content List  @example ```ts
         const contentList = await
         client.web3.hostnames.ipfsUniversalPaths.contentLists.update(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -442,7 +446,8 @@ paths:
   /zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries/{contentListEntryIdentifier}:
     get:
       operationId: getHostnameIpfsUniversalPathContentListEntry
-      description: "IPFS Universal Path Gateway Content List Entry Details  @example
+      description:
+        "IPFS Universal Path Gateway Content List Entry Details  @example
         ```ts const entry = await
         client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.get(
         '023e105f4ecef8ad9ca31a8372d0c353', '023e105f4ecef8ad9ca31a8372d0c353',
@@ -494,7 +499,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: updateHostnameIpfsUniversalPathContentListEntry
-      description: "Edit IPFS Universal Path Gateway Content List Entry  @example
+      description:
+        "Edit IPFS Universal Path Gateway Content List Entry  @example
         ```ts const entry = await
         client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.update(
         '023e105f4ecef8ad9ca31a8372d0c353', '023e105f4ecef8ad9ca31a8372d0c353',
@@ -536,7 +542,8 @@ paths:
                   description: "Body param: Specify the type of content list entry to block."
                 description:
                   type: string
-                  description: "Body param: Specify an optional description of the content list
+                  description:
+                    "Body param: Specify an optional description of the content list
                     entry."
               required:
                 - content
@@ -571,7 +578,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteHostnameIpfsUniversalPathContentListEntry
-      description: "Delete IPFS Universal Path Gateway Content List Entry  @example
+      description:
+        "Delete IPFS Universal Path Gateway Content List Entry  @example
         ```ts const entry = await
         client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.delete(
         '023e105f4ecef8ad9ca31a8372d0c353', '023e105f4ecef8ad9ca31a8372d0c353',
@@ -610,7 +618,8 @@ paths:
   /zones/{zone_id}/web3/hostnames/{identifier}/ipfs_universal_path/content_list/entries:
     get:
       operationId: listHostnameIpfsUniversalPathContentListEntries
-      description: "List IPFS Universal Path Gateway Content List Entries  @example
+      description:
+        "List IPFS Universal Path Gateway Content List Entries  @example
         ```ts const entries = await
         client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.list(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -670,7 +679,8 @@ paths:
           - status: 403
     post:
       operationId: createHostnameIpfsUniversalPathContentListEntry
-      description: "Create IPFS Universal Path Gateway Content List Entry  @example
+      description:
+        "Create IPFS Universal Path Gateway Content List Entry  @example
         ```ts const entry = await
         client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.create(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -707,7 +717,8 @@ paths:
                   description: "Body param: Specify the type of content list entry to block."
                 description:
                   type: string
-                  description: "Body param: Specify an optional description of the content list
+                  description:
+                    "Body param: Specify an optional description of the content list
                     entry."
               required:
                 - content

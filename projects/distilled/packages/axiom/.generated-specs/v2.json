@@ -25,15 +25,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "annotations|read"
-            ]
+            "Auth": ["annotations|read"]
           }
         ],
         "description": "Get annotations",
-        "tags": [
-          "annotations"
-        ],
+        "tags": ["annotations"],
         "operationId": "getAnnotations",
         "parameters": [
           {
@@ -85,15 +81,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "annotations|create"
-            ]
+            "Auth": ["annotations|create"]
           }
         ],
         "description": "Create annotation",
-        "tags": [
-          "annotations"
-        ],
+        "tags": ["annotations"],
         "operationId": "createAnnotation",
         "requestBody": {
           "content": {
@@ -123,15 +115,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "annotations|read"
-            ]
+            "Auth": ["annotations|read"]
           }
         ],
         "description": "Get annotation by ID",
-        "tags": [
-          "annotations"
-        ],
+        "tags": ["annotations"],
         "operationId": "getAnnotation",
         "parameters": [
           {
@@ -154,15 +142,11 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "annotations|update"
-            ]
+            "Auth": ["annotations|update"]
           }
         ],
         "description": "Update annotation",
-        "tags": [
-          "annotations"
-        ],
+        "tags": ["annotations"],
         "operationId": "updateAnnotation",
         "parameters": [
           {
@@ -195,15 +179,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "annotations|delete"
-            ]
+            "Auth": ["annotations|delete"]
           }
         ],
         "description": "Delete annotation",
-        "tags": [
-          "annotations"
-        ],
+        "tags": ["annotations"],
         "operationId": "deleteAnnotation",
         "parameters": [
           {
@@ -225,9 +205,7 @@
           }
         ],
         "description": "Get list of datasets",
-        "tags": [
-          "Datasets"
-        ],
+        "tags": ["Datasets"],
         "summary": "Get list of datasets",
         "operationId": "getDatasets",
         "responses": {
@@ -269,15 +247,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "datasets|create"
-            ]
+            "Auth": ["datasets|create"]
           }
         ],
         "description": "Create dataset",
-        "tags": [
-          "Datasets"
-        ],
+        "tags": ["Datasets"],
         "summary": "Create dataset",
         "operationId": "createDataset",
         "parameters": [
@@ -326,9 +300,7 @@
           }
         ],
         "description": "Get dataset by ID",
-        "tags": [
-          "Datasets"
-        ],
+        "tags": ["Datasets"],
         "summary": "Get dataset by ID",
         "operationId": "getDataset",
         "parameters": [
@@ -364,15 +336,11 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "datasets|update"
-            ]
+            "Auth": ["datasets|update"]
           }
         ],
         "description": "Update dataset",
-        "tags": [
-          "Datasets"
-        ],
+        "tags": ["Datasets"],
         "summary": "Update dataset",
         "operationId": "updateDataset",
         "parameters": [
@@ -415,15 +383,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "datasets|delete"
-            ]
+            "Auth": ["datasets|delete"]
           }
         ],
         "description": "Delete dataset",
-        "tags": [
-          "Datasets"
-        ],
+        "tags": ["Datasets"],
         "summary": "Delete dataset",
         "operationId": "deleteDataset",
         "parameters": [
@@ -451,15 +415,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "trim|update"
-            ]
+            "Auth": ["trim|update"]
           }
         ],
         "description": "Trim dataset",
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "summary": "Trim dataset by duration",
         "operationId": "trimDataset",
         "parameters": [
@@ -500,14 +460,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "vacuum|update"
-            ]
+            "Auth": ["vacuum|update"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "vacuumDataset",
         "parameters": [
           {
@@ -541,14 +497,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "datasets|read"
-            ]
+            "Auth": ["datasets|read"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "getFieldsForDataset",
         "parameters": [
           {
@@ -584,14 +536,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "datasets|read"
-            ]
+            "Auth": ["datasets|read"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "getFieldForDataset",
         "parameters": [
           {
@@ -627,14 +575,10 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "datasets|update"
-            ]
+            "Auth": ["datasets|update"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "updateFieldForDataset",
         "parameters": [
           {
@@ -682,14 +626,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "datasets|read"
-            ]
+            "Auth": ["datasets|read"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "getMapFields",
         "parameters": [
           {
@@ -718,14 +658,10 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "datasets|update"
-            ]
+            "Auth": ["datasets|update"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "updateMapFields",
         "parameters": [
           {
@@ -765,14 +701,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "datasets|update"
-            ]
+            "Auth": ["datasets|update"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "createMapField",
         "parameters": [
           {
@@ -813,14 +745,10 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "datasets|update"
-            ]
+            "Auth": ["datasets|update"]
           }
         ],
-        "tags": [
-          "datasets"
-        ],
+        "tags": ["datasets"],
         "operationId": "deleteMapField",
         "parameters": [
           {
@@ -852,15 +780,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "monitors|read"
-            ]
+            "Auth": ["monitors|read"]
           }
         ],
         "description": "Lists all configured monitors. Returns an array of monitor configurations including their IDs and current status.",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "getMonitors",
         "responses": {
           "200": {
@@ -882,15 +806,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "monitors|create"
-            ]
+            "Auth": ["monitors|create"]
           }
         ],
         "description": "Create monitor",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "createMonitor",
         "requestBody": {
           "$ref": "#/components/requestBodies/Monitor"
@@ -914,15 +834,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "monitors|read"
-            ]
+            "Auth": ["monitors|read"]
           }
         ],
         "description": "Retrieves detailed configuration for a specific monitor by its unique identifier",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "getMonitor",
         "parameters": [
           {
@@ -951,15 +867,11 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "monitors|update"
-            ]
+            "Auth": ["monitors|update"]
           }
         ],
         "description": "Update monitor",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "updateMonitor",
         "parameters": [
           {
@@ -991,15 +903,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "monitors|delete"
-            ]
+            "Auth": ["monitors|delete"]
           }
         ],
         "description": "Delete monitor",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "deleteMonitor",
         "parameters": [
           {
@@ -1023,15 +931,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "monitors|read"
-            ]
+            "Auth": ["monitors|read"]
           }
         ],
         "description": "Get monitor history",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "getMonitorHistory",
         "parameters": [
           {
@@ -1085,15 +989,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "notifiers|read"
-            ]
+            "Auth": ["notifiers|read"]
           }
         ],
         "description": "Lists all configured notifiers. Returns an array of notification configurations including their IDs and current status.",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "getNotifiers",
         "responses": {
           "200": {
@@ -1115,15 +1015,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "notifiers|create"
-            ]
+            "Auth": ["notifiers|create"]
           }
         ],
         "description": "Creates a new notifier configuration for sending alerts through various channels (Slack, Email, etc)",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "createNotifier",
         "requestBody": {
           "content": {
@@ -1155,15 +1051,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "notifiers|read"
-            ]
+            "Auth": ["notifiers|read"]
           }
         ],
         "description": "Retrieves detailed configuration for a specific notifier by its unique identifier",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "getNotifier",
         "parameters": [
           {
@@ -1193,15 +1085,11 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "notifiers|update"
-            ]
+            "Auth": ["notifiers|update"]
           }
         ],
         "description": "Update notifier",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "updateNotifier",
         "parameters": [
           {
@@ -1240,15 +1128,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "notifiers|delete"
-            ]
+            "Auth": ["notifiers|delete"]
           }
         ],
         "description": "Delete notifier",
-        "tags": [
-          "Monitors"
-        ],
+        "tags": ["Monitors"],
         "operationId": "deleteNotifier",
         "parameters": [
           {
@@ -1275,9 +1159,7 @@
             "Auth": []
           }
         ],
-        "tags": [
-          "orgs"
-        ],
+        "tags": ["orgs"],
         "operationId": "getOrgs",
         "responses": {
           "200": {
@@ -1302,9 +1184,7 @@
             "Auth": []
           }
         ],
-        "tags": [
-          "orgs"
-        ],
+        "tags": ["orgs"],
         "operationId": "createOrg",
         "requestBody": {
           "content": {
@@ -1338,9 +1218,7 @@
             "Auth": []
           }
         ],
-        "tags": [
-          "orgs"
-        ],
+        "tags": ["orgs"],
         "operationId": "getOrg",
         "parameters": [
           {
@@ -1371,9 +1249,7 @@
             "Auth": []
           }
         ],
-        "tags": [
-          "orgs"
-        ],
+        "tags": ["orgs"],
         "operationId": "updateOrg",
         "parameters": [
           {
@@ -1413,15 +1289,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "rbac|read"
-            ]
+            "Auth": ["rbac|read"]
           }
         ],
         "description": "Retrieves all roles in the organization with their associated permissions and members.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "List all roles",
         "operationId": "listRoles",
         "responses": {
@@ -1443,15 +1315,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "rbac|create"
-            ]
+            "Auth": ["rbac|create"]
           }
         ],
         "description": "Creates a new role in the organization with the specified permissions and member assignments.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Create role",
         "operationId": "createRole",
         "requestBody": {
@@ -1483,15 +1351,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "rbac|read"
-            ]
+            "Auth": ["rbac|read"]
           }
         ],
         "description": "Retrieves detailed information about a specific role by its unique identifier.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Get role by ID",
         "operationId": "getRoleById",
         "parameters": [
@@ -1521,15 +1385,11 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "rbac|create"
-            ]
+            "Auth": ["rbac|create"]
           }
         ],
         "description": "Updates an existing role's configuration including its permissions and member assignments.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Update role",
         "operationId": "updateRole",
         "parameters": [
@@ -1570,15 +1430,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "rbac|create"
-            ]
+            "Auth": ["rbac|create"]
           }
         ],
         "description": "Permanently removes a role from the organization.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Delete role",
         "operationId": "deleteRole",
         "parameters": [
@@ -1603,15 +1459,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "rbac|read"
-            ]
+            "Auth": ["rbac|read"]
           }
         ],
         "description": "Retrieves all groups in the organization.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "List all groups",
         "operationId": "listGroups",
         "responses": {
@@ -1633,15 +1485,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "rbac|create"
-            ]
+            "Auth": ["rbac|create"]
           }
         ],
         "description": "Creates a new group in the organization.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Create group",
         "operationId": "createGroup",
         "requestBody": {
@@ -1673,15 +1521,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "rbac|read"
-            ]
+            "Auth": ["rbac|read"]
           }
         ],
         "description": "Retrieves detailed information about a specific group by its unique identifier.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Get group by ID",
         "operationId": "getGroupById",
         "parameters": [
@@ -1711,15 +1555,11 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "rbac|create"
-            ]
+            "Auth": ["rbac|create"]
           }
         ],
         "description": "Updates an existing group's configuration.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Update group",
         "operationId": "updateGroup",
         "parameters": [
@@ -1760,15 +1600,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "rbac|create"
-            ]
+            "Auth": ["rbac|create"]
           }
         ],
         "description": "Permanently removes a group from the organization.",
-        "tags": [
-          "rbac"
-        ],
+        "tags": ["rbac"],
         "summary": "Delete group",
         "operationId": "deleteGroup",
         "parameters": [
@@ -1793,14 +1629,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "starredQueries|read"
-            ]
+            "Auth": ["starredQueries|read"]
           }
         ],
-        "tags": [
-          "starred"
-        ],
+        "tags": ["starred"],
         "operationId": "getStarredQueries",
         "parameters": [
           {
@@ -1851,14 +1683,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "starredQueries|create"
-            ]
+            "Auth": ["starredQueries|create"]
           }
         ],
-        "tags": [
-          "starred"
-        ],
+        "tags": ["starred"],
         "operationId": "createStarred",
         "requestBody": {
           "$ref": "#/components/requestBodies/StarredQuery"
@@ -1881,14 +1709,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "starredQueries|read"
-            ]
+            "Auth": ["starredQueries|read"]
           }
         ],
-        "tags": [
-          "starred"
-        ],
+        "tags": ["starred"],
         "operationId": "getStarred",
         "parameters": [
           {
@@ -1916,14 +1740,10 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "starredQueries|update"
-            ]
+            "Auth": ["starredQueries|update"]
           }
         ],
-        "tags": [
-          "starred"
-        ],
+        "tags": ["starred"],
         "operationId": "updateStarred",
         "parameters": [
           {
@@ -1954,14 +1774,10 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "starredQueries|delete"
-            ]
+            "Auth": ["starredQueries|delete"]
           }
         ],
-        "tags": [
-          "starred"
-        ],
+        "tags": ["starred"],
         "operationId": "deleteStarred",
         "parameters": [
           {
@@ -1984,15 +1800,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "apiTokens|read"
-            ]
+            "Auth": ["apiTokens|read"]
           }
         ],
         "description": "Get API tokens",
-        "tags": [
-          "tokens"
-        ],
+        "tags": ["tokens"],
         "operationId": "getAPITokens",
         "responses": {
           "200": {
@@ -2013,15 +1825,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "apiTokens|create"
-            ]
+            "Auth": ["apiTokens|create"]
           }
         ],
         "description": "Create API token",
-        "tags": [
-          "tokens"
-        ],
+        "tags": ["tokens"],
         "operationId": "createAPIToken",
         "requestBody": {
           "content": {
@@ -2052,15 +1860,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "apiTokens|read"
-            ]
+            "Auth": ["apiTokens|read"]
           }
         ],
         "description": "Get API token by ID",
-        "tags": [
-          "tokens"
-        ],
+        "tags": ["tokens"],
         "operationId": "getAPIToken",
         "parameters": [
           {
@@ -2088,15 +1892,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "apiTokens|delete"
-            ]
+            "Auth": ["apiTokens|delete"]
           }
         ],
         "description": "Delete API token",
-        "tags": [
-          "tokens"
-        ],
+        "tags": ["tokens"],
         "operationId": "deleteAPIToken",
         "parameters": [
           {
@@ -2119,15 +1919,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "apiTokens|update"
-            ]
+            "Auth": ["apiTokens|update"]
           }
         ],
         "description": "Regenerate API token",
-        "tags": [
-          "tokens"
-        ],
+        "tags": ["tokens"],
         "operationId": "regenerateAPIToken",
         "parameters": [
           {
@@ -2171,9 +1967,7 @@
           }
         ],
         "description": "Get current user",
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "getCurrentUser",
         "responses": {
           "200": {
@@ -2197,9 +1991,7 @@
           }
         ],
         "description": "Update current user",
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "updateCurrentUser",
         "requestBody": {
           "content": {
@@ -2231,15 +2023,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "users|read"
-            ]
+            "Auth": ["users|read"]
           }
         ],
         "description": "Get users",
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "getUsers",
         "responses": {
           "200": {
@@ -2261,15 +2049,11 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "users|create"
-            ]
+            "Auth": ["users|create"]
           }
         ],
         "description": "Create user",
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "createUser",
         "requestBody": {
           "content": {
@@ -2302,15 +2086,11 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "users|read"
-            ]
+            "Auth": ["users|read"]
           }
         ],
         "description": "Get user by ID",
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "getUser",
         "parameters": [
           {
@@ -2339,15 +2119,11 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "users|delete"
-            ]
+            "Auth": ["users|delete"]
           }
         ],
         "description": "Remove user from org",
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "removeUserFromOrg",
         "parameters": [
           {
@@ -2371,15 +2147,11 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "users|update"
-            ]
+            "Auth": ["users|update"]
           }
         ],
         "description": "Update user role",
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "updateUserRole",
         "parameters": [
           {
@@ -2420,14 +2192,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "virtualFields|read"
-            ]
+            "Auth": ["virtualFields|read"]
           }
         ],
-        "tags": [
-          "vfields"
-        ],
+        "tags": ["vfields"],
         "operationId": "getVirtualFields",
         "parameters": [
           {
@@ -2458,14 +2226,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "virtualFields|create"
-            ]
+            "Auth": ["virtualFields|create"]
           }
         ],
-        "tags": [
-          "vfields"
-        ],
+        "tags": ["vfields"],
         "operationId": "createVirtualField",
         "requestBody": {
           "$ref": "#/components/requestBodies/VirtualField"
@@ -2488,14 +2252,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "virtualFields|read"
-            ]
+            "Auth": ["virtualFields|read"]
           }
         ],
-        "tags": [
-          "vfields"
-        ],
+        "tags": ["vfields"],
         "operationId": "getVirtualField",
         "parameters": [
           {
@@ -2523,14 +2283,10 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "virtualFields|update"
-            ]
+            "Auth": ["virtualFields|update"]
           }
         ],
-        "tags": [
-          "vfields"
-        ],
+        "tags": ["vfields"],
         "operationId": "updateVirtualField",
         "parameters": [
           {
@@ -2561,14 +2317,10 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "virtualFields|delete"
-            ]
+            "Auth": ["virtualFields|delete"]
           }
         ],
-        "tags": [
-          "vfields"
-        ],
+        "tags": ["vfields"],
         "operationId": "deleteVirtualField",
         "parameters": [
           {
@@ -2591,14 +2343,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "views|read"
-            ]
+            "Auth": ["views|read"]
           }
         ],
-        "tags": [
-          "views"
-        ],
+        "tags": ["views"],
         "operationId": "getViews",
         "responses": {
           "200": {
@@ -2619,14 +2367,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "views|create"
-            ]
+            "Auth": ["views|create"]
           }
         ],
-        "tags": [
-          "views"
-        ],
+        "tags": ["views"],
         "operationId": "createView",
         "requestBody": {
           "$ref": "#/components/requestBodies/View"
@@ -2649,14 +2393,10 @@
       "get": {
         "security": [
           {
-            "Auth": [
-              "views|read"
-            ]
+            "Auth": ["views|read"]
           }
         ],
-        "tags": [
-          "views"
-        ],
+        "tags": ["views"],
         "operationId": "getView",
         "parameters": [
           {
@@ -2684,14 +2424,10 @@
       "put": {
         "security": [
           {
-            "Auth": [
-              "views|update"
-            ]
+            "Auth": ["views|update"]
           }
         ],
-        "tags": [
-          "views"
-        ],
+        "tags": ["views"],
         "operationId": "updateView",
         "parameters": [
           {
@@ -2722,14 +2458,10 @@
       "delete": {
         "security": [
           {
-            "Auth": [
-              "views|delete"
-            ]
+            "Auth": ["views|delete"]
           }
         ],
-        "tags": [
-          "views"
-        ],
+        "tags": ["views"],
         "operationId": "deleteView",
         "parameters": [
           {
@@ -2750,9 +2482,7 @@
     },
     "/v2/dashboards": {
       "get": {
-        "tags": [
-          "dashboards"
-        ],
+        "tags": ["dashboards"],
         "summary": "List dashboards",
         "description": "List dashboards visible to the caller.",
         "operationId": "listDashboards",
@@ -2786,9 +2516,7 @@
         }
       },
       "post": {
-        "tags": [
-          "dashboards"
-        ],
+        "tags": ["dashboards"],
         "summary": "Create dashboard",
         "description": "Create a dashboard from a dashboard document payload.",
         "operationId": "createDashboard",
@@ -2863,9 +2591,7 @@
     },
     "/v2/dashboards/uid/{uid}": {
       "get": {
-        "tags": [
-          "dashboards"
-        ],
+        "tags": ["dashboards"],
         "summary": "Get dashboard",
         "description": "Get a dashboard by UID.",
         "operationId": "getDashboard",
@@ -2908,9 +2634,7 @@
         }
       },
       "put": {
-        "tags": [
-          "dashboards"
-        ],
+        "tags": ["dashboards"],
         "summary": "Update dashboard",
         "description": "Update a dashboard by UID.",
         "operationId": "updateDashboard",
@@ -2993,9 +2717,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "dashboards"
-        ],
+        "tags": ["dashboards"],
         "summary": "Delete dashboard",
         "description": "Delete a dashboard by UID.",
         "operationId": "deleteDashboard",
@@ -3210,12 +2932,7 @@
     "schemas": {
       "APIToken": {
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "datasetCapabilities",
-          "orgCapabilities"
-        ],
+        "required": ["id", "name", "datasetCapabilities", "orgCapabilities"],
         "properties": {
           "datasetCapabilities": {
             "$ref": "#/components/schemas/datasetCapabilities"
@@ -3252,9 +2969,7 @@
       },
       "APLRequestWithOptions": {
         "type": "object",
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "properties": {
           "apl": {
             "type": "string"
@@ -3334,12 +3049,7 @@
       "AlertHistory": {
         "description": "Historical record of an alert's state changes.\nTracks when alerts are opened and closed, allowing for incident timeline analysis.\n",
         "type": "object",
-        "required": [
-          "name",
-          "checkId",
-          "timestamp",
-          "state"
-        ],
+        "required": ["name", "checkId", "timestamp", "state"],
         "properties": {
           "checkId": {
             "description": "Unique identifier of the check that triggered the alert",
@@ -3354,10 +3064,7 @@
           "state": {
             "description": "Current state of the alert",
             "type": "string",
-            "enum": [
-              "open",
-              "closed"
-            ],
+            "enum": ["open", "closed"],
             "example": "open"
           },
           "timestamp": {
@@ -3370,12 +3077,7 @@
       },
       "Annotation": {
         "type": "object",
-        "required": [
-          "id",
-          "time",
-          "datasets",
-          "type"
-        ],
+        "required": ["id", "time", "datasets", "type"],
         "properties": {
           "datasets": {
             "description": "array<string> of dataset names for which the annotation appears on charts",
@@ -3423,9 +3125,7 @@
           }
         },
         "example": {
-          "datasets": [
-            "my-dataset"
-          ],
+          "datasets": ["my-dataset"],
           "description": "Deploy new feature to the sales form",
           "endTime": "2024-02-06T11:39:28.382Z",
           "id": "ann_123",
@@ -3446,10 +3146,7 @@
       },
       "AplDeletionRequest": {
         "type": "object",
-        "required": [
-          "apl",
-          "commit"
-        ],
+        "required": ["apl", "commit"],
         "properties": {
           "Modules": {
             "description": "Key-value pairs of module names and module sources. Axiom will make modules available for this query later.",
@@ -3480,10 +3177,7 @@
       },
       "AplDeletionResponse": {
         "type": "object",
-        "required": [
-          "rowsMatched",
-          "rowsDeleted"
-        ],
+        "required": ["rowsMatched", "rowsDeleted"],
         "properties": {
           "blocksMatched": {
             "type": "integer",
@@ -3537,11 +3231,7 @@
           "type": {
             "description": "The type of the object.",
             "type": "string",
-            "enum": [
-              "REGEX",
-              "CONSTANT",
-              "LOOKUP"
-            ]
+            "enum": ["REGEX", "CONSTANT", "LOOKUP"]
           }
         }
       },
@@ -3573,26 +3263,13 @@
             "description": "CompileErrorCode is a special error code that is only available for Compile Errors\nIt is an integer value that can be used to identify the error",
             "type": "integer",
             "format": "int64",
-            "enum": [
-              1,
-              2,
-              16,
-              17,
-              32,
-              33,
-              34
-            ]
+            "enum": [1, 2, 16, 17, 32, 33, 34]
           },
           "errorType": {
             "description": "Error Type is an integer value indicating the kind of error",
             "type": "integer",
             "format": "int64",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ]
+            "enum": [1, 2, 3, 4]
           },
           "line": {
             "description": "Line is the line associated with this compile type error",
@@ -3607,9 +3284,7 @@
       },
       "AplRequest": {
         "type": "object",
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "properties": {
           "apl": {
             "type": "string"
@@ -3622,10 +3297,7 @@
       },
       "AplResult": {
         "type": "object",
-        "required": [
-          "status",
-          "tables"
-        ],
+        "required": ["status", "tables"],
         "properties": {
           "status": {
             "$ref": "#/components/schemas/Status"
@@ -3695,11 +3367,7 @@
       },
       "BlocksRequest": {
         "type": "object",
-        "required": [
-          "apl",
-          "startTime",
-          "endTime"
-        ],
+        "required": ["apl", "startTime", "endTime"],
         "properties": {
           "apl": {
             "description": "The APL query to execute for finding matching blocks",
@@ -3756,9 +3424,7 @@
       },
       "CreateAPIToken": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "datasetCapabilities": {
             "$ref": "#/components/schemas/datasetCapabilities"
@@ -3804,9 +3470,7 @@
       },
       "CreateDataset": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "description": {
             "description": "Dataset description",
@@ -3854,13 +3518,7 @@
       },
       "CreateFlowExport": {
         "type": "object",
-        "required": [
-          "destinationId",
-          "name",
-          "apl",
-          "start",
-          "end"
-        ],
+        "required": ["destinationId", "name", "apl", "start", "end"],
         "properties": {
           "apl": {
             "description": "The APL query to execute for the export",
@@ -3889,11 +3547,7 @@
       "CreateUserRequest": {
         "description": "Object representing a new user creation request",
         "type": "object",
-        "required": [
-          "name",
-          "email",
-          "role"
-        ],
+        "required": ["name", "email", "role"],
         "properties": {
           "email": {
             "description": "Email address of the new user",
@@ -3915,10 +3569,7 @@
       "CustomNotifierConfig": {
         "description": "Configuration for custom webhook notifications with flexible headers and body template.\nSupports variable substitution in the body template using {{.Variable}} syntax.\n",
         "type": "object",
-        "required": [
-          "url",
-          "body"
-        ],
+        "required": ["url", "body"],
         "properties": {
           "body": {
             "description": "Template for the webhook body, supports variable substitution",
@@ -3960,10 +3611,7 @@
       },
       "DashboardError": {
         "type": "object",
-        "required": [
-          "code",
-          "message"
-        ],
+        "required": ["code", "message"],
         "properties": {
           "code": {
             "type": "string"
@@ -4036,9 +3684,7 @@
       },
       "DashboardUpsertRequest": {
         "type": "object",
-        "required": [
-          "dashboard"
-        ],
+        "required": ["dashboard"],
         "properties": {
           "dashboard": {
             "$ref": "#/components/schemas/DashboardDocument"
@@ -4064,10 +3710,7 @@
       "DashboardVariable": {
         "description": "A variable defines an APL variable that is available to a dashboard",
         "type": "object",
-        "required": [
-          "name",
-          "kind"
-        ],
+        "required": ["name", "kind"],
         "properties": {
           "default": {
             "description": "If set, should be the default value for this variable in the dashboard",
@@ -4076,10 +3719,7 @@
           "kind": {
             "description": "A kind allows for different kinds of variables to be treated differently depending on what they are used for. A refless kind indicates that it's just a plain variable and we can not derive possible values from it A datadog kind indicates that we will use the ref value as a lookup against a datadog tag\n",
             "type": "string",
-            "enum": [
-              "refless",
-              "datadog"
-            ]
+            "enum": ["refless", "datadog"]
           },
           "name": {
             "type": "string"
@@ -4100,10 +3740,7 @@
       },
       "DashboardWriteResponse": {
         "type": "object",
-        "required": [
-          "status",
-          "dashboard"
-        ],
+        "required": ["status", "dashboard"],
         "properties": {
           "dashboard": {
             "$ref": "#/components/schemas/DashboardResource"
@@ -4113,23 +3750,13 @@
           },
           "status": {
             "type": "string",
-            "enum": [
-              "created",
-              "updated"
-            ]
+            "enum": ["created", "updated"]
           }
         }
       },
       "Dataset": {
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "description",
-          "created",
-          "who",
-          "kind"
-        ],
+        "required": ["id", "name", "description", "created", "who", "kind"],
         "properties": {
           "canWrite": {
             "description": "Whether this dataset has write access",
@@ -4205,10 +3832,7 @@
       },
       "DatasetField": {
         "type": "object",
-        "required": [
-          "name",
-          "type"
-        ],
+        "required": ["name", "type"],
         "properties": {
           "description": {
             "description": "Description of the field",
@@ -4300,9 +3924,7 @@
       },
       "EdgeDeployments": {
         "type": "object",
-        "required": [
-          "axiom"
-        ],
+        "required": ["axiom"],
         "properties": {
           "axiom": {
             "type": "array",
@@ -4321,10 +3943,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "oncall@example.com",
-              "alerts@example.com"
-            ]
+            "example": ["oncall@example.com", "alerts@example.com"]
           }
         }
       },
@@ -4346,20 +3965,11 @@
       "FlowDestination": {
         "description": "Flow destination configuration schema.",
         "type": "object",
-        "required": [
-          "kind",
-          "name",
-          "failureMode",
-          "properties"
-        ],
+        "required": ["kind", "name", "failureMode", "properties"],
         "properties": {
           "failureMode": {
             "type": "string",
-            "enum": [
-              "waitAndRetry",
-              "abort",
-              "continue"
-            ]
+            "enum": ["waitAndRetry", "abort", "continue"]
           },
           "id": {
             "type": "string",
@@ -4518,9 +4128,7 @@
       "Group": {
         "description": "Defines a group of users for organizational purposes",
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "description": {
             "description": "Detailed description of the group's purpose and scope",
@@ -4568,9 +4176,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "properties": {
               "id": {
                 "description": "Unique identifier for the group",
@@ -4582,9 +4188,7 @@
       },
       "IdentifyAPITokenRequest": {
         "type": "object",
-        "required": [
-          "token"
-        ],
+        "required": ["token"],
         "properties": {
           "token": {
             "description": "The raw token value to identify",
@@ -4594,10 +4198,7 @@
       },
       "IdentifyAPITokenResponse": {
         "type": "object",
-        "required": [
-          "name",
-          "createdAt"
-        ],
+        "required": ["name", "createdAt"],
         "properties": {
           "createdAt": {
             "description": "When the token was created (ISO 8601 format)",
@@ -4794,9 +4395,7 @@
       "MapField": {
         "description": "A map field, described by a name",
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string"
@@ -4812,19 +4411,11 @@
         "items": {
           "type": "string"
         },
-        "example": [
-          "field1",
-          "field2"
-        ]
+        "example": ["field1", "field2"]
       },
       "Message": {
         "type": "object",
-        "required": [
-          "priority",
-          "count",
-          "message",
-          "code"
-        ],
+        "required": ["priority", "count", "message", "code"],
         "properties": {
           "code": {
             "type": "string"
@@ -4838,14 +4429,7 @@
           },
           "priority": {
             "type": "string",
-            "enum": [
-              "trace",
-              "debug",
-              "info",
-              "warn",
-              "error",
-              "fatal"
-            ]
+            "enum": ["trace", "debug", "info", "warn", "error", "fatal"]
           }
         }
       },
@@ -4862,10 +4446,7 @@
       "Monitor": {
         "description": "Configuration for a monitoring rule. Monitors can be configured to:\n- Check threshold values (e.g., CPU usage > 90%)\n- Match specific events in logs\n- Detect anomalies based on historical patterns\nEach monitor runs on a specified interval and can trigger notifications through configured notifiers.\n",
         "type": "object",
-        "required": [
-          "name",
-          "type"
-        ],
+        "required": ["name", "type"],
         "properties": {
           "alertOnNoData": {
             "description": "Whether to alert when no data is received",
@@ -4940,10 +4521,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "notify_slack_prod",
-              "notify_email_oncall"
-            ]
+            "example": ["notify_slack_prod", "notify_email_oncall"]
           },
           "notifyByGroup": {
             "description": "Whether to group notifications",
@@ -5019,11 +4597,7 @@
           "type": {
             "description": "Type of monitoring check to perform:\n- Threshold: Compares a numeric value against a threshold\n- MatchEvent: Looks for specific events or patterns\n- AnomalyDetection: Identifies unusual patterns based on historical data\n",
             "type": "string",
-            "enum": [
-              "Threshold",
-              "MatchEvent",
-              "AnomalyDetection"
-            ],
+            "enum": ["Threshold", "MatchEvent", "AnomalyDetection"],
             "example": "Threshold"
           }
         }
@@ -5036,9 +4610,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "properties": {
               "id": {
                 "description": "Unique identifier for the monitor",
@@ -5051,10 +4623,7 @@
       },
       "NewAnnotation": {
         "type": "object",
-        "required": [
-          "datasets",
-          "type"
-        ],
+        "required": ["datasets", "type"],
         "properties": {
           "datasets": {
             "description": "array<string> of dataset names for which the annotation appears on charts",
@@ -5099,10 +4668,7 @@
       "Notifier": {
         "description": "Configuration for a notification channel. Notifiers can be configured for various services like:\n- Slack\n- Email\n- PagerDuty\n- OpsGenie\n- Discord\n- Microsoft Teams\n- Custom Webhooks\n",
         "type": "object",
-        "required": [
-          "name",
-          "properties"
-        ],
+        "required": ["name", "properties"],
         "properties": {
           "createdAt": {
             "description": "Timestamp when the notifier was created",
@@ -5202,10 +4768,7 @@
       },
       "Order": {
         "type": "object",
-        "required": [
-          "desc",
-          "field"
-        ],
+        "required": ["desc", "field"],
         "properties": {
           "desc": {
             "type": "boolean"
@@ -5261,12 +4824,7 @@
           },
           "paymentStatus": {
             "type": "string",
-            "enum": [
-              "na",
-              "failed",
-              "success",
-              "blocked"
-            ]
+            "enum": ["na", "failed", "success", "blocked"]
           },
           "plan": {
             "type": "string",
@@ -5309,9 +4867,7 @@
       },
       "PostOrg": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "edgeDeployment": {
             "description": "The default edge deployment of the organization.",
@@ -5353,24 +4909,14 @@
           },
           "priority": {
             "type": "string",
-            "enum": [
-              "low",
-              "medium",
-              "high"
-            ]
+            "enum": ["low", "medium", "high"]
           },
           "resolution": {
             "type": "string"
           },
           "displayNull": {
             "type": "string",
-            "enum": [
-              "auto",
-              "null",
-              "span",
-              "zero",
-              ""
-            ],
+            "enum": ["auto", "null", "span", "zero", ""],
             "description": "Controls how empty intervals are rendered in time series charts. `auto` infers from the query, `null` leaves gaps, `span` connects adjacent points, `zero` fills with zero."
           },
           "overlayCharts": {
@@ -5383,22 +4929,11 @@
           },
           "timeSeriesVariant": {
             "type": "string",
-            "enum": [
-              "area",
-              "bars",
-              "line",
-              "lines",
-              ""
-            ]
+            "enum": ["area", "bars", "line", "lines", ""]
           },
           "timeSeriesView": {
             "type": "string",
-            "enum": [
-              "charts",
-              "resultsTable",
-              "charts|resultsTable",
-              ""
-            ]
+            "enum": ["charts", "resultsTable", "charts|resultsTable", ""]
           }
         },
         "additionalProperties": false
@@ -5425,9 +4960,7 @@
       },
       "RegenerateAPIToken": {
         "type": "object",
-        "required": [
-          "existingTokenExpiresAt"
-        ],
+        "required": ["existingTokenExpiresAt"],
         "properties": {
           "existingTokenExpiresAt": {
             "description": "Expiration date of the existing token (ISO 8601 format)",
@@ -5488,9 +5021,7 @@
       },
       "Regions": {
         "type": "object",
-        "required": [
-          "axiom"
-        ],
+        "required": ["axiom"],
         "properties": {
           "axiom": {
             "type": "array",
@@ -5542,9 +5073,7 @@
       "Role": {
         "description": "Defines a role and its associated permissions within the system",
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "datasetCapabilities": {
             "$ref": "#/components/schemas/roleDatasetCapabilities"
@@ -5580,9 +5109,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "properties": {
               "id": {
                 "description": "Unique identifier for the role",
@@ -5708,12 +5235,7 @@
           },
           "event": {
             "type": "object",
-            "required": [
-              "type",
-              "user",
-              "ts",
-              "channel"
-            ],
+            "required": ["type", "user", "ts", "channel"],
             "properties": {
               "channel": {
                 "description": "Channel ID where the event occurred",
@@ -5772,22 +5294,14 @@
       },
       "StarredQuery": {
         "type": "object",
-        "required": [
-          "kind",
-          "name",
-          "who",
-          "query",
-          "metadata"
-        ],
+        "required": ["kind", "name", "who", "query", "metadata"],
         "properties": {
           "dataset": {
             "type": "string"
           },
           "kind": {
             "type": "string",
-            "enum": [
-              "apl"
-            ]
+            "enum": ["apl"]
           },
           "metadata": {
             "type": "object",
@@ -5814,9 +5328,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "properties": {
               "id": {
                 "type": "string"
@@ -5945,13 +5457,7 @@
       },
       "TransformRequest": {
         "type": "object",
-        "required": [
-          "blocks",
-          "apl",
-          "startTime",
-          "endTime",
-          "resultURLs"
-        ],
+        "required": ["blocks", "apl", "startTime", "endTime", "resultURLs"],
         "properties": {
           "apl": {
             "description": "The APL query to apply for transformation",
@@ -5995,9 +5501,7 @@
       },
       "TrimOptions": {
         "type": "object",
-        "required": [
-          "maxDuration"
-        ],
+        "required": ["maxDuration"],
         "properties": {
           "maxDuration": {
             "type": "string",
@@ -6011,9 +5515,7 @@
       "UpdateCurrentUserRequest": {
         "description": "Object representing a user update request",
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "description": "New name for the user",
@@ -6046,9 +5548,7 @@
       },
       "UpdateOrg": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string"
@@ -6058,9 +5558,7 @@
       "UpdateUserRoleRequest": {
         "description": "Object representing a user's role update request",
         "type": "object",
-        "required": [
-          "role"
-        ],
+        "required": ["role"],
         "properties": {
           "role": {
             "description": "Role identifier to assign to the user",
@@ -6116,12 +5614,7 @@
       "User": {
         "description": "Represents a user in the system",
         "type": "object",
-        "required": [
-          "id",
-          "name",
-          "email",
-          "role"
-        ],
+        "required": ["id", "name", "email", "role"],
         "properties": {
           "email": {
             "description": "User's email address",
@@ -6146,10 +5639,7 @@
       "UserDetailsRole": {
         "description": "Detailed information about a user's role",
         "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
+        "required": ["id", "name"],
         "properties": {
           "id": {
             "description": "Unique identifier for the role",
@@ -6165,10 +5655,7 @@
       },
       "View": {
         "type": "object",
-        "required": [
-          "name",
-          "aplQuery"
-        ],
+        "required": ["name", "aplQuery"],
         "properties": {
           "aplQuery": {
             "type": "string"
@@ -6197,11 +5684,7 @@
       },
       "VirtualField": {
         "type": "object",
-        "required": [
-          "dataset",
-          "name",
-          "expression"
-        ],
+        "required": ["dataset", "name", "expression"],
         "properties": {
           "dataset": {
             "type": "string"
@@ -6230,9 +5713,7 @@
           },
           {
             "type": "object",
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "properties": {
               "id": {
                 "type": "string"
@@ -6253,10 +5734,7 @@
       },
       "axiomProperties": {
         "type": "object",
-        "required": [
-          "dataset",
-          "token"
-        ],
+        "required": ["dataset", "token"],
         "properties": {
           "dataset": {
             "description": "Name of the destination dataset",
@@ -6274,12 +5752,7 @@
       },
       "azureBlobStorageClientSecretProperties": {
         "type": "object",
-        "required": [
-          "clientId",
-          "clientSecret",
-          "tenantID",
-          "url"
-        ],
+        "required": ["clientId", "clientSecret", "tenantID", "url"],
         "properties": {
           "clientId": {
             "description": "Client ID of the service principal",
@@ -6322,9 +5795,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "delete"
-                ]
+                "enum": ["delete"]
               },
               "x-omitempty": true
             },
@@ -6333,9 +5804,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create"
-                ]
+                "enum": ["create"]
               },
               "x-omitempty": true
             },
@@ -6344,9 +5813,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "read"
-                ]
+                "enum": ["read"]
               },
               "x-omitempty": true
             },
@@ -6355,11 +5822,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "delete"
-                ]
+                "enum": ["create", "read", "delete"]
               },
               "x-omitempty": true
             },
@@ -6368,12 +5831,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "update",
-                  "delete"
-                ]
+                "enum": ["create", "read", "update", "delete"]
               },
               "x-omitempty": true
             },
@@ -6382,9 +5840,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "update"
-                ]
+                "enum": ["update"]
               },
               "x-omitempty": true
             },
@@ -6393,9 +5849,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "update"
-                ]
+                "enum": ["update"]
               },
               "x-omitempty": true
             },
@@ -6404,12 +5858,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "update",
-                  "delete"
-                ]
+                "enum": ["create", "read", "update", "delete"]
               },
               "x-omitempty": true
             }
@@ -6418,10 +5867,7 @@
       },
       "gcsProperties": {
         "type": "object",
-        "required": [
-          "credentialsJson",
-          "bucket"
-        ],
+        "required": ["credentialsJson", "bucket"],
         "properties": {
           "bucket": {
             "description": "Name of the destination bucket",
@@ -6445,10 +5891,7 @@
       },
       "httpAuthorizationProperties": {
         "type": "object",
-        "required": [
-          "authorization",
-          "url"
-        ],
+        "required": ["authorization", "url"],
         "properties": {
           "authorization": {
             "description": "Authorization header value",
@@ -6492,10 +5935,7 @@
       },
       "httpBasicProperties": {
         "type": "object",
-        "required": [
-          "username",
-          "url"
-        ],
+        "required": ["username", "url"],
         "properties": {
           "format": {
             "type": "string",
@@ -6543,9 +5983,7 @@
       },
       "httpProperties": {
         "type": "object",
-        "required": [
-          "url"
-        ],
+        "required": ["url"],
         "properties": {
           "format": {
             "type": "string",
@@ -6591,12 +6029,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6605,12 +6038,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6619,9 +6047,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "read"
-              ]
+              "enum": ["read"]
             },
             "x-omitempty": true
           },
@@ -6630,10 +6056,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "read",
-                "update"
-              ]
+              "enum": ["read", "update"]
             },
             "x-omitempty": true
           },
@@ -6642,12 +6065,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6656,12 +6074,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6670,12 +6083,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6684,12 +6092,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6698,12 +6101,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6712,12 +6110,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6726,12 +6119,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6740,12 +6128,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6754,10 +6137,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "read",
-                "update"
-              ]
+              "enum": ["read", "update"]
             },
             "x-omitempty": true
           },
@@ -6766,12 +6146,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6780,12 +6155,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           }
@@ -6801,9 +6171,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "delete"
-                ]
+                "enum": ["delete"]
               },
               "x-omitempty": true
             },
@@ -6812,9 +6180,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create"
-                ]
+                "enum": ["create"]
               },
               "x-omitempty": true
             },
@@ -6823,9 +6189,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "read"
-                ]
+                "enum": ["read"]
               },
               "x-omitempty": true
             },
@@ -6834,11 +6198,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "delete"
-                ]
+                "enum": ["create", "read", "delete"]
               },
               "x-omitempty": true
             },
@@ -6847,12 +6207,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "update",
-                  "delete"
-                ]
+                "enum": ["create", "read", "update", "delete"]
               },
               "x-omitempty": true
             },
@@ -6861,9 +6216,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "update"
-                ]
+                "enum": ["update"]
               },
               "x-omitempty": true
             },
@@ -6872,9 +6225,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "update"
-                ]
+                "enum": ["update"]
               },
               "x-omitempty": true
             },
@@ -6883,12 +6234,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "update",
-                  "delete"
-                ]
+                "enum": ["create", "read", "update", "delete"]
               },
               "x-omitempty": true
             }
@@ -6904,12 +6250,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6918,12 +6259,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6932,9 +6268,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "read"
-              ]
+              "enum": ["read"]
             },
             "x-omitempty": true
           },
@@ -6943,10 +6277,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "read",
-                "update"
-              ]
+              "enum": ["read", "update"]
             },
             "x-omitempty": true
           },
@@ -6955,12 +6286,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6969,12 +6295,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6983,12 +6304,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -6997,12 +6313,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -7011,12 +6322,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -7025,12 +6331,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -7039,12 +6340,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -7053,12 +6349,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -7067,10 +6358,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "read",
-                "update"
-              ]
+              "enum": ["read", "update"]
             },
             "x-omitempty": true
           },
@@ -7079,12 +6367,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           },
@@ -7093,12 +6376,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "create",
-                "read",
-                "update",
-                "delete"
-              ]
+              "enum": ["create", "read", "update", "delete"]
             },
             "x-omitempty": true
           }
@@ -7114,9 +6392,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "read"
-                ]
+                "enum": ["read"]
               },
               "x-omitempty": true
             },
@@ -7125,11 +6401,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "delete"
-                ]
+                "enum": ["create", "read", "delete"]
               },
               "x-omitempty": true
             }
@@ -7138,12 +6410,7 @@
       },
       "s3CompatProperties": {
         "type": "object",
-        "required": [
-          "accessKeyId",
-          "secretAccessKey",
-          "hostname",
-          "bucket"
-        ],
+        "required": ["accessKeyId", "secretAccessKey", "hostname", "bucket"],
         "properties": {
           "accessKeyId": {
             "description": "AWS access key identifier",
@@ -7190,9 +6457,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "read"
-                ]
+                "enum": ["read"]
               },
               "x-omitempty": true
             },
@@ -7201,11 +6466,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "create",
-                  "read",
-                  "delete"
-                ]
+                "enum": ["create", "read", "delete"]
               },
               "x-omitempty": true
             }
@@ -7243,11 +6504,7 @@
           },
           "refreshTime": {
             "type": "integer",
-            "enum": [
-              15,
-              60,
-              300
-            ]
+            "enum": [15, 60, 300]
           },
           "schemaVersion": {
             "$ref": "#/components/schemas/SchemaVersion"
@@ -7349,9 +6606,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "TimeSeries"
-            ]
+            "enum": ["TimeSeries"]
           },
           "name": {
             "type": "string",
@@ -7362,11 +6617,7 @@
             "$ref": "#/components/schemas/TimeSeriesNonMetricsAplQuery"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Timeseries"
       },
@@ -7416,13 +6667,7 @@
         "properties": {
           "displayNull": {
             "type": "string",
-            "enum": [
-              "auto",
-              "null",
-              "span",
-              "zero",
-              ""
-            ],
+            "enum": ["auto", "null", "span", "zero", ""],
             "description": "Controls how empty intervals are rendered in time series charts. `auto` infers from the query, `null` leaves gaps, `span` connects adjacent points, `zero` fills with zero."
           },
           "overlayCharts": {
@@ -7435,33 +6680,18 @@
           },
           "timeSeriesVariant": {
             "type": "string",
-            "enum": [
-              "area",
-              "bars",
-              "line",
-              "lines",
-              ""
-            ]
+            "enum": ["area", "bars", "line", "lines", ""]
           },
           "timeSeriesView": {
             "type": "string",
-            "enum": [
-              "charts",
-              "resultsTable",
-              "charts|resultsTable",
-              ""
-            ]
+            "enum": ["charts", "resultsTable", "charts|resultsTable", ""]
           }
         },
         "additionalProperties": false
       },
       "BooleanString": {
         "type": "string",
-        "enum": [
-          "true",
-          "false",
-          ""
-        ]
+        "enum": ["true", "false", ""]
       },
       "QueryVariables": {
         "type": "object",
@@ -7480,9 +6710,7 @@
             {
               "type": "string",
               "nullable": true,
-              "enum": [
-                null
-              ]
+              "enum": [null]
             }
           ]
         }
@@ -7551,9 +6779,7 @@
             "$ref": "#/components/schemas/TimeSeriesQueryOptions"
           }
         },
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "additionalProperties": false,
         "title": "APL"
       },
@@ -7571,10 +6797,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "field",
-          "op"
-        ],
+        "required": ["field", "op"],
         "additionalProperties": false
       },
       "Filter": {
@@ -7635,10 +6858,7 @@
             "nullable": true
           }
         },
-        "required": [
-          "field",
-          "op"
-        ],
+        "required": ["field", "op"],
         "additionalProperties": false
       },
       "Projection": {
@@ -7651,9 +6871,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "field"
-        ],
+        "required": ["field"],
         "additionalProperties": false
       },
       "AggChartOptsString": {
@@ -7670,10 +6888,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "alias",
-          "expr"
-        ],
+        "required": ["alias", "expr"],
         "additionalProperties": false
       },
       "ChartMetadata": {
@@ -7697,10 +6912,7 @@
                   }
                 }
               },
-              "required": [
-                "dataset",
-                "fields"
-              ],
+              "required": ["dataset", "fields"],
               "additionalProperties": false
             }
           },
@@ -7775,9 +6987,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "Heatmap"
-            ]
+            "enum": ["Heatmap"]
           },
           "name": {
             "type": "string",
@@ -7788,11 +6998,7 @@
             "$ref": "#/components/schemas/HeatmapNonMetricsAplQuery"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Heatmap"
       },
@@ -7801,12 +7007,7 @@
         "properties": {
           "timeSeriesView": {
             "type": "string",
-            "enum": [
-              "charts",
-              "resultsTable",
-              "charts|resultsTable",
-              ""
-            ]
+            "enum": ["charts", "resultsTable", "charts|resultsTable", ""]
           }
         },
         "additionalProperties": false
@@ -7821,9 +7022,7 @@
             "$ref": "#/components/schemas/HeatmapQueryOptions"
           }
         },
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "additionalProperties": false,
         "title": "APL"
       },
@@ -7835,9 +7034,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "LogStream"
-            ]
+            "enum": ["LogStream"]
           },
           "name": {
             "type": "string",
@@ -7851,11 +7048,7 @@
             "$ref": "#/components/schemas/TableSettings"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Log stream"
       },
@@ -7866,9 +7059,7 @@
             "$ref": "#/components/schemas/AplString"
           }
         },
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "additionalProperties": false,
         "title": "APL"
       },
@@ -7912,9 +7103,7 @@
             "maximum": 9007199254740991
           }
         },
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "additionalProperties": false
       },
       "DatasetStreamSettings": {
@@ -7957,9 +7146,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "Pie"
-            ]
+            "enum": ["Pie"]
           },
           "name": {
             "type": "string",
@@ -7970,11 +7157,7 @@
             "$ref": "#/components/schemas/SimpleNonMetricsAplQuery"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Pie"
       },
@@ -7986,9 +7169,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "Scatter"
-            ]
+            "enum": ["Scatter"]
           },
           "name": {
             "type": "string",
@@ -7999,11 +7180,7 @@
             "$ref": "#/components/schemas/SimpleNonMetricsAplQuery"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Scatter"
       },
@@ -8015,9 +7192,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "Table"
-            ]
+            "enum": ["Table"]
           },
           "name": {
             "type": "string",
@@ -8031,11 +7206,7 @@
             "$ref": "#/components/schemas/TableSettings"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Table"
       },
@@ -8047,9 +7218,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "TopK"
-            ]
+            "enum": ["TopK"]
           },
           "name": {
             "type": "string",
@@ -8060,11 +7229,7 @@
             "$ref": "#/components/schemas/SimpleNonMetricsAplQuery"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Top list"
       },
@@ -8076,9 +7241,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "Statistic"
-            ]
+            "enum": ["Statistic"]
           },
           "name": {
             "type": "string",
@@ -8184,11 +7347,7 @@
             "$ref": "#/components/schemas/StatisticChartColorProps"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "query"
-        ],
+        "required": ["id", "type", "query"],
         "additionalProperties": false,
         "title": "Statistic"
       },
@@ -8222,9 +7381,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "Note"
-            ]
+            "enum": ["Note"]
           },
           "text": {
             "type": "string",
@@ -8233,16 +7390,10 @@
           },
           "variant": {
             "type": "string",
-            "enum": [
-              "default"
-            ]
+            "enum": ["default"]
           }
         },
-        "required": [
-          "id",
-          "type",
-          "text"
-        ],
+        "required": ["id", "type", "text"],
         "additionalProperties": false,
         "title": "Note"
       },
@@ -8254,9 +7405,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "MonitorList"
-            ]
+            "enum": ["MonitorList"]
           },
           "name": {
             "type": "string",
@@ -8277,12 +7426,7 @@
             "$ref": "#/components/schemas/MonitorListColumns"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "selectedMonitors",
-          "columns"
-        ],
+        "required": ["id", "type", "selectedMonitors", "columns"],
         "additionalProperties": false,
         "title": "Monitor list"
       },
@@ -8305,13 +7449,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "status",
-          "history",
-          "dataset",
-          "type",
-          "notifiers"
-        ],
+        "required": ["status", "history", "dataset", "type", "notifiers"],
         "additionalProperties": false
       },
       "SmartFilterChart": {
@@ -8322,9 +7460,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "SmartFilter"
-            ]
+            "enum": ["SmartFilter"]
           },
           "name": {
             "type": "string",
@@ -8346,11 +7482,7 @@
             "$ref": "#/components/schemas/LogoUrl"
           }
         },
-        "required": [
-          "id",
-          "type",
-          "filters"
-        ],
+        "required": ["id", "type", "filters"],
         "additionalProperties": false,
         "title": "Filter bar"
       },
@@ -8387,15 +7519,10 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "search"
-            ]
+            "enum": ["search"]
           }
         },
-        "required": [
-          "id",
-          "type"
-        ],
+        "required": ["id", "type"],
         "additionalProperties": false,
         "title": "SmartFilterSearch"
       },
@@ -8425,15 +7552,11 @@
           {
             "type": "string",
             "nullable": true,
-            "enum": [
-              null
-            ]
+            "enum": [null]
           },
           {
             "type": "string",
-            "enum": [
-              ""
-            ]
+            "enum": [""]
           }
         ]
       },
@@ -8456,10 +7579,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "key",
-          "value"
-        ],
+        "required": ["key", "value"],
         "additionalProperties": false
       },
       "SmartFilterDatasetId": {
@@ -8489,9 +7609,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "select"
-            ]
+            "enum": ["select"]
           },
           "selectType": {
             "$ref": "#/components/schemas/SmartFilterSelectType"
@@ -8500,21 +7618,14 @@
             "$ref": "#/components/schemas/SmartFilterApl"
           }
         },
-        "required": [
-          "id",
-          "type"
-        ],
+        "required": ["id", "type"],
         "additionalProperties": false,
         "title": "SmartFilterSelect"
       },
       "SmartFilterSelectType": {
         "nullable": true,
         "type": "string",
-        "enum": [
-          "list",
-          "apl",
-          ""
-        ]
+        "enum": ["list", "apl", ""]
       },
       "SmartFilterApl": {
         "title": "SmartFilterApl",
@@ -8541,9 +7652,7 @@
             "$ref": "#/components/schemas/QueryOptions"
           }
         },
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "additionalProperties": false,
         "title": "APL"
       },
@@ -8552,14 +7661,10 @@
         "properties": {
           "apl": {
             "type": "string",
-            "enum": [
-              ""
-            ]
+            "enum": [""]
           }
         },
-        "required": [
-          "apl"
-        ],
+        "required": ["apl"],
         "additionalProperties": {},
         "title": "EmptyAplObject"
       },
@@ -8575,9 +7680,7 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "Spacer"
-            ]
+            "enum": ["Spacer"]
           },
           "name": {
             "type": "string",
@@ -8585,10 +7688,7 @@
             "maxLength": 500
           }
         },
-        "required": [
-          "id",
-          "type"
-        ],
+        "required": ["id", "type"],
         "additionalProperties": false,
         "title": "Spacer"
       },
@@ -8643,20 +7743,12 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "i",
-          "x",
-          "y",
-          "w",
-          "h"
-        ],
+        "required": ["i", "x", "y", "w", "h"],
         "additionalProperties": false
       },
       "SchemaVersion": {
         "type": "integer",
-        "enum": [
-          2
-        ]
+        "enum": [2]
       },
       "TimeWindowStart": {
         "type": "string",

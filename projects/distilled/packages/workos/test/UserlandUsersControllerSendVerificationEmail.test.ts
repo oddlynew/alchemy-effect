@@ -9,6 +9,7 @@ const typedErrorTags = ["BadRequest", "NotFound"] as const;
 describe("UserlandUsersControllerSendVerificationEmail", () => {
   it(
     "sends a verification email, or surfaces a typed error",
+    { timeout: 60_000 },
     async () => {
       // The API only accepts a path id. Whether the call succeeds depends on
       // whether the seed user's email is already verified — already-verified
@@ -25,8 +26,7 @@ describe("UserlandUsersControllerSendVerificationEmail", () => {
           Effect.matchEffect({
             onSuccess: (response) =>
               Effect.succeed({ ok: true as const, response }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -40,11 +40,11 @@ describe("UserlandUsersControllerSendVerificationEmail", () => {
         expect(typedErrorTags).toContain(result.error._tag);
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerSendVerificationEmail({
@@ -53,6 +53,5 @@ describe("UserlandUsersControllerSendVerificationEmail", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

@@ -8,6 +8,7 @@ const clientId = process.env.WORKOS_CLIENT_ID ?? `client_test_${testRunId}`;
 describe("SsoControllerJsonWebKeySet", () => {
   it(
     "returns the JSON Web Key Set for a client",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -25,11 +26,11 @@ describe("SsoControllerJsonWebKeySet", () => {
         expect(typeof key.kid).toBe("string");
       }
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent client id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         SsoControllerJsonWebKeySet({
@@ -38,6 +39,5 @@ describe("SsoControllerJsonWebKeySet", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{id}:
     get:
       operationId: getAiGateway
-      description: "Retrieves details for a specific AI Gateway dataset.  @example
+      description:
+        "Retrieves details for a specific AI Gateway dataset.  @example
         ```ts const aiGateway = await client.aiGateway.get('my-gateway', {
         account_id: '3ebbcb006d4d46d7bb6a8c7f14676cb0', }); ```"
       parameters:
@@ -422,7 +423,8 @@ paths:
                     type: string
                     enum:
                       - postpaid
-                    description: Controls how Workers AI inference calls routed through this gateway
+                    description:
+                      Controls how Workers AI inference calls routed through this gateway
                       are billed. Only 'postpaid' is currently supported.
                   zdr:
                     type: boolean
@@ -441,7 +443,8 @@ paths:
           - code: 7002
     put:
       operationId: updateAiGateway
-      description: "Updates an existing AI Gateway dataset.  @example ```ts const
+      description:
+        "Updates an existing AI Gateway dataset.  @example ```ts const
         aiGateway = await client.aiGateway.update( 'my-gateway', { account_id:
         '3ebbcb006d4d46d7bb6a8c7f14676cb0', cache_invalidate_on_update: true,
         cache_ttl: 0, collect_logs: true, rate_limiting_interval: 0,
@@ -769,7 +772,8 @@ paths:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: Maximum number of retry attempts for failed requests
+                  description:
+                    "Body param: Maximum number of retry attempts for failed requests
                     (1-5)"
                 spend_limits:
                   oneOf:
@@ -865,7 +869,8 @@ paths:
                   type: string
                   enum:
                     - postpaid
-                  description: "Body param: Controls how Workers AI inference calls routed through
+                  description:
+                    "Body param: Controls how Workers AI inference calls routed through
                     this gateway are billed. Only 'postpaid' is currently
                     supported."
                 zdr:
@@ -1276,7 +1281,8 @@ paths:
                     type: string
                     enum:
                       - postpaid
-                    description: Controls how Workers AI inference calls routed through this gateway
+                    description:
+                      Controls how Workers AI inference calls routed through this gateway
                       are billed. Only 'postpaid' is currently supported.
                   zdr:
                     type: boolean
@@ -1295,7 +1301,8 @@ paths:
           - code: 7002
     delete:
       operationId: deleteAiGateway
-      description: "Deletes an AI Gateway dataset.  @example ```ts const aiGateway =
+      description:
+        "Deletes an AI Gateway dataset.  @example ```ts const aiGateway =
         await client.aiGateway.delete( 'my-gateway', { account_id:
         '3ebbcb006d4d46d7bb6a8c7f14676cb0' }, ); ```"
       parameters:
@@ -1708,7 +1715,8 @@ paths:
                     type: string
                     enum:
                       - postpaid
-                    description: Controls how Workers AI inference calls routed through this gateway
+                    description:
+                      Controls how Workers AI inference calls routed through this gateway
                       are billed. Only 'postpaid' is currently supported.
                   zdr:
                     type: boolean
@@ -2154,7 +2162,8 @@ paths:
                     type: string
                     enum:
                       - postpaid
-                    description: Controls how Workers AI inference calls routed through this gateway
+                    description:
+                      Controls how Workers AI inference calls routed through this gateway
                       are billed. Only 'postpaid' is currently supported.
                   zdr:
                     type: boolean
@@ -2170,7 +2179,8 @@ paths:
       x-distilled-pagination-class: AIGatewayListResponsesV4PagePaginationArray
     post:
       operationId: createAiGateway
-      description: "Creates a new AI Gateway.  @example ```ts const aiGateway = await
+      description:
+        "Creates a new AI Gateway.  @example ```ts const aiGateway = await
         client.aiGateway.create({ account_id:
         '3ebbcb006d4d46d7bb6a8c7f14676cb0', id: 'my-gateway',
         cache_invalidate_on_update: true, cache_ttl: 0, collect_logs: true,
@@ -2260,13 +2270,15 @@ paths:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: Maximum number of retry attempts for failed requests
+                  description:
+                    "Body param: Maximum number of retry attempts for failed requests
                     (1-5)"
                 workers_ai_billing_mode:
                   type: string
                   enum:
                     - postpaid
-                  description: "Body param: Controls how Workers AI inference calls routed through
+                  description:
+                    "Body param: Controls how Workers AI inference calls routed through
                     this gateway are billed. Only 'postpaid' is currently
                     supported."
                 zdr:
@@ -2678,7 +2690,8 @@ paths:
                     type: string
                     enum:
                       - postpaid
-                    description: Controls how Workers AI inference calls routed through this gateway
+                    description:
+                      Controls how Workers AI inference calls routed through this gateway
                       are billed. Only 'postpaid' is currently supported.
                   zdr:
                     type: boolean
@@ -2699,7 +2712,8 @@ paths:
   /accounts/{account_id}/ai-gateway/billing/credit-balance:
     get:
       operationId: creditBalanceBilling
-      description: "Retrieve the current credit balance, payment method info, and
+      description:
+        "Retrieve the current credit balance, payment method info, and
         top-up configuration.  @example ```ts const response = await
         client.aiGateway.billing.creditBalance({ account_id: 'account_id', });
         ```"
@@ -2867,7 +2881,8 @@ paths:
               includes: NO_MANUAL_TOPUP
     delete:
       operationId: deleteBillingSpendingLimit
-      description: "Remove the spending limit for the account.  @example ```ts const
+      description:
+        "Remove the spending limit for the account.  @example ```ts const
         spendingLimit = await client.aiGateway.billing.spendingLimit.delete({
         account_id: 'account_id', }); ```"
       parameters:
@@ -2887,7 +2902,8 @@ paths:
   /accounts/{account_id}/ai-gateway/billing/topup:
     post:
       operationId: createBillingTopup
-      description: "Create a credit top-up via Stripe PaymentIntent for the given
+      description:
+        "Create a credit top-up via Stripe PaymentIntent for the given
         account.  @example ```ts const topup = await
         client.aiGateway.billing.topup.create({ account_id: 'account_id',
         amount: 5000, }); ```"
@@ -2988,7 +3004,8 @@ paths:
   /accounts/{account_id}/ai-gateway/billing/topup/config:
     get:
       operationId: getBillingTopupConfig
-      description: "Retrieve the current auto top-up threshold, amount, and any error
+      description:
+        "Retrieve the current auto top-up threshold, amount, and any error
         state.  @example ```ts const config = await
         client.aiGateway.billing.topup.config.get({ account_id: 'account_id',
         }); ```"
@@ -3056,7 +3073,8 @@ paths:
                   description: "Body param: Auto top-up amount in cents (min 1000)."
                 threshold:
                   type: number
-                  description: "Body param: Balance threshold in cents that triggers auto top-up
+                  description:
+                    "Body param: Balance threshold in cents that triggers auto top-up
                     (min 500)."
               required:
                 - amount
@@ -3079,7 +3097,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteBillingTopupConfig
-      description: "Remove the auto top-up configuration for the account.  @example
+      description:
+        "Remove the auto top-up configuration for the account.  @example
         ```ts const config = await
         client.aiGateway.billing.topup.config.delete({ account_id: 'account_id',
         }); ```"
@@ -3100,7 +3119,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{gatewayId}/datasets/{id}:
     get:
       operationId: getDataset
-      description: "Retrieves details for a specific AI Gateway dataset.  @example
+      description:
+        "Retrieves details for a specific AI Gateway dataset.  @example
         ```ts const dataset = await client.aiGateway.datasets.get( 'my-gateway',
         'id', { account_id: '3ebbcb006d4d46d7bb6a8c7f14676cb0' }, ); ```"
       parameters:
@@ -3193,7 +3213,8 @@ paths:
           - code: 7002
     put:
       operationId: updateDataset
-      description: "Updates an existing AI Gateway dataset.  @example ```ts const
+      description:
+        "Updates an existing AI Gateway dataset.  @example ```ts const
         dataset = await client.aiGateway.datasets.update( 'my-gateway', 'id', {
         account_id: '3ebbcb006d4d46d7bb6a8c7f14676cb0', enable: true, filters: [
         { key: 'created_at', operator: 'eq', value: ['string'], }, ], name:
@@ -3346,7 +3367,8 @@ paths:
           - code: 7002
     delete:
       operationId: deleteDataset
-      description: "Deletes an AI Gateway dataset.  @example ```ts const dataset =
+      description:
+        "Deletes an AI Gateway dataset.  @example ```ts const dataset =
         await client.aiGateway.datasets.delete( 'my-gateway', 'id', {
         account_id: '3ebbcb006d4d46d7bb6a8c7f14676cb0' }, ); ```"
       parameters:
@@ -3559,7 +3581,8 @@ paths:
           - code: 7002
     post:
       operationId: createDataset
-      description: "Creates a new AI Gateway.  @example ```ts const dataset = await
+      description:
+        "Creates a new AI Gateway.  @example ```ts const dataset = await
         client.aiGateway.datasets.create( 'my-gateway', { account_id:
         '3ebbcb006d4d46d7bb6a8c7f14676cb0', enable: true, filters: [ { key:
         'created_at', operator: 'eq', value: ['string'], }, ], name: 'name', },
@@ -3712,7 +3735,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{gatewayId}/routes/{id}/deployments:
     post:
       operationId: createDeploymentDynamicRouting
-      description: "Create a new AI Gateway Dynamic Route Deployment.  @example ```ts
+      description:
+        "Create a new AI Gateway Dynamic Route Deployment.  @example ```ts
         const response = await client.aiGateway.dynamicRouting.createDeployment(
         '54442216', '54442216', { account_id:
         '0d37909e38d3e99c29fa2cd343ac421a', version_id: '54442216', }, ); ```"
@@ -3973,7 +3997,8 @@ paths:
               includes: not found
     get:
       operationId: listDeploymentsDynamicRouting
-      description: "List all AI Gateway Dynamic Route Deployments.  @example ```ts
+      description:
+        "List all AI Gateway Dynamic Route Deployments.  @example ```ts
         const response = await client.aiGateway.dynamicRouting.listDeployments(
         '54442216', '54442216', { account_id: '0d37909e38d3e99c29fa2cd343ac421a'
         }, ); ```"
@@ -5692,7 +5717,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{gatewayId}/evaluations/{id}:
     get:
       operationId: getEvaluation
-      description: "Retrieves details for a specific AI Gateway dataset.  @example
+      description:
+        "Retrieves details for a specific AI Gateway dataset.  @example
         ```ts const evaluation = await client.aiGateway.evaluations.get(
         'my-gateway', 'id', { account_id: '3ebbcb006d4d46d7bb6a8c7f14676cb0' },
         ); ```"
@@ -5850,7 +5876,8 @@ paths:
           - code: 7002
     delete:
       operationId: deleteEvaluation
-      description: "Deletes an AI Gateway dataset.  @example ```ts const evaluation =
+      description:
+        "Deletes an AI Gateway dataset.  @example ```ts const evaluation =
         await client.aiGateway.evaluations.delete( 'my-gateway', 'id', {
         account_id: '3ebbcb006d4d46d7bb6a8c7f14676cb0' }, ); ```"
       parameters:
@@ -6191,7 +6218,8 @@ paths:
       x-distilled-pagination-class: EvaluationListResponsesV4PagePaginationArray
     post:
       operationId: createEvaluation
-      description: "Creates a new AI Gateway.  @example ```ts const evaluation = await
+      description:
+        "Creates a new AI Gateway.  @example ```ts const evaluation = await
         client.aiGateway.evaluations.create('my-gateway', { account_id:
         '3ebbcb006d4d46d7bb6a8c7f14676cb0', dataset_ids: ['string'],
         evaluation_type_ids: ['string'], name: 'name', }); ```"
@@ -6374,7 +6402,8 @@ paths:
   /accounts/{account_id}/ai-gateway/evaluation-types:
     get:
       operationId: listEvaluationTypes
-      description: "List Evaluators  @example ```ts // Automatically fetches more
+      description:
+        "List Evaluators  @example ```ts // Automatically fetches more
         pages as needed. for await (const evaluationTypeListResponse of
         client.aiGateway.evaluationTypes.list( { account_id:
         '0d37909e38d3e99c29fa2cd343ac421a' }, )) { // ... } ```"
@@ -6547,7 +6576,8 @@ paths:
   /accounts/{account_id}/ai-gateway/billing/usage-history:
     get:
       operationId: usageHistoryBilling
-      description: "Retrieve aggregated usage meter event summaries for the given time
+      description:
+        "Retrieve aggregated usage meter event summaries for the given time
         range.  @example ```ts const response = await
         client.aiGateway.billing.usageHistory({ account_id: 'account_id',
         value_grouping_window: 'day', }); ```"
@@ -6711,7 +6741,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchLog
-      description: "Updates metadata for an AI Gateway log entry.  @example ```ts
+      description:
+        "Updates metadata for an AI Gateway log entry.  @example ```ts
         const response = await client.aiGateway.logs.edit( 'my-gateway', 'id', {
         account_id: '0d37909e38d3e99c29fa2cd343ac421a' }, ); ```"
       parameters:
@@ -6764,7 +6795,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{gatewayId}/logs:
     get:
       operationId: listLogs
-      description: "List Gateway Logs  @example ```ts // Automatically fetches more
+      description:
+        "List Gateway Logs  @example ```ts // Automatically fetches more
         pages as needed. for await (const logListResponse of
         client.aiGateway.logs.list( 'my-gateway', { account_id:
         '0d37909e38d3e99c29fa2cd343ac421a' }, )) { // ... } ```"
@@ -7247,7 +7279,8 @@ paths:
   /accounts/{account_id}/ai-gateway/billing/invoice-preview:
     get:
       operationId: invoicePreviewBilling
-      description: "Retrieve a preview of the upcoming invoice including line items
+      description:
+        "Retrieve a preview of the upcoming invoice including line items
         and tax.  @example ```ts const response = await
         client.aiGateway.billing.invoicePreview({ account_id: 'account_id', });
         ```"
@@ -7431,7 +7464,8 @@ paths:
       x-distilled-pagination-class: ProviderConfigListResponsesV4PagePaginationArray
     post:
       operationId: createProviderConfig
-      description: "Creates a new AI Gateway.  @example ```ts const providerConfig =
+      description:
+        "Creates a new AI Gateway.  @example ```ts const providerConfig =
         await client.aiGateway.providerConfigs.create( 'my-gateway', {
         account_id: '3ebbcb006d4d46d7bb6a8c7f14676cb0', alias: 'alias',
         default_config: true, provider_slug: 'provider_slug', }, ); ```"
@@ -7586,7 +7620,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{gatewayId}/url/{provider}:
     get:
       operationId: getUrl
-      description: "Retrieves the endpoint URL for an AI Gateway.  @example ```ts
+      description:
+        "Retrieves the endpoint URL for an AI Gateway.  @example ```ts
         const url = await client.aiGateway.urls.get( 'my-gateway', 'workers-ai',
         { account_id: '0d37909e38d3e99c29fa2cd343ac421a' }, ); ```"
       parameters:
@@ -7616,7 +7651,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{gatewayId}/routes/{id}/versions/{versionId}:
     get:
       operationId: getVersionDynamicRouting
-      description: "Get an AI Gateway Dynamic Route Version.  @example ```ts const
+      description:
+        "Get an AI Gateway Dynamic Route Version.  @example ```ts const
         response = await client.aiGateway.dynamicRouting.getVersion( '54442216',
         '54442216', '54442216', { account_id: '0d37909e38d3e99c29fa2cd343ac421a'
         }, ); ```"
@@ -7880,7 +7916,8 @@ paths:
   /accounts/{account_id}/ai-gateway/gateways/{gatewayId}/routes/{id}/versions:
     post:
       operationId: createVersionDynamicRouting
-      description: "Create a new AI Gateway Dynamic Route Version.  @example ```ts
+      description:
+        "Create a new AI Gateway Dynamic Route Version.  @example ```ts
         const response = await client.aiGateway.dynamicRouting.createVersion(
         '54442216', '54442216', { account_id:
         '0d37909e38d3e99c29fa2cd343ac421a', elements: [ { id: 'id', outputs: {
@@ -8339,7 +8376,8 @@ paths:
               includes: not found
     get:
       operationId: listVersionsDynamicRouting
-      description: "List all AI Gateway Dynamic Route Versions.  @example ```ts const
+      description:
+        "List all AI Gateway Dynamic Route Versions.  @example ```ts const
         response = await client.aiGateway.dynamicRouting.listVersions(
         '54442216', '54442216', { account_id: '0d37909e38d3e99c29fa2cd343ac421a'
         }, ); ```"

@@ -6,32 +6,29 @@ import { AuthenticationFactorsControllerGet } from "../src/operations/Authentica
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("AuthenticationFactorsControllerDelete", () => {
-  it(
-    "deletes an authentication factor",
-    async () => {
-      const error = await runEffect(
-        Effect.gen(function* () {
-          const factor = yield* AuthenticationFactorsControllerCreate({
-            type: "totp",
-            totp_issuer: `distilled-workos-${testRunId}`,
-            totp_user: `delete-user-${testRunId}`,
-          });
+  it("deletes an authentication factor", { timeout: 30_000 }, async () => {
+    const error = await runEffect(
+      Effect.gen(function* () {
+        const factor = yield* AuthenticationFactorsControllerCreate({
+          type: "totp",
+          totp_issuer: `distilled-workos-${testRunId}`,
+          totp_user: `delete-user-${testRunId}`,
+        });
 
-          yield* AuthenticationFactorsControllerDelete({ id: factor.id });
+        yield* AuthenticationFactorsControllerDelete({ id: factor.id });
 
-          return yield* AuthenticationFactorsControllerGet({ id: factor.id }).pipe(
-            Effect.flip,
-          );
-        }),
-      );
+        return yield* AuthenticationFactorsControllerGet({
+          id: factor.id,
+        }).pipe(Effect.flip);
+      }),
+    );
 
-      expect(error._tag).toBe("NotFound");
-    },
-    30_000,
-  );
+    expect(error._tag).toBe("NotFound");
+  });
 
   it(
     "fails with NotFound when deleting a non-existent factor id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthenticationFactorsControllerDelete({
@@ -41,6 +38,5 @@ describe("AuthenticationFactorsControllerDelete", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

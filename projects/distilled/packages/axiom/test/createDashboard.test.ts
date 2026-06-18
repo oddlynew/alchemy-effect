@@ -19,6 +19,7 @@ const minimalDashboard = (name: string, owner: string) => ({
 describe("createDashboard", () => {
   it(
     "creates a dashboard from a minimal document payload",
+    { timeout: 60_000 },
     async () => {
       const name = `distilled-axiom-dash-${testRunId}`;
       let createdUid: string | undefined;
@@ -52,7 +53,6 @@ describe("createDashboard", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   // Removed: "returns BadRequest when the dashboard body is structurally

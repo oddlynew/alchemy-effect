@@ -4,10 +4,8 @@ import { OrganizationsControllerList } from "../src/operations/OrganizationsCont
 import { runEffect } from "./setup.ts";
 
 describe("OrganizationsControllerList", () => {
-  it("lists organizations with a limit", async () => {
-    const result = await runEffect(
-      OrganizationsControllerList({ limit: 5 }),
-    );
+  it("lists organizations with a limit", { timeout: 30_000 }, async () => {
+    const result = await runEffect(OrganizationsControllerList({ limit: 5 }));
     expect(result).toBeDefined();
     expect(result.object).toBe("list");
     expect(Array.isArray(result.data)).toBe(true);
@@ -18,12 +16,16 @@ describe("OrganizationsControllerList", () => {
       expect(typeof org.name).toBe("string");
       expect(Array.isArray(org.domains)).toBe(true);
     }
-  }, 30_000);
+  });
 
-  it("fails with UnprocessableEntity when limit exceeds the maximum", async () => {
-    const error = await runEffect(
-      OrganizationsControllerList({ limit: 1000 }).pipe(Effect.flip),
-    );
-    expect(error._tag).toBe("UnprocessableEntity");
-  }, 30_000);
+  it(
+    "fails with UnprocessableEntity when limit exceeds the maximum",
+    { timeout: 30_000 },
+    async () => {
+      const error = await runEffect(
+        OrganizationsControllerList({ limit: 1000 }).pipe(Effect.flip),
+      );
+      expect(error._tag).toBe("UnprocessableEntity");
+    },
+  );
 });

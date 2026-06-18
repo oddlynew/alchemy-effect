@@ -19,11 +19,7 @@
   "response": {
     "properties": {
       "metadataIndexes[].indexType": {
-        "addValues": [
-          "String",
-          "Number",
-          "Boolean"
-        ]
+        "addValues": ["String", "Number", "Boolean"]
       }
     }
   }

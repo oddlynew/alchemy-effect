@@ -24,7 +24,8 @@ paths:
               properties:
                 from:
                   type: string
-                  description: Start date for the usage query (ISO 8601). Required if `to` is set.
+                  description:
+                    Start date for the usage query (ISO 8601). Required if `to` is set.
                     When omitted along with `to`, defaults to the start of the
                     current month. Filters by charge period (when consumption
                     happened), not billing period. The maximum date range is 31
@@ -35,7 +36,8 @@ paths:
                     workers_standard_requests).
                 to:
                   type: string
-                  description: End date for the usage query (ISO 8601). Required if `from` is set.
+                  description:
+                    End date for the usage query (ISO 8601). Required if `from` is set.
                     When omitted along with `from`, defaults to today. Filters
                     by charge period (when consumption happened), not billing
                     period. The maximum date range is 31 days.
@@ -59,7 +61,8 @@ paths:
                       type: string
                       enum:
                         - Usage
-                      description: Highest-level classification of a charge based on the nature of how
+                      description:
+                        Highest-level classification of a charge based on the nature of how
                         it gets billed. Currently only "Usage" is supported.
                     ChargeDescription:
                       type: string
@@ -68,44 +71,53 @@ paths:
                       type: string
                       enum:
                         - Usage-Based
-                      description: Indicates how often a charge occurs. Currently only "Usage-Based"
+                      description:
+                        Indicates how often a charge occurs. Currently only "Usage-Based"
                         is supported.
                     ChargePeriodEnd:
                       type: string
-                      description: Exclusive end of the time interval during which the usage was
+                      description:
+                        Exclusive end of the time interval during which the usage was
                         consumed.
                     ChargePeriodStart:
                       type: string
-                      description: Inclusive start of the time interval during which the usage was
+                      description:
+                        Inclusive start of the time interval during which the usage was
                         consumed.
                     ConsumedQuantity:
                       type: number
-                      description: Measured usage amount within the charge period. Reflects raw
+                      description:
+                        Measured usage amount within the charge period. Reflects raw
                         metered consumption before pricing transformations.
                     ConsumedUnit:
                       type: string
-                      description: Unit of measure for the consumed quantity (e.g., "GB", "Requests",
+                      description:
+                        Unit of measure for the consumed quantity (e.g., "GB", "Requests",
                         "vCPU-Hours").
                     HostProviderName:
                       type: string
-                      description: Name of the entity providing the underlying infrastructure or
+                      description:
+                        Name of the entity providing the underlying infrastructure or
                         platform.
                     InvoiceIssuerName:
                       type: string
-                      description: Name of the entity responsible for invoicing for the services
+                      description:
+                        Name of the entity responsible for invoicing for the services
                         consumed.
                     ServiceProviderName:
                       type: string
                       description: Name of the entity that made the services available for purchase.
                     x_BillableMetricName:
                       type: string
-                      description: The display name of the billable metric. Cloudflare extension;
+                      description:
+                        The display name of the billable metric. Cloudflare extension;
                         replaces FOCUS SkuMeter.
                     BilledCost:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: A charge serving as the basis for invoicing, inclusive of all
+                      description:
+                        A charge serving as the basis for invoicing, inclusive of all
                         reduced rates and discounts while excluding the
                         amortization of upfront charges (one-time or recurring).
                     BillingCurrency:
@@ -122,26 +134,30 @@ paths:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: Inclusive start of the billing cycle that contains this usage
+                      description:
+                        Inclusive start of the billing cycle that contains this usage
                         record.
                     ChargeClass:
                       type: string
                       enum:
                         - Correction
                       nullable: true
-                      description: Indicates whether the row represents a correction to one or more
+                      description:
+                        Indicates whether the row represents a correction to one or more
                         charges invoiced in a previous billing period.
                     ContractedCost:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Cost calculated by multiplying ContractedUnitPrice and the
+                      description:
+                        Cost calculated by multiplying ContractedUnitPrice and the
                         corresponding PricingQuantity.
                     ContractedUnitPrice:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: The agreed-upon unit price for a single PricingUnit of the
+                      description:
+                        The agreed-upon unit price for a single PricingUnit of the
                         associated billable metric, inclusive of negotiated
                         discounts, if present, while excluding any other
                         discounts.
@@ -149,7 +165,8 @@ paths:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: The amortized cost of the charge after applying all reduced rates,
+                      description:
+                        The amortized cost of the charge after applying all reduced rates,
                         discounts, and the applicable portion of relevant,
                         prepaid purchases (one-time or recurring) that covered
                         the charge.
@@ -157,33 +174,38 @@ paths:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Cost calculated by multiplying ListUnitPrice and the corresponding
+                      description:
+                        Cost calculated by multiplying ListUnitPrice and the corresponding
                         PricingQuantity.
                     ListUnitPrice:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Suggested provider-published unit price for a single PricingUnit of
+                      description:
+                        Suggested provider-published unit price for a single PricingUnit of
                         the associated billable metric, exclusive of any
                         discounts.
                     PricingQuantity:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Volume of a given service used or purchased, based on the
+                      description:
+                        Volume of a given service used or purchased, based on the
                         PricingUnit.
                     PricingUnit:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: Provider-specified measurement unit for determining unit prices,
+                      description:
+                        Provider-specified measurement unit for determining unit prices,
                         indicating how the provider rates measured usage after
                         applying pricing rules like block pricing.
                     RegionId:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: Provider-assigned identifier for an isolated geographic area where
+                      description:
+                        Provider-assigned identifier for an isolated geographic area where
                         a service is provided.
                     RegionName:
                       oneOf:
@@ -192,25 +214,30 @@ paths:
                       description: Name of an isolated geographic area where a service is provided.
                     SubAccountId:
                       type: string
-                      description: Unique identifier assigned to a grouping of services. For
+                      description:
+                        Unique identifier assigned to a grouping of services. For
                         Cloudflare, this is the subscription or contract ID.
                     SubAccountName:
                       type: string
-                      description: Name assigned to a grouping of services. For Cloudflare, this is
+                      description:
+                        Name assigned to a grouping of services. For Cloudflare, this is
                         the subscription or contract display name.
                     x_BillableMetricId:
                       type: string
-                      description: The unique identifier for the billable metric in the Cloudflare
+                      description:
+                        The unique identifier for the billable metric in the Cloudflare
                         catalog. Cloudflare extension; replaces FOCUS SkuId.
                     x_ProductFamilyName:
                       type: string
-                      description: The product family the charge belongs to (e.g., "R2", "Workers").
+                      description:
+                        The product family the charge belongs to (e.g., "R2", "Workers").
                         Cloudflare extension; replaces FOCUS ServiceName.
                     x_ZoneId:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: The identifier for the Cloudflare zone (zone tag). Cloudflare
+                      description:
+                        The identifier for the Cloudflare zone (zone tag). Cloudflare
                         extension.
                     x_ZoneName:
                       oneOf:
@@ -250,7 +277,8 @@ paths:
         - name: before
           in: query
           required: true
-          description: Limits the returned results to logs older than the specified date.
+          description:
+            Limits the returned results to logs older than the specified date.
             This can be a date string 2019-04-30 (interpreted in UTC) or an
             absolute timestamp that conforms to RFC3339.
           schema:
@@ -258,7 +286,8 @@ paths:
         - name: since
           in: query
           required: true
-          description: Limits the returned results to logs newer than the specified date.
+          description:
+            Limits the returned results to logs newer than the specified date.
             This can be a date string 2019-04-30 (interpreted in UTC) or an
             absolute timestamp that conforms to RFC3339.
           schema:
@@ -364,7 +393,8 @@ paths:
                 type: array
                 items:
                   type: string
-                description: Filters out audit logs by the API token ID when the actor context
+                description:
+                  Filters out audit logs by the API token ID when the actor context
                   is an api_token or oauth.
         - name: actor_token_name
           in: query
@@ -376,7 +406,8 @@ paths:
                 type: array
                 items:
                   type: string
-                description: Filters out audit logs by the API token name when the actor context
+                description:
+                  Filters out audit logs by the API token name when the actor context
                   is an api_token or oauth.
         - name: actor_type
           in: query
@@ -405,7 +436,8 @@ paths:
         - name: limit
           in: query
           required: false
-          description: The number limits the objects to return. The cursor attribute may
+          description:
+            The number limits the objects to return. The cursor attribute may
             be used to iterate over the next batch of objects if there are more
             than the limit.
           schema:
@@ -442,7 +474,8 @@ paths:
                 type: array
                 items:
                   type: number
-                description: Filters out audit logs by the response status code that was
+                description:
+                  Filters out audit logs by the response status code that was
                   returned.
         - name: raw_uri
           in: query
@@ -476,7 +509,8 @@ paths:
                 type: array
                 items:
                   type: string
-                description: Filters out audit logs by the Cloudflare product associated with
+                description:
+                  Filters out audit logs by the Cloudflare product associated with
                   the changed resource.
         - name: resource_scope
           in: query
@@ -490,7 +524,8 @@ paths:
                   type: string
                   enum:
                     - organizations
-                description: Filters out audit logs by the resource scope, specifying whether
+                description:
+                  Filters out audit logs by the resource scope, specifying whether
                   the resource is associated with an organization.
         - name: resource_type
           in: query
@@ -502,7 +537,8 @@ paths:
                 type: array
                 items:
                   type: string
-                description: Filters out audit logs based on the unique type of resource changed
+                description:
+                  Filters out audit logs based on the unique type of resource changed
                   by the action.
       responses:
         "200":
@@ -536,7 +572,8 @@ paths:
                     properties:
                       id:
                         type: string
-                        description: The ID of the actor who performed the action. If a user performed
+                        description:
+                          The ID of the actor who performed the action. If a user performed
                           the action, this will be their User ID.
                       context:
                         type: string
@@ -661,7 +698,8 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Ordered chain of organization tags from the root organization down
+                        description:
+                          Ordered chain of organization tags from the root organization down
                           to (and including) this organization itself. Root
                           organizations return a single-element array containing
                           their own tag; sub-organizations return `[rootTag,
@@ -798,7 +836,8 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Ordered chain of organization tags from the root organization down
+                        description:
+                          Ordered chain of organization tags from the root organization down
                           to (and including) this organization itself. Root
                           organizations return a single-element array containing
                           their own tag; sub-organizations return `[rootTag,
@@ -851,7 +890,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteOrganization
-      description: "Delete an organization. The organization MUST be empty before
+      description:
+        "Delete an organization. The organization MUST be empty before
         deleting. It must not contain any sub-organizations, accounts, members
         or users. (Currently in Public Beta - see
         https://developers.cloudflare.com/fundamentals/organizations/)    Access
@@ -901,15 +941,18 @@ paths:
             properties:
               account:
                 type: string
-                description: Filter the list of organizations to the ones that contain this
+                description:
+                  Filter the list of organizations to the ones that contain this
                   particular account.
               organization:
                 type: string
-                description: Filter the list of organizations to the ones that contain this
+                description:
+                  Filter the list of organizations to the ones that contain this
                   particular organization.
               user:
                 type: string
-                description: 'Filter the list of organizations to the ones that contain this
+                description:
+                  'Filter the list of organizations to the ones that contain this
                   particular user.  IMPORTANT: Just because an organization
                   "contains" a user is not a representation of any authorization
                   or privilege to manage any resources therein. An organization
@@ -923,15 +966,18 @@ paths:
             properties:
               contains:
                 type: string
-                description: (case-insensitive) Filter the list of organizations to where the
+                description:
+                  (case-insensitive) Filter the list of organizations to where the
                   name contains a particular string.
               endsWith:
                 type: string
-                description: (case-insensitive) Filter the list of organizations to where the
+                description:
+                  (case-insensitive) Filter the list of organizations to where the
                   name ends with a particular string.
               startsWith:
                 type: string
-                description: (case-insensitive) Filter the list of organizations to where the
+                description:
+                  (case-insensitive) Filter the list of organizations to where the
                   name starts with a particular string.
         - name: page_size
           in: query
@@ -942,7 +988,8 @@ paths:
         - name: page_token
           in: query
           required: false
-          description: An opaque token returned from the last list response that when
+          description:
+            An opaque token returned from the last list response that when
             provided will retrieve the next page.  Parameters used to filter the
             retrieved list must remain in subsequent requests with a page token.
           schema:
@@ -954,7 +1001,8 @@ paths:
             type: object
             properties:
               id:
-                description: Filter the list of organizations to the ones that are a
+                description:
+                  Filter the list of organizations to the ones that are a
                   sub-organization of the specified organization.  "null" is a
                   valid value to provide for this parameter. It means "where an
                   organization has no parent (i.e. it is a 'root'
@@ -998,7 +1046,8 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Ordered chain of organization tags from the root organization down
+                        description:
+                          Ordered chain of organization tags from the root organization down
                           to (and including) this organization itself. Root
                           organizations return a single-element array containing
                           their own tag; sub-organizations return `[rootTag,
@@ -1049,7 +1098,8 @@ paths:
           - status: 403
     post:
       operationId: createOrganization
-      description: Create a new organization for a user. (Currently in Public Beta -
+      description:
+        Create a new organization for a user. (Currently in Public Beta -
         see https://developers.cloudflare.com/fundamentals/organizations/)
       requestBody:
         required: true
@@ -1127,7 +1177,8 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Ordered chain of organization tags from the root organization down
+                        description:
+                          Ordered chain of organization tags from the root organization down
                           to (and including) this organization itself. Root
                           organizations return a single-element array containing
                           their own tag; sub-organizations return `[rootTag,
@@ -1179,7 +1230,8 @@ paths:
   /organizations/{organizationId}/profile:
     get:
       operationId: getOrganizationProfile
-      description: Get an organizations profile if it exists. (Currently in Public
+      description:
+        Get an organizations profile if it exists. (Currently in Public
         Beta - see
         https://developers.cloudflare.com/fundamentals/organizations/)
       parameters:

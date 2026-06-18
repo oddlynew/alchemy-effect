@@ -11,106 +11,103 @@ import { UserlandUsersControllerList } from "../src/operations/UserlandUsersCont
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("GroupMembershipsControllerAddMember", () => {
-  it(
-    "adds a member to a group",
-    async () => {
-      const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
+  it("adds a member to a group", { timeout: 90_000 }, async () => {
+    const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
-      if (users.data.length === 0) {
-        // No seed user available — exercise the operation against a missing
-        // group so the call still hits the live API.
-        const error = await runEffect(
-          Effect.gen(function* () {
-            const org = yield* OrganizationsControllerCreate({
-              name: `distilled-workos-add-member-fallback-${testRunId}`,
-            });
-            return yield* GroupMembershipsControllerAddMember({
-              organizationId: org.id,
-              groupId: `group_does_not_exist_${testRunId}`,
-              organization_membership_id: `om_does_not_exist_${testRunId}`,
-            }).pipe(
-              Effect.ensuring(
-                OrganizationsControllerDeleteOrganization({
-                  id: org.id,
-                }).pipe(Effect.ignore),
-              ),
-            );
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
-
-      const seedUser = users.data[0] as { id: string };
-      const memberships = await runEffect(
-        UserlandUserOrganizationMembershipsControllerList({
-          user_id: seedUser.id,
-          limit: 1,
-        }),
-      );
-      const member = memberships.data?.[0];
-      if (!member) {
-        const error = await runEffect(
-          Effect.gen(function* () {
-            const org = yield* OrganizationsControllerCreate({
-              name: `distilled-workos-add-member-fallback-${testRunId}`,
-            });
-            return yield* GroupMembershipsControllerAddMember({
-              organizationId: org.id,
-              groupId: `group_does_not_exist_${testRunId}`,
-              organization_membership_id: `om_does_not_exist_${testRunId}`,
-            }).pipe(
-              Effect.ensuring(
-                OrganizationsControllerDeleteOrganization({
-                  id: org.id,
-                }).pipe(Effect.ignore),
-              ),
-            );
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
-
-      const result = await runEffect(
+    if (users.data.length === 0) {
+      // No seed user available — exercise the operation against a missing
+      // group so the call still hits the live API.
+      const error = await runEffect(
         Effect.gen(function* () {
-          const group = yield* GroupsControllerCreate({
-            organizationId: member.organization_id,
-            name: `distilled-add-member-${testRunId}`,
+          const org = yield* OrganizationsControllerCreate({
+            name: `distilled-workos-add-member-fallback-${testRunId}`,
           });
           return yield* GroupMembershipsControllerAddMember({
-            organizationId: member.organization_id,
-            groupId: group.id,
-            organization_membership_id: member.id,
+            organizationId: org.id,
+            groupId: `group_does_not_exist_${testRunId}`,
+            organization_membership_id: `om_does_not_exist_${testRunId}`,
           }).pipe(
             Effect.ensuring(
-              GroupMembershipsControllerRemoveMember({
-                organizationId: member.organization_id,
-                groupId: group.id,
-                omId: member.id,
-              }).pipe(Effect.ignore),
-            ),
-            Effect.ensuring(
-              GroupsControllerDelete({
-                organizationId: member.organization_id,
-                groupId: group.id,
+              OrganizationsControllerDeleteOrganization({
+                id: org.id,
               }).pipe(Effect.ignore),
             ),
           );
-        }),
+        }).pipe(Effect.flip),
       );
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(typeof result.organization_id).toBe("string");
-      expect(typeof result.name).toBe("string");
-      expect(typeof result.created_at).toBe("string");
-      expect(typeof result.updated_at).toBe("string");
-    },
-    90_000,
-  );
+      expect(error._tag).toBe("NotFound");
+      return;
+    }
+
+    const seedUser = users.data[0] as { id: string };
+    const memberships = await runEffect(
+      UserlandUserOrganizationMembershipsControllerList({
+        user_id: seedUser.id,
+        limit: 1,
+      }),
+    );
+    const member = memberships.data?.[0];
+    if (!member) {
+      const error = await runEffect(
+        Effect.gen(function* () {
+          const org = yield* OrganizationsControllerCreate({
+            name: `distilled-workos-add-member-fallback-${testRunId}`,
+          });
+          return yield* GroupMembershipsControllerAddMember({
+            organizationId: org.id,
+            groupId: `group_does_not_exist_${testRunId}`,
+            organization_membership_id: `om_does_not_exist_${testRunId}`,
+          }).pipe(
+            Effect.ensuring(
+              OrganizationsControllerDeleteOrganization({
+                id: org.id,
+              }).pipe(Effect.ignore),
+            ),
+          );
+        }).pipe(Effect.flip),
+      );
+      expect(error._tag).toBe("NotFound");
+      return;
+    }
+
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const group = yield* GroupsControllerCreate({
+          organizationId: member.organization_id,
+          name: `distilled-add-member-${testRunId}`,
+        });
+        return yield* GroupMembershipsControllerAddMember({
+          organizationId: member.organization_id,
+          groupId: group.id,
+          organization_membership_id: member.id,
+        }).pipe(
+          Effect.ensuring(
+            GroupMembershipsControllerRemoveMember({
+              organizationId: member.organization_id,
+              groupId: group.id,
+              omId: member.id,
+            }).pipe(Effect.ignore),
+          ),
+          Effect.ensuring(
+            GroupsControllerDelete({
+              organizationId: member.organization_id,
+              groupId: group.id,
+            }).pipe(Effect.ignore),
+          ),
+        );
+      }),
+    );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(typeof result.organization_id).toBe("string");
+    expect(typeof result.name).toBe("string");
+    expect(typeof result.created_at).toBe("string");
+    expect(typeof result.updated_at).toBe("string");
+  });
 
   it(
     "fails with NotFound for a non-existent group id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -132,11 +129,11 @@ describe("GroupMembershipsControllerAddMember", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when adding a member in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         GroupMembershipsControllerAddMember({
@@ -147,11 +144,11 @@ describe("GroupMembershipsControllerAddMember", () => {
       );
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed organization_membership_id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -186,6 +183,5 @@ describe("GroupMembershipsControllerAddMember", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    60_000,
   );
 });

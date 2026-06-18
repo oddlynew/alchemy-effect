@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuditLogValidatorVersionsControllerSchemas", () => {
   it(
     "lists schemas for an existing audit log action",
+    { timeout: 60_000 },
     async () => {
       const actionName = `distilled.workos.list_schemas.${testRunId}`;
 
@@ -29,11 +30,11 @@ describe("AuditLogValidatorVersionsControllerSchemas", () => {
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.data!.length).toBeGreaterThan(0);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound when listing schemas for a non-existent action",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuditLogValidatorVersionsControllerSchemas({
@@ -43,11 +44,11 @@ describe("AuditLogValidatorVersionsControllerSchemas", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when limit is out of range",
+    { timeout: 60_000 },
     async () => {
       const actionName = `distilled.workos.list_schemas_invalid.${testRunId}`;
 
@@ -67,6 +68,5 @@ describe("AuditLogValidatorVersionsControllerSchemas", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    60_000,
   );
 });

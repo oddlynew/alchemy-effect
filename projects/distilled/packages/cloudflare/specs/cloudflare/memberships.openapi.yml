@@ -9,7 +9,8 @@ paths:
   /memberships/{membershipId}:
     get:
       operationId: getMembership
-      description: Get a specific membership.  @example ```ts const membership = await
+      description:
+        Get a specific membership.  @example ```ts const membership = await
         client.memberships.get( '4536bcfad5faccb111b47003c79917fa', ); ```
       parameters:
         - name: membershipId
@@ -63,7 +64,8 @@ paths:
                             description: Sets an abuse contact email to notify for abuse reports.
                           enforce_twofactor:
                             type: boolean
-                            description: Indicates whether membership in this account requires that
+                            description:
+                              Indicates whether membership in this account requires that
                               Two-Factor Authentication is enabled
                         description: Account settings
                     required:
@@ -74,7 +76,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Enterprise only. Indicates whether or not API access is enabled
+                    description:
+                      Enterprise only. Indicates whether or not API access is enabled
                       specifically for this user on a given account.
                   permissions:
                     type: object
@@ -215,7 +218,8 @@ paths:
                                   properties:
                                     key:
                                       type: string
-                                      description: This is a combination of pre-defined resource name and identifier
+                                      description:
+                                        This is a combination of pre-defined resource name and identifier
                                         (like Account ID etc.)
                                     objects:
                                       type: array
@@ -224,7 +228,8 @@ paths:
                                         properties:
                                           key:
                                             type: string
-                                            description: This is a combination of pre-defined resource name and identifier
+                                            description:
+                                              This is a combination of pre-defined resource name and identifier
                                               (like Zone ID etc.)
                                         required:
                                           - key
@@ -264,7 +269,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: putMembership
-      description: "Accept or reject this account invitation.  @example ```ts const
+      description:
+        "Accept or reject this account invitation.  @example ```ts const
         membership = await client.memberships.update(
         '4536bcfad5faccb111b47003c79917fa', { status: 'accepted' }, ); ```"
       parameters:
@@ -334,7 +340,8 @@ paths:
                             description: Sets an abuse contact email to notify for abuse reports.
                           enforce_twofactor:
                             type: boolean
-                            description: Indicates whether membership in this account requires that
+                            description:
+                              Indicates whether membership in this account requires that
                               Two-Factor Authentication is enabled
                         description: Account settings
                     required:
@@ -345,7 +352,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Enterprise only. Indicates whether or not API access is enabled
+                    description:
+                      Enterprise only. Indicates whether or not API access is enabled
                       specifically for this user on a given account.
                   permissions:
                     type: object
@@ -486,7 +494,8 @@ paths:
                                   properties:
                                     key:
                                       type: string
-                                      description: This is a combination of pre-defined resource name and identifier
+                                      description:
+                                        This is a combination of pre-defined resource name and identifier
                                         (like Account ID etc.)
                                     objects:
                                       type: array
@@ -495,7 +504,8 @@ paths:
                                         properties:
                                           key:
                                             type: string
-                                            description: This is a combination of pre-defined resource name and identifier
+                                            description:
+                                              This is a combination of pre-defined resource name and identifier
                                               (like Zone ID etc.)
                                         required:
                                           - key
@@ -535,7 +545,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteMembership
-      description: Remove the associated member from an account.  @example ```ts const
+      description:
+        Remove the associated member from an account.  @example ```ts const
         membership = await client.memberships.delete(
         '4536bcfad5faccb111b47003c79917fa', ); ```
       parameters:
@@ -660,7 +671,8 @@ paths:
                             description: Sets an abuse contact email to notify for abuse reports.
                           enforce_twofactor:
                             type: boolean
-                            description: Indicates whether membership in this account requires that
+                            description:
+                              Indicates whether membership in this account requires that
                               Two-Factor Authentication is enabled
                         description: Account settings
                     required:
@@ -671,7 +683,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Enterprise only. Indicates whether or not API access is enabled
+                    description:
+                      Enterprise only. Indicates whether or not API access is enabled
                       specifically for this user on a given account.
                   permissions:
                     type: object

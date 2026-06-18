@@ -5,50 +5,45 @@ import { ConnectionsControllerList } from "../src/operations/ConnectionsControll
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("ConnectionsControllerFind", () => {
-  it(
-    "retrieves a connection by id",
-    async () => {
-      const list = await runEffect(
-        ConnectionsControllerList({ limit: 1 }),
+  it("retrieves a connection by id", { timeout: 30_000 }, async () => {
+    const list = await runEffect(ConnectionsControllerList({ limit: 1 }));
+
+    if (list.data.length === 0) {
+      // No seed connection available — exercise the operation against a
+      // missing id so the call still hits the live API.
+      const error = await runEffect(
+        ConnectionsControllerFind({
+          id: `conn_does_not_exist_${testRunId}`,
+        }).pipe(Effect.flip),
       );
+      expect(error._tag).toBe("NotFound");
+      return;
+    }
 
-      if (list.data.length === 0) {
-        // No seed connection available — exercise the operation against a
-        // missing id so the call still hits the live API.
-        const error = await runEffect(
-          ConnectionsControllerFind({
-            id: `conn_does_not_exist_${testRunId}`,
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
+    const seed = list.data[0] as { id: string };
+    const conn = await runEffect(ConnectionsControllerFind({ id: seed.id }));
 
-      const seed = list.data[0] as { id: string };
-      const conn = await runEffect(ConnectionsControllerFind({ id: seed.id }));
-
-      expect(conn).toBeDefined();
-      expect(conn.id).toBe(seed.id);
-      expect(typeof conn.connection_type).toBe("string");
-      expect(typeof conn.name).toBe("string");
-      expect(["linked", "unlinked"]).toContain(conn.status);
-      expect([
-        "requires_type",
-        "draft",
-        "active",
-        "validating",
-        "inactive",
-        "deleting",
-      ]).toContain(conn.state);
-      expect(Array.isArray(conn.domains)).toBe(true);
-      expect(typeof conn.created_at).toBe("string");
-      expect(typeof conn.updated_at).toBe("string");
-    },
-    30_000,
-  );
+    expect(conn).toBeDefined();
+    expect(conn.id).toBe(seed.id);
+    expect(typeof conn.connection_type).toBe("string");
+    expect(typeof conn.name).toBe("string");
+    expect(["linked", "unlinked"]).toContain(conn.status);
+    expect([
+      "requires_type",
+      "draft",
+      "active",
+      "validating",
+      "inactive",
+      "deleting",
+    ]).toContain(conn.state);
+    expect(Array.isArray(conn.domains)).toBe(true);
+    expect(typeof conn.created_at).toBe("string");
+    expect(typeof conn.updated_at).toBe("string");
+  });
 
   it(
     "fails with NotFound for a non-existent connection id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ConnectionsControllerFind({
@@ -58,11 +53,11 @@ describe("ConnectionsControllerFind", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when reading a connection in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ConnectionsControllerFind({
@@ -72,6 +67,5 @@ describe("ConnectionsControllerFind", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

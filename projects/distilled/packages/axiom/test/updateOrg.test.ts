@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateOrg", () => {
   it(
     "renames the caller's org and restores the original name",
+    { timeout: 60_000 },
     async () => {
       // Discover the caller's first org, rename it, then restore the
       // original name so the test is net-neutral. Org names are capped at
@@ -68,11 +69,11 @@ describe("updateOrg", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns InternalServerError for an org id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Probed live: axiom's /v2/orgs/{id} returns 500 (not 404) when the
       // id does not exist. Document the observed behaviour rather than
@@ -86,6 +87,5 @@ describe("updateOrg", () => {
 
       expect((error as { _tag: string })._tag).toBe("InternalServerError");
     },
-    { timeout: 30_000 },
   );
 });

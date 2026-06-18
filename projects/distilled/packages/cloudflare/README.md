@@ -26,7 +26,10 @@ const program = Effect.gen(function* () {
     .pipe(Stream.take(10), Stream.runCollect);
 });
 
-const CloudflareLive = Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv);
+const CloudflareLive = Layer.mergeAll(
+  FetchHttpClient.layer,
+  CredentialsFromEnv,
+);
 
 program.pipe(Effect.provide(CloudflareLive), Effect.runPromise);
 ```
@@ -47,7 +50,8 @@ Create an API token in the [Cloudflare dashboard](https://dash.cloudflare.com/pr
 R2.getBucket({ account_id: "...", bucket_name: "missing" }).pipe(
   Effect.catchTags({
     NoSuchBucket: () => Effect.succeed({ found: false }),
-    UnknownCloudflareError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),
+    UnknownCloudflareError: (e) =>
+      Effect.fail(new Error(`Unknown: ${e.message}`)),
   }),
 );
 ```

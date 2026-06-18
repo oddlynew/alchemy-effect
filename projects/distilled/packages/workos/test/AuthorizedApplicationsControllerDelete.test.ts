@@ -8,12 +8,15 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizedApplicationsControllerDelete", () => {
   it(
     "deletes an authorized application for a user",
+    { timeout: 60_000 },
     async () => {
       // Find a seed user that has at least one authorized application. If
       // none exist in the test environment, fall back to asserting the typed
       // NotFound for an arbitrary application id. Either path verifies the
       // SDK maps the response to a typed shape or a typed error class.
-      const users = await runEffect(UserlandUsersControllerList({ limit: 100 }));
+      const users = await runEffect(
+        UserlandUsersControllerList({ limit: 100 }),
+      );
 
       let seed: { user_id: string; application_id: string } | undefined;
       for (const user of users.data as ReadonlyArray<{ id: string }>) {
@@ -50,11 +53,11 @@ describe("AuthorizedApplicationsControllerDelete", () => {
       );
       expect(result).toBeUndefined();
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent authorized application",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedUserId =
@@ -70,6 +73,5 @@ describe("AuthorizedApplicationsControllerDelete", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

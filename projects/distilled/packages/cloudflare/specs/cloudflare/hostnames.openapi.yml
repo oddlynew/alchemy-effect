@@ -32,7 +32,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: This is the time the tls setting was originally created for this
+                    description:
+                      This is the time the tls setting was originally created for this
                       hostname.
                   hostname:
                     type: string
@@ -66,7 +67,8 @@ paths:
                       - type: array
                         items:
                           type: string
-                    description: 'The TLS setting value. The type depends on the `setting_id` used
+                    description:
+                      'The TLS setting value. The type depends on the `setting_id` used
                       in the request path:  - `ciphers`: an array of allowed
                       cipher suite strings in BoringSSL format (e.g.,
                       `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`). -
@@ -131,7 +133,8 @@ paths:
                     - type: array
                       items:
                         type: string
-                  description: 'Body param: The TLS setting value. The type depends on the
+                  description:
+                    'Body param: The TLS setting value. The type depends on the
                     `setting_id` used in the request path:  - `ciphers`: an
                     array of allowed cipher suite strings in BoringSSL format
                     (e.g., `["ECDHE-RSA-AES128-GCM-SHA256",
@@ -152,7 +155,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: This is the time the tls setting was originally created for this
+                    description:
+                      This is the time the tls setting was originally created for this
                       hostname.
                   hostname:
                     type: string
@@ -186,7 +190,8 @@ paths:
                       - type: array
                         items:
                           type: string
-                    description: 'The TLS setting value. The type depends on the `setting_id` used
+                    description:
+                      'The TLS setting value. The type depends on the `setting_id` used
                       in the request path:  - `ciphers`: an array of allowed
                       cipher suite strings in BoringSSL format (e.g.,
                       `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`). -
@@ -230,7 +235,8 @@ paths:
                 properties:
                   created_at:
                     type: string
-                    description: This is the time the tls setting was originally created for this
+                    description:
+                      This is the time the tls setting was originally created for this
                       hostname.
                   hostname:
                     type: string
@@ -264,7 +270,8 @@ paths:
                       - type: array
                         items:
                           type: string
-                    description: 'The TLS setting value. The type depends on the `setting_id` used
+                    description:
+                      'The TLS setting value. The type depends on the `setting_id` used
                       in the request path:  - `ciphers`: an array of allowed
                       cipher suite strings in BoringSSL format (e.g.,
                       `["ECDHE-RSA-AES128-GCM-SHA256", "AES128-GCM-SHA256"]`). -

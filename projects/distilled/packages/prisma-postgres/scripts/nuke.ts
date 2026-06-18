@@ -21,9 +21,7 @@ import { BunRuntime, BunServices } from "@effect/platform-bun";
 import { Console, Effect } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { Command, Flag } from "effect/unstable/cli";
-import {
-  CredentialsFromEnv,
-} from "@distilled.cloud/prisma-postgres";
+import { CredentialsFromEnv } from "@distilled.cloud/prisma-postgres";
 import {
   getV1Workspaces,
   getV1Projects,
@@ -54,7 +52,14 @@ let totalFailed = 0;
 // Paginated list helper
 // ============================================================================
 
-function listAll<A extends { data: readonly any[]; pagination: { nextCursor: string | null; hasMore: boolean } }, E, R>(
+function listAll<
+  A extends {
+    data: readonly any[];
+    pagination: { nextCursor: string | null; hasMore: boolean };
+  },
+  E,
+  R,
+>(
   fn: (input: any) => Effect.Effect<A, E, R>,
   baseInput: Record<string, unknown> = {},
 ): Effect.Effect<A["data"][number][], E, R> {
@@ -77,7 +82,14 @@ function listAll<A extends { data: readonly any[]; pagination: { nextCursor: str
 // Safe list helper (catches errors and returns empty array)
 // ============================================================================
 
-function safeList<A extends { data: readonly any[]; pagination: { nextCursor: string | null; hasMore: boolean } }, E, R>(
+function safeList<
+  A extends {
+    data: readonly any[];
+    pagination: { nextCursor: string | null; hasMore: boolean };
+  },
+  E,
+  R,
+>(
   fn: (input: any) => Effect.Effect<A, E, R>,
   label: string,
   baseInput: Record<string, unknown> = {},
@@ -114,10 +126,14 @@ const listAndDeleteConnections = (dryRun: boolean) =>
 
       if (!dryRun) {
         yield* deleteV1ConnectionsById({ id: conn.id }).pipe(
-          Effect.as(() => { totalDeleted++; }),
+          Effect.as(() => {
+            totalDeleted++;
+          }),
           Effect.catch(() => {
             totalFailed++;
-            return Console.log(`    ${RED}Failed to delete connection ${conn.id}${RESET}`);
+            return Console.log(
+              `    ${RED}Failed to delete connection ${conn.id}${RESET}`,
+            );
           }),
         );
         totalDeleted++;
@@ -144,10 +160,14 @@ const listAndDeleteDatabases = (dryRun: boolean) =>
 
       if (!dryRun) {
         yield* deleteV1DatabasesByDatabaseId({ databaseId: db.id }).pipe(
-          Effect.andThen(() => { totalDeleted++; }),
+          Effect.andThen(() => {
+            totalDeleted++;
+          }),
           Effect.catch(() => {
             totalFailed++;
-            return Console.log(`    ${RED}Failed to delete database ${db.id}${RESET}`);
+            return Console.log(
+              `    ${RED}Failed to delete database ${db.id}${RESET}`,
+            );
           }),
         );
       }
@@ -173,10 +193,14 @@ const listAndDeleteProjects = (dryRun: boolean) =>
 
       if (!dryRun) {
         yield* deleteV1ProjectsById({ id: project.id }).pipe(
-          Effect.andThen(() => { totalDeleted++; }),
+          Effect.andThen(() => {
+            totalDeleted++;
+          }),
           Effect.catch(() => {
             totalFailed++;
-            return Console.log(`    ${RED}Failed to delete project ${project.id}${RESET}`);
+            return Console.log(
+              `    ${RED}Failed to delete project ${project.id}${RESET}`,
+            );
           }),
         );
       }
@@ -207,10 +231,14 @@ const listAndDeleteIntegrations = (dryRun: boolean) =>
 
         if (!dryRun) {
           yield* deleteV1IntegrationsById({ id: integration.id }).pipe(
-            Effect.andThen(() => { totalDeleted++; }),
+            Effect.andThen(() => {
+              totalDeleted++;
+            }),
             Effect.catch(() => {
               totalFailed++;
-              return Console.log(`    ${RED}Failed to delete integration ${integration.id}${RESET}`);
+              return Console.log(
+                `    ${RED}Failed to delete integration ${integration.id}${RESET}`,
+              );
             }),
           );
         }
@@ -224,7 +252,9 @@ const listAndDeleteIntegrations = (dryRun: boolean) =>
 
 const listWorkspaces = () =>
   Effect.gen(function* () {
-    yield* Console.log(`\n${BOLD}${CYAN}Workspaces ${DIM}(read-only, cannot be deleted)${RESET}`);
+    yield* Console.log(
+      `\n${BOLD}${CYAN}Workspaces ${DIM}(read-only, cannot be deleted)${RESET}`,
+    );
 
     const workspaces = yield* safeList(getV1Workspaces, "workspaces");
 
@@ -254,7 +284,9 @@ const nuke = Command.make(
   },
   (config) =>
     Effect.gen(function* () {
-      const mode = config.dryRun ? `${YELLOW}DRY RUN${RESET}` : `${RED}LIVE${RESET}`;
+      const mode = config.dryRun
+        ? `${YELLOW}DRY RUN${RESET}`
+        : `${RED}LIVE${RESET}`;
       yield* Console.log(
         `\n${BOLD}Prisma Postgres Nuke${RESET} ${DIM}(${mode}${DIM})${RESET}`,
       );
@@ -288,9 +320,7 @@ const nuke = Command.make(
       Effect.provide(FetchHttpClient.layer),
     ),
 ).pipe(
-  Command.withDescription(
-    "List and delete all Prisma Postgres resources",
-  ),
+  Command.withDescription("List and delete all Prisma Postgres resources"),
 );
 
 // ============================================================================

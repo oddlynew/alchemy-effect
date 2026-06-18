@@ -30,7 +30,8 @@ paths:
                     properties:
                       default_sampling:
                         type: number
-                        description: Fallback sampling rate of flow messages being sent in packets per
+                        description:
+                          Fallback sampling rate of flow messages being sent in packets per
                           second. This should match the packet sampling rate
                           configured on the router.
                       name:
@@ -53,7 +54,8 @@ paths:
                               description: Name of the warp device.
                             router_ip:
                               type: string
-                              description: IPv4 CIDR of the router sourcing flow data associated with this
+                              description:
+                                IPv4 CIDR of the router sourcing flow data associated with this
                                 warp device. Only /32 addresses are currently
                                 supported.
                           required:
@@ -67,11 +69,12 @@ paths:
           - status: 403
     post:
       operationId: createConfig
-      description: "Create a new network monitoring configuration.  @example ```ts
+      description:
+        'Create a new network monitoring configuration.  @example ```ts
         const configuration = await
         client.magicNetworkMonitoring.configs.create({ account_id:
-        '6f91088a406011ed95aed352566e8d4c', default_sampling: 1, name:
-        \"cloudflare user's account\", }); ```"
+        ''6f91088a406011ed95aed352566e8d4c'', default_sampling: 1, name:
+        "cloudflare user''s account", }); ```'
       parameters:
         - name: account_id
           in: path
@@ -88,7 +91,8 @@ paths:
               properties:
                 default_sampling:
                   type: number
-                  description: "Body param: Fallback sampling rate of flow messages being sent in
+                  description:
+                    "Body param: Fallback sampling rate of flow messages being sent in
                     packets per second. This should match the packet sampling
                     rate configured on the router."
                 name:
@@ -112,7 +116,8 @@ paths:
                         description: Name of the warp device.
                       router_ip:
                         type: string
-                        description: IPv4 CIDR of the router sourcing flow data associated with this
+                        description:
+                          IPv4 CIDR of the router sourcing flow data associated with this
                           warp device. Only /32 addresses are currently
                           supported.
                     required:
@@ -133,7 +138,8 @@ paths:
                 properties:
                   default_sampling:
                     type: number
-                    description: Fallback sampling rate of flow messages being sent in packets per
+                    description:
+                      Fallback sampling rate of flow messages being sent in packets per
                       second. This should match the packet sampling rate
                       configured on the router.
                   name:
@@ -156,7 +162,8 @@ paths:
                           description: Name of the warp device.
                         router_ip:
                           type: string
-                          description: IPv4 CIDR of the router sourcing flow data associated with this
+                          description:
+                            IPv4 CIDR of the router sourcing flow data associated with this
                             warp device. Only /32 addresses are currently
                             supported.
                       required:
@@ -180,11 +187,12 @@ paths:
           - status: 403
     put:
       operationId: updateConfig
-      description: "Update an existing network monitoring configuration, requires the
+      description:
+        'Update an existing network monitoring configuration, requires the
         entire configuration to be updated at once.  @example ```ts const
         configuration = await client.magicNetworkMonitoring.configs.update({
-        account_id: '6f91088a406011ed95aed352566e8d4c', default_sampling: 1,
-        name: \"cloudflare user's account\", }); ```"
+        account_id: ''6f91088a406011ed95aed352566e8d4c'', default_sampling: 1,
+        name: "cloudflare user''s account", }); ```'
       parameters:
         - name: account_id
           in: path
@@ -201,7 +209,8 @@ paths:
               properties:
                 default_sampling:
                   type: number
-                  description: "Body param: Fallback sampling rate of flow messages being sent in
+                  description:
+                    "Body param: Fallback sampling rate of flow messages being sent in
                     packets per second. This should match the packet sampling
                     rate configured on the router."
                 name:
@@ -225,7 +234,8 @@ paths:
                         description: Name of the warp device.
                       router_ip:
                         type: string
-                        description: IPv4 CIDR of the router sourcing flow data associated with this
+                        description:
+                          IPv4 CIDR of the router sourcing flow data associated with this
                           warp device. Only /32 addresses are currently
                           supported.
                     required:
@@ -247,7 +257,8 @@ paths:
                     properties:
                       default_sampling:
                         type: number
-                        description: Fallback sampling rate of flow messages being sent in packets per
+                        description:
+                          Fallback sampling rate of flow messages being sent in packets per
                           second. This should match the packet sampling rate
                           configured on the router.
                       name:
@@ -270,7 +281,8 @@ paths:
                               description: Name of the warp device.
                             router_ip:
                               type: string
-                              description: IPv4 CIDR of the router sourcing flow data associated with this
+                              description:
+                                IPv4 CIDR of the router sourcing flow data associated with this
                                 warp device. Only /32 addresses are currently
                                 supported.
                           required:
@@ -306,7 +318,8 @@ paths:
               properties:
                 default_sampling:
                   type: number
-                  description: "Body param: Fallback sampling rate of flow messages being sent in
+                  description:
+                    "Body param: Fallback sampling rate of flow messages being sent in
                     packets per second. This should match the packet sampling
                     rate configured on the router."
                 name:
@@ -330,7 +343,8 @@ paths:
                         description: Name of the warp device.
                       router_ip:
                         type: string
-                        description: IPv4 CIDR of the router sourcing flow data associated with this
+                        description:
+                          IPv4 CIDR of the router sourcing flow data associated with this
                           warp device. Only /32 addresses are currently
                           supported.
                     required:
@@ -348,7 +362,8 @@ paths:
                 properties:
                   default_sampling:
                     type: number
-                    description: Fallback sampling rate of flow messages being sent in packets per
+                    description:
+                      Fallback sampling rate of flow messages being sent in packets per
                       second. This should match the packet sampling rate
                       configured on the router.
                   name:
@@ -371,7 +386,8 @@ paths:
                           description: Name of the warp device.
                         router_ip:
                           type: string
-                          description: IPv4 CIDR of the router sourcing flow data associated with this
+                          description:
+                            IPv4 CIDR of the router sourcing flow data associated with this
                             warp device. Only /32 addresses are currently
                             supported.
                       required:
@@ -386,7 +402,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteConfig
-      description: "Delete an existing network monitoring configuration.  @example
+      description:
+        "Delete an existing network monitoring configuration.  @example
         ```ts const configuration = await
         client.magicNetworkMonitoring.configs.delete({ account_id:
         '6f91088a406011ed95aed352566e8d4c', }); ```"
@@ -406,7 +423,8 @@ paths:
                 properties:
                   default_sampling:
                     type: number
-                    description: Fallback sampling rate of flow messages being sent in packets per
+                    description:
+                      Fallback sampling rate of flow messages being sent in packets per
                       second. This should match the packet sampling rate
                       configured on the router.
                   name:
@@ -429,7 +447,8 @@ paths:
                           description: Name of the warp device.
                         router_ip:
                           type: string
-                          description: IPv4 CIDR of the router sourcing flow data associated with this
+                          description:
+                            IPv4 CIDR of the router sourcing flow data associated with this
                             warp device. Only /32 addresses are currently
                             supported.
                       required:
@@ -452,7 +471,8 @@ paths:
   /accounts/{account_id}/mnm/config/full:
     get:
       operationId: getConfigFull
-      description: "Lists default sampling, router IPs, warp devices, and rules for
+      description:
+        "Lists default sampling, router IPs, warp devices, and rules for
         account.  @example ```ts const configuration = await
         client.magicNetworkMonitoring.configs.full.get({ account_id:
         '6f91088a406011ed95aed352566e8d4c', }); ```"
@@ -472,7 +492,8 @@ paths:
                 properties:
                   default_sampling:
                     type: number
-                    description: Fallback sampling rate of flow messages being sent in packets per
+                    description:
+                      Fallback sampling rate of flow messages being sent in packets per
                       second. This should match the packet sampling rate
                       configured on the router.
                   name:
@@ -495,7 +516,8 @@ paths:
                           description: Name of the warp device.
                         router_ip:
                           type: string
-                          description: IPv4 CIDR of the router sourcing flow data associated with this
+                          description:
+                            IPv4 CIDR of the router sourcing flow data associated with this
                             warp device. Only /32 addresses are currently
                             supported.
                       required:
@@ -511,7 +533,8 @@ paths:
   /accounts/{account_id}/mnm/rules/{ruleId}:
     get:
       operationId: getRule
-      description: "List a single network monitoring rule for account.  @example ```ts
+      description:
+        "List a single network monitoring rule for account.  @example ```ts
         const magicNetworkMonitoringRule = await
         client.magicNetworkMonitoring.rules.get(
         '2890e6fa406311ed9b5a23f70f6fb8cf', { account_id:
@@ -542,13 +565,15 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Toggle on if you would like Cloudflare to automatically advertise
+                    description:
+                      Toggle on if you would like Cloudflare to automatically advertise
                       the IP Prefixes within the rule via Magic Transit when the
                       rule is triggered. Only available for users of Magic
                       Transit.
                   name:
                     type: string
-                    description: The name of the rule. Must be unique. Supports characters A-Z, a-z,
+                    description:
+                      The name of the rule. Must be unique. Supports characters A-Z, a-z,
                       0-9, underscore (\_), dash (-), period (.), and tilde (~).
                       You can’t have a space in the rule name. Max 256
                       characters.
@@ -565,7 +590,8 @@ paths:
                     description: MNM rule type.
                   bandwidth_threshold:
                     type: number
-                    description: The number of bits per second for the rule. When this value is
+                    description:
+                      The number of bits per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   duration:
@@ -579,13 +605,15 @@ paths:
                       - 30m
                       - 45m
                       - 60m
-                    description: The amount of time that the rule threshold must be exceeded to send
+                    description:
+                      The amount of time that the rule threshold must be exceeded to send
                       an alert notification. The final value must be equivalent
                       to one of the following 8 values
                       ["1m","5m","10m","15m","20m","30m","45m","60m"].
                   packet_threshold:
                     type: number
-                    description: The number of packets per second for the rule. When this value is
+                    description:
+                      The number of packets per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   prefix_match:
@@ -595,7 +623,8 @@ paths:
                       - subnet
                       - supernet
                     nullable: true
-                    description: Prefix match type to be applied for a prefix auto advertisement
+                    description:
+                      Prefix match type to be applied for a prefix auto advertisement
                       when using an advanced_ddos rule.
                   zscore_sensitivity:
                     type: string
@@ -626,7 +655,8 @@ paths:
           - status: 403
     patch:
       operationId: patchRule
-      description: "Update a network monitoring rule for account.  @example ```ts
+      description:
+        "Update a network monitoring rule for account.  @example ```ts
         const magicNetworkMonitoringRule = await
         client.magicNetworkMonitoring.rules.edit(
         '2890e6fa406311ed9b5a23f70f6fb8cf', { account_id:
@@ -655,13 +685,15 @@ paths:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Toggle on if you would like Cloudflare to
+                  description:
+                    "Body param: Toggle on if you would like Cloudflare to
                     automatically advertise the IP Prefixes within the rule via
                     Magic Transit when the rule is triggered. Only available for
                     users of Magic Transit."
                 name:
                   type: string
-                  description: "Body param: The name of the rule. Must be unique. Supports
+                  description:
+                    "Body param: The name of the rule. Must be unique. Supports
                     characters A-Z, a-z, 0-9, underscore (\\_), dash (-), period
                     (.), and tilde (~). You can’t have a space in the rule name.
                     Max 256 characters."
@@ -679,7 +711,8 @@ paths:
                   description: "Body param: MNM rule type."
                 bandwidth_threshold:
                   type: number
-                  description: "Body param: The number of bits per second for the rule. When this
+                  description:
+                    "Body param: The number of bits per second for the rule. When this
                     value is exceeded for the set duration, an alert
                     notification is sent. Minimum of 1 and no maximum."
                 duration:
@@ -693,13 +726,15 @@ paths:
                     - 30m
                     - 45m
                     - 60m
-                  description: 'Body param: The amount of time that the rule threshold must be
+                  description:
+                    'Body param: The amount of time that the rule threshold must be
                     exceeded to send an alert notification. The final value must
                     be equivalent to one of the following 8 values
                     ["1m","5m","10m","15m","20m","30m","45m","60m"].'
                 packet_threshold:
                   type: number
-                  description: "Body param: The number of packets per second for the rule. When
+                  description:
+                    "Body param: The number of packets per second for the rule. When
                     this value is exceeded for the set duration, an alert
                     notification is sent. Minimum of 1 and no maximum."
                 prefix_match:
@@ -709,7 +744,8 @@ paths:
                     - subnet
                     - supernet
                   nullable: true
-                  description: "Body param: Prefix match type to be applied for a prefix auto
+                  description:
+                    "Body param: Prefix match type to be applied for a prefix auto
                     advertisement when using an advanced_ddos rule."
                 zscore_sensitivity:
                   type: string
@@ -746,13 +782,15 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Toggle on if you would like Cloudflare to automatically advertise
+                    description:
+                      Toggle on if you would like Cloudflare to automatically advertise
                       the IP Prefixes within the rule via Magic Transit when the
                       rule is triggered. Only available for users of Magic
                       Transit.
                   name:
                     type: string
-                    description: The name of the rule. Must be unique. Supports characters A-Z, a-z,
+                    description:
+                      The name of the rule. Must be unique. Supports characters A-Z, a-z,
                       0-9, underscore (\_), dash (-), period (.), and tilde (~).
                       You can’t have a space in the rule name. Max 256
                       characters.
@@ -769,7 +807,8 @@ paths:
                     description: MNM rule type.
                   bandwidth_threshold:
                     type: number
-                    description: The number of bits per second for the rule. When this value is
+                    description:
+                      The number of bits per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   duration:
@@ -783,13 +822,15 @@ paths:
                       - 30m
                       - 45m
                       - 60m
-                    description: The amount of time that the rule threshold must be exceeded to send
+                    description:
+                      The amount of time that the rule threshold must be exceeded to send
                       an alert notification. The final value must be equivalent
                       to one of the following 8 values
                       ["1m","5m","10m","15m","20m","30m","45m","60m"].
                   packet_threshold:
                     type: number
-                    description: The number of packets per second for the rule. When this value is
+                    description:
+                      The number of packets per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   prefix_match:
@@ -799,7 +840,8 @@ paths:
                       - subnet
                       - supernet
                     nullable: true
-                    description: Prefix match type to be applied for a prefix auto advertisement
+                    description:
+                      Prefix match type to be applied for a prefix auto advertisement
                       when using an advanced_ddos rule.
                   zscore_sensitivity:
                     type: string
@@ -829,7 +871,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteRule
-      description: "Delete a network monitoring rule for account.  @example ```ts
+      description:
+        "Delete a network monitoring rule for account.  @example ```ts
         const magicNetworkMonitoringRule = await
         client.magicNetworkMonitoring.rules.delete(
         '2890e6fa406311ed9b5a23f70f6fb8cf', { account_id:
@@ -860,13 +903,15 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Toggle on if you would like Cloudflare to automatically advertise
+                    description:
+                      Toggle on if you would like Cloudflare to automatically advertise
                       the IP Prefixes within the rule via Magic Transit when the
                       rule is triggered. Only available for users of Magic
                       Transit.
                   name:
                     type: string
-                    description: The name of the rule. Must be unique. Supports characters A-Z, a-z,
+                    description:
+                      The name of the rule. Must be unique. Supports characters A-Z, a-z,
                       0-9, underscore (\_), dash (-), period (.), and tilde (~).
                       You can’t have a space in the rule name. Max 256
                       characters.
@@ -883,7 +928,8 @@ paths:
                     description: MNM rule type.
                   bandwidth_threshold:
                     type: number
-                    description: The number of bits per second for the rule. When this value is
+                    description:
+                      The number of bits per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   duration:
@@ -897,13 +943,15 @@ paths:
                       - 30m
                       - 45m
                       - 60m
-                    description: The amount of time that the rule threshold must be exceeded to send
+                    description:
+                      The amount of time that the rule threshold must be exceeded to send
                       an alert notification. The final value must be equivalent
                       to one of the following 8 values
                       ["1m","5m","10m","15m","20m","30m","45m","60m"].
                   packet_threshold:
                     type: number
-                    description: The number of packets per second for the rule. When this value is
+                    description:
+                      The number of packets per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   prefix_match:
@@ -913,7 +961,8 @@ paths:
                       - subnet
                       - supernet
                     nullable: true
-                    description: Prefix match type to be applied for a prefix auto advertisement
+                    description:
+                      Prefix match type to be applied for a prefix auto advertisement
                       when using an advanced_ddos rule.
                   zscore_sensitivity:
                     type: string
@@ -945,7 +994,8 @@ paths:
   /accounts/{account_id}/mnm/rules:
     get:
       operationId: listRules
-      description: "Lists network monitoring rules for account.  @example ```ts //
+      description:
+        "Lists network monitoring rules for account.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         magicNetworkMonitoringRule of client.magicNetworkMonitoring.rules.list(
         { account_id: '6f91088a406011ed95aed352566e8d4c' }, )) { // ... } ```"
@@ -971,13 +1021,15 @@ paths:
                         oneOf:
                           - type: boolean
                         nullable: true
-                        description: Toggle on if you would like Cloudflare to automatically advertise
+                        description:
+                          Toggle on if you would like Cloudflare to automatically advertise
                           the IP Prefixes within the rule via Magic Transit when
                           the rule is triggered. Only available for users of
                           Magic Transit.
                       name:
                         type: string
-                        description: The name of the rule. Must be unique. Supports characters A-Z, a-z,
+                        description:
+                          The name of the rule. Must be unique. Supports characters A-Z, a-z,
                           0-9, underscore (\_), dash (-), period (.), and tilde
                           (~). You can’t have a space in the rule name. Max 256
                           characters.
@@ -994,7 +1046,8 @@ paths:
                         description: MNM rule type.
                       bandwidth_threshold:
                         type: number
-                        description: The number of bits per second for the rule. When this value is
+                        description:
+                          The number of bits per second for the rule. When this value is
                           exceeded for the set duration, an alert notification
                           is sent. Minimum of 1 and no maximum.
                       duration:
@@ -1008,13 +1061,15 @@ paths:
                           - 30m
                           - 45m
                           - 60m
-                        description: The amount of time that the rule threshold must be exceeded to send
+                        description:
+                          The amount of time that the rule threshold must be exceeded to send
                           an alert notification. The final value must be
                           equivalent to one of the following 8 values
                           ["1m","5m","10m","15m","20m","30m","45m","60m"].
                       packet_threshold:
                         type: number
-                        description: The number of packets per second for the rule. When this value is
+                        description:
+                          The number of packets per second for the rule. When this value is
                           exceeded for the set duration, an alert notification
                           is sent. Minimum of 1 and no maximum.
                       prefix_match:
@@ -1024,7 +1079,8 @@ paths:
                           - subnet
                           - supernet
                         nullable: true
-                        description: Prefix match type to be applied for a prefix auto advertisement
+                        description:
+                          Prefix match type to be applied for a prefix auto advertisement
                           when using an advanced_ddos rule.
                       zscore_sensitivity:
                         type: string
@@ -1078,13 +1134,15 @@ paths:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Toggle on if you would like Cloudflare to
+                  description:
+                    "Body param: Toggle on if you would like Cloudflare to
                     automatically advertise the IP Prefixes within the rule via
                     Magic Transit when the rule is triggered. Only available for
                     users of Magic Transit."
                 name:
                   type: string
-                  description: "Body param: The name of the rule. Must be unique. Supports
+                  description:
+                    "Body param: The name of the rule. Must be unique. Supports
                     characters A-Z, a-z, 0-9, underscore (\\_), dash (-), period
                     (.), and tilde (~). You can’t have a space in the rule name.
                     Max 256 characters."
@@ -1102,7 +1160,8 @@ paths:
                   description: "Body param: MNM rule type."
                 bandwidth_threshold:
                   type: number
-                  description: "Body param: The number of bits per second for the rule. When this
+                  description:
+                    "Body param: The number of bits per second for the rule. When this
                     value is exceeded for the set duration, an alert
                     notification is sent. Minimum of 1 and no maximum."
                 duration:
@@ -1116,13 +1175,15 @@ paths:
                     - 30m
                     - 45m
                     - 60m
-                  description: 'Body param: The amount of time that the rule threshold must be
+                  description:
+                    'Body param: The amount of time that the rule threshold must be
                     exceeded to send an alert notification. The final value must
                     be equivalent to one of the following 8 values
                     ["1m","5m","10m","15m","20m","30m","45m","60m"].'
                 packet_threshold:
                   type: number
-                  description: "Body param: The number of packets per second for the rule. When
+                  description:
+                    "Body param: The number of packets per second for the rule. When
                     this value is exceeded for the set duration, an alert
                     notification is sent. Minimum of 1 and no maximum."
                 prefix_match:
@@ -1132,7 +1193,8 @@ paths:
                     - subnet
                     - supernet
                   nullable: true
-                  description: "Body param: Prefix match type to be applied for a prefix auto
+                  description:
+                    "Body param: Prefix match type to be applied for a prefix auto
                     advertisement when using an advanced_ddos rule."
                 zscore_sensitivity:
                   type: string
@@ -1169,13 +1231,15 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Toggle on if you would like Cloudflare to automatically advertise
+                    description:
+                      Toggle on if you would like Cloudflare to automatically advertise
                       the IP Prefixes within the rule via Magic Transit when the
                       rule is triggered. Only available for users of Magic
                       Transit.
                   name:
                     type: string
-                    description: The name of the rule. Must be unique. Supports characters A-Z, a-z,
+                    description:
+                      The name of the rule. Must be unique. Supports characters A-Z, a-z,
                       0-9, underscore (\_), dash (-), period (.), and tilde (~).
                       You can’t have a space in the rule name. Max 256
                       characters.
@@ -1192,7 +1256,8 @@ paths:
                     description: MNM rule type.
                   bandwidth_threshold:
                     type: number
-                    description: The number of bits per second for the rule. When this value is
+                    description:
+                      The number of bits per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   duration:
@@ -1206,13 +1271,15 @@ paths:
                       - 30m
                       - 45m
                       - 60m
-                    description: The amount of time that the rule threshold must be exceeded to send
+                    description:
+                      The amount of time that the rule threshold must be exceeded to send
                       an alert notification. The final value must be equivalent
                       to one of the following 8 values
                       ["1m","5m","10m","15m","20m","30m","45m","60m"].
                   packet_threshold:
                     type: number
-                    description: The number of packets per second for the rule. When this value is
+                    description:
+                      The number of packets per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   prefix_match:
@@ -1222,7 +1289,8 @@ paths:
                       - subnet
                       - supernet
                     nullable: true
-                    description: Prefix match type to be applied for a prefix auto advertisement
+                    description:
+                      Prefix match type to be applied for a prefix auto advertisement
                       when using an advanced_ddos rule.
                   zscore_sensitivity:
                     type: string
@@ -1259,7 +1327,8 @@ paths:
           - status: 403
     put:
       operationId: updateRule
-      description: "Update network monitoring rules for account.  @example ```ts const
+      description:
+        "Update network monitoring rules for account.  @example ```ts const
         magicNetworkMonitoringRule = await
         client.magicNetworkMonitoring.rules.update({ account_id:
         '6f91088a406011ed95aed352566e8d4c', automatic_advertisement: true, name:
@@ -1282,13 +1351,15 @@ paths:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Toggle on if you would like Cloudflare to
+                  description:
+                    "Body param: Toggle on if you would like Cloudflare to
                     automatically advertise the IP Prefixes within the rule via
                     Magic Transit when the rule is triggered. Only available for
                     users of Magic Transit."
                 name:
                   type: string
-                  description: "Body param: The name of the rule. Must be unique. Supports
+                  description:
+                    "Body param: The name of the rule. Must be unique. Supports
                     characters A-Z, a-z, 0-9, underscore (\\_), dash (-), period
                     (.), and tilde (~). You can’t have a space in the rule name.
                     Max 256 characters."
@@ -1306,7 +1377,8 @@ paths:
                   description: "Body param: MNM rule type."
                 bandwidth_threshold:
                   type: number
-                  description: "Body param: The number of bits per second for the rule. When this
+                  description:
+                    "Body param: The number of bits per second for the rule. When this
                     value is exceeded for the set duration, an alert
                     notification is sent. Minimum of 1 and no maximum."
                 duration:
@@ -1320,13 +1392,15 @@ paths:
                     - 30m
                     - 45m
                     - 60m
-                  description: 'Body param: The amount of time that the rule threshold must be
+                  description:
+                    'Body param: The amount of time that the rule threshold must be
                     exceeded to send an alert notification. The final value must
                     be equivalent to one of the following 8 values
                     ["1m","5m","10m","15m","20m","30m","45m","60m"].'
                 packet_threshold:
                   type: number
-                  description: "Body param: The number of packets per second for the rule. When
+                  description:
+                    "Body param: The number of packets per second for the rule. When
                     this value is exceeded for the set duration, an alert
                     notification is sent. Minimum of 1 and no maximum."
                 prefix_match:
@@ -1336,7 +1410,8 @@ paths:
                     - subnet
                     - supernet
                   nullable: true
-                  description: "Body param: Prefix match type to be applied for a prefix auto
+                  description:
+                    "Body param: Prefix match type to be applied for a prefix auto
                     advertisement when using an advanced_ddos rule."
                 zscore_sensitivity:
                   type: string
@@ -1373,13 +1448,15 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Toggle on if you would like Cloudflare to automatically advertise
+                    description:
+                      Toggle on if you would like Cloudflare to automatically advertise
                       the IP Prefixes within the rule via Magic Transit when the
                       rule is triggered. Only available for users of Magic
                       Transit.
                   name:
                     type: string
-                    description: The name of the rule. Must be unique. Supports characters A-Z, a-z,
+                    description:
+                      The name of the rule. Must be unique. Supports characters A-Z, a-z,
                       0-9, underscore (\_), dash (-), period (.), and tilde (~).
                       You can’t have a space in the rule name. Max 256
                       characters.
@@ -1396,7 +1473,8 @@ paths:
                     description: MNM rule type.
                   bandwidth_threshold:
                     type: number
-                    description: The number of bits per second for the rule. When this value is
+                    description:
+                      The number of bits per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   duration:
@@ -1410,13 +1488,15 @@ paths:
                       - 30m
                       - 45m
                       - 60m
-                    description: The amount of time that the rule threshold must be exceeded to send
+                    description:
+                      The amount of time that the rule threshold must be exceeded to send
                       an alert notification. The final value must be equivalent
                       to one of the following 8 values
                       ["1m","5m","10m","15m","20m","30m","45m","60m"].
                   packet_threshold:
                     type: number
-                    description: The number of packets per second for the rule. When this value is
+                    description:
+                      The number of packets per second for the rule. When this value is
                       exceeded for the set duration, an alert notification is
                       sent. Minimum of 1 and no maximum.
                   prefix_match:
@@ -1426,7 +1506,8 @@ paths:
                       - subnet
                       - supernet
                     nullable: true
-                    description: Prefix match type to be applied for a prefix auto advertisement
+                    description:
+                      Prefix match type to be applied for a prefix auto advertisement
                       when using an advanced_ddos rule.
                   zscore_sensitivity:
                     type: string
@@ -1453,7 +1534,8 @@ paths:
   /accounts/{account_id}/mnm/rules/{ruleId}/advertisement:
     patch:
       operationId: patchRuleAdvertisement
-      description: "Update advertisement for rule.  @example ```ts const advertisement
+      description:
+        "Update advertisement for rule.  @example ```ts const advertisement
         = await client.magicNetworkMonitoring.rules.advertisements.edit(
         '2890e6fa406311ed9b5a23f70f6fb8cf', { account_id:
         '6f91088a406011ed95aed352566e8d4c', body: {}, }, ); ```"
@@ -1486,7 +1568,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Toggle on if you would like Cloudflare to automatically advertise
+                    description:
+                      Toggle on if you would like Cloudflare to automatically advertise
                       the IP Prefixes within the rule via Magic Transit when the
                       rule is triggered. Only available for users of Magic
                       Transit.
@@ -1496,7 +1579,8 @@ paths:
   /accounts/{account_id}/mnm/vpc-flows/token:
     post:
       operationId: createVpcFlowToken
-      description: "Generate authentication token for VPC flow logs export.  @example
+      description:
+        "Generate authentication token for VPC flow logs export.  @example
         ```ts const token = await
         client.magicNetworkMonitoring.vpcFlows.tokens.create( { account_id:
         '6f91088a406011ed95aed352566e8d4c' }, ); ```"

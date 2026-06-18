@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationsControllerGetAuditLogConfiguration", () => {
   it(
     "gets the audit log configuration for an organization",
+    { timeout: 60_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -30,11 +31,11 @@ describe("OrganizationsControllerGetAuditLogConfiguration", () => {
       expect(typeof result.retention_period_in_days).toBe("number");
       expect(["active", "inactive", "disabled"]).toContain(result.state);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationsControllerGetAuditLogConfiguration({
@@ -43,6 +44,5 @@ describe("OrganizationsControllerGetAuditLogConfiguration", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

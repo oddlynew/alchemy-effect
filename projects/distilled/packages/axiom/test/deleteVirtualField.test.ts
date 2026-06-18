@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteVirtualField", () => {
   it(
     "deletes an existing virtual field and subsequent fetches return NotFound",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-delvf-${testRunId}`;
       const fieldName = `distilled_axiom_delvf_${testRunId}`;
@@ -54,11 +55,11 @@ describe("deleteVirtualField", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a virtual-field id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteVirtualField({ id: `doesnotexist-${testRunId}` }).pipe(
@@ -68,6 +69,5 @@ describe("deleteVirtualField", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

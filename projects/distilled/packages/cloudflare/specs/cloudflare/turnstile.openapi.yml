@@ -36,7 +36,8 @@ paths:
               properties:
                 invalidate_immediately:
                   type: boolean
-                  description: "Body param: If `invalidate_immediately` is set to `false`, the
+                  description:
+                    "Body param: If `invalidate_immediately` is set to `false`, the
                     previous secret will remain valid for two hours. Otherwise,
                     the secret is immediately invalidated, and requests using it
                     will be rejected."
@@ -50,7 +51,8 @@ paths:
                 properties:
                   bot_fight_mode:
                     type: boolean
-                    description: If bot_fight_mode is set to `true`, Cloudflare issues
+                    description:
+                      If bot_fight_mode is set to `true`, Cloudflare issues
                       computationally expensive challenges in response to
                       malicious bots (ENT only).
                   clearance_level:
@@ -60,7 +62,8 @@ paths:
                       - jschallenge
                       - managed
                       - interactive
-                    description: If Turnstile is embedded on a Cloudflare site and the widget should
+                    description:
+                      If Turnstile is embedded on a Cloudflare site and the widget should
                       grant challenge clearance, this setting can determine the
                       clearance level to be set
                   created_on:
@@ -85,7 +88,8 @@ paths:
                     description: When the widget was modified.
                   name:
                     type: string
-                    description: Human readable widget name. Not unique. Cloudflare suggests that
+                    description:
+                      Human readable widget name. Not unique. Cloudflare suggests that
                       you set this to a meaningful string to make it easier to
                       identify your widget, and where it is used.
                   offlabel:
@@ -96,7 +100,8 @@ paths:
                     enum:
                       - world
                       - china
-                    description: Region where this widget can be used. This cannot be changed after
+                    description:
+                      Region where this widget can be used. This cannot be changed after
                       creation.
                   secret:
                     type: string
@@ -121,7 +126,8 @@ paths:
   /accounts/{account_id}/challenges/widgets/{sitekey}:
     get:
       operationId: getWidget
-      description: "Show a single challenge widget configuration.  @example ```ts
+      description:
+        "Show a single challenge widget configuration.  @example ```ts
         const widget = await client.turnstile.widgets.get(
         '0x4AAF00AAAABn0R22HWm-YUc', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -147,7 +153,8 @@ paths:
                 properties:
                   bot_fight_mode:
                     type: boolean
-                    description: If bot_fight_mode is set to `true`, Cloudflare issues
+                    description:
+                      If bot_fight_mode is set to `true`, Cloudflare issues
                       computationally expensive challenges in response to
                       malicious bots (ENT only).
                   clearance_level:
@@ -157,7 +164,8 @@ paths:
                       - jschallenge
                       - managed
                       - interactive
-                    description: If Turnstile is embedded on a Cloudflare site and the widget should
+                    description:
+                      If Turnstile is embedded on a Cloudflare site and the widget should
                       grant challenge clearance, this setting can determine the
                       clearance level to be set
                   created_on:
@@ -182,7 +190,8 @@ paths:
                     description: When the widget was modified.
                   name:
                     type: string
-                    description: Human readable widget name. Not unique. Cloudflare suggests that
+                    description:
+                      Human readable widget name. Not unique. Cloudflare suggests that
                       you set this to a meaningful string to make it easier to
                       identify your widget, and where it is used.
                   offlabel:
@@ -193,7 +202,8 @@ paths:
                     enum:
                       - world
                       - china
-                    description: Region where this widget can be used. This cannot be changed after
+                    description:
+                      Region where this widget can be used. This cannot be changed after
                       creation.
                   secret:
                     type: string
@@ -223,7 +233,8 @@ paths:
           - status: 403
     put:
       operationId: updateWidget
-      description: "Update the configuration of a widget.  @example ```ts const widget
+      description:
+        "Update the configuration of a widget.  @example ```ts const widget
         = await client.turnstile.widgets.update( '0x4AAF00AAAABn0R22HWm-YUc', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', domains: [
         '203.0.113.1', 'cloudflare.com', 'blog.example.com', ], mode:
@@ -261,12 +272,14 @@ paths:
                   description: "Body param: Widget Mode"
                 name:
                   type: string
-                  description: "Body param: Human readable widget name. Not unique. Cloudflare
+                  description:
+                    "Body param: Human readable widget name. Not unique. Cloudflare
                     suggests that you set this to a meaningful string to make it
                     easier to identify your widget, and where it is used."
                 bot_fight_mode:
                   type: boolean
-                  description: "Body param: If bot_fight_mode is set to `true`, Cloudflare issues
+                  description:
+                    "Body param: If bot_fight_mode is set to `true`, Cloudflare issues
                     computationally expensive challenges in response to
                     malicious bots (ENT only)."
                 clearance_level:
@@ -276,7 +289,8 @@ paths:
                     - jschallenge
                     - managed
                     - interactive
-                  description: "Body param: If Turnstile is embedded on a Cloudflare site and the
+                  description:
+                    "Body param: If Turnstile is embedded on a Cloudflare site and the
                     widget should grant challenge clearance, this setting can
                     determine the clearance level to be set"
                 ephemeral_id:
@@ -284,14 +298,16 @@ paths:
                   description: "Body param: Return the Ephemeral ID in /siteverify (ENT only)."
                 offlabel:
                   type: boolean
-                  description: "Body param: Do not show any Cloudflare branding on the widget (ENT
+                  description:
+                    "Body param: Do not show any Cloudflare branding on the widget (ENT
                     only)."
                 region:
                   type: string
                   enum:
                     - world
                     - china
-                  description: "Body param: Region where this widget can be used. This cannot be
+                  description:
+                    "Body param: Region where this widget can be used. This cannot be
                     changed after creation."
               required:
                 - domains
@@ -307,7 +323,8 @@ paths:
                 properties:
                   bot_fight_mode:
                     type: boolean
-                    description: If bot_fight_mode is set to `true`, Cloudflare issues
+                    description:
+                      If bot_fight_mode is set to `true`, Cloudflare issues
                       computationally expensive challenges in response to
                       malicious bots (ENT only).
                   clearance_level:
@@ -317,7 +334,8 @@ paths:
                       - jschallenge
                       - managed
                       - interactive
-                    description: If Turnstile is embedded on a Cloudflare site and the widget should
+                    description:
+                      If Turnstile is embedded on a Cloudflare site and the widget should
                       grant challenge clearance, this setting can determine the
                       clearance level to be set
                   created_on:
@@ -342,7 +360,8 @@ paths:
                     description: When the widget was modified.
                   name:
                     type: string
-                    description: Human readable widget name. Not unique. Cloudflare suggests that
+                    description:
+                      Human readable widget name. Not unique. Cloudflare suggests that
                       you set this to a meaningful string to make it easier to
                       identify your widget, and where it is used.
                   offlabel:
@@ -353,7 +372,8 @@ paths:
                     enum:
                       - world
                       - china
-                    description: Region where this widget can be used. This cannot be changed after
+                    description:
+                      Region where this widget can be used. This cannot be changed after
                       creation.
                   secret:
                     type: string
@@ -377,7 +397,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteWidget
-      description: "Destroy a Turnstile Widget.  @example ```ts const widget = await
+      description:
+        "Destroy a Turnstile Widget.  @example ```ts const widget = await
         client.turnstile.widgets.delete( '0x4AAF00AAAABn0R22HWm-YUc', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -402,7 +423,8 @@ paths:
                 properties:
                   bot_fight_mode:
                     type: boolean
-                    description: If bot_fight_mode is set to `true`, Cloudflare issues
+                    description:
+                      If bot_fight_mode is set to `true`, Cloudflare issues
                       computationally expensive challenges in response to
                       malicious bots (ENT only).
                   clearance_level:
@@ -412,7 +434,8 @@ paths:
                       - jschallenge
                       - managed
                       - interactive
-                    description: If Turnstile is embedded on a Cloudflare site and the widget should
+                    description:
+                      If Turnstile is embedded on a Cloudflare site and the widget should
                       grant challenge clearance, this setting can determine the
                       clearance level to be set
                   created_on:
@@ -437,7 +460,8 @@ paths:
                     description: When the widget was modified.
                   name:
                     type: string
-                    description: Human readable widget name. Not unique. Cloudflare suggests that
+                    description:
+                      Human readable widget name. Not unique. Cloudflare suggests that
                       you set this to a meaningful string to make it easier to
                       identify your widget, and where it is used.
                   offlabel:
@@ -448,7 +472,8 @@ paths:
                     enum:
                       - world
                       - china
-                    description: Region where this widget can be used. This cannot be changed after
+                    description:
+                      Region where this widget can be used. This cannot be changed after
                       creation.
                   secret:
                     type: string
@@ -479,7 +504,8 @@ paths:
   /accounts/{account_id}/challenges/widgets:
     get:
       operationId: listWidgets
-      description: "Lists all turnstile widgets of an account.  @example ```ts //
+      description:
+        "Lists all turnstile widgets of an account.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         widgetListResponse of client.turnstile.widgets.list( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -512,7 +538,8 @@ paths:
         - name: filter
           in: query
           required: false
-          description: "Query param: Filter widgets by field using case-insensitive
+          description:
+            "Query param: Filter widgets by field using case-insensitive
             substring matching. Format: `field:value`  Supported fields:  -
             `name` - Filter by widget name (e.g., `filter=name:login-form`) -
             `sitekey` - Filter by sitekey (e.g.,
@@ -543,7 +570,8 @@ paths:
                 properties:
                   bot_fight_mode:
                     type: boolean
-                    description: If bot_fight_mode is set to `true`, Cloudflare issues
+                    description:
+                      If bot_fight_mode is set to `true`, Cloudflare issues
                       computationally expensive challenges in response to
                       malicious bots (ENT only).
                   clearance_level:
@@ -553,7 +581,8 @@ paths:
                       - jschallenge
                       - managed
                       - interactive
-                    description: If Turnstile is embedded on a Cloudflare site and the widget should
+                    description:
+                      If Turnstile is embedded on a Cloudflare site and the widget should
                       grant challenge clearance, this setting can determine the
                       clearance level to be set
                   created_on:
@@ -578,7 +607,8 @@ paths:
                     description: When the widget was modified.
                   name:
                     type: string
-                    description: Human readable widget name. Not unique. Cloudflare suggests that
+                    description:
+                      Human readable widget name. Not unique. Cloudflare suggests that
                       you set this to a meaningful string to make it easier to
                       identify your widget, and where it is used.
                   offlabel:
@@ -589,7 +619,8 @@ paths:
                     enum:
                       - world
                       - china
-                    description: Region where this widget can be used. This cannot be changed after
+                    description:
+                      Region where this widget can be used. This cannot be changed after
                       creation.
                   sitekey:
                     type: string
@@ -609,7 +640,8 @@ paths:
       x-distilled-pagination-class: WidgetListResponsesV4PagePaginationArray
     post:
       operationId: createWidget
-      description: "Lists challenge widgets.  @example ```ts const widget = await
+      description:
+        "Lists challenge widgets.  @example ```ts const widget = await
         client.turnstile.widgets.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', domains: [ '203.0.113.1',
         'cloudflare.com', 'blog.example.com', ], mode: 'invisible', name:
@@ -633,7 +665,8 @@ paths:
         - name: filter
           in: query
           required: false
-          description: "Query param: Filter widgets by field using case-insensitive
+          description:
+            "Query param: Filter widgets by field using case-insensitive
             substring matching. Format: `field:value`  Supported fields:  -
             `name` - Filter by widget name (e.g., `filter=name:login-form`) -
             `sitekey` - Filter by sitekey (e.g.,
@@ -687,12 +720,14 @@ paths:
                   description: "Body param: Widget Mode"
                 name:
                   type: string
-                  description: "Body param: Human readable widget name. Not unique. Cloudflare
+                  description:
+                    "Body param: Human readable widget name. Not unique. Cloudflare
                     suggests that you set this to a meaningful string to make it
                     easier to identify your widget, and where it is used."
                 bot_fight_mode:
                   type: boolean
-                  description: "Body param: If bot_fight_mode is set to `true`, Cloudflare issues
+                  description:
+                    "Body param: If bot_fight_mode is set to `true`, Cloudflare issues
                     computationally expensive challenges in response to
                     malicious bots (ENT only)."
                 clearance_level:
@@ -702,7 +737,8 @@ paths:
                     - jschallenge
                     - managed
                     - interactive
-                  description: "Body param: If Turnstile is embedded on a Cloudflare site and the
+                  description:
+                    "Body param: If Turnstile is embedded on a Cloudflare site and the
                     widget should grant challenge clearance, this setting can
                     determine the clearance level to be set"
                 ephemeral_id:
@@ -710,14 +746,16 @@ paths:
                   description: "Body param: Return the Ephemeral ID in /siteverify (ENT only)."
                 offlabel:
                   type: boolean
-                  description: "Body param: Do not show any Cloudflare branding on the widget (ENT
+                  description:
+                    "Body param: Do not show any Cloudflare branding on the widget (ENT
                     only)."
                 region:
                   type: string
                   enum:
                     - world
                     - china
-                  description: "Body param: Region where this widget can be used. This cannot be
+                  description:
+                    "Body param: Region where this widget can be used. This cannot be
                     changed after creation."
               required:
                 - domains
@@ -733,7 +771,8 @@ paths:
                 properties:
                   bot_fight_mode:
                     type: boolean
-                    description: If bot_fight_mode is set to `true`, Cloudflare issues
+                    description:
+                      If bot_fight_mode is set to `true`, Cloudflare issues
                       computationally expensive challenges in response to
                       malicious bots (ENT only).
                   clearance_level:
@@ -743,7 +782,8 @@ paths:
                       - jschallenge
                       - managed
                       - interactive
-                    description: If Turnstile is embedded on a Cloudflare site and the widget should
+                    description:
+                      If Turnstile is embedded on a Cloudflare site and the widget should
                       grant challenge clearance, this setting can determine the
                       clearance level to be set
                   created_on:
@@ -768,7 +808,8 @@ paths:
                     description: When the widget was modified.
                   name:
                     type: string
-                    description: Human readable widget name. Not unique. Cloudflare suggests that
+                    description:
+                      Human readable widget name. Not unique. Cloudflare suggests that
                       you set this to a meaningful string to make it easier to
                       identify your widget, and where it is used.
                   offlabel:
@@ -779,7 +820,8 @@ paths:
                     enum:
                       - world
                       - china
-                    description: Region where this widget can be used. This cannot be changed after
+                    description:
+                      Region where this widget can be used. This cannot be changed after
                       creation.
                   secret:
                     type: string

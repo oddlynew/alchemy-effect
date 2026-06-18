@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/custom_certificates/{customCertificateId}:
     get:
       operationId: getCustomCertificate
-      description: "Retrieves details for a specific custom SSL certificate, including
+      description:
+        "Retrieves details for a specific custom SSL certificate, including
         certificate metadata, bundle method, geographic restrictions, and
         associated keyless server configuration.  @example ```ts const
         customCertificate = await client.customCertificates.get(
@@ -47,7 +48,8 @@ paths:
                       - ubiquitous
                       - optimal
                       - force
-                    description: A ubiquitous bundle has the highest probability of being verified
+                    description:
+                      A ubiquitous bundle has the highest probability of being verified
                       everywhere, even by clients using outdated or unusual
                       trust stores. An optimal bundle uses the shortest chain
                       and newest intermediates. And the force bundle verifies
@@ -67,7 +69,8 @@ paths:
                           - us
                           - eu
                           - highest_security
-                    description: Specify the region where your private key can be held locally for
+                    description:
+                      Specify the region where your private key can be held locally for
                       optimal TLS performance. HTTPS connections to any excluded
                       data center will still be fully encrypted, but will incur
                       some latency while Keyless SSL is used to complete the
@@ -108,11 +111,13 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Available permissions for the Keyless SSL for the current user
+                        description:
+                          Available permissions for the Keyless SSL for the current user
                           requesting the item.
                       port:
                         type: number
-                        description: The keyless SSL port used to communicate between Cloudflare and the
+                        description:
+                          The keyless SSL port used to communicate between Cloudflare and the
                           client's Keyless SSL server.
                       status:
                         type: string
@@ -148,7 +153,8 @@ paths:
                     description: When the certificate was last modified.
                   policy_restrictions:
                     type: string
-                    description: 'The policy restrictions returned by the API. This field is
+                    description:
+                      'The policy restrictions returned by the API. This field is
                       returned in responses when a policy has been set. The API
                       accepts the "policy" field in requests but returns this
                       field as "policy_restrictions" in responses.  Specifies
@@ -157,7 +163,8 @@ paths:
                       expression, for example: "(country: US) or (region: EU)"'
                   priority:
                     type: number
-                    description: The order/priority in which the certificate will be used in a
+                    description:
+                      The order/priority in which the certificate will be used in a
                       request. The higher priority will break ties across
                       overlapping 'legacy_custom' certificates, but
                       'legacy_custom' certificates will always supercede
@@ -190,7 +197,8 @@ paths:
           - status: 403
     patch:
       operationId: patchCustomCertificate
-      description: "Upload a new private key and/or PEM/CRT for the SSL certificate.
+      description:
+        "Upload a new private key and/or PEM/CRT for the SSL certificate.
         Note: PATCHing a configuration for sni_custom certificates will result
         in a new resource id being returned, and the previous one being
         deleted.  @example ```ts const customCertificate = await
@@ -221,14 +229,16 @@ paths:
                     - ubiquitous
                     - optimal
                     - force
-                  description: "Body param: A ubiquitous bundle has the highest probability of
+                  description:
+                    "Body param: A ubiquitous bundle has the highest probability of
                     being verified everywhere, even by clients using outdated or
                     unusual trust stores. An optimal bundle uses the shortest
                     chain and newest intermediates. And the force bundle
                     verifies the chain, but does not otherwise modify it."
                 certificate:
                   type: string
-                  description: "Body param: The zone's SSL certificate or certificate and the
+                  description:
+                    "Body param: The zone's SSL certificate or certificate and the
                     intermediate(s)."
                 custom_csr_id:
                   type: string
@@ -238,7 +248,8 @@ paths:
                   enum:
                     - staging
                     - production
-                  description: "Body param: The environment to deploy the certificate to, defaults
+                  description:
+                    "Body param: The environment to deploy the certificate to, defaults
                     to production."
                 geo_restrictions:
                   type: object
@@ -249,7 +260,8 @@ paths:
                         - us
                         - eu
                         - highest_security
-                  description: "Body param: Specify the region where your private key can be held
+                  description:
+                    "Body param: Specify the region where your private key can be held
                     locally for optimal TLS performance. HTTPS connections to
                     any excluded data center will still be fully encrypted, but
                     will incur some latency while Keyless SSL is used to
@@ -260,7 +272,8 @@ paths:
                     datacenters, for optimal performance."
                 policy:
                   type: string
-                  description: "Body param: Specify the policy that determines the region where
+                  description:
+                    "Body param: Specify the policy that determines the region where
                     your private key will be held locally. HTTPS connections to
                     any excluded data center will still be fully encrypted, but
                     will incur some latency while Keyless SSL is used to
@@ -276,7 +289,8 @@ paths:
                     return this field as \"policy_restrictions\"."
                 private_key:
                   type: string
-                  description: "Body param: The zone's private key. Not required if custom_csr_id
+                  description:
+                    "Body param: The zone's private key. Not required if custom_csr_id
                     is provided, in which case the private key is retrieved from
                     the CSR record held by Cloudflare."
       responses:
@@ -299,7 +313,8 @@ paths:
                       - ubiquitous
                       - optimal
                       - force
-                    description: A ubiquitous bundle has the highest probability of being verified
+                    description:
+                      A ubiquitous bundle has the highest probability of being verified
                       everywhere, even by clients using outdated or unusual
                       trust stores. An optimal bundle uses the shortest chain
                       and newest intermediates. And the force bundle verifies
@@ -319,7 +334,8 @@ paths:
                           - us
                           - eu
                           - highest_security
-                    description: Specify the region where your private key can be held locally for
+                    description:
+                      Specify the region where your private key can be held locally for
                       optimal TLS performance. HTTPS connections to any excluded
                       data center will still be fully encrypted, but will incur
                       some latency while Keyless SSL is used to complete the
@@ -360,11 +376,13 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Available permissions for the Keyless SSL for the current user
+                        description:
+                          Available permissions for the Keyless SSL for the current user
                           requesting the item.
                       port:
                         type: number
-                        description: The keyless SSL port used to communicate between Cloudflare and the
+                        description:
+                          The keyless SSL port used to communicate between Cloudflare and the
                           client's Keyless SSL server.
                       status:
                         type: string
@@ -400,7 +418,8 @@ paths:
                     description: When the certificate was last modified.
                   policy_restrictions:
                     type: string
-                    description: 'The policy restrictions returned by the API. This field is
+                    description:
+                      'The policy restrictions returned by the API. This field is
                       returned in responses when a policy has been set. The API
                       accepts the "policy" field in requests but returns this
                       field as "policy_restrictions" in responses.  Specifies
@@ -409,7 +428,8 @@ paths:
                       expression, for example: "(country: US) or (region: EU)"'
                   priority:
                     type: number
-                    description: The order/priority in which the certificate will be used in a
+                    description:
+                      The order/priority in which the certificate will be used in a
                       request. The higher priority will break ties across
                       overlapping 'legacy_custom' certificates, but
                       'legacy_custom' certificates will always supercede
@@ -483,7 +503,8 @@ paths:
   /zones/{zone_id}/custom_certificates:
     get:
       operationId: listCustomCertificates
-      description: "List, search, and filter all of your custom SSL certificates. The
+      description:
+        "List, search, and filter all of your custom SSL certificates. The
         higher priority will break ties across overlapping 'legacy_custom'
         certificates, but 'legacy_custom' certificates will always supercede
         'sni_custom' certificates.  @example ```ts // Automatically fetches more
@@ -510,7 +531,8 @@ paths:
         - name: match
           in: query
           required: false
-          description: "Query param: Whether to match all search requirements or at least
+          description:
+            "Query param: Whether to match all search requirements or at least
             one (any)."
           schema:
             type: string
@@ -549,7 +571,8 @@ paths:
                       - ubiquitous
                       - optimal
                       - force
-                    description: A ubiquitous bundle has the highest probability of being verified
+                    description:
+                      A ubiquitous bundle has the highest probability of being verified
                       everywhere, even by clients using outdated or unusual
                       trust stores. An optimal bundle uses the shortest chain
                       and newest intermediates. And the force bundle verifies
@@ -569,7 +592,8 @@ paths:
                           - us
                           - eu
                           - highest_security
-                    description: Specify the region where your private key can be held locally for
+                    description:
+                      Specify the region where your private key can be held locally for
                       optimal TLS performance. HTTPS connections to any excluded
                       data center will still be fully encrypted, but will incur
                       some latency while Keyless SSL is used to complete the
@@ -610,11 +634,13 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Available permissions for the Keyless SSL for the current user
+                        description:
+                          Available permissions for the Keyless SSL for the current user
                           requesting the item.
                       port:
                         type: number
-                        description: The keyless SSL port used to communicate between Cloudflare and the
+                        description:
+                          The keyless SSL port used to communicate between Cloudflare and the
                           client's Keyless SSL server.
                       status:
                         type: string
@@ -650,7 +676,8 @@ paths:
                     description: When the certificate was last modified.
                   policy_restrictions:
                     type: string
-                    description: 'The policy restrictions returned by the API. This field is
+                    description:
+                      'The policy restrictions returned by the API. This field is
                       returned in responses when a policy has been set. The API
                       accepts the "policy" field in requests but returns this
                       field as "policy_restrictions" in responses.  Specifies
@@ -659,7 +686,8 @@ paths:
                       expression, for example: "(country: US) or (region: EU)"'
                   priority:
                     type: number
-                    description: The order/priority in which the certificate will be used in a
+                    description:
+                      The order/priority in which the certificate will be used in a
                       request. The higher priority will break ties across
                       overlapping 'legacy_custom' certificates, but
                       'legacy_custom' certificates will always supercede
@@ -694,7 +722,8 @@ paths:
           - status: 403
     post:
       operationId: createCustomCertificate
-      description: "Upload a new SSL certificate for a zone.  @example ```ts const
+      description:
+        "Upload a new SSL certificate for a zone.  @example ```ts const
         customCertificate = await client.customCertificates.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', certificate: '-----BEGIN
         CERTIFICATE-----\\nMIIDtTCCAp2gAwIBAgIJAMHAwfXZ5/PWMA0GCSqGSIb3DQEBCwUA\
@@ -733,7 +762,8 @@ paths:
               properties:
                 certificate:
                   type: string
-                  description: "Body param: The zone's SSL certificate or certificate and the
+                  description:
+                    "Body param: The zone's SSL certificate or certificate and the
                     intermediate(s)."
                 bundle_method:
                   type: string
@@ -741,7 +771,8 @@ paths:
                     - ubiquitous
                     - optimal
                     - force
-                  description: "Body param: A ubiquitous bundle has the highest probability of
+                  description:
+                    "Body param: A ubiquitous bundle has the highest probability of
                     being verified everywhere, even by clients using outdated or
                     unusual trust stores. An optimal bundle uses the shortest
                     chain and newest intermediates. And the force bundle
@@ -754,7 +785,8 @@ paths:
                   enum:
                     - staging
                     - production
-                  description: "Body param: The environment to deploy the certificate to, defaults
+                  description:
+                    "Body param: The environment to deploy the certificate to, defaults
                     to production."
                 geo_restrictions:
                   type: object
@@ -765,7 +797,8 @@ paths:
                         - us
                         - eu
                         - highest_security
-                  description: "Body param: Specify the region where your private key can be held
+                  description:
+                    "Body param: Specify the region where your private key can be held
                     locally for optimal TLS performance. HTTPS connections to
                     any excluded data center will still be fully encrypted, but
                     will incur some latency while Keyless SSL is used to
@@ -776,7 +809,8 @@ paths:
                     datacenters, for optimal performance."
                 policy:
                   type: string
-                  description: "Body param: Specify the policy that determines the region where
+                  description:
+                    "Body param: Specify the policy that determines the region where
                     your private key will be held locally. HTTPS connections to
                     any excluded data center will still be fully encrypted, but
                     will incur some latency while Keyless SSL is used to
@@ -792,7 +826,8 @@ paths:
                     return this field as \"policy_restrictions\"."
                 private_key:
                   type: string
-                  description: "Body param: The zone's private key. Not required if custom_csr_id
+                  description:
+                    "Body param: The zone's private key. Not required if custom_csr_id
                     is provided, in which case the private key is retrieved from
                     the CSR record held by Cloudflare."
                 type:
@@ -800,7 +835,8 @@ paths:
                   enum:
                     - legacy_custom
                     - sni_custom
-                  description: "Body param: The type 'legacy_custom' enables support for legacy
+                  description:
+                    "Body param: The type 'legacy_custom' enables support for legacy
                     clients which do not include SNI in the TLS handshake."
               required:
                 - certificate
@@ -824,7 +860,8 @@ paths:
                       - ubiquitous
                       - optimal
                       - force
-                    description: A ubiquitous bundle has the highest probability of being verified
+                    description:
+                      A ubiquitous bundle has the highest probability of being verified
                       everywhere, even by clients using outdated or unusual
                       trust stores. An optimal bundle uses the shortest chain
                       and newest intermediates. And the force bundle verifies
@@ -844,7 +881,8 @@ paths:
                           - us
                           - eu
                           - highest_security
-                    description: Specify the region where your private key can be held locally for
+                    description:
+                      Specify the region where your private key can be held locally for
                       optimal TLS performance. HTTPS connections to any excluded
                       data center will still be fully encrypted, but will incur
                       some latency while Keyless SSL is used to complete the
@@ -885,11 +923,13 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Available permissions for the Keyless SSL for the current user
+                        description:
+                          Available permissions for the Keyless SSL for the current user
                           requesting the item.
                       port:
                         type: number
-                        description: The keyless SSL port used to communicate between Cloudflare and the
+                        description:
+                          The keyless SSL port used to communicate between Cloudflare and the
                           client's Keyless SSL server.
                       status:
                         type: string
@@ -925,7 +965,8 @@ paths:
                     description: When the certificate was last modified.
                   policy_restrictions:
                     type: string
-                    description: 'The policy restrictions returned by the API. This field is
+                    description:
+                      'The policy restrictions returned by the API. This field is
                       returned in responses when a policy has been set. The API
                       accepts the "policy" field in requests but returns this
                       field as "policy_restrictions" in responses.  Specifies
@@ -934,7 +975,8 @@ paths:
                       expression, for example: "(country: US) or (region: EU)"'
                   priority:
                     type: number
-                    description: The order/priority in which the certificate will be used in a
+                    description:
+                      The order/priority in which the certificate will be used in a
                       request. The higher priority will break ties across
                       overlapping 'legacy_custom' certificates, but
                       'legacy_custom' certificates will always supercede
@@ -966,7 +1008,8 @@ paths:
   /zones/{zone_id}/custom_certificates/prioritize:
     put:
       operationId: putPrioritize
-      description: "If a zone has multiple SSL certificates, you can set the order in
+      description:
+        "If a zone has multiple SSL certificates, you can set the order in
         which they should be used during a request. The higher priority will
         break ties across overlapping 'legacy_custom' certificates.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
@@ -997,7 +1040,8 @@ paths:
                         description: Identifier.
                       priority:
                         type: number
-                        description: The order/priority in which the certificate will be used in a
+                        description:
+                          The order/priority in which the certificate will be used in a
                           request. The higher priority will break ties across
                           overlapping 'legacy_custom' certificates, but
                           'legacy_custom' certificates will always supercede
@@ -1025,7 +1069,8 @@ paths:
                       - ubiquitous
                       - optimal
                       - force
-                    description: A ubiquitous bundle has the highest probability of being verified
+                    description:
+                      A ubiquitous bundle has the highest probability of being verified
                       everywhere, even by clients using outdated or unusual
                       trust stores. An optimal bundle uses the shortest chain
                       and newest intermediates. And the force bundle verifies
@@ -1045,7 +1090,8 @@ paths:
                           - us
                           - eu
                           - highest_security
-                    description: Specify the region where your private key can be held locally for
+                    description:
+                      Specify the region where your private key can be held locally for
                       optimal TLS performance. HTTPS connections to any excluded
                       data center will still be fully encrypted, but will incur
                       some latency while Keyless SSL is used to complete the
@@ -1086,11 +1132,13 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: Available permissions for the Keyless SSL for the current user
+                        description:
+                          Available permissions for the Keyless SSL for the current user
                           requesting the item.
                       port:
                         type: number
-                        description: The keyless SSL port used to communicate between Cloudflare and the
+                        description:
+                          The keyless SSL port used to communicate between Cloudflare and the
                           client's Keyless SSL server.
                       status:
                         type: string
@@ -1126,7 +1174,8 @@ paths:
                     description: When the certificate was last modified.
                   policy_restrictions:
                     type: string
-                    description: 'The policy restrictions returned by the API. This field is
+                    description:
+                      'The policy restrictions returned by the API. This field is
                       returned in responses when a policy has been set. The API
                       accepts the "policy" field in requests but returns this
                       field as "policy_restrictions" in responses.  Specifies
@@ -1135,7 +1184,8 @@ paths:
                       expression, for example: "(country: US) or (region: EU)"'
                   priority:
                     type: number
-                    description: The order/priority in which the certificate will be used in a
+                    description:
+                      The order/priority in which the certificate will be used in a
                       request. The higher priority will break ties across
                       overlapping 'legacy_custom' certificates, but
                       'legacy_custom' certificates will always supercede

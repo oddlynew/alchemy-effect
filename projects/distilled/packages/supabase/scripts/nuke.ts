@@ -132,9 +132,7 @@ function safeList<A, E, R>(
  * "wait-until-deleted" primitive. If the cap is reached we log and move on
  * — better to surface a slow tail than to hang CI.
  */
-function waitForProjectGone(
-  ref: string,
-): Effect.Effect<void, never, never> {
+function waitForProjectGone(ref: string): Effect.Effect<void, never, never> {
   const isStillThere = v1ListAllProjects({}).pipe(
     Effect.map((projects) => projects.some((p) => p.ref === ref)),
     Effect.orElseSucceed(() => true),
@@ -191,7 +189,9 @@ const nukeProjectBranches = (
     );
     if (!branches || branches.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}Branches${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Branches${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const branch of branches) {
       if (branch.is_default) continue; // skip default branch
       totalFound++;
@@ -229,7 +229,9 @@ const nukeProjectFunctions = (
     );
     if (!functions || functions.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}Functions${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Functions${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const fn of functions) {
       totalFound++;
       const excluded = isExcluded(nukeConfig, "Function", fn.id, fn.name);
@@ -266,27 +268,27 @@ const nukeProjectSecrets = (
     );
     if (!secrets || secrets.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}Secrets${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Secrets${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const secret of secrets) {
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "Secret", secret.name, secret.name);
+      const excluded = isExcluded(
+        nukeConfig,
+        "Secret",
+        secret.name,
+        secret.name,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
           `    ${YELLOW}[SKIP]${RESET} Secret: ${secret.name} — ${excluded.reason ?? "excluded"}`,
         );
       } else if (dryRun) {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} Secret: ${secret.name}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} Secret: ${secret.name}`);
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} Secret: ${secret.name}`,
-        );
-        yield* safeDelete(
-          v1BulkDeleteSecrets({ ref }),
-          `secrets for ${ref}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} Secret: ${secret.name}`);
+        yield* safeDelete(v1BulkDeleteSecrets({ ref }), `secrets for ${ref}`);
       }
     }
   });
@@ -303,7 +305,9 @@ const nukeProjectSsoProviders = (
     );
     if (!result || !result.items || result.items.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}SSO Providers${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}SSO Providers${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const provider of result.items) {
       totalFound++;
       const excluded = isExcluded(nukeConfig, "SsoProvider", provider.id);
@@ -338,10 +342,16 @@ const nukeProjectNetworkBans = (
       v1ListAllNetworkBans({ ref }),
       `network bans for ${ref}`,
     );
-    if (!result || !result.banned_ipv4_addresses || result.banned_ipv4_addresses.length === 0)
+    if (
+      !result ||
+      !result.banned_ipv4_addresses ||
+      result.banned_ipv4_addresses.length === 0
+    )
       return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}Network Bans${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Network Bans${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     const ips = result.banned_ipv4_addresses;
     totalFound += ips.length;
 
@@ -354,9 +364,7 @@ const nukeProjectNetworkBans = (
           `    ${YELLOW}[SKIP]${RESET} NetworkBan: ${ip} — ${excluded.reason ?? "excluded"}`,
         );
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} NetworkBan: ${ip}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} NetworkBan: ${ip}`);
         toDelete.push(ip);
       }
     }
@@ -381,7 +389,9 @@ const nukeProjectApiKeys = (
     );
     if (!keys || keys.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}API Keys${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}API Keys${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const key of keys) {
       totalFound++;
       const excluded = isExcluded(nukeConfig, "ApiKey", key.id, key.name);
@@ -418,7 +428,9 @@ const nukeProjectSigningKeys = (
     );
     if (!result || !result.keys || result.keys.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}Signing Keys${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Signing Keys${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const key of result.keys) {
       totalFound++;
       const excluded = isExcluded(nukeConfig, "SigningKey", key.id);
@@ -455,14 +467,12 @@ const nukeProjectTpaIntegrations = (
     );
     if (!integrations || integrations.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}TPA Integrations${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}TPA Integrations${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const integration of integrations) {
       totalFound++;
-      const excluded = isExcluded(
-        nukeConfig,
-        "TpaIntegration",
-        integration.id,
-      );
+      const excluded = isExcluded(nukeConfig, "TpaIntegration", integration.id);
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -494,9 +504,16 @@ const nukeProjectAddons = (
       v1ListProjectAddons({ ref }),
       `addons for ${ref}`,
     );
-    if (!result || !result.selected_addons || result.selected_addons.length === 0) return;
+    if (
+      !result ||
+      !result.selected_addons ||
+      result.selected_addons.length === 0
+    )
+      return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}Addons${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Addons${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const addon of result.selected_addons) {
       totalFound++;
       const variantId = String(addon.variant.id);
@@ -534,7 +551,9 @@ const nukeProjectJitAccess = (
     );
     if (!result || !result.items || result.items.length === 0) return;
 
-    yield* Console.log(`\n  ${BOLD}${CYAN}JIT Access${RESET} ${DIM}(project: ${ref})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}JIT Access${RESET} ${DIM}(project: ${ref})${RESET}`,
+    );
     for (const item of result.items) {
       totalFound++;
       const excluded = isExcluded(nukeConfig, "JitAccess", item.user_id);
@@ -572,7 +591,9 @@ const nukeProjectBuckets = (
     if (!buckets || buckets.length === 0) return;
 
     // Buckets are listed but there is no delete bucket API in the management SDK
-    yield* Console.log(`\n  ${BOLD}${CYAN}Buckets${RESET} ${DIM}(project: ${ref}, read-only — no delete API)${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Buckets${RESET} ${DIM}(project: ${ref}, read-only — no delete API)${RESET}`,
+    );
     for (const bucket of buckets) {
       yield* Console.log(
         `    ${DIM}Bucket: ${bucket.name} (id: ${bucket.id}, public: ${bucket.public})${RESET}`,
@@ -589,7 +610,9 @@ const nukeProjectBackups = (ref: string) =>
     if (!result || !result.backups || result.backups.length === 0) return;
 
     // Backups are listed but there is no delete backup API
-    yield* Console.log(`\n  ${BOLD}${CYAN}Backups${RESET} ${DIM}(project: ${ref}, read-only — no delete API)${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Backups${RESET} ${DIM}(project: ${ref}, read-only — no delete API)${RESET}`,
+    );
     for (const backup of result.backups) {
       yield* Console.log(
         `    ${DIM}Backup: ${backup.status} ${DIM}(inserted_at: ${backup.inserted_at})${RESET}`,
@@ -606,7 +629,9 @@ const nukeProjectSnippets = (ref: string) =>
     if (!result || !result.data || result.data.length === 0) return;
 
     // Snippets are listed but there is no delete snippet API
-    yield* Console.log(`\n  ${BOLD}${CYAN}Snippets${RESET} ${DIM}(project: ${ref}, read-only — no delete API)${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Snippets${RESET} ${DIM}(project: ${ref}, read-only — no delete API)${RESET}`,
+    );
     for (const snippet of result.data) {
       yield* Console.log(
         `    ${DIM}Snippet: ${snippet.name} (id: ${snippet.id}, type: ${snippet.type})${RESET}`,
@@ -643,11 +668,10 @@ const nuke = Command.make(
       }
 
       // ── Organizations (read-only, cannot be deleted via management API) ──
-      yield* Console.log(`\n${BOLD}${CYAN}Organizations${RESET} ${DIM}(read-only)${RESET}`);
-      const orgs = yield* safeList(
-        v1ListAllOrganizations({}),
-        "organizations",
+      yield* Console.log(
+        `\n${BOLD}${CYAN}Organizations${RESET} ${DIM}(read-only)${RESET}`,
       );
+      const orgs = yield* safeList(v1ListAllOrganizations({}), "organizations");
       if (orgs && orgs.length > 0) {
         for (const org of orgs) {
           yield* Console.log(
@@ -660,10 +684,7 @@ const nuke = Command.make(
 
       // ── Projects ──
       yield* Console.log(`\n${BOLD}${CYAN}Projects${RESET}`);
-      const projects = yield* safeList(
-        v1ListAllProjects({}),
-        "projects",
-      );
+      const projects = yield* safeList(v1ListAllProjects({}), "projects");
       if (!projects || projects.length === 0) {
         yield* Console.log(`  ${DIM}No projects found${RESET}`);
       } else {
@@ -702,11 +723,19 @@ const nuke = Command.make(
           yield* nukeProjectBranches(project.ref, config.dryRun, nukeConfig);
           yield* nukeProjectFunctions(project.ref, config.dryRun, nukeConfig);
           yield* nukeProjectSecrets(project.ref, config.dryRun, nukeConfig);
-          yield* nukeProjectSsoProviders(project.ref, config.dryRun, nukeConfig);
+          yield* nukeProjectSsoProviders(
+            project.ref,
+            config.dryRun,
+            nukeConfig,
+          );
           yield* nukeProjectNetworkBans(project.ref, config.dryRun, nukeConfig);
           yield* nukeProjectApiKeys(project.ref, config.dryRun, nukeConfig);
           yield* nukeProjectSigningKeys(project.ref, config.dryRun, nukeConfig);
-          yield* nukeProjectTpaIntegrations(project.ref, config.dryRun, nukeConfig);
+          yield* nukeProjectTpaIntegrations(
+            project.ref,
+            config.dryRun,
+            nukeConfig,
+          );
           yield* nukeProjectAddons(project.ref, config.dryRun, nukeConfig);
           yield* nukeProjectJitAccess(project.ref, config.dryRun, nukeConfig);
           yield* nukeProjectBuckets(project.ref, config.dryRun, nukeConfig);

@@ -58,7 +58,8 @@ paths:
   /accounts/{account_id}/dls/regions:
     get:
       operationId: listRegions
-      description: "List DLS regions for an account  @example ```ts // Automatically
+      description:
+        "List DLS regions for an account  @example ```ts // Automatically
         fetches more pages as needed. for await (const regionListResponse of
         client.dls.regions.list( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -122,7 +123,8 @@ paths:
   /accounts/{account_id}/dls/regional_services/prefix_bindings/{bindingId}:
     get:
       operationId: getRegionalServicePrefixBinding
-      description: "Get a DLS prefix binding  @example ```ts const prefixBinding =
+      description:
+        "Get a DLS prefix binding  @example ```ts const prefixBinding =
         await client.dls.regionalServices.prefixBindings.get(
         'a1b2c3d4-e5f6-7890-abcd-ef1234567890', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -166,7 +168,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchRegionalServicePrefixBinding
-      description: "Update a DLS prefix binding  @example ```ts const response = await
+      description:
+        "Update a DLS prefix binding  @example ```ts const response = await
         client.dls.regionalServices.prefixBindings.edit(
         'a1b2c3d4-e5f6-7890-abcd-ef1234567890', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', region_key: 'eu', }, ); ```"
@@ -191,7 +194,8 @@ paths:
               properties:
                 region_key:
                   type: string
-                  description: 'Body param: New region key to assign (e.g., "us", "eu",
+                  description:
+                    'Body param: New region key to assign (e.g., "us", "eu",
                     "cfcanary").'
               required:
                 - region_key
@@ -223,7 +227,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteRegionalServicePrefixBinding
-      description: "Delete a DLS prefix binding  @example ```ts const prefixBinding =
+      description:
+        "Delete a DLS prefix binding  @example ```ts const prefixBinding =
         await client.dls.regionalServices.prefixBindings.delete(
         'a1b2c3d4-e5f6-7890-abcd-ef1234567890', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -343,7 +348,8 @@ paths:
       x-distilled-pagination-class: PrefixBindingListResponsesCursorPagination
     post:
       operationId: createRegionalServicePrefixBinding
-      description: "Create a DLS prefix binding  @example ```ts const prefixBinding =
+      description:
+        "Create a DLS prefix binding  @example ```ts const prefixBinding =
         await client.dls.regionalServices.prefixBindings.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', cidr: '10.0.1.0/24', prefix_id:
         'a1b2c3d4-e5f6-7890-abcd-ef1234567890', region_key: 'eu', }); ```"
@@ -366,7 +372,8 @@ paths:
                   description: "Body param: IP prefix in CIDR notation to bind."
                 prefix_id:
                   type: string
-                  description: "Body param: The ID of the parent IP prefix that contains the
+                  description:
+                    "Body param: The ID of the parent IP prefix that contains the
                     CIDR."
                 region_key:
                   type: string

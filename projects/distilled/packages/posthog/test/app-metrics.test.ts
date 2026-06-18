@@ -150,23 +150,21 @@ describe("AppMetrics", () => {
     test.skipIf(
       !process.env.POSTHOG_PLUGIN_CONFIG_ID ||
         !process.env.POSTHOG_HISTORICAL_EXPORT_ID,
-    )(
-      "happy path - retrieves an existing historical export by id",
-      () =>
-        Effect.gen(function* () {
-          const result = yield* AppMetrics.appMetricsHistoricalExportsRetrieve({
-            project_id: getProjectId(),
-            plugin_config_id: pluginConfigId(),
-            id: historicalExportId(),
-          });
+    )("happy path - retrieves an existing historical export by id", () =>
+      Effect.gen(function* () {
+        const result = yield* AppMetrics.appMetricsHistoricalExportsRetrieve({
+          project_id: getProjectId(),
+          plugin_config_id: pluginConfigId(),
+          id: historicalExportId(),
+        });
 
-          // Output is Record<string, unknown> — assert it's a non-null,
-          // non-array object.
-          expect(result).toBeDefined();
-          expect(typeof result).toBe("object");
-          expect(result).not.toBeNull();
-          expect(Array.isArray(result)).toBe(false);
-        }),
+        // Output is Record<string, unknown> — assert it's a non-null,
+        // non-array object.
+        expect(result).toBeDefined();
+        expect(typeof result).toBe("object");
+        expect(result).not.toBeNull();
+        expect(Array.isArray(result)).toBe(false);
+      }),
     );
 
     test("error - NotFound for non-existent historical export id", () =>

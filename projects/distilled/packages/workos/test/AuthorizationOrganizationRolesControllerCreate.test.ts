@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationOrganizationRolesControllerCreate", () => {
   it(
     "fails with BadRequest when name is empty",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -31,11 +32,11 @@ describe("AuthorizationOrganizationRolesControllerCreate", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolesControllerCreate({
@@ -46,11 +47,11 @@ describe("AuthorizationOrganizationRolesControllerCreate", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolesControllerCreate({
@@ -61,11 +62,11 @@ describe("AuthorizationOrganizationRolesControllerCreate", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when creating a role with a duplicate slug",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -103,11 +104,11 @@ describe("AuthorizationOrganizationRolesControllerCreate", () => {
 
       expect(["Conflict", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity when slug has invalid format",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -131,6 +132,5 @@ describe("AuthorizationOrganizationRolesControllerCreate", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    60_000,
   );
 });

@@ -60,6 +60,7 @@ describe("createConversationModel", () => {
 
   it(
     "creates a conversation model and returns its id",
+    { timeout: 60_000 },
     async () => {
       // Typesense validates the LLM API key by making a real call when the
       // model is created, so this happy path requires OPENAI_API_KEY to be
@@ -102,11 +103,11 @@ describe("createConversationModel", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "fails with BadRequest when the model body is empty / missing required fields",
+    { timeout: 30_000 },
     async () => {
       // Sending POST /conversations/models with an empty body triggers 400
       // because required fields (model_name, history_collection, etc.) are
@@ -117,6 +118,5 @@ describe("createConversationModel", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

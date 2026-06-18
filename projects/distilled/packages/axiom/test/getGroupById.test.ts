@@ -11,6 +11,7 @@ describe("getGroupById", () => {
 
   it(
     "returns NotFound for a group id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getGroupById({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -18,6 +19,5 @@ describe("getGroupById", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

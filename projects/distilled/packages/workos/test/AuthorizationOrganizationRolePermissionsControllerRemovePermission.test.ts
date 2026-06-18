@@ -11,6 +11,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationOrganizationRolePermissionsControllerRemovePermission", () => {
   it(
     "fails with NotFound for a non-existent role slug",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -36,11 +37,11 @@ describe("AuthorizationOrganizationRolePermissionsControllerRemovePermission", (
 
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolePermissionsControllerRemovePermission({
@@ -52,6 +53,5 @@ describe("AuthorizationOrganizationRolePermissionsControllerRemovePermission", (
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

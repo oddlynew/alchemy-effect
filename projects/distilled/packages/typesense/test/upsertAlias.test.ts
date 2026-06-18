@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("upsertAlias", () => {
   it(
     "creates an alias pointing at a collection",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-upsalias-col-${testRunId}`;
       const aliasName = `distilled-typesense-upsalias-${testRunId}`;
@@ -37,11 +38,11 @@ describe("upsertAlias", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the target collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const aliasName = `distilled-typesense-upsalias-nf-${testRunId}`;
 
@@ -54,11 +55,11 @@ describe("upsertAlias", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when collection_name is empty",
+    { timeout: 30_000 },
     async () => {
       const aliasName = `distilled-typesense-upsalias-bad-${testRunId}`;
 
@@ -73,6 +74,5 @@ describe("upsertAlias", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

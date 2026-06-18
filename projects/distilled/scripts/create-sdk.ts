@@ -899,7 +899,7 @@ const scaffoldPackage = (
             repository: {
               type: "git",
               url: "https://github.com/alchemy-run/distilled",
-              directory: `packages/${name}`,
+              directory: `projects/distilled/packages/${name}`,
             },
             type: "module",
             sideEffects: false,
@@ -972,6 +972,7 @@ const scaffoldPackage = (
               effect: "catalog:",
             },
             devDependencies: {
+              "@alchemy.run/typescript-config": "workspace:*",
               "@types/bun": "catalog:",
               "@types/node": "catalog:",
               dotenv: "catalog:",
@@ -998,7 +999,7 @@ const scaffoldPackage = (
         tsconfigPath,
         JSON.stringify(
           {
-            extends: "../../tsconfig.base.json",
+            extends: "@alchemy.run/typescript-config/node.json",
             include: ["src/**/*.ts"],
             compilerOptions: {
               outDir: "./lib",
@@ -1026,7 +1027,7 @@ const scaffoldPackage = (
         tsconfigTestPath,
         JSON.stringify(
           {
-            extends: "../../tsconfig.base.json",
+            extends: "@alchemy.run/typescript-config/node.json",
             include: ["src/**/*.ts", "test/**/*.ts"],
             compilerOptions: {
               rootDir: ".",

@@ -18,14 +18,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -42,7 +44,8 @@ paths:
         - name: before
           in: query
           required: false
-          description: "Query param: Filter entries changed before this timestamp (RFC
+          description:
+            "Query param: Filter entries changed before this timestamp (RFC
             3339)."
           schema:
             type: string
@@ -64,7 +67,8 @@ paths:
         - name: order
           in: query
           required: false
-          description: "Query param: Sort order for results. Use 'asc' for oldest first or
+          description:
+            "Query param: Sort order for results. Use 'asc' for oldest first or
             'desc' for newest first."
           schema:
             type: string
@@ -74,7 +78,8 @@ paths:
         - name: since
           in: query
           required: false
-          description: "Query param: Filter entries changed at or after this timestamp
+          description:
+            "Query param: Filter entries changed at or after this timestamp
             (RFC 3339)."
           schema:
             type: string
@@ -94,13 +99,15 @@ paths:
                     description: The timestamp when the change occurred.
                   changed_by:
                     type: string
-                    description: The actor that made the change. 'system' for automated changes, or
+                    description:
+                      The actor that made the change. 'system' for automated changes, or
                       a user identifier.
                   current_value:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: The value of the field after the change. Null if the field was
+                    description:
+                      The value of the field after the change. Null if the field was
                       cleared.
                   field_changed:
                     type: string
@@ -115,7 +122,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: The value of the field before the change. Null if the field was not
+                    description:
+                      The value of the field before the change. Null if the field was not
                       previously set.
                   rationale:
                     oneOf:
@@ -124,7 +132,8 @@ paths:
                     description: Optional rationale provided for the change.
                   zone_id:
                     type: number
-                    description: The zone ID associated with the insight. Only present for
+                    description:
+                      The zone ID associated with the insight. Only present for
                       zone-level insights.
       x-distilled-pagination-class: AuditLogListByInsightResponsesCursorPagination
   /{accountOrZone}/{accountOrZoneId}/security-center/insights:
@@ -134,14 +143,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -285,7 +296,8 @@ paths:
                           type: boolean
                         has_extended_context:
                           type: boolean
-                          description: Indicates whether the insight has a large payload that requires
+                          description:
+                            Indicates whether the insight has a large payload that requires
                             fetching via the context endpoint.
                         issue_class:
                           type: string
@@ -335,7 +347,8 @@ paths:
                             - accept_risk
                             - other
                           nullable: true
-                          description: User-defined classification for the insight. Can be
+                          description:
+                            User-defined classification for the insight. Can be
                             'false_positive', 'accept_risk', 'other', or null.
                   page:
                     type: number
@@ -361,14 +374,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -444,14 +459,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -468,7 +485,8 @@ paths:
         - name: before
           in: query
           required: false
-          description: "Query param: Filter entries changed before this timestamp (RFC
+          description:
+            "Query param: Filter entries changed before this timestamp (RFC
             3339)."
           schema:
             type: string
@@ -490,7 +508,8 @@ paths:
         - name: order
           in: query
           required: false
-          description: "Query param: Sort order for results. Use 'asc' for oldest first or
+          description:
+            "Query param: Sort order for results. Use 'asc' for oldest first or
             'desc' for newest first."
           schema:
             type: string
@@ -500,7 +519,8 @@ paths:
         - name: since
           in: query
           required: false
-          description: "Query param: Filter entries changed at or after this timestamp
+          description:
+            "Query param: Filter entries changed at or after this timestamp
             (RFC 3339)."
           schema:
             type: string
@@ -520,13 +540,15 @@ paths:
                     description: The timestamp when the change occurred.
                   changed_by:
                     type: string
-                    description: The actor that made the change. 'system' for automated changes, or
+                    description:
+                      The actor that made the change. 'system' for automated changes, or
                       a user identifier.
                   current_value:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: The value of the field after the change. Null if the field was
+                    description:
+                      The value of the field after the change. Null if the field was
                       cleared.
                   field_changed:
                     type: string
@@ -541,7 +563,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: The value of the field before the change. Null if the field was not
+                    description:
+                      The value of the field before the change. Null if the field was not
                       previously set.
                   rationale:
                     oneOf:
@@ -550,7 +573,8 @@ paths:
                     description: Optional rationale provided for the change.
                   zone_id:
                     type: number
-                    description: The zone ID associated with the insight. Only present for
+                    description:
+                      The zone ID associated with the insight. Only present for
                       zone-level insights.
       x-distilled-pagination-class: AuditLogListResponsesCursorPagination
   /{accountOrZone}/{accountOrZoneId}/security-center/insights/class:
@@ -560,14 +584,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -697,7 +723,8 @@ paths:
   /{accountOrZone}/{accountOrZoneId}/security-center/insights/{issueId}/classification:
     patch:
       operationId: patchInsightClassification
-      description: "Updates the user classification for a Security Center insight.
+      description:
+        "Updates the user classification for a Security Center insight.
         Valid values are 'false_positive' or 'accept_risk'. To reset, set
         classification to null. Cannot change directly between classification
         values - must reset to null first.  @example ```ts const classification
@@ -712,14 +739,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -737,11 +766,13 @@ paths:
                     - accept_risk
                     - other
                   nullable: true
-                  description: "Body param: User-defined classification for the insight. Can be
+                  description:
+                    "Body param: User-defined classification for the insight. Can be
                     'false_positive', 'accept_risk', 'other', or null."
                 rationale:
                   type: string
-                  description: "Body param: Rationale for the classification change. Required when
+                  description:
+                    "Body param: Rationale for the classification change. Required when
                     classification is 'accept_risk' or 'other'."
       responses:
         "200":
@@ -801,7 +832,8 @@ paths:
   /accounts/{account_id}/security-center/insights/{issueId}/context:
     get:
       operationId: getInsightContext
-      description: "Returns the full context payload for an insight. This endpoint is
+      description:
+        "Returns the full context payload for an insight. This endpoint is
         used for insights with large payloads that are not included inline in
         the list response.  @example ```ts const context = await
         client.securityCenter.insights.context.get( 'issue_id', { account_id:
@@ -834,14 +866,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -975,14 +1009,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string

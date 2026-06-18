@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/spectrum/analytics/aggregate/current:
     get:
       operationId: getAnalyticAggregateCurrent
-      description: Retrieves analytics aggregated from the last minute of usage on
+      description:
+        Retrieves analytics aggregated from the last minute of usage on
         Spectrum applications underneath a given zone.
       parameters:
         - name: zone_id
@@ -21,7 +22,8 @@ paths:
         - name: appID
           in: query
           required: false
-          description: "Query param: Comma-delimited list of Spectrum Application Id(s).
+          description:
+            "Query param: Comma-delimited list of Spectrum Application Id(s).
             If provided, the response will be limited to Spectrum Application
             Id(s) that match."
           schema:
@@ -119,7 +121,8 @@ paths:
         - name: filters
           in: query
           required: false
-          description: "Query param: Used to filter rows by one or more dimensions.
+          description:
+            "Query param: Used to filter rows by one or more dimensions.
             Filters can be combined using OR and AND boolean logic. AND takes
             precedence over OR in all the expressions. The OR operator is
             defined using a comma (,) or OR keyword surrounded by whitespace.
@@ -139,7 +142,8 @@ paths:
         - name: metrics
           in: query
           required: false
-          description: "Query param: One or more metrics to compute. Options are:  |
+          description:
+            "Query param: One or more metrics to compute. Options are:  |
             Metric         | Name                                | Example |
             Unit                  | | -------------- |
             ----------------------------------- | ------- |
@@ -169,7 +173,8 @@ paths:
         - name: since
           in: query
           required: false
-          description: "Query param: Start of time interval to query, defaults to `until`
+          description:
+            "Query param: Start of time interval to query, defaults to `until`
             - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless
             otherwise specified."
           schema:
@@ -177,7 +182,8 @@ paths:
         - name: sort
           in: query
           required: false
-          description: "Query param: The sort order for the result set; sort fields must
+          description:
+            "Query param: The sort order for the result set; sort fields must
             be included in `metrics` or `dimensions`."
           schema:
             type: array
@@ -186,7 +192,8 @@ paths:
         - name: until
           in: query
           required: false
-          description: "Query param: End of time interval to query, defaults to current
+          description:
+            "Query param: End of time interval to query, defaults to current
             time. Timestamp must be in RFC3339 format and uses UTC unless
             otherwise specified."
           schema:
@@ -221,7 +228,8 @@ paths:
                     description: List of columns returned by the analytics query.
                   data_lag:
                     type: number
-                    description: Number of seconds between current time and last processed event,
+                    description:
+                      Number of seconds between current time and last processed event,
                       i.e. how many seconds of data could be missing.
                   max:
                     type: object
@@ -243,7 +251,8 @@ paths:
                             - appID
                             - coloName
                             - ipVersion
-                        description: "Can be used to break down the data by given attributes. Options
+                        description:
+                          "Can be used to break down the data by given attributes. Options
                           are:  | Dimension | Name                          |
                           Example                                                    \
                           | | --------- | ----------------------------- |
@@ -260,7 +269,8 @@ paths:
                           |"
                       filters:
                         type: string
-                        description: "Used to filter rows by one or more dimensions. Filters can be
+                        description:
+                          "Used to filter rows by one or more dimensions. Filters can be
                           combined using OR and AND boolean logic. AND takes
                           precedence over OR in all the expressions. The OR
                           operator is defined using a comma (,) or OR keyword
@@ -292,7 +302,8 @@ paths:
                             - durationMedian
                             - duration90th
                             - duration99th
-                        description: "One or more metrics to compute. Options are:  | Metric         |
+                        description:
+                          "One or more metrics to compute. Options are:  | Metric         |
                           Name                                | Example |
                           Unit                  | | -------------- |
                           ----------------------------------- | ------- |
@@ -312,18 +323,21 @@ paths:
                           in milliseconds. |"
                       since:
                         type: string
-                        description: Start of time interval to query, defaults to `until` - 6 hours.
+                        description:
+                          Start of time interval to query, defaults to `until` - 6 hours.
                           Timestamp must be in RFC3339 format and uses UTC
                           unless otherwise specified.
                       sort:
                         type: array
                         items:
                           type: string
-                        description: The sort order for the result set; sort fields must be included in
+                        description:
+                          The sort order for the result set; sort fields must be included in
                           `metrics` or `dimensions`.
                       until:
                         type: string
-                        description: End of time interval to query, defaults to current time. Timestamp
+                        description:
+                          End of time interval to query, defaults to current time. Timestamp
                           must be in RFC3339 format and uses UTC unless
                           otherwise specified.
                   rows:
@@ -352,7 +366,8 @@ paths:
   /zones/{zone_id}/spectrum/analytics/events/summary:
     get:
       operationId: getAnalyticEventSummary
-      description: Retrieves a list of summarised aggregate metrics over a given time
+      description:
+        Retrieves a list of summarised aggregate metrics over a given time
         period.
       parameters:
         - name: zone_id
@@ -390,7 +405,8 @@ paths:
         - name: filters
           in: query
           required: false
-          description: "Query param: Used to filter rows by one or more dimensions.
+          description:
+            "Query param: Used to filter rows by one or more dimensions.
             Filters can be combined using OR and AND boolean logic. AND takes
             precedence over OR in all the expressions. The OR operator is
             defined using a comma (,) or OR keyword surrounded by whitespace.
@@ -410,7 +426,8 @@ paths:
         - name: metrics
           in: query
           required: false
-          description: "Query param: One or more metrics to compute. Options are:  |
+          description:
+            "Query param: One or more metrics to compute. Options are:  |
             Metric         | Name                                | Example |
             Unit                  | | -------------- |
             ----------------------------------- | ------- |
@@ -440,7 +457,8 @@ paths:
         - name: since
           in: query
           required: false
-          description: "Query param: Start of time interval to query, defaults to `until`
+          description:
+            "Query param: Start of time interval to query, defaults to `until`
             - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless
             otherwise specified."
           schema:
@@ -448,7 +466,8 @@ paths:
         - name: sort
           in: query
           required: false
-          description: "Query param: The sort order for the result set; sort fields must
+          description:
+            "Query param: The sort order for the result set; sort fields must
             be included in `metrics` or `dimensions`."
           schema:
             type: array
@@ -457,7 +476,8 @@ paths:
         - name: until
           in: query
           required: false
-          description: "Query param: End of time interval to query, defaults to current
+          description:
+            "Query param: End of time interval to query, defaults to current
             time. Timestamp must be in RFC3339 format and uses UTC unless
             otherwise specified."
           schema:
@@ -492,7 +512,8 @@ paths:
                     description: List of columns returned by the analytics query.
                   data_lag:
                     type: number
-                    description: Number of seconds between current time and last processed event,
+                    description:
+                      Number of seconds between current time and last processed event,
                       i.e. how many seconds of data could be missing.
                   max:
                     type: object
@@ -514,7 +535,8 @@ paths:
                             - appID
                             - coloName
                             - ipVersion
-                        description: "Can be used to break down the data by given attributes. Options
+                        description:
+                          "Can be used to break down the data by given attributes. Options
                           are:  | Dimension | Name                          |
                           Example                                                    \
                           | | --------- | ----------------------------- |
@@ -531,7 +553,8 @@ paths:
                           |"
                       filters:
                         type: string
-                        description: "Used to filter rows by one or more dimensions. Filters can be
+                        description:
+                          "Used to filter rows by one or more dimensions. Filters can be
                           combined using OR and AND boolean logic. AND takes
                           precedence over OR in all the expressions. The OR
                           operator is defined using a comma (,) or OR keyword
@@ -563,7 +586,8 @@ paths:
                             - durationMedian
                             - duration90th
                             - duration99th
-                        description: "One or more metrics to compute. Options are:  | Metric         |
+                        description:
+                          "One or more metrics to compute. Options are:  | Metric         |
                           Name                                | Example |
                           Unit                  | | -------------- |
                           ----------------------------------- | ------- |
@@ -583,18 +607,21 @@ paths:
                           in milliseconds. |"
                       since:
                         type: string
-                        description: Start of time interval to query, defaults to `until` - 6 hours.
+                        description:
+                          Start of time interval to query, defaults to `until` - 6 hours.
                           Timestamp must be in RFC3339 format and uses UTC
                           unless otherwise specified.
                       sort:
                         type: array
                         items:
                           type: string
-                        description: The sort order for the result set; sort fields must be included in
+                        description:
+                          The sort order for the result set; sort fields must be included in
                           `metrics` or `dimensions`.
                       until:
                         type: string
-                        description: End of time interval to query, defaults to current time. Timestamp
+                        description:
+                          End of time interval to query, defaults to current time. Timestamp
                           must be in RFC3339 format and uses UTC unless
                           otherwise specified.
                   rows:
@@ -623,7 +650,8 @@ paths:
   /zones/{zone_id}/spectrum/apps/{appId}:
     get:
       operationId: getApp
-      description: Gets the application configuration of a specific application inside
+      description:
+        Gets the application configuration of a specific application inside
         a zone.
       parameters:
         - name: appId
@@ -670,7 +698,8 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       traffic_type:
@@ -679,7 +708,8 @@ paths:
                           - direct
                           - http
                           - https
-                        description: Determines how data travels from the edge to your origin. When set
+                        description:
+                          Determines how data travels from the edge to your origin. When set
                           to "direct", Spectrum will send traffic directly to
                           your origin, and the application's type is derived
                           from the `protocol`. When set to "http" or "https",
@@ -688,7 +718,8 @@ paths:
                           application type matches this property exactly.
                       argo_smart_routing:
                         type: boolean
-                        description: 'Enables Argo Smart Routing for this application. Notes: Only
+                        description:
+                          'Enables Argo Smart Routing for this application. Notes: Only
                           available for TCP applications with traffic_type set
                           to "direct".'
                       edge_ips:
@@ -701,13 +732,15 @@ paths:
                                   - all
                                   - ipv4
                                   - ipv6
-                                description: The IP versions supported for inbound connections on Spectrum
+                                description:
+                                  The IP versions supported for inbound connections on Spectrum
                                   anycast IPs.
                               type:
                                 type: string
                                 enum:
                                   - dynamic
-                                description: The type of edge IP configuration specified. Dynamically allocated
+                                description:
+                                  The type of edge IP configuration specified. Dynamically allocated
                                   edge IPs use Spectrum anycast IPs in
                                   accordance with the connectivity you specify.
                                   Only valid with CNAME DNS names.
@@ -717,27 +750,32 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: The array of customer owned IPs we broadcast via anycast for this
+                                description:
+                                  The array of customer owned IPs we broadcast via anycast for this
                                   hostname and application.
                               type:
                                 type: string
                                 enum:
                                   - static
-                                description: The type of edge IP configuration specified. Statically allocated
+                                description:
+                                  The type of edge IP configuration specified. Statically allocated
                                   edge IPs use customer IPs in accordance with
                                   the ips array you specify. Only valid with
                                   ADDRESS DNS names.
-                        description: The anycast edge IP configuration for the hostname of this
+                        description:
+                          The anycast edge IP configuration for the hostname of this
                           application.
                       ip_firewall:
                         type: boolean
-                        description: "Enables IP Access Rules for this application. Notes: Only
+                        description:
+                          "Enables IP Access Rules for this application. Notes: Only
                           available for TCP applications."
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                       origin_dns:
                         type: object
@@ -755,14 +793,16 @@ paths:
                               - A
                               - AAAA
                               - SRV
-                            description: The type of DNS record associated with the origin. "" is used to
+                            description:
+                              The type of DNS record associated with the origin. "" is used to
                               specify a combination of A/AAAA records.
                         description: The name and type of DNS record for the Spectrum application.
                       origin_port:
                         oneOf:
                           - type: number
                           - type: string
-                        description: 'The destination port at the origin. Only specified in conjunction
+                        description:
+                          'The destination port at the origin. Only specified in conjunction
                           with origin_dns. May use an integer to specify a
                           single origin port, for example `1000`, or a string to
                           specify a range of origin ports, for example
@@ -776,7 +816,8 @@ paths:
                           - v1
                           - v2
                           - simple
-                        description: Enables Proxy Protocol to the origin. Refer to [Enable Proxy
+                        description:
+                          Enables Proxy Protocol to the origin. Refer to [Enable Proxy
                           protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/)
                           for implementation details on PROXY Protocol V1, PROXY
                           Protocol V2, and Simple Proxy Protocol.
@@ -790,7 +831,8 @@ paths:
                         description: The type of TLS termination associated with the application.
                       virtual_network_id:
                         type: string
-                        description: Optional UUID of a virtual network for routing origin traffic
+                        description:
+                          Optional UUID of a virtual network for routing origin traffic
                           through tunnel virtual networks.
                     required:
                       - id
@@ -825,14 +867,16 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                     required:
                       - id
@@ -848,7 +892,8 @@ paths:
           - status: 403
     put:
       operationId: updateApp
-      description: "Updates a previously existing application's configuration that
+      description:
+        "Updates a previously existing application's configuration that
         uses a name for the origin.  @example ```ts const app = await
         client.spectrum.apps.update( '023e105f4ecef8ad9ca31a8372d0c353', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353', dns: {}, protocol:
@@ -884,29 +929,33 @@ paths:
                         - CNAME
                         - ADDRESS
                       description: The type of DNS record associated with the application.
-                  description: "Body param: The name and type of DNS record for the Spectrum
+                  description:
+                    "Body param: The name and type of DNS record for the Spectrum
                     application."
                 protocol:
                   type: string
-                  description: "Body param: The port configuration at Cloudflare's edge. May
-                    specify a single port, for example `\"tcp/1000\"`, or a
-                    range of ports, for example `\"tcp/1000-2000\"`."
+                  description:
+                    'Body param: The port configuration at Cloudflare''s edge. May
+                    specify a single port, for example `"tcp/1000"`, or a
+                    range of ports, for example `"tcp/1000-2000"`.'
                 traffic_type:
                   type: string
                   enum:
                     - direct
                     - http
                     - https
-                  description: "Body param: Determines how data travels from the edge to your
-                    origin. When set to \"direct\", Spectrum will send traffic
-                    directly to your origin, and the application's type is
-                    derived from the `protocol`. When set to \"http\" or
-                    \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS
+                  description:
+                    'Body param: Determines how data travels from the edge to your
+                    origin. When set to "direct", Spectrum will send traffic
+                    directly to your origin, and the application''s type is
+                    derived from the `protocol`. When set to "http" or
+                    "https", Spectrum will apply Cloudflare''s HTTP/HTTPS
                     features as it sends traffic to your origin, and the
-                    application type matches this property exactly."
+                    application type matches this property exactly.'
                 argo_smart_routing:
                   type: boolean
-                  description: 'Body param: Enables Argo Smart Routing for this application.
+                  description:
+                    'Body param: Enables Argo Smart Routing for this application.
                     Notes: Only available for TCP applications with traffic_type
                     set to "direct".'
                 edge_ips:
@@ -918,14 +967,16 @@ paths:
                         - all
                         - ipv4
                         - ipv6
-                      description: The IP versions supported for inbound connections on Spectrum
+                      description:
+                        The IP versions supported for inbound connections on Spectrum
                         anycast IPs.
                     type:
                       type: string
                       enum:
                         - dynamic
                         - static
-                      description: The type of edge IP configuration specified. Dynamically allocated
+                      description:
+                        The type of edge IP configuration specified. Dynamically allocated
                         edge IPs use Spectrum anycast IPs in accordance with the
                         connectivity you specify. Only valid with CNAME DNS
                         names.
@@ -933,19 +984,23 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: The array of customer owned IPs we broadcast via anycast for this
+                      description:
+                        The array of customer owned IPs we broadcast via anycast for this
                         hostname and application.
-                  description: "Body param: The anycast edge IP configuration for the hostname of
+                  description:
+                    "Body param: The anycast edge IP configuration for the hostname of
                     this application."
                 ip_firewall:
                   type: boolean
-                  description: "Body param: Enables IP Access Rules for this application. Notes:
+                  description:
+                    "Body param: Enables IP Access Rules for this application. Notes:
                     Only available for TCP applications."
                 origin_direct:
                   type: array
                   items:
                     type: string
-                  description: "Body param: List of origin IP addresses. Array may contain
+                  description:
+                    "Body param: List of origin IP addresses. Array may contain
                     multiple IP addresses for load balancing."
                 origin_dns:
                   type: object
@@ -963,15 +1018,18 @@ paths:
                         - A
                         - AAAA
                         - SRV
-                      description: The type of DNS record associated with the origin. "" is used to
+                      description:
+                        The type of DNS record associated with the origin. "" is used to
                         specify a combination of A/AAAA records.
-                  description: "Body param: The name and type of DNS record for the Spectrum
+                  description:
+                    "Body param: The name and type of DNS record for the Spectrum
                     application."
                 origin_port:
                   oneOf:
                     - type: number
                     - type: string
-                  description: 'Body param: The destination port at the origin. Only specified in
+                  description:
+                    'Body param: The destination port at the origin. Only specified in
                     conjunction with origin_dns. May use an integer to specify a
                     single origin port, for example `1000`, or a string to
                     specify a range of origin ports, for example `"1000-2000"`.
@@ -985,7 +1043,8 @@ paths:
                     - v1
                     - v2
                     - simple
-                  description: "Body param: Enables Proxy Protocol to the origin. Refer to [Enable
+                  description:
+                    "Body param: Enables Proxy Protocol to the origin. Refer to [Enable
                     Proxy
                     protocol](https://developers.cloudflare.com/spectrum/gettin\
                     g-started/proxy-protocol/) for implementation details on
@@ -998,11 +1057,13 @@ paths:
                     - flexible
                     - full
                     - strict
-                  description: "Body param: The type of TLS termination associated with the
+                  description:
+                    "Body param: The type of TLS termination associated with the
                     application."
                 virtual_network_id:
                   type: string
-                  description: "Body param: Optional UUID of a virtual network for routing origin
+                  description:
+                    "Body param: Optional UUID of a virtual network for routing origin
                     traffic through tunnel virtual networks."
               required:
                 - dns
@@ -1040,7 +1101,8 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       traffic_type:
@@ -1049,7 +1111,8 @@ paths:
                           - direct
                           - http
                           - https
-                        description: Determines how data travels from the edge to your origin. When set
+                        description:
+                          Determines how data travels from the edge to your origin. When set
                           to "direct", Spectrum will send traffic directly to
                           your origin, and the application's type is derived
                           from the `protocol`. When set to "http" or "https",
@@ -1058,7 +1121,8 @@ paths:
                           application type matches this property exactly.
                       argo_smart_routing:
                         type: boolean
-                        description: 'Enables Argo Smart Routing for this application. Notes: Only
+                        description:
+                          'Enables Argo Smart Routing for this application. Notes: Only
                           available for TCP applications with traffic_type set
                           to "direct".'
                       edge_ips:
@@ -1071,13 +1135,15 @@ paths:
                                   - all
                                   - ipv4
                                   - ipv6
-                                description: The IP versions supported for inbound connections on Spectrum
+                                description:
+                                  The IP versions supported for inbound connections on Spectrum
                                   anycast IPs.
                               type:
                                 type: string
                                 enum:
                                   - dynamic
-                                description: The type of edge IP configuration specified. Dynamically allocated
+                                description:
+                                  The type of edge IP configuration specified. Dynamically allocated
                                   edge IPs use Spectrum anycast IPs in
                                   accordance with the connectivity you specify.
                                   Only valid with CNAME DNS names.
@@ -1087,27 +1153,32 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: The array of customer owned IPs we broadcast via anycast for this
+                                description:
+                                  The array of customer owned IPs we broadcast via anycast for this
                                   hostname and application.
                               type:
                                 type: string
                                 enum:
                                   - static
-                                description: The type of edge IP configuration specified. Statically allocated
+                                description:
+                                  The type of edge IP configuration specified. Statically allocated
                                   edge IPs use customer IPs in accordance with
                                   the ips array you specify. Only valid with
                                   ADDRESS DNS names.
-                        description: The anycast edge IP configuration for the hostname of this
+                        description:
+                          The anycast edge IP configuration for the hostname of this
                           application.
                       ip_firewall:
                         type: boolean
-                        description: "Enables IP Access Rules for this application. Notes: Only
+                        description:
+                          "Enables IP Access Rules for this application. Notes: Only
                           available for TCP applications."
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                       origin_dns:
                         type: object
@@ -1125,14 +1196,16 @@ paths:
                               - A
                               - AAAA
                               - SRV
-                            description: The type of DNS record associated with the origin. "" is used to
+                            description:
+                              The type of DNS record associated with the origin. "" is used to
                               specify a combination of A/AAAA records.
                         description: The name and type of DNS record for the Spectrum application.
                       origin_port:
                         oneOf:
                           - type: number
                           - type: string
-                        description: 'The destination port at the origin. Only specified in conjunction
+                        description:
+                          'The destination port at the origin. Only specified in conjunction
                           with origin_dns. May use an integer to specify a
                           single origin port, for example `1000`, or a string to
                           specify a range of origin ports, for example
@@ -1146,7 +1219,8 @@ paths:
                           - v1
                           - v2
                           - simple
-                        description: Enables Proxy Protocol to the origin. Refer to [Enable Proxy
+                        description:
+                          Enables Proxy Protocol to the origin. Refer to [Enable Proxy
                           protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/)
                           for implementation details on PROXY Protocol V1, PROXY
                           Protocol V2, and Simple Proxy Protocol.
@@ -1160,7 +1234,8 @@ paths:
                         description: The type of TLS termination associated with the application.
                       virtual_network_id:
                         type: string
-                        description: Optional UUID of a virtual network for routing origin traffic
+                        description:
+                          Optional UUID of a virtual network for routing origin traffic
                           through tunnel virtual networks.
                     required:
                       - id
@@ -1195,14 +1270,16 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                     required:
                       - id
@@ -1255,7 +1332,8 @@ paths:
   /zones/{zone_id}/spectrum/apps:
     get:
       operationId: listApps
-      description: Retrieves a list of currently existing Spectrum applications inside
+      description:
+        Retrieves a list of currently existing Spectrum applications inside
         a zone.
       parameters:
         - name: zone_id
@@ -1328,7 +1406,8 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       traffic_type:
@@ -1337,7 +1416,8 @@ paths:
                           - direct
                           - http
                           - https
-                        description: Determines how data travels from the edge to your origin. When set
+                        description:
+                          Determines how data travels from the edge to your origin. When set
                           to "direct", Spectrum will send traffic directly to
                           your origin, and the application's type is derived
                           from the `protocol`. When set to "http" or "https",
@@ -1346,7 +1426,8 @@ paths:
                           application type matches this property exactly.
                       argo_smart_routing:
                         type: boolean
-                        description: 'Enables Argo Smart Routing for this application. Notes: Only
+                        description:
+                          'Enables Argo Smart Routing for this application. Notes: Only
                           available for TCP applications with traffic_type set
                           to "direct".'
                       edge_ips:
@@ -1359,13 +1440,15 @@ paths:
                                   - all
                                   - ipv4
                                   - ipv6
-                                description: The IP versions supported for inbound connections on Spectrum
+                                description:
+                                  The IP versions supported for inbound connections on Spectrum
                                   anycast IPs.
                               type:
                                 type: string
                                 enum:
                                   - dynamic
-                                description: The type of edge IP configuration specified. Dynamically allocated
+                                description:
+                                  The type of edge IP configuration specified. Dynamically allocated
                                   edge IPs use Spectrum anycast IPs in
                                   accordance with the connectivity you specify.
                                   Only valid with CNAME DNS names.
@@ -1375,27 +1458,32 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: The array of customer owned IPs we broadcast via anycast for this
+                                description:
+                                  The array of customer owned IPs we broadcast via anycast for this
                                   hostname and application.
                               type:
                                 type: string
                                 enum:
                                   - static
-                                description: The type of edge IP configuration specified. Statically allocated
+                                description:
+                                  The type of edge IP configuration specified. Statically allocated
                                   edge IPs use customer IPs in accordance with
                                   the ips array you specify. Only valid with
                                   ADDRESS DNS names.
-                        description: The anycast edge IP configuration for the hostname of this
+                        description:
+                          The anycast edge IP configuration for the hostname of this
                           application.
                       ip_firewall:
                         type: boolean
-                        description: "Enables IP Access Rules for this application. Notes: Only
+                        description:
+                          "Enables IP Access Rules for this application. Notes: Only
                           available for TCP applications."
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                       origin_dns:
                         type: object
@@ -1413,14 +1501,16 @@ paths:
                               - A
                               - AAAA
                               - SRV
-                            description: The type of DNS record associated with the origin. "" is used to
+                            description:
+                              The type of DNS record associated with the origin. "" is used to
                               specify a combination of A/AAAA records.
                         description: The name and type of DNS record for the Spectrum application.
                       origin_port:
                         oneOf:
                           - type: number
                           - type: string
-                        description: 'The destination port at the origin. Only specified in conjunction
+                        description:
+                          'The destination port at the origin. Only specified in conjunction
                           with origin_dns. May use an integer to specify a
                           single origin port, for example `1000`, or a string to
                           specify a range of origin ports, for example
@@ -1434,7 +1524,8 @@ paths:
                           - v1
                           - v2
                           - simple
-                        description: Enables Proxy Protocol to the origin. Refer to [Enable Proxy
+                        description:
+                          Enables Proxy Protocol to the origin. Refer to [Enable Proxy
                           protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/)
                           for implementation details on PROXY Protocol V1, PROXY
                           Protocol V2, and Simple Proxy Protocol.
@@ -1448,7 +1539,8 @@ paths:
                         description: The type of TLS termination associated with the application.
                       virtual_network_id:
                         type: string
-                        description: Optional UUID of a virtual network for routing origin traffic
+                        description:
+                          Optional UUID of a virtual network for routing origin traffic
                           through tunnel virtual networks.
                     required:
                       - id
@@ -1483,14 +1575,16 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                     required:
                       - id
@@ -1504,7 +1598,8 @@ paths:
           - status: 403
     post:
       operationId: createApp
-      description: "Creates a new Spectrum application from a configuration using a
+      description:
+        "Creates a new Spectrum application from a configuration using a
         name for the origin.  @example ```ts const app = await
         client.spectrum.apps.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', dns: {}, protocol: 'tcp/22',
@@ -1535,29 +1630,33 @@ paths:
                         - CNAME
                         - ADDRESS
                       description: The type of DNS record associated with the application.
-                  description: "Body param: The name and type of DNS record for the Spectrum
+                  description:
+                    "Body param: The name and type of DNS record for the Spectrum
                     application."
                 protocol:
                   type: string
-                  description: "Body param: The port configuration at Cloudflare's edge. May
-                    specify a single port, for example `\"tcp/1000\"`, or a
-                    range of ports, for example `\"tcp/1000-2000\"`."
+                  description:
+                    'Body param: The port configuration at Cloudflare''s edge. May
+                    specify a single port, for example `"tcp/1000"`, or a
+                    range of ports, for example `"tcp/1000-2000"`.'
                 traffic_type:
                   type: string
                   enum:
                     - direct
                     - http
                     - https
-                  description: "Body param: Determines how data travels from the edge to your
-                    origin. When set to \"direct\", Spectrum will send traffic
-                    directly to your origin, and the application's type is
-                    derived from the `protocol`. When set to \"http\" or
-                    \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS
+                  description:
+                    'Body param: Determines how data travels from the edge to your
+                    origin. When set to "direct", Spectrum will send traffic
+                    directly to your origin, and the application''s type is
+                    derived from the `protocol`. When set to "http" or
+                    "https", Spectrum will apply Cloudflare''s HTTP/HTTPS
                     features as it sends traffic to your origin, and the
-                    application type matches this property exactly."
+                    application type matches this property exactly.'
                 argo_smart_routing:
                   type: boolean
-                  description: 'Body param: Enables Argo Smart Routing for this application.
+                  description:
+                    'Body param: Enables Argo Smart Routing for this application.
                     Notes: Only available for TCP applications with traffic_type
                     set to "direct".'
                 edge_ips:
@@ -1569,14 +1668,16 @@ paths:
                         - all
                         - ipv4
                         - ipv6
-                      description: The IP versions supported for inbound connections on Spectrum
+                      description:
+                        The IP versions supported for inbound connections on Spectrum
                         anycast IPs.
                     type:
                       type: string
                       enum:
                         - dynamic
                         - static
-                      description: The type of edge IP configuration specified. Dynamically allocated
+                      description:
+                        The type of edge IP configuration specified. Dynamically allocated
                         edge IPs use Spectrum anycast IPs in accordance with the
                         connectivity you specify. Only valid with CNAME DNS
                         names.
@@ -1584,19 +1685,23 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: The array of customer owned IPs we broadcast via anycast for this
+                      description:
+                        The array of customer owned IPs we broadcast via anycast for this
                         hostname and application.
-                  description: "Body param: The anycast edge IP configuration for the hostname of
+                  description:
+                    "Body param: The anycast edge IP configuration for the hostname of
                     this application."
                 ip_firewall:
                   type: boolean
-                  description: "Body param: Enables IP Access Rules for this application. Notes:
+                  description:
+                    "Body param: Enables IP Access Rules for this application. Notes:
                     Only available for TCP applications."
                 origin_direct:
                   type: array
                   items:
                     type: string
-                  description: "Body param: List of origin IP addresses. Array may contain
+                  description:
+                    "Body param: List of origin IP addresses. Array may contain
                     multiple IP addresses for load balancing."
                 origin_dns:
                   type: object
@@ -1614,15 +1719,18 @@ paths:
                         - A
                         - AAAA
                         - SRV
-                      description: The type of DNS record associated with the origin. "" is used to
+                      description:
+                        The type of DNS record associated with the origin. "" is used to
                         specify a combination of A/AAAA records.
-                  description: "Body param: The name and type of DNS record for the Spectrum
+                  description:
+                    "Body param: The name and type of DNS record for the Spectrum
                     application."
                 origin_port:
                   oneOf:
                     - type: number
                     - type: string
-                  description: 'Body param: The destination port at the origin. Only specified in
+                  description:
+                    'Body param: The destination port at the origin. Only specified in
                     conjunction with origin_dns. May use an integer to specify a
                     single origin port, for example `1000`, or a string to
                     specify a range of origin ports, for example `"1000-2000"`.
@@ -1636,7 +1744,8 @@ paths:
                     - v1
                     - v2
                     - simple
-                  description: "Body param: Enables Proxy Protocol to the origin. Refer to [Enable
+                  description:
+                    "Body param: Enables Proxy Protocol to the origin. Refer to [Enable
                     Proxy
                     protocol](https://developers.cloudflare.com/spectrum/gettin\
                     g-started/proxy-protocol/) for implementation details on
@@ -1649,11 +1758,13 @@ paths:
                     - flexible
                     - full
                     - strict
-                  description: "Body param: The type of TLS termination associated with the
+                  description:
+                    "Body param: The type of TLS termination associated with the
                     application."
                 virtual_network_id:
                   type: string
-                  description: "Body param: Optional UUID of a virtual network for routing origin
+                  description:
+                    "Body param: Optional UUID of a virtual network for routing origin
                     traffic through tunnel virtual networks."
               required:
                 - dns
@@ -1691,7 +1802,8 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       traffic_type:
@@ -1700,7 +1812,8 @@ paths:
                           - direct
                           - http
                           - https
-                        description: Determines how data travels from the edge to your origin. When set
+                        description:
+                          Determines how data travels from the edge to your origin. When set
                           to "direct", Spectrum will send traffic directly to
                           your origin, and the application's type is derived
                           from the `protocol`. When set to "http" or "https",
@@ -1709,7 +1822,8 @@ paths:
                           application type matches this property exactly.
                       argo_smart_routing:
                         type: boolean
-                        description: 'Enables Argo Smart Routing for this application. Notes: Only
+                        description:
+                          'Enables Argo Smart Routing for this application. Notes: Only
                           available for TCP applications with traffic_type set
                           to "direct".'
                       edge_ips:
@@ -1722,13 +1836,15 @@ paths:
                                   - all
                                   - ipv4
                                   - ipv6
-                                description: The IP versions supported for inbound connections on Spectrum
+                                description:
+                                  The IP versions supported for inbound connections on Spectrum
                                   anycast IPs.
                               type:
                                 type: string
                                 enum:
                                   - dynamic
-                                description: The type of edge IP configuration specified. Dynamically allocated
+                                description:
+                                  The type of edge IP configuration specified. Dynamically allocated
                                   edge IPs use Spectrum anycast IPs in
                                   accordance with the connectivity you specify.
                                   Only valid with CNAME DNS names.
@@ -1738,27 +1854,32 @@ paths:
                                 type: array
                                 items:
                                   type: string
-                                description: The array of customer owned IPs we broadcast via anycast for this
+                                description:
+                                  The array of customer owned IPs we broadcast via anycast for this
                                   hostname and application.
                               type:
                                 type: string
                                 enum:
                                   - static
-                                description: The type of edge IP configuration specified. Statically allocated
+                                description:
+                                  The type of edge IP configuration specified. Statically allocated
                                   edge IPs use customer IPs in accordance with
                                   the ips array you specify. Only valid with
                                   ADDRESS DNS names.
-                        description: The anycast edge IP configuration for the hostname of this
+                        description:
+                          The anycast edge IP configuration for the hostname of this
                           application.
                       ip_firewall:
                         type: boolean
-                        description: "Enables IP Access Rules for this application. Notes: Only
+                        description:
+                          "Enables IP Access Rules for this application. Notes: Only
                           available for TCP applications."
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                       origin_dns:
                         type: object
@@ -1776,14 +1897,16 @@ paths:
                               - A
                               - AAAA
                               - SRV
-                            description: The type of DNS record associated with the origin. "" is used to
+                            description:
+                              The type of DNS record associated with the origin. "" is used to
                               specify a combination of A/AAAA records.
                         description: The name and type of DNS record for the Spectrum application.
                       origin_port:
                         oneOf:
                           - type: number
                           - type: string
-                        description: 'The destination port at the origin. Only specified in conjunction
+                        description:
+                          'The destination port at the origin. Only specified in conjunction
                           with origin_dns. May use an integer to specify a
                           single origin port, for example `1000`, or a string to
                           specify a range of origin ports, for example
@@ -1797,7 +1920,8 @@ paths:
                           - v1
                           - v2
                           - simple
-                        description: Enables Proxy Protocol to the origin. Refer to [Enable Proxy
+                        description:
+                          Enables Proxy Protocol to the origin. Refer to [Enable Proxy
                           protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/)
                           for implementation details on PROXY Protocol V1, PROXY
                           Protocol V2, and Simple Proxy Protocol.
@@ -1811,7 +1935,8 @@ paths:
                         description: The type of TLS termination associated with the application.
                       virtual_network_id:
                         type: string
-                        description: Optional UUID of a virtual network for routing origin traffic
+                        description:
+                          Optional UUID of a virtual network for routing origin traffic
                           through tunnel virtual networks.
                     required:
                       - id
@@ -1846,14 +1971,16 @@ paths:
                         description: When the Application was last modified.
                       protocol:
                         type: string
-                        description: The port configuration at Cloudflare's edge. May specify a single
+                        description:
+                          The port configuration at Cloudflare's edge. May specify a single
                           port, for example `"tcp/1000"`, or a range of ports,
                           for example `"tcp/1000-2000"`.
                       origin_direct:
                         type: array
                         items:
                           type: string
-                        description: List of origin IP addresses. Array may contain multiple IP
+                        description:
+                          List of origin IP addresses. Array may contain multiple IP
                           addresses for load balancing.
                     required:
                       - id

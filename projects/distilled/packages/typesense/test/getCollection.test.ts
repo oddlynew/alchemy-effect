@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getCollection", () => {
   it(
     "retrieves an existing collection's metadata",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-getcol-${testRunId}`;
 
@@ -33,11 +34,11 @@ describe("getCollection", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getCollection({
@@ -47,6 +48,5 @@ describe("getCollection", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

@@ -528,8 +528,8 @@ test(
         MessageAttributes?: {
           [key: string]:
             | {
-            DataType?: string;
-            StringValue?: string;
+                DataType?: string;
+                StringValue?: string;
               }
             | undefined;
         };
@@ -728,7 +728,9 @@ test(
         MaxNumberOfMessages: 1,
         WaitTimeSeconds: 5,
       }).pipe(Effect.retry(retryQueueNotExist));
-      expect(receiveResult1.Messages?.[0]?.Body).toEqual("FIFO Batch Message 1");
+      expect(receiveResult1.Messages?.[0]?.Body).toEqual(
+        "FIFO Batch Message 1",
+      );
 
       yield* deleteMessage({
         QueueUrl: queueUrl,
@@ -740,7 +742,9 @@ test(
         MaxNumberOfMessages: 1,
         WaitTimeSeconds: 5,
       }).pipe(Effect.retry(retryQueueNotExist));
-      expect(receiveResult2.Messages?.[0]?.Body).toEqual("FIFO Batch Message 2");
+      expect(receiveResult2.Messages?.[0]?.Body).toEqual(
+        "FIFO Batch Message 2",
+      );
 
       yield* deleteMessage({
         QueueUrl: queueUrl,
@@ -752,7 +756,9 @@ test(
         MaxNumberOfMessages: 1,
         WaitTimeSeconds: 5,
       }).pipe(Effect.retry(retryQueueNotExist));
-      expect(receiveResult3.Messages?.[0]?.Body).toEqual("FIFO Batch Message 3");
+      expect(receiveResult3.Messages?.[0]?.Body).toEqual(
+        "FIFO Batch Message 3",
+      );
     }),
   ),
 );

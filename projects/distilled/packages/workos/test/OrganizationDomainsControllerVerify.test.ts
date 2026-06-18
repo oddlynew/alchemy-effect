@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationDomainsControllerVerify", () => {
   it(
     "initiates verification for an organization domain",
+    { timeout: 60_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -48,11 +49,11 @@ describe("OrganizationDomainsControllerVerify", () => {
       expect(typeof result.created_at).toBe("string");
       expect(typeof result.updated_at).toBe("string");
     },
-    60_000,
   );
 
   it(
     "fails with BadRequest for a malformed organization domain id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationDomainsControllerVerify({
@@ -62,6 +63,5 @@ describe("OrganizationDomainsControllerVerify", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

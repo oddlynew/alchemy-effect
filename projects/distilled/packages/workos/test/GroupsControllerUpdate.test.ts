@@ -8,54 +8,51 @@ import { OrganizationsControllerDeleteOrganization } from "../src/operations/Org
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("GroupsControllerUpdate", () => {
-  it(
-    "updates a group's name",
-    async () => {
-      const initialName = `distilled-group-update-${testRunId}`;
-      const updatedName = `distilled-group-updated-${testRunId}`;
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const org = yield* OrganizationsControllerCreate({
-            name: `distilled-workos-groups-update-${testRunId}`,
+  it("updates a group's name", { timeout: 60_000 }, async () => {
+    const initialName = `distilled-group-update-${testRunId}`;
+    const updatedName = `distilled-group-updated-${testRunId}`;
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const org = yield* OrganizationsControllerCreate({
+          name: `distilled-workos-groups-update-${testRunId}`,
+        });
+        return yield* Effect.gen(function* () {
+          const created = yield* GroupsControllerCreate({
+            organizationId: org.id,
+            name: initialName,
           });
-          return yield* Effect.gen(function* () {
-            const created = yield* GroupsControllerCreate({
-              organizationId: org.id,
-              name: initialName,
-            });
-            return yield* GroupsControllerUpdate({
-              organizationId: org.id,
-              groupId: created.id,
-              name: updatedName,
-              description: "updated description",
-            }).pipe(
-              Effect.ensuring(
-                GroupsControllerDelete({
-                  organizationId: org.id,
-                  groupId: created.id,
-                }).pipe(Effect.ignore),
-              ),
-            );
+          return yield* GroupsControllerUpdate({
+            organizationId: org.id,
+            groupId: created.id,
+            name: updatedName,
+            description: "updated description",
           }).pipe(
             Effect.ensuring(
-              OrganizationsControllerDeleteOrganization({
-                id: org.id,
+              GroupsControllerDelete({
+                organizationId: org.id,
+                groupId: created.id,
               }).pipe(Effect.ignore),
             ),
           );
-        }),
-      );
-      expect(result).toBeDefined();
-      expect(result.name).toBe(updatedName);
-      expect(result.description).toBe("updated description");
-      expect(typeof result.id).toBe("string");
-      expect(typeof result.organization_id).toBe("string");
-    },
-    60_000,
-  );
+        }).pipe(
+          Effect.ensuring(
+            OrganizationsControllerDeleteOrganization({
+              id: org.id,
+            }).pipe(Effect.ignore),
+          ),
+        );
+      }),
+    );
+    expect(result).toBeDefined();
+    expect(result.name).toBe(updatedName);
+    expect(result.description).toBe("updated description");
+    expect(typeof result.id).toBe("string");
+    expect(typeof result.organization_id).toBe("string");
+  });
 
   it(
     "fails with NotFound for a non-existent group id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -77,11 +74,11 @@ describe("GroupsControllerUpdate", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when updating a group in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         GroupsControllerUpdate({
@@ -92,11 +89,11 @@ describe("GroupsControllerUpdate", () => {
       );
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest for an empty group name",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -131,11 +128,11 @@ describe("GroupsControllerUpdate", () => {
       );
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity when updating to an already-used name",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -181,6 +178,5 @@ describe("GroupsControllerUpdate", () => {
       );
       expect(["Conflict", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 });

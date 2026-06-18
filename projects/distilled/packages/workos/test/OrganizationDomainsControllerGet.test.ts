@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationDomainsControllerGet", () => {
   it(
     "retrieves an organization domain by id",
+    { timeout: 60_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -48,11 +49,11 @@ describe("OrganizationDomainsControllerGet", () => {
       expect(typeof result.created_at).toBe("string");
       expect(typeof result.updated_at).toBe("string");
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization domain id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationDomainsControllerGet({
@@ -62,6 +63,5 @@ describe("OrganizationDomainsControllerGet", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

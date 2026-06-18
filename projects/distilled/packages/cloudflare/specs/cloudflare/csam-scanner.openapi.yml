@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/settings/csam_scanner_third_party:
     get:
       operationId: getCsamScanner
-      description: "Retrieve the current CSAM Scanner configuration for a zone.  The
+      description:
+        "Retrieve the current CSAM Scanner configuration for a zone.  The
         notification email is masked by default in responses.  @example ```ts
         const csamScanner = await client.csamScanner.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -35,20 +36,23 @@ paths:
                     description: The feature identifier.
                   editable:
                     type: boolean
-                    description: Whether the feature state can be changed. When false, the zone or
+                    description:
+                      Whether the feature state can be changed. When false, the zone or
                       account may be locked by Trust & Safety.
                   modified_on:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: When the setting was last modified. Currently always null as the
+                    description:
+                      When the setting was last modified. Currently always null as the
                       server does not populate this field.
                   value:
                     type: object
                     properties:
                       email:
                         type: string
-                        description: Notification email address for CSAM scan results. Masked in
+                        description:
+                          Notification email address for CSAM scan results. Masked in
                           responses unless explicitly unmasked via admin
                           endpoint.
                       email_state:
@@ -68,12 +72,14 @@ paths:
                       zone_plan:
                         type: string
                         description: The zone's plan level.
-                    description: The CSAM Scanner feature configuration values. Contains the
+                    description:
+                      The CSAM Scanner feature configuration values. Contains the
                       notification email and scanning enablement settings.
       x-distilled-response-path: result
     patch:
       operationId: patchCsamScanner
-      description: "Update the CSAM Scanner configuration for a zone. Allows enabling
+      description:
+        "Update the CSAM Scanner configuration for a zone. Allows enabling
         or disabling CSAM scanning, updating the notification email, and
         configuring scanning sources.  When a new email is provided, email
         verification is triggered automatically. The `enabled` field is a
@@ -105,14 +111,16 @@ paths:
                   properties:
                     email:
                       type: string
-                      description: Notification email address for CSAM scan results. When changed,
+                      description:
+                        Notification email address for CSAM scan results. When changed,
                         email verification is triggered automatically.
                     enabled:
                       type: boolean
                       description: Whether CSAM scanning is enabled for this zone.
                     resend_email:
                       type: boolean
-                      description: Set to true to trigger re-sending the email verification.
+                      description:
+                        Set to true to trigger re-sending the email verification.
                         Write-only; never appears in responses (omitted when
                         false).
                     sources:
@@ -135,20 +143,23 @@ paths:
                     description: The feature identifier.
                   editable:
                     type: boolean
-                    description: Whether the feature state can be changed. When false, the zone or
+                    description:
+                      Whether the feature state can be changed. When false, the zone or
                       account may be locked by Trust & Safety.
                   modified_on:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: When the setting was last modified. Currently always null as the
+                    description:
+                      When the setting was last modified. Currently always null as the
                       server does not populate this field.
                   value:
                     type: object
                     properties:
                       email:
                         type: string
-                        description: Notification email address for CSAM scan results. Masked in
+                        description:
+                          Notification email address for CSAM scan results. Masked in
                           responses unless explicitly unmasked via admin
                           endpoint.
                       email_state:
@@ -168,6 +179,7 @@ paths:
                       zone_plan:
                         type: string
                         description: The zone's plan level.
-                    description: The CSAM Scanner feature configuration values. Contains the
+                    description:
+                      The CSAM Scanner feature configuration values. Contains the
                       notification email and scanning enablement settings.
       x-distilled-response-path: result

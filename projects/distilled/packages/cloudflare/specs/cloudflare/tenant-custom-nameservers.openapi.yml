@@ -139,7 +139,8 @@ paths:
   /tenants/{tenantTag}/custom_ns/{customNSId}:
     delete:
       operationId: deleteTenantCustomNameserver
-      description: Delete Tenant Custom Nameserver  @example ```ts // Automatically
+      description:
+        Delete Tenant Custom Nameserver  @example ```ts // Automatically
         fetches more pages as needed. for await (const
         tenantCustomNameserverDeleteResponse of
         client.tenantCustomNameservers.delete(

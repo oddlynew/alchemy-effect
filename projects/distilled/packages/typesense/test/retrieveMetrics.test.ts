@@ -6,26 +6,23 @@ import { retrieveMetrics } from "../src/operations/retrieveMetrics";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrieveMetrics", () => {
-  it(
-    "retrieves system metrics",
-    async () => {
-      const result = await runEffect(retrieveMetrics({}));
+  it("retrieves system metrics", { timeout: 30_000 }, async () => {
+    const result = await runEffect(retrieveMetrics({}));
 
-      expect(result).toBeDefined();
-      expect(typeof result).toBe("object");
-      // Typesense returns a flat object with keys like
-      // system_cpu_active_percentage, system_memory_used_bytes, etc.
-      // Schema.Unknown means the SDK doesn't validate the shape, so we
-      // just sanity-check it's a plain object with at least one key.
-      expect(
-        Object.keys(result as Record<string, unknown>).length,
-      ).toBeGreaterThan(0);
-    },
-    { timeout: 30_000 },
-  );
+    expect(result).toBeDefined();
+    expect(typeof result).toBe("object");
+    // Typesense returns a flat object with keys like
+    // system_cpu_active_percentage, system_memory_used_bytes, etc.
+    // Schema.Unknown means the SDK doesn't validate the shape, so we
+    // just sanity-check it's a plain object with at least one key.
+    expect(
+      Object.keys(result as Record<string, unknown>).length,
+    ).toBeGreaterThan(0);
+  });
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       const apiBaseUrl = process.env.TYPESENSE_API_URL;
       if (!apiBaseUrl) {
@@ -48,6 +45,5 @@ describe("retrieveMetrics", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

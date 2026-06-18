@@ -9,7 +9,7 @@ describe("postV1Projects", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - creates a project", async () => {
+  it("happy path - creates a project", { timeout: 60_000 }, async () => {
     const projectName = `distilled-prisma-proj-create-${testRunId}`;
 
     await runEffect(
@@ -31,53 +31,61 @@ describe("postV1Projects", () => {
         ),
       ),
     );
-  }, 60_000);
+  });
 
-  it("happy path - creates a project with a database", async () => {
-    const projectName = `distilled-prisma-proj-db-${testRunId}`;
+  it(
+    "happy path - creates a project with a database",
+    { timeout: 60_000 },
+    async () => {
+      const projectName = `distilled-prisma-proj-db-${testRunId}`;
 
-    await runEffect(
-      Effect.gen(function* () {
-        const result = yield* postV1Projects({
-          name: projectName,
-          createDatabase: true,
-          region: "us-east-1",
-        });
+      await runEffect(
+        Effect.gen(function* () {
+          const result = yield* postV1Projects({
+            name: projectName,
+            createDatabase: true,
+            region: "us-east-1",
+          });
 
-        expect(result.data.id).toBeDefined();
-        expect(result.data.name).toBe(projectName);
-        expect(result.data.database).toBeDefined();
-        expect(result.data.database).not.toBeNull();
-        expect(result.data.database!.id).toBeDefined();
-        expect(result.data.database!.status).toBeDefined();
+          expect(result.data.id).toBeDefined();
+          expect(result.data.name).toBe(projectName);
+          expect(result.data.database).toBeDefined();
+          expect(result.data.database).not.toBeNull();
+          expect(result.data.database!.id).toBeDefined();
+          expect(result.data.database!.status).toBeDefined();
 
-        return result;
-      }).pipe(
-        Effect.tap((result) =>
-          deleteV1ProjectsById({ id: result.data.id }).pipe(Effect.ignore),
+          return result;
+        }).pipe(
+          Effect.tap((result) =>
+            deleteV1ProjectsById({ id: result.data.id }).pipe(Effect.ignore),
+          ),
         ),
-      ),
-    );
-  }, 60_000);
+      );
+    },
+  );
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - UnprocessableEntity for empty name", async () => {
-    await Effect.runPromise(
-      postV1Projects({
-        name: "",
-        region: "us-east-1",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for empty name",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        postV1Projects({
+          name: "",
+          region: "us-east-1",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

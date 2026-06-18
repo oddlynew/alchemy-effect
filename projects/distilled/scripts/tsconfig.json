@@ -1,7 +1,8 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "@alchemy.run/typescript-config/node.json",
   "include": ["*.ts", "lib/*.ts"],
   "compilerOptions": {
+    "composite": true,
     "outDir": "../.ai-workspace/scripts-lib",
     "rootDir": ".",
     "types": ["bun-types", "node"]

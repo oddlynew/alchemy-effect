@@ -22,94 +22,116 @@ describe("getV1DatabasesByDatabaseIdUsage", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - gets usage metrics for a database", async () => {
-    const project = getTestProject("db-usage");
-    const databaseId = project.databaseId!;
+  it(
+    "happy path - gets usage metrics for a database",
+    { timeout: 30_000 },
+    async () => {
+      const project = getTestProject("db-usage");
+      const databaseId = project.databaseId!;
 
-    const result = await runEffect(
-      getV1DatabasesByDatabaseIdUsage({ databaseId }),
-    );
+      const result = await runEffect(
+        getV1DatabasesByDatabaseIdUsage({ databaseId }),
+      );
 
-    expect(result.period).toBeDefined();
-    expect(result.period.start).toBeDefined();
-    expect(result.period.end).toBeDefined();
-    expect(result.metrics).toBeDefined();
-    expect(result.metrics.operations).toBeDefined();
-    expect(typeof result.metrics.operations.used).toBe("number");
-    expect(result.metrics.operations.unit).toBeDefined();
-    expect(result.metrics.storage).toBeDefined();
-    expect(typeof result.metrics.storage.used).toBe("number");
-    expect(result.metrics.storage.unit).toBeDefined();
-    expect(result.generatedAt).toBeDefined();
-  }, 30_000);
+      expect(result.period).toBeDefined();
+      expect(result.period.start).toBeDefined();
+      expect(result.period.end).toBeDefined();
+      expect(result.metrics).toBeDefined();
+      expect(result.metrics.operations).toBeDefined();
+      expect(typeof result.metrics.operations.used).toBe("number");
+      expect(result.metrics.operations.unit).toBeDefined();
+      expect(result.metrics.storage).toBeDefined();
+      expect(typeof result.metrics.storage.used).toBe("number");
+      expect(result.metrics.storage.unit).toBeDefined();
+      expect(result.generatedAt).toBeDefined();
+    },
+  );
 
-  it("happy path - gets usage with date range", async () => {
-    const project = getTestProject("db-usage");
-    const databaseId = project.databaseId!;
+  it(
+    "happy path - gets usage with date range",
+    { timeout: 30_000 },
+    async () => {
+      const project = getTestProject("db-usage");
+      const databaseId = project.databaseId!;
 
-    const now = new Date();
-    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-    const startDate = thirtyDaysAgo.toISOString();
-    const endDate = now.toISOString();
+      const now = new Date();
+      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      const startDate = thirtyDaysAgo.toISOString();
+      const endDate = now.toISOString();
 
-    const result = await runEffect(
-      getV1DatabasesByDatabaseIdUsage({ databaseId, startDate, endDate }),
-    );
+      const result = await runEffect(
+        getV1DatabasesByDatabaseIdUsage({ databaseId, startDate, endDate }),
+      );
 
-    expect(result.period).toBeDefined();
-    expect(result.metrics).toBeDefined();
-  }, 30_000);
+      expect(result.period).toBeDefined();
+      expect(result.metrics).toBeDefined();
+    },
+  );
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent databaseId", async () => {
-    await Effect.runPromise(
-      getV1DatabasesByDatabaseIdUsage({
-        databaseId: "non-existent-db-id-00000000",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1DatabasesByDatabaseIdUsage({
+          databaseId: "non-existent-db-id-00000000",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - BadRequest for invalid date range", async () => {
-    const project = getTestProject("db-usage");
-    const databaseId = project.databaseId!;
+  it(
+    "error - BadRequest for invalid date range",
+    { timeout: 30_000 },
+    async () => {
+      const project = getTestProject("db-usage");
+      const databaseId = project.databaseId!;
 
-    await Effect.runPromise(
-      getV1DatabasesByDatabaseIdUsage({
-        databaseId,
-        startDate: "not-a-date",
-        endDate: "also-not-a-date",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["BadRequest", "UnprocessableEntity"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+      await Effect.runPromise(
+        getV1DatabasesByDatabaseIdUsage({
+          databaseId,
+          startDate: "not-a-date",
+          endDate: "also-not-a-date",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["BadRequest", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - UnprocessableEntity for malformed databaseId", async () => {
-    await Effect.runPromise(
-      getV1DatabasesByDatabaseIdUsage({ databaseId: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1DatabasesByDatabaseIdUsage({ databaseId: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

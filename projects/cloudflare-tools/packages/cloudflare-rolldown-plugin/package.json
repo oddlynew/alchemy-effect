@@ -20,7 +20,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/cloudflare-tools.git",
-    "directory": "packages/cloudflare-rolldown-plugin"
+    "directory": "projects/cloudflare-tools/packages/cloudflare-rolldown-plugin"
   },
   "files": [
     "dist",
@@ -67,6 +67,7 @@
     "unenv": "^2.0.0-rc.24"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@cloudflare/workers-types": "catalog:workers",
     "@distilled.cloud/test-utils": "workspace:*",
     "mysql2": "^3.22.3",

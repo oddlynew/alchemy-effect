@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("multiSearch", () => {
   it(
     "executes a federated multi-search and returns one result per search",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-multi-${testRunId}`;
 
@@ -50,11 +51,11 @@ describe("multiSearch", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the searches array is empty",
+    { timeout: 30_000 },
     async () => {
       // Typesense returns 400 with { message: "Found no search parameters" }
       // when `searches` is empty.
@@ -67,6 +68,5 @@ describe("multiSearch", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

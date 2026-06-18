@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationOrganizationRolesControllerList", () => {
   it(
     "lists roles applicable to an organization",
+    { timeout: 60_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -35,11 +36,11 @@ describe("AuthorizationOrganizationRolesControllerList", () => {
         expect(["EnvironmentRole", "OrganizationRole"]).toContain(role.type);
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolesControllerList({
@@ -49,11 +50,11 @@ describe("AuthorizationOrganizationRolesControllerList", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolesControllerList({
@@ -63,6 +64,5 @@ describe("AuthorizationOrganizationRolesControllerList", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

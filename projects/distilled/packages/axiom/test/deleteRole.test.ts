@@ -8,6 +8,7 @@ describe("deleteRole", () => {
   // returns 403 Forbidden before the id lookup, so NotFound is unreachable.
   it(
     "returns Forbidden on non-Enterprise plans",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteRole({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -15,6 +16,5 @@ describe("deleteRole", () => {
 
       expect((error as { _tag: string })._tag).toBe("Forbidden");
     },
-    { timeout: 30_000 },
   );
 });

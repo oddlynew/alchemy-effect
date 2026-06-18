@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getAPITokens", () => {
   it(
     "returns an array of API tokens for the authenticated org",
+    { timeout: 30_000 },
     async () => {
       const tokens = await runEffect(getAPITokens({}));
 
@@ -20,11 +21,11 @@ describe("getAPITokens", () => {
         expect(typeof token.datasetCapabilities).toBe("object");
       }
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack apiTokens read access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -45,6 +46,5 @@ describe("getAPITokens", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

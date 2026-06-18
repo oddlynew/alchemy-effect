@@ -6,6 +6,7 @@ import { runEffect } from "./setup";
 describe("OperationMethod yieldable", () => {
   it(
     "direct call - yield* operation(input) works with services in context",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -16,11 +17,11 @@ describe("OperationMethod yieldable", () => {
       expect(result).toBeDefined();
       expect(Array.isArray(result.value)).toBe(true);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "yield first - yield* operation captures services and returns requirement-free function",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -35,11 +36,11 @@ describe("OperationMethod yieldable", () => {
       expect(result).toBeDefined();
       expect(Array.isArray(result.value)).toBe(true);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "yield first function works without service context",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -55,6 +56,5 @@ describe("OperationMethod yieldable", () => {
       expect(result).toBeDefined();
       expect(Array.isArray(result.value)).toBe(true);
     },
-    { timeout: 30_000 },
   );
 });

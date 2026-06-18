@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationRolePermissionsControllerAddPermission", () => {
   it(
     "fails with BadRequest when the request body is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerAddPermission({
@@ -16,11 +17,11 @@ describe("AuthorizationRolePermissionsControllerAddPermission", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent role slug",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerAddPermission({
@@ -30,11 +31,11 @@ describe("AuthorizationRolePermissionsControllerAddPermission", () => {
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the caller cannot modify the role",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerAddPermission({
@@ -44,11 +45,11 @@ describe("AuthorizationRolePermissionsControllerAddPermission", () => {
 
       expect(["Forbidden", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when targeting the built-in admin role",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRolePermissionsControllerAddPermission({
@@ -58,6 +59,5 @@ describe("AuthorizationRolePermissionsControllerAddPermission", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

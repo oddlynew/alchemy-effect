@@ -64,14 +64,16 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Indicates whether hostname-level authenticated origin pulls is
+                    description:
+                      Indicates whether hostname-level authenticated origin pulls is
                       enabled. A null value voids the association.
                   expires_on:
                     type: string
                     description: The date when the certificate expires.
                   hostname:
                     type: string
-                    description: The hostname on the origin for which the client certificate
+                    description:
+                      The hostname on the origin for which the client certificate
                       uploaded will be used.
                   issuer:
                     type: string
@@ -143,11 +145,13 @@ paths:
                         oneOf:
                           - type: boolean
                         nullable: true
-                        description: Indicates whether hostname-level authenticated origin pulls is
+                        description:
+                          Indicates whether hostname-level authenticated origin pulls is
                           enabled. A null value voids the association.
                       hostname:
                         type: string
-                        description: The hostname on the origin for which the client certificate
+                        description:
+                          The hostname on the origin for which the client certificate
                           uploaded will be used.
                   description: Body param
               required:
@@ -190,14 +194,16 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Indicates whether hostname-level authenticated origin pulls is
+                    description:
+                      Indicates whether hostname-level authenticated origin pulls is
                       enabled. A null value voids the association.
                   expires_on:
                     type: string
                     description: The date when the certificate expires.
                   hostname:
                     type: string
-                    description: The hostname on the origin for which the client certificate
+                    description:
+                      The hostname on the origin for which the client certificate
                       uploaded will be used.
                   issuer:
                     type: string
@@ -241,7 +247,8 @@ paths:
   /zones/{zone_id}/origin_tls_client_auth/hostnames/certificates/{certificateId}:
     get:
       operationId: getHostnameCertificate
-      description: "Get the certificate by ID to be used for client authentication on
+      description:
+        "Get the certificate by ID to be used for client authentication on
         a hostname.  @example ```ts const hostnameCertificate = await
         client.originTLSClientAuth.hostnameCertificates.get(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -308,7 +315,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteHostnameCertificate
-      description: "Removes a client certificate used for authenticated origin pulls
+      description:
+        "Removes a client certificate used for authenticated origin pulls
         on a specific hostname. Note: Before deleting the certificate, you must
         first invalidate the hostname for client authentication by sending a PUT
         request with `enabled` set to null. After invalidating the association,
@@ -455,7 +463,8 @@ paths:
           - status: 403
     post:
       operationId: createHostnameCertificate
-      description: "Upload a certificate to be used for client authentication on a
+      description:
+        "Upload a certificate to be used for client authentication on a
         hostname. 10 hostname certificates per zone are allowed.  @example ```ts
         const hostnameCertificate = await
         client.originTLSClientAuth.hostnameCertificates.create( { zone_id:
@@ -646,7 +655,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteZoneCertificate
-      description: "Removes a client certificate used for zone-level authenticated
+      description:
+        "Removes a client certificate used for zone-level authenticated
         origin pulls.  @example ```ts const zoneCertificate = await
         client.originTLSClientAuth.zoneCertificates.delete(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -891,7 +901,8 @@ paths:
   /zones/{zone_id}/origin_tls_client_auth/settings:
     get:
       operationId: getSetting
-      description: "Get whether zone-level authenticated origin pulls is enabled or
+      description:
+        "Get whether zone-level authenticated origin pulls is enabled or
         not. It is false by default.  @example ```ts const setting = await
         client.originTLSClientAuth.settings.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -919,7 +930,8 @@ paths:
           - status: 403
     put:
       operationId: putSetting
-      description: "Enable or disable zone-level authenticated origin pulls. 'enabled'
+      description:
+        "Enable or disable zone-level authenticated origin pulls. 'enabled'
         should be set true either before/after the certificate is uploaded to
         see the certificate in use.  @example ```ts const setting = await
         client.originTLSClientAuth.settings.update({ zone_id:
@@ -940,7 +952,8 @@ paths:
               properties:
                 enabled:
                   type: boolean
-                  description: "Body param: Indicates whether zone-level authenticated origin
+                  description:
+                    "Body param: Indicates whether zone-level authenticated origin
                     pulls is enabled."
               required:
                 - enabled

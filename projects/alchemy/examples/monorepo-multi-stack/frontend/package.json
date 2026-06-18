@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/monorepo-multi-stack/frontend"
+    "directory": "projects/alchemy/examples/monorepo-multi-stack/frontend"
   },
   "dependencies": {
     "@effect/platform-bun": "catalog:",
@@ -27,5 +27,8 @@
     "logs": "alchemy logs",
     "tail": "alchemy tail",
     "test": "bun test"
+  },
+  "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

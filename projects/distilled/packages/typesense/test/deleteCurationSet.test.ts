@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteCurationSet", () => {
   it(
     "deletes an existing curation set and returns its name",
+    { timeout: 30_000 },
     async () => {
       const curationSetName = `distilled-typesense-delcur-${testRunId}`;
 
@@ -37,11 +38,11 @@ describe("deleteCurationSet", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the curation set does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteCurationSet({
@@ -51,6 +52,5 @@ describe("deleteCurationSet", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

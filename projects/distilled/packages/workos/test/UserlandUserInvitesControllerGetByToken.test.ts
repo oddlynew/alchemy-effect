@@ -6,41 +6,38 @@ import { UserlandUserInvitesControllerRevoke } from "../src/operations/UserlandU
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("UserlandUserInvitesControllerGetByToken", () => {
-  it(
-    "fetches an invitation by its token",
-    async () => {
-      const email = `distilled-invite-by-token-${testRunId}@example.com`;
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const created = yield* UserlandUserInvitesControllerCreate({
-            email,
-            expires_in_days: 7,
-          });
-          return yield* UserlandUserInvitesControllerGetByToken({
-            token: created.token,
-          }).pipe(
-            Effect.ensuring(
-              UserlandUserInvitesControllerRevoke({ id: created.id }).pipe(
-                Effect.ignore,
-              ),
+  it("fetches an invitation by its token", { timeout: 30_000 }, async () => {
+    const email = `distilled-invite-by-token-${testRunId}@example.com`;
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const created = yield* UserlandUserInvitesControllerCreate({
+          email,
+          expires_in_days: 7,
+        });
+        return yield* UserlandUserInvitesControllerGetByToken({
+          token: created.token,
+        }).pipe(
+          Effect.ensuring(
+            UserlandUserInvitesControllerRevoke({ id: created.id }).pipe(
+              Effect.ignore,
             ),
-          );
-        }),
-      );
+          ),
+        );
+      }),
+    );
 
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(result.email).toBe(email);
-      expect(typeof result.token).toBe("string");
-      expect(["pending", "accepted", "expired", "revoked"]).toContain(
-        result.state,
-      );
-    },
-    30_000,
-  );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(result.email).toBe(email);
+    expect(typeof result.token).toBe("string");
+    expect(["pending", "accepted", "expired", "revoked"]).toContain(
+      result.state,
+    );
+  });
 
   it(
     "fails with NotFound for a non-existent token",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserInvitesControllerGetByToken({
@@ -49,6 +46,5 @@ describe("UserlandUserInvitesControllerGetByToken", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

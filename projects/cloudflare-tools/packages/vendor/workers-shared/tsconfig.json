@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "@alchemy.run/typescript-config/bun.json",
   "include": [],
   "compilerOptions": {
     "composite": false,

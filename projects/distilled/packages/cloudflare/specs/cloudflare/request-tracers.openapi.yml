@@ -82,7 +82,8 @@ paths:
                       description: Geodata for tracing request
                     skip_challenge:
                       type: boolean
-                      description: "Whether to skip any challenges for tracing request (e.g.:
+                      description:
+                        "Whether to skip any challenges for tracing request (e.g.:
                         captcha)"
                     threat_score:
                       type: number
@@ -101,7 +102,8 @@ paths:
                   description: "Body param: HTTP Protocol of tracing request"
                 skip_response:
                   type: boolean
-                  description: "Body param: Skip sending the request to the Origin server after
+                  description:
+                    "Body param: Skip sending the request to the Origin server after
                     all rules evaluation"
               required:
                 - method

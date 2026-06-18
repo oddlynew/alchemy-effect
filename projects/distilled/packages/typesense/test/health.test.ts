@@ -8,16 +8,17 @@ import { runEffect, testRunId } from "./setup";
 describe("health", () => {
   it(
     "returns ok: true when the Typesense server is reachable",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(health({}));
 
       expect(result.ok).toBe(true);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the request hits an unknown path",
+    { timeout: 30_000 },
     async () => {
       // /health does not require auth, so bad credentials still return 200.
       // Instead, point the client at a bogus URL prefix so the eventual
@@ -48,6 +49,5 @@ describe("health", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

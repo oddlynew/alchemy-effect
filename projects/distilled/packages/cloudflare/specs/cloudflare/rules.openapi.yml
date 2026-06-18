@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/rules/lists/{listId}:
     get:
       operationId: getList
-      description: "Fetches the details of a list.  @example ```ts const list = await
+      description:
+        "Fetches the details of a list.  @example ```ts const list = await
         client.rules.lists.get( '2c0fc9fa937b11eaa1b71c4d701ab86e', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -45,21 +46,24 @@ paths:
                       - redirect
                       - hostname
                       - asn
-                    description: The type of the list. Each type supports specific list items (IP
+                    description:
+                      The type of the list. Each type supports specific list items (IP
                       addresses, ASNs, hostnames or redirects).
                   modified_on:
                     type: string
                     description: The RFC 3339 timestamp of when the list was last modified.
                   name:
                     type: string
-                    description: An informative name for the list. Use this name in filter and rule
+                    description:
+                      An informative name for the list. Use this name in filter and rule
                       expressions.
                   num_items:
                     type: number
                     description: The number of items in the list.
                   num_referencing_filters:
                     type: number
-                    description: The number of [filters](/api/resources/filters/) referencing the
+                    description:
+                      The number of [filters](/api/resources/filters/) referencing the
                       list.
                   description:
                     type: string
@@ -80,7 +84,8 @@ paths:
           - status: 403
     put:
       operationId: updateList
-      description: "Updates the description of a list.  @example ```ts const list =
+      description:
+        "Updates the description of a list.  @example ```ts const list =
         await client.rules.lists.update( '2c0fc9fa937b11eaa1b71c4d701ab86e', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -126,21 +131,24 @@ paths:
                       - redirect
                       - hostname
                       - asn
-                    description: The type of the list. Each type supports specific list items (IP
+                    description:
+                      The type of the list. Each type supports specific list items (IP
                       addresses, ASNs, hostnames or redirects).
                   modified_on:
                     type: string
                     description: The RFC 3339 timestamp of when the list was last modified.
                   name:
                     type: string
-                    description: An informative name for the list. Use this name in filter and rule
+                    description:
+                      An informative name for the list. Use this name in filter and rule
                       expressions.
                   num_items:
                     type: number
                     description: The number of items in the list.
                   num_referencing_filters:
                     type: number
-                    description: The number of [filters](/api/resources/filters/) referencing the
+                    description:
+                      The number of [filters](/api/resources/filters/) referencing the
                       list.
                   description:
                     type: string
@@ -161,7 +169,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteList
-      description: "Deletes a specific list and all its items.  @example ```ts const
+      description:
+        "Deletes a specific list and all its items.  @example ```ts const
         list = await client.rules.lists.delete(
         '2c0fc9fa937b11eaa1b71c4d701ab86e', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -199,7 +208,8 @@ paths:
   /accounts/{account_id}/rules/lists:
     get:
       operationId: listLists
-      description: "Fetches all lists in the account.  @example ```ts // Automatically
+      description:
+        "Fetches all lists in the account.  @example ```ts // Automatically
         fetches more pages as needed. for await (const listsList of
         client.rules.lists.list({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', })) { // ... } ```"
@@ -231,21 +241,24 @@ paths:
                       - redirect
                       - hostname
                       - asn
-                    description: The type of the list. Each type supports specific list items (IP
+                    description:
+                      The type of the list. Each type supports specific list items (IP
                       addresses, ASNs, hostnames or redirects).
                   modified_on:
                     type: string
                     description: The RFC 3339 timestamp of when the list was last modified.
                   name:
                     type: string
-                    description: An informative name for the list. Use this name in filter and rule
+                    description:
+                      An informative name for the list. Use this name in filter and rule
                       expressions.
                   num_items:
                     type: number
                     description: The number of items in the list.
                   num_referencing_filters:
                     type: number
-                    description: The number of [filters](/api/resources/filters/) referencing the
+                    description:
+                      The number of [filters](/api/resources/filters/) referencing the
                       list.
                   description:
                     type: string
@@ -264,7 +277,8 @@ paths:
           - status: 403
     post:
       operationId: createList
-      description: "Creates a new list of the specified kind.  @example ```ts const
+      description:
+        "Creates a new list of the specified kind.  @example ```ts const
         list = await client.rules.lists.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', kind: 'ip', name: 'list1', }); ```"
       parameters:
@@ -288,11 +302,13 @@ paths:
                     - redirect
                     - hostname
                     - asn
-                  description: "Body param: The type of the list. Each type supports specific list
+                  description:
+                    "Body param: The type of the list. Each type supports specific list
                     items (IP addresses, ASNs, hostnames or redirects)."
                 name:
                   type: string
-                  description: "Body param: An informative name for the list. Use this name in
+                  description:
+                    "Body param: An informative name for the list. Use this name in
                     filter and rule expressions."
                 description:
                   type: string
@@ -321,21 +337,24 @@ paths:
                       - redirect
                       - hostname
                       - asn
-                    description: The type of the list. Each type supports specific list items (IP
+                    description:
+                      The type of the list. Each type supports specific list items (IP
                       addresses, ASNs, hostnames or redirects).
                   modified_on:
                     type: string
                     description: The RFC 3339 timestamp of when the list was last modified.
                   name:
                     type: string
-                    description: An informative name for the list. Use this name in filter and rule
+                    description:
+                      An informative name for the list. Use this name in filter and rule
                       expressions.
                   num_items:
                     type: number
                     description: The number of items in the list.
                   num_referencing_filters:
                     type: number
-                    description: The number of [filters](/api/resources/filters/) referencing the
+                    description:
+                      The number of [filters](/api/resources/filters/) referencing the
                       list.
                   description:
                     type: string
@@ -445,7 +464,8 @@ paths:
   /accounts/{account_id}/rules/lists/{listId}/items/{itemId}:
     get:
       operationId: getListItem
-      description: "Fetches a list item in the list.  @example ```ts const item =
+      description:
+        "Fetches a list item in the list.  @example ```ts const item =
         await client.rules.lists.items.get( '2c0fc9fa937b11eaa1b71c4d701ab86e',
         '34b12448945f11eaa1b71c4d701ab86e', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -510,13 +530,15 @@ paths:
                             type: string
                           exclude_exact_hostname:
                             type: boolean
-                            description: Only applies to wildcard hostnames (e.g., \ .example.com). When
+                            description:
+                              Only applies to wildcard hostnames (e.g., \ .example.com). When
                               true (default), only subdomains are blocked. When
                               false, both the root domain and subdomains are
                               blocked.
                         required:
                           - url_hostname
-                        description: Valid characters for hostnames are ASCII(7) letters from a to z,
+                        description:
+                          Valid characters for hostnames are ASCII(7) letters from a to z,
                           the digits from 0 to 9, wildcards (\ ), and the hyphen
                           (-).
                       modified_on:
@@ -626,14 +648,16 @@ paths:
         - name: per_page
           in: query
           required: false
-          description: "Query param: Amount of results to include in each paginated
+          description:
+            "Query param: Amount of results to include in each paginated
             response. A non-negative 32 bit integer."
           schema:
             type: number
         - name: search
           in: query
           required: false
-          description: "Query param: A search query to filter returned items. Its meaning
+          description:
+            "Query param: A search query to filter returned items. Its meaning
             depends on the list type: IP addresses must start with the provided
             string, hostnames and bulk redirects must contain the string, and
             ASNs must match the string exactly."
@@ -683,13 +707,15 @@ paths:
                             type: string
                           exclude_exact_hostname:
                             type: boolean
-                            description: Only applies to wildcard hostnames (e.g., \ .example.com). When
+                            description:
+                              Only applies to wildcard hostnames (e.g., \ .example.com). When
                               true (default), only subdomains are blocked. When
                               false, both the root domain and subdomains are
                               blocked.
                         required:
                           - url_hostname
-                        description: Valid characters for hostnames are ASCII(7) letters from a to z,
+                        description:
+                          Valid characters for hostnames are ASCII(7) letters from a to z,
                           the digits from 0 to 9, wildcards (\ ), and the hyphen
                           (-).
                       modified_on:
@@ -778,7 +804,8 @@ paths:
           - status: 403
     post:
       operationId: createListItem
-      description: "Appends new items to the list.  This operation is asynchronous. To
+      description:
+        "Appends new items to the list.  This operation is asynchronous. To
         get current the operation status, invoke the `Get bulk operation status`
         endpoint with the returned `operation_id`.  There is a limit of 1
         pending bulk operation per account. If an outstanding bulk operation is
@@ -859,13 +886,15 @@ paths:
                             type: string
                           exclude_exact_hostname:
                             type: boolean
-                            description: Only applies to wildcard hostnames (e.g., \ .example.com). When
+                            description:
+                              Only applies to wildcard hostnames (e.g., \ .example.com). When
                               true (default), only subdomains are blocked. When
                               false, both the root domain and subdomains are
                               blocked.
                         required:
                           - url_hostname
-                        description: Valid characters for hostnames are ASCII(7) letters from a to z,
+                        description:
+                          Valid characters for hostnames are ASCII(7) letters from a to z,
                           the digits from 0 to 9, wildcards (\ ), and the hyphen
                           (-).
                       comment:
@@ -899,7 +928,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: updateListItem
-      description: "Removes all existing items from the list and adds the provided
+      description:
+        "Removes all existing items from the list and adds the provided
         items to the list.  This operation is asynchronous. To get current the
         operation status, invoke the `Get bulk operation status` endpoint with
         the returned `operation_id`.  There is a limit of 1 pending bulk
@@ -980,13 +1010,15 @@ paths:
                             type: string
                           exclude_exact_hostname:
                             type: boolean
-                            description: Only applies to wildcard hostnames (e.g., \ .example.com). When
+                            description:
+                              Only applies to wildcard hostnames (e.g., \ .example.com). When
                               true (default), only subdomains are blocked. When
                               false, both the root domain and subdomains are
                               blocked.
                         required:
                           - url_hostname
-                        description: Valid characters for hostnames are ASCII(7) letters from a to z,
+                        description:
+                          Valid characters for hostnames are ASCII(7) letters from a to z,
                           the digits from 0 to 9, wildcards (\ ), and the hyphen
                           (-).
                       comment:

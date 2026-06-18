@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateCollection", () => {
   it(
     "adds a new field to a collection's schema",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-updcol-${testRunId}`;
 
@@ -34,11 +35,11 @@ describe("updateCollection", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the update body has an invalid field type",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-updcol-bad-${testRunId}`;
 
@@ -64,11 +65,11 @@ describe("updateCollection", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateCollection({
@@ -79,6 +80,5 @@ describe("updateCollection", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

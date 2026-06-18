@@ -1,8 +1,6 @@
 {
   "errors": {
-    "WaitingRoomNotFound": [
-      { "code": 1001 }
-    ],
+    "WaitingRoomNotFound": [{ "code": 1001 }],
     "Forbidden": [{ "status": 403 }]
   }
 }

@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("listGroups", () => {
   it(
     "returns an array of group configurations",
+    { timeout: 30_000 },
     async () => {
       const groups = await runEffect(listGroups({}));
 
@@ -18,11 +19,11 @@ describe("listGroups", () => {
         expect(typeof g.name).toBe("string");
       }
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack rbac read access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -43,6 +44,5 @@ describe("listGroups", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

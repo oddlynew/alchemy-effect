@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/connectivity/directory/services/{serviceId}:
     get:
       operationId: getDirectoryService
-      description: "Get Workers VPC connectivity service  @example ```ts const service
+      description:
+        "Get Workers VPC connectivity service  @example ```ts const service
         = await client.connectivity.directory.services.get(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
         ```"
@@ -125,7 +126,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -134,7 +136,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string
@@ -248,7 +251,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -257,7 +261,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string
@@ -281,7 +286,8 @@ paths:
           - status: 403
     put:
       operationId: updateDirectoryService
-      description: "Update Workers VPC connectivity service  @example ```ts const
+      description:
+        "Update Workers VPC connectivity service  @example ```ts const
         service = await client.connectivity.directory.services.update(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id',
         host: { ipv4: '10.0.0.1', network: { tunnel_id:
@@ -361,7 +367,8 @@ paths:
                       properties:
                         cert_verification_mode:
                           type: string
-                          description: TLS certificate verification mode for the connection to the
+                          description:
+                            TLS certificate verification mode for the connection to the
                             origin.  - `"verify_full"` — verify certificate
                             chain and hostname (default) - `"verify_ca"` —
                             verify certificate chain only, skip hostname check -
@@ -370,7 +377,8 @@ paths:
                       required:
                         - cert_verification_mode
                   nullable: true
-                  description: "Body param: TLS settings for a connectivity service.  If omitted,
+                  description:
+                    "Body param: TLS settings for a connectivity service.  If omitted,
                     the default mode (`verify_full`) is used."
                 app_protocol:
                   type: string
@@ -489,7 +497,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -498,7 +507,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string
@@ -612,7 +622,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -621,7 +632,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string
@@ -653,7 +665,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteDirectoryService
-      description: "Delete Workers VPC connectivity service  @example ```ts await
+      description:
+        "Delete Workers VPC connectivity service  @example ```ts await
         client.connectivity.directory.services.delete(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { account_id: 'account_id' }, );
         ```"
@@ -811,7 +824,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -820,7 +834,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string
@@ -924,7 +939,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -933,7 +949,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string
@@ -947,7 +964,8 @@ paths:
           - status: 403
     post:
       operationId: createDirectoryService
-      description: "Create Workers VPC connectivity service  @example ```ts const
+      description:
+        "Create Workers VPC connectivity service  @example ```ts const
         service = await client.connectivity.directory.services.create({
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', host: { hostname:
         'api.example.com', resolver_network: { tunnel_id:
@@ -1022,7 +1040,8 @@ paths:
                       properties:
                         cert_verification_mode:
                           type: string
-                          description: TLS certificate verification mode for the connection to the
+                          description:
+                            TLS certificate verification mode for the connection to the
                             origin.  - `"verify_full"` — verify certificate
                             chain and hostname (default) - `"verify_ca"` —
                             verify certificate chain only, skip hostname check -
@@ -1031,7 +1050,8 @@ paths:
                       required:
                         - cert_verification_mode
                   nullable: true
-                  description: "Body param: TLS settings for a connectivity service.  If omitted,
+                  description:
+                    "Body param: TLS settings for a connectivity service.  If omitted,
                     the default mode (`verify_full`) is used."
                 app_protocol:
                   type: string
@@ -1150,7 +1170,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -1159,7 +1180,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string
@@ -1273,7 +1295,8 @@ paths:
                             properties:
                               cert_verification_mode:
                                 type: string
-                                description: TLS certificate verification mode for the connection to the
+                                description:
+                                  TLS certificate verification mode for the connection to the
                                   origin.  - `"verify_full"` — verify
                                   certificate chain and hostname (default) -
                                   `"verify_ca"` — verify certificate chain only,
@@ -1282,7 +1305,8 @@ paths:
                             required:
                               - cert_verification_mode
                         nullable: true
-                        description: TLS settings for a connectivity service.  If omitted, the default
+                        description:
+                          TLS settings for a connectivity service.  If omitted, the default
                           mode (`verify_full`) is used.
                       updated_at:
                         type: string

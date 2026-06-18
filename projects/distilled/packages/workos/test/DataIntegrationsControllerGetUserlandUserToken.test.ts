@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("DataIntegrationsControllerGetUserlandUserToken", () => {
   it(
     "returns a token for a connected account or NotFound if not connected",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -48,11 +49,11 @@ describe("DataIntegrationsControllerGetUserlandUserToken", () => {
         expect(result.e._tag).toBe("NotFound");
       }
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent provider slug",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const userId =
@@ -69,11 +70,11 @@ describe("DataIntegrationsControllerGetUserlandUserToken", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when user_id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DataIntegrationsControllerGetUserlandUserToken({
@@ -84,6 +85,5 @@ describe("DataIntegrationsControllerGetUserlandUserToken", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

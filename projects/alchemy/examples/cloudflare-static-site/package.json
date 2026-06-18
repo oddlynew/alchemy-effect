@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/cloudflare-static-site"
+    "directory": "projects/alchemy/examples/cloudflare-static-site"
   },
   "type": "module",
   "scripts": {
@@ -23,6 +23,7 @@
     "effect": "catalog:"
   },
   "devDependencies": {
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

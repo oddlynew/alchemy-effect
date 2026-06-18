@@ -6,6 +6,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandSessionsControllerRevokeSession", () => {
   it(
     "revokes a session, returning a void response",
+    { timeout: 30_000 },
     async () => {
       // No real authenticated session is available in the test harness, so a
       // probe session_id is used. The endpoint either resolves Void (idempotent
@@ -17,8 +18,7 @@ describe("UserlandSessionsControllerRevokeSession", () => {
         }).pipe(
           Effect.matchEffect({
             onSuccess: () => Effect.succeed({ ok: true as const }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -29,11 +29,11 @@ describe("UserlandSessionsControllerRevokeSession", () => {
         expect(["BadRequest", "NotFound"]).toContain(result.error._tag);
       }
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when session_id is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSessionsControllerRevokeSession({ session_id: "" }).pipe(
@@ -42,6 +42,5 @@ describe("UserlandSessionsControllerRevokeSession", () => {
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 });

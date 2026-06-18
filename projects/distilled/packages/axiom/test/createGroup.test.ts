@@ -10,6 +10,7 @@ describe("createGroup", () => {
   // happy-path / UnprocessableEntity shapes.
   it(
     "returns Forbidden on non-Enterprise plans",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         createGroup({
@@ -20,6 +21,5 @@ describe("createGroup", () => {
 
       expect((error as { _tag: string })._tag).toBe("Forbidden");
     },
-    { timeout: 30_000 },
   );
 });

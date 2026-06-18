@@ -275,8 +275,11 @@ const nukeViewer = (dryRun: boolean, nukeConfig: NukeConfig) =>
         "Account Access Tokens",
         acc.accessTokens.filter((t): t is NonNullable<typeof t> => t !== null),
         "AccessToken",
-        (t) => (t as { note?: string | null; visibleTokenPrefix: string }).note ?? undefined,
-        (t) => `prefix: ${(t as { visibleTokenPrefix: string }).visibleTokenPrefix}`,
+        (t) =>
+          (t as { note?: string | null; visibleTokenPrefix: string }).note ??
+          undefined,
+        (t) =>
+          `prefix: ${(t as { visibleTokenPrefix: string }).visibleTokenPrefix}`,
       );
 
       yield* child(
@@ -624,7 +627,9 @@ const nuke = Command.make(
       const mode = config.dryRun
         ? `${YELLOW}DRY RUN${RESET}`
         : `${RED}LIVE${RESET}`;
-      yield* Console.log(`\n${BOLD}EAS Nuke${RESET} ${DIM}(${mode}${DIM})${RESET}`);
+      yield* Console.log(
+        `\n${BOLD}EAS Nuke${RESET} ${DIM}(${mode}${DIM})${RESET}`,
+      );
 
       if (!config.dryRun) {
         yield* Console.log(
@@ -648,17 +653,19 @@ const nuke = Command.make(
       );
       if (config.dryRun) {
         yield* Console.log(
-          `  ${RED}Would delete:       ${
-            totalFound - totalSkipped
-          }${RESET}`,
+          `  ${RED}Would delete:       ${totalFound - totalSkipped}${RESET}`,
         );
       } else {
-        yield* Console.log(`  ${GREEN}Deleted:            ${totalDeleted}${RESET}`);
+        yield* Console.log(
+          `  ${GREEN}Deleted:            ${totalDeleted}${RESET}`,
+        );
         yield* Console.log(
           `  ${YELLOW}Unsupported:        ${totalUnsupported}${RESET}`,
         );
         if (totalFailed > 0) {
-          yield* Console.log(`  ${RED}Failed:             ${totalFailed}${RESET}`);
+          yield* Console.log(
+            `  ${RED}Failed:             ${totalFailed}${RESET}`,
+          );
         }
       }
     }).pipe(

@@ -53,6 +53,7 @@ describe("getStemmingDictionary", () => {
 
   it(
     "retrieves an existing stemming dictionary by id",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(getStemmingDictionary({ dictionaryId }));
 
@@ -62,11 +63,11 @@ describe("getStemmingDictionary", () => {
       const peopleEntry = result.words.find((w) => w.word === "people");
       expect(peopleEntry?.root).toBe("person");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the stemming dictionary does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getStemmingDictionary({
@@ -76,6 +77,5 @@ describe("getStemmingDictionary", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

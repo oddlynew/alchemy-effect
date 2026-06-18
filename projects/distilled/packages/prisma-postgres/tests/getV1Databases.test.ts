@@ -36,7 +36,7 @@ describe("getV1Databases", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - lists databases", async () => {
+  it("happy path - lists databases", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1Databases({}));
     expect(result.data).toBeDefined();
     expect(Array.isArray(result.data)).toBe(true);
@@ -50,9 +50,9 @@ describe("getV1Databases", () => {
     expect(db.status).toBeDefined();
     expect(db.project).toBeDefined();
     expect(db.project.id).toBeDefined();
-  }, 30_000);
+  });
 
-  it("happy path - filters by projectId", async () => {
+  it("happy path - filters by projectId", { timeout: 30_000 }, async () => {
     const project = getTestProject("db-list");
     const result = await runEffect(
       getV1Databases({ projectId: project.projectId }),
@@ -62,19 +62,19 @@ describe("getV1Databases", () => {
     for (const db of result.data) {
       expect(db.project.id).toBe(project.projectId);
     }
-  }, 30_000);
+  });
 
-  it("happy path - supports limit parameter", async () => {
+  it("happy path - supports limit parameter", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1Databases({ limit: 1 }));
     expect(result.data).toBeDefined();
     expect(result.data.length).toBeLessThanOrEqual(1);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - Forbidden with invalid token", async () => {
+  it("error - Forbidden with invalid token", { timeout: 30_000 }, async () => {
     await Effect.runPromise(
       getV1Databases({}).pipe(
         Effect.flip,
@@ -84,5 +84,5 @@ describe("getV1Databases", () => {
         Effect.provide(BadTokenLayer),
       ),
     );
-  }, 30_000);
+  });
 });

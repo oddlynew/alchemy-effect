@@ -8,59 +8,54 @@ import { updateDocument } from "../src/operations/updateDocument";
 import { runEffect, testRunId } from "./setup";
 
 describe("updateDocument", () => {
-  it(
-    "partially updates a document by id",
-    async () => {
-      const collectionName = `distilled-typesense-upddoc-${testRunId}`;
-      const documentId = `doc-${testRunId}`;
+  it("partially updates a document by id", { timeout: 30_000 }, async () => {
+    const collectionName = `distilled-typesense-upddoc-${testRunId}`;
+    const documentId = `doc-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        yield* createCollection({
-          name: collectionName,
-          fields: [
-            { name: "title", type: "string" },
-            { name: "year", type: "int32" },
-          ],
-        });
+    const effect = Effect.gen(function* () {
+      yield* createCollection({
+        name: collectionName,
+        fields: [
+          { name: "title", type: "string" },
+          { name: "year", type: "int32" },
+        ],
+      });
 
-        yield* indexDocument({
-          collectionName,
-          id: documentId,
-          title: "Original Title",
-          year: 2020,
-        } as never);
+      yield* indexDocument({
+        collectionName,
+        id: documentId,
+        title: "Original Title",
+        year: 2020,
+      } as never);
 
-        // Schema.Struct preserves extra keys on encode, so we inject the
-        // partial document fields via `as never`. PATCH on /documents/{id}
-        // applies a partial update.
-        yield* updateDocument({
-          collectionName,
-          documentId,
-          title: "Updated Title",
-        } as never);
+      // Schema.Struct preserves extra keys on encode, so we inject the
+      // partial document fields via `as never`. PATCH on /documents/{id}
+      // applies a partial update.
+      yield* updateDocument({
+        collectionName,
+        documentId,
+        title: "Updated Title",
+      } as never);
 
-        const fetched = yield* getDocument({
-          collectionName,
-          documentId,
-        });
-        const doc = fetched as { id: string; title: string; year: number };
-        expect(doc.id).toBe(documentId);
-        expect(doc.title).toBe("Updated Title");
-        // Year was not in the patch — should be unchanged.
-        expect(doc.year).toBe(2020);
-      }).pipe(
-        Effect.ensuring(
-          deleteCollection({ collectionName }).pipe(Effect.ignore),
-        ),
-      );
+      const fetched = yield* getDocument({
+        collectionName,
+        documentId,
+      });
+      const doc = fetched as { id: string; title: string; year: number };
+      expect(doc.id).toBe(documentId);
+      expect(doc.title).toBe("Updated Title");
+      // Year was not in the patch — should be unchanged.
+      expect(doc.year).toBe(2020);
+    }).pipe(
+      Effect.ensuring(deleteCollection({ collectionName }).pipe(Effect.ignore)),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the document does not exist",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-upddoc-nf-${testRunId}`;
 
@@ -85,6 +80,5 @@ describe("updateDocument", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 });

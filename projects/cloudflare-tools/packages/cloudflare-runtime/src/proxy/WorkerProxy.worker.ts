@@ -157,11 +157,20 @@ const isProxyControllerRequest = (request: Request, env: Pick<Env, "PROXY_TOKEN"
 };
 
 const isTimingSafeEqual = (a: string, b: string): boolean => {
-  if (a.length !== b.length) {
+  const encoder = new TextEncoder();
+  const left = encoder.encode(a);
+  const right = encoder.encode(b);
+
+  if (left.byteLength !== right.byteLength) {
     return false;
   }
-  const encoder = new TextEncoder();
-  return crypto.subtle.timingSafeEqual(encoder.encode(a), encoder.encode(b));
+
+  let difference = 0;
+  for (let index = 0; index < left.byteLength; index++) {
+    difference |= left[index] ^ right[index];
+  }
+
+  return difference === 0;
 };
 
 const extractTargetFromRequest = async (request: Request): Promise<URL> => {

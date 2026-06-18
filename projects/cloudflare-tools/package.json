@@ -60,6 +60,7 @@
     "submodules:update": "git submodule update --remote --recursive"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@types/bun": "^1.3.11",
     "@types/node": "^24.12.0",
     "drizzle-orm": "^0.45.2",

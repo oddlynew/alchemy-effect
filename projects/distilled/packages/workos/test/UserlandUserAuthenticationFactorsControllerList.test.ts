@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUserAuthenticationFactorsControllerList", () => {
   it(
     "lists authentication factors for an existing user",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -43,11 +44,11 @@ describe("UserlandUserAuthenticationFactorsControllerList", () => {
         expect(typeof factor.updated_at).toBe("string");
       }
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity when limit exceeds the allowed maximum",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedUserId =
@@ -64,6 +65,5 @@ describe("UserlandUserAuthenticationFactorsControllerList", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

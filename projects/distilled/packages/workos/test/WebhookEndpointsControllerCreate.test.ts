@@ -9,6 +9,7 @@ const typedErrorTags = ["Conflict", "UnprocessableEntity"] as const;
 describe("WebhookEndpointsControllerCreate", () => {
   it(
     "creates a webhook endpoint, then cleans up",
+    { timeout: 60_000 },
     async () => {
       const endpointUrl = `https://distilled-${testRunId}.distilled.test/webhooks`;
       let createdId: string | undefined;
@@ -41,11 +42,11 @@ describe("WebhookEndpointsControllerCreate", () => {
         ),
       );
     },
-    60_000,
   );
 
   it(
     "fails with a typed Conflict when the endpoint url is already registered",
+    { timeout: 60_000 },
     async () => {
       const endpointUrl = `https://distilled-${testRunId}-conflict.distilled.test/webhooks`;
       let createdId: string | undefined;
@@ -76,11 +77,11 @@ describe("WebhookEndpointsControllerCreate", () => {
         ),
       );
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed endpoint url",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         WebhookEndpointsControllerCreate({
@@ -90,6 +91,5 @@ describe("WebhookEndpointsControllerCreate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

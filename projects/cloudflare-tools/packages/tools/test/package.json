@@ -15,6 +15,7 @@
     "miniflare": "catalog:workers"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "rolldown": "catalog:"
   }
 }

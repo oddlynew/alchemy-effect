@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getNotifiers", () => {
   it(
     "returns an array of notifier configurations",
+    { timeout: 30_000 },
     async () => {
       const notifiers = await runEffect(getNotifiers({}));
 
@@ -23,11 +24,11 @@ describe("getNotifiers", () => {
         expect(n.properties).not.toBeNull();
       }
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack notifier read access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -48,6 +49,5 @@ describe("getNotifiers", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

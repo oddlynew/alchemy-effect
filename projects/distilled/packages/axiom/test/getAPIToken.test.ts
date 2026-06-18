@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getAPIToken", () => {
   it(
     "fetches an API token by id and returns its configuration",
+    { timeout: 60_000 },
     async () => {
       const tokenName = `distilled-axiom-get-token-${testRunId}`;
       let createdId: string | undefined;
@@ -38,11 +39,11 @@ describe("getAPIToken", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for an API token id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getAPIToken({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -50,6 +51,5 @@ describe("getAPIToken", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

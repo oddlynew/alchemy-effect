@@ -8,52 +8,49 @@ import { OrganizationsControllerDeleteOrganization } from "../src/operations/Org
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("GroupsControllerGet", () => {
-  it(
-    "gets a group by id",
-    async () => {
-      const groupName = `distilled-group-get-${testRunId}`;
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const org = yield* OrganizationsControllerCreate({
-            name: `distilled-workos-groups-get-${testRunId}`,
+  it("gets a group by id", { timeout: 60_000 }, async () => {
+    const groupName = `distilled-group-get-${testRunId}`;
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const org = yield* OrganizationsControllerCreate({
+          name: `distilled-workos-groups-get-${testRunId}`,
+        });
+        return yield* Effect.gen(function* () {
+          const created = yield* GroupsControllerCreate({
+            organizationId: org.id,
+            name: groupName,
           });
-          return yield* Effect.gen(function* () {
-            const created = yield* GroupsControllerCreate({
-              organizationId: org.id,
-              name: groupName,
-            });
-            return yield* GroupsControllerGet({
-              organizationId: org.id,
-              groupId: created.id,
-            }).pipe(
-              Effect.ensuring(
-                GroupsControllerDelete({
-                  organizationId: org.id,
-                  groupId: created.id,
-                }).pipe(Effect.ignore),
-              ),
-            );
+          return yield* GroupsControllerGet({
+            organizationId: org.id,
+            groupId: created.id,
           }).pipe(
             Effect.ensuring(
-              OrganizationsControllerDeleteOrganization({
-                id: org.id,
+              GroupsControllerDelete({
+                organizationId: org.id,
+                groupId: created.id,
               }).pipe(Effect.ignore),
             ),
           );
-        }),
-      );
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(typeof result.organization_id).toBe("string");
-      expect(result.name).toBe(groupName);
-      expect(typeof result.created_at).toBe("string");
-      expect(typeof result.updated_at).toBe("string");
-    },
-    60_000,
-  );
+        }).pipe(
+          Effect.ensuring(
+            OrganizationsControllerDeleteOrganization({
+              id: org.id,
+            }).pipe(Effect.ignore),
+          ),
+        );
+      }),
+    );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(typeof result.organization_id).toBe("string");
+    expect(result.name).toBe(groupName);
+    expect(typeof result.created_at).toBe("string");
+    expect(typeof result.updated_at).toBe("string");
+  });
 
   it(
     "fails with NotFound for a non-existent group id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -74,11 +71,11 @@ describe("GroupsControllerGet", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when getting a group in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         GroupsControllerGet({
@@ -88,6 +85,5 @@ describe("GroupsControllerGet", () => {
       );
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

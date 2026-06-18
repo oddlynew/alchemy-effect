@@ -1,8 +1,6 @@
 {
   "errors": {
-    "RouteNotFound": [
-      { "code": 7005, "message": { "includes": "not found" } }
-    ],
+    "RouteNotFound": [{ "code": 7005, "message": { "includes": "not found" } }],
     "GatewayNotFound": [{ "code": 7002 }]
   },
   "response": {

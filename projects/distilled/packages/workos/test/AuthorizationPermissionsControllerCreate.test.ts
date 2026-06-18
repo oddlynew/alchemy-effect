@@ -5,38 +5,35 @@ import { AuthorizationPermissionsControllerDelete } from "../src/operations/Auth
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("AuthorizationPermissionsControllerCreate", () => {
-  it(
-    "creates a new permission",
-    async () => {
-      const slug = `test_perm_${testRunId}`;
+  it("creates a new permission", { timeout: 30_000 }, async () => {
+    const slug = `test_perm_${testRunId}`;
 
-      const permission = await runEffect(
-        AuthorizationPermissionsControllerCreate({
-          slug,
-          name: `Test Permission ${testRunId}`,
-          description: "Test permission created by distilled SDK tests",
-        }).pipe(
-          Effect.ensuring(
-            AuthorizationPermissionsControllerDelete({ slug }).pipe(
-              Effect.ignore,
-            ),
+    const permission = await runEffect(
+      AuthorizationPermissionsControllerCreate({
+        slug,
+        name: `Test Permission ${testRunId}`,
+        description: "Test permission created by distilled SDK tests",
+      }).pipe(
+        Effect.ensuring(
+          AuthorizationPermissionsControllerDelete({ slug }).pipe(
+            Effect.ignore,
           ),
         ),
-      );
+      ),
+    );
 
-      expect(permission).toBeDefined();
-      expect(permission.slug).toBe(slug);
-      expect(permission.name).toBe(`Test Permission ${testRunId}`);
-      expect(permission.description).toBe(
-        "Test permission created by distilled SDK tests",
-      );
-      expect(permission.system).toBe(false);
-    },
-    30_000,
-  );
+    expect(permission).toBeDefined();
+    expect(permission.slug).toBe(slug);
+    expect(permission.name).toBe(`Test Permission ${testRunId}`);
+    expect(permission.description).toBe(
+      "Test permission created by distilled SDK tests",
+    );
+    expect(permission.system).toBe(false);
+  });
 
   it(
     "fails with BadRequest when name is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationPermissionsControllerCreate({
@@ -47,11 +44,11 @@ describe("AuthorizationPermissionsControllerCreate", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent resource_type_slug",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationPermissionsControllerCreate({
@@ -63,11 +60,11 @@ describe("AuthorizationPermissionsControllerCreate", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when creating a permission with a duplicate slug",
+    { timeout: 30_000 },
     async () => {
       const slug = `dup_perm_${testRunId}`;
 
@@ -95,11 +92,11 @@ describe("AuthorizationPermissionsControllerCreate", () => {
 
       expect(error._tag).toBe("Conflict");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when slug has invalid format",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationPermissionsControllerCreate({
@@ -110,6 +107,5 @@ describe("AuthorizationPermissionsControllerCreate", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

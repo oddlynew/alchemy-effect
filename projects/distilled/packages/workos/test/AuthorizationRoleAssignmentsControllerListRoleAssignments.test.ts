@@ -6,6 +6,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationRoleAssignmentsControllerListRoleAssignments", () => {
   it(
     "lists role assignments for an organization membership",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -19,11 +20,11 @@ describe("AuthorizationRoleAssignmentsControllerListRoleAssignments", () => {
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.list_metadata).toBeDefined();
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRoleAssignmentsControllerListRoleAssignments({
@@ -33,11 +34,11 @@ describe("AuthorizationRoleAssignmentsControllerListRoleAssignments", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the membership belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationRoleAssignmentsControllerListRoleAssignments({
@@ -47,6 +48,5 @@ describe("AuthorizationRoleAssignmentsControllerListRoleAssignments", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

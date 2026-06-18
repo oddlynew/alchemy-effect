@@ -58,7 +58,7 @@ export const nodejsUnenvPlugin = createPlugin<"nodejs-unenv", UnenvApi>(
     for (const globalInject of Object.values(inject)) {
       if (typeof globalInject === "string") {
         entries.add(globalInject);
-      } else {
+      } else if (globalInject[0]) {
         entries.add(globalInject[0]);
       }
     }
@@ -66,8 +66,9 @@ export const nodejsUnenvPlugin = createPlugin<"nodejs-unenv", UnenvApi>(
     external.forEach((module) => entries.delete(module));
     const require = createRequire(import.meta.url);
     const resolve = (id: string) => {
-      if (alias[id] && !external.includes(alias[id])) {
-        return require.resolve(alias[id]);
+      const aliasId = alias[id];
+      if (aliasId && !external.includes(aliasId)) {
+        return require.resolve(aliasId);
       }
       if (entries.has(id)) {
         return require.resolve(id);

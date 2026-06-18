@@ -5,36 +5,33 @@ import { RadarStandaloneControllerUpdateRadarList } from "../src/operations/Rada
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("RadarStandaloneControllerDeleteRadarListEntry", () => {
-  it(
-    "removes an entry from a Radar list",
-    async () => {
-      const entry = `distilled-radar-delete-${testRunId}@example.com`;
-      const error = await runEffect(
-        Effect.gen(function* () {
-          yield* RadarStandaloneControllerUpdateRadarList({
-            type: "email",
-            action: "block",
-            entry,
-          });
-          yield* RadarStandaloneControllerDeleteRadarListEntry({
-            type: "email",
-            action: "block",
-            entry,
-          });
-          return yield* RadarStandaloneControllerDeleteRadarListEntry({
-            type: "email",
-            action: "block",
-            entry,
-          });
-        }).pipe(Effect.flip),
-      );
-      expect(error._tag).toBe("NotFound");
-    },
-    60_000,
-  );
+  it("removes an entry from a Radar list", { timeout: 60_000 }, async () => {
+    const entry = `distilled-radar-delete-${testRunId}@example.com`;
+    const error = await runEffect(
+      Effect.gen(function* () {
+        yield* RadarStandaloneControllerUpdateRadarList({
+          type: "email",
+          action: "block",
+          entry,
+        });
+        yield* RadarStandaloneControllerDeleteRadarListEntry({
+          type: "email",
+          action: "block",
+          entry,
+        });
+        return yield* RadarStandaloneControllerDeleteRadarListEntry({
+          type: "email",
+          action: "block",
+          entry,
+        });
+      }).pipe(Effect.flip),
+    );
+    expect(error._tag).toBe("NotFound");
+  });
 
   it(
     "fails with NotFound for a non-existent entry",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         RadarStandaloneControllerDeleteRadarListEntry({
@@ -45,11 +42,11 @@ describe("RadarStandaloneControllerDeleteRadarListEntry", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest for a malformed ip_address entry",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         RadarStandaloneControllerDeleteRadarListEntry({
@@ -60,6 +57,5 @@ describe("RadarStandaloneControllerDeleteRadarListEntry", () => {
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 });

@@ -4,31 +4,26 @@ import { UserlandUsersControllerList } from "../src/operations/UserlandUsersCont
 import { runEffect } from "./setup.ts";
 
 describe("UserlandUsersControllerList", () => {
-  it(
-    "lists users with a small limit",
-    async () => {
-      const result = await runEffect(
-        UserlandUsersControllerList({ limit: 5 }),
-      );
+  it("lists users with a small limit", { timeout: 30_000 }, async () => {
+    const result = await runEffect(UserlandUsersControllerList({ limit: 5 }));
 
-      expect(result).toBeDefined();
-      expect(result.object).toBe("list");
-      expect(Array.isArray(result.data)).toBe(true);
-      expect(result.list_metadata).toBeDefined();
+    expect(result).toBeDefined();
+    expect(result.object).toBe("list");
+    expect(Array.isArray(result.data)).toBe(true);
+    expect(result.list_metadata).toBeDefined();
 
-      for (const user of result.data) {
-        expect(typeof user.id).toBe("string");
-        expect(typeof user.email).toBe("string");
-        expect(typeof user.email_verified).toBe("boolean");
-        expect(typeof user.created_at).toBe("string");
-        expect(typeof user.updated_at).toBe("string");
-      }
-    },
-    30_000,
-  );
+    for (const user of result.data) {
+      expect(typeof user.id).toBe("string");
+      expect(typeof user.email).toBe("string");
+      expect(typeof user.email_verified).toBe("boolean");
+      expect(typeof user.created_at).toBe("string");
+      expect(typeof user.updated_at).toBe("string");
+    }
+  });
 
   it(
     "fails with UnprocessableEntity when limit exceeds the allowed maximum",
+    { timeout: 30_000 },
     async () => {
       // The API documents limit as between 1 and 100; 1000 violates that bound.
       const error = await runEffect(
@@ -36,6 +31,5 @@ describe("UserlandUsersControllerList", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

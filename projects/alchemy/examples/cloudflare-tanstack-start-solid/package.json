@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/cloudflare-tanstack-start-solid"
+    "directory": "projects/alchemy/examples/cloudflare-tanstack-start-solid"
   },
   "type": "module",
   "scripts": {
@@ -29,6 +29,7 @@
     "@types/bun": "latest",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-solid": "^2.11.12"
+    "vite-plugin-solid": "^2.11.12",
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

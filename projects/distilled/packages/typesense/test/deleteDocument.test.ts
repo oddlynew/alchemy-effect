@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteDocument", () => {
   it(
     "deletes an existing document and returns its body",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-deldoc-${testRunId}`;
       const documentId = `doc-${testRunId}`;
@@ -47,11 +48,11 @@ describe("deleteDocument", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the document does not exist",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-deldoc-nf-${testRunId}`;
 
@@ -74,6 +75,5 @@ describe("deleteDocument", () => {
       const error = await runEffect(effect);
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

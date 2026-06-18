@@ -1,1 +1,6 @@
-{ "errors": { "OutgoingZoneTransferNotFound": [{ "status": 404 }], "OutgoingZoneTransfersNotAllowed": [{ "status": 401 }] } }
+{
+  "errors": {
+    "OutgoingZoneTransferNotFound": [{ "status": 404 }],
+    "OutgoingZoneTransfersNotAllowed": [{ "status": 401 }]
+  }
+}

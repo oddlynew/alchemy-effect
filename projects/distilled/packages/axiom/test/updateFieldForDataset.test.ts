@@ -16,6 +16,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateFieldForDataset", () => {
   it(
     "returns NotFound for a field name that does not exist on the dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-updatefield-404-${testRunId}`;
 
@@ -41,11 +42,11 @@ describe("updateFieldForDataset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound when the dataset itself does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateFieldForDataset({
@@ -58,6 +59,5 @@ describe("updateFieldForDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

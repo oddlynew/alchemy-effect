@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createAnnotation", () => {
   it(
     "creates an annotation against a freshly created dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-createannotation-${testRunId}`;
       const annotationType = `distilled-test-${testRunId}`;
@@ -47,11 +48,11 @@ describe("createAnnotation", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns BadRequest when the time field is an invalid date format",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-createanno-bad-${testRunId}`;
 
@@ -77,11 +78,11 @@ describe("createAnnotation", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns BadRequest when the datasets array is empty",
+    { timeout: 30_000 },
     async () => {
       // Probed live: axiom returns 400 "invalid annotation: need at least
       // one dataset" rather than a 422. Earlier tests assumed 422 for
@@ -96,6 +97,5 @@ describe("createAnnotation", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

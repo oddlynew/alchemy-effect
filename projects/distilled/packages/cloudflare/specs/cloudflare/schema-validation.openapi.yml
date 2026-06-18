@@ -29,7 +29,8 @@ paths:
         - name: omit_source
           in: query
           required: false
-          description: "Query param: Omit the source-files of schemas and only retrieve
+          description:
+            "Query param: Omit the source-files of schemas and only retrieve
             their meta-data."
           schema:
             type: boolean
@@ -74,7 +75,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSchema
-      description: "Modifies an existing OpenAPI schema in API Shield, updating the
+      description:
+        "Modifies an existing OpenAPI schema in API Shield, updating the
         validation rules for associated API operations.  @example ```ts const
         publicSchema = await client.schemaValidation.schemas.edit(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { zone_id:
@@ -140,7 +142,8 @@ paths:
           - code: 19400
     delete:
       operationId: deleteSchema
-      description: "Permanently removes an uploaded OpenAPI schema from API Shield.
+      description:
+        "Permanently removes an uploaded OpenAPI schema from API Shield.
         Operations using this schema will lose their validation rules.  @example
         ```ts const schema = await client.schemaValidation.schemas.delete(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { zone_id:
@@ -175,7 +178,8 @@ paths:
   /zones/{zone_id}/schema_validation/schemas:
     get:
       operationId: listSchemas
-      description: "Lists all OpenAPI schemas uploaded to API Shield with pagination
+      description:
+        "Lists all OpenAPI schemas uploaded to API Shield with pagination
         support.  @example ```ts // Automatically fetches more pages as needed.
         for await (const publicSchema of client.schemaValidation.schemas.list( {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -199,7 +203,8 @@ paths:
         - name: omit_source
           in: query
           required: false
-          description: "Query param: Omit the source-files of schemas and only retrieve
+          description:
+            "Query param: Omit the source-files of schemas and only retrieve
             their meta-data."
           schema:
             type: boolean
@@ -245,7 +250,8 @@ paths:
       x-distilled-pagination-class: PublicSchemasV4PagePaginationArray
     post:
       operationId: createSchema
-      description: "Uploads a new OpenAPI schema for API Shield schema validation. The
+      description:
+        "Uploads a new OpenAPI schema for API Shield schema validation. The
         schema defines expected request/response formats for API
         endpoints.  @example ```ts const publicSchema = await
         client.schemaValidation.schemas.create({ zone_id:
@@ -276,7 +282,8 @@ paths:
                   description: "Body param: A human-readable name for the schema"
                 source:
                   type: string
-                  description: "Body param: The raw schema, e.g., the OpenAPI schema, either as
+                  description:
+                    "Body param: The raw schema, e.g., the OpenAPI schema, either as
                     JSON or YAML"
                 validation_enabled:
                   type: boolean
@@ -328,7 +335,8 @@ paths:
   /zones/{zone_id}/schema_validation/settings:
     get:
       operationId: getSetting
-      description: "Retrieves the current global schema validation settings for a
+      description:
+        "Retrieves the current global schema validation settings for a
         zone.  @example ```ts const setting = await
         client.schemaValidation.settings.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -353,7 +361,8 @@ paths:
                       - none
                       - log
                       - block
-                    description: "The default mitigation action used  Mitigation actions are as
+                    description:
+                      "The default mitigation action used  Mitigation actions are as
                       follows:  - `log` - log request when request does not
                       conform to schema - `block` - deny access to the site when
                       request does not conform to schema - `none` - skip running
@@ -362,7 +371,8 @@ paths:
                     type: string
                     enum:
                       - none
-                    description: When not null, this overrides global both zone level and operation
+                    description:
+                      When not null, this overrides global both zone level and operation
                       level mitigation actions. This can serve as a quick way to
                       disable schema validation for the whole zone.  - `"none"`
                       will skip running schema validation entirely for the
@@ -400,7 +410,8 @@ paths:
                     - none
                     - log
                     - block
-                  description: 'Body param: The default mitigation action used Mitigation actions
+                  description:
+                    'Body param: The default mitigation action used Mitigation actions
                     are as follows:  - `"log"` - log request when request does
                     not conform to schema - `"block"` - deny access to the site
                     when request does not conform to schema - `"none"` - skip
@@ -410,7 +421,8 @@ paths:
                   enum:
                     - none
                   nullable: true
-                  description: 'Body param: When set, this overrides both zone level and operation
+                  description:
+                    'Body param: When set, this overrides both zone level and operation
                     level mitigation actions.  - `"none"` - skip running schema
                     validation entirely for the request - `null` - clears any
                     existing override'
@@ -430,7 +442,8 @@ paths:
                       - none
                       - log
                       - block
-                    description: "The default mitigation action used  Mitigation actions are as
+                    description:
+                      "The default mitigation action used  Mitigation actions are as
                       follows:  - `log` - log request when request does not
                       conform to schema - `block` - deny access to the site when
                       request does not conform to schema - `none` - skip running
@@ -439,7 +452,8 @@ paths:
                     type: string
                     enum:
                       - none
-                    description: When not null, this overrides global both zone level and operation
+                    description:
+                      When not null, this overrides global both zone level and operation
                       level mitigation actions. This can serve as a quick way to
                       disable schema validation for the whole zone.  - `"none"`
                       will skip running schema validation entirely for the
@@ -454,7 +468,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSetting
-      description: "Partially updates global schema validation settings for a zone
+      description:
+        "Partially updates global schema validation settings for a zone
         using PATCH semantics.  @example ```ts const response = await
         client.schemaValidation.settings.edit({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -478,7 +493,8 @@ paths:
                     - none
                     - log
                     - block
-                  description: 'Body param: The default mitigation action used Mitigation actions
+                  description:
+                    'Body param: The default mitigation action used Mitigation actions
                     are as follows:  - `"log"` - log request when request does
                     not conform to schema - `"block"` - deny access to the site
                     when request does not conform to schema - `"none"` - skip
@@ -488,7 +504,8 @@ paths:
                   enum:
                     - none
                   nullable: true
-                  description: 'Body param: When set, this overrides both zone level and operation
+                  description:
+                    'Body param: When set, this overrides both zone level and operation
                     level mitigation actions.  - `"none"` - skip running schema
                     validation entirely for the request - `null` - clears any
                     existing override'
@@ -506,7 +523,8 @@ paths:
                       - none
                       - log
                       - block
-                    description: "The default mitigation action used  Mitigation actions are as
+                    description:
+                      "The default mitigation action used  Mitigation actions are as
                       follows:  - `log` - log request when request does not
                       conform to schema - `block` - deny access to the site when
                       request does not conform to schema - `none` - skip running
@@ -515,7 +533,8 @@ paths:
                     type: string
                     enum:
                       - none
-                    description: When not null, this overrides global both zone level and operation
+                    description:
+                      When not null, this overrides global both zone level and operation
                       level mitigation actions. This can serve as a quick way to
                       disable schema validation for the whole zone.  - `"none"`
                       will skip running schema validation entirely for the
@@ -526,7 +545,8 @@ paths:
   /zones/{zone_id}/schema_validation/settings/operations/{operationId}:
     get:
       operationId: getSettingOperation
-      description: "Retrieves the schema validation settings configured for a specific
+      description:
+        "Retrieves the schema validation settings configured for a specific
         API operation.  @example ```ts const operation = await
         client.schemaValidation.settings.operations.get(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { zone_id:
@@ -557,7 +577,8 @@ paths:
                       - log
                       - block
                       - none
-                    description: When set, this applies a mitigation action to this operation which
+                    description:
+                      When set, this applies a mitigation action to this operation which
                       supersedes a global schema validation setting just for
                       this operation  - `"log"` - log request when request does
                       not conform to schema for this operation - `"block"` -
@@ -609,7 +630,8 @@ paths:
                     - block
                     - none
                   nullable: true
-                  description: 'Body param: When set, this applies a mitigation action to this
+                  description:
+                    'Body param: When set, this applies a mitigation action to this
                     operation  - `"log"` - log request when request does not
                     conform to schema for this operation - `"block"` - deny
                     access to the site when request does not conform to schema
@@ -631,7 +653,8 @@ paths:
                       - log
                       - block
                       - none
-                    description: When set, this applies a mitigation action to this operation which
+                    description:
+                      When set, this applies a mitigation action to this operation which
                       supersedes a global schema validation setting just for
                       this operation  - `"log"` - log request when request does
                       not conform to schema for this operation - `"block"` -
@@ -687,7 +710,8 @@ paths:
   /zones/{zone_id}/schema_validation/settings/operations:
     get:
       operationId: listSettingOperations
-      description: "Lists all per-operation schema validation settings configured for
+      description:
+        "Lists all per-operation schema validation settings configured for
         the zone.  @example ```ts // Automatically fetches more pages as needed.
         for await (const operationListResponse of
         client.schemaValidation.settings.operations.list( { zone_id:
@@ -723,7 +747,8 @@ paths:
                       - log
                       - block
                       - none
-                    description: When set, this applies a mitigation action to this operation which
+                    description:
+                      When set, this applies a mitigation action to this operation which
                       supersedes a global schema validation setting just for
                       this operation  - `"log"` - log request when request does
                       not conform to schema for this operation - `"block"` -
@@ -739,7 +764,8 @@ paths:
       x-distilled-pagination-class: OperationListResponsesV4PagePaginationArray
     patch:
       operationId: bulkPatchSettingOperations
-      description: "Updates schema validation settings for multiple API operations in
+      description:
+        "Updates schema validation settings for multiple API operations in
         a single request. Efficient for applying consistent validation rules
         across endpoints.  @example ```ts const response = await
         client.schemaValidation.settings.operations.bulkEdit( { zone_id:

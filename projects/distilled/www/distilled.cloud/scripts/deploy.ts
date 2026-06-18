@@ -141,9 +141,7 @@ function uploadBucket(
     base64: true,
     jwtToken: uploadJwt,
     body,
-  }).pipe(
-    Effect.map((res) => res.jwt ?? undefined),
-  );
+  }).pipe(Effect.map((res) => res.jwt ?? undefined));
 }
 
 // =============================================================================

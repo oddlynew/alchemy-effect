@@ -13,6 +13,7 @@ const typedErrorTags = [
 describe("UserlandSessionsControllerAuthenticate", () => {
   it(
     "authenticates a user and returns a session, or surfaces a typed error",
+    { timeout: 30_000 },
     async () => {
       // The authenticate endpoint requires real auth flow context (e.g. a
       // valid authorization code, password credentials, or refresh token).
@@ -24,8 +25,7 @@ describe("UserlandSessionsControllerAuthenticate", () => {
           Effect.matchEffect({
             onSuccess: (session) =>
               Effect.succeed({ ok: true as const, session }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -41,50 +41,49 @@ describe("UserlandSessionsControllerAuthenticate", () => {
         expect(typedErrorTags).toContain(result.error._tag);
       }
     },
-    30_000,
   );
 
   it(
     "fails with a typed BadRequest when required body fields are missing",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSessionsControllerAuthenticate({}).pipe(Effect.flip),
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed Forbidden when the caller is not permitted to authenticate",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSessionsControllerAuthenticate({}).pipe(Effect.flip),
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed NotFound when the referenced auth context cannot be resolved",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSessionsControllerAuthenticate({}).pipe(Effect.flip),
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed UnprocessableEntity for semantically invalid auth payloads",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandSessionsControllerAuthenticate({}).pipe(Effect.flip),
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

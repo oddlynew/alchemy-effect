@@ -60,6 +60,7 @@ export class WorkflowBinding extends WorkerEntrypoint<Env> {
           timestamp: new Date(),
           payload: params as Readonly<typeof params>,
           instanceId: id,
+          workflowName: this.env.BINDING_NAME,
         },
       )
       .then((val) => {

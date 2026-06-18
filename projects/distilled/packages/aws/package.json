@@ -1,19 +1,19 @@
 {
   "name": "@distilled.cloud/aws",
   "version": "0.25.2",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
-    "directory": "packages/aws"
+    "directory": "projects/distilled/packages/aws"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
-  "module": "src/index.ts",
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -73,7 +73,8 @@
     "typecheck": "tsgo",
     "build": "tsgo -b",
     "fmt": "oxfmt --write src",
-    "lint": "oxlint --fix src",
+    "lint": "oxlint --type-aware src",
+    "lint:fix": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",
     "test": "bunx vitest run test --exclude specs --passWithNoTests",
     "publish:npm": "bun run build && bun publish --access public",
@@ -94,6 +95,7 @@
     "fast-xml-parser": "catalog:"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@effect/platform-bun": "catalog:",
     "@effect/platform-node": "catalog:",
     "@effect/vitest": "catalog:",

@@ -6,6 +6,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("RadarStandaloneControllerAssess", () => {
   it(
     "assesses a sign-in attempt and returns a verdict",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -23,11 +24,11 @@ describe("RadarStandaloneControllerAssess", () => {
       expect(typeof result.reason).toBe("string");
       expect(typeof result.attempt_id).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest for a malformed ip_address",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         RadarStandaloneControllerAssess({
@@ -41,6 +42,5 @@ describe("RadarStandaloneControllerAssess", () => {
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 });

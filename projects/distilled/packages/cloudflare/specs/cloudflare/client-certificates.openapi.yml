@@ -64,7 +64,8 @@ paths:
                     description: Unique identifier of the Client Certificate.
                   issued_on:
                     type: string
-                    description: Date that the Client Certificate was issued by the Certificate
+                    description:
+                      Date that the Client Certificate was issued by the Certificate
                       Authority.
                   location:
                     type: string
@@ -94,12 +95,14 @@ paths:
                       - pending_reactivation
                       - pending_revocation
                       - revoked
-                    description: Client Certificates may be active or revoked, and the
+                    description:
+                      Client Certificates may be active or revoked, and the
                       pending_reactivation or pending_revocation represent
                       in-progress asynchronous transitions.
                   validity_days:
                     type: number
-                    description: The number of days the Client Certificate will be valid after the
+                    description:
+                      The number of days the Client Certificate will be valid after the
                       issued_on date.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -112,7 +115,8 @@ paths:
           - status: 403
     patch:
       operationId: patchClientCertificate
-      description: "If a API Shield mTLS Client Certificate is in a pending_revocation
+      description:
+        "If a API Shield mTLS Client Certificate is in a pending_revocation
         state, you may reactivate it with this endpoint.  @example ```ts const
         clientCertificate = await client.clientCertificates.edit(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -178,7 +182,8 @@ paths:
                     description: Unique identifier of the Client Certificate.
                   issued_on:
                     type: string
-                    description: Date that the Client Certificate was issued by the Certificate
+                    description:
+                      Date that the Client Certificate was issued by the Certificate
                       Authority.
                   location:
                     type: string
@@ -208,12 +213,14 @@ paths:
                       - pending_reactivation
                       - pending_revocation
                       - revoked
-                    description: Client Certificates may be active or revoked, and the
+                    description:
+                      Client Certificates may be active or revoked, and the
                       pending_reactivation or pending_revocation represent
                       in-progress asynchronous transitions.
                   validity_days:
                     type: number
-                    description: The number of days the Client Certificate will be valid after the
+                    description:
+                      The number of days the Client Certificate will be valid after the
                       issued_on date.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -226,7 +233,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteClientCertificate
-      description: "Set a API Shield mTLS Client Certificate to pending_revocation
+      description:
+        "Set a API Shield mTLS Client Certificate to pending_revocation
         status for processing to revoked status.  @example ```ts const
         clientCertificate = await client.clientCertificates.delete(
         '023e105f4ecef8ad9ca31a8372d0c353', { zone_id:
@@ -282,7 +290,8 @@ paths:
                     description: Unique identifier of the Client Certificate.
                   issued_on:
                     type: string
-                    description: Date that the Client Certificate was issued by the Certificate
+                    description:
+                      Date that the Client Certificate was issued by the Certificate
                       Authority.
                   location:
                     type: string
@@ -312,12 +321,14 @@ paths:
                       - pending_reactivation
                       - pending_revocation
                       - revoked
-                    description: Client Certificates may be active or revoked, and the
+                    description:
+                      Client Certificates may be active or revoked, and the
                       pending_reactivation or pending_revocation represent
                       in-progress asynchronous transitions.
                   validity_days:
                     type: number
-                    description: The number of days the Client Certificate will be valid after the
+                    description:
+                      The number of days the Client Certificate will be valid after the
                       issued_on date.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -335,7 +346,8 @@ paths:
   /zones/{zone_id}/client_certificates:
     get:
       operationId: listClientCertificates
-      description: "List all of your Zone's API Shield mTLS Client Certificates by
+      description:
+        "List all of your Zone's API Shield mTLS Client Certificates by
         Status and/or using Pagination.  @example ```ts // Automatically fetches
         more pages as needed. for await (const clientCertificate of
         client.clientCertificates.list( { zone_id:
@@ -420,7 +432,8 @@ paths:
                     description: Unique identifier of the Client Certificate.
                   issued_on:
                     type: string
-                    description: Date that the Client Certificate was issued by the Certificate
+                    description:
+                      Date that the Client Certificate was issued by the Certificate
                       Authority.
                   location:
                     type: string
@@ -450,12 +463,14 @@ paths:
                       - pending_reactivation
                       - pending_revocation
                       - revoked
-                    description: Client Certificates may be active or revoked, and the
+                    description:
+                      Client Certificates may be active or revoked, and the
                       pending_reactivation or pending_revocation represent
                       in-progress asynchronous transitions.
                   validity_days:
                     type: number
-                    description: The number of days the Client Certificate will be valid after the
+                    description:
+                      The number of days the Client Certificate will be valid after the
                       issued_on date.
       x-distilled-pagination-class: ClientCertificatesV4PagePaginationArray
       x-distilled-errors:
@@ -463,7 +478,8 @@ paths:
           - status: 403
     post:
       operationId: createClientCertificate
-      description: "Create a new API Shield mTLS Client Certificate.  @example ```ts
+      description:
+        "Create a new API Shield mTLS Client Certificate.  @example ```ts
         const clientCertificate = await client.clientCertificates.create({
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353', csr: '-----BEGIN
         CERTIFICATE REQUEST-----\\nMIICY....\\n-----END CERTIFICATE
@@ -484,11 +500,13 @@ paths:
               properties:
                 csr:
                   type: string
-                  description: "Body param: The Certificate Signing Request (CSR). Must be
+                  description:
+                    "Body param: The Certificate Signing Request (CSR). Must be
                     newline-encoded."
                 validity_days:
                   type: number
-                  description: "Body param: The number of days the Client Certificate will be
+                  description:
+                    "Body param: The number of days the Client Certificate will be
                     valid after the issued_on date."
               required:
                 - csr
@@ -532,7 +550,8 @@ paths:
                     description: Unique identifier of the Client Certificate.
                   issued_on:
                     type: string
-                    description: Date that the Client Certificate was issued by the Certificate
+                    description:
+                      Date that the Client Certificate was issued by the Certificate
                       Authority.
                   location:
                     type: string
@@ -562,12 +581,14 @@ paths:
                       - pending_reactivation
                       - pending_revocation
                       - revoked
-                    description: Client Certificates may be active or revoked, and the
+                    description:
+                      Client Certificates may be active or revoked, and the
                       pending_reactivation or pending_revocation represent
                       in-progress asynchronous transitions.
                   validity_days:
                     type: number
-                    description: The number of days the Client Certificate will be valid after the
+                    description:
+                      The number of days the Client Certificate will be valid after the
                       issued_on date.
       x-distilled-response-path: result
       x-distilled-errors:

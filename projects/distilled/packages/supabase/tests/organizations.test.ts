@@ -50,6 +50,7 @@ describe("Organizations", () => {
   describe("v1CreateAnOrganization", () => {
     it.skipIf(!runOrgCreationTests)(
       "happy path - creates an organization (gated by SUPABASE_RUN_ORGANIZATION_CREATION_TESTS)",
+      { timeout: 60_000 },
       async () => {
         const name = `distilled-supabase-org-${testRunId}`;
         const result = await runEffect(v1CreateAnOrganization({ name }));
@@ -57,7 +58,6 @@ describe("Organizations", () => {
         expect(result.slug).toBeDefined();
         expect(result.name).toBe(name);
       },
-      60_000,
     );
 
     it("error - Forbidden with invalid token", async () => {

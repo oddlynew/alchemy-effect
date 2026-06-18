@@ -3,11 +3,16 @@ import { describe, expect, it } from "vitest";
 import { UserlandUsersControllerCreate } from "../src/operations/UserlandUsersControllerCreate.ts";
 import { runEffect } from "./setup.ts";
 
-const typedErrorTags = ["BadRequest", "NotFound", "UnprocessableEntity"] as const;
+const typedErrorTags = [
+  "BadRequest",
+  "NotFound",
+  "UnprocessableEntity",
+] as const;
 
 describe("UserlandUsersControllerCreate", () => {
   it(
     "creates a user, or surfaces a typed error",
+    { timeout: 30_000 },
     async () => {
       // The SDK's input schema is empty (no body fields declared), so the
       // request goes out with an empty body. The live API requires email
@@ -34,39 +39,38 @@ describe("UserlandUsersControllerCreate", () => {
         expect(typedErrorTags).toContain(result.error._tag);
       }
     },
-    30_000,
   );
 
   it(
     "fails with a typed BadRequest when required body fields are missing",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerCreate({}).pipe(Effect.flip),
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed NotFound when a referenced resource cannot be resolved",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerCreate({}).pipe(Effect.flip),
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed UnprocessableEntity for semantically invalid user payloads",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerCreate({}).pipe(Effect.flip),
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

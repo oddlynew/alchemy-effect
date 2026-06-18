@@ -73,7 +73,8 @@ paths:
         - name: limit
           in: query
           required: false
-          description: "Query param: The number of objects to return. The cursor attribute
+          description:
+            "Query param: The number of objects to return. The cursor attribute
             may be used to iterate over the next batch of objects if there are
             more than the limit."
           schema:

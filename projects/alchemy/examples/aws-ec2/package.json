@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/aws-ec2"
+    "directory": "projects/alchemy/examples/aws-ec2"
   },
   "scripts": {
     "build": "tsc -b",
@@ -19,5 +19,8 @@
     "@effect/platform-node": "catalog:",
     "alchemy": "workspace:*",
     "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

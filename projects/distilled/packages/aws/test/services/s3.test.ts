@@ -777,9 +777,7 @@ test(
         Effect.map(() => "not yet deleted" as const),
         Effect.catch(() => Effect.succeed("deleted" as const)),
         Effect.flatMap((r) =>
-          r === "not yet deleted"
-            ? Effect.fail(r)
-            : Effect.succeed(r),
+          r === "not yet deleted" ? Effect.fail(r) : Effect.succeed(r),
         ),
         Effect.retry({
           while: (err) => err === "not yet deleted",
@@ -851,9 +849,7 @@ test(
         Effect.map(() => "not yet deleted" as const),
         Effect.catch(() => Effect.succeed("deleted" as const)),
         Effect.flatMap((r) =>
-          r === "not yet deleted"
-            ? Effect.fail(r)
-            : Effect.succeed(r),
+          r === "not yet deleted" ? Effect.fail(r) : Effect.succeed(r),
         ),
         Effect.retry({
           while: (err) => err === "not yet deleted",

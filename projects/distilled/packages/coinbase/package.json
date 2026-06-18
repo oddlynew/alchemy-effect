@@ -1,19 +1,19 @@
 {
   "name": "@distilled.cloud/coinbase",
   "version": "0.25.2",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
-    "directory": "packages/coinbase"
+    "directory": "projects/distilled/packages/coinbase"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
-  "module": "src/index.ts",
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -65,7 +65,8 @@
     "typecheck": "tsgo",
     "build": "tsgo -b",
     "fmt": "oxfmt --write src",
-    "lint": "oxlint --fix src",
+    "lint": "oxlint --type-aware src",
+    "lint:fix": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",
     "test": "bunx vitest run test --exclude specs --passWithNoTests",
     "publish:npm": "bun run build && bun publish --access public",
@@ -77,6 +78,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "dotenv": "catalog:",

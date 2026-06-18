@@ -13,11 +13,8 @@ export default {
     // suite well past that and trips cross-file 400 "Bad Request"
     // responses. Serial execution is still fast enough for CI.
     pool: "forks",
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+    maxWorkers: 1,
+    isolate: false,
   },
   resolve: {
     alias: {

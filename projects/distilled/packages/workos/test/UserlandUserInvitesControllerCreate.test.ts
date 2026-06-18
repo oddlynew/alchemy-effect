@@ -5,52 +5,49 @@ import { UserlandUserInvitesControllerRevoke } from "../src/operations/UserlandU
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("UserlandUserInvitesControllerCreate", () => {
-  it(
-    "creates an invitation",
-    async () => {
-      const email = `distilled-invite-${testRunId}@example.com`;
-      const invite = await runEffect(
-        Effect.gen(function* () {
-          const created = yield* UserlandUserInvitesControllerCreate({
-            email,
-            expires_in_days: 7,
-          });
-          return created;
-        }).pipe(
-          Effect.flatMap((created) =>
-            UserlandUserInvitesControllerRevoke({ id: created.id }).pipe(
-              Effect.ignore,
-              Effect.as(created),
-            ),
+  it("creates an invitation", { timeout: 30_000 }, async () => {
+    const email = `distilled-invite-${testRunId}@example.com`;
+    const invite = await runEffect(
+      Effect.gen(function* () {
+        const created = yield* UserlandUserInvitesControllerCreate({
+          email,
+          expires_in_days: 7,
+        });
+        return created;
+      }).pipe(
+        Effect.flatMap((created) =>
+          UserlandUserInvitesControllerRevoke({ id: created.id }).pipe(
+            Effect.ignore,
+            Effect.as(created),
           ),
         ),
-      );
+      ),
+    );
 
-      expect(invite).toBeDefined();
-      expect(typeof invite.id).toBe("string");
-      expect(invite.email).toBe(email);
-      expect(["pending", "accepted", "expired", "revoked"]).toContain(
-        invite.state,
-      );
-      expect(typeof invite.token).toBe("string");
-      expect(typeof invite.accept_invitation_url).toBe("string");
-    },
-    30_000,
-  );
+    expect(invite).toBeDefined();
+    expect(typeof invite.id).toBe("string");
+    expect(invite.email).toBe(email);
+    expect(["pending", "accepted", "expired", "revoked"]).toContain(
+      invite.state,
+    );
+    expect(typeof invite.token).toBe("string");
+    expect(typeof invite.accept_invitation_url).toBe("string");
+  });
 
   it(
     "fails with BadRequest when the email is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserInvitesControllerCreate({ email: "" }).pipe(Effect.flip),
       );
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound when the organization_id does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserInvitesControllerCreate({
@@ -60,11 +57,11 @@ describe("UserlandUserInvitesControllerCreate", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed email",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserInvitesControllerCreate({
@@ -73,6 +70,5 @@ describe("UserlandUserInvitesControllerCreate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

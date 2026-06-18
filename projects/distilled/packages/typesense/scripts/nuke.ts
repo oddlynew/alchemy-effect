@@ -114,7 +114,12 @@ const nukeAliases = (dryRun: boolean, nukeConfig: NukeConfig) =>
     const result = yield* getAliases({}).pipe(
       Effect.catch(() =>
         Console.log(`  ${RED}Failed to list aliases${RESET}`).pipe(
-          Effect.map(() => ({ aliases: [] as ReadonlyArray<{ name: string; collection_name: string }> })),
+          Effect.map(() => ({
+            aliases: [] as ReadonlyArray<{
+              name: string;
+              collection_name: string;
+            }>,
+          })),
         ),
       ),
     );
@@ -166,7 +171,12 @@ const nukeAnalyticsRules = (dryRun: boolean, nukeConfig: NukeConfig) =>
       Effect.catch(() =>
         Console.log(`  ${RED}Failed to list analytics rules${RESET}`).pipe(
           Effect.map(
-            () => [] as ReadonlyArray<{ name: string; collection: string; type: string }>,
+            () =>
+              [] as ReadonlyArray<{
+                name: string;
+                collection: string;
+                type: string;
+              }>,
           ),
         ),
       ),
@@ -298,7 +308,12 @@ const nukeCurationSets = (dryRun: boolean, nukeConfig: NukeConfig) =>
 
     for (const set of sets) {
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "CurationSet", set.name, set.name);
+      const excluded = isExcluded(
+        nukeConfig,
+        "CurationSet",
+        set.name,
+        set.name,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -337,9 +352,9 @@ const nukeStopwordsSets = (dryRun: boolean, nukeConfig: NukeConfig) =>
     const result = yield* retrieveStopwordsSets({}).pipe(
       Effect.catch(() =>
         Console.log(`  ${RED}Failed to list stopwords sets${RESET}`).pipe(
-          Effect.map(
-            () => ({ stopwords: [] as ReadonlyArray<{ id: string }> }),
-          ),
+          Effect.map(() => ({
+            stopwords: [] as ReadonlyArray<{ id: string }>,
+          })),
         ),
       ),
     );
@@ -390,9 +405,9 @@ const nukePresets = (dryRun: boolean, nukeConfig: NukeConfig) =>
     const result = yield* retrieveAllPresets({}).pipe(
       Effect.catch(() =>
         Console.log(`  ${RED}Failed to list presets${RESET}`).pipe(
-          Effect.map(
-            () => ({ presets: [] as ReadonlyArray<{ name: string }> }),
-          ),
+          Effect.map(() => ({
+            presets: [] as ReadonlyArray<{ name: string }>,
+          })),
         ),
       ),
     );
@@ -404,7 +419,12 @@ const nukePresets = (dryRun: boolean, nukeConfig: NukeConfig) =>
 
     for (const preset of result.presets) {
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "Preset", preset.name, preset.name);
+      const excluded = isExcluded(
+        nukeConfig,
+        "Preset",
+        preset.name,
+        preset.name,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -618,16 +638,14 @@ const nukeKeys = (dryRun: boolean, nukeConfig: NukeConfig) =>
     const result = yield* getKeys({}).pipe(
       Effect.catch(() =>
         Console.log(`  ${RED}Failed to list API keys${RESET}`).pipe(
-          Effect.map(
-            () => ({
-              keys: [] as ReadonlyArray<{
-                id?: number;
-                description: string;
-                value_prefix?: string;
-                actions: ReadonlyArray<string>;
-              }>,
-            }),
-          ),
+          Effect.map(() => ({
+            keys: [] as ReadonlyArray<{
+              id?: number;
+              description: string;
+              value_prefix?: string;
+              actions: ReadonlyArray<string>;
+            }>,
+          })),
         ),
       ),
     );
@@ -758,17 +776,11 @@ const nuke = Command.make(
       // Summary
       yield* Console.log(`\n${BOLD}Summary${RESET}`);
       yield* Console.log(`  Total found:   ${totalFound}`);
-      yield* Console.log(
-        `  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`,
-      );
+      yield* Console.log(`  ${YELLOW}Skipped:       ${totalSkipped}${RESET}`);
       if (!config.dryRun) {
-        yield* Console.log(
-          `  ${GREEN}Deleted:       ${totalDeleted}${RESET}`,
-        );
+        yield* Console.log(`  ${GREEN}Deleted:       ${totalDeleted}${RESET}`);
         if (totalFailed > 0) {
-          yield* Console.log(
-            `  ${RED}Failed:        ${totalFailed}${RESET}`,
-          );
+          yield* Console.log(`  ${RED}Failed:        ${totalFailed}${RESET}`);
         }
       }
     }).pipe(

@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateNotifier", () => {
   it(
     "updates an existing notifier and returns the refreshed record",
+    { timeout: 60_000 },
     async () => {
       const initialName = `distilled-axiom-updnotifier-${testRunId}`;
       const renamedName = `distilled-axiom-updnotifier-renamed-${testRunId}`;
@@ -58,11 +59,11 @@ describe("updateNotifier", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a well-formed notifier id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Axiom notifier ids are prefixed with `notify_`. A syntactically valid
       // but non-existent id should produce a 404 → NotFound.
@@ -80,7 +81,6 @@ describe("updateNotifier", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   // Removed: "returns UnprocessableEntity when the notifier name is empty".

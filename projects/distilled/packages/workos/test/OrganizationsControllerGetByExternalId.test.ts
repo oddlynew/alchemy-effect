@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("OrganizationsControllerGetByExternalId", () => {
   it(
     "gets an organization by its external_id",
+    { timeout: 60_000 },
     async () => {
       const externalId = `distilled-ext-get-${testRunId}`;
       const result = await runEffect(
@@ -34,11 +35,11 @@ describe("OrganizationsControllerGetByExternalId", () => {
       expect(typeof result.created_at).toBe("string");
       expect(typeof result.updated_at).toBe("string");
     },
-    60_000,
   );
 
   it(
     "fails with NotFound when the external_id does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationsControllerGetByExternalId({
@@ -47,6 +48,5 @@ describe("OrganizationsControllerGetByExternalId", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

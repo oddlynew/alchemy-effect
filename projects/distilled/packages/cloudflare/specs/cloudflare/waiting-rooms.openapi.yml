@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/waiting_rooms/{waitingRoomId}/events/{eventId}:
     get:
       operationId: getEvent
-      description: "Fetches a single configured event for a waiting room.  @example
+      description:
+        "Fetches a single configured event for a waiting room.  @example
         ```ts const event = await client.waitingRooms.events.get(
         '699d98642c564d2e855e9661899b7252', '25756b2dfe6e378a06b033b670413757',
         { zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -46,7 +47,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `custom_page_html` property while it is active. If null,
                       the event will inherit it.
                   description:
@@ -56,7 +58,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `disable_session_renewal` property while it is active. If
                       null, the event will inherit it.
                   event_end_time:
@@ -64,7 +67,8 @@ paths:
                     description: An ISO 8601 timestamp that marks the end of the event.
                   event_start_time:
                     type: string
-                    description: An ISO 8601 timestamp that marks the start of the event. At this
+                    description:
+                      An ISO 8601 timestamp that marks the start of the event. At this
                       time, queued users will be processed with the event's
                       configuration. The start time must be at least one minute
                       before `event_end_time`.
@@ -72,13 +76,15 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the event. Only alphanumeric characters,
+                    description:
+                      A unique name to identify the event. Only alphanumeric characters,
                       hyphens and underscores are allowed.
                   new_users_per_minute:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `new_users_per_minute` property while it is active. If
                       null, the event will inherit it. This can only be set if
                       the event's `total_active_users` property is also set.
@@ -86,26 +92,30 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when to begin queueing all users
+                    description:
+                      An ISO 8601 timestamp that marks when to begin queueing all users
                       before the event starts. The prequeue must start at least
                       five minutes before `event_start_time`.
                   queueing_method:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `queueing_method` property while it is active. If null,
                       the event will inherit it.
                   session_duration:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `session_duration` property while it is active. If null,
                       the event will inherit it.
                   shuffle_at_event_start:
                     type: boolean
-                    description: If enabled, users in the prequeue will be shuffled randomly at the
+                    description:
+                      If enabled, users in the prequeue will be shuffled randomly at the
                       `event_start_time`. Requires that `prequeue_start_time` is
                       not null. This is useful for situations when many users
                       will join the event prequeue at the same time and you want
@@ -115,14 +125,16 @@ paths:
                       as  fifo  , or else the shuffling may be unnecessary.
                   suspended:
                     type: boolean
-                    description: Suspends or allows an event. If set to `true`, the event is ignored
+                    description:
+                      Suspends or allows an event. If set to `true`, the event is ignored
                       and traffic will be handled based on the waiting room
                       configuration.
                   total_active_users:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `total_active_users` property while it is active. If null,
                       the event will inherit it. This can only be set if the
                       event's `new_users_per_minute` property is also set.
@@ -132,7 +144,8 @@ paths:
                       - log
                       - infinite_queue
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `turnstile_action` property while it is active. If null,
                       the event will inherit it.
                   turnstile_mode:
@@ -143,13 +156,15 @@ paths:
                       - visible_non_interactive
                       - visible_managed
                     nullable: true
-                    description: If set, the event will override the waiting room's `turnstile_mode`
+                    description:
+                      If set, the event will override the waiting room's `turnstile_mode`
                       property while it is active. If null, the event will
                       inherit it.
       x-distilled-response-path: result
     put:
       operationId: updateEvent
-      description: "Updates a configured event for a waiting room.  @example ```ts
+      description:
+        "Updates a configured event for a waiting room.  @example ```ts
         const event = await client.waitingRooms.events.update(
         '699d98642c564d2e855e9661899b7252', '25756b2dfe6e378a06b033b670413757',
         { zone_id: '023e105f4ecef8ad9ca31a8372d0c353', event_end_time:
@@ -181,41 +196,48 @@ paths:
               properties:
                 event_end_time:
                   type: string
-                  description: "Body param: An ISO 8601 timestamp that marks the end of the
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks the end of the
                     event."
                 event_start_time:
                   type: string
-                  description: "Body param: An ISO 8601 timestamp that marks the start of the
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks the start of the
                     event. At this time, queued users will be processed with the
                     event's configuration. The start time must be at least one
                     minute before `event_end_time`."
                 name:
                   type: string
-                  description: "Body param: A unique name to identify the event. Only alphanumeric
+                  description:
+                    "Body param: A unique name to identify the event. Only alphanumeric
                     characters, hyphens and underscores are allowed."
                 custom_page_html:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `custom_page_html` property while it is active. If null, the
                     event will inherit it."
                 description:
                   type: string
-                  description: "Body param: A note that you can use to add more details about the
+                  description:
+                    "Body param: A note that you can use to add more details about the
                     event."
                 disable_session_renewal:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `disable_session_renewal` property while it is active. If
                     null, the event will inherit it."
                 new_users_per_minute:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `new_users_per_minute` property while it is active. If null,
                     the event will inherit it. This can only be set if the
                     event's `total_active_users` property is also set."
@@ -223,26 +245,30 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: An ISO 8601 timestamp that marks when to begin
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks when to begin
                     queueing all users before the event starts. The prequeue
                     must start at least five minutes before `event_start_time`."
                 queueing_method:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `queueing_method` property while it is active. If null, the
                     event will inherit it."
                 session_duration:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `session_duration` property while it is active. If null, the
                     event will inherit it."
                 shuffle_at_event_start:
                   type: boolean
-                  description: "Body param: If enabled, users in the prequeue will be shuffled
+                  description:
+                    "Body param: If enabled, users in the prequeue will be shuffled
                     randomly at the `event_start_time`. Requires that
                     `prequeue_start_time` is not null. This is useful for
                     situations when many users will join the event prequeue at
@@ -253,14 +279,16 @@ paths:
                     unnecessary."
                 suspended:
                   type: boolean
-                  description: "Body param: Suspends or allows an event. If set to `true`, the
+                  description:
+                    "Body param: Suspends or allows an event. If set to `true`, the
                     event is ignored and traffic will be handled based on the
                     waiting room configuration."
                 total_active_users:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `total_active_users` property while it is active. If null,
                     the event will inherit it. This can only be set if the
                     event's `new_users_per_minute` property is also set."
@@ -270,7 +298,8 @@ paths:
                     - log
                     - infinite_queue
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `turnstile_action` property while it is active. If null, the
                     event will inherit it."
                 turnstile_mode:
@@ -281,7 +310,8 @@ paths:
                     - visible_non_interactive
                     - visible_managed
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `turnstile_mode` property while it is active. If null, the
                     event will inherit it."
               required:
@@ -304,7 +334,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `custom_page_html` property while it is active. If null,
                       the event will inherit it.
                   description:
@@ -314,7 +345,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `disable_session_renewal` property while it is active. If
                       null, the event will inherit it.
                   event_end_time:
@@ -322,7 +354,8 @@ paths:
                     description: An ISO 8601 timestamp that marks the end of the event.
                   event_start_time:
                     type: string
-                    description: An ISO 8601 timestamp that marks the start of the event. At this
+                    description:
+                      An ISO 8601 timestamp that marks the start of the event. At this
                       time, queued users will be processed with the event's
                       configuration. The start time must be at least one minute
                       before `event_end_time`.
@@ -330,13 +363,15 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the event. Only alphanumeric characters,
+                    description:
+                      A unique name to identify the event. Only alphanumeric characters,
                       hyphens and underscores are allowed.
                   new_users_per_minute:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `new_users_per_minute` property while it is active. If
                       null, the event will inherit it. This can only be set if
                       the event's `total_active_users` property is also set.
@@ -344,26 +379,30 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when to begin queueing all users
+                    description:
+                      An ISO 8601 timestamp that marks when to begin queueing all users
                       before the event starts. The prequeue must start at least
                       five minutes before `event_start_time`.
                   queueing_method:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `queueing_method` property while it is active. If null,
                       the event will inherit it.
                   session_duration:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `session_duration` property while it is active. If null,
                       the event will inherit it.
                   shuffle_at_event_start:
                     type: boolean
-                    description: If enabled, users in the prequeue will be shuffled randomly at the
+                    description:
+                      If enabled, users in the prequeue will be shuffled randomly at the
                       `event_start_time`. Requires that `prequeue_start_time` is
                       not null. This is useful for situations when many users
                       will join the event prequeue at the same time and you want
@@ -373,14 +412,16 @@ paths:
                       as  fifo  , or else the shuffling may be unnecessary.
                   suspended:
                     type: boolean
-                    description: Suspends or allows an event. If set to `true`, the event is ignored
+                    description:
+                      Suspends or allows an event. If set to `true`, the event is ignored
                       and traffic will be handled based on the waiting room
                       configuration.
                   total_active_users:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `total_active_users` property while it is active. If null,
                       the event will inherit it. This can only be set if the
                       event's `new_users_per_minute` property is also set.
@@ -390,7 +431,8 @@ paths:
                       - log
                       - infinite_queue
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `turnstile_action` property while it is active. If null,
                       the event will inherit it.
                   turnstile_mode:
@@ -401,13 +443,15 @@ paths:
                       - visible_non_interactive
                       - visible_managed
                     nullable: true
-                    description: If set, the event will override the waiting room's `turnstile_mode`
+                    description:
+                      If set, the event will override the waiting room's `turnstile_mode`
                       property while it is active. If null, the event will
                       inherit it.
       x-distilled-response-path: result
     patch:
       operationId: patchEvent
-      description: "Patches a configured event for a waiting room.  @example ```ts
+      description:
+        "Patches a configured event for a waiting room.  @example ```ts
         const event = await client.waitingRooms.events.edit(
         '699d98642c564d2e855e9661899b7252', '25756b2dfe6e378a06b033b670413757',
         { zone_id: '023e105f4ecef8ad9ca31a8372d0c353', event_end_time:
@@ -439,41 +483,48 @@ paths:
               properties:
                 event_end_time:
                   type: string
-                  description: "Body param: An ISO 8601 timestamp that marks the end of the
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks the end of the
                     event."
                 event_start_time:
                   type: string
-                  description: "Body param: An ISO 8601 timestamp that marks the start of the
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks the start of the
                     event. At this time, queued users will be processed with the
                     event's configuration. The start time must be at least one
                     minute before `event_end_time`."
                 name:
                   type: string
-                  description: "Body param: A unique name to identify the event. Only alphanumeric
+                  description:
+                    "Body param: A unique name to identify the event. Only alphanumeric
                     characters, hyphens and underscores are allowed."
                 custom_page_html:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `custom_page_html` property while it is active. If null, the
                     event will inherit it."
                 description:
                   type: string
-                  description: "Body param: A note that you can use to add more details about the
+                  description:
+                    "Body param: A note that you can use to add more details about the
                     event."
                 disable_session_renewal:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `disable_session_renewal` property while it is active. If
                     null, the event will inherit it."
                 new_users_per_minute:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `new_users_per_minute` property while it is active. If null,
                     the event will inherit it. This can only be set if the
                     event's `total_active_users` property is also set."
@@ -481,26 +532,30 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: An ISO 8601 timestamp that marks when to begin
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks when to begin
                     queueing all users before the event starts. The prequeue
                     must start at least five minutes before `event_start_time`."
                 queueing_method:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `queueing_method` property while it is active. If null, the
                     event will inherit it."
                 session_duration:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `session_duration` property while it is active. If null, the
                     event will inherit it."
                 shuffle_at_event_start:
                   type: boolean
-                  description: "Body param: If enabled, users in the prequeue will be shuffled
+                  description:
+                    "Body param: If enabled, users in the prequeue will be shuffled
                     randomly at the `event_start_time`. Requires that
                     `prequeue_start_time` is not null. This is useful for
                     situations when many users will join the event prequeue at
@@ -511,14 +566,16 @@ paths:
                     unnecessary."
                 suspended:
                   type: boolean
-                  description: "Body param: Suspends or allows an event. If set to `true`, the
+                  description:
+                    "Body param: Suspends or allows an event. If set to `true`, the
                     event is ignored and traffic will be handled based on the
                     waiting room configuration."
                 total_active_users:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `total_active_users` property while it is active. If null,
                     the event will inherit it. This can only be set if the
                     event's `new_users_per_minute` property is also set."
@@ -528,7 +585,8 @@ paths:
                     - log
                     - infinite_queue
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `turnstile_action` property while it is active. If null, the
                     event will inherit it."
                 turnstile_mode:
@@ -539,7 +597,8 @@ paths:
                     - visible_non_interactive
                     - visible_managed
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `turnstile_mode` property while it is active. If null, the
                     event will inherit it."
               required:
@@ -562,7 +621,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `custom_page_html` property while it is active. If null,
                       the event will inherit it.
                   description:
@@ -572,7 +632,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `disable_session_renewal` property while it is active. If
                       null, the event will inherit it.
                   event_end_time:
@@ -580,7 +641,8 @@ paths:
                     description: An ISO 8601 timestamp that marks the end of the event.
                   event_start_time:
                     type: string
-                    description: An ISO 8601 timestamp that marks the start of the event. At this
+                    description:
+                      An ISO 8601 timestamp that marks the start of the event. At this
                       time, queued users will be processed with the event's
                       configuration. The start time must be at least one minute
                       before `event_end_time`.
@@ -588,13 +650,15 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the event. Only alphanumeric characters,
+                    description:
+                      A unique name to identify the event. Only alphanumeric characters,
                       hyphens and underscores are allowed.
                   new_users_per_minute:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `new_users_per_minute` property while it is active. If
                       null, the event will inherit it. This can only be set if
                       the event's `total_active_users` property is also set.
@@ -602,26 +666,30 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when to begin queueing all users
+                    description:
+                      An ISO 8601 timestamp that marks when to begin queueing all users
                       before the event starts. The prequeue must start at least
                       five minutes before `event_start_time`.
                   queueing_method:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `queueing_method` property while it is active. If null,
                       the event will inherit it.
                   session_duration:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `session_duration` property while it is active. If null,
                       the event will inherit it.
                   shuffle_at_event_start:
                     type: boolean
-                    description: If enabled, users in the prequeue will be shuffled randomly at the
+                    description:
+                      If enabled, users in the prequeue will be shuffled randomly at the
                       `event_start_time`. Requires that `prequeue_start_time` is
                       not null. This is useful for situations when many users
                       will join the event prequeue at the same time and you want
@@ -631,14 +699,16 @@ paths:
                       as  fifo  , or else the shuffling may be unnecessary.
                   suspended:
                     type: boolean
-                    description: Suspends or allows an event. If set to `true`, the event is ignored
+                    description:
+                      Suspends or allows an event. If set to `true`, the event is ignored
                       and traffic will be handled based on the waiting room
                       configuration.
                   total_active_users:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `total_active_users` property while it is active. If null,
                       the event will inherit it. This can only be set if the
                       event's `new_users_per_minute` property is also set.
@@ -648,7 +718,8 @@ paths:
                       - log
                       - infinite_queue
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `turnstile_action` property while it is active. If null,
                       the event will inherit it.
                   turnstile_mode:
@@ -659,13 +730,15 @@ paths:
                       - visible_non_interactive
                       - visible_managed
                     nullable: true
-                    description: If set, the event will override the waiting room's `turnstile_mode`
+                    description:
+                      If set, the event will override the waiting room's `turnstile_mode`
                       property while it is active. If null, the event will
                       inherit it.
       x-distilled-response-path: result
     delete:
       operationId: deleteEvent
-      description: "Deletes an event for a waiting room.  @example ```ts const event =
+      description:
+        "Deletes an event for a waiting room.  @example ```ts const event =
         await client.waitingRooms.events.delete(
         '699d98642c564d2e855e9661899b7252', '25756b2dfe6e378a06b033b670413757',
         { zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -700,7 +773,8 @@ paths:
   /zones/{zone_id}/waiting_rooms/{waitingRoomId}/events:
     get:
       operationId: listEvents
-      description: "Lists events for a waiting room.  @example ```ts // Automatically
+      description:
+        "Lists events for a waiting room.  @example ```ts // Automatically
         fetches more pages as needed. for await (const event of
         client.waitingRooms.events.list( '699d98642c564d2e855e9661899b7252', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -742,7 +816,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `custom_page_html` property while it is active. If null,
                       the event will inherit it.
                   description:
@@ -752,7 +827,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `disable_session_renewal` property while it is active. If
                       null, the event will inherit it.
                   event_end_time:
@@ -760,7 +836,8 @@ paths:
                     description: An ISO 8601 timestamp that marks the end of the event.
                   event_start_time:
                     type: string
-                    description: An ISO 8601 timestamp that marks the start of the event. At this
+                    description:
+                      An ISO 8601 timestamp that marks the start of the event. At this
                       time, queued users will be processed with the event's
                       configuration. The start time must be at least one minute
                       before `event_end_time`.
@@ -768,13 +845,15 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the event. Only alphanumeric characters,
+                    description:
+                      A unique name to identify the event. Only alphanumeric characters,
                       hyphens and underscores are allowed.
                   new_users_per_minute:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `new_users_per_minute` property while it is active. If
                       null, the event will inherit it. This can only be set if
                       the event's `total_active_users` property is also set.
@@ -782,26 +861,30 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when to begin queueing all users
+                    description:
+                      An ISO 8601 timestamp that marks when to begin queueing all users
                       before the event starts. The prequeue must start at least
                       five minutes before `event_start_time`.
                   queueing_method:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `queueing_method` property while it is active. If null,
                       the event will inherit it.
                   session_duration:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `session_duration` property while it is active. If null,
                       the event will inherit it.
                   shuffle_at_event_start:
                     type: boolean
-                    description: If enabled, users in the prequeue will be shuffled randomly at the
+                    description:
+                      If enabled, users in the prequeue will be shuffled randomly at the
                       `event_start_time`. Requires that `prequeue_start_time` is
                       not null. This is useful for situations when many users
                       will join the event prequeue at the same time and you want
@@ -811,14 +894,16 @@ paths:
                       as  fifo  , or else the shuffling may be unnecessary.
                   suspended:
                     type: boolean
-                    description: Suspends or allows an event. If set to `true`, the event is ignored
+                    description:
+                      Suspends or allows an event. If set to `true`, the event is ignored
                       and traffic will be handled based on the waiting room
                       configuration.
                   total_active_users:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `total_active_users` property while it is active. If null,
                       the event will inherit it. This can only be set if the
                       event's `new_users_per_minute` property is also set.
@@ -828,7 +913,8 @@ paths:
                       - log
                       - infinite_queue
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `turnstile_action` property while it is active. If null,
                       the event will inherit it.
                   turnstile_mode:
@@ -839,13 +925,15 @@ paths:
                       - visible_non_interactive
                       - visible_managed
                     nullable: true
-                    description: If set, the event will override the waiting room's `turnstile_mode`
+                    description:
+                      If set, the event will override the waiting room's `turnstile_mode`
                       property while it is active. If null, the event will
                       inherit it.
       x-distilled-pagination-class: EventsV4PagePaginationArray
     post:
       operationId: createEvent
-      description: "Only available for the Waiting Room Advanced subscription. Creates
+      description:
+        "Only available for the Waiting Room Advanced subscription. Creates
         an event for a waiting room. An event takes place during a specified
         period of time, temporarily changing the behavior of a waiting room.
         While the event is active, some of the properties in the event's
@@ -877,41 +965,48 @@ paths:
               properties:
                 event_end_time:
                   type: string
-                  description: "Body param: An ISO 8601 timestamp that marks the end of the
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks the end of the
                     event."
                 event_start_time:
                   type: string
-                  description: "Body param: An ISO 8601 timestamp that marks the start of the
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks the start of the
                     event. At this time, queued users will be processed with the
                     event's configuration. The start time must be at least one
                     minute before `event_end_time`."
                 name:
                   type: string
-                  description: "Body param: A unique name to identify the event. Only alphanumeric
+                  description:
+                    "Body param: A unique name to identify the event. Only alphanumeric
                     characters, hyphens and underscores are allowed."
                 custom_page_html:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `custom_page_html` property while it is active. If null, the
                     event will inherit it."
                 description:
                   type: string
-                  description: "Body param: A note that you can use to add more details about the
+                  description:
+                    "Body param: A note that you can use to add more details about the
                     event."
                 disable_session_renewal:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `disable_session_renewal` property while it is active. If
                     null, the event will inherit it."
                 new_users_per_minute:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `new_users_per_minute` property while it is active. If null,
                     the event will inherit it. This can only be set if the
                     event's `total_active_users` property is also set."
@@ -919,26 +1014,30 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: An ISO 8601 timestamp that marks when to begin
+                  description:
+                    "Body param: An ISO 8601 timestamp that marks when to begin
                     queueing all users before the event starts. The prequeue
                     must start at least five minutes before `event_start_time`."
                 queueing_method:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `queueing_method` property while it is active. If null, the
                     event will inherit it."
                 session_duration:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `session_duration` property while it is active. If null, the
                     event will inherit it."
                 shuffle_at_event_start:
                   type: boolean
-                  description: "Body param: If enabled, users in the prequeue will be shuffled
+                  description:
+                    "Body param: If enabled, users in the prequeue will be shuffled
                     randomly at the `event_start_time`. Requires that
                     `prequeue_start_time` is not null. This is useful for
                     situations when many users will join the event prequeue at
@@ -949,14 +1048,16 @@ paths:
                     unnecessary."
                 suspended:
                   type: boolean
-                  description: "Body param: Suspends or allows an event. If set to `true`, the
+                  description:
+                    "Body param: Suspends or allows an event. If set to `true`, the
                     event is ignored and traffic will be handled based on the
                     waiting room configuration."
                 total_active_users:
                   oneOf:
                     - type: number
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `total_active_users` property while it is active. If null,
                     the event will inherit it. This can only be set if the
                     event's `new_users_per_minute` property is also set."
@@ -966,7 +1067,8 @@ paths:
                     - log
                     - infinite_queue
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `turnstile_action` property while it is active. If null, the
                     event will inherit it."
                 turnstile_mode:
@@ -977,7 +1079,8 @@ paths:
                     - visible_non_interactive
                     - visible_managed
                   nullable: true
-                  description: "Body param: If set, the event will override the waiting room's
+                  description:
+                    "Body param: If set, the event will override the waiting room's
                     `turnstile_mode` property while it is active. If null, the
                     event will inherit it."
               required:
@@ -1000,7 +1103,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `custom_page_html` property while it is active. If null,
                       the event will inherit it.
                   description:
@@ -1010,7 +1114,8 @@ paths:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `disable_session_renewal` property while it is active. If
                       null, the event will inherit it.
                   event_end_time:
@@ -1018,7 +1123,8 @@ paths:
                     description: An ISO 8601 timestamp that marks the end of the event.
                   event_start_time:
                     type: string
-                    description: An ISO 8601 timestamp that marks the start of the event. At this
+                    description:
+                      An ISO 8601 timestamp that marks the start of the event. At this
                       time, queued users will be processed with the event's
                       configuration. The start time must be at least one minute
                       before `event_end_time`.
@@ -1026,13 +1132,15 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the event. Only alphanumeric characters,
+                    description:
+                      A unique name to identify the event. Only alphanumeric characters,
                       hyphens and underscores are allowed.
                   new_users_per_minute:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `new_users_per_minute` property while it is active. If
                       null, the event will inherit it. This can only be set if
                       the event's `total_active_users` property is also set.
@@ -1040,26 +1148,30 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when to begin queueing all users
+                    description:
+                      An ISO 8601 timestamp that marks when to begin queueing all users
                       before the event starts. The prequeue must start at least
                       five minutes before `event_start_time`.
                   queueing_method:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `queueing_method` property while it is active. If null,
                       the event will inherit it.
                   session_duration:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `session_duration` property while it is active. If null,
                       the event will inherit it.
                   shuffle_at_event_start:
                     type: boolean
-                    description: If enabled, users in the prequeue will be shuffled randomly at the
+                    description:
+                      If enabled, users in the prequeue will be shuffled randomly at the
                       `event_start_time`. Requires that `prequeue_start_time` is
                       not null. This is useful for situations when many users
                       will join the event prequeue at the same time and you want
@@ -1069,14 +1181,16 @@ paths:
                       as  fifo  , or else the shuffling may be unnecessary.
                   suspended:
                     type: boolean
-                    description: Suspends or allows an event. If set to `true`, the event is ignored
+                    description:
+                      Suspends or allows an event. If set to `true`, the event is ignored
                       and traffic will be handled based on the waiting room
                       configuration.
                   total_active_users:
                     oneOf:
                       - type: number
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `total_active_users` property while it is active. If null,
                       the event will inherit it. This can only be set if the
                       event's `new_users_per_minute` property is also set.
@@ -1086,7 +1200,8 @@ paths:
                       - log
                       - infinite_queue
                     nullable: true
-                    description: If set, the event will override the waiting room's
+                    description:
+                      If set, the event will override the waiting room's
                       `turnstile_action` property while it is active. If null,
                       the event will inherit it.
                   turnstile_mode:
@@ -1097,14 +1212,16 @@ paths:
                       - visible_non_interactive
                       - visible_managed
                     nullable: true
-                    description: If set, the event will override the waiting room's `turnstile_mode`
+                    description:
+                      If set, the event will override the waiting room's `turnstile_mode`
                       property while it is active. If null, the event will
                       inherit it.
       x-distilled-response-path: result
   /zones/{zone_id}/waiting_rooms/{waitingRoomId}/events/{eventId}/details:
     get:
       operationId: getEventDetail
-      description: "Previews an event's configuration as if it was active. Inherited
+      description:
+        "Previews an event's configuration as if it was active. Inherited
         fields from the waiting room will be displayed with their current
         values.  @example ```ts const detail = await
         client.waitingRooms.events.details.get(
@@ -1151,7 +1268,8 @@ paths:
                     description: An ISO 8601 timestamp that marks the end of the event.
                   event_start_time:
                     type: string
-                    description: An ISO 8601 timestamp that marks the start of the event. At this
+                    description:
+                      An ISO 8601 timestamp that marks the start of the event. At this
                       time, queued users will be processed with the event's
                       configuration. The start time must be at least one minute
                       before `event_end_time`.
@@ -1159,7 +1277,8 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the event. Only alphanumeric characters,
+                    description:
+                      A unique name to identify the event. Only alphanumeric characters,
                       hyphens and underscores are allowed.
                   new_users_per_minute:
                     type: number
@@ -1167,7 +1286,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when to begin queueing all users
+                    description:
+                      An ISO 8601 timestamp that marks when to begin queueing all users
                       before the event starts. The prequeue must start at least
                       five minutes before `event_start_time`.
                   queueing_method:
@@ -1176,7 +1296,8 @@ paths:
                     type: number
                   shuffle_at_event_start:
                     type: boolean
-                    description: If enabled, users in the prequeue will be shuffled randomly at the
+                    description:
+                      If enabled, users in the prequeue will be shuffled randomly at the
                       `event_start_time`. Requires that `prequeue_start_time` is
                       not null. This is useful for situations when many users
                       will join the event prequeue at the same time and you want
@@ -1186,7 +1307,8 @@ paths:
                       as  fifo  , or else the shuffling may be unnecessary.
                   suspended:
                     type: boolean
-                    description: Suspends or allows an event. If set to `true`, the event is ignored
+                    description:
+                      Suspends or allows an event. If set to `true`, the event is ignored
                       and traffic will be handled based on the waiting room
                       configuration.
                   total_active_users:
@@ -1195,7 +1317,8 @@ paths:
   /zones/{zone_id}/waiting_rooms/preview:
     post:
       operationId: previewPage
-      description: "Creates a waiting room page preview. Upload a custom waiting room
+      description:
+        "Creates a waiting room page preview. Upload a custom waiting room
         page for preview. You will receive a preview URL in the form
         `http://waitingrooms.dev/preview/<uuid>`. You can use the following
         query parameters to change the state of the preview:  1. `force_queue`:
@@ -1244,7 +1367,8 @@ paths:
               properties:
                 custom_html:
                   type: string
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. This is a template html file that will be
                     rendered at the edge. If no custom_page_html is provided,
                     the default waiting room will be used. The template is based
@@ -1277,13 +1401,15 @@ paths:
                 properties:
                   preview_url:
                     type: string
-                    description: URL where the custom waiting room page can temporarily be
+                    description:
+                      URL where the custom waiting room page can temporarily be
                       previewed.
       x-distilled-response-path: result
   /zones/{zone_id}/waiting_rooms/{waitingRoomId}/rules:
     get:
       operationId: getRule
-      description: "Lists rules for a waiting room.  @example ```ts // Automatically
+      description:
+        "Lists rules for a waiting room.  @example ```ts // Automatically
         fetches more pages as needed. for await (const waitingRoomRule of
         client.waitingRooms.rules.get( '699d98642c564d2e855e9661899b7252', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -1332,7 +1458,8 @@ paths:
       x-distilled-pagination-class: WaitingRoomRulesSinglePage
     post:
       operationId: createRule
-      description: "Only available for the Waiting Room Advanced subscription. Creates
+      description:
+        "Only available for the Waiting Room Advanced subscription. Creates
         a rule for a waiting room.  @example ```ts // Automatically fetches more
         pages as needed. for await (const waitingRoomRule of
         client.waitingRooms.rules.create( '699d98642c564d2e855e9661899b7252', {
@@ -1537,7 +1664,8 @@ paths:
                   description: "Body param: The action to take when the expression matches."
                 expression:
                   type: string
-                  description: "Body param: Criteria defining when there is a match for the
+                  description:
+                    "Body param: Criteria defining when there is a match for the
                     current rule."
                 description:
                   type: string
@@ -1551,7 +1679,8 @@ paths:
                       properties:
                         index:
                           type: number
-                          description: Places the rule in the exact position specified by the integer
+                          description:
+                            Places the rule in the exact position specified by the integer
                             number <POSITION_NUMBER>. Position numbers start
                             with 1. Existing rules in the ruleset from the
                             specified position number onward are shifted one
@@ -1560,14 +1689,16 @@ paths:
                       properties:
                         before:
                           type: string
-                          description: Places the rule before rule <RULE_ID>. Use this argument with an
+                          description:
+                            Places the rule before rule <RULE_ID>. Use this argument with an
                             empty rule ID value ("") to set the rule as the
                             first rule in the ruleset.
                     - type: object
                       properties:
                         after:
                           type: string
-                          description: Places the rule after rule <RULE_ID>. Use this argument with an
+                          description:
+                            Places the rule after rule <RULE_ID>. Use this argument with an
                             empty rule ID value ("") to set the rule as the last
                             rule in the ruleset.
                   description: "Body param: Reorder the position of a rule"
@@ -1663,7 +1794,8 @@ paths:
   /zones/{zone_id}/waiting_rooms/settings:
     get:
       operationId: getSetting
-      description: "Gets the zone-level Waiting Room settings that apply as defaults
+      description:
+        "Gets the zone-level Waiting Room settings that apply as defaults
         to all waiting rooms on the zone.  @example ```ts const setting = await
         client.waitingRooms.settings.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -1684,7 +1816,8 @@ paths:
                 properties:
                   search_engine_crawler_bypass:
                     type: boolean
-                    description: Whether to allow verified search engine crawlers to bypass all
+                    description:
+                      Whether to allow verified search engine crawlers to bypass all
                       waiting rooms on this zone. Verified search engine
                       crawlers will not be tracked or counted by the waiting
                       room system, and will not appear in waiting room
@@ -1697,7 +1830,8 @@ paths:
           - status: 403
     put:
       operationId: putSetting
-      description: "Fully updates zone-level Waiting Room settings, replacing the
+      description:
+        "Fully updates zone-level Waiting Room settings, replacing the
         existing configuration.  @example ```ts const setting = await
         client.waitingRooms.settings.update({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -1717,7 +1851,8 @@ paths:
               properties:
                 search_engine_crawler_bypass:
                   type: boolean
-                  description: "Body param: Whether to allow verified search engine crawlers to
+                  description:
+                    "Body param: Whether to allow verified search engine crawlers to
                     bypass all waiting rooms on this zone. Verified search
                     engine crawlers will not be tracked or counted by the
                     waiting room system, and will not appear in waiting room
@@ -1732,7 +1867,8 @@ paths:
                 properties:
                   search_engine_crawler_bypass:
                     type: boolean
-                    description: Whether to allow verified search engine crawlers to bypass all
+                    description:
+                      Whether to allow verified search engine crawlers to bypass all
                       waiting rooms on this zone. Verified search engine
                       crawlers will not be tracked or counted by the waiting
                       room system, and will not appear in waiting room
@@ -1747,7 +1883,8 @@ paths:
           - status: 403
     patch:
       operationId: patchSetting
-      description: "Partially updates zone-level Waiting Room settings using PATCH
+      description:
+        "Partially updates zone-level Waiting Room settings using PATCH
         semantics.  @example ```ts const response = await
         client.waitingRooms.settings.edit({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -1767,7 +1904,8 @@ paths:
               properties:
                 search_engine_crawler_bypass:
                   type: boolean
-                  description: "Body param: Whether to allow verified search engine crawlers to
+                  description:
+                    "Body param: Whether to allow verified search engine crawlers to
                     bypass all waiting rooms on this zone. Verified search
                     engine crawlers will not be tracked or counted by the
                     waiting room system, and will not appear in waiting room
@@ -1782,7 +1920,8 @@ paths:
                 properties:
                   search_engine_crawler_bypass:
                     type: boolean
-                    description: Whether to allow verified search engine crawlers to bypass all
+                    description:
+                      Whether to allow verified search engine crawlers to bypass all
                       waiting rooms on this zone. Verified search engine
                       crawlers will not be tracked or counted by the waiting
                       room system, and will not appear in waiting room
@@ -1793,7 +1932,8 @@ paths:
   /zones/{zone_id}/waiting_rooms/{waitingRoomId}/status:
     get:
       operationId: getStatus
-      description: "Fetches the status of a configured waiting room. Response fields
+      description:
+        "Fetches the status of a configured waiting room. Response fields
         include:  1. `status`: String indicating the status of the waiting room.
         The possible status are: -  not_queueing  indicates that the configured
         thresholds have not been met and all users are going through to the
@@ -1849,7 +1989,8 @@ paths:
   /zones/{zone_id}/waiting_rooms/{waitingRoomId}:
     get:
       operationId: getWaitingRoom
-      description: "Fetches a single configured waiting room.  @example ```ts const
+      description:
+        "Fetches a single configured waiting room.  @example ```ts const
         waitingRoom = await client.waitingRooms.get(
         '699d98642c564d2e855e9661899b7252', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1882,20 +2023,23 @@ paths:
                       properties:
                         host:
                           type: string
-                          description: The hostname to which this waiting room will be applied (no
+                          description:
+                            The hostname to which this waiting room will be applied (no
                             wildcards). The hostname must be the primary domain,
                             subdomain, or custom hostname (if using SSL for
                             SaaS) of this zone. Please do not include the scheme
                             (http:// or https://).
                         path:
                           type: string
-                          description: Sets the path within the host to enable the waiting room on. The
+                          description:
+                            Sets the path within the host to enable the waiting room on. The
                             waiting room will be enabled for all subpaths as
                             well. If there are two waiting rooms on the same
                             subpath, the waiting room for the most specific path
                             will be chosen. Wildcards and query parameters are
                             not supported.
-                    description: Only available for the Waiting Room Advanced subscription.
+                    description:
+                      Only available for the Waiting Room Advanced subscription.
                       Additional hostname and path combinations to which this
                       waiting room will be applied. There is an implied wildcard
                       at the end of the path. The hostname and path combination
@@ -1910,7 +2054,8 @@ paths:
                           - lax
                           - none
                           - strict
-                        description: Configures the SameSite attribute on the waiting room cookie. Value
+                        description:
+                          Configures the SameSite attribute on the waiting room cookie. Value
                           `auto` will be translated to `lax` or `none` depending
                           if  Always Use HTTPS  is enabled. Note that when using
                           value `none`, the secure attribute cannot be set to
@@ -1921,18 +2066,21 @@ paths:
                           - auto
                           - always
                           - never
-                        description: Configures the Secure attribute on the waiting room cookie. Value
+                        description:
+                          Configures the Secure attribute on the waiting room cookie. Value
                           `always` indicates that the Secure attribute will be
                           set in the Set-Cookie header, `never` indicates that
                           the Secure attribute will not be set, and `auto` will
                           set the Secure attribute depending if  Always Use
                           HTTPS  is enabled.
-                    description: Configures cookie attributes for the waiting room cookie. This
+                    description:
+                      Configures cookie attributes for the waiting room cookie. This
                       encrypted cookie stores a user's status in the waiting
                       room, such as queue position.
                   cookie_suffix:
                     type: string
-                    description: Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
+                    description:
+                      Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
                       Room's cookie name(  cf_waitingroom). If `cookie_suffix`
                       is "abcd", the cookie name will be
                       `  cf_waitingroom_abcd`. This field is required if using
@@ -1941,7 +2089,8 @@ paths:
                     type: string
                   custom_page_html:
                     type: string
-                    description: "Only available for the Waiting Room Advanced subscription. This is
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. This is
                       a template html file that will be rendered at the edge. If
                       no custom_page_html is provided, the default waiting room
                       will be used. The template is based on mustache (
@@ -2003,7 +2152,8 @@ paths:
                       - th-TH
                       - uk-UA
                       - vi-VN
-                    description: The language of the default page template. If no
+                    description:
+                      The language of the default page template. If no
                       default_template_language is provided, then `en-US`
                       (English) will be used.
                   description:
@@ -2011,7 +2161,8 @@ paths:
                     description: A note that you can use to add more details about the waiting room.
                   disable_session_renewal:
                     type: boolean
-                    description: Only available for the Waiting Room Advanced subscription. Disables
+                    description:
+                      Only available for the Waiting Room Advanced subscription. Disables
                       automatic renewal of session cookies. If `true`, an
                       accepted user will have session_duration minutes to browse
                       the site. After that, they will have to go through the
@@ -2026,12 +2177,14 @@ paths:
                     description: A list of enabled origin commands.
                   host:
                     type: string
-                    description: The host name to which the waiting room will be applied (no
+                    description:
+                      The host name to which the waiting room will be applied (no
                       wildcards). Please do not include the scheme (http:// or
                       https://). The host and path combination must be unique.
                   json_response_enabled:
                     type: boolean
-                    description: "Only available for the Waiting Room Advanced subscription. If
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. If
                       `true`, requests to the waiting room with the header
                       `Accept: application/json` will receive a JSON response
                       object with information on the user's status in the
@@ -2170,11 +2323,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the waiting room. Only alphanumeric
+                    description:
+                      A unique name to identify the waiting room. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   new_users_per_minute:
                     type: number
-                    description: Sets the number of new users that will be let into the route every
+                    description:
+                      Sets the number of new users that will be let into the route every
                       minute. This value is used as baseline for the number of
                       users that are let in per minute. So it is possible that
                       there is a little more or little less traffic coming to
@@ -2184,7 +2339,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when the next event will begin
+                    description:
+                      An ISO 8601 timestamp that marks when the next event will begin
                       queueing.
                   next_event_start_time:
                     oneOf:
@@ -2193,14 +2349,16 @@ paths:
                     description: An ISO 8601 timestamp that marks when the next event will start.
                   path:
                     type: string
-                    description: Sets the path within the host to enable the waiting room on. The
+                    description:
+                      Sets the path within the host to enable the waiting room on. The
                       waiting room will be enabled for all subpaths as well. If
                       there are two waiting rooms on the same subpath, the
                       waiting room for the most specific path will be chosen.
                       Wildcards and query parameters are not supported.
                   queue_all:
                     type: boolean
-                    description: If queue_all is `true`, all the traffic that is coming to a route
+                    description:
+                      If queue_all is `true`, all the traffic that is coming to a route
                       will be sent to the waiting room. No new traffic can get
                       to the route once this field is set and estimated time
                       will become unavailable.
@@ -2211,7 +2369,8 @@ paths:
                       - random
                       - passthrough
                       - reject
-                    description: "Sets the queueing method used by the waiting room. Changing this
+                    description:
+                      "Sets the queueing method used by the waiting room. Changing this
                       parameter from the  default  queueing method is only
                       available for the Waiting Room Advanced subscription.
                       Regardless of the queueing method, if `queue_all` is
@@ -2253,17 +2412,20 @@ paths:
                     description: HTTP status code returned to a user while in the queue.
                   session_duration:
                     type: number
-                    description: Lifetime of a cookie (in minutes) set by Cloudflare for users who
+                    description:
+                      Lifetime of a cookie (in minutes) set by Cloudflare for users who
                       get access to the route. If a user is not seen by
                       Cloudflare again in that time period, they will be treated
                       as a new user that visits the route.
                   suspended:
                     type: boolean
-                    description: Suspends or allows traffic going to the waiting room. If set to
+                    description:
+                      Suspends or allows traffic going to the waiting room. If set to
                       `true`, the traffic will not go to the waiting room.
                   total_active_users:
                     type: number
-                    description: Sets the total number of active user sessions on the route at a
+                    description:
+                      Sets the total number of active user sessions on the route at a
                       point in time. A route is a combination of host and path
                       on which a waiting room is available. This value is used
                       as a baseline for the total number of active user sessions
@@ -2276,7 +2438,8 @@ paths:
                     enum:
                       - log
                       - infinite_queue
-                    description: Which action to take when a bot is detected using Turnstile. `log`
+                    description:
+                      Which action to take when a bot is detected using Turnstile. `log`
                       will have no impact on queueing behavior, simply keeping
                       track of how many bots are detected in Waiting Room
                       Analytics. `infinite_queue` will send bots to a false
@@ -2289,7 +2452,8 @@ paths:
                       - invisible
                       - visible_non_interactive
                       - visible_managed
-                    description: Which Turnstile widget type to use for detecting bot traffic. See
+                    description:
+                      Which Turnstile widget type to use for detecting bot traffic. See
                       [the Turnstile
                       documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)
                       for the definitions of these widget types. Set to `off` to
@@ -2331,18 +2495,21 @@ paths:
               properties:
                 host:
                   type: string
-                  description: "Body param: The host name to which the waiting room will be
+                  description:
+                    "Body param: The host name to which the waiting room will be
                     applied (no wildcards). Please do not include the scheme
                     (http:// or https://). The host and path combination must be
                     unique."
                 name:
                   type: string
-                  description: "Body param: A unique name to identify the waiting room. Only
+                  description:
+                    "Body param: A unique name to identify the waiting room. Only
                     alphanumeric characters, hyphens and underscores are
                     allowed."
                 new_users_per_minute:
                   type: number
-                  description: "Body param: Sets the number of new users that will be let into the
+                  description:
+                    "Body param: Sets the number of new users that will be let into the
                     route every minute. This value is used as baseline for the
                     number of users that are let in per minute. So it is
                     possible that there is a little more or little less traffic
@@ -2350,7 +2517,8 @@ paths:
                     time around the world."
                 total_active_users:
                   type: number
-                  description: "Body param: Sets the total number of active user sessions on the
+                  description:
+                    "Body param: Sets the total number of active user sessions on the
                     route at a point in time. A route is a combination of host
                     and path on which a waiting room is available. This value is
                     used as a baseline for the total number of active user
@@ -2365,20 +2533,23 @@ paths:
                     properties:
                       host:
                         type: string
-                        description: The hostname to which this waiting room will be applied (no
+                        description:
+                          The hostname to which this waiting room will be applied (no
                           wildcards). The hostname must be the primary domain,
                           subdomain, or custom hostname (if using SSL for SaaS)
                           of this zone. Please do not include the scheme
                           (http:// or https://).
                       path:
                         type: string
-                        description: Sets the path within the host to enable the waiting room on. The
+                        description:
+                          Sets the path within the host to enable the waiting room on. The
                           waiting room will be enabled for all subpaths as well.
                           If there are two waiting rooms on the same subpath,
                           the waiting room for the most specific path will be
                           chosen. Wildcards and query parameters are not
                           supported.
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. Additional hostname and path combinations to
                     which this waiting room will be applied. There is an implied
                     wildcard at the end of the path. The hostname and path
@@ -2394,7 +2565,8 @@ paths:
                         - lax
                         - none
                         - strict
-                      description: Configures the SameSite attribute on the waiting room cookie. Value
+                      description:
+                        Configures the SameSite attribute on the waiting room cookie. Value
                         `auto` will be translated to `lax` or `none` depending
                         if  Always Use HTTPS  is enabled. Note that when using
                         value `none`, the secure attribute cannot be set to
@@ -2405,25 +2577,29 @@ paths:
                         - auto
                         - always
                         - never
-                      description: Configures the Secure attribute on the waiting room cookie. Value
+                      description:
+                        Configures the Secure attribute on the waiting room cookie. Value
                         `always` indicates that the Secure attribute will be set
                         in the Set-Cookie header, `never` indicates that the
                         Secure attribute will not be set, and `auto` will set
                         the Secure attribute depending if  Always Use HTTPS  is
                         enabled.
-                  description: "Body param: Configures cookie attributes for the waiting room
+                  description:
+                    "Body param: Configures cookie attributes for the waiting room
                     cookie. This encrypted cookie stores a user's status in the
                     waiting room, such as queue position."
                 cookie_suffix:
                   type: string
-                  description: "Body param: Appends a '\\_' + a custom suffix to the end of
+                  description:
+                    "Body param: Appends a '\\_' + a custom suffix to the end of
                     Cloudflare Waiting Room's cookie name(  cf_waitingroom). If
                     `cookie_suffix` is \"abcd\", the cookie name will be
                     `  cf_waitingroom_abcd`. This field is required if using
                     `additional_routes`."
                 custom_page_html:
                   type: string
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. This is a template html file that will be
                     rendered at the edge. If no custom_page_html is provided,
                     the default waiting room will be used. The template is based
@@ -2485,16 +2661,19 @@ paths:
                     - th-TH
                     - uk-UA
                     - vi-VN
-                  description: "Body param: The language of the default page template. If no
+                  description:
+                    "Body param: The language of the default page template. If no
                     default_template_language is provided, then `en-US`
                     (English) will be used."
                 description:
                   type: string
-                  description: "Body param: A note that you can use to add more details about the
+                  description:
+                    "Body param: A note that you can use to add more details about the
                     waiting room."
                 disable_session_renewal:
                   type: boolean
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. Disables automatic renewal of session cookies.
                     If `true`, an accepted user will have session_duration
                     minutes to browse the site. After that, they will have to go
@@ -2509,7 +2688,8 @@ paths:
                   description: "Body param: A list of enabled origin commands."
                 json_response_enabled:
                   type: boolean
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. If `true`, requests to the waiting room with
                     the header `Accept: application/json` will receive a JSON
                     response object with information on the user's status in the
@@ -2641,14 +2821,16 @@ paths:
                     \"15 minutes\", \"shuffleAtEventStart\": true } }"
                 path:
                   type: string
-                  description: "Body param: Sets the path within the host to enable the waiting
+                  description:
+                    "Body param: Sets the path within the host to enable the waiting
                     room on. The waiting room will be enabled for all subpaths
                     as well. If there are two waiting rooms on the same subpath,
                     the waiting room for the most specific path will be chosen.
                     Wildcards and query parameters are not supported."
                 queue_all:
                   type: boolean
-                  description: "Body param: If queue_all is `true`, all the traffic that is coming
+                  description:
+                    "Body param: If queue_all is `true`, all the traffic that is coming
                     to a route will be sent to the waiting room. No new traffic
                     can get to the route once this field is set and estimated
                     time will become unavailable."
@@ -2659,7 +2841,8 @@ paths:
                     - random
                     - passthrough
                     - reject
-                  description: "Body param: Sets the queueing method used by the waiting room.
+                  description:
+                    "Body param: Sets the queueing method used by the waiting room.
                     Changing this parameter from the  default  queueing method
                     is only available for the Waiting Room Advanced
                     subscription. Regardless of the queueing method, if
@@ -2697,17 +2880,20 @@ paths:
                     - 200
                     - 202
                     - 429
-                  description: "Body param: HTTP status code returned to a user while in the
+                  description:
+                    "Body param: HTTP status code returned to a user while in the
                     queue."
                 session_duration:
                   type: number
-                  description: "Body param: Lifetime of a cookie (in minutes) set by Cloudflare
+                  description:
+                    "Body param: Lifetime of a cookie (in minutes) set by Cloudflare
                     for users who get access to the route. If a user is not seen
                     by Cloudflare again in that time period, they will be
                     treated as a new user that visits the route."
                 suspended:
                   type: boolean
-                  description: "Body param: Suspends or allows traffic going to the waiting room.
+                  description:
+                    "Body param: Suspends or allows traffic going to the waiting room.
                     If set to `true`, the traffic will not go to the waiting
                     room."
                 turnstile_action:
@@ -2715,7 +2901,8 @@ paths:
                   enum:
                     - log
                     - infinite_queue
-                  description: "Body param: Which action to take when a bot is detected using
+                  description:
+                    "Body param: Which action to take when a bot is detected using
                     Turnstile. `log` will have no impact on queueing behavior,
                     simply keeping track of how many bots are detected in
                     Waiting Room Analytics. `infinite_queue` will send bots to a
@@ -2728,7 +2915,8 @@ paths:
                     - invisible
                     - visible_non_interactive
                     - visible_managed
-                  description: "Body param: Which Turnstile widget type to use for detecting bot
+                  description:
+                    "Body param: Which Turnstile widget type to use for detecting bot
                     traffic. See [the Turnstile
                     documentation](https://developers.cloudflare.com/turnstile/\
                     concepts/widget/#widget-types) for the definitions of these
@@ -2757,20 +2945,23 @@ paths:
                       properties:
                         host:
                           type: string
-                          description: The hostname to which this waiting room will be applied (no
+                          description:
+                            The hostname to which this waiting room will be applied (no
                             wildcards). The hostname must be the primary domain,
                             subdomain, or custom hostname (if using SSL for
                             SaaS) of this zone. Please do not include the scheme
                             (http:// or https://).
                         path:
                           type: string
-                          description: Sets the path within the host to enable the waiting room on. The
+                          description:
+                            Sets the path within the host to enable the waiting room on. The
                             waiting room will be enabled for all subpaths as
                             well. If there are two waiting rooms on the same
                             subpath, the waiting room for the most specific path
                             will be chosen. Wildcards and query parameters are
                             not supported.
-                    description: Only available for the Waiting Room Advanced subscription.
+                    description:
+                      Only available for the Waiting Room Advanced subscription.
                       Additional hostname and path combinations to which this
                       waiting room will be applied. There is an implied wildcard
                       at the end of the path. The hostname and path combination
@@ -2785,7 +2976,8 @@ paths:
                           - lax
                           - none
                           - strict
-                        description: Configures the SameSite attribute on the waiting room cookie. Value
+                        description:
+                          Configures the SameSite attribute on the waiting room cookie. Value
                           `auto` will be translated to `lax` or `none` depending
                           if  Always Use HTTPS  is enabled. Note that when using
                           value `none`, the secure attribute cannot be set to
@@ -2796,18 +2988,21 @@ paths:
                           - auto
                           - always
                           - never
-                        description: Configures the Secure attribute on the waiting room cookie. Value
+                        description:
+                          Configures the Secure attribute on the waiting room cookie. Value
                           `always` indicates that the Secure attribute will be
                           set in the Set-Cookie header, `never` indicates that
                           the Secure attribute will not be set, and `auto` will
                           set the Secure attribute depending if  Always Use
                           HTTPS  is enabled.
-                    description: Configures cookie attributes for the waiting room cookie. This
+                    description:
+                      Configures cookie attributes for the waiting room cookie. This
                       encrypted cookie stores a user's status in the waiting
                       room, such as queue position.
                   cookie_suffix:
                     type: string
-                    description: Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
+                    description:
+                      Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
                       Room's cookie name(  cf_waitingroom). If `cookie_suffix`
                       is "abcd", the cookie name will be
                       `  cf_waitingroom_abcd`. This field is required if using
@@ -2816,7 +3011,8 @@ paths:
                     type: string
                   custom_page_html:
                     type: string
-                    description: "Only available for the Waiting Room Advanced subscription. This is
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. This is
                       a template html file that will be rendered at the edge. If
                       no custom_page_html is provided, the default waiting room
                       will be used. The template is based on mustache (
@@ -2878,7 +3074,8 @@ paths:
                       - th-TH
                       - uk-UA
                       - vi-VN
-                    description: The language of the default page template. If no
+                    description:
+                      The language of the default page template. If no
                       default_template_language is provided, then `en-US`
                       (English) will be used.
                   description:
@@ -2886,7 +3083,8 @@ paths:
                     description: A note that you can use to add more details about the waiting room.
                   disable_session_renewal:
                     type: boolean
-                    description: Only available for the Waiting Room Advanced subscription. Disables
+                    description:
+                      Only available for the Waiting Room Advanced subscription. Disables
                       automatic renewal of session cookies. If `true`, an
                       accepted user will have session_duration minutes to browse
                       the site. After that, they will have to go through the
@@ -2901,12 +3099,14 @@ paths:
                     description: A list of enabled origin commands.
                   host:
                     type: string
-                    description: The host name to which the waiting room will be applied (no
+                    description:
+                      The host name to which the waiting room will be applied (no
                       wildcards). Please do not include the scheme (http:// or
                       https://). The host and path combination must be unique.
                   json_response_enabled:
                     type: boolean
-                    description: "Only available for the Waiting Room Advanced subscription. If
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. If
                       `true`, requests to the waiting room with the header
                       `Accept: application/json` will receive a JSON response
                       object with information on the user's status in the
@@ -3045,11 +3245,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the waiting room. Only alphanumeric
+                    description:
+                      A unique name to identify the waiting room. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   new_users_per_minute:
                     type: number
-                    description: Sets the number of new users that will be let into the route every
+                    description:
+                      Sets the number of new users that will be let into the route every
                       minute. This value is used as baseline for the number of
                       users that are let in per minute. So it is possible that
                       there is a little more or little less traffic coming to
@@ -3059,7 +3261,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when the next event will begin
+                    description:
+                      An ISO 8601 timestamp that marks when the next event will begin
                       queueing.
                   next_event_start_time:
                     oneOf:
@@ -3068,14 +3271,16 @@ paths:
                     description: An ISO 8601 timestamp that marks when the next event will start.
                   path:
                     type: string
-                    description: Sets the path within the host to enable the waiting room on. The
+                    description:
+                      Sets the path within the host to enable the waiting room on. The
                       waiting room will be enabled for all subpaths as well. If
                       there are two waiting rooms on the same subpath, the
                       waiting room for the most specific path will be chosen.
                       Wildcards and query parameters are not supported.
                   queue_all:
                     type: boolean
-                    description: If queue_all is `true`, all the traffic that is coming to a route
+                    description:
+                      If queue_all is `true`, all the traffic that is coming to a route
                       will be sent to the waiting room. No new traffic can get
                       to the route once this field is set and estimated time
                       will become unavailable.
@@ -3086,7 +3291,8 @@ paths:
                       - random
                       - passthrough
                       - reject
-                    description: "Sets the queueing method used by the waiting room. Changing this
+                    description:
+                      "Sets the queueing method used by the waiting room. Changing this
                       parameter from the  default  queueing method is only
                       available for the Waiting Room Advanced subscription.
                       Regardless of the queueing method, if `queue_all` is
@@ -3128,17 +3334,20 @@ paths:
                     description: HTTP status code returned to a user while in the queue.
                   session_duration:
                     type: number
-                    description: Lifetime of a cookie (in minutes) set by Cloudflare for users who
+                    description:
+                      Lifetime of a cookie (in minutes) set by Cloudflare for users who
                       get access to the route. If a user is not seen by
                       Cloudflare again in that time period, they will be treated
                       as a new user that visits the route.
                   suspended:
                     type: boolean
-                    description: Suspends or allows traffic going to the waiting room. If set to
+                    description:
+                      Suspends or allows traffic going to the waiting room. If set to
                       `true`, the traffic will not go to the waiting room.
                   total_active_users:
                     type: number
-                    description: Sets the total number of active user sessions on the route at a
+                    description:
+                      Sets the total number of active user sessions on the route at a
                       point in time. A route is a combination of host and path
                       on which a waiting room is available. This value is used
                       as a baseline for the total number of active user sessions
@@ -3151,7 +3360,8 @@ paths:
                     enum:
                       - log
                       - infinite_queue
-                    description: Which action to take when a bot is detected using Turnstile. `log`
+                    description:
+                      Which action to take when a bot is detected using Turnstile. `log`
                       will have no impact on queueing behavior, simply keeping
                       track of how many bots are detected in Waiting Room
                       Analytics. `infinite_queue` will send bots to a false
@@ -3164,7 +3374,8 @@ paths:
                       - invisible
                       - visible_non_interactive
                       - visible_managed
-                    description: Which Turnstile widget type to use for detecting bot traffic. See
+                    description:
+                      Which Turnstile widget type to use for detecting bot traffic. See
                       [the Turnstile
                       documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)
                       for the definitions of these widget types. Set to `off` to
@@ -3208,18 +3419,21 @@ paths:
               properties:
                 host:
                   type: string
-                  description: "Body param: The host name to which the waiting room will be
+                  description:
+                    "Body param: The host name to which the waiting room will be
                     applied (no wildcards). Please do not include the scheme
                     (http:// or https://). The host and path combination must be
                     unique."
                 name:
                   type: string
-                  description: "Body param: A unique name to identify the waiting room. Only
+                  description:
+                    "Body param: A unique name to identify the waiting room. Only
                     alphanumeric characters, hyphens and underscores are
                     allowed."
                 new_users_per_minute:
                   type: number
-                  description: "Body param: Sets the number of new users that will be let into the
+                  description:
+                    "Body param: Sets the number of new users that will be let into the
                     route every minute. This value is used as baseline for the
                     number of users that are let in per minute. So it is
                     possible that there is a little more or little less traffic
@@ -3227,7 +3441,8 @@ paths:
                     time around the world."
                 total_active_users:
                   type: number
-                  description: "Body param: Sets the total number of active user sessions on the
+                  description:
+                    "Body param: Sets the total number of active user sessions on the
                     route at a point in time. A route is a combination of host
                     and path on which a waiting room is available. This value is
                     used as a baseline for the total number of active user
@@ -3242,20 +3457,23 @@ paths:
                     properties:
                       host:
                         type: string
-                        description: The hostname to which this waiting room will be applied (no
+                        description:
+                          The hostname to which this waiting room will be applied (no
                           wildcards). The hostname must be the primary domain,
                           subdomain, or custom hostname (if using SSL for SaaS)
                           of this zone. Please do not include the scheme
                           (http:// or https://).
                       path:
                         type: string
-                        description: Sets the path within the host to enable the waiting room on. The
+                        description:
+                          Sets the path within the host to enable the waiting room on. The
                           waiting room will be enabled for all subpaths as well.
                           If there are two waiting rooms on the same subpath,
                           the waiting room for the most specific path will be
                           chosen. Wildcards and query parameters are not
                           supported.
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. Additional hostname and path combinations to
                     which this waiting room will be applied. There is an implied
                     wildcard at the end of the path. The hostname and path
@@ -3271,7 +3489,8 @@ paths:
                         - lax
                         - none
                         - strict
-                      description: Configures the SameSite attribute on the waiting room cookie. Value
+                      description:
+                        Configures the SameSite attribute on the waiting room cookie. Value
                         `auto` will be translated to `lax` or `none` depending
                         if  Always Use HTTPS  is enabled. Note that when using
                         value `none`, the secure attribute cannot be set to
@@ -3282,25 +3501,29 @@ paths:
                         - auto
                         - always
                         - never
-                      description: Configures the Secure attribute on the waiting room cookie. Value
+                      description:
+                        Configures the Secure attribute on the waiting room cookie. Value
                         `always` indicates that the Secure attribute will be set
                         in the Set-Cookie header, `never` indicates that the
                         Secure attribute will not be set, and `auto` will set
                         the Secure attribute depending if  Always Use HTTPS  is
                         enabled.
-                  description: "Body param: Configures cookie attributes for the waiting room
+                  description:
+                    "Body param: Configures cookie attributes for the waiting room
                     cookie. This encrypted cookie stores a user's status in the
                     waiting room, such as queue position."
                 cookie_suffix:
                   type: string
-                  description: "Body param: Appends a '\\_' + a custom suffix to the end of
+                  description:
+                    "Body param: Appends a '\\_' + a custom suffix to the end of
                     Cloudflare Waiting Room's cookie name(  cf_waitingroom). If
                     `cookie_suffix` is \"abcd\", the cookie name will be
                     `  cf_waitingroom_abcd`. This field is required if using
                     `additional_routes`."
                 custom_page_html:
                   type: string
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. This is a template html file that will be
                     rendered at the edge. If no custom_page_html is provided,
                     the default waiting room will be used. The template is based
@@ -3362,16 +3585,19 @@ paths:
                     - th-TH
                     - uk-UA
                     - vi-VN
-                  description: "Body param: The language of the default page template. If no
+                  description:
+                    "Body param: The language of the default page template. If no
                     default_template_language is provided, then `en-US`
                     (English) will be used."
                 description:
                   type: string
-                  description: "Body param: A note that you can use to add more details about the
+                  description:
+                    "Body param: A note that you can use to add more details about the
                     waiting room."
                 disable_session_renewal:
                   type: boolean
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. Disables automatic renewal of session cookies.
                     If `true`, an accepted user will have session_duration
                     minutes to browse the site. After that, they will have to go
@@ -3386,7 +3612,8 @@ paths:
                   description: "Body param: A list of enabled origin commands."
                 json_response_enabled:
                   type: boolean
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. If `true`, requests to the waiting room with
                     the header `Accept: application/json` will receive a JSON
                     response object with information on the user's status in the
@@ -3518,14 +3745,16 @@ paths:
                     \"15 minutes\", \"shuffleAtEventStart\": true } }"
                 path:
                   type: string
-                  description: "Body param: Sets the path within the host to enable the waiting
+                  description:
+                    "Body param: Sets the path within the host to enable the waiting
                     room on. The waiting room will be enabled for all subpaths
                     as well. If there are two waiting rooms on the same subpath,
                     the waiting room for the most specific path will be chosen.
                     Wildcards and query parameters are not supported."
                 queue_all:
                   type: boolean
-                  description: "Body param: If queue_all is `true`, all the traffic that is coming
+                  description:
+                    "Body param: If queue_all is `true`, all the traffic that is coming
                     to a route will be sent to the waiting room. No new traffic
                     can get to the route once this field is set and estimated
                     time will become unavailable."
@@ -3536,7 +3765,8 @@ paths:
                     - random
                     - passthrough
                     - reject
-                  description: "Body param: Sets the queueing method used by the waiting room.
+                  description:
+                    "Body param: Sets the queueing method used by the waiting room.
                     Changing this parameter from the  default  queueing method
                     is only available for the Waiting Room Advanced
                     subscription. Regardless of the queueing method, if
@@ -3574,17 +3804,20 @@ paths:
                     - 200
                     - 202
                     - 429
-                  description: "Body param: HTTP status code returned to a user while in the
+                  description:
+                    "Body param: HTTP status code returned to a user while in the
                     queue."
                 session_duration:
                   type: number
-                  description: "Body param: Lifetime of a cookie (in minutes) set by Cloudflare
+                  description:
+                    "Body param: Lifetime of a cookie (in minutes) set by Cloudflare
                     for users who get access to the route. If a user is not seen
                     by Cloudflare again in that time period, they will be
                     treated as a new user that visits the route."
                 suspended:
                   type: boolean
-                  description: "Body param: Suspends or allows traffic going to the waiting room.
+                  description:
+                    "Body param: Suspends or allows traffic going to the waiting room.
                     If set to `true`, the traffic will not go to the waiting
                     room."
                 turnstile_action:
@@ -3592,7 +3825,8 @@ paths:
                   enum:
                     - log
                     - infinite_queue
-                  description: "Body param: Which action to take when a bot is detected using
+                  description:
+                    "Body param: Which action to take when a bot is detected using
                     Turnstile. `log` will have no impact on queueing behavior,
                     simply keeping track of how many bots are detected in
                     Waiting Room Analytics. `infinite_queue` will send bots to a
@@ -3605,7 +3839,8 @@ paths:
                     - invisible
                     - visible_non_interactive
                     - visible_managed
-                  description: "Body param: Which Turnstile widget type to use for detecting bot
+                  description:
+                    "Body param: Which Turnstile widget type to use for detecting bot
                     traffic. See [the Turnstile
                     documentation](https://developers.cloudflare.com/turnstile/\
                     concepts/widget/#widget-types) for the definitions of these
@@ -3634,20 +3869,23 @@ paths:
                       properties:
                         host:
                           type: string
-                          description: The hostname to which this waiting room will be applied (no
+                          description:
+                            The hostname to which this waiting room will be applied (no
                             wildcards). The hostname must be the primary domain,
                             subdomain, or custom hostname (if using SSL for
                             SaaS) of this zone. Please do not include the scheme
                             (http:// or https://).
                         path:
                           type: string
-                          description: Sets the path within the host to enable the waiting room on. The
+                          description:
+                            Sets the path within the host to enable the waiting room on. The
                             waiting room will be enabled for all subpaths as
                             well. If there are two waiting rooms on the same
                             subpath, the waiting room for the most specific path
                             will be chosen. Wildcards and query parameters are
                             not supported.
-                    description: Only available for the Waiting Room Advanced subscription.
+                    description:
+                      Only available for the Waiting Room Advanced subscription.
                       Additional hostname and path combinations to which this
                       waiting room will be applied. There is an implied wildcard
                       at the end of the path. The hostname and path combination
@@ -3662,7 +3900,8 @@ paths:
                           - lax
                           - none
                           - strict
-                        description: Configures the SameSite attribute on the waiting room cookie. Value
+                        description:
+                          Configures the SameSite attribute on the waiting room cookie. Value
                           `auto` will be translated to `lax` or `none` depending
                           if  Always Use HTTPS  is enabled. Note that when using
                           value `none`, the secure attribute cannot be set to
@@ -3673,18 +3912,21 @@ paths:
                           - auto
                           - always
                           - never
-                        description: Configures the Secure attribute on the waiting room cookie. Value
+                        description:
+                          Configures the Secure attribute on the waiting room cookie. Value
                           `always` indicates that the Secure attribute will be
                           set in the Set-Cookie header, `never` indicates that
                           the Secure attribute will not be set, and `auto` will
                           set the Secure attribute depending if  Always Use
                           HTTPS  is enabled.
-                    description: Configures cookie attributes for the waiting room cookie. This
+                    description:
+                      Configures cookie attributes for the waiting room cookie. This
                       encrypted cookie stores a user's status in the waiting
                       room, such as queue position.
                   cookie_suffix:
                     type: string
-                    description: Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
+                    description:
+                      Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
                       Room's cookie name(  cf_waitingroom). If `cookie_suffix`
                       is "abcd", the cookie name will be
                       `  cf_waitingroom_abcd`. This field is required if using
@@ -3693,7 +3935,8 @@ paths:
                     type: string
                   custom_page_html:
                     type: string
-                    description: "Only available for the Waiting Room Advanced subscription. This is
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. This is
                       a template html file that will be rendered at the edge. If
                       no custom_page_html is provided, the default waiting room
                       will be used. The template is based on mustache (
@@ -3755,7 +3998,8 @@ paths:
                       - th-TH
                       - uk-UA
                       - vi-VN
-                    description: The language of the default page template. If no
+                    description:
+                      The language of the default page template. If no
                       default_template_language is provided, then `en-US`
                       (English) will be used.
                   description:
@@ -3763,7 +4007,8 @@ paths:
                     description: A note that you can use to add more details about the waiting room.
                   disable_session_renewal:
                     type: boolean
-                    description: Only available for the Waiting Room Advanced subscription. Disables
+                    description:
+                      Only available for the Waiting Room Advanced subscription. Disables
                       automatic renewal of session cookies. If `true`, an
                       accepted user will have session_duration minutes to browse
                       the site. After that, they will have to go through the
@@ -3778,12 +4023,14 @@ paths:
                     description: A list of enabled origin commands.
                   host:
                     type: string
-                    description: The host name to which the waiting room will be applied (no
+                    description:
+                      The host name to which the waiting room will be applied (no
                       wildcards). Please do not include the scheme (http:// or
                       https://). The host and path combination must be unique.
                   json_response_enabled:
                     type: boolean
-                    description: "Only available for the Waiting Room Advanced subscription. If
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. If
                       `true`, requests to the waiting room with the header
                       `Accept: application/json` will receive a JSON response
                       object with information on the user's status in the
@@ -3922,11 +4169,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the waiting room. Only alphanumeric
+                    description:
+                      A unique name to identify the waiting room. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   new_users_per_minute:
                     type: number
-                    description: Sets the number of new users that will be let into the route every
+                    description:
+                      Sets the number of new users that will be let into the route every
                       minute. This value is used as baseline for the number of
                       users that are let in per minute. So it is possible that
                       there is a little more or little less traffic coming to
@@ -3936,7 +4185,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when the next event will begin
+                    description:
+                      An ISO 8601 timestamp that marks when the next event will begin
                       queueing.
                   next_event_start_time:
                     oneOf:
@@ -3945,14 +4195,16 @@ paths:
                     description: An ISO 8601 timestamp that marks when the next event will start.
                   path:
                     type: string
-                    description: Sets the path within the host to enable the waiting room on. The
+                    description:
+                      Sets the path within the host to enable the waiting room on. The
                       waiting room will be enabled for all subpaths as well. If
                       there are two waiting rooms on the same subpath, the
                       waiting room for the most specific path will be chosen.
                       Wildcards and query parameters are not supported.
                   queue_all:
                     type: boolean
-                    description: If queue_all is `true`, all the traffic that is coming to a route
+                    description:
+                      If queue_all is `true`, all the traffic that is coming to a route
                       will be sent to the waiting room. No new traffic can get
                       to the route once this field is set and estimated time
                       will become unavailable.
@@ -3963,7 +4215,8 @@ paths:
                       - random
                       - passthrough
                       - reject
-                    description: "Sets the queueing method used by the waiting room. Changing this
+                    description:
+                      "Sets the queueing method used by the waiting room. Changing this
                       parameter from the  default  queueing method is only
                       available for the Waiting Room Advanced subscription.
                       Regardless of the queueing method, if `queue_all` is
@@ -4005,17 +4258,20 @@ paths:
                     description: HTTP status code returned to a user while in the queue.
                   session_duration:
                     type: number
-                    description: Lifetime of a cookie (in minutes) set by Cloudflare for users who
+                    description:
+                      Lifetime of a cookie (in minutes) set by Cloudflare for users who
                       get access to the route. If a user is not seen by
                       Cloudflare again in that time period, they will be treated
                       as a new user that visits the route.
                   suspended:
                     type: boolean
-                    description: Suspends or allows traffic going to the waiting room. If set to
+                    description:
+                      Suspends or allows traffic going to the waiting room. If set to
                       `true`, the traffic will not go to the waiting room.
                   total_active_users:
                     type: number
-                    description: Sets the total number of active user sessions on the route at a
+                    description:
+                      Sets the total number of active user sessions on the route at a
                       point in time. A route is a combination of host and path
                       on which a waiting room is available. This value is used
                       as a baseline for the total number of active user sessions
@@ -4028,7 +4284,8 @@ paths:
                     enum:
                       - log
                       - infinite_queue
-                    description: Which action to take when a bot is detected using Turnstile. `log`
+                    description:
+                      Which action to take when a bot is detected using Turnstile. `log`
                       will have no impact on queueing behavior, simply keeping
                       track of how many bots are detected in Waiting Room
                       Analytics. `infinite_queue` will send bots to a false
@@ -4041,7 +4298,8 @@ paths:
                       - invisible
                       - visible_non_interactive
                       - visible_managed
-                    description: Which Turnstile widget type to use for detecting bot traffic. See
+                    description:
+                      Which Turnstile widget type to use for detecting bot traffic. See
                       [the Turnstile
                       documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)
                       for the definitions of these widget types. Set to `off` to
@@ -4051,7 +4309,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteWaitingRoom
-      description: "Deletes a waiting room.  @example ```ts const waitingRoom = await
+      description:
+        "Deletes a waiting room.  @example ```ts const waitingRoom = await
         client.waitingRooms.delete( '699d98642c564d2e855e9661899b7252', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -4089,14 +4348,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -4127,20 +4388,23 @@ paths:
                       properties:
                         host:
                           type: string
-                          description: The hostname to which this waiting room will be applied (no
+                          description:
+                            The hostname to which this waiting room will be applied (no
                             wildcards). The hostname must be the primary domain,
                             subdomain, or custom hostname (if using SSL for
                             SaaS) of this zone. Please do not include the scheme
                             (http:// or https://).
                         path:
                           type: string
-                          description: Sets the path within the host to enable the waiting room on. The
+                          description:
+                            Sets the path within the host to enable the waiting room on. The
                             waiting room will be enabled for all subpaths as
                             well. If there are two waiting rooms on the same
                             subpath, the waiting room for the most specific path
                             will be chosen. Wildcards and query parameters are
                             not supported.
-                    description: Only available for the Waiting Room Advanced subscription.
+                    description:
+                      Only available for the Waiting Room Advanced subscription.
                       Additional hostname and path combinations to which this
                       waiting room will be applied. There is an implied wildcard
                       at the end of the path. The hostname and path combination
@@ -4155,7 +4419,8 @@ paths:
                           - lax
                           - none
                           - strict
-                        description: Configures the SameSite attribute on the waiting room cookie. Value
+                        description:
+                          Configures the SameSite attribute on the waiting room cookie. Value
                           `auto` will be translated to `lax` or `none` depending
                           if  Always Use HTTPS  is enabled. Note that when using
                           value `none`, the secure attribute cannot be set to
@@ -4166,18 +4431,21 @@ paths:
                           - auto
                           - always
                           - never
-                        description: Configures the Secure attribute on the waiting room cookie. Value
+                        description:
+                          Configures the Secure attribute on the waiting room cookie. Value
                           `always` indicates that the Secure attribute will be
                           set in the Set-Cookie header, `never` indicates that
                           the Secure attribute will not be set, and `auto` will
                           set the Secure attribute depending if  Always Use
                           HTTPS  is enabled.
-                    description: Configures cookie attributes for the waiting room cookie. This
+                    description:
+                      Configures cookie attributes for the waiting room cookie. This
                       encrypted cookie stores a user's status in the waiting
                       room, such as queue position.
                   cookie_suffix:
                     type: string
-                    description: Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
+                    description:
+                      Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
                       Room's cookie name(  cf_waitingroom). If `cookie_suffix`
                       is "abcd", the cookie name will be
                       `  cf_waitingroom_abcd`. This field is required if using
@@ -4186,7 +4454,8 @@ paths:
                     type: string
                   custom_page_html:
                     type: string
-                    description: "Only available for the Waiting Room Advanced subscription. This is
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. This is
                       a template html file that will be rendered at the edge. If
                       no custom_page_html is provided, the default waiting room
                       will be used. The template is based on mustache (
@@ -4248,7 +4517,8 @@ paths:
                       - th-TH
                       - uk-UA
                       - vi-VN
-                    description: The language of the default page template. If no
+                    description:
+                      The language of the default page template. If no
                       default_template_language is provided, then `en-US`
                       (English) will be used.
                   description:
@@ -4256,7 +4526,8 @@ paths:
                     description: A note that you can use to add more details about the waiting room.
                   disable_session_renewal:
                     type: boolean
-                    description: Only available for the Waiting Room Advanced subscription. Disables
+                    description:
+                      Only available for the Waiting Room Advanced subscription. Disables
                       automatic renewal of session cookies. If `true`, an
                       accepted user will have session_duration minutes to browse
                       the site. After that, they will have to go through the
@@ -4271,12 +4542,14 @@ paths:
                     description: A list of enabled origin commands.
                   host:
                     type: string
-                    description: The host name to which the waiting room will be applied (no
+                    description:
+                      The host name to which the waiting room will be applied (no
                       wildcards). Please do not include the scheme (http:// or
                       https://). The host and path combination must be unique.
                   json_response_enabled:
                     type: boolean
-                    description: "Only available for the Waiting Room Advanced subscription. If
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. If
                       `true`, requests to the waiting room with the header
                       `Accept: application/json` will receive a JSON response
                       object with information on the user's status in the
@@ -4415,11 +4688,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the waiting room. Only alphanumeric
+                    description:
+                      A unique name to identify the waiting room. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   new_users_per_minute:
                     type: number
-                    description: Sets the number of new users that will be let into the route every
+                    description:
+                      Sets the number of new users that will be let into the route every
                       minute. This value is used as baseline for the number of
                       users that are let in per minute. So it is possible that
                       there is a little more or little less traffic coming to
@@ -4429,7 +4704,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when the next event will begin
+                    description:
+                      An ISO 8601 timestamp that marks when the next event will begin
                       queueing.
                   next_event_start_time:
                     oneOf:
@@ -4438,14 +4714,16 @@ paths:
                     description: An ISO 8601 timestamp that marks when the next event will start.
                   path:
                     type: string
-                    description: Sets the path within the host to enable the waiting room on. The
+                    description:
+                      Sets the path within the host to enable the waiting room on. The
                       waiting room will be enabled for all subpaths as well. If
                       there are two waiting rooms on the same subpath, the
                       waiting room for the most specific path will be chosen.
                       Wildcards and query parameters are not supported.
                   queue_all:
                     type: boolean
-                    description: If queue_all is `true`, all the traffic that is coming to a route
+                    description:
+                      If queue_all is `true`, all the traffic that is coming to a route
                       will be sent to the waiting room. No new traffic can get
                       to the route once this field is set and estimated time
                       will become unavailable.
@@ -4456,7 +4734,8 @@ paths:
                       - random
                       - passthrough
                       - reject
-                    description: "Sets the queueing method used by the waiting room. Changing this
+                    description:
+                      "Sets the queueing method used by the waiting room. Changing this
                       parameter from the  default  queueing method is only
                       available for the Waiting Room Advanced subscription.
                       Regardless of the queueing method, if `queue_all` is
@@ -4498,17 +4777,20 @@ paths:
                     description: HTTP status code returned to a user while in the queue.
                   session_duration:
                     type: number
-                    description: Lifetime of a cookie (in minutes) set by Cloudflare for users who
+                    description:
+                      Lifetime of a cookie (in minutes) set by Cloudflare for users who
                       get access to the route. If a user is not seen by
                       Cloudflare again in that time period, they will be treated
                       as a new user that visits the route.
                   suspended:
                     type: boolean
-                    description: Suspends or allows traffic going to the waiting room. If set to
+                    description:
+                      Suspends or allows traffic going to the waiting room. If set to
                       `true`, the traffic will not go to the waiting room.
                   total_active_users:
                     type: number
-                    description: Sets the total number of active user sessions on the route at a
+                    description:
+                      Sets the total number of active user sessions on the route at a
                       point in time. A route is a combination of host and path
                       on which a waiting room is available. This value is used
                       as a baseline for the total number of active user sessions
@@ -4521,7 +4803,8 @@ paths:
                     enum:
                       - log
                       - infinite_queue
-                    description: Which action to take when a bot is detected using Turnstile. `log`
+                    description:
+                      Which action to take when a bot is detected using Turnstile. `log`
                       will have no impact on queueing behavior, simply keeping
                       track of how many bots are detected in Waiting Room
                       Analytics. `infinite_queue` will send bots to a false
@@ -4534,7 +4817,8 @@ paths:
                       - invisible
                       - visible_non_interactive
                       - visible_managed
-                    description: Which Turnstile widget type to use for detecting bot traffic. See
+                    description:
+                      Which Turnstile widget type to use for detecting bot traffic. See
                       [the Turnstile
                       documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)
                       for the definitions of these widget types. Set to `off` to
@@ -4548,7 +4832,8 @@ paths:
   /zones/{zone_id}/waiting_rooms:
     post:
       operationId: createWaitingRoom
-      description: "Creates a new waiting room.  @example ```ts const waitingRoom =
+      description:
+        "Creates a new waiting room.  @example ```ts const waitingRoom =
         await client.waitingRooms.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', host: 'shop.example.com', name:
         'production_webinar', new_users_per_minute: 200, total_active_users:
@@ -4569,18 +4854,21 @@ paths:
               properties:
                 host:
                   type: string
-                  description: "Body param: The host name to which the waiting room will be
+                  description:
+                    "Body param: The host name to which the waiting room will be
                     applied (no wildcards). Please do not include the scheme
                     (http:// or https://). The host and path combination must be
                     unique."
                 name:
                   type: string
-                  description: "Body param: A unique name to identify the waiting room. Only
+                  description:
+                    "Body param: A unique name to identify the waiting room. Only
                     alphanumeric characters, hyphens and underscores are
                     allowed."
                 new_users_per_minute:
                   type: number
-                  description: "Body param: Sets the number of new users that will be let into the
+                  description:
+                    "Body param: Sets the number of new users that will be let into the
                     route every minute. This value is used as baseline for the
                     number of users that are let in per minute. So it is
                     possible that there is a little more or little less traffic
@@ -4588,7 +4876,8 @@ paths:
                     time around the world."
                 total_active_users:
                   type: number
-                  description: "Body param: Sets the total number of active user sessions on the
+                  description:
+                    "Body param: Sets the total number of active user sessions on the
                     route at a point in time. A route is a combination of host
                     and path on which a waiting room is available. This value is
                     used as a baseline for the total number of active user
@@ -4603,20 +4892,23 @@ paths:
                     properties:
                       host:
                         type: string
-                        description: The hostname to which this waiting room will be applied (no
+                        description:
+                          The hostname to which this waiting room will be applied (no
                           wildcards). The hostname must be the primary domain,
                           subdomain, or custom hostname (if using SSL for SaaS)
                           of this zone. Please do not include the scheme
                           (http:// or https://).
                       path:
                         type: string
-                        description: Sets the path within the host to enable the waiting room on. The
+                        description:
+                          Sets the path within the host to enable the waiting room on. The
                           waiting room will be enabled for all subpaths as well.
                           If there are two waiting rooms on the same subpath,
                           the waiting room for the most specific path will be
                           chosen. Wildcards and query parameters are not
                           supported.
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. Additional hostname and path combinations to
                     which this waiting room will be applied. There is an implied
                     wildcard at the end of the path. The hostname and path
@@ -4632,7 +4924,8 @@ paths:
                         - lax
                         - none
                         - strict
-                      description: Configures the SameSite attribute on the waiting room cookie. Value
+                      description:
+                        Configures the SameSite attribute on the waiting room cookie. Value
                         `auto` will be translated to `lax` or `none` depending
                         if  Always Use HTTPS  is enabled. Note that when using
                         value `none`, the secure attribute cannot be set to
@@ -4643,25 +4936,29 @@ paths:
                         - auto
                         - always
                         - never
-                      description: Configures the Secure attribute on the waiting room cookie. Value
+                      description:
+                        Configures the Secure attribute on the waiting room cookie. Value
                         `always` indicates that the Secure attribute will be set
                         in the Set-Cookie header, `never` indicates that the
                         Secure attribute will not be set, and `auto` will set
                         the Secure attribute depending if  Always Use HTTPS  is
                         enabled.
-                  description: "Body param: Configures cookie attributes for the waiting room
+                  description:
+                    "Body param: Configures cookie attributes for the waiting room
                     cookie. This encrypted cookie stores a user's status in the
                     waiting room, such as queue position."
                 cookie_suffix:
                   type: string
-                  description: "Body param: Appends a '\\_' + a custom suffix to the end of
+                  description:
+                    "Body param: Appends a '\\_' + a custom suffix to the end of
                     Cloudflare Waiting Room's cookie name(  cf_waitingroom). If
                     `cookie_suffix` is \"abcd\", the cookie name will be
                     `  cf_waitingroom_abcd`. This field is required if using
                     `additional_routes`."
                 custom_page_html:
                   type: string
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. This is a template html file that will be
                     rendered at the edge. If no custom_page_html is provided,
                     the default waiting room will be used. The template is based
@@ -4723,16 +5020,19 @@ paths:
                     - th-TH
                     - uk-UA
                     - vi-VN
-                  description: "Body param: The language of the default page template. If no
+                  description:
+                    "Body param: The language of the default page template. If no
                     default_template_language is provided, then `en-US`
                     (English) will be used."
                 description:
                   type: string
-                  description: "Body param: A note that you can use to add more details about the
+                  description:
+                    "Body param: A note that you can use to add more details about the
                     waiting room."
                 disable_session_renewal:
                   type: boolean
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. Disables automatic renewal of session cookies.
                     If `true`, an accepted user will have session_duration
                     minutes to browse the site. After that, they will have to go
@@ -4747,7 +5047,8 @@ paths:
                   description: "Body param: A list of enabled origin commands."
                 json_response_enabled:
                   type: boolean
-                  description: "Body param: Only available for the Waiting Room Advanced
+                  description:
+                    "Body param: Only available for the Waiting Room Advanced
                     subscription. If `true`, requests to the waiting room with
                     the header `Accept: application/json` will receive a JSON
                     response object with information on the user's status in the
@@ -4879,14 +5180,16 @@ paths:
                     \"15 minutes\", \"shuffleAtEventStart\": true } }"
                 path:
                   type: string
-                  description: "Body param: Sets the path within the host to enable the waiting
+                  description:
+                    "Body param: Sets the path within the host to enable the waiting
                     room on. The waiting room will be enabled for all subpaths
                     as well. If there are two waiting rooms on the same subpath,
                     the waiting room for the most specific path will be chosen.
                     Wildcards and query parameters are not supported."
                 queue_all:
                   type: boolean
-                  description: "Body param: If queue_all is `true`, all the traffic that is coming
+                  description:
+                    "Body param: If queue_all is `true`, all the traffic that is coming
                     to a route will be sent to the waiting room. No new traffic
                     can get to the route once this field is set and estimated
                     time will become unavailable."
@@ -4897,7 +5200,8 @@ paths:
                     - random
                     - passthrough
                     - reject
-                  description: "Body param: Sets the queueing method used by the waiting room.
+                  description:
+                    "Body param: Sets the queueing method used by the waiting room.
                     Changing this parameter from the  default  queueing method
                     is only available for the Waiting Room Advanced
                     subscription. Regardless of the queueing method, if
@@ -4935,17 +5239,20 @@ paths:
                     - 200
                     - 202
                     - 429
-                  description: "Body param: HTTP status code returned to a user while in the
+                  description:
+                    "Body param: HTTP status code returned to a user while in the
                     queue."
                 session_duration:
                   type: number
-                  description: "Body param: Lifetime of a cookie (in minutes) set by Cloudflare
+                  description:
+                    "Body param: Lifetime of a cookie (in minutes) set by Cloudflare
                     for users who get access to the route. If a user is not seen
                     by Cloudflare again in that time period, they will be
                     treated as a new user that visits the route."
                 suspended:
                   type: boolean
-                  description: "Body param: Suspends or allows traffic going to the waiting room.
+                  description:
+                    "Body param: Suspends or allows traffic going to the waiting room.
                     If set to `true`, the traffic will not go to the waiting
                     room."
                 turnstile_action:
@@ -4953,7 +5260,8 @@ paths:
                   enum:
                     - log
                     - infinite_queue
-                  description: "Body param: Which action to take when a bot is detected using
+                  description:
+                    "Body param: Which action to take when a bot is detected using
                     Turnstile. `log` will have no impact on queueing behavior,
                     simply keeping track of how many bots are detected in
                     Waiting Room Analytics. `infinite_queue` will send bots to a
@@ -4966,7 +5274,8 @@ paths:
                     - invisible
                     - visible_non_interactive
                     - visible_managed
-                  description: "Body param: Which Turnstile widget type to use for detecting bot
+                  description:
+                    "Body param: Which Turnstile widget type to use for detecting bot
                     traffic. See [the Turnstile
                     documentation](https://developers.cloudflare.com/turnstile/\
                     concepts/widget/#widget-types) for the definitions of these
@@ -4995,20 +5304,23 @@ paths:
                       properties:
                         host:
                           type: string
-                          description: The hostname to which this waiting room will be applied (no
+                          description:
+                            The hostname to which this waiting room will be applied (no
                             wildcards). The hostname must be the primary domain,
                             subdomain, or custom hostname (if using SSL for
                             SaaS) of this zone. Please do not include the scheme
                             (http:// or https://).
                         path:
                           type: string
-                          description: Sets the path within the host to enable the waiting room on. The
+                          description:
+                            Sets the path within the host to enable the waiting room on. The
                             waiting room will be enabled for all subpaths as
                             well. If there are two waiting rooms on the same
                             subpath, the waiting room for the most specific path
                             will be chosen. Wildcards and query parameters are
                             not supported.
-                    description: Only available for the Waiting Room Advanced subscription.
+                    description:
+                      Only available for the Waiting Room Advanced subscription.
                       Additional hostname and path combinations to which this
                       waiting room will be applied. There is an implied wildcard
                       at the end of the path. The hostname and path combination
@@ -5023,7 +5335,8 @@ paths:
                           - lax
                           - none
                           - strict
-                        description: Configures the SameSite attribute on the waiting room cookie. Value
+                        description:
+                          Configures the SameSite attribute on the waiting room cookie. Value
                           `auto` will be translated to `lax` or `none` depending
                           if  Always Use HTTPS  is enabled. Note that when using
                           value `none`, the secure attribute cannot be set to
@@ -5034,18 +5347,21 @@ paths:
                           - auto
                           - always
                           - never
-                        description: Configures the Secure attribute on the waiting room cookie. Value
+                        description:
+                          Configures the Secure attribute on the waiting room cookie. Value
                           `always` indicates that the Secure attribute will be
                           set in the Set-Cookie header, `never` indicates that
                           the Secure attribute will not be set, and `auto` will
                           set the Secure attribute depending if  Always Use
                           HTTPS  is enabled.
-                    description: Configures cookie attributes for the waiting room cookie. This
+                    description:
+                      Configures cookie attributes for the waiting room cookie. This
                       encrypted cookie stores a user's status in the waiting
                       room, such as queue position.
                   cookie_suffix:
                     type: string
-                    description: Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
+                    description:
+                      Appends a '\_' + a custom suffix to the end of Cloudflare Waiting
                       Room's cookie name(  cf_waitingroom). If `cookie_suffix`
                       is "abcd", the cookie name will be
                       `  cf_waitingroom_abcd`. This field is required if using
@@ -5054,7 +5370,8 @@ paths:
                     type: string
                   custom_page_html:
                     type: string
-                    description: "Only available for the Waiting Room Advanced subscription. This is
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. This is
                       a template html file that will be rendered at the edge. If
                       no custom_page_html is provided, the default waiting room
                       will be used. The template is based on mustache (
@@ -5116,7 +5433,8 @@ paths:
                       - th-TH
                       - uk-UA
                       - vi-VN
-                    description: The language of the default page template. If no
+                    description:
+                      The language of the default page template. If no
                       default_template_language is provided, then `en-US`
                       (English) will be used.
                   description:
@@ -5124,7 +5442,8 @@ paths:
                     description: A note that you can use to add more details about the waiting room.
                   disable_session_renewal:
                     type: boolean
-                    description: Only available for the Waiting Room Advanced subscription. Disables
+                    description:
+                      Only available for the Waiting Room Advanced subscription. Disables
                       automatic renewal of session cookies. If `true`, an
                       accepted user will have session_duration minutes to browse
                       the site. After that, they will have to go through the
@@ -5139,12 +5458,14 @@ paths:
                     description: A list of enabled origin commands.
                   host:
                     type: string
-                    description: The host name to which the waiting room will be applied (no
+                    description:
+                      The host name to which the waiting room will be applied (no
                       wildcards). Please do not include the scheme (http:// or
                       https://). The host and path combination must be unique.
                   json_response_enabled:
                     type: boolean
-                    description: "Only available for the Waiting Room Advanced subscription. If
+                    description:
+                      "Only available for the Waiting Room Advanced subscription. If
                       `true`, requests to the waiting room with the header
                       `Accept: application/json` will receive a JSON response
                       object with information on the user's status in the
@@ -5283,11 +5604,13 @@ paths:
                     type: string
                   name:
                     type: string
-                    description: A unique name to identify the waiting room. Only alphanumeric
+                    description:
+                      A unique name to identify the waiting room. Only alphanumeric
                       characters, hyphens and underscores are allowed.
                   new_users_per_minute:
                     type: number
-                    description: Sets the number of new users that will be let into the route every
+                    description:
+                      Sets the number of new users that will be let into the route every
                       minute. This value is used as baseline for the number of
                       users that are let in per minute. So it is possible that
                       there is a little more or little less traffic coming to
@@ -5297,7 +5620,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An ISO 8601 timestamp that marks when the next event will begin
+                    description:
+                      An ISO 8601 timestamp that marks when the next event will begin
                       queueing.
                   next_event_start_time:
                     oneOf:
@@ -5306,14 +5630,16 @@ paths:
                     description: An ISO 8601 timestamp that marks when the next event will start.
                   path:
                     type: string
-                    description: Sets the path within the host to enable the waiting room on. The
+                    description:
+                      Sets the path within the host to enable the waiting room on. The
                       waiting room will be enabled for all subpaths as well. If
                       there are two waiting rooms on the same subpath, the
                       waiting room for the most specific path will be chosen.
                       Wildcards and query parameters are not supported.
                   queue_all:
                     type: boolean
-                    description: If queue_all is `true`, all the traffic that is coming to a route
+                    description:
+                      If queue_all is `true`, all the traffic that is coming to a route
                       will be sent to the waiting room. No new traffic can get
                       to the route once this field is set and estimated time
                       will become unavailable.
@@ -5324,7 +5650,8 @@ paths:
                       - random
                       - passthrough
                       - reject
-                    description: "Sets the queueing method used by the waiting room. Changing this
+                    description:
+                      "Sets the queueing method used by the waiting room. Changing this
                       parameter from the  default  queueing method is only
                       available for the Waiting Room Advanced subscription.
                       Regardless of the queueing method, if `queue_all` is
@@ -5366,17 +5693,20 @@ paths:
                     description: HTTP status code returned to a user while in the queue.
                   session_duration:
                     type: number
-                    description: Lifetime of a cookie (in minutes) set by Cloudflare for users who
+                    description:
+                      Lifetime of a cookie (in minutes) set by Cloudflare for users who
                       get access to the route. If a user is not seen by
                       Cloudflare again in that time period, they will be treated
                       as a new user that visits the route.
                   suspended:
                     type: boolean
-                    description: Suspends or allows traffic going to the waiting room. If set to
+                    description:
+                      Suspends or allows traffic going to the waiting room. If set to
                       `true`, the traffic will not go to the waiting room.
                   total_active_users:
                     type: number
-                    description: Sets the total number of active user sessions on the route at a
+                    description:
+                      Sets the total number of active user sessions on the route at a
                       point in time. A route is a combination of host and path
                       on which a waiting room is available. This value is used
                       as a baseline for the total number of active user sessions
@@ -5389,7 +5719,8 @@ paths:
                     enum:
                       - log
                       - infinite_queue
-                    description: Which action to take when a bot is detected using Turnstile. `log`
+                    description:
+                      Which action to take when a bot is detected using Turnstile. `log`
                       will have no impact on queueing behavior, simply keeping
                       track of how many bots are detected in Waiting Room
                       Analytics. `infinite_queue` will send bots to a false
@@ -5402,7 +5733,8 @@ paths:
                       - invisible
                       - visible_non_interactive
                       - visible_managed
-                    description: Which Turnstile widget type to use for detecting bot traffic. See
+                    description:
+                      Which Turnstile widget type to use for detecting bot traffic. See
                       [the Turnstile
                       documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)
                       for the definitions of these widget types. Set to `off` to

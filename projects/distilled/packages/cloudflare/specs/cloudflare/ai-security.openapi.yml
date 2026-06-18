@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/ai-security/settings:
     get:
       operationId: getAiSecurity
-      description: "Get whether AI Security for Apps is enabled or disabled for a
+      description:
+        "Get whether AI Security for Apps is enabled or disabled for a
         zone.  @example ```ts const aiSecurity = await client.aiSecurity.get({
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -44,7 +45,8 @@ paths:
           - status: 403
     put:
       operationId: putAiSecurity
-      description: "Enable or disable AI Security for Apps for a zone.  Changes can
+      description:
+        "Enable or disable AI Security for Apps for a zone.  Changes can
         take up to a minute to propagate to the zone.  @example ```ts const
         aiSecurity = await client.aiSecurity.update({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -117,11 +119,13 @@ paths:
                       properties:
                         label:
                           type: string
-                          description: Unique label identifier. Must contain only lowercase letters (a–z),
+                          description:
+                            Unique label identifier. Must contain only lowercase letters (a–z),
                             digits (0–9), and hyphens.
                         topic:
                           type: string
-                          description: Description of the topic category. Must contain only printable
+                          description:
+                            Description of the topic category. Must contain only printable
                             ASCII characters.
                       required:
                         - label
@@ -170,16 +174,19 @@ paths:
                     properties:
                       label:
                         type: string
-                        description: Unique label identifier. Must contain only lowercase letters (a–z),
+                        description:
+                          Unique label identifier. Must contain only lowercase letters (a–z),
                           digits (0–9), and hyphens.
                       topic:
                         type: string
-                        description: Description of the topic category. Must contain only printable
+                        description:
+                          Description of the topic category. Must contain only printable
                           ASCII characters.
                     required:
                       - label
                       - topic
-                  description: "Body param: Custom topic categories for AI Security for Apps
+                  description:
+                    "Body param: Custom topic categories for AI Security for Apps
                     content detection."
       responses:
         "200":
@@ -196,11 +203,13 @@ paths:
                       properties:
                         label:
                           type: string
-                          description: Unique label identifier. Must contain only lowercase letters (a–z),
+                          description:
+                            Unique label identifier. Must contain only lowercase letters (a–z),
                             digits (0–9), and hyphens.
                         topic:
                           type: string
-                          description: Description of the topic category. Must contain only printable
+                          description:
+                            Description of the topic category. Must contain only printable
                             ASCII characters.
                       required:
                         - label

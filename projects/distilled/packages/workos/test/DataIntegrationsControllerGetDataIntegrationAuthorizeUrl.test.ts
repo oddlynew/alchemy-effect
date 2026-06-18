@@ -7,8 +7,12 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("DataIntegrationsControllerGetDataIntegrationAuthorizeUrl", () => {
   it(
     "returns an authorization URL for a provider",
+    { timeout: 30_000 },
     async (ctx) => {
-      const users = await runOrSkipOnEnvLimitation(ctx, UserlandUsersControllerList({ limit: 1 }));
+      const users = await runOrSkipOnEnvLimitation(
+        ctx,
+        UserlandUsersControllerList({ limit: 1 }),
+      );
 
       if (users.data.length === 0) {
         // No seed user available — exercise the operation against a missing
@@ -36,11 +40,11 @@ describe("DataIntegrationsControllerGetDataIntegrationAuthorizeUrl", () => {
       expect(typeof result.url).toBe("string");
       expect(result.url.length).toBeGreaterThan(0);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent provider slug",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const userId =
@@ -57,11 +61,11 @@ describe("DataIntegrationsControllerGetDataIntegrationAuthorizeUrl", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when user_id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DataIntegrationsControllerGetDataIntegrationAuthorizeUrl({
@@ -72,11 +76,11 @@ describe("DataIntegrationsControllerGetDataIntegrationAuthorizeUrl", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when the user belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DataIntegrationsControllerGetDataIntegrationAuthorizeUrl({
@@ -87,6 +91,5 @@ describe("DataIntegrationsControllerGetDataIntegrationAuthorizeUrl", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

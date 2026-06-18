@@ -4,11 +4,16 @@ import { UserlandUsersControllerEmailVerification } from "../src/operations/User
 import { UserlandUsersControllerList } from "../src/operations/UserlandUsersControllerList.ts";
 import { runEffect, testRunId } from "./setup.ts";
 
-const typedErrorTags = ["BadRequest", "NotFound", "UnprocessableEntity"] as const;
+const typedErrorTags = [
+  "BadRequest",
+  "NotFound",
+  "UnprocessableEntity",
+] as const;
 
 describe("UserlandUsersControllerEmailVerification", () => {
   it(
     "verifies an email, or surfaces a typed error",
+    { timeout: 60_000 },
     async () => {
       // The happy path requires the user's real one-time email-verification
       // code, which is delivered out-of-band and can't be synthesized in a
@@ -28,8 +33,7 @@ describe("UserlandUsersControllerEmailVerification", () => {
           Effect.matchEffect({
             onSuccess: (response) =>
               Effect.succeed({ ok: true as const, response }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -43,11 +47,11 @@ describe("UserlandUsersControllerEmailVerification", () => {
         expect(typedErrorTags).toContain(result.error._tag);
       }
     },
-    60_000,
   );
 
   it(
     "fails with a typed BadRequest when the code is empty",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedId =
@@ -63,11 +67,11 @@ describe("UserlandUsersControllerEmailVerification", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerEmailVerification({
@@ -77,11 +81,11 @@ describe("UserlandUsersControllerEmailVerification", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with a typed UnprocessableEntity for a malformed code value",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedId =
@@ -97,6 +101,5 @@ describe("UserlandUsersControllerEmailVerification", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

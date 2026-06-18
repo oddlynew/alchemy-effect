@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("retrieveStopwordsSets", () => {
   it(
     "lists all stopwords sets including ones we just created",
+    { timeout: 30_000 },
     async () => {
       const setId = `distilled-typesense-retstops-${testRunId}`;
 
@@ -33,11 +34,11 @@ describe("retrieveStopwordsSets", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       const apiBaseUrl = process.env.TYPESENSE_API_URL;
       if (!apiBaseUrl) {
@@ -60,6 +61,5 @@ describe("retrieveStopwordsSets", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getSchemaChanges", () => {
   it(
     "returns the in-progress schema changes as an array",
+    { timeout: 30_000 },
     async () => {
       const result = await runEffect(getSchemaChanges({}));
 
@@ -27,11 +28,11 @@ describe("getSchemaChanges", () => {
         }
       }
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns Unauthorized when the X-TYPESENSE-API-KEY is invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with an API key that the
       // Typesense server will reject. Typesense returns 401 with a JSON
@@ -58,6 +59,5 @@ describe("getSchemaChanges", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

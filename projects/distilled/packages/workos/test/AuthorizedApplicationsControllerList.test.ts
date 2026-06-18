@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizedApplicationsControllerList", () => {
   it(
     "lists authorized applications for an existing user",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -43,11 +44,11 @@ describe("AuthorizedApplicationsControllerList", () => {
         expect(typeof entry.application.updated_at).toBe("string");
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizedApplicationsControllerList({
@@ -57,11 +58,11 @@ describe("AuthorizedApplicationsControllerList", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when limit exceeds the allowed maximum",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedId =
@@ -78,6 +79,5 @@ describe("AuthorizedApplicationsControllerList", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

@@ -8,8 +8,11 @@ const clientLevelErrorTags = ["BadRequest", "UnprocessableEntity"] as const;
 describe("WebhookEndpointsControllerList", () => {
   it(
     "lists webhook endpoints with a small limit",
+    { timeout: 30_000 },
     async () => {
-      const result = await runEffect(WebhookEndpointsControllerList({ limit: 5 }));
+      const result = await runEffect(
+        WebhookEndpointsControllerList({ limit: 5 }),
+      );
       expect(result).toBeDefined();
       expect(result.object).toBe("list");
       expect(Array.isArray(result.data)).toBe(true);
@@ -23,11 +26,11 @@ describe("WebhookEndpointsControllerList", () => {
         expect(typeof endpoint.updated_at).toBe("string");
       }
     },
-    30_000,
   );
 
   it(
     "fails with a typed client-level error when limit exceeds the allowed maximum",
+    { timeout: 30_000 },
     async () => {
       // The API documents limit as between 1 and 100; 1000 violates that bound.
       // The operation declares no per-operation errors, so the SDK must map
@@ -38,6 +41,5 @@ describe("WebhookEndpointsControllerList", () => {
       );
       expect(clientLevelErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

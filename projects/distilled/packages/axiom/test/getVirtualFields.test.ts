@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getVirtualFields", () => {
   it(
     "lists virtual fields for an existing dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-vfields-${testRunId}`;
 
@@ -37,11 +38,11 @@ describe("getVirtualFields", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials are invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -64,6 +65,5 @@ describe("getVirtualFields", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

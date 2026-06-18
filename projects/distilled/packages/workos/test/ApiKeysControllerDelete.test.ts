@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("ApiKeysControllerDelete", () => {
   it(
     "deletes an API key created for an organization",
+    { timeout: 60_000 },
     async () => {
       await runEffect(
         Effect.gen(function* () {
@@ -34,11 +35,11 @@ describe("ApiKeysControllerDelete", () => {
         }),
       );
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent API key id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ApiKeysControllerDelete({
@@ -48,6 +49,5 @@ describe("ApiKeysControllerDelete", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

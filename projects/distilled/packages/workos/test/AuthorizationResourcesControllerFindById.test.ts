@@ -5,44 +5,41 @@ import { AuthorizationResourcesControllerList } from "../src/operations/Authoriz
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("AuthorizationResourcesControllerFindById", () => {
-  it(
-    "retrieves a resource by id",
-    async () => {
-      const list = await runEffect(
-        AuthorizationResourcesControllerList({ limit: 1 }),
+  it("retrieves a resource by id", { timeout: 30_000 }, async () => {
+    const list = await runEffect(
+      AuthorizationResourcesControllerList({ limit: 1 }),
+    );
+
+    if (list.data.length === 0) {
+      // Nothing to fetch — exercise the error path instead so the test still
+      // calls the operation against the live API.
+      const error = await runEffect(
+        AuthorizationResourcesControllerFindById({
+          resource_id: `resource_does_not_exist_${testRunId}`,
+        }).pipe(Effect.flip),
       );
+      expect(error._tag).toBe("NotFound");
+      return;
+    }
 
-      if (list.data.length === 0) {
-        // Nothing to fetch — exercise the error path instead so the test still
-        // calls the operation against the live API.
-        const error = await runEffect(
-          AuthorizationResourcesControllerFindById({
-            resource_id: `resource_does_not_exist_${testRunId}`,
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
+    const seed = list.data[0] as { id: string };
+    const resource = await runEffect(
+      AuthorizationResourcesControllerFindById({ resource_id: seed.id }),
+    );
 
-      const seed = list.data[0] as { id: string };
-      const resource = await runEffect(
-        AuthorizationResourcesControllerFindById({ resource_id: seed.id }),
-      );
-
-      expect(resource).toBeDefined();
-      expect(resource.id).toBe(seed.id);
-      expect(typeof resource.object).toBe("string");
-      expect(typeof resource.organization_id).toBe("string");
-      expect(typeof resource.external_id).toBe("string");
-      expect(typeof resource.resource_type_slug).toBe("string");
-      expect(typeof resource.created_at).toBe("string");
-      expect(typeof resource.updated_at).toBe("string");
-    },
-    30_000,
-  );
+    expect(resource).toBeDefined();
+    expect(resource.id).toBe(seed.id);
+    expect(typeof resource.object).toBe("string");
+    expect(typeof resource.organization_id).toBe("string");
+    expect(typeof resource.external_id).toBe("string");
+    expect(typeof resource.resource_type_slug).toBe("string");
+    expect(typeof resource.created_at).toBe("string");
+    expect(typeof resource.updated_at).toBe("string");
+  });
 
   it(
     "fails with NotFound for a non-existent resource id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerFindById({
@@ -52,11 +49,11 @@ describe("AuthorizationResourcesControllerFindById", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when reading a resource in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerFindById({
@@ -66,11 +63,11 @@ describe("AuthorizationResourcesControllerFindById", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the resource id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerFindById({
@@ -80,6 +77,5 @@ describe("AuthorizationResourcesControllerFindById", () => {
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

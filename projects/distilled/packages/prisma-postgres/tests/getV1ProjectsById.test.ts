@@ -22,7 +22,7 @@ describe("getV1ProjectsById", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - gets a project by id", async () => {
+  it("happy path - gets a project by id", { timeout: 30_000 }, async () => {
     const project = getTestProject("proj-get");
 
     const result = await runEffect(
@@ -33,35 +33,45 @@ describe("getV1ProjectsById", () => {
     expect(result.data.name).toBe(project.projectName);
     expect(result.data.workspace).toBeDefined();
     expect(result.data.workspace.id).toBeDefined();
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent project id", async () => {
-    await Effect.runPromise(
-      getV1ProjectsById({ id: "non-existent-proj-id-00000000" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent project id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1ProjectsById({ id: "non-existent-proj-id-00000000" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - UnprocessableEntity for malformed id", async () => {
-    await Effect.runPromise(
-      getV1ProjectsById({ id: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1ProjectsById({ id: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

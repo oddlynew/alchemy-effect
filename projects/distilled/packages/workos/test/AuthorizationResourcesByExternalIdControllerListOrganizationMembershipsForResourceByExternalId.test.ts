@@ -8,6 +8,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationResourcesByExternalIdControllerListOrganizationMembershipsForResourceByExternalId", () => {
   it(
     "lists organization memberships for a resource by external id",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -26,11 +27,11 @@ describe("AuthorizationResourcesByExternalIdControllerListOrganizationMembership
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.list_metadata).toBeDefined();
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when permission_slug is empty",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -57,11 +58,11 @@ describe("AuthorizationResourcesByExternalIdControllerListOrganizationMembership
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent external id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -88,11 +89,11 @@ describe("AuthorizationResourcesByExternalIdControllerListOrganizationMembership
 
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesByExternalIdControllerListOrganizationMembershipsForResourceByExternalId(
@@ -107,11 +108,11 @@ describe("AuthorizationResourcesByExternalIdControllerListOrganizationMembership
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the resource type slug is invalid",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -138,6 +139,5 @@ describe("AuthorizationResourcesByExternalIdControllerListOrganizationMembership
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 });

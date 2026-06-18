@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createCollection", () => {
   it(
     "creates a collection with the given fields and returns its metadata",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-create-${testRunId}`;
       const result = await runEffect(
@@ -29,11 +30,11 @@ describe("createCollection", () => {
       expect(result.num_documents).toBe(0);
       expect(typeof result.created_at).toBe("number");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when a field has an invalid type",
+    { timeout: 30_000 },
     async () => {
       // Typesense returns 400 with a message like
       // `Field \`title\` has an invalid data type \`bogus_type\``.
@@ -47,11 +48,11 @@ describe("createCollection", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with Conflict when a collection with the same name already exists",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-conflict-${testRunId}`;
 
@@ -74,6 +75,5 @@ describe("createCollection", () => {
 
       expect((error as { _tag: string })._tag).toBe("Conflict");
     },
-    { timeout: 30_000 },
   );
 });

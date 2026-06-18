@@ -12,6 +12,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateUserRole", () => {
   it(
     "returns NotFound for a user id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateUserRole({
@@ -22,6 +23,5 @@ describe("updateUserRole", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

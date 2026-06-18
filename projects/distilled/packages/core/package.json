@@ -1,18 +1,18 @@
 {
   "name": "@distilled.cloud/core",
   "version": "0.25.2",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
-    "directory": "packages/core"
+    "directory": "projects/distilled/packages/core"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "./category": {
       "types": "./lib/category.d.ts",
@@ -77,12 +77,14 @@
     "typecheck": "tsgo",
     "build": "tsgo -b",
     "fmt": "oxfmt --write src",
-    "lint": "oxlint --fix src",
+    "lint": "oxlint --type-aware src",
+    "lint:fix": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",
     "test": "bunx vitest run test --exclude specs --passWithNoTests",
     "publish:npm": "bun run build && bun publish --access public"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "dotenv": "catalog:",

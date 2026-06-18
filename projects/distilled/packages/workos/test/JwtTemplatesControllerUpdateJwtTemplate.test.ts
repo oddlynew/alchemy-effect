@@ -6,6 +6,7 @@ import { runEffect } from "./setup.ts";
 describe("JwtTemplatesControllerUpdateJwtTemplate", () => {
   it(
     "updates the JWT template for the current environment",
+    { timeout: 30_000 },
     async () => {
       const content = JSON.stringify({});
       const result = await runEffect(
@@ -17,11 +18,11 @@ describe("JwtTemplatesControllerUpdateJwtTemplate", () => {
       expect(typeof result.created_at).toBe("string");
       expect(typeof result.updated_at).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for malformed template content",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         JwtTemplatesControllerUpdateJwtTemplate({
@@ -30,6 +31,5 @@ describe("JwtTemplatesControllerUpdateJwtTemplate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

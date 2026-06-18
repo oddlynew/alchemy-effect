@@ -2923,10 +2923,16 @@ describe("Core", () => {
         expect(result.name).toBe(target.name);
         // last_updated_at / last_calculated_at / created_by may be null on
         // newly-seen or system event definitions.
-        if (result.last_updated_at !== null && result.last_updated_at !== undefined) {
+        if (
+          result.last_updated_at !== null &&
+          result.last_updated_at !== undefined
+        ) {
           expect(typeof result.last_updated_at).toBe("string");
         }
-        if (result.last_calculated_at !== null && result.last_calculated_at !== undefined) {
+        if (
+          result.last_calculated_at !== null &&
+          result.last_calculated_at !== undefined
+        ) {
           expect(typeof result.last_calculated_at).toBe("string");
         }
         if (result.action_id !== null && result.action_id !== undefined) {
@@ -3027,10 +3033,16 @@ describe("Core", () => {
         expect(result.name).toBe(eventName);
         // last_updated_at / last_calculated_at / action_id / created_by are
         // optional on freshly-created event definitions.
-        if (result.last_updated_at !== null && result.last_updated_at !== undefined) {
+        if (
+          result.last_updated_at !== null &&
+          result.last_updated_at !== undefined
+        ) {
           expect(typeof result.last_updated_at).toBe("string");
         }
-        if (result.last_calculated_at !== null && result.last_calculated_at !== undefined) {
+        if (
+          result.last_calculated_at !== null &&
+          result.last_calculated_at !== undefined
+        ) {
           expect(typeof result.last_calculated_at).toBe("string");
         }
         if (result.action_id !== null && result.action_id !== undefined) {

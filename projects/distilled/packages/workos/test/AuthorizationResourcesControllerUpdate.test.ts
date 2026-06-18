@@ -5,45 +5,42 @@ import { AuthorizationResourcesControllerUpdate } from "../src/operations/Author
 import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 
 describe("AuthorizationResourcesControllerUpdate", () => {
-  it(
-    "updates an authorization resource",
-    async (ctx) => {
-      const list = await runOrSkipOnEnvLimitation(
-        ctx,
-        AuthorizationResourcesControllerList({ limit: 1 }),
+  it("updates an authorization resource", { timeout: 30_000 }, async (ctx) => {
+    const list = await runOrSkipOnEnvLimitation(
+      ctx,
+      AuthorizationResourcesControllerList({ limit: 1 }),
+    );
+
+    if (list.data.length === 0) {
+      // No seed resource available — exercise the operation against a
+      // missing id so the call still hits the live API.
+      const error = await runEffect(
+        AuthorizationResourcesControllerUpdate({
+          resource_id: `resource_does_not_exist_${testRunId}`,
+        }).pipe(Effect.flip),
       );
+      expect(error._tag).toBe("NotFound");
+      return;
+    }
 
-      if (list.data.length === 0) {
-        // No seed resource available — exercise the operation against a
-        // missing id so the call still hits the live API.
-        const error = await runEffect(
-          AuthorizationResourcesControllerUpdate({
-            resource_id: `resource_does_not_exist_${testRunId}`,
-          }).pipe(Effect.flip),
-        );
-        expect(error._tag).toBe("NotFound");
-        return;
-      }
+    const seed = list.data[0] as { id: string };
+    const updated = await runOrSkipOnEnvLimitation(
+      ctx,
+      AuthorizationResourcesControllerUpdate({ resource_id: seed.id }),
+    );
 
-      const seed = list.data[0] as { id: string };
-      const updated = await runOrSkipOnEnvLimitation(
-        ctx,
-        AuthorizationResourcesControllerUpdate({ resource_id: seed.id }),
-      );
-
-      expect(updated).toBeDefined();
-      expect(updated.id).toBe(seed.id);
-      expect(typeof updated.organization_id).toBe("string");
-      expect(typeof updated.external_id).toBe("string");
-      expect(typeof updated.resource_type_slug).toBe("string");
-      expect(typeof updated.created_at).toBe("string");
-      expect(typeof updated.updated_at).toBe("string");
-    },
-    30_000,
-  );
+    expect(updated).toBeDefined();
+    expect(updated.id).toBe(seed.id);
+    expect(typeof updated.organization_id).toBe("string");
+    expect(typeof updated.external_id).toBe("string");
+    expect(typeof updated.resource_type_slug).toBe("string");
+    expect(typeof updated.created_at).toBe("string");
+    expect(typeof updated.updated_at).toBe("string");
+  });
 
   it(
     "fails with BadRequest when the request body is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerUpdate({
@@ -53,11 +50,11 @@ describe("AuthorizationResourcesControllerUpdate", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent resource id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerUpdate({
@@ -67,11 +64,11 @@ describe("AuthorizationResourcesControllerUpdate", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when updating a resource in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerUpdate({
@@ -81,11 +78,11 @@ describe("AuthorizationResourcesControllerUpdate", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when the update collides with an existing resource",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerUpdate({
@@ -95,11 +92,11 @@ describe("AuthorizationResourcesControllerUpdate", () => {
 
       expect(["Conflict", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the resource id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesControllerUpdate({
@@ -109,6 +106,5 @@ describe("AuthorizationResourcesControllerUpdate", () => {
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

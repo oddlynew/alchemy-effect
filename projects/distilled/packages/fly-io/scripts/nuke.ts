@@ -85,8 +85,7 @@ function isExcluded(
   return config.exclude?.find((rule) => {
     if (rule.type !== type) return false;
     if (rule.ids?.includes(id)) return true;
-    if (name && rule.namePatterns?.some((p) => matchGlob(p, name)))
-      return true;
+    if (name && rule.namePatterns?.some((p) => matchGlob(p, name))) return true;
     return false;
   });
 }
@@ -110,7 +109,9 @@ const listAndDeleteMachines = (
   nukeConfig: NukeConfig,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Machines${RESET} ${DIM}(app: ${appName})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Machines${RESET} ${DIM}(app: ${appName})${RESET}`,
+    );
 
     const machines = yield* MachinesList({ app_name: appName }).pipe(
       Effect.catch(() =>
@@ -180,7 +181,9 @@ const listAndDeleteVolumes = (
   nukeConfig: NukeConfig,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Volumes${RESET} ${DIM}(app: ${appName})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Volumes${RESET} ${DIM}(app: ${appName})${RESET}`,
+    );
 
     const volumes = yield* VolumesList({ app_name: appName }).pipe(
       Effect.catch(() =>
@@ -240,7 +243,9 @@ const listAndDeleteSecrets = (
   nukeConfig: NukeConfig,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Secrets${RESET} ${DIM}(app: ${appName})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Secrets${RESET} ${DIM}(app: ${appName})${RESET}`,
+    );
 
     const result = yield* SecretsList({ app_name: appName }).pipe(
       Effect.catch(() =>
@@ -270,13 +275,9 @@ const listAndDeleteSecrets = (
       }
 
       if (dryRun) {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} Secret: ${name}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} Secret: ${name}`);
       } else {
-        yield* Console.log(
-          `    ${RED}[DELETE]${RESET} Secret: ${name}`,
-        );
+        yield* Console.log(`    ${RED}[DELETE]${RESET} Secret: ${name}`);
         yield* SecretDelete({ app_name: appName, secret_name: name }).pipe(
           Effect.andThen(() => {
             totalDeleted++;
@@ -298,7 +299,9 @@ const listAndDeleteSecretKeys = (
   nukeConfig: NukeConfig,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n  ${BOLD}${CYAN}Secret Keys${RESET} ${DIM}(app: ${appName})${RESET}`);
+    yield* Console.log(
+      `\n  ${BOLD}${CYAN}Secret Keys${RESET} ${DIM}(app: ${appName})${RESET}`,
+    );
 
     const result = yield* SecretkeysList({ app_name: appName }).pipe(
       Effect.catch(() =>
@@ -357,7 +360,9 @@ const listAndDeleteApps = (
   nukeConfig: NukeConfig,
 ) =>
   Effect.gen(function* () {
-    yield* Console.log(`\n${BOLD}${CYAN}Apps${RESET} ${DIM}(org: ${orgSlug})${RESET}`);
+    yield* Console.log(
+      `\n${BOLD}${CYAN}Apps${RESET} ${DIM}(org: ${orgSlug})${RESET}`,
+    );
 
     const result = yield* AppsList({ org_slug: orgSlug }).pipe(
       Effect.catch(() =>
@@ -437,9 +442,7 @@ const nuke = Command.make(
       Flag.withDefault(false),
     ),
     orgSlug: Flag.string("org").pipe(
-      Flag.withDescription(
-        "Organization slug to nuke (default: 'personal')",
-      ),
+      Flag.withDescription("Organization slug to nuke (default: 'personal')"),
       Flag.withDefault("personal"),
     ),
   },

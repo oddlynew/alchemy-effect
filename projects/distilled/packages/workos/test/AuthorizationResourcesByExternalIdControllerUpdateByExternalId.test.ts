@@ -8,6 +8,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationResourcesByExternalIdControllerUpdateByExternalId", () => {
   it(
     "updates an authorization resource by external id",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -23,11 +24,11 @@ describe("AuthorizationResourcesByExternalIdControllerUpdateByExternalId", () =>
       expect(typeof result.external_id).toBe("string");
       expect(typeof result.resource_type_slug).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when the external id is empty",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -53,11 +54,11 @@ describe("AuthorizationResourcesByExternalIdControllerUpdateByExternalId", () =>
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent external id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -83,11 +84,11 @@ describe("AuthorizationResourcesByExternalIdControllerUpdateByExternalId", () =>
 
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesByExternalIdControllerUpdateByExternalId({
@@ -99,11 +100,11 @@ describe("AuthorizationResourcesByExternalIdControllerUpdateByExternalId", () =>
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when the update produces a duplicate external id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -129,11 +130,11 @@ describe("AuthorizationResourcesByExternalIdControllerUpdateByExternalId", () =>
 
       expect(["Conflict", "NotFound"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity when the resource type slug is invalid",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -159,6 +160,5 @@ describe("AuthorizationResourcesByExternalIdControllerUpdateByExternalId", () =>
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 });

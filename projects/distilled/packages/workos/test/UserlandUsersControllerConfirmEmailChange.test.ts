@@ -14,6 +14,7 @@ const typedErrorTags = [
 describe("UserlandUsersControllerConfirmEmailChange", () => {
   it(
     "confirms an email change, or surfaces a typed error",
+    { timeout: 60_000 },
     async () => {
       // The happy path requires a real one-time code that's only delivered to
       // the user via email — we can't synthesize one in a test. So we probe
@@ -33,8 +34,7 @@ describe("UserlandUsersControllerConfirmEmailChange", () => {
           Effect.matchEffect({
             onSuccess: (response) =>
               Effect.succeed({ ok: true as const, response }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -48,11 +48,11 @@ describe("UserlandUsersControllerConfirmEmailChange", () => {
         expect(typedErrorTags).toContain(result.error._tag);
       }
     },
-    60_000,
   );
 
   it(
     "fails with a typed BadRequest when the code is empty",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedId =
@@ -68,11 +68,11 @@ describe("UserlandUsersControllerConfirmEmailChange", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerConfirmEmailChange({
@@ -82,11 +82,11 @@ describe("UserlandUsersControllerConfirmEmailChange", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with a typed Conflict, BadRequest, or related error for an unrecognized code",
+    { timeout: 30_000 },
     async () => {
       // Submitting an arbitrary code against a real user typically resolves
       // to one of the typed error classes (Conflict if the new email collides
@@ -106,11 +106,11 @@ describe("UserlandUsersControllerConfirmEmailChange", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed UnprocessableEntity for a malformed code value",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedId =
@@ -126,6 +126,5 @@ describe("UserlandUsersControllerConfirmEmailChange", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

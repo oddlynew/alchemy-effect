@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("PortalSessionsControllerCreate", () => {
   it(
     "generates a portal link for an organization",
+    { timeout: 60_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -31,11 +32,11 @@ describe("PortalSessionsControllerCreate", () => {
       expect(typeof result.link).toBe("string");
       expect(result.link.startsWith("http")).toBe(true);
     },
-    60_000,
   );
 
   it(
     "fails with BadRequest when organization is missing",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         PortalSessionsControllerCreate(
@@ -44,11 +45,11 @@ describe("PortalSessionsControllerCreate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         PortalSessionsControllerCreate({
@@ -57,11 +58,11 @@ describe("PortalSessionsControllerCreate", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when generating a link for a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         PortalSessionsControllerCreate({
@@ -70,11 +71,11 @@ describe("PortalSessionsControllerCreate", () => {
       );
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for an invalid contact email",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -95,6 +96,5 @@ describe("PortalSessionsControllerCreate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    60_000,
   );
 });

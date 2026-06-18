@@ -18,7 +18,9 @@ import { GetCustomersSearch } from "@distilled.cloud/stripe/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/stripe";
 
 const program = Effect.gen(function* () {
-  const results = yield* GetCustomersSearch({ query: "email:'test@example.com'" });
+  const results = yield* GetCustomersSearch({
+    query: "email:'test@example.com'",
+  });
   return results;
 });
 
@@ -49,7 +51,8 @@ PostPaymentIntents({ amount: 1000, currency: "usd" }).pipe(
     CardError: (e) => Effect.fail(new Error(`Card declined: ${e.message}`)),
     InvalidRequestError: (e) => Effect.fail(new Error(`Invalid: ${e.message}`)),
     PaymentError: (e) => Effect.fail(new Error(`Payment failed: ${e.message}`)),
-    IdempotencyError: (e) => Effect.fail(new Error(`Idempotency: ${e.message}`)),
+    IdempotencyError: (e) =>
+      Effect.fail(new Error(`Idempotency: ${e.message}`)),
     UnknownStripeError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),
   }),
 );

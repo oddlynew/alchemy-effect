@@ -17,29 +17,39 @@ describe("deleteV1IntegrationsById", () => {
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent integration id", async () => {
-    await Effect.runPromise(
-      deleteV1IntegrationsById({ id: "non-existent-integ-id-00000000" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent integration id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1IntegrationsById({ id: "non-existent-integ-id-00000000" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - UnprocessableEntity for malformed id", async () => {
-    await Effect.runPromise(
-      deleteV1IntegrationsById({ id: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1IntegrationsById({ id: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

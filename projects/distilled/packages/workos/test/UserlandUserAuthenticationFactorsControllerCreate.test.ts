@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUserAuthenticationFactorsControllerCreate", () => {
   it(
     "enrolls a TOTP authentication factor for a user, then cleans up",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -29,12 +30,13 @@ describe("UserlandUserAuthenticationFactorsControllerCreate", () => {
 
       await runEffect(
         Effect.gen(function* () {
-          const result = yield* UserlandUserAuthenticationFactorsControllerCreate({
-            userlandUserId: seed.id,
-            type: "totp",
-            totp_issuer: `distilled-${testRunId}`,
-            totp_user: `distilled-user-${testRunId}@distilled.test`,
-          });
+          const result =
+            yield* UserlandUserAuthenticationFactorsControllerCreate({
+              userlandUserId: seed.id,
+              type: "totp",
+              totp_issuer: `distilled-${testRunId}`,
+              totp_user: `distilled-user-${testRunId}@distilled.test`,
+            });
           createdFactorId = result.authentication_factor.id;
           expect(result).toBeDefined();
           expect(result.authentication_factor).toBeDefined();
@@ -66,11 +68,11 @@ describe("UserlandUserAuthenticationFactorsControllerCreate", () => {
         ),
       );
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity when type is not a recognized factor type",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedUserId =
@@ -86,6 +88,5 @@ describe("UserlandUserAuthenticationFactorsControllerCreate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

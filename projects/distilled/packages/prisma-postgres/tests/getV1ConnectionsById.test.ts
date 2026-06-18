@@ -22,13 +22,11 @@ describe("getV1ConnectionsById", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - gets a connection by id", async () => {
+  it("happy path - gets a connection by id", { timeout: 30_000 }, async () => {
     const project = getTestProject("conn-get");
     const connectionId = project.defaultConnectionId!;
 
-    const result = await runEffect(
-      getV1ConnectionsById({ id: connectionId }),
-    );
+    const result = await runEffect(getV1ConnectionsById({ id: connectionId }));
 
     expect(result.data.id).toBe(connectionId);
     expect(result.data.name).toBeDefined();
@@ -36,35 +34,45 @@ describe("getV1ConnectionsById", () => {
     expect(result.data.endpoints).toBeDefined();
     expect(result.data.database).toBeDefined();
     expect(result.data.database.id).toBe(project.databaseId);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent connection id", async () => {
-    await Effect.runPromise(
-      getV1ConnectionsById({ id: "non-existent-conn-id-00000000" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent connection id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1ConnectionsById({ id: "non-existent-conn-id-00000000" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - UnprocessableEntity for malformed id", async () => {
-    await Effect.runPromise(
-      getV1ConnectionsById({ id: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1ConnectionsById({ id: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

@@ -1,0 +1,24 @@
+{
+  "name": "@alchemy.run/oxlint-config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared oxlint config for the Alchemy monorepo",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./base-config": {
+      "types": "./base.config.d.ts",
+      "default": "./base.config.mjs"
+    },
+    "./effect-config": {
+      "types": "./effect.config.d.ts",
+      "default": "./effect.config.mjs"
+    }
+  },
+  "peerDependencies": {
+    "oxlint": "^1.51.0"
+  },
+  "devDependencies": {
+    "oxlint": "catalog:"
+  }
+}

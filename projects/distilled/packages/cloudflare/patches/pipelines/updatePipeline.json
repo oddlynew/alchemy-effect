@@ -1,7 +1,5 @@
 {
   "errors": {
-    "PipelineNotExists": [
-      { "code": 1000 }
-    ]
+    "PipelineNotExists": [{ "code": 1000 }]
   }
 }

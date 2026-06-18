@@ -6,23 +6,20 @@ import { getViews } from "../src/operations/v2/getViews";
 import { runEffect, testRunId } from "./setup";
 
 describe("getViews", () => {
-  it(
-    "returns an array of views",
-    async () => {
-      const views = await runEffect(getViews({}));
+  it("returns an array of views", { timeout: 30_000 }, async () => {
+    const views = await runEffect(getViews({}));
 
-      expect(Array.isArray(views)).toBe(true);
+    expect(Array.isArray(views)).toBe(true);
 
-      for (const view of views) {
-        expect(typeof view.name).toBe("string");
-        expect(typeof view.aplQuery).toBe("string");
-      }
-    },
-    { timeout: 30_000 },
-  );
+    for (const view of views) {
+      expect(typeof view.name).toBe("string");
+      expect(typeof view.aplQuery).toBe("string");
+    }
+  });
 
   it(
     "returns Unauthorized when the caller's credentials are invalid",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -43,6 +40,5 @@ describe("getViews", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

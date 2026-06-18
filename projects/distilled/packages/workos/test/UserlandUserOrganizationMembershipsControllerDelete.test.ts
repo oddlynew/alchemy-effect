@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUserOrganizationMembershipsControllerDelete", () => {
   it(
     "permanently deletes an organization membership",
+    { timeout: 90_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 5 }));
 
@@ -50,11 +51,11 @@ describe("UserlandUserOrganizationMembershipsControllerDelete", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    90_000,
   );
 
   it(
     "fails with NotFound for a non-existent membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerDelete({
@@ -63,6 +64,5 @@ describe("UserlandUserOrganizationMembershipsControllerDelete", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

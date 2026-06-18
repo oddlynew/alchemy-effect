@@ -7,33 +7,30 @@ import { AuthorizationPermissionsControllerList } from "../src/operations/Author
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("AuthorizationPermissionsControllerDelete", () => {
-  it(
-    "deletes a permission",
-    async () => {
-      const slug = `delete_perm_${testRunId}`;
+  it("deletes a permission", { timeout: 30_000 }, async () => {
+    const slug = `delete_perm_${testRunId}`;
 
-      const error = await runEffect(
-        Effect.gen(function* () {
-          yield* AuthorizationPermissionsControllerCreate({
-            slug,
-            name: `Delete Permission ${testRunId}`,
-          });
+    const error = await runEffect(
+      Effect.gen(function* () {
+        yield* AuthorizationPermissionsControllerCreate({
+          slug,
+          name: `Delete Permission ${testRunId}`,
+        });
 
-          yield* AuthorizationPermissionsControllerDelete({ slug });
+        yield* AuthorizationPermissionsControllerDelete({ slug });
 
-          return yield* AuthorizationPermissionsControllerFind({ slug }).pipe(
-            Effect.flip,
-          );
-        }),
-      );
+        return yield* AuthorizationPermissionsControllerFind({ slug }).pipe(
+          Effect.flip,
+        );
+      }),
+    );
 
-      expect(error._tag).toBe("NotFound");
-    },
-    30_000,
-  );
+    expect(error._tag).toBe("NotFound");
+  });
 
   it(
     "fails with NotFound for a non-existent permission slug",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationPermissionsControllerDelete({
@@ -43,11 +40,11 @@ describe("AuthorizationPermissionsControllerDelete", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when deleting a system permission",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -72,6 +69,5 @@ describe("AuthorizationPermissionsControllerDelete", () => {
 
       expect(error._tag).toBe("Forbidden");
     },
-    30_000,
   );
 });

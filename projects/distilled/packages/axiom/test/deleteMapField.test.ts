@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteMapField", () => {
   it(
     "deletes an existing map field and removes it from the listing",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-deletemap-${testRunId}`;
       const mapFieldName = `mapfield_${testRunId}`;
@@ -47,11 +48,11 @@ describe("deleteMapField", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a map field name that does not exist on the dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-deletemap-404-${testRunId}`;
 
@@ -75,11 +76,11 @@ describe("deleteMapField", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound when the dataset itself does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteMapField({
@@ -90,6 +91,5 @@ describe("deleteMapField", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

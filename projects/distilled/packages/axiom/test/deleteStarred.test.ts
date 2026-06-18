@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteStarred", () => {
   it(
     "deletes an existing starred query and subsequent fetches return NotFound",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-delstarred-${testRunId}`;
       const queryName = `distilled-axiom-delstarred-${testRunId}`;
@@ -60,11 +61,11 @@ describe("deleteStarred", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a starred-query id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // A syntactically-valid but non-existent starred-query id should
       // produce a 404 → NotFound.
@@ -74,6 +75,5 @@ describe("deleteStarred", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

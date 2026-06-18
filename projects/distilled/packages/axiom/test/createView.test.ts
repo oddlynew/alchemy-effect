@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createView", () => {
   it(
     "creates a view with an APL query and returns the stored record",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-ax-cvds-${testRunId}`;
       const viewName = `distilled-ax-cvview-${testRunId}`;
@@ -55,7 +56,6 @@ describe("createView", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   // Removed: the client-side schema requires `name` and `aplQuery`, so

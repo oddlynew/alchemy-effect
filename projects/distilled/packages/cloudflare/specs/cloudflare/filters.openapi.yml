@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/filters/{filterId}:
     get:
       operationId: getFilter
-      description: Fetches the details of a filter.  @deprecated The Filters API is
+      description:
+        Fetches the details of a filter.  @deprecated The Filters API is
         deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -41,7 +42,8 @@ paths:
                     description: An informative summary of the filter.
                   expression:
                     type: string
-                    description: The filter expression. For more information, refer to
+                    description:
+                      The filter expression. For more information, refer to
                       [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                   paused:
                     type: boolean
@@ -80,16 +82,19 @@ paths:
                   description: "Body param: An informative summary of the filter."
                 expression:
                   type: string
-                  description: "Body param: The filter expression. For more information, refer to
+                  description:
+                    "Body param: The filter expression. For more information, refer to
                     [Expressions](https://developers.cloudflare.com/ruleset-eng\
                     ine/rules-language/expressions/)."
                 paused:
                   type: boolean
-                  description: "Body param: When true, indicates that the filter is currently
+                  description:
+                    "Body param: When true, indicates that the filter is currently
                     paused."
                 ref:
                   type: string
-                  description: "Body param: A short reference tag. Allows you to select related
+                  description:
+                    "Body param: A short reference tag. Allows you to select related
                     filters."
       responses:
         "200":
@@ -107,7 +112,8 @@ paths:
                     description: An informative summary of the filter.
                   expression:
                     type: string
-                    description: The filter expression. For more information, refer to
+                    description:
+                      The filter expression. For more information, refer to
                       [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                   paused:
                     type: boolean
@@ -151,7 +157,8 @@ paths:
   /zones/{zone_id}/filters:
     get:
       operationId: listFilters
-      description: Fetches filters in a zone. You can filter the results using several
+      description:
+        Fetches filters in a zone. You can filter the results using several
         optional parameters.  @deprecated The Filters API is deprecated in
         favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
@@ -194,14 +201,16 @@ paths:
         - name: paused
           in: query
           required: false
-          description: "Query param: When true, indicates that the filter is currently
+          description:
+            "Query param: When true, indicates that the filter is currently
             paused."
           schema:
             type: boolean
         - name: ref
           in: query
           required: false
-          description: "Query param: The filter ref (a short reference tag) to search for.
+          description:
+            "Query param: The filter ref (a short reference tag) to search for.
             Must be an exact match."
           schema:
             type: string
@@ -221,7 +230,8 @@ paths:
                     description: An informative summary of the filter.
                   expression:
                     type: string
-                    description: The filter expression. For more information, refer to
+                    description:
+                      The filter expression. For more information, refer to
                       [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                   paused:
                     type: boolean
@@ -257,7 +267,8 @@ paths:
                     description: An informative summary of the filter.
                   expression:
                     type: string
-                    description: The filter expression. For more information, refer to
+                    description:
+                      The filter expression. For more information, refer to
                       [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                   paused:
                     type: boolean
@@ -281,7 +292,8 @@ paths:
                     description: An informative summary of the filter.
                   expression:
                     type: string
-                    description: The filter expression. For more information, refer to
+                    description:
+                      The filter expression. For more information, refer to
                       [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                   paused:
                     type: boolean
@@ -292,7 +304,8 @@ paths:
       x-distilled-pagination-class: FirewallFiltersSinglePage
     delete:
       operationId: bulkDeleteFilters
-      description: Deletes one or more existing filters.  @deprecated The Filters API
+      description:
+        Deletes one or more existing filters.  @deprecated The Filters API
         is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -327,7 +340,8 @@ paths:
       x-distilled-response-path: result
     put:
       operationId: bulkPutFilters
-      description: Updates one or more existing filters.  @deprecated The Filters API
+      description:
+        Updates one or more existing filters.  @deprecated The Filters API
         is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#firewall-rules-api-and-filters-api
         for full details.
@@ -352,7 +366,8 @@ paths:
                     description: An informative summary of the filter.
                   expression:
                     type: string
-                    description: The filter expression. For more information, refer to
+                    description:
+                      The filter expression. For more information, refer to
                       [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                   paused:
                     type: boolean
@@ -376,7 +391,8 @@ paths:
                     description: An informative summary of the filter.
                   expression:
                     type: string
-                    description: The filter expression. For more information, refer to
+                    description:
+                      The filter expression. For more information, refer to
                       [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/).
                   paused:
                     type: boolean

@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/fraud_detection/settings:
     get:
       operationId: getFraud
-      description: "Retrieve Fraud Detection settings for a zone.  @example ```ts
+      description:
+        "Retrieve Fraud Detection settings for a zone.  @example ```ts
         const fraudSettings = await client.fraud.get({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -42,7 +43,8 @@ paths:
                             type: array
                             items:
                               type: number
-                            description: HTTP status codes to match against the origin response.  - Maximum
+                            description:
+                              HTTP status codes to match against the origin response.  - Maximum
                               of 10 codes per criterion. - Each code must be a
                               valid HTTP status code (100-599). - Codes are
                               deduplicated and sorted on save. - Omit to leave
@@ -63,7 +65,8 @@ paths:
                             type: array
                             items:
                               type: number
-                            description: HTTP status codes to match against the origin response.  - Maximum
+                            description:
+                              HTTP status codes to match against the origin response.  - Maximum
                               of 10 codes per criterion. - Each code must be a
                               valid HTTP status code (100-599). - Codes are
                               deduplicated and sorted on save. - Omit to leave
@@ -72,7 +75,8 @@ paths:
                         required:
                           - kind
                         description: Criterion for identifying successful login responses.
-                    description: Configuration for classifying login authentication outcomes based
+                    description:
+                      Configuration for classifying login authentication outcomes based
                       on the origin response. Requires `user_profiles` to be
                       enabled.  - Success and failure criteria are independently
                       updatable — sending only `success_criteria` leaves failure
@@ -90,7 +94,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: List of expressions to detect usernames in write HTTP requests.  -
+                    description:
+                      List of expressions to detect usernames in write HTTP requests.  -
                       Maximum of 10 expressions. - Omit or set to null to leave
                       unchanged on update. - Provide an empty array `[]` to
                       clear all expressions on update. - Invalid expressions
@@ -137,7 +142,8 @@ paths:
                           type: array
                           items:
                             type: number
-                          description: HTTP status codes to match against the origin response.  - Maximum
+                          description:
+                            HTTP status codes to match against the origin response.  - Maximum
                             of 10 codes per criterion. - Each code must be a
                             valid HTTP status code (100-599). - Codes are
                             deduplicated and sorted on save. - Omit to leave
@@ -158,7 +164,8 @@ paths:
                           type: array
                           items:
                             type: number
-                          description: HTTP status codes to match against the origin response.  - Maximum
+                          description:
+                            HTTP status codes to match against the origin response.  - Maximum
                             of 10 codes per criterion. - Each code must be a
                             valid HTTP status code (100-599). - Codes are
                             deduplicated and sorted on save. - Omit to leave
@@ -167,7 +174,8 @@ paths:
                       required:
                         - kind
                       description: Criterion for identifying successful login responses.
-                  description: "Body param: Configuration for classifying login authentication
+                  description:
+                    "Body param: Configuration for classifying login authentication
                     outcomes based on the origin response. Requires
                     `user_profiles` to be enabled.  - Success and failure
                     criteria are independently updatable — sending only
@@ -185,7 +193,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: List of expressions to detect usernames in write HTTP
+                  description:
+                    "Body param: List of expressions to detect usernames in write HTTP
                     requests.  - Maximum of 10 expressions. - Omit or set to
                     null to leave unchanged on update. - Provide an empty array
                     `[]` to clear all expressions on update. - Invalid
@@ -214,7 +223,8 @@ paths:
                             type: array
                             items:
                               type: number
-                            description: HTTP status codes to match against the origin response.  - Maximum
+                            description:
+                              HTTP status codes to match against the origin response.  - Maximum
                               of 10 codes per criterion. - Each code must be a
                               valid HTTP status code (100-599). - Codes are
                               deduplicated and sorted on save. - Omit to leave
@@ -235,7 +245,8 @@ paths:
                             type: array
                             items:
                               type: number
-                            description: HTTP status codes to match against the origin response.  - Maximum
+                            description:
+                              HTTP status codes to match against the origin response.  - Maximum
                               of 10 codes per criterion. - Each code must be a
                               valid HTTP status code (100-599). - Codes are
                               deduplicated and sorted on save. - Omit to leave
@@ -244,7 +255,8 @@ paths:
                         required:
                           - kind
                         description: Criterion for identifying successful login responses.
-                    description: Configuration for classifying login authentication outcomes based
+                    description:
+                      Configuration for classifying login authentication outcomes based
                       on the origin response. Requires `user_profiles` to be
                       enabled.  - Success and failure criteria are independently
                       updatable — sending only `success_criteria` leaves failure
@@ -262,7 +274,8 @@ paths:
                     type: array
                     items:
                       type: string
-                    description: List of expressions to detect usernames in write HTTP requests.  -
+                    description:
+                      List of expressions to detect usernames in write HTTP requests.  -
                       Maximum of 10 expressions. - Omit or set to null to leave
                       unchanged on update. - Provide an empty array `[]` to
                       clear all expressions on update. - Invalid expressions

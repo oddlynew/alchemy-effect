@@ -191,7 +191,10 @@ interface OpenApiSchema {
 const getGitHash = (repoPath: string) =>
   Effect.sync(() => {
     try {
-      return execSync("git rev-parse HEAD", { cwd: repoPath, encoding: "utf-8" }).trim();
+      return execSync("git rev-parse HEAD", {
+        cwd: repoPath,
+        encoding: "utf-8",
+      }).trim();
     } catch {
       return "";
     }
@@ -240,10 +243,8 @@ const getOpenApiContentHash = (openapiBasePath?: string) =>
     if (!openapiBasePath) return "";
 
     const fs = yield* FileSystem.FileSystem;
-    const files = yield* collectFilesMatching(
-      fs,
-      openapiBasePath,
-      (file) => OPENAPI_SPEC_REGEX.test(file),
+    const files = yield* collectFilesMatching(fs, openapiBasePath, (file) =>
+      OPENAPI_SPEC_REGEX.test(file),
     );
 
     if (files.length === 0) {
@@ -288,7 +289,9 @@ const getCacheKey = (repoPath: string, openapiBasePath?: string) =>
     if (!gitHash && !openapiHash && !parserHash) {
       return "";
     }
-    return hashString(`${CACHE_VERSION}:${gitHash}:${openapiHash}:${parserHash}`);
+    return hashString(
+      `${CACHE_VERSION}:${gitHash}:${openapiHash}:${parserHash}`,
+    );
   });
 
 /**
@@ -544,7 +547,9 @@ function tsTypeToTypeInfo(
 
     const deduped = values.filter((value, index) => {
       const key = JSON.stringify(value);
-      return index === values.findIndex((other) => JSON.stringify(other) === key);
+      return (
+        index === values.findIndex((other) => JSON.stringify(other) === key)
+      );
     });
 
     if (deduped.length === 0) {
@@ -598,11 +603,14 @@ function tsTypeToTypeInfo(
       kind: "object",
       name: checker.typeToString(type),
       properties: properties.map((property) => {
-        const declaration = property.valueDeclaration ?? property.declarations?.[0];
+        const declaration =
+          property.valueDeclaration ?? property.declarations?.[0];
         const propertyType = declaration
           ? checker.getTypeOfSymbolAtLocation(property, declaration)
           : checker.getTypeOfSymbol(property);
-        const description = declaration ? getJsDocComment(declaration) : undefined;
+        const description = declaration
+          ? getJsDocComment(declaration)
+          : undefined;
 
         return {
           name: property.getName(),
@@ -790,7 +798,10 @@ function typeNodeToTypeInfo(
       const resolvedFromChecker = tsTypeToTypeInfo(type, checker);
       if (
         resolvedFromChecker.kind !== "unknown" &&
-        !(resolvedFromChecker.kind === "object" && resolvedFromChecker.name === "Record")
+        !(
+          resolvedFromChecker.kind === "object" &&
+          resolvedFromChecker.name === "Record"
+        )
       ) {
         return resolvedFromChecker;
       }
@@ -808,7 +819,12 @@ function typeNodeToTypeInfo(
       if (ts.isPropertySignature(member) && member.name) {
         const rawName = member.name.getText();
         const name = rawName.replace(/^["']|["']$/g, "");
-        const type = typeNodeToTypeInfo(member.type, checker, registry, seenTypeRefs);
+        const type = typeNodeToTypeInfo(
+          member.type,
+          checker,
+          registry,
+          seenTypeRefs,
+        );
         const required = !member.questionToken;
         const comment = getJsDocComment(member);
 
@@ -858,7 +874,9 @@ function extractHttpMethod(
                 ts.isStringLiteral(prop.initializer)
               ) {
                 const override = prop.initializer.text.toUpperCase();
-                if (["GET", "POST", "PUT", "PATCH", "DELETE"].includes(override)) {
+                if (
+                  ["GET", "POST", "PUT", "PATCH", "DELETE"].includes(override)
+                ) {
                   httpMethod = override as typeof httpMethod;
                 }
               }
@@ -910,7 +928,9 @@ function detectMultipart(methodBody: ts.Block): boolean {
  * Detect pagination type from the page class used in getAPIList/postAPIList calls.
  * Returns "items" for V4PagePagination (result.items wrapper), "array" for V4PagePaginationArray/SinglePage (bare array).
  */
-function detectPaginationType(methodBody: ts.Block): "items" | "array" | undefined {
+function detectPaginationType(
+  methodBody: ts.Block,
+): "items" | "array" | undefined {
   let paginationType: "items" | "array" | undefined;
 
   function visit(node: ts.Node) {
@@ -928,7 +948,10 @@ function detectPaginationType(methodBody: ts.Block): "items" | "array" | undefin
             const pageClassName = pageClassArg.getText();
             // V4PagePagination uses result.items wrapper
             // V4PagePaginationArray and SinglePage use result directly as array
-            if (pageClassName.includes("V4PagePagination") && !pageClassName.includes("V4PagePaginationArray")) {
+            if (
+              pageClassName.includes("V4PagePagination") &&
+              !pageClassName.includes("V4PagePaginationArray")
+            ) {
               paginationType = "items";
             } else {
               paginationType = "array";
@@ -1002,7 +1025,8 @@ function detectPaginationClassName(methodBody: ts.Block): string | undefined {
           const pageClassArg = node.arguments[1];
           if (
             pageClassArg &&
-            (ts.isIdentifier(pageClassArg) || ts.isPropertyAccessExpression(pageClassArg))
+            (ts.isIdentifier(pageClassArg) ||
+              ts.isPropertyAccessExpression(pageClassArg))
           ) {
             className = pageClassArg.getText().split(".").pop();
           }
@@ -1178,7 +1202,12 @@ function parseInterface(
       // e.g., '"CF-WORKER-BODY-PART"' — strip them to get the raw name
       const rawText = member.name.getText();
       const propName = rawText.replace(/^["']|["']$/g, "");
-      const type = typeNodeToTypeInfo(member.type, checker, registry, seenTypeRefs);
+      const type = typeNodeToTypeInfo(
+        member.type,
+        checker,
+        registry,
+        seenTypeRefs,
+      );
       const required = !member.questionToken;
       const comment = getJsDocComment(member);
       const location = parseParamLocation(comment);
@@ -1207,7 +1236,6 @@ function parseInterface(
 
   return { name, properties };
 }
-
 
 /**
  * Find and parse a params interface by name in a source file
@@ -1382,7 +1410,8 @@ function mergeTypeInfos(types: TypeInfo[]): TypeInfo {
         entry.types.push(p.type);
         entry.present += 1;
         if (p.required) entry.required += 1;
-        if (!entry.description && p.description) entry.description = p.description;
+        if (!entry.description && p.description)
+          entry.description = p.description;
         if (!entry.wireKey && p.wireKey) entry.wireKey = p.wireKey;
       }
     }
@@ -1870,7 +1899,10 @@ function makeNullable(type: TypeInfo): TypeInfo {
   if (type.kind === "null") {
     return type;
   }
-  if (type.kind === "union" && type.values?.some((value) => value.kind === "null")) {
+  if (
+    type.kind === "union" &&
+    type.values?.some((value) => value.kind === "null")
+  ) {
     return type;
   }
   return {
@@ -1896,7 +1928,11 @@ function schemaObjectToTypeInfo(
     if (!resolved) {
       return { kind: "unknown" };
     }
-    return schemaObjectToTypeInfo(resolved, spec, new Set([...seenRefs, schema.$ref]));
+    return schemaObjectToTypeInfo(
+      resolved,
+      spec,
+      new Set([...seenRefs, schema.$ref]),
+    );
   }
 
   if (schema.enum && schema.enum.length > 0) {
@@ -1918,8 +1954,12 @@ function schemaObjectToTypeInfo(
       schemaObjectToTypeInfo(part, spec, seenRefs),
     );
     const objectParts = resolvedParts.filter(
-      (part): part is TypeInfo & { kind: "object"; properties: NonNullable<TypeInfo["properties"]> } =>
-        part.kind === "object" && !!part.properties,
+      (
+        part,
+      ): part is TypeInfo & {
+        kind: "object";
+        properties: NonNullable<TypeInfo["properties"]>;
+      } => part.kind === "object" && !!part.properties,
     );
     if (objectParts.length > 0) {
       const merged: TypeInfo = {
@@ -1940,9 +1980,10 @@ function schemaObjectToTypeInfo(
   let typeInfo: TypeInfo;
   switch (rawType) {
     case "string":
-      typeInfo = "format" in schema && schema.format === "binary"
-        ? { kind: "file" }
-        : { kind: "primitive", value: "string" };
+      typeInfo =
+        "format" in schema && schema.format === "binary"
+          ? { kind: "file" }
+          : { kind: "primitive", value: "string" };
       break;
     case "integer":
     case "number":
@@ -1962,12 +2003,14 @@ function schemaObjectToTypeInfo(
         const required = new Set(schema.required ?? []);
         typeInfo = {
           kind: "object",
-          properties: Object.entries(schema.properties).map(([name, propertySchema]) => ({
-            name,
-            type: schemaObjectToTypeInfo(propertySchema, spec, seenRefs),
-            required: required.has(name),
-            description: propertySchema.description,
-          })),
+          properties: Object.entries(schema.properties).map(
+            ([name, propertySchema]) => ({
+              name,
+              type: schemaObjectToTypeInfo(propertySchema, spec, seenRefs),
+              required: required.has(name),
+              description: propertySchema.description,
+            }),
+          ),
         };
       } else if (schema.additionalProperties) {
         typeInfo = { kind: "unknown" };
@@ -1980,12 +2023,14 @@ function schemaObjectToTypeInfo(
         const required = new Set(schema.required ?? []);
         typeInfo = {
           kind: "object",
-          properties: Object.entries(schema.properties).map(([name, propertySchema]) => ({
-            name,
-            type: schemaObjectToTypeInfo(propertySchema, spec, seenRefs),
-            required: required.has(name),
-            description: propertySchema.description,
-          })),
+          properties: Object.entries(schema.properties).map(
+            ([name, propertySchema]) => ({
+              name,
+              type: schemaObjectToTypeInfo(propertySchema, spec, seenRefs),
+              required: required.has(name),
+              description: propertySchema.description,
+            }),
+          ),
         };
       } else {
         typeInfo = { kind: "unknown" };
@@ -2052,7 +2097,10 @@ function getOperationMethodName(operationName: string): string {
   return match?.[0] ?? operationName;
 }
 
-function getOperationResourceName(operationName: string, methodName: string): string {
+function getOperationResourceName(
+  operationName: string,
+  methodName: string,
+): string {
   const resource = operationName.slice(methodName.length);
   return resource || "Operation";
 }
@@ -2071,7 +2119,10 @@ function buildOpenApiOperation(
   }
 
   const urlPathParams = extractPathParamsFromUrl(pathTemplate);
-  const combinedParameters = [...(pathItem.parameters ?? []), ...(operation.parameters ?? [])];
+  const combinedParameters = [
+    ...(pathItem.parameters ?? []),
+    ...(operation.parameters ?? []),
+  ];
   const deduped = new Map<string, OpenApiParameter>();
   for (const parameter of combinedParameters) {
     const resolved = resolveOpenApiParameter(parameter, spec);
@@ -2119,7 +2170,9 @@ function buildOpenApiOperation(
     : undefined;
   const responseJson = successResponse?.content?.["application/json"];
   const [responseFirstContentType, responseFirstMediaType] =
-    successResponse?.content ? Object.entries(successResponse.content)[0] ?? [] : [];
+    successResponse?.content
+      ? (Object.entries(successResponse.content)[0] ?? [])
+      : [];
   const mediaType = responseJson ?? responseFirstMediaType;
   const responseWireContentType = responseJson
     ? "application/json"
@@ -2160,7 +2213,10 @@ function buildOpenApiOperation(
     }
   }
   const methodName = getOperationMethodName(operation.operationId);
-  const resourceName = getOperationResourceName(operation.operationId, methodName);
+  const resourceName = getOperationResourceName(
+    operation.operationId,
+    methodName,
+  );
   const errors: OperationErrorInfo[] = Object.entries(
     operation["x-distilled-errors"] ?? {},
   ).map(([tag, matchers]) => ({ tag, matchers }));
@@ -2208,10 +2264,8 @@ const parseOpenApiFiles = (
     }
 
     const fs = yield* FileSystem.FileSystem;
-    const files = yield* collectFilesMatching(
-      fs,
-      openapiBasePath,
-      (file) => OPENAPI_SPEC_REGEX.test(file),
+    const files = yield* collectFilesMatching(fs, openapiBasePath, (file) =>
+      OPENAPI_SPEC_REGEX.test(file),
     );
 
     const services: ServiceInfo[] = [];
@@ -2229,8 +2283,16 @@ const parseOpenApiFiles = (
       }
 
       const operations: ParsedOperation[] = [];
-      for (const [pathTemplate, pathItem] of Object.entries(parsed.paths ?? {})) {
-        for (const method of ["get", "post", "put", "patch", "delete"] as const) {
+      for (const [pathTemplate, pathItem] of Object.entries(
+        parsed.paths ?? {},
+      )) {
+        for (const method of [
+          "get",
+          "post",
+          "put",
+          "patch",
+          "delete",
+        ] as const) {
           const operation = pathItem[method];
           if (!operation) continue;
 
@@ -2290,8 +2352,7 @@ function mergeServices(...serviceGroups: ServiceInfo[][]): ServiceInfo[] {
     }
   }
 
-  return [...merged.values()]
-    .sort((a, b) => a.name.localeCompare(b.name));
+  return [...merged.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 const parseServiceFiles = (
@@ -2316,7 +2377,10 @@ const parseServiceFiles = (
     }
 
     const astServices = yield* parseServiceFilesCore(basePath, serviceFilter);
-    const openapiServices = yield* parseOpenApiFiles(openapiBasePath, serviceFilter);
+    const openapiServices = yield* parseOpenApiFiles(
+      openapiBasePath,
+      serviceFilter,
+    );
     const services = mergeServices(astServices, openapiServices);
 
     // Save to cache (only if not filtering by service)

@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist:
     get:
       operationId: listAdvancedTcpProtectionAllowlists
-      description: "List all allowlist prefixes for an account.  @example ```ts //
+      description:
+        "List all allowlist prefixes for an account.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         allowlistListResponse of
         client.DDoSProtection.advancedTCPProtection.allowlist.list( {
@@ -34,7 +35,8 @@ paths:
         - name: direction
           in: query
           required: false
-          description: "Query param: The direction of ordering (ASC or DESC). Defaults to
+          description:
+            "Query param: The direction of ordering (ASC or DESC). Defaults to
             'ASC'."
           schema:
             type: string
@@ -63,7 +65,8 @@ paths:
                     description: The creation timestamp of the allowlist prefix.
                   enabled:
                     type: boolean
-                    description: Whether to enable the allowlist prefix into effect. Defaults to
+                    description:
+                      Whether to enable the allowlist prefix into effect. Defaults to
                       false.
                   modified_on:
                     type: string
@@ -86,7 +89,8 @@ paths:
           - status: 403
     post:
       operationId: createAdvancedTcpProtectionAllowlist
-      description: "Create an allowlist prefix for an account.  @example ```ts const
+      description:
+        "Create an allowlist prefix for an account.  @example ```ts const
         allowlist = await
         client.DDoSProtection.advancedTCPProtection.allowlist.create( {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', comment: 'comment',
@@ -137,7 +141,8 @@ paths:
                     description: The creation timestamp of the allowlist prefix.
                   enabled:
                     type: boolean
-                    description: Whether to enable the allowlist prefix into effect. Defaults to
+                    description:
+                      Whether to enable the allowlist prefix into effect. Defaults to
                       false.
                   modified_on:
                     type: string
@@ -160,7 +165,8 @@ paths:
           - status: 403
     delete:
       operationId: bulkDeleteAdvancedTcpProtectionAllowlists
-      description: "Delete all allowlist prefixes for an account.  @example ```ts
+      description:
+        "Delete all allowlist prefixes for an account.  @example ```ts
         const response = await
         client.DDoSProtection.advancedTCPProtection.allowlist.bulkDelete( {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -229,7 +235,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefixId}:
     get:
       operationId: getAdvancedTcpProtectionAllowlistItem
-      description: "Get an allowlist prefix specified by the given UUID.  @example
+      description:
+        "Get an allowlist prefix specified by the given UUID.  @example
         ```ts const item = await
         client.DDoSProtection.advancedTCPProtection.allowlist.items.get(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -265,7 +272,8 @@ paths:
                     description: The creation timestamp of the allowlist prefix.
                   enabled:
                     type: boolean
-                    description: Whether to enable the allowlist prefix into effect. Defaults to
+                    description:
+                      Whether to enable the allowlist prefix into effect. Defaults to
                       false.
                   modified_on:
                     type: string
@@ -290,7 +298,8 @@ paths:
           - status: 403
     patch:
       operationId: patchAdvancedTcpProtectionAllowlistItem
-      description: "Update an allowlist prefix specified by the given UUID.  @example
+      description:
+        "Update an allowlist prefix specified by the given UUID.  @example
         ```ts const response = await
         client.DDoSProtection.advancedTCPProtection.allowlist.items.edit(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -319,7 +328,8 @@ paths:
                   description: "Body param: A comment describing the allowlist prefix. Optional."
                 enabled:
                   type: boolean
-                  description: "Body param: Whether to enable the allowlist prefix into effect.
+                  description:
+                    "Body param: Whether to enable the allowlist prefix into effect.
                     Optional."
       responses:
         "200":
@@ -340,7 +350,8 @@ paths:
                     description: The creation timestamp of the allowlist prefix.
                   enabled:
                     type: boolean
-                    description: Whether to enable the allowlist prefix into effect. Defaults to
+                    description:
+                      Whether to enable the allowlist prefix into effect. Defaults to
                       false.
                   modified_on:
                     type: string
@@ -365,7 +376,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteAdvancedTcpProtectionAllowlistItem
-      description: "Delete the allowlist prefix for an account given a UUID.  @example
+      description:
+        "Delete the allowlist prefix for an account given a UUID.  @example
         ```ts const item = await
         client.DDoSProtection.advancedTCPProtection.allowlist.items.delete(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -447,7 +459,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes:
     get:
       operationId: listAdvancedTcpProtectionPrefixes
-      description: "List all prefixes for an account.  @example ```ts // Automatically
+      description:
+        "List all prefixes for an account.  @example ```ts // Automatically
         fetches more pages as needed. for await (const prefixListResponse of
         client.DDoSProtection.advancedTCPProtection.prefixes.list( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -471,7 +484,8 @@ paths:
         - name: direction
           in: query
           required: false
-          description: "Query param: The direction of ordering (ASC or DESC). Defaults to
+          description:
+            "Query param: The direction of ordering (ASC or DESC). Defaults to
             'ASC'."
           schema:
             type: string
@@ -517,7 +531,8 @@ paths:
       x-distilled-pagination-class: PrefixListResponsesV4PagePaginationArray
     post:
       operationId: createAdvancedTcpProtectionPrefix
-      description: "Create a prefix for an account.  @example ```ts const prefix =
+      description:
+        "Create a prefix for an account.  @example ```ts const prefix =
         await client.DDoSProtection.advancedTCPProtection.prefixes.create( {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', comment: 'comment',
         excluded: true, prefix: '192.0.2.0/24', }, ); ```"
@@ -584,7 +599,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: bulkDeleteAdvancedTcpProtectionPrefixes
-      description: "Delete all prefixes for an account.  @example ```ts const response
+      description:
+        "Delete all prefixes for an account.  @example ```ts const response
         = await client.DDoSProtection.advancedTCPProtection.prefixes.bulkDelete(
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -725,7 +741,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/{prefixId}:
     get:
       operationId: getAdvancedTcpProtectionPrefixItem
-      description: "Get a prefix specified by the given UUID.  @example ```ts const
+      description:
+        "Get a prefix specified by the given UUID.  @example ```ts const
         item = await
         client.DDoSProtection.advancedTCPProtection.prefixes.items.get(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -778,7 +795,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchAdvancedTcpProtectionPrefixItem
-      description: "Update a prefix specified by the given UUID.  @example ```ts const
+      description:
+        "Update a prefix specified by the given UUID.  @example ```ts const
         response = await
         client.DDoSProtection.advancedTCPProtection.prefixes.items.edit(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -807,7 +825,8 @@ paths:
                   description: "Body param: A new comment for the prefix. Optional."
                 excluded:
                   type: boolean
-                  description: "Body param: Whether to exclude the prefix from protection.
+                  description:
+                    "Body param: Whether to exclude the prefix from protection.
                     Optional."
       responses:
         "200":
@@ -845,7 +864,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteAdvancedTcpProtectionPrefixItem
-      description: "Delete the prefix for an account given a UUID.  @example ```ts
+      description:
+        "Delete the prefix for an account given a UUID.  @example ```ts
         const item = await
         client.DDoSProtection.advancedTCPProtection.prefixes.items.delete(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -920,7 +940,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_protection_status:
     get:
       operationId: getAdvancedTcpProtectionStatus
-      description: "Get the protection status of the account.  @example ```ts const
+      description:
+        "Get the protection status of the account.  @example ```ts const
         status = await client.DDoSProtection.advancedTCPProtection.status.get( {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -945,7 +966,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchAdvancedTcpProtectionStatus
-      description: "Update the protection status of the account.  @example ```ts const
+      description:
+        "Update the protection status of the account.  @example ```ts const
         response = await
         client.DDoSProtection.advancedTCPProtection.status.edit( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', enabled: true, }, ); ```"
@@ -984,7 +1006,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters:
     get:
       operationId: listAdvancedTcpProtectionSynProtectionFilters
-      description: "List all SYN Protection filters for an account.  @example ```ts //
+      description:
+        "List all SYN Protection filters for an account.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         filterListResponse of
         client.DDoSProtection.advancedTCPProtection.synProtection.filters.list(
@@ -1009,14 +1032,16 @@ paths:
         - name: direction
           in: query
           required: false
-          description: "Query param: The direction of ordering (ASC or DESC). Defaults to
+          description:
+            "Query param: The direction of ordering (ASC or DESC). Defaults to
             'ASC'."
           schema:
             type: string
         - name: mode
           in: query
           required: false
-          description: "Query param: The mode of the filters to get. Optional. Valid
+          description:
+            "Query param: The mode of the filters to get. Optional. Valid
             values: 'enabled', 'disabled', 'monitoring'."
           schema:
             type: string
@@ -1045,7 +1070,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -1064,7 +1090,8 @@ paths:
           - status: 403
     post:
       operationId: createAdvancedTcpProtectionSynProtectionFilter
-      description: "Create a SYN Protection filter for an account.  @example ```ts
+      description:
+        "Create a SYN Protection filter for an account.  @example ```ts
         const filter = await
         client.DDoSProtection.advancedTCPProtection.synProtection.filters.creat\
         e( { account_id: '023e105f4ecef8ad9ca31a8372d0c353', expression: 'ip.dst
@@ -1089,7 +1116,8 @@ paths:
                   description: "Body param: The filter expression."
                 mode:
                   type: string
-                  description: "Body param: The filter's mode. Must be one of 'enabled',
+                  description:
+                    "Body param: The filter's mode. Must be one of 'enabled',
                     'disabled', 'monitoring'."
               required:
                 - expression
@@ -1113,7 +1141,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -1132,7 +1161,8 @@ paths:
           - status: 403
     delete:
       operationId: bulkDeleteAdvancedTcpProtectionSynProtectionFilters
-      description: "Delete all SYN Protection filters for an account.  @example ```ts
+      description:
+        "Delete all SYN Protection filters for an account.  @example ```ts
         const response = await
         client.DDoSProtection.advancedTCPProtection.synProtection.filters.bulkD\
         elete( { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1201,7 +1231,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filterId}:
     get:
       operationId: getAdvancedTcpProtectionSynProtectionFilterItem
-      description: "Get a SYN Protection filter specified by the given UUID.  @example
+      description:
+        "Get a SYN Protection filter specified by the given UUID.  @example
         ```ts const item = await
         client.DDoSProtection.advancedTCPProtection.synProtection.filters.items\
         .get( 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -1237,7 +1268,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -1287,7 +1319,8 @@ paths:
                   description: "Body param: The new filter expression. Optional."
                 mode:
                   type: string
-                  description: "Body param: The new mode for the filter. Optional. Must be one of
+                  description:
+                    "Body param: The new mode for the filter. Optional. Must be one of
                     'enabled', 'disabled', 'monitoring'."
       responses:
         "200":
@@ -1308,7 +1341,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -1411,7 +1445,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules:
     get:
       operationId: listAdvancedTcpProtectionSynProtectionRules
-      description: "List all SYN Protection rules for an account.  @example ```ts //
+      description:
+        "List all SYN Protection rules for an account.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         ruleListResponse of
         client.DDoSProtection.advancedTCPProtection.synProtection.rules.list( {
@@ -1436,7 +1471,8 @@ paths:
         - name: direction
           in: query
           required: false
-          description: "Query param: The direction of ordering (ASC or DESC). Defaults to
+          description:
+            "Query param: The direction of ordering (ASC or DESC). Defaults to
             'ASC'."
           schema:
             type: string
@@ -1465,18 +1501,21 @@ paths:
                     description: The creation timestamp of the SYN Protection rule.
                   mitigation_type:
                     type: string
-                    description: The type of mitigation for SYN Protection. Must be one of
+                    description:
+                      The type of mitigation for SYN Protection. Must be one of
                       'challenge' or 'retransmit'.
                   mode:
                     type: string
-                    description: The mode for SYN Protection. Must be one of 'enabled', 'disabled',
+                    description:
+                      The mode for SYN Protection. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the SYN Protection rule.
                   name:
                     type: string
-                    description: The name of the SYN Protection rule. Value is relative to the
+                    description:
+                      The name of the SYN Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -1486,7 +1525,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the SYN Protection rule. Must be one of 'global',
+                    description:
+                      The scope for the SYN Protection rule. Must be one of 'global',
                       'region', or 'datacenter'.
                 required:
                   - id
@@ -1506,7 +1546,8 @@ paths:
           - status: 403
     post:
       operationId: createAdvancedTcpProtectionSynProtectionRule
-      description: "Create a SYN Protection rule for an account.  @example ```ts const
+      description:
+        "Create a SYN Protection rule for an account.  @example ```ts const
         rule = await
         client.DDoSProtection.advancedTCPProtection.synProtection.rules.create(
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353', burst_sensitivity:
@@ -1528,30 +1569,36 @@ paths:
               properties:
                 burst_sensitivity:
                   type: string
-                  description: "Body param: The burst sensitivity. Must be one of 'low', 'medium',
+                  description:
+                    "Body param: The burst sensitivity. Must be one of 'low', 'medium',
                     'high'."
                 mode:
                   type: string
-                  description: "Body param: The mode for SYN Protection. Must be one of 'enabled',
+                  description:
+                    "Body param: The mode for SYN Protection. Must be one of 'enabled',
                     'disabled', 'monitoring'."
                 name:
                   type: string
-                  description: "Body param: The name of the SYN Protection rule. Value is relative
+                  description:
+                    "Body param: The name of the SYN Protection rule. Value is relative
                     to the 'scope' setting. For 'global' scope, name should be
                     'global'. For either the 'region' or 'datacenter' scope,
                     name should be the actual name of the region or datacenter,
                     e.g., 'wnam' or 'lax'."
                 rate_sensitivity:
                   type: string
-                  description: "Body param: The rate sensitivity. Must be one of 'low', 'medium',
+                  description:
+                    "Body param: The rate sensitivity. Must be one of 'low', 'medium',
                     'high'."
                 scope:
                   type: string
-                  description: "Body param: The scope for the SYN Protection rule. Must be one of
+                  description:
+                    "Body param: The scope for the SYN Protection rule. Must be one of
                     'global', 'region', or 'datacenter'."
                 mitigation_type:
                   type: string
-                  description: "Body param: The type of mitigation. Must be one of 'challenge' or
+                  description:
+                    "Body param: The type of mitigation. Must be one of 'challenge' or
                     'retransmit'. Optional. Defaults to 'challenge'."
               required:
                 - burst_sensitivity
@@ -1578,18 +1625,21 @@ paths:
                     description: The creation timestamp of the SYN Protection rule.
                   mitigation_type:
                     type: string
-                    description: The type of mitigation for SYN Protection. Must be one of
+                    description:
+                      The type of mitigation for SYN Protection. Must be one of
                       'challenge' or 'retransmit'.
                   mode:
                     type: string
-                    description: The mode for SYN Protection. Must be one of 'enabled', 'disabled',
+                    description:
+                      The mode for SYN Protection. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the SYN Protection rule.
                   name:
                     type: string
-                    description: The name of the SYN Protection rule. Value is relative to the
+                    description:
+                      The name of the SYN Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -1599,7 +1649,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the SYN Protection rule. Must be one of 'global',
+                    description:
+                      The scope for the SYN Protection rule. Must be one of 'global',
                       'region', or 'datacenter'.
                 required:
                   - id
@@ -1619,7 +1670,8 @@ paths:
           - status: 403
     delete:
       operationId: bulkDeleteAdvancedTcpProtectionSynProtectionRules
-      description: "Delete all SYN Protection rules for an account.  @example ```ts
+      description:
+        "Delete all SYN Protection rules for an account.  @example ```ts
         const response = await
         client.DDoSProtection.advancedTCPProtection.synProtection.rules.bulkDel\
         ete( { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1688,7 +1740,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{ruleId}:
     get:
       operationId: getAdvancedTcpProtectionSynProtectionRuleItem
-      description: "Get a SYN Protection rule specified by the given UUID.  @example
+      description:
+        "Get a SYN Protection rule specified by the given UUID.  @example
         ```ts const item = await
         client.DDoSProtection.advancedTCPProtection.synProtection.rules.items.g\
         et( 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -1724,18 +1777,21 @@ paths:
                     description: The creation timestamp of the SYN Protection rule.
                   mitigation_type:
                     type: string
-                    description: The type of mitigation for SYN Protection. Must be one of
+                    description:
+                      The type of mitigation for SYN Protection. Must be one of
                       'challenge' or 'retransmit'.
                   mode:
                     type: string
-                    description: The mode for SYN Protection. Must be one of 'enabled', 'disabled',
+                    description:
+                      The mode for SYN Protection. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the SYN Protection rule.
                   name:
                     type: string
-                    description: The name of the SYN Protection rule. Value is relative to the
+                    description:
+                      The name of the SYN Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -1745,7 +1801,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the SYN Protection rule. Must be one of 'global',
+                    description:
+                      The scope for the SYN Protection rule. Must be one of 'global',
                       'region', or 'datacenter'.
                 required:
                   - id
@@ -1793,19 +1850,23 @@ paths:
               properties:
                 burst_sensitivity:
                   type: string
-                  description: "Body param: The new burst sensitivity. Optional. Must be one of
+                  description:
+                    "Body param: The new burst sensitivity. Optional. Must be one of
                     'low', 'medium', 'high'."
                 mitigation_type:
                   type: string
-                  description: "Body param: The new mitigation type. Optional. Must be one of
+                  description:
+                    "Body param: The new mitigation type. Optional. Must be one of
                     'challenge' or 'retransmit'."
                 mode:
                   type: string
-                  description: "Body param: The new mode for SYN Protection. Optional. Must be one
+                  description:
+                    "Body param: The new mode for SYN Protection. Optional. Must be one
                     of 'enabled', 'disabled', 'monitoring'."
                 rate_sensitivity:
                   type: string
-                  description: "Body param: The new rate sensitivity. Optional. Must be one of
+                  description:
+                    "Body param: The new rate sensitivity. Optional. Must be one of
                     'low', 'medium', 'high'."
       responses:
         "200":
@@ -1826,18 +1887,21 @@ paths:
                     description: The creation timestamp of the SYN Protection rule.
                   mitigation_type:
                     type: string
-                    description: The type of mitigation for SYN Protection. Must be one of
+                    description:
+                      The type of mitigation for SYN Protection. Must be one of
                       'challenge' or 'retransmit'.
                   mode:
                     type: string
-                    description: The mode for SYN Protection. Must be one of 'enabled', 'disabled',
+                    description:
+                      The mode for SYN Protection. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the SYN Protection rule.
                   name:
                     type: string
-                    description: The name of the SYN Protection rule. Value is relative to the
+                    description:
+                      The name of the SYN Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -1847,7 +1911,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the SYN Protection rule. Must be one of 'global',
+                    description:
+                      The scope for the SYN Protection rule. Must be one of 'global',
                       'region', or 'datacenter'.
                 required:
                   - id
@@ -1951,7 +2016,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters:
     get:
       operationId: listAdvancedTcpProtectionTcpFlowProtectionFilters
-      description: "List all TCP Flow Protection filters for an account.  @example
+      description:
+        "List all TCP Flow Protection filters for an account.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
         filterListResponse of
         client.DDoSProtection.advancedTCPProtection.tcpFlowProtection.filters.l\
@@ -1977,14 +2043,16 @@ paths:
         - name: direction
           in: query
           required: false
-          description: "Query param: The direction of ordering (ASC or DESC). Defaults to
+          description:
+            "Query param: The direction of ordering (ASC or DESC). Defaults to
             'ASC'."
           schema:
             type: string
         - name: mode
           in: query
           required: false
-          description: "Query param: The mode of the filters to get. Optional. Valid
+          description:
+            "Query param: The mode of the filters to get. Optional. Valid
             values: 'enabled', 'disabled', 'monitoring'."
           schema:
             type: string
@@ -2013,7 +2081,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -2032,7 +2101,8 @@ paths:
           - status: 403
     post:
       operationId: createAdvancedTcpProtectionTcpFlowProtectionFilter
-      description: "Create a TCP Flow Protection filter for an account.  @example
+      description:
+        "Create a TCP Flow Protection filter for an account.  @example
         ```ts const filter = await
         client.DDoSProtection.advancedTCPProtection.tcpFlowProtection.filters.c\
         reate( { account_id: '023e105f4ecef8ad9ca31a8372d0c353', expression:
@@ -2057,7 +2127,8 @@ paths:
                   description: "Body param: The filter expression."
                 mode:
                   type: string
-                  description: "Body param: The filter's mode. Must be one of 'enabled',
+                  description:
+                    "Body param: The filter's mode. Must be one of 'enabled',
                     'disabled', 'monitoring'."
               required:
                 - expression
@@ -2081,7 +2152,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -2100,7 +2172,8 @@ paths:
           - status: 403
     delete:
       operationId: bulkDeleteAdvancedTcpProtectionTcpFlowProtectionFilters
-      description: "Delete all TCP Flow Protection filters for an account.  @example
+      description:
+        "Delete all TCP Flow Protection filters for an account.  @example
         ```ts const response = await
         client.DDoSProtection.advancedTCPProtection.tcpFlowProtection.filters.b\
         ulkDelete( { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -2205,7 +2278,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -2255,7 +2329,8 @@ paths:
                   description: "Body param: The new filter expression. Optional."
                 mode:
                   type: string
-                  description: "Body param: The new mode for the filter. Optional. Must be one of
+                  description:
+                    "Body param: The new mode for the filter. Optional. Must be one of
                     'enabled', 'disabled', 'monitoring'."
       responses:
         "200":
@@ -2276,7 +2351,8 @@ paths:
                     description: The filter expression.
                   mode:
                     type: string
-                    description: The filter's mode. Must be one of 'enabled', 'disabled',
+                    description:
+                      The filter's mode. Must be one of 'enabled', 'disabled',
                       'monitoring'.
                   modified_on:
                     type: string
@@ -2379,7 +2455,8 @@ paths:
   /accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules:
     get:
       operationId: listAdvancedTcpProtectionTcpFlowProtectionRules
-      description: "List all TCP Flow Protection rules for an account.  @example ```ts
+      description:
+        "List all TCP Flow Protection rules for an account.  @example ```ts
         // Automatically fetches more pages as needed. for await (const
         ruleListResponse of
         client.DDoSProtection.advancedTCPProtection.tcpFlowProtection.rules.lis\
@@ -2405,7 +2482,8 @@ paths:
         - name: direction
           in: query
           required: false
-          description: "Query param: The direction of ordering (ASC or DESC). Defaults to
+          description:
+            "Query param: The direction of ordering (ASC or DESC). Defaults to
             'ASC'."
           schema:
             type: string
@@ -2434,14 +2512,16 @@ paths:
                     description: The creation timestamp of the TCP Flow Protection rule.
                   mode:
                     type: string
-                    description: The mode for TCP Flow Protection. Must be one of 'enabled',
+                    description:
+                      The mode for TCP Flow Protection. Must be one of 'enabled',
                       'disabled', 'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the TCP Flow Protection rule.
                   name:
                     type: string
-                    description: The name of the TCP Flow Protection rule. Value is relative to the
+                    description:
+                      The name of the TCP Flow Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -2451,7 +2531,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the TCP Flow Protection rule. Must be one of
+                    description:
+                      The scope for the TCP Flow Protection rule. Must be one of
                       'global', 'region', or 'datacenter'.
                 required:
                   - id
@@ -2470,7 +2551,8 @@ paths:
           - status: 403
     post:
       operationId: createAdvancedTcpProtectionTcpFlowProtectionRule
-      description: "Create a TCP Flow Protection rule for an account.  @example ```ts
+      description:
+        "Create a TCP Flow Protection rule for an account.  @example ```ts
         const rule = await
         client.DDoSProtection.advancedTCPProtection.tcpFlowProtection.rules.cre\
         ate( { account_id: '023e105f4ecef8ad9ca31a8372d0c353',
@@ -2492,22 +2574,26 @@ paths:
               properties:
                 burst_sensitivity:
                   type: string
-                  description: "Body param: The burst sensitivity. Must be one of 'low', 'medium',
+                  description:
+                    "Body param: The burst sensitivity. Must be one of 'low', 'medium',
                     'high'."
                 mode:
                   type: string
-                  description: "Body param: The mode for the TCP Flow Protection. Must be one of
+                  description:
+                    "Body param: The mode for the TCP Flow Protection. Must be one of
                     'enabled', 'disabled', 'monitoring'."
                 name:
                   type: string
-                  description: "Body param: The name of the TCP Flow Protection rule. Value is
+                  description:
+                    "Body param: The name of the TCP Flow Protection rule. Value is
                     relative to the 'scope' setting. For 'global' scope, name
                     should be 'global'. For either the 'region' or 'datacenter'
                     scope, name should be the actual name of the region or
                     datacenter, e.g., 'wnam' or 'lax'."
                 rate_sensitivity:
                   type: string
-                  description: "Body param: The rate sensitivity. Must be one of 'low', 'medium',
+                  description:
+                    "Body param: The rate sensitivity. Must be one of 'low', 'medium',
                     'high'."
                 scope:
                   type: string
@@ -2537,14 +2623,16 @@ paths:
                     description: The creation timestamp of the TCP Flow Protection rule.
                   mode:
                     type: string
-                    description: The mode for TCP Flow Protection. Must be one of 'enabled',
+                    description:
+                      The mode for TCP Flow Protection. Must be one of 'enabled',
                       'disabled', 'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the TCP Flow Protection rule.
                   name:
                     type: string
-                    description: The name of the TCP Flow Protection rule. Value is relative to the
+                    description:
+                      The name of the TCP Flow Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -2554,7 +2642,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the TCP Flow Protection rule. Must be one of
+                    description:
+                      The scope for the TCP Flow Protection rule. Must be one of
                       'global', 'region', or 'datacenter'.
                 required:
                   - id
@@ -2573,7 +2662,8 @@ paths:
           - status: 403
     delete:
       operationId: bulkDeleteAdvancedTcpProtectionTcpFlowProtectionRules
-      description: "Delete all TCP Flow Protection rules for an account.  @example
+      description:
+        "Delete all TCP Flow Protection rules for an account.  @example
         ```ts const response = await
         client.DDoSProtection.advancedTCPProtection.tcpFlowProtection.rules.bul\
         kDelete( { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -2678,14 +2768,16 @@ paths:
                     description: The creation timestamp of the TCP Flow Protection rule.
                   mode:
                     type: string
-                    description: The mode for TCP Flow Protection. Must be one of 'enabled',
+                    description:
+                      The mode for TCP Flow Protection. Must be one of 'enabled',
                       'disabled', 'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the TCP Flow Protection rule.
                   name:
                     type: string
-                    description: The name of the TCP Flow Protection rule. Value is relative to the
+                    description:
+                      The name of the TCP Flow Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -2695,7 +2787,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the TCP Flow Protection rule. Must be one of
+                    description:
+                      The scope for the TCP Flow Protection rule. Must be one of
                       'global', 'region', or 'datacenter'.
                 required:
                   - id
@@ -2742,15 +2835,18 @@ paths:
               properties:
                 burst_sensitivity:
                   type: string
-                  description: "Body param: The new burst sensitivity. Optional. Must be one of
+                  description:
+                    "Body param: The new burst sensitivity. Optional. Must be one of
                     'low', 'medium', 'high'."
                 mode:
                   type: string
-                  description: "Body param: The new mode for TCP Flow Protection. Optional. Must
+                  description:
+                    "Body param: The new mode for TCP Flow Protection. Optional. Must
                     be one of 'enabled', 'disabled', 'monitoring'."
                 rate_sensitivity:
                   type: string
-                  description: "Body param: The new rate sensitivity. Optional. Must be one of
+                  description:
+                    "Body param: The new rate sensitivity. Optional. Must be one of
                     'low', 'medium', 'high'."
       responses:
         "200":
@@ -2771,14 +2867,16 @@ paths:
                     description: The creation timestamp of the TCP Flow Protection rule.
                   mode:
                     type: string
-                    description: The mode for TCP Flow Protection. Must be one of 'enabled',
+                    description:
+                      The mode for TCP Flow Protection. Must be one of 'enabled',
                       'disabled', 'monitoring'.
                   modified_on:
                     type: string
                     description: The last modification timestamp of the TCP Flow Protection rule.
                   name:
                     type: string
-                    description: The name of the TCP Flow Protection rule. Value is relative to the
+                    description:
+                      The name of the TCP Flow Protection rule. Value is relative to the
                       'scope' setting. For 'global' scope, name should be
                       'global'. For either the 'region' or 'datacenter' scope,
                       name should be the actual name of the region or
@@ -2788,7 +2886,8 @@ paths:
                     description: The rate sensitivity. Must be one of 'low', 'medium', 'high'.
                   scope:
                     type: string
-                    description: The scope for the TCP Flow Protection rule. Must be one of
+                    description:
+                      The scope for the TCP Flow Protection rule. Must be one of
                       'global', 'region', or 'datacenter'.
                 required:
                   - id

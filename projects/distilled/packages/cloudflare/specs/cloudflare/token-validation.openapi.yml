@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/token_validation/config/{configId}:
     get:
       operationId: getConfiguration
-      description: "Get a single Token Configuration  @example ```ts const tokenConfig
+      description:
+        "Get a single Token Configuration  @example ```ts const tokenConfig
         = await client.tokenValidation.configuration.get(
         '4a7ee8d3-dd63-4ceb-9d5f-c27831854ce7', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -178,7 +179,8 @@ paths:
           - status: 403
     patch:
       operationId: patchConfiguration
-      description: "Edit fields of an existing Token Configuration  @example ```ts
+      description:
+        "Edit fields of an existing Token Configuration  @example ```ts
         const response = await client.tokenValidation.configuration.edit(
         '4a7ee8d3-dd63-4ceb-9d5f-c27831854ce7', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -241,7 +243,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteConfiguration
-      description: "Delete Token Configuration  @example ```ts const configuration =
+      description:
+        "Delete Token Configuration  @example ```ts const configuration =
         await client.tokenValidation.configuration.delete(
         '4a7ee8d3-dd63-4ceb-9d5f-c27831854ce7', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -279,7 +282,8 @@ paths:
   /zones/{zone_id}/token_validation/config:
     get:
       operationId: listConfigurations
-      description: "Lists all token validation configurations for this zone  @example
+      description:
+        "Lists all token validation configurations for this zone  @example
         ```ts // Automatically fetches more pages as needed. for await (const
         tokenConfig of client.tokenValidation.configuration.list( { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -451,17 +455,18 @@ paths:
           - status: 403
     post:
       operationId: createConfiguration
-      description: "Create a new Token Validation configuration  @example ```ts const
+      description:
+        'Create a new Token Validation configuration  @example ```ts const
         tokenConfig = await client.tokenValidation.configuration.create({
-        zone_id: '023e105f4ecef8ad9ca31a8372d0c353', credentials: { keys: [ {
-        alg: 'ES256', crv: 'P-256', kid: '38013f13-c266-4eec-a72a-92ec92779f21',
-        kty: 'EC', x: 'KN53JRwN3wCjm2o39bvZUX2VdrsHzS8pxOAGjm8m7EQ', y:
-        'lnkkzIxaveggz-HFhcMWW15nxvOj0Z_uQsXbpK0GFcY', }, ], }, description:
-        'Long description for Token Validation Configuration', title: 'Example
-        Token Validation Configuration', token_sources: [
-        'http.request.headers[\"x-auth\"][0]',
-        'http.request.cookies[\"Authorization\"][0]', ], token_type: 'JWT', });
-        ```"
+        zone_id: ''023e105f4ecef8ad9ca31a8372d0c353'', credentials: { keys: [ {
+        alg: ''ES256'', crv: ''P-256'', kid: ''38013f13-c266-4eec-a72a-92ec92779f21'',
+        kty: ''EC'', x: ''KN53JRwN3wCjm2o39bvZUX2VdrsHzS8pxOAGjm8m7EQ'', y:
+        ''lnkkzIxaveggz-HFhcMWW15nxvOj0Z_uQsXbpK0GFcY'', }, ], }, description:
+        ''Long description for Token Validation Configuration'', title: ''Example
+        Token Validation Configuration'', token_sources: [
+        ''http.request.headers["x-auth"][0]'',
+        ''http.request.cookies["Authorization"][0]'', ], token_type: ''JWT'', });
+        ```'
       parameters:
         - name: zone_id
           in: path
@@ -1087,7 +1092,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1097,7 +1103,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -1130,7 +1137,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:
@@ -1188,18 +1196,21 @@ paths:
                   enum:
                     - log
                     - block
-                  description: "Body param: Action to take on requests that match operations
+                  description:
+                    "Body param: Action to take on requests that match operations
                     included in `selector` and fail `expression`."
                 description:
                   type: string
-                  description: "Body param: A human-readable description that gives more details
+                  description:
+                    "Body param: A human-readable description that gives more details
                     than `title`."
                 enabled:
                   type: boolean
                   description: "Body param: Toggle rule on or off."
                 expression:
                   type: string
-                  description: "Body param: Rule expression. Requests that fail to match this
+                  description:
+                    "Body param: Rule expression. Requests that fail to match this
                     expression will be subject to `action`.  For details on
                     expressions, see the [Cloudflare
                     Docs](https://developers.cloudflare.com/api-shield/security\
@@ -1253,7 +1264,8 @@ paths:
                                 description: Included hostnames.
                       nullable: true
                       description: Select all matching operations.
-                  description: "Body param: Select operations covered by this rule.  For details
+                  description:
+                    "Body param: Select operations covered by this rule.  For details
                     on selectors, see the [Cloudflare
                     Docs](https://developers.cloudflare.com/api-shield/security\
                     /jwt-validation/)."
@@ -1273,7 +1285,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1283,7 +1296,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -1316,7 +1330,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:
@@ -1346,7 +1361,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteRule
-      description: "Delete a zone token validation rule.  @example ```ts const rule =
+      description:
+        "Delete a zone token validation rule.  @example ```ts const rule =
         await client.tokenValidation.rules.delete(
         '4a7ee8d3-dd63-4ceb-9d5f-c27831854ce7', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1409,7 +1425,8 @@ paths:
         - name: action
           in: query
           required: false
-          description: "Query param: Action to take on requests that match operations
+          description:
+            "Query param: Action to take on requests that match operations
             included in `selector` and fail `expression`."
           schema:
             type: string
@@ -1461,7 +1478,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1471,7 +1489,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -1504,7 +1523,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:
@@ -1532,13 +1552,13 @@ paths:
           - status: 403
     post:
       operationId: createRule
-      description: "Create a token validation rule.  @example ```ts const
+      description: 'Create a token validation rule.  @example ```ts const
         tokenValidationRule = await client.tokenValidation.rules.create({
-        zone_id: '023e105f4ecef8ad9ca31a8372d0c353', action: 'log', description:
-        'Long description for Token Validation Rule', enabled: true, expression:
-        'is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or
-        is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")', selector: {},
-        title: 'Example Token Validation Rule', }); ```"
+        zone_id: ''023e105f4ecef8ad9ca31a8372d0c353'', action: ''log'', description:
+        ''Long description for Token Validation Rule'', enabled: true, expression:
+        ''is_jwt_valid("52973293-cb04-4a97-8f55-e7d2ad1107dd") or
+        is_jwt_valid("46eab8d1-6376-45e3-968f-2c649d77d423")'', selector: {},
+        title: ''Example Token Validation Rule'', }); ```'
       parameters:
         - name: zone_id
           in: path
@@ -1558,18 +1578,21 @@ paths:
                   enum:
                     - log
                     - block
-                  description: "Body param: Action to take on requests that match operations
+                  description:
+                    "Body param: Action to take on requests that match operations
                     included in `selector` and fail `expression`."
                 description:
                   type: string
-                  description: "Body param: A human-readable description that gives more details
+                  description:
+                    "Body param: A human-readable description that gives more details
                     than `title`."
                 enabled:
                   type: boolean
                   description: "Body param: Toggle rule on or off."
                 expression:
                   type: string
-                  description: "Body param: Rule expression. Requests that fail to match this
+                  description:
+                    "Body param: Rule expression. Requests that fail to match this
                     expression will be subject to `action`.  For details on
                     expressions, see the [Cloudflare
                     Docs](https://developers.cloudflare.com/api-shield/security\
@@ -1603,7 +1626,8 @@ paths:
                                 description: Included hostnames.
                       nullable: true
                       description: Select all matching operations.
-                  description: "Body param: Select operations covered by this rule.  For details
+                  description:
+                    "Body param: Select operations covered by this rule.  For details
                     on selectors, see the [Cloudflare
                     Docs](https://developers.cloudflare.com/api-shield/security\
                     /jwt-validation/)."
@@ -1630,7 +1654,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1640,7 +1665,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -1673,7 +1699,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:
@@ -1702,16 +1729,17 @@ paths:
   /zones/{zone_id}/token_validation/rules/bulk:
     post:
       operationId: bulkCreateRules
-      description: "Create zone token validation rules.  A request can create multiple
+      description:
+        'Create zone token validation rules.  A request can create multiple
         Token Validation Rules.  @example ```ts // Automatically fetches more
         pages as needed. for await (const tokenValidationRule of
         client.tokenValidation.rules.bulkCreate( { zone_id:
-        '023e105f4ecef8ad9ca31a8372d0c353', body: [ { action: 'log',
-        description: 'Long description for Token Validation Rule', enabled:
+        ''023e105f4ecef8ad9ca31a8372d0c353'', body: [ { action: ''log'',
+        description: ''Long description for Token Validation Rule'', enabled:
         true, expression:
-        'is_jwt_valid(\"52973293-cb04-4a97-8f55-e7d2ad1107dd\") or
-        is_jwt_valid(\"46eab8d1-6376-45e3-968f-2c649d77d423\")', selector: {},
-        title: 'Example Token Validation Rule', }, ], }, )) { // ... } ```"
+        ''is_jwt_valid("52973293-cb04-4a97-8f55-e7d2ad1107dd") or
+        is_jwt_valid("46eab8d1-6376-45e3-968f-2c649d77d423")'', selector: {},
+        title: ''Example Token Validation Rule'', }, ], }, )) { // ... } ```'
       parameters:
         - name: zone_id
           in: path
@@ -1733,7 +1761,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1743,7 +1772,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -1776,7 +1806,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:
@@ -1802,7 +1833,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1812,7 +1844,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -1845,7 +1878,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:
@@ -1868,7 +1902,8 @@ paths:
       x-distilled-pagination-class: TokenValidationRulesSinglePage
     patch:
       operationId: bulkPatchRules
-      description: "Edit token validation rules.  A request can update multiple Token
+      description:
+        "Edit token validation rules.  A request can update multiple Token
         Validation Rules.  Rules can be re-ordered using the `position`
         field.  Returns all updated rules.  @example ```ts // Automatically
         fetches more pages as needed. for await (const tokenValidationRule of
@@ -1899,7 +1934,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1909,7 +1945,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -1962,7 +1999,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:
@@ -1983,7 +2021,8 @@ paths:
                     enum:
                       - log
                       - block
-                    description: Action to take on requests that match operations included in
+                    description:
+                      Action to take on requests that match operations included in
                       `selector` and fail `expression`.
                   description:
                     type: string
@@ -1993,7 +2032,8 @@ paths:
                     description: Toggle rule on or off.
                   expression:
                     type: string
-                    description: Rule expression. Requests that fail to match this expression will
+                    description:
+                      Rule expression. Requests that fail to match this expression will
                       be subject to `action`.  For details on expressions, see
                       the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
@@ -2026,7 +2066,8 @@ paths:
                                   description: Included hostnames.
                         nullable: true
                         description: Select all matching operations.
-                    description: Select operations covered by this rule.  For details on selectors,
+                    description:
+                      Select operations covered by this rule.  For details on selectors,
                       see the [Cloudflare
                       Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).
                   title:

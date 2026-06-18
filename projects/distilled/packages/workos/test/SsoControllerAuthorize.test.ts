@@ -8,6 +8,7 @@ const clientId = process.env.WORKOS_CLIENT_ID ?? `client_test_${testRunId}`;
 describe("SsoControllerAuthorize", () => {
   it(
     "initiates the SSO flow and returns an authorization url",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -22,11 +23,11 @@ describe("SsoControllerAuthorize", () => {
       expect(typeof result.url).toBe("string");
       expect(result.url.startsWith("http")).toBe(true);
     },
-    30_000,
   );
 
   it(
     "surfaces an error when client_id is empty",
+    { timeout: 30_000 },
     async () => {
       // SSO-style endpoints don't return HTTP errors for invalid params — they
       // 200-redirect to a workos error page. Accept either a typed error OR
@@ -50,6 +51,5 @@ describe("SsoControllerAuthorize", () => {
         expect(["BadRequest", "WorkosParseError"]).toContain(result.e._tag);
       }
     },
-    30_000,
   );
 });

@@ -7,8 +7,12 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("SsoControllerLogoutAuthorize", () => {
   it(
     "generates a logout token for a profile",
+    { timeout: 30_000 },
     async (ctx) => {
-      const users = await runOrSkipOnEnvLimitation(ctx, UserlandUsersControllerList({ limit: 1 }));
+      const users = await runOrSkipOnEnvLimitation(
+        ctx,
+        UserlandUsersControllerList({ limit: 1 }),
+      );
 
       if (users.data.length === 0) {
         // No seed user available — exercise the operation against a missing
@@ -32,11 +36,11 @@ describe("SsoControllerLogoutAuthorize", () => {
       expect(typeof result.logout_url).toBe("string");
       expect(result.logout_url.startsWith("http")).toBe(true);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent profile id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         SsoControllerLogoutAuthorize({
@@ -45,17 +49,16 @@ describe("SsoControllerLogoutAuthorize", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when profile_id is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         SsoControllerLogoutAuthorize({ profile_id: "" }).pipe(Effect.flip),
       );
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

@@ -531,7 +531,9 @@ test(
       expect(describeResult.clusters!.length).toBeGreaterThan(0);
 
       const cluster = describeResult.clusters![0];
-      expect(cluster.clusterName).toEqual(`distilled-ecs-lifecycle-cluster-${testRunId}`);
+      expect(cluster.clusterName).toEqual(
+        `distilled-ecs-lifecycle-cluster-${testRunId}`,
+      );
       expect(cluster.status).toEqual("ACTIVE");
 
       // List clusters and verify our cluster is in the list with retry for eventual consistency
@@ -571,7 +573,9 @@ test(
 
       expect(describeResult.clusters?.length).toBeGreaterThan(0);
       const cluster = describeResult.clusters![0];
-      expect(cluster.clusterName).toEqual(`distilled-ecs-settings-cluster-${testRunId}`);
+      expect(cluster.clusterName).toEqual(
+        `distilled-ecs-settings-cluster-${testRunId}`,
+      );
 
       // Cluster settings should be present (may have default values)
       expect(cluster.settings).toBeDefined();
@@ -663,30 +667,32 @@ test(
 
 test(
   "register task definition, list task definitions, and deregister",
-  withTaskDefinition(`distilled-ecs-taskdef-family-${testRunId}`, (taskDefinitionArn) =>
-    Effect.gen(function* () {
-      // List task definitions with retry for eventual consistency
-      yield* Effect.gen(function* () {
-        const listResult = yield* listTaskDefinitions({
-          familyPrefix: `distilled-ecs-taskdef-family-${testRunId}`,
-        });
+  withTaskDefinition(
+    `distilled-ecs-taskdef-family-${testRunId}`,
+    (taskDefinitionArn) =>
+      Effect.gen(function* () {
+        // List task definitions with retry for eventual consistency
+        yield* Effect.gen(function* () {
+          const listResult = yield* listTaskDefinitions({
+            familyPrefix: `distilled-ecs-taskdef-family-${testRunId}`,
+          });
 
-        const found = listResult.taskDefinitionArns?.find(
-          (arn) => arn === taskDefinitionArn,
+          const found = listResult.taskDefinitionArns?.find(
+            (arn) => arn === taskDefinitionArn,
+          );
+          if (!found) {
+            return yield* Effect.fail("task definition not found" as const);
+          }
+        }).pipe(
+          Effect.retry({
+            while: (err) => err === "task definition not found",
+            schedule: Schedule.both(
+              Schedule.recurs(10),
+              Schedule.spaced("1 second"),
+            ),
+          }),
         );
-        if (!found) {
-          return yield* Effect.fail("task definition not found" as const);
-        }
-      }).pipe(
-        Effect.retry({
-          while: (err) => err === "task definition not found",
-          schedule: Schedule.both(
-            Schedule.recurs(10),
-            Schedule.spaced("1 second"),
-          ),
-        }),
-      );
-    }),
+      }),
   ),
 );
 

@@ -9,7 +9,8 @@ paths:
   /zones/{zone_id}/rate_limits/{rateLimitId}:
     get:
       operationId: getRateLimit
-      description: Fetches the details of a rate limit.  @deprecated Rate limiting API
+      description:
+        Fetches the details of a rate limit.  @deprecated Rate limiting API
         is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#rate-limiting-api-previous-version
         for full details.
@@ -53,13 +54,16 @@ paths:
                         properties:
                           body:
                             type: string
-                            description: The response body to return. The value must conform to the
+                            description:
+                              The response body to return. The value must conform to the
                               configured content type.
                           content_type:
                             type: string
-                            description: "The content type of the body. Must be one of the following:
+                            description:
+                              "The content type of the body. Must be one of the following:
                               `text/plain`, `text/xml`, or `application/json`."
-                        description: 'A custom content type and reponse to return when the threshold is
+                        description:
+                          'A custom content type and reponse to return when the threshold is
                           exceeded. The custom response configured in this
                           object will override the custom error for the zone.
                           This object is optional. Notes: If you omit this
@@ -70,14 +74,16 @@ paths:
                           "response" object.'
                       timeout:
                         type: number
-                        description: "The time in seconds during which Cloudflare will perform the
+                        description:
+                          'The time in seconds during which Cloudflare will perform the
                           mitigation action. Must be an integer value greater
-                          than or equal to the period. Notes: If \"mode\" is
-                          \"challenge\", \"managed_challenge\", or
-                          \"js_challenge\", Cloudflare will use the zone's
+                          than or equal to the period. Notes: If "mode" is
+                          "challenge", "managed_challenge", or
+                          "js_challenge", Cloudflare will use the zone''s
                           Challenge Passage time and you should not provide this
-                          value."
-                    description: The action to perform when the threshold of matched traffic within
+                          value.'
+                    description:
+                      The action to perform when the threshold of matched traffic within
                       the configured period is exceeded.
                   bypass:
                     type: array
@@ -91,12 +97,14 @@ paths:
                         value:
                           type: string
                           description: The URL to bypass.
-                    description: Criteria specifying when the current rate limit should be bypassed.
+                    description:
+                      Criteria specifying when the current rate limit should be bypassed.
                       You can specify that the rate limit should not apply to
                       one or more URLs.
                   description:
                     type: string
-                    description: An informative summary of the rule. This value is sanitized and any
+                    description:
+                      An informative summary of the rule. This value is sanitized and any
                       tags will be removed.
                   disabled:
                     type: boolean
@@ -117,7 +125,8 @@ paths:
                               enum:
                                 - eq
                                 - ne
-                              description: 'The operator used when matching: `eq` means "equal" and `ne` means
+                              description:
+                                'The operator used when matching: `eq` means "equal" and `ne` means
                                 "not equal".'
                             value:
                               type: string
@@ -137,20 +146,23 @@ paths:
                                 - PATCH
                                 - HEAD
                                 - _ALL_
-                            description: The HTTP methods to match. You can specify a subset (for example,
+                            description:
+                              The HTTP methods to match. You can specify a subset (for example,
                               `['POST','PUT']`) or all methods (`['_ALL_']`).
                               This field is optional when creating a rate limit.
                           schemes:
                             type: array
                             items:
                               type: string
-                            description: The HTTP schemes to match. You can specify one scheme
+                            description:
+                              The HTTP schemes to match. You can specify one scheme
                               (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`),
                               or all schemes (`['_ALL_']`). This field is
                               optional.
                           url:
                             type: string
-                            description: The URL pattern to match, composed of a host and a path such as
+                            description:
+                              The URL pattern to match, composed of a host and a path such as
                               `example.org/path `. Normalization is applied
                               before the pattern is matched. ` ` wildcards are
                               expanded to match applicable traffic. Query
@@ -161,7 +173,8 @@ paths:
                         properties:
                           origin_traffic:
                             type: boolean
-                            description: 'When true, only the uncached traffic served from your origin
+                            description:
+                              'When true, only the uncached traffic served from your origin
                               servers will count towards rate limiting. In this
                               case, any cached traffic served by Cloudflare will
                               not count towards rate limiting. This field is
@@ -170,22 +183,26 @@ paths:
                               "origin_traffic" to "false" to avoid legacy
                               behaviour interacting with the "response_headers"
                               property.'
-                    description: Determines which traffic the rate limit counts towards the
+                    description:
+                      Determines which traffic the rate limit counts towards the
                       threshold.
                   period:
                     type: number
-                    description: The time in seconds (an integer value) to count matching traffic.
+                    description:
+                      The time in seconds (an integer value) to count matching traffic.
                       If the count exceeds the configured threshold within this
                       period, Cloudflare will perform the configured action.
                   threshold:
                     type: number
-                    description: The threshold that will trigger the configured mitigation action.
+                    description:
+                      The threshold that will trigger the configured mitigation action.
                       Configure this value along with the `period` property to
                       establish a threshold per period.
       x-distilled-response-path: result
     delete:
       operationId: deleteRateLimit
-      description: Deletes an existing rate limit.  @deprecated Rate limiting API is
+      description:
+        Deletes an existing rate limit.  @deprecated Rate limiting API is
         deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#rate-limiting-api-previous-version
         for full details.
@@ -229,13 +246,16 @@ paths:
                         properties:
                           body:
                             type: string
-                            description: The response body to return. The value must conform to the
+                            description:
+                              The response body to return. The value must conform to the
                               configured content type.
                           content_type:
                             type: string
-                            description: "The content type of the body. Must be one of the following:
+                            description:
+                              "The content type of the body. Must be one of the following:
                               `text/plain`, `text/xml`, or `application/json`."
-                        description: 'A custom content type and reponse to return when the threshold is
+                        description:
+                          'A custom content type and reponse to return when the threshold is
                           exceeded. The custom response configured in this
                           object will override the custom error for the zone.
                           This object is optional. Notes: If you omit this
@@ -246,14 +266,16 @@ paths:
                           "response" object.'
                       timeout:
                         type: number
-                        description: "The time in seconds during which Cloudflare will perform the
+                        description:
+                          'The time in seconds during which Cloudflare will perform the
                           mitigation action. Must be an integer value greater
-                          than or equal to the period. Notes: If \"mode\" is
-                          \"challenge\", \"managed_challenge\", or
-                          \"js_challenge\", Cloudflare will use the zone's
+                          than or equal to the period. Notes: If "mode" is
+                          "challenge", "managed_challenge", or
+                          "js_challenge", Cloudflare will use the zone''s
                           Challenge Passage time and you should not provide this
-                          value."
-                    description: The action to perform when the threshold of matched traffic within
+                          value.'
+                    description:
+                      The action to perform when the threshold of matched traffic within
                       the configured period is exceeded.
                   bypass:
                     type: array
@@ -267,12 +289,14 @@ paths:
                         value:
                           type: string
                           description: The URL to bypass.
-                    description: Criteria specifying when the current rate limit should be bypassed.
+                    description:
+                      Criteria specifying when the current rate limit should be bypassed.
                       You can specify that the rate limit should not apply to
                       one or more URLs.
                   description:
                     type: string
-                    description: An informative summary of the rule. This value is sanitized and any
+                    description:
+                      An informative summary of the rule. This value is sanitized and any
                       tags will be removed.
                   disabled:
                     type: boolean
@@ -293,7 +317,8 @@ paths:
                               enum:
                                 - eq
                                 - ne
-                              description: 'The operator used when matching: `eq` means "equal" and `ne` means
+                              description:
+                                'The operator used when matching: `eq` means "equal" and `ne` means
                                 "not equal".'
                             value:
                               type: string
@@ -313,20 +338,23 @@ paths:
                                 - PATCH
                                 - HEAD
                                 - _ALL_
-                            description: The HTTP methods to match. You can specify a subset (for example,
+                            description:
+                              The HTTP methods to match. You can specify a subset (for example,
                               `['POST','PUT']`) or all methods (`['_ALL_']`).
                               This field is optional when creating a rate limit.
                           schemes:
                             type: array
                             items:
                               type: string
-                            description: The HTTP schemes to match. You can specify one scheme
+                            description:
+                              The HTTP schemes to match. You can specify one scheme
                               (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`),
                               or all schemes (`['_ALL_']`). This field is
                               optional.
                           url:
                             type: string
-                            description: The URL pattern to match, composed of a host and a path such as
+                            description:
+                              The URL pattern to match, composed of a host and a path such as
                               `example.org/path `. Normalization is applied
                               before the pattern is matched. ` ` wildcards are
                               expanded to match applicable traffic. Query
@@ -337,7 +365,8 @@ paths:
                         properties:
                           origin_traffic:
                             type: boolean
-                            description: 'When true, only the uncached traffic served from your origin
+                            description:
+                              'When true, only the uncached traffic served from your origin
                               servers will count towards rate limiting. In this
                               case, any cached traffic served by Cloudflare will
                               not count towards rate limiting. This field is
@@ -346,22 +375,26 @@ paths:
                               "origin_traffic" to "false" to avoid legacy
                               behaviour interacting with the "response_headers"
                               property.'
-                    description: Determines which traffic the rate limit counts towards the
+                    description:
+                      Determines which traffic the rate limit counts towards the
                       threshold.
                   period:
                     type: number
-                    description: The time in seconds (an integer value) to count matching traffic.
+                    description:
+                      The time in seconds (an integer value) to count matching traffic.
                       If the count exceeds the configured threshold within this
                       period, Cloudflare will perform the configured action.
                   threshold:
                     type: number
-                    description: The threshold that will trigger the configured mitigation action.
+                    description:
+                      The threshold that will trigger the configured mitigation action.
                       Configure this value along with the `period` property to
                       establish a threshold per period.
       x-distilled-response-path: result
     put:
       operationId: editRateLimit
-      description: Updates an existing rate limit.  @deprecated Rate limiting API is
+      description:
+        Updates an existing rate limit.  @deprecated Rate limiting API is
         deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#rate-limiting-api-previous-version
         for full details.
@@ -401,13 +434,16 @@ paths:
                       properties:
                         body:
                           type: string
-                          description: The response body to return. The value must conform to the
+                          description:
+                            The response body to return. The value must conform to the
                             configured content type.
                         content_type:
                           type: string
-                          description: "The content type of the body. Must be one of the following:
+                          description:
+                            "The content type of the body. Must be one of the following:
                             `text/plain`, `text/xml`, or `application/json`."
-                      description: 'A custom content type and reponse to return when the threshold is
+                      description:
+                        'A custom content type and reponse to return when the threshold is
                         exceeded. The custom response configured in this object
                         will override the custom error for the zone. This object
                         is optional. Notes: If you omit this object, Cloudflare
@@ -417,14 +453,16 @@ paths:
                         should not provide the "response" object.'
                     timeout:
                       type: number
-                      description: "The time in seconds during which Cloudflare will perform the
+                      description:
+                        'The time in seconds during which Cloudflare will perform the
                         mitigation action. Must be an integer value greater than
-                        or equal to the period. Notes: If \"mode\" is
-                        \"challenge\", \"managed_challenge\", or
-                        \"js_challenge\", Cloudflare will use the zone's
+                        or equal to the period. Notes: If "mode" is
+                        "challenge", "managed_challenge", or
+                        "js_challenge", Cloudflare will use the zone''s
                         Challenge Passage time and you should not provide this
-                        value."
-                  description: "Body param: The action to perform when the threshold of matched
+                        value.'
+                  description:
+                    "Body param: The action to perform when the threshold of matched
                     traffic within the configured period is exceeded."
                 match:
                   type: object
@@ -442,7 +480,8 @@ paths:
                             enum:
                               - eq
                               - ne
-                            description: 'The operator used when matching: `eq` means "equal" and `ne` means
+                            description:
+                              'The operator used when matching: `eq` means "equal" and `ne` means
                               "not equal".'
                           value:
                             type: string
@@ -462,19 +501,22 @@ paths:
                               - PATCH
                               - HEAD
                               - _ALL_
-                          description: The HTTP methods to match. You can specify a subset (for example,
+                          description:
+                            The HTTP methods to match. You can specify a subset (for example,
                             `['POST','PUT']`) or all methods (`['_ALL_']`). This
                             field is optional when creating a rate limit.
                         schemes:
                           type: array
                           items:
                             type: string
-                          description: The HTTP schemes to match. You can specify one scheme
+                          description:
+                            The HTTP schemes to match. You can specify one scheme
                             (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or
                             all schemes (`['_ALL_']`). This field is optional.
                         url:
                           type: string
-                          description: The URL pattern to match, composed of a host and a path such as
+                          description:
+                            The URL pattern to match, composed of a host and a path such as
                             `example.org/path `. Normalization is applied before
                             the pattern is matched. ` ` wildcards are expanded
                             to match applicable traffic. Query strings are not
@@ -485,7 +527,8 @@ paths:
                       properties:
                         origin_traffic:
                           type: boolean
-                          description: 'When true, only the uncached traffic served from your origin
+                          description:
+                            'When true, only the uncached traffic served from your origin
                             servers will count towards rate limiting. In this
                             case, any cached traffic served by Cloudflare will
                             not count towards rate limiting. This field is
@@ -493,17 +536,20 @@ paths:
                             use response headers and set "origin_traffic" to
                             "false" to avoid legacy behaviour interacting with
                             the "response_headers" property.'
-                  description: "Body param: Determines which traffic the rate limit counts towards
+                  description:
+                    "Body param: Determines which traffic the rate limit counts towards
                     the threshold."
                 period:
                   type: number
-                  description: "Body param: The time in seconds (an integer value) to count
+                  description:
+                    "Body param: The time in seconds (an integer value) to count
                     matching traffic. If the count exceeds the configured
                     threshold within this period, Cloudflare will perform the
                     configured action."
                 threshold:
                   type: number
-                  description: "Body param: The threshold that will trigger the configured
+                  description:
+                    "Body param: The threshold that will trigger the configured
                     mitigation action. Configure this value along with the
                     `period` property to establish a threshold per period."
               required:
@@ -539,13 +585,16 @@ paths:
                         properties:
                           body:
                             type: string
-                            description: The response body to return. The value must conform to the
+                            description:
+                              The response body to return. The value must conform to the
                               configured content type.
                           content_type:
                             type: string
-                            description: "The content type of the body. Must be one of the following:
+                            description:
+                              "The content type of the body. Must be one of the following:
                               `text/plain`, `text/xml`, or `application/json`."
-                        description: 'A custom content type and reponse to return when the threshold is
+                        description:
+                          'A custom content type and reponse to return when the threshold is
                           exceeded. The custom response configured in this
                           object will override the custom error for the zone.
                           This object is optional. Notes: If you omit this
@@ -556,14 +605,16 @@ paths:
                           "response" object.'
                       timeout:
                         type: number
-                        description: "The time in seconds during which Cloudflare will perform the
+                        description:
+                          'The time in seconds during which Cloudflare will perform the
                           mitigation action. Must be an integer value greater
-                          than or equal to the period. Notes: If \"mode\" is
-                          \"challenge\", \"managed_challenge\", or
-                          \"js_challenge\", Cloudflare will use the zone's
+                          than or equal to the period. Notes: If "mode" is
+                          "challenge", "managed_challenge", or
+                          "js_challenge", Cloudflare will use the zone''s
                           Challenge Passage time and you should not provide this
-                          value."
-                    description: The action to perform when the threshold of matched traffic within
+                          value.'
+                    description:
+                      The action to perform when the threshold of matched traffic within
                       the configured period is exceeded.
                   bypass:
                     type: array
@@ -577,12 +628,14 @@ paths:
                         value:
                           type: string
                           description: The URL to bypass.
-                    description: Criteria specifying when the current rate limit should be bypassed.
+                    description:
+                      Criteria specifying when the current rate limit should be bypassed.
                       You can specify that the rate limit should not apply to
                       one or more URLs.
                   description:
                     type: string
-                    description: An informative summary of the rule. This value is sanitized and any
+                    description:
+                      An informative summary of the rule. This value is sanitized and any
                       tags will be removed.
                   disabled:
                     type: boolean
@@ -603,7 +656,8 @@ paths:
                               enum:
                                 - eq
                                 - ne
-                              description: 'The operator used when matching: `eq` means "equal" and `ne` means
+                              description:
+                                'The operator used when matching: `eq` means "equal" and `ne` means
                                 "not equal".'
                             value:
                               type: string
@@ -623,20 +677,23 @@ paths:
                                 - PATCH
                                 - HEAD
                                 - _ALL_
-                            description: The HTTP methods to match. You can specify a subset (for example,
+                            description:
+                              The HTTP methods to match. You can specify a subset (for example,
                               `['POST','PUT']`) or all methods (`['_ALL_']`).
                               This field is optional when creating a rate limit.
                           schemes:
                             type: array
                             items:
                               type: string
-                            description: The HTTP schemes to match. You can specify one scheme
+                            description:
+                              The HTTP schemes to match. You can specify one scheme
                               (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`),
                               or all schemes (`['_ALL_']`). This field is
                               optional.
                           url:
                             type: string
-                            description: The URL pattern to match, composed of a host and a path such as
+                            description:
+                              The URL pattern to match, composed of a host and a path such as
                               `example.org/path `. Normalization is applied
                               before the pattern is matched. ` ` wildcards are
                               expanded to match applicable traffic. Query
@@ -647,7 +704,8 @@ paths:
                         properties:
                           origin_traffic:
                             type: boolean
-                            description: 'When true, only the uncached traffic served from your origin
+                            description:
+                              'When true, only the uncached traffic served from your origin
                               servers will count towards rate limiting. In this
                               case, any cached traffic served by Cloudflare will
                               not count towards rate limiting. This field is
@@ -656,23 +714,27 @@ paths:
                               "origin_traffic" to "false" to avoid legacy
                               behaviour interacting with the "response_headers"
                               property.'
-                    description: Determines which traffic the rate limit counts towards the
+                    description:
+                      Determines which traffic the rate limit counts towards the
                       threshold.
                   period:
                     type: number
-                    description: The time in seconds (an integer value) to count matching traffic.
+                    description:
+                      The time in seconds (an integer value) to count matching traffic.
                       If the count exceeds the configured threshold within this
                       period, Cloudflare will perform the configured action.
                   threshold:
                     type: number
-                    description: The threshold that will trigger the configured mitigation action.
+                    description:
+                      The threshold that will trigger the configured mitigation action.
                       Configure this value along with the `period` property to
                       establish a threshold per period.
       x-distilled-response-path: result
   /zones/{zone_id}/rate_limits:
     get:
       operationId: listRateLimits
-      description: Fetches the rate limits for a zone.  @deprecated Rate limiting API
+      description:
+        Fetches the rate limits for a zone.  @deprecated Rate limiting API
         is deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#rate-limiting-api-previous-version
         for full details.
@@ -721,13 +783,16 @@ paths:
                         properties:
                           body:
                             type: string
-                            description: The response body to return. The value must conform to the
+                            description:
+                              The response body to return. The value must conform to the
                               configured content type.
                           content_type:
                             type: string
-                            description: "The content type of the body. Must be one of the following:
+                            description:
+                              "The content type of the body. Must be one of the following:
                               `text/plain`, `text/xml`, or `application/json`."
-                        description: 'A custom content type and reponse to return when the threshold is
+                        description:
+                          'A custom content type and reponse to return when the threshold is
                           exceeded. The custom response configured in this
                           object will override the custom error for the zone.
                           This object is optional. Notes: If you omit this
@@ -738,14 +803,16 @@ paths:
                           "response" object.'
                       timeout:
                         type: number
-                        description: "The time in seconds during which Cloudflare will perform the
+                        description:
+                          'The time in seconds during which Cloudflare will perform the
                           mitigation action. Must be an integer value greater
-                          than or equal to the period. Notes: If \"mode\" is
-                          \"challenge\", \"managed_challenge\", or
-                          \"js_challenge\", Cloudflare will use the zone's
+                          than or equal to the period. Notes: If "mode" is
+                          "challenge", "managed_challenge", or
+                          "js_challenge", Cloudflare will use the zone''s
                           Challenge Passage time and you should not provide this
-                          value."
-                    description: The action to perform when the threshold of matched traffic within
+                          value.'
+                    description:
+                      The action to perform when the threshold of matched traffic within
                       the configured period is exceeded.
                   bypass:
                     type: array
@@ -759,12 +826,14 @@ paths:
                         value:
                           type: string
                           description: The URL to bypass.
-                    description: Criteria specifying when the current rate limit should be bypassed.
+                    description:
+                      Criteria specifying when the current rate limit should be bypassed.
                       You can specify that the rate limit should not apply to
                       one or more URLs.
                   description:
                     type: string
-                    description: An informative summary of the rule. This value is sanitized and any
+                    description:
+                      An informative summary of the rule. This value is sanitized and any
                       tags will be removed.
                   disabled:
                     type: boolean
@@ -785,7 +854,8 @@ paths:
                               enum:
                                 - eq
                                 - ne
-                              description: 'The operator used when matching: `eq` means "equal" and `ne` means
+                              description:
+                                'The operator used when matching: `eq` means "equal" and `ne` means
                                 "not equal".'
                             value:
                               type: string
@@ -805,20 +875,23 @@ paths:
                                 - PATCH
                                 - HEAD
                                 - _ALL_
-                            description: The HTTP methods to match. You can specify a subset (for example,
+                            description:
+                              The HTTP methods to match. You can specify a subset (for example,
                               `['POST','PUT']`) or all methods (`['_ALL_']`).
                               This field is optional when creating a rate limit.
                           schemes:
                             type: array
                             items:
                               type: string
-                            description: The HTTP schemes to match. You can specify one scheme
+                            description:
+                              The HTTP schemes to match. You can specify one scheme
                               (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`),
                               or all schemes (`['_ALL_']`). This field is
                               optional.
                           url:
                             type: string
-                            description: The URL pattern to match, composed of a host and a path such as
+                            description:
+                              The URL pattern to match, composed of a host and a path such as
                               `example.org/path `. Normalization is applied
                               before the pattern is matched. ` ` wildcards are
                               expanded to match applicable traffic. Query
@@ -829,7 +902,8 @@ paths:
                         properties:
                           origin_traffic:
                             type: boolean
-                            description: 'When true, only the uncached traffic served from your origin
+                            description:
+                              'When true, only the uncached traffic served from your origin
                               servers will count towards rate limiting. In this
                               case, any cached traffic served by Cloudflare will
                               not count towards rate limiting. This field is
@@ -838,22 +912,26 @@ paths:
                               "origin_traffic" to "false" to avoid legacy
                               behaviour interacting with the "response_headers"
                               property.'
-                    description: Determines which traffic the rate limit counts towards the
+                    description:
+                      Determines which traffic the rate limit counts towards the
                       threshold.
                   period:
                     type: number
-                    description: The time in seconds (an integer value) to count matching traffic.
+                    description:
+                      The time in seconds (an integer value) to count matching traffic.
                       If the count exceeds the configured threshold within this
                       period, Cloudflare will perform the configured action.
                   threshold:
                     type: number
-                    description: The threshold that will trigger the configured mitigation action.
+                    description:
+                      The threshold that will trigger the configured mitigation action.
                       Configure this value along with the `period` property to
                       establish a threshold per period.
       x-distilled-pagination-class: RateLimitsV4PagePaginationArray
     post:
       operationId: createRateLimit
-      description: Creates a new rate limit for a zone. Refer to the object definition
+      description:
+        Creates a new rate limit for a zone. Refer to the object definition
         for a list of required attributes.  @deprecated Rate limiting API is
         deprecated in favour of using the Ruleset Engine. See
         https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#rate-limiting-api-previous-version
@@ -889,13 +967,16 @@ paths:
                       properties:
                         body:
                           type: string
-                          description: The response body to return. The value must conform to the
+                          description:
+                            The response body to return. The value must conform to the
                             configured content type.
                         content_type:
                           type: string
-                          description: "The content type of the body. Must be one of the following:
+                          description:
+                            "The content type of the body. Must be one of the following:
                             `text/plain`, `text/xml`, or `application/json`."
-                      description: 'A custom content type and reponse to return when the threshold is
+                      description:
+                        'A custom content type and reponse to return when the threshold is
                         exceeded. The custom response configured in this object
                         will override the custom error for the zone. This object
                         is optional. Notes: If you omit this object, Cloudflare
@@ -905,14 +986,16 @@ paths:
                         should not provide the "response" object.'
                     timeout:
                       type: number
-                      description: "The time in seconds during which Cloudflare will perform the
+                      description:
+                        'The time in seconds during which Cloudflare will perform the
                         mitigation action. Must be an integer value greater than
-                        or equal to the period. Notes: If \"mode\" is
-                        \"challenge\", \"managed_challenge\", or
-                        \"js_challenge\", Cloudflare will use the zone's
+                        or equal to the period. Notes: If "mode" is
+                        "challenge", "managed_challenge", or
+                        "js_challenge", Cloudflare will use the zone''s
                         Challenge Passage time and you should not provide this
-                        value."
-                  description: "Body param: The action to perform when the threshold of matched
+                        value.'
+                  description:
+                    "Body param: The action to perform when the threshold of matched
                     traffic within the configured period is exceeded."
                 match:
                   type: object
@@ -930,7 +1013,8 @@ paths:
                             enum:
                               - eq
                               - ne
-                            description: 'The operator used when matching: `eq` means "equal" and `ne` means
+                            description:
+                              'The operator used when matching: `eq` means "equal" and `ne` means
                               "not equal".'
                           value:
                             type: string
@@ -950,19 +1034,22 @@ paths:
                               - PATCH
                               - HEAD
                               - _ALL_
-                          description: The HTTP methods to match. You can specify a subset (for example,
+                          description:
+                            The HTTP methods to match. You can specify a subset (for example,
                             `['POST','PUT']`) or all methods (`['_ALL_']`). This
                             field is optional when creating a rate limit.
                         schemes:
                           type: array
                           items:
                             type: string
-                          description: The HTTP schemes to match. You can specify one scheme
+                          description:
+                            The HTTP schemes to match. You can specify one scheme
                             (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or
                             all schemes (`['_ALL_']`). This field is optional.
                         url:
                           type: string
-                          description: The URL pattern to match, composed of a host and a path such as
+                          description:
+                            The URL pattern to match, composed of a host and a path such as
                             `example.org/path `. Normalization is applied before
                             the pattern is matched. ` ` wildcards are expanded
                             to match applicable traffic. Query strings are not
@@ -973,7 +1060,8 @@ paths:
                       properties:
                         origin_traffic:
                           type: boolean
-                          description: 'When true, only the uncached traffic served from your origin
+                          description:
+                            'When true, only the uncached traffic served from your origin
                             servers will count towards rate limiting. In this
                             case, any cached traffic served by Cloudflare will
                             not count towards rate limiting. This field is
@@ -981,17 +1069,20 @@ paths:
                             use response headers and set "origin_traffic" to
                             "false" to avoid legacy behaviour interacting with
                             the "response_headers" property.'
-                  description: "Body param: Determines which traffic the rate limit counts towards
+                  description:
+                    "Body param: Determines which traffic the rate limit counts towards
                     the threshold."
                 period:
                   type: number
-                  description: "Body param: The time in seconds (an integer value) to count
+                  description:
+                    "Body param: The time in seconds (an integer value) to count
                     matching traffic. If the count exceeds the configured
                     threshold within this period, Cloudflare will perform the
                     configured action."
                 threshold:
                   type: number
-                  description: "Body param: The threshold that will trigger the configured
+                  description:
+                    "Body param: The threshold that will trigger the configured
                     mitigation action. Configure this value along with the
                     `period` property to establish a threshold per period."
               required:
@@ -1027,13 +1118,16 @@ paths:
                         properties:
                           body:
                             type: string
-                            description: The response body to return. The value must conform to the
+                            description:
+                              The response body to return. The value must conform to the
                               configured content type.
                           content_type:
                             type: string
-                            description: "The content type of the body. Must be one of the following:
+                            description:
+                              "The content type of the body. Must be one of the following:
                               `text/plain`, `text/xml`, or `application/json`."
-                        description: 'A custom content type and reponse to return when the threshold is
+                        description:
+                          'A custom content type and reponse to return when the threshold is
                           exceeded. The custom response configured in this
                           object will override the custom error for the zone.
                           This object is optional. Notes: If you omit this
@@ -1044,14 +1138,16 @@ paths:
                           "response" object.'
                       timeout:
                         type: number
-                        description: "The time in seconds during which Cloudflare will perform the
+                        description:
+                          'The time in seconds during which Cloudflare will perform the
                           mitigation action. Must be an integer value greater
-                          than or equal to the period. Notes: If \"mode\" is
-                          \"challenge\", \"managed_challenge\", or
-                          \"js_challenge\", Cloudflare will use the zone's
+                          than or equal to the period. Notes: If "mode" is
+                          "challenge", "managed_challenge", or
+                          "js_challenge", Cloudflare will use the zone''s
                           Challenge Passage time and you should not provide this
-                          value."
-                    description: The action to perform when the threshold of matched traffic within
+                          value.'
+                    description:
+                      The action to perform when the threshold of matched traffic within
                       the configured period is exceeded.
                   bypass:
                     type: array
@@ -1065,12 +1161,14 @@ paths:
                         value:
                           type: string
                           description: The URL to bypass.
-                    description: Criteria specifying when the current rate limit should be bypassed.
+                    description:
+                      Criteria specifying when the current rate limit should be bypassed.
                       You can specify that the rate limit should not apply to
                       one or more URLs.
                   description:
                     type: string
-                    description: An informative summary of the rule. This value is sanitized and any
+                    description:
+                      An informative summary of the rule. This value is sanitized and any
                       tags will be removed.
                   disabled:
                     type: boolean
@@ -1091,7 +1189,8 @@ paths:
                               enum:
                                 - eq
                                 - ne
-                              description: 'The operator used when matching: `eq` means "equal" and `ne` means
+                              description:
+                                'The operator used when matching: `eq` means "equal" and `ne` means
                                 "not equal".'
                             value:
                               type: string
@@ -1111,20 +1210,23 @@ paths:
                                 - PATCH
                                 - HEAD
                                 - _ALL_
-                            description: The HTTP methods to match. You can specify a subset (for example,
+                            description:
+                              The HTTP methods to match. You can specify a subset (for example,
                               `['POST','PUT']`) or all methods (`['_ALL_']`).
                               This field is optional when creating a rate limit.
                           schemes:
                             type: array
                             items:
                               type: string
-                            description: The HTTP schemes to match. You can specify one scheme
+                            description:
+                              The HTTP schemes to match. You can specify one scheme
                               (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`),
                               or all schemes (`['_ALL_']`). This field is
                               optional.
                           url:
                             type: string
-                            description: The URL pattern to match, composed of a host and a path such as
+                            description:
+                              The URL pattern to match, composed of a host and a path such as
                               `example.org/path `. Normalization is applied
                               before the pattern is matched. ` ` wildcards are
                               expanded to match applicable traffic. Query
@@ -1135,7 +1237,8 @@ paths:
                         properties:
                           origin_traffic:
                             type: boolean
-                            description: 'When true, only the uncached traffic served from your origin
+                            description:
+                              'When true, only the uncached traffic served from your origin
                               servers will count towards rate limiting. In this
                               case, any cached traffic served by Cloudflare will
                               not count towards rate limiting. This field is
@@ -1144,16 +1247,19 @@ paths:
                               "origin_traffic" to "false" to avoid legacy
                               behaviour interacting with the "response_headers"
                               property.'
-                    description: Determines which traffic the rate limit counts towards the
+                    description:
+                      Determines which traffic the rate limit counts towards the
                       threshold.
                   period:
                     type: number
-                    description: The time in seconds (an integer value) to count matching traffic.
+                    description:
+                      The time in seconds (an integer value) to count matching traffic.
                       If the count exceeds the configured threshold within this
                       period, Cloudflare will perform the configured action.
                   threshold:
                     type: number
-                    description: The threshold that will trigger the configured mitigation action.
+                    description:
+                      The threshold that will trigger the configured mitigation action.
                       Configure this value along with the `period` property to
                       establish a threshold per period.
       x-distilled-response-path: result

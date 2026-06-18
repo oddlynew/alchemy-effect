@@ -47,32 +47,29 @@ describe("upsertAnalyticsRule", () => {
     await rawFetch("DELETE", `/collections/${collectionName}`).catch(() => {});
   }, 30_000);
 
-  it(
-    "creates an analytics rule",
-    async () => {
-      // The SDK's input schema for upsertAnalyticsRule is missing the
-      // required body fields (`type`, `collection`, `event_type`). We
-      // inject them via `as never` (Schema.Struct preserves unknown keys
-      // on encode).
-      const result = await runEffect(
-        upsertAnalyticsRule({
-          ruleName,
-          type: "log",
-          collection: collectionName,
-          event_type: "click",
-        } as never),
-      );
+  it("creates an analytics rule", { timeout: 30_000 }, async () => {
+    // The SDK's input schema for upsertAnalyticsRule is missing the
+    // required body fields (`type`, `collection`, `event_type`). We
+    // inject them via `as never` (Schema.Struct preserves unknown keys
+    // on encode).
+    const result = await runEffect(
+      upsertAnalyticsRule({
+        ruleName,
+        type: "log",
+        collection: collectionName,
+        event_type: "click",
+      } as never),
+    );
 
-      expect(result.name).toBe(ruleName);
-      expect(result.type).toBe("log");
-      expect(result.collection).toBe(collectionName);
-      expect(result.event_type).toBe("click");
-    },
-    { timeout: 30_000 },
-  );
+    expect(result.name).toBe(ruleName);
+    expect(result.type).toBe("log");
+    expect(result.collection).toBe(collectionName);
+    expect(result.event_type).toBe("click");
+  });
 
   it(
     "fails with BadRequest when the rule body is missing required fields",
+    { timeout: 30_000 },
     async () => {
       // Sending an upsert with no `type`/`collection`/`event_type`
       // triggers a 400 from Typesense.
@@ -84,6 +81,5 @@ describe("upsertAnalyticsRule", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

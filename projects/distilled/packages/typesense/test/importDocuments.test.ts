@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("importDocuments", () => {
   it(
     "imports a JSON document into an existing collection",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-import-${testRunId}`;
       const documentId = `doc-${testRunId}`;
@@ -49,11 +50,11 @@ describe("importDocuments", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the request body is empty / missing documents",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-import-bad-${testRunId}`;
 
@@ -74,11 +75,11 @@ describe("importDocuments", () => {
       const error = await runEffect(effect);
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         importDocuments({
@@ -90,6 +91,5 @@ describe("importDocuments", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

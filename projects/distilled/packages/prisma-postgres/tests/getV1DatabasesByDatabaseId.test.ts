@@ -37,7 +37,7 @@ describe("getV1DatabasesByDatabaseId", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - gets a database by id", async () => {
+  it("happy path - gets a database by id", { timeout: 30_000 }, async () => {
     const project = getTestProject("db-get");
     const databaseId = project.databaseId!;
 
@@ -50,29 +50,33 @@ describe("getV1DatabasesByDatabaseId", () => {
     expect(result.data.project.id).toBe(project.projectId);
     expect(result.data.connections).toBeDefined();
     expect(Array.isArray(result.data.connections)).toBe(true);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent databaseId", async () => {
-    await Effect.runPromise(
-      getV1DatabasesByDatabaseId({
-        databaseId: "non-existent-db-id-00000000",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1DatabasesByDatabaseId({
+          databaseId: "non-existent-db-id-00000000",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - Forbidden with invalid token", async () => {
+  it("error - Forbidden with invalid token", { timeout: 30_000 }, async () => {
     const project = getTestProject("db-get");
     const databaseId = project.databaseId!;
 
@@ -85,19 +89,23 @@ describe("getV1DatabasesByDatabaseId", () => {
         Effect.provide(BadTokenLayer),
       ),
     );
-  }, 30_000);
+  });
 
-  it("error - UnprocessableEntity for malformed databaseId", async () => {
-    await Effect.runPromise(
-      getV1DatabasesByDatabaseId({ databaseId: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - UnprocessableEntity for malformed databaseId",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1DatabasesByDatabaseId({ databaseId: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["UnprocessableEntity", "NotFound", "BadRequest"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

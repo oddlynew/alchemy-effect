@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("DataIntegrationsUserManagementControllerGetUserDataIntegrations", () => {
   it(
     "lists configured data providers for an existing user",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -40,11 +41,11 @@ describe("DataIntegrationsUserManagementControllerGetUserDataIntegrations", () =
         expect(typeof provider.updated_at).toBe("string");
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         DataIntegrationsUserManagementControllerGetUserDataIntegrations({
@@ -53,6 +54,5 @@ describe("DataIntegrationsUserManagementControllerGetUserDataIntegrations", () =
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

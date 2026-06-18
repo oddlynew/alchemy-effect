@@ -2669,7 +2669,8 @@ paths:
   /accounts/{account_id}/urlscanner/v2/search:
     get:
       operationId: listScans
-      description: "Use a subset of ElasticSearch Query syntax to filter scans. Some
+      description:
+        "Use a subset of ElasticSearch Query syntax to filter scans. Some
         example queries:<br/> <br/>- 'path:\"/bundles/jquery.js\"': Searches for
         scans who requested resources with the given path.<br/>-
         'page.asn:AS24940 AND hash:xxx': Websites hosted in AS24940 where a
@@ -3023,14 +3024,16 @@ paths:
                       - desktop
                       - mobile
                       - tablet
-                  description: "Body param: Take multiple screenshots targeting different device
+                  description:
+                    "Body param: Take multiple screenshots targeting different device
                     types."
                 visibility:
                   type: string
                   enum:
                     - Public
                     - Unlisted
-                  description: "Body param: The option `Public` means it will be included in
+                  description:
+                    "Body param: The option `Public` means it will be included in
                     listings like recent scans and search results. `Unlisted`
                     means it will not be included in the aforementioned
                     listings, users will need to have the scan's ID to access
@@ -3057,7 +3060,8 @@ paths:
                     description: Public URL to report.
                   url:
                     type: string
-                    description: Canonical form of submitted URL. Use this if you want to later
+                    description:
+                      Canonical form of submitted URL. Use this if you want to later
                       search by URL.
                   uuid:
                     type: string
@@ -3131,7 +3135,8 @@ paths:
                     enum:
                       - Public
                       - Unlisted
-                    description: The option `Public` means it will be included in listings like
+                    description:
+                      The option `Public` means it will be included in listings like
                       recent scans and search results. `Unlisted` means it will
                       not be included in the aforementioned listings, users will
                       need to have the scan's ID to access it. A a scan will be
@@ -3181,7 +3186,8 @@ paths:
   /accounts/{account_id}/urlscanner/v2/dom/{scanId}:
     get:
       operationId: domScan
-      description: "Returns a plain text response, with the scan's DOM content as
+      description:
+        "Returns a plain text response, with the scan's DOM content as
         rendered by Chrome.  @example ```ts const response = await
         client.urlScanner.scans.dom( '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
         account_id: 'account_id' }, ); ```"

@@ -56,54 +56,51 @@ describe("retrieveConversationModel", () => {
     );
   }, 30_000);
 
-  it(
-    "retrieves a conversation model by id",
-    async () => {
-      // Typesense validates the LLM API key by making a real call when the
-      // model is created, so this happy path requires OPENAI_API_KEY to be
-      // set in the environment.
-      if (!openaiApiKey) {
-        throw new Error(
-          "OPENAI_API_KEY must be set to run the retrieveConversationModel happy-path test",
-        );
-      }
-
-      let createdId: string | undefined;
-      const effect = Effect.gen(function* () {
-        const created = yield* createConversationModel({
-          model_name: "openai/gpt-3.5-turbo",
-          api_key: openaiApiKey,
-          system_prompt: "You are a helpful assistant.",
-          max_bytes: 16384,
-          history_collection: historyCollection,
-        } as never);
-
-        const model = created as { id: string };
-        createdId = model.id;
-
-        const retrieved = yield* retrieveConversationModel({
-          modelId: model.id,
-        });
-        expect(retrieved.id).toBe(model.id);
-      }).pipe(
-        Effect.ensuring(
-          Effect.suspend(() =>
-            createdId === undefined
-              ? Effect.void
-              : deleteConversationModel({ modelId: createdId }).pipe(
-                  Effect.ignore,
-                ),
-          ),
-        ),
+  it("retrieves a conversation model by id", { timeout: 60_000 }, async () => {
+    // Typesense validates the LLM API key by making a real call when the
+    // model is created, so this happy path requires OPENAI_API_KEY to be
+    // set in the environment.
+    if (!openaiApiKey) {
+      throw new Error(
+        "OPENAI_API_KEY must be set to run the retrieveConversationModel happy-path test",
       );
+    }
 
-      await runEffect(effect);
-    },
-    { timeout: 60_000 },
-  );
+    let createdId: string | undefined;
+    const effect = Effect.gen(function* () {
+      const created = yield* createConversationModel({
+        model_name: "openai/gpt-3.5-turbo",
+        api_key: openaiApiKey,
+        system_prompt: "You are a helpful assistant.",
+        max_bytes: 16384,
+        history_collection: historyCollection,
+      } as never);
+
+      const model = created as { id: string };
+      createdId = model.id;
+
+      const retrieved = yield* retrieveConversationModel({
+        modelId: model.id,
+      });
+      expect(retrieved.id).toBe(model.id);
+    }).pipe(
+      Effect.ensuring(
+        Effect.suspend(() =>
+          createdId === undefined
+            ? Effect.void
+            : deleteConversationModel({ modelId: createdId }).pipe(
+                Effect.ignore,
+              ),
+        ),
+      ),
+    );
+
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the conversation model does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         retrieveConversationModel({
@@ -113,6 +110,5 @@ describe("retrieveConversationModel", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

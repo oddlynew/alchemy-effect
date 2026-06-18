@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("queryApl", () => {
   it(
     "runs a tabular APL query against a real dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-queryapl-${testRunId}`;
 
@@ -34,11 +35,11 @@ describe("queryApl", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns Unauthorized when credentials are invalid",
+    { timeout: 30_000 },
     async () => {
       const badCredentials = Layer.succeed(
         Credentials,
@@ -60,11 +61,11 @@ describe("queryApl", () => {
       const error = await Effect.runPromise(effect);
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "returns BadRequest when the APL query is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         queryApl({
@@ -75,6 +76,5 @@ describe("queryApl", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

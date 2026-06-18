@@ -53,6 +53,7 @@ describe("createAnalyticsRule", () => {
 
   it(
     "creates a `log` analytics rule and returns the rule object",
+    { timeout: 30_000 },
     async () => {
       // Schema.Struct({}) preserves unknown keys on encode, so we cast the
       // full rule body through. The OpenAPI spec models this endpoint with
@@ -81,11 +82,11 @@ describe("createAnalyticsRule", () => {
       expect(rule.collection).toBe(collectionName);
       expect(rule.event_type).toBe("click");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the rule body is empty / missing required fields",
+    { timeout: 30_000 },
     async () => {
       // Sending POST /analytics/rules with an empty body causes Typesense to
       // reject with 400 because required fields (name, type, collection,
@@ -94,6 +95,5 @@ describe("createAnalyticsRule", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

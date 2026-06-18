@@ -1,0 +1,121 @@
+[submodule "vendor/alchemy"]
+	path = .vendor/alchemy
+	url = https://github.com/alchemy-run/alchemy.git
+	# ~900MB reference-only checkout of the v1 repo — skipped by
+	# `git submodule update --init` (CI included). Fetch explicitly with
+	# `git submodule update --init --checkout .vendor/alchemy`.
+	update = none
+
+[submodule "distilled/packages/gcp/specs/distilled-spec-gcp"]
+	path = projects/distilled/packages/gcp/specs/distilled-spec-gcp
+	url = https://github.com/alchemy-run/distilled-spec-gcp.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/cloudflare/specs/cloudflare-typescript"]
+	path = projects/distilled/packages/cloudflare/specs/cloudflare-typescript
+	url = https://github.com/cloudflare/cloudflare-typescript.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/planetscale/specs/distilled-spec-planetscale"]
+	path = projects/distilled/packages/planetscale/specs/distilled-spec-planetscale
+	url = https://github.com/alchemy-run/distilled-spec-planetscale.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/neon/specs/distilled-spec-neon"]
+	path = projects/distilled/packages/neon/specs/distilled-spec-neon
+	url = https://github.com/alchemy-run/distilled-spec-neon.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/aws/specs/api-models-aws"]
+	path = projects/distilled/packages/aws/specs/api-models-aws
+	url = https://github.com/aws/api-models-aws.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/aws/specs/aws-sdk-js-v3"]
+	path = projects/distilled/packages/aws/specs/aws-sdk-js-v3
+	url = https://github.com/aws/aws-sdk-js-v3.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/aws/specs/smithy"]
+	path = projects/distilled/packages/aws/specs/smithy
+	url = https://github.com/smithy-lang/smithy.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/aws/specs/smithy-typescript"]
+	path = projects/distilled/packages/aws/specs/smithy-typescript
+	url = https://github.com/smithy-lang/smithy-typescript.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/prisma-postgres/specs/distilled-spec-prisma-postgres"]
+	path = projects/distilled/packages/prisma-postgres/specs/distilled-spec-prisma-postgres
+	url = https://github.com/alchemy-run/distilled-spec-prisma-postgres.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/stripe/specs/stripe-openapi"]
+	path = projects/distilled/packages/stripe/specs/stripe-openapi
+	url = https://github.com/stripe/openapi.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/supabase/specs/distilled-spec-supabase"]
+	path = projects/distilled/packages/supabase/specs/distilled-spec-supabase
+	url = https://github.com/alchemy-run/distilled-spec-supabase.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/mongodb-atlas/specs/distilled-spec-mongodb-atlas"]
+	path = projects/distilled/packages/mongodb-atlas/specs/distilled-spec-mongodb-atlas
+	url = https://github.com/alchemy-run/distilled-spec-mongodb-atlas.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/fly-io/specs/distilled-spec-fly-io"]
+	path = projects/distilled/packages/fly-io/specs/distilled-spec-fly-io
+	url = https://github.com/alchemy-run/distilled-spec-fly-io.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/turso/specs/turso-docs"]
+	path = projects/distilled/packages/turso/specs/turso-docs
+	url = https://github.com/tursodatabase/turso-docs.git
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/coinbase/specs/cdp-sdk"]
+	path = projects/distilled/packages/coinbase/specs/cdp-sdk
+	url = https://github.com/coinbase/cdp-sdk
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/kubernetes/specs/kubernetes"]
+	path = projects/distilled/packages/kubernetes/specs/kubernetes
+	url = https://github.com/kubernetes/kubernetes
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/azure/specs/azure-rest-api-specs"]
+	path = projects/distilled/packages/azure/specs/azure-rest-api-specs
+	url = https://github.com/Azure/azure-rest-api-specs
+	shallow = true
+	ignore = dirty
+[submodule "distilled/packages/axiom/specs/docs"]
+	path = projects/distilled/packages/axiom/specs/docs
+	url = https://github.com/axiomhq/docs.git
+[submodule "distilled/packages/posthog/specs/distilled-spec-posthog"]
+	path = projects/distilled/packages/posthog/specs/distilled-spec-posthog
+	url = https://github.com/alchemy-run/distilled-spec-posthog.git
+[submodule "distilled/packages/typesense/specs/typesense-api-spec"]
+	path = projects/distilled/packages/typesense/specs/typesense-api-spec
+	url = https://github.com/typesense/typesense-api-spec
+[submodule "distilled/packages/workos/specs/openapi-spec"]
+	path = projects/distilled/packages/workos/specs/openapi-spec
+	url = https://github.com/workos/openapi-spec
+[submodule "distilled/packages/expo-eas/specs/eas-cli"]
+	path = projects/distilled/packages/expo-eas/specs/eas-cli
+	url = https://github.com/expo/eas-cli
+	shallow = true
+	ignore = dirty
+	fetchRecurseSubmodules = false
+[submodule "distilled/packages/expo-eas/specs/expo"]
+	path = projects/distilled/packages/expo-eas/specs/expo
+	url = https://github.com/expo/expo
+	shallow = true
+	ignore = dirty
+	fetchRecurseSubmodules = false
+
+[submodule "cloudflare-tools/workers-sdk"]
+	path = projects/cloudflare-tools/workers-sdk
+	url = https://github.com/cloudflare/workers-sdk.git

@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUserFeatureFlagsControllerList", () => {
   it(
     "lists feature flags for an existing user",
+    { timeout: 60_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
 
@@ -40,11 +41,11 @@ describe("UserlandUserFeatureFlagsControllerList", () => {
         expect(typeof flag.updated_at).toBe("string");
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserFeatureFlagsControllerList({
@@ -54,6 +55,5 @@ describe("UserlandUserFeatureFlagsControllerList", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 });

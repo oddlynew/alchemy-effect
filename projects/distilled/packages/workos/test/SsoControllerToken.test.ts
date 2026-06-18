@@ -10,6 +10,7 @@ const clientSecret =
 describe("SsoControllerToken", () => {
   it(
     "exchanges an authorization code for an access token and profile",
+    { timeout: 30_000 },
     async () => {
       // The token endpoint requires a real authorization code minted by the
       // SSO redirect flow. In a test environment we don't have one, so the
@@ -24,10 +25,8 @@ describe("SsoControllerToken", () => {
           grant_type: "authorization_code",
         }).pipe(
           Effect.matchEffect({
-            onSuccess: (token) =>
-              Effect.succeed({ ok: true as const, token }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onSuccess: (token) => Effect.succeed({ ok: true as const, token }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -45,11 +44,11 @@ describe("SsoControllerToken", () => {
         );
       }
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when grant_type is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         SsoControllerToken({
@@ -61,11 +60,11 @@ describe("SsoControllerToken", () => {
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 
   it(
     "fails with NotFound when client_id does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         SsoControllerToken({
@@ -77,11 +76,11 @@ describe("SsoControllerToken", () => {
       );
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the authorization code is invalid",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         SsoControllerToken({
@@ -93,6 +92,5 @@ describe("SsoControllerToken", () => {
       );
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

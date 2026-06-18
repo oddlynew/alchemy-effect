@@ -91,10 +91,7 @@ function transplantMissingDefinitions(
     return;
   }
 
-  if (
-    typeof obj.$ref === "string" &&
-    obj.$ref.startsWith("#/definitions/")
-  ) {
+  if (typeof obj.$ref === "string" && obj.$ref.startsWith("#/definitions/")) {
     const defName = obj.$ref.slice("#/definitions/".length);
     if (
       !ctx.mainSpec.definitions?.[defName] &&
@@ -116,7 +113,12 @@ function transplantMissingDefinitions(
         ctx.mainSpec.definitions[defName] = resolvedDef;
 
         // Recursively transplant any #/definitions/ refs within this new definition
-        transplantMissingDefinitions(resolvedDef, externalDoc, externalDir, ctx);
+        transplantMissingDefinitions(
+          resolvedDef,
+          externalDoc,
+          externalDir,
+          ctx,
+        );
       }
     }
     return;
@@ -228,7 +230,11 @@ function collectMissingDefinitions(
         const docDir = findFileDir(doc);
         const cloned = JSON.parse(JSON.stringify(doc.definitions[defName]));
         // Resolve any external refs within the transplanted definition
-        const resolved = resolveExternalRefs(cloned, docDir || specDir, new Set());
+        const resolved = resolveExternalRefs(
+          cloned,
+          docDir || specDir,
+          new Set(),
+        );
         root.definitions[defName] = resolved;
 
         // Also transplant any definitions this one references
@@ -282,9 +288,7 @@ function mergeSiblingDefinitions(spec: any, versionDir: string): any {
     .readdirSync(versionDir)
     .filter(
       (f) =>
-        f.endsWith(".json") &&
-        !f.startsWith("examples") &&
-        f !== "examples",
+        f.endsWith(".json") && !f.startsWith("examples") && f !== "examples",
     );
 
   for (const jsonFile of jsonFiles) {
@@ -419,9 +423,7 @@ function findLatestStableSpecs(
     .readdirSync(versionDir)
     .filter(
       (f) =>
-        f.endsWith(".json") &&
-        !f.startsWith("examples") &&
-        f !== "examples",
+        f.endsWith(".json") && !f.startsWith("examples") && f !== "examples",
     );
 
   const results: SpecFile[] = [];
@@ -474,17 +476,16 @@ function extractBody(code: string): string {
   return bodyLines.join("\n").trim();
 }
 
-function collectExtraImports(
-  ops: { code: string }[],
-): { errors: Set<string>; sensitive: Set<string> } {
+function collectExtraImports(ops: { code: string }[]): {
+  errors: Set<string>;
+  sensitive: Set<string>;
+} {
   const errors = new Set<string>();
   const sensitive = new Set<string>();
 
   for (const op of ops) {
     for (const line of op.code.split("\n")) {
-      const errorMatch = line.match(
-        /^import \{ (.+) \} from ["']\.\.\/errors/,
-      );
+      const errorMatch = line.match(/^import \{ (.+) \} from ["']\.\.\/errors/);
       if (errorMatch) {
         for (const name of errorMatch[1].split(",").map((s) => s.trim())) {
           errors.add(name);
@@ -495,9 +496,7 @@ function collectExtraImports(
         /^import \{ (.+) \} from ["']\.\.\/sensitive/,
       );
       if (sensitiveMatch) {
-        for (const name of sensitiveMatch[1]
-          .split(",")
-          .map((s) => s.trim())) {
+        for (const name of sensitiveMatch[1].split(",").map((s) => s.trim())) {
           sensitive.add(name);
         }
       }
@@ -650,16 +649,14 @@ function main() {
             seenSymbols.has(functionName) ||
             seenSymbols.has(inputName) ||
             seenSymbols.has(outputName)
-          ) continue;
+          )
+            continue;
 
           seenSymbols.add(functionName);
           seenSymbols.add(inputName);
           seenSymbols.add(outputName);
 
-          const code = fs.readFileSync(
-            path.join(specOutputDir, file),
-            "utf-8",
-          );
+          const code = fs.readFileSync(path.join(specOutputDir, file), "utf-8");
           ops.push({ functionName, code });
         }
       }

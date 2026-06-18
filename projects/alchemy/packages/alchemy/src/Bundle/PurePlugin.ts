@@ -259,7 +259,7 @@ function isSideEffectFree(value: unknown): boolean {
  * the last `node_modules/` segment. Handles scoped packages. This is the
  * fast path that does not hit the filesystem; it works for ordinary
  * `node_modules/<pkg>/...` ids but NOT for workspace-linked sources whose
- * resolved path is e.g. `<repo>/packages/alchemy/src/Bundle/PurePlugin.ts`.
+ * resolved path is e.g. `<repo>/projects/alchemy/packages/alchemy/src/Bundle/PurePlugin.ts`.
  *
  * @example
  *   packageNameFromId("/proj/node_modules/effect/dist/Effect.js")
@@ -285,7 +285,7 @@ export function packageNameFromId(id: string): string | null {
  * Resolves the owning {@link PackageInfo} for a module id by walking up
  * the directory tree to the nearest `package.json`. This is what makes
  * the plugin work for workspace-linked sources (e.g. our own
- * `packages/alchemy/src/**` when consumers import via the `worker`/`bun`
+ * `projects/alchemy/packages/alchemy/src/**` when consumers import via the `worker`/`bun`
  * conditions which resolve to `.ts`).
  *
  * Caches both positive and negative results per directory to keep the

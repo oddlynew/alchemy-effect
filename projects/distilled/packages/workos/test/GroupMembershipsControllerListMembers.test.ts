@@ -8,58 +8,55 @@ import { OrganizationsControllerDeleteOrganization } from "../src/operations/Org
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("GroupMembershipsControllerListMembers", () => {
-  it(
-    "lists members of a group",
-    async () => {
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const org = yield* OrganizationsControllerCreate({
-            name: `distilled-workos-group-members-list-${testRunId}`,
+  it("lists members of a group", { timeout: 60_000 }, async () => {
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const org = yield* OrganizationsControllerCreate({
+          name: `distilled-workos-group-members-list-${testRunId}`,
+        });
+        return yield* Effect.gen(function* () {
+          const group = yield* GroupsControllerCreate({
+            organizationId: org.id,
+            name: `distilled-group-members-${testRunId}`,
           });
-          return yield* Effect.gen(function* () {
-            const group = yield* GroupsControllerCreate({
-              organizationId: org.id,
-              name: `distilled-group-members-${testRunId}`,
-            });
-            return yield* GroupMembershipsControllerListMembers({
-              organizationId: org.id,
-              groupId: group.id,
-              limit: 5,
-            }).pipe(
-              Effect.ensuring(
-                GroupsControllerDelete({
-                  organizationId: org.id,
-                  groupId: group.id,
-                }).pipe(Effect.ignore),
-              ),
-            );
+          return yield* GroupMembershipsControllerListMembers({
+            organizationId: org.id,
+            groupId: group.id,
+            limit: 5,
           }).pipe(
             Effect.ensuring(
-              OrganizationsControllerDeleteOrganization({
-                id: org.id,
+              GroupsControllerDelete({
+                organizationId: org.id,
+                groupId: group.id,
               }).pipe(Effect.ignore),
             ),
           );
-        }),
-      );
-      expect(result).toBeDefined();
-      expect(result.object).toBe("list");
-      expect(Array.isArray(result.data)).toBe(true);
-      expect(result.data.length).toBeLessThanOrEqual(5);
-      expect(result.list_metadata).toBeDefined();
-      for (const member of result.data) {
-        expect(typeof member.id).toBe("string");
-        expect(typeof member.user_id).toBe("string");
-        expect(typeof member.organization_id).toBe("string");
-        expect(["active", "inactive", "pending"]).toContain(member.status);
-        expect(typeof member.directory_managed).toBe("boolean");
-      }
-    },
-    60_000,
-  );
+        }).pipe(
+          Effect.ensuring(
+            OrganizationsControllerDeleteOrganization({
+              id: org.id,
+            }).pipe(Effect.ignore),
+          ),
+        );
+      }),
+    );
+    expect(result).toBeDefined();
+    expect(result.object).toBe("list");
+    expect(Array.isArray(result.data)).toBe(true);
+    expect(result.data.length).toBeLessThanOrEqual(5);
+    expect(result.list_metadata).toBeDefined();
+    for (const member of result.data) {
+      expect(typeof member.id).toBe("string");
+      expect(typeof member.user_id).toBe("string");
+      expect(typeof member.organization_id).toBe("string");
+      expect(["active", "inactive", "pending"]).toContain(member.status);
+      expect(typeof member.directory_managed).toBe("boolean");
+    }
+  });
 
   it(
     "fails with NotFound for a non-existent group id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -80,11 +77,11 @@ describe("GroupMembershipsControllerListMembers", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when listing members of a group in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         GroupMembershipsControllerListMembers({
@@ -94,6 +91,5 @@ describe("GroupMembershipsControllerListMembers", () => {
       );
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

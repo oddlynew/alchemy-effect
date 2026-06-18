@@ -1,7 +1,10 @@
 {
   "errors": {
     "VariantsNotConfigured": [
-      { "status": 404, "message": { "includes": "zone setting does not exist" } }
+      {
+        "status": 404,
+        "message": { "includes": "zone setting does not exist" }
+      }
     ],
     "Forbidden": [{ "status": 403 }]
   }

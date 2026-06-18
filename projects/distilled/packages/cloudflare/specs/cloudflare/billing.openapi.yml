@@ -128,7 +128,8 @@ paths:
         - name: from
           in: query
           required: false
-          description: "Query param: Start date for the usage query (ISO 8601). Required
+          description:
+            "Query param: Start date for the usage query (ISO 8601). Required
             if `to` is set. When omitted along with `to`, defaults to the start
             of the current month. Filters by charge period (when consumption
             happened), not billing period. The maximum date range is 31 days."
@@ -144,7 +145,8 @@ paths:
         - name: to
           in: query
           required: false
-          description: "Query param: End date for the usage query (ISO 8601). Required if
+          description:
+            "Query param: End date for the usage query (ISO 8601). Required if
             `from` is set. When omitted along with `from`, defaults to today.
             Filters by charge period (when consumption happened), not billing
             period. The maximum date range is 31 days."
@@ -170,7 +172,8 @@ paths:
                       type: string
                       enum:
                         - Usage
-                      description: Highest-level classification of a charge based on the nature of how
+                      description:
+                        Highest-level classification of a charge based on the nature of how
                         it gets billed. Currently only "Usage" is supported.
                     ChargeDescription:
                       type: string
@@ -179,44 +182,53 @@ paths:
                       type: string
                       enum:
                         - Usage-Based
-                      description: Indicates how often a charge occurs. Currently only "Usage-Based"
+                      description:
+                        Indicates how often a charge occurs. Currently only "Usage-Based"
                         is supported.
                     ChargePeriodEnd:
                       type: string
-                      description: Exclusive end of the time interval during which the usage was
+                      description:
+                        Exclusive end of the time interval during which the usage was
                         consumed.
                     ChargePeriodStart:
                       type: string
-                      description: Inclusive start of the time interval during which the usage was
+                      description:
+                        Inclusive start of the time interval during which the usage was
                         consumed.
                     ConsumedQuantity:
                       type: number
-                      description: Measured usage amount within the charge period. Reflects raw
+                      description:
+                        Measured usage amount within the charge period. Reflects raw
                         metered consumption before pricing transformations.
                     ConsumedUnit:
                       type: string
-                      description: Unit of measure for the consumed quantity (e.g., "GB", "Requests",
+                      description:
+                        Unit of measure for the consumed quantity (e.g., "GB", "Requests",
                         "vCPU-Hours").
                     HostProviderName:
                       type: string
-                      description: Name of the entity providing the underlying infrastructure or
+                      description:
+                        Name of the entity providing the underlying infrastructure or
                         platform.
                     InvoiceIssuerName:
                       type: string
-                      description: Name of the entity responsible for invoicing for the services
+                      description:
+                        Name of the entity responsible for invoicing for the services
                         consumed.
                     ServiceProviderName:
                       type: string
                       description: Name of the entity that made the services available for purchase.
                     x_BillableMetricName:
                       type: string
-                      description: The display name of the billable metric. Cloudflare extension;
+                      description:
+                        The display name of the billable metric. Cloudflare extension;
                         replaces FOCUS SkuMeter.
                     BilledCost:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: A charge serving as the basis for invoicing, inclusive of all
+                      description:
+                        A charge serving as the basis for invoicing, inclusive of all
                         reduced rates and discounts while excluding the
                         amortization of upfront charges (one-time or recurring).
                     BillingCurrency:
@@ -233,26 +245,30 @@ paths:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: Inclusive start of the billing cycle that contains this usage
+                      description:
+                        Inclusive start of the billing cycle that contains this usage
                         record.
                     ChargeClass:
                       type: string
                       enum:
                         - Correction
                       nullable: true
-                      description: Indicates whether the row represents a correction to one or more
+                      description:
+                        Indicates whether the row represents a correction to one or more
                         charges invoiced in a previous billing period.
                     ContractedCost:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Cost calculated by multiplying ContractedUnitPrice and the
+                      description:
+                        Cost calculated by multiplying ContractedUnitPrice and the
                         corresponding PricingQuantity.
                     ContractedUnitPrice:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: The agreed-upon unit price for a single PricingUnit of the
+                      description:
+                        The agreed-upon unit price for a single PricingUnit of the
                         associated billable metric, inclusive of negotiated
                         discounts, if present, while excluding any other
                         discounts.
@@ -260,7 +276,8 @@ paths:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: The amortized cost of the charge after applying all reduced rates,
+                      description:
+                        The amortized cost of the charge after applying all reduced rates,
                         discounts, and the applicable portion of relevant,
                         prepaid purchases (one-time or recurring) that covered
                         the charge.
@@ -268,33 +285,38 @@ paths:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Cost calculated by multiplying ListUnitPrice and the corresponding
+                      description:
+                        Cost calculated by multiplying ListUnitPrice and the corresponding
                         PricingQuantity.
                     ListUnitPrice:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Suggested provider-published unit price for a single PricingUnit of
+                      description:
+                        Suggested provider-published unit price for a single PricingUnit of
                         the associated billable metric, exclusive of any
                         discounts.
                     PricingQuantity:
                       oneOf:
                         - type: number
                       nullable: true
-                      description: Volume of a given service used or purchased, based on the
+                      description:
+                        Volume of a given service used or purchased, based on the
                         PricingUnit.
                     PricingUnit:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: Provider-specified measurement unit for determining unit prices,
+                      description:
+                        Provider-specified measurement unit for determining unit prices,
                         indicating how the provider rates measured usage after
                         applying pricing rules like block pricing.
                     RegionId:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: Provider-assigned identifier for an isolated geographic area where
+                      description:
+                        Provider-assigned identifier for an isolated geographic area where
                         a service is provided.
                     RegionName:
                       oneOf:
@@ -303,25 +325,30 @@ paths:
                       description: Name of an isolated geographic area where a service is provided.
                     SubAccountId:
                       type: string
-                      description: Unique identifier assigned to a grouping of services. For
+                      description:
+                        Unique identifier assigned to a grouping of services. For
                         Cloudflare, this is the subscription or contract ID.
                     SubAccountName:
                       type: string
-                      description: Name assigned to a grouping of services. For Cloudflare, this is
+                      description:
+                        Name assigned to a grouping of services. For Cloudflare, this is
                         the subscription or contract display name.
                     x_BillableMetricId:
                       type: string
-                      description: The unique identifier for the billable metric in the Cloudflare
+                      description:
+                        The unique identifier for the billable metric in the Cloudflare
                         catalog. Cloudflare extension; replaces FOCUS SkuId.
                     x_ProductFamilyName:
                       type: string
-                      description: The product family the charge belongs to (e.g., "R2", "Workers").
+                      description:
+                        The product family the charge belongs to (e.g., "R2", "Workers").
                         Cloudflare extension; replaces FOCUS ServiceName.
                     x_ZoneId:
                       oneOf:
                         - type: string
                       nullable: true
-                      description: The identifier for the Cloudflare zone (zone tag). Cloudflare
+                      description:
+                        The identifier for the Cloudflare zone (zone tag). Cloudflare
                         extension.
                     x_ZoneName:
                       oneOf:
@@ -346,7 +373,8 @@ paths:
   /accounts/{account_id}/paygo-usage:
     get:
       operationId: paygoUsage
-      description: Returns billable usage data for PayGo (self-serve) accounts. When
+      description:
+        Returns billable usage data for PayGo (self-serve) accounts. When
         no query parameters are provided, returns usage for the current billing
         period. This endpoint is currently in alpha and access is restricted to
         select accounts. While in alpha, the endpoint may get breaking changes.
@@ -396,7 +424,8 @@ paths:
                       description: Specifies the quantity consumed during this charge period.
                     ConsumedUnit:
                       type: string
-                      description: A display name for the unit of measurement used for the product
+                      description:
+                        A display name for the unit of measurement used for the product
                         (for example, "GB-months", "GB-seconds"). May be empty
                         when the unit is implicit in the service name.
                     ContractedCost:
@@ -404,7 +433,8 @@ paths:
                       description: Specifies the cost for this charge period in the billing currency.
                     CumulatedContractedCost:
                       type: number
-                      description: Specifies the cumulated cost for the billing period in the billing
+                      description:
+                        Specifies the cumulated cost for the billing period in the billing
                         currency.
                     CumulatedPricingQuantity:
                       type: number

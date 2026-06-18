@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/botnet_feed/configs/asn:
     get:
       operationId: getConfigAsn
-      description: Gets a list of all ASNs registered for a user for the DDoS Botnet
+      description:
+        Gets a list of all ASNs registered for a user for the DDoS Botnet
         Feed API.
       parameters:
         - name: account_id
@@ -59,7 +60,8 @@ paths:
   /accounts/{account_id}/botnet_feed/asn/{asnId}/day_report:
     get:
       operationId: dayReportAsn
-      description: Gets all the data the botnet tracking database has for a given ASN
+      description:
+        Gets all the data the botnet tracking database has for a given ASN
         registered to user account for given date. If no date is given, it will
         return results for the previous day.
       parameters:
@@ -98,7 +100,8 @@ paths:
   /accounts/{account_id}/botnet_feed/asn/{asnId}/full_report:
     get:
       operationId: fullReportAsn
-      description: Gets all the data the botnet threat feed tracking database has for
+      description:
+        Gets all the data the botnet threat feed tracking database has for
         a given ASN registered to user account.
       parameters:
         - name: asnId

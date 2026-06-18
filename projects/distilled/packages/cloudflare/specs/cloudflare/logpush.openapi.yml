@@ -24,11 +24,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -49,14 +51,16 @@ paths:
         - name: account_id
           in: query
           required: false
-          description: The Account ID to use for this endpoint. Mutually exclusive with
+          description:
+            The Account ID to use for this endpoint. Mutually exclusive with
             the Zone ID.
           schema:
             type: string
         - name: zone_id
           in: query
           required: false
-          description: The Zone ID to use for this endpoint. Mutually exclusive with the
+          description:
+            The Zone ID to use for this endpoint. Mutually exclusive with the
             Account ID.
           schema:
             type: string
@@ -111,12 +115,14 @@ paths:
                           - zaraz_events
                           - zero_trust_network_sessions
                         nullable: true
-                        description: Name of the dataset. A list of supported datasets can be found on
+                        description:
+                          Name of the dataset. A list of supported datasets can be found on
                           the [Developer
                           Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
                       destination_conf:
                         type: string
-                        description: Uniquely identifies a resource (such as an s3 bucket) where data.
+                        description:
+                          Uniquely identifies a resource (such as an s3 bucket) where data.
                           will be pushed. Additional configuration parameters
                           supported by the destination may be included.
                       enabled:
@@ -126,7 +132,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: "If not null, the job is currently failing. Failures are usually.
+                        description:
+                          "If not null, the job is currently failing. Failures are usually.
                           repetitive (example: no permissions to write to
                           destination bucket). Only the last failure is
                           recorded. On successful execution of a job the
@@ -137,7 +144,8 @@ paths:
                           - high
                           - low
                         nullable: true
-                        description: "@deprecated This field is deprecated. Please use `max_upload_ `
+                        description:
+                          "@deprecated This field is deprecated. Please use `max_upload_ `
                           parameters instead. . The frequency at which
                           Cloudflare sends batches of logs to your destination.
                           Setting frequency to high sends your logs in larger
@@ -148,14 +156,16 @@ paths:
                         enum:
                           - ""
                           - edge
-                        description: The kind parameter (optional) is used to differentiate between
+                        description:
+                          The kind parameter (optional) is used to differentiate between
                           Logpush and Edge Log Delivery jobs (when supported by
                           the dataset).
                       last_complete:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Records the last time for which logs have been successfully pushed.
+                        description:
+                          Records the last time for which logs have been successfully pushed.
                           If the last successful push was for logs range
                           2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the
                           value of this field will be 2018-07-23T10:01:00Z. If
@@ -165,7 +175,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Records the last time the job failed. If not null, the job is
+                        description:
+                          Records the last time the job failed. If not null, the job is
                           currently. failing. If null, the job has either never
                           failed or has run successfully at least once since
                           last failure. See also the error_message field.
@@ -173,7 +184,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: "@deprecated This field is deprecated. Use `output_options`
+                        description:
+                          "@deprecated This field is deprecated. Use `output_options`
                           instead. Configuration string. It specifies things
                           like requested fields and timestamp formats. If
                           migrating from the logpull api, copy the url (full url
@@ -187,7 +199,8 @@ paths:
                               - 0
                           - type: number
                         nullable: true
-                        description: The maximum uncompressed file size of a batch of logs. This setting
+                        description:
+                          The maximum uncompressed file size of a batch of logs. This setting
                           value must be between `5 MB` and `1 GB`, or `0` to
                           disable it. Note that you cannot set a minimum file
                           size; this means that log files may be much smaller
@@ -199,7 +212,8 @@ paths:
                               - 0
                           - type: number
                         nullable: true
-                        description: The maximum interval in seconds for log batches. This setting must
+                        description:
+                          The maximum interval in seconds for log batches. This setting must
                           be between 30 and 300 seconds (5 minutes), or `0` to
                           disable it. Note that you cannot specify a minimum
                           interval for log batches; this means that log files
@@ -211,7 +225,8 @@ paths:
                               - 0
                           - type: number
                         nullable: true
-                        description: The maximum number of log lines per batch. This setting must be
+                        description:
+                          The maximum number of log lines per batch. This setting must be
                           between 1000 and 1,000,000 lines, or `0` to disable
                           it. Note that you cannot specify a minimum number of
                           log lines per batch; this means that log files may
@@ -220,7 +235,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Optional human readable job name. Not unique. Cloudflare suggests.
+                        description:
+                          Optional human readable job name. Not unique. Cloudflare suggests.
                           that you set this to a meaningful string, like the
                           domain name, to make it easier to identify your job.
                       output_options:
@@ -241,19 +257,22 @@ paths:
                                 oneOf:
                                   - type: boolean
                                 nullable: true
-                                description: If set to true, will cause all occurrences of `${` in the generated
+                                description:
+                                  If set to true, will cause all occurrences of `${` in the generated
                                   files to be replaced with `x{`.
                               field_delimiter:
                                 oneOf:
                                   - type: string
                                 nullable: true
-                                description: String to join fields. This field be ignored when `record_template`
+                                description:
+                                  String to join fields. This field be ignored when `record_template`
                                   is set.
                               field_names:
                                 type: array
                                 items:
                                   type: string
-                                description: List of field names to be included in the Logpush output. For the
+                                description:
+                                  List of field names to be included in the Logpush output. For the
                                   moment, there is no option to add all fields
                                   at once, so you must specify all the fields
                                   names you are interested in.
@@ -261,7 +280,8 @@ paths:
                                 oneOf:
                                   - type: boolean
                                 nullable: true
-                                description: If set to true, subrequests will be merged into the parent request.
+                                description:
+                                  If set to true, subrequests will be merged into the parent request.
                                   Only supported for the `http_requests`
                                   dataset.
                               output_type:
@@ -269,7 +289,8 @@ paths:
                                 enum:
                                   - ndjson
                                   - csv
-                                description: Specifies the output type, such as `ndjson` or `csv`. This sets
+                                description:
+                                  Specifies the output type, such as `ndjson` or `csv`. This sets
                                   default values for the rest of the settings,
                                   depending on the chosen output type. Some
                                   formatting rules, like string quoting, are
@@ -293,7 +314,8 @@ paths:
                                 oneOf:
                                   - type: string
                                 nullable: true
-                                description: String to use as template for each record instead of the default
+                                description:
+                                  String to use as template for each record instead of the default
                                   json key value mapping. All fields used in the
                                   template must be present in `field_names` as
                                   well, otherwise they will end up as null.
@@ -304,7 +326,8 @@ paths:
                                 oneOf:
                                   - type: number
                                 nullable: true
-                                description: Floating number to specify sampling rate. Sampling is applied on
+                                description:
+                                  Floating number to specify sampling rate. Sampling is applied on
                                   top of filtering, and regardless of the
                                   current `sample_interval` of the data.
                               timestamp_format:
@@ -315,10 +338,12 @@ paths:
                                   - rfc3339
                                   - rfc3339ms
                                   - rfc3339ns
-                                description: String to specify the format for timestamps, such as `unixnano`,
+                                description:
+                                  String to specify the format for timestamps, such as `unixnano`,
                                   `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
                         nullable: true
-                        description: The structured replacement for `logpull_options`. When including
+                        description:
+                          The structured replacement for `logpull_options`. When including
                           this field, the `logpull_option` field will be
                           ignored.
                 nullable: true
@@ -348,7 +373,8 @@ paths:
                     properties:
                       destination_conf:
                         type: string
-                        description: Unique WebSocket address that will receive messages from
+                        description:
+                          Unique WebSocket address that will receive messages from
                           Cloudflare’s edge.
                       fields:
                         type: string
@@ -358,7 +384,8 @@ paths:
                         description: Filters to drill down into specific events.
                       sample:
                         type: number
-                        description: 'The sample parameter is the sample rate of the records set by the
+                        description:
+                          'The sample parameter is the sample rate of the records set by the
                           client: "sample": 1 is 100% of records "sample": 10 is
                           10% and so on.'
                       session_id:
@@ -368,7 +395,8 @@ paths:
       x-distilled-pagination-class: InstantLogpushJobsSinglePage
     post:
       operationId: createEdge
-      description: "Creates a new Instant Logs job for a zone.  @example ```ts const
+      description:
+        "Creates a new Instant Logs job for a zone.  @example ```ts const
         instantLogpushJob = await client.logpush.edge.create({ zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -393,7 +421,8 @@ paths:
                   description: "Body param: Filters to drill down into specific events."
                 sample:
                   type: number
-                  description: 'Body param: The sample parameter is the sample rate of the records
+                  description:
+                    'Body param: The sample parameter is the sample rate of the records
                     set by the client: "sample": 1 is 100% of records "sample":
                     10 is 10% and so on.'
       responses:
@@ -406,7 +435,8 @@ paths:
                 properties:
                   destination_conf:
                     type: string
-                    description: Unique WebSocket address that will receive messages from
+                    description:
+                      Unique WebSocket address that will receive messages from
                       Cloudflare’s edge.
                   fields:
                     type: string
@@ -416,7 +446,8 @@ paths:
                     description: Filters to drill down into specific events.
                   sample:
                     type: number
-                    description: 'The sample parameter is the sample rate of the records set by the
+                    description:
+                      'The sample parameter is the sample rate of the records set by the
                       client: "sample": 1 is 100% of records "sample": 10 is 10%
                       and so on.'
                   session_id:
@@ -426,7 +457,8 @@ paths:
   /{accountOrZone}/{accountOrZoneId}/logpush/validate/destination/exists:
     post:
       operationId: destinationExistsValidate
-      description: "Checks if there is an existing job with a destination.  @example
+      description:
+        "Checks if there is an existing job with a destination.  @example
         ```ts const response = await client.logpush.validate.destinationExists({
         destination_conf: 's3://mybucket/logs?region=us-west-2', account_id:
         'account_id', }); ```"
@@ -434,14 +466,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -454,7 +488,8 @@ paths:
               properties:
                 destination_conf:
                   type: string
-                  description: "Body param: Uniquely identifies a resource (such as an s3 bucket)
+                  description:
+                    "Body param: Uniquely identifies a resource (such as an s3 bucket)
                     where data. will be pushed. Additional configuration
                     parameters supported by the destination may be included."
               required:
@@ -488,11 +523,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -544,12 +581,14 @@ paths:
                       - zaraz_events
                       - zero_trust_network_sessions
                     nullable: true
-                    description: Name of the dataset. A list of supported datasets can be found on
+                    description:
+                      Name of the dataset. A list of supported datasets can be found on
                       the [Developer
                       Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
                   destination_conf:
                     type: string
-                    description: Uniquely identifies a resource (such as an s3 bucket) where data.
+                    description:
+                      Uniquely identifies a resource (such as an s3 bucket) where data.
                       will be pushed. Additional configuration parameters
                       supported by the destination may be included.
                   enabled:
@@ -559,7 +598,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: "If not null, the job is currently failing. Failures are usually.
+                    description:
+                      "If not null, the job is currently failing. Failures are usually.
                       repetitive (example: no permissions to write to
                       destination bucket). Only the last failure is recorded. On
                       successful execution of a job the error_message and
@@ -570,7 +610,8 @@ paths:
                       - high
                       - low
                     nullable: true
-                    description: "@deprecated This field is deprecated. Please use `max_upload_ `
+                    description:
+                      "@deprecated This field is deprecated. Please use `max_upload_ `
                       parameters instead. . The frequency at which Cloudflare
                       sends batches of logs to your destination. Setting
                       frequency to high sends your logs in larger quantities of
@@ -581,14 +622,16 @@ paths:
                     enum:
                       - ""
                       - edge
-                    description: The kind parameter (optional) is used to differentiate between
+                    description:
+                      The kind parameter (optional) is used to differentiate between
                       Logpush and Edge Log Delivery jobs (when supported by the
                       dataset).
                   last_complete:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Records the last time for which logs have been successfully pushed.
+                    description:
+                      Records the last time for which logs have been successfully pushed.
                       If the last successful push was for logs range
                       2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the
                       value of this field will be 2018-07-23T10:01:00Z. If the
@@ -598,7 +641,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Records the last time the job failed. If not null, the job is
+                    description:
+                      Records the last time the job failed. If not null, the job is
                       currently. failing. If null, the job has either never
                       failed or has run successfully at least once since last
                       failure. See also the error_message field.
@@ -606,7 +650,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: "@deprecated This field is deprecated. Use `output_options`
+                    description:
+                      "@deprecated This field is deprecated. Use `output_options`
                       instead. Configuration string. It specifies things like
                       requested fields and timestamp formats. If migrating from
                       the logpull api, copy the url (full url or just the query
@@ -620,7 +665,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum uncompressed file size of a batch of logs. This setting
+                    description:
+                      The maximum uncompressed file size of a batch of logs. This setting
                       value must be between `5 MB` and `1 GB`, or `0` to disable
                       it. Note that you cannot set a minimum file size; this
                       means that log files may be much smaller than this batch
@@ -632,7 +678,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum interval in seconds for log batches. This setting must
+                    description:
+                      The maximum interval in seconds for log batches. This setting must
                       be between 30 and 300 seconds (5 minutes), or `0` to
                       disable it. Note that you cannot specify a minimum
                       interval for log batches; this means that log files may be
@@ -644,7 +691,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum number of log lines per batch. This setting must be
+                    description:
+                      The maximum number of log lines per batch. This setting must be
                       between 1000 and 1,000,000 lines, or `0` to disable it.
                       Note that you cannot specify a minimum number of log lines
                       per batch; this means that log files may contain many
@@ -653,7 +701,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Optional human readable job name. Not unique. Cloudflare suggests.
+                    description:
+                      Optional human readable job name. Not unique. Cloudflare suggests.
                       that you set this to a meaningful string, like the domain
                       name, to make it easier to identify your job.
                   output_options:
@@ -674,19 +723,22 @@ paths:
                             oneOf:
                               - type: boolean
                             nullable: true
-                            description: If set to true, will cause all occurrences of `${` in the generated
+                            description:
+                              If set to true, will cause all occurrences of `${` in the generated
                               files to be replaced with `x{`.
                           field_delimiter:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: String to join fields. This field be ignored when `record_template`
+                            description:
+                              String to join fields. This field be ignored when `record_template`
                               is set.
                           field_names:
                             type: array
                             items:
                               type: string
-                            description: List of field names to be included in the Logpush output. For the
+                            description:
+                              List of field names to be included in the Logpush output. For the
                               moment, there is no option to add all fields at
                               once, so you must specify all the fields names you
                               are interested in.
@@ -694,14 +746,16 @@ paths:
                             oneOf:
                               - type: boolean
                             nullable: true
-                            description: If set to true, subrequests will be merged into the parent request.
+                            description:
+                              If set to true, subrequests will be merged into the parent request.
                               Only supported for the `http_requests` dataset.
                           output_type:
                             type: string
                             enum:
                               - ndjson
                               - csv
-                            description: Specifies the output type, such as `ndjson` or `csv`. This sets
+                            description:
+                              Specifies the output type, such as `ndjson` or `csv`. This sets
                               default values for the rest of the settings,
                               depending on the chosen output type. Some
                               formatting rules, like string quoting, are
@@ -725,7 +779,8 @@ paths:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: String to use as template for each record instead of the default
+                            description:
+                              String to use as template for each record instead of the default
                               json key value mapping. All fields used in the
                               template must be present in `field_names` as well,
                               otherwise they will end up as null. Format as a Go
@@ -735,7 +790,8 @@ paths:
                             oneOf:
                               - type: number
                             nullable: true
-                            description: Floating number to specify sampling rate. Sampling is applied on
+                            description:
+                              Floating number to specify sampling rate. Sampling is applied on
                               top of filtering, and regardless of the current
                               `sample_interval` of the data.
                           timestamp_format:
@@ -746,10 +802,12 @@ paths:
                               - rfc3339
                               - rfc3339ms
                               - rfc3339ns
-                            description: String to specify the format for timestamps, such as `unixnano`,
+                            description:
+                              String to specify the format for timestamps, such as `unixnano`,
                               `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
                     nullable: true
-                    description: The structured replacement for `logpull_options`. When including
+                    description:
+                      The structured replacement for `logpull_options`. When including
                       this field, the `logpull_option` field will be ignored.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -762,7 +820,8 @@ paths:
           - status: 403
     put:
       operationId: updateJob
-      description: "Updates a Logpush job.  @example ```ts const logpushJob = await
+      description:
+        "Updates a Logpush job.  @example ```ts const logpushJob = await
         client.logpush.jobs.update(1, { account_id: 'account_id',
         destination_conf: 's3://mybucket/logs?region=us-west-2', filter:
         '{\"where\":{\"and\":[{\"key\":\"ClientRequestPath\",\"operator\":\"con\
@@ -784,14 +843,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -804,7 +865,8 @@ paths:
               properties:
                 destination_conf:
                   type: string
-                  description: "Body param: Uniquely identifies a resource (such as an s3 bucket)
+                  description:
+                    "Body param: Uniquely identifies a resource (such as an s3 bucket)
                     where data. will be pushed. Additional configuration
                     parameters supported by the destination may be included."
                 enabled:
@@ -814,7 +876,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: The filters to select the events to include and/or
+                  description:
+                    "Body param: The filters to select the events to include and/or
                     remove from your logs. For more information, refer to
                     [Filters](https://developers.cloudflare.com/logs/reference/\
                     filters/)."
@@ -824,7 +887,8 @@ paths:
                     - high
                     - low
                   nullable: true
-                  description: "@deprecated Body param: This field is deprecated. Please use
+                  description:
+                    "@deprecated Body param: This field is deprecated. Please use
                     `max_upload_ ` parameters instead. . The frequency at which
                     Cloudflare sends batches of logs to your destination.
                     Setting frequency to high sends your logs in larger
@@ -835,14 +899,16 @@ paths:
                   enum:
                     - ""
                     - edge
-                  description: "Body param: The kind parameter (optional) is used to differentiate
+                  description:
+                    "Body param: The kind parameter (optional) is used to differentiate
                     between Logpush and Edge Log Delivery jobs (when supported
                     by the dataset)."
                 logpull_options:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "@deprecated Body param: This field is deprecated. Use
+                  description:
+                    "@deprecated Body param: This field is deprecated. Use
                     `output_options` instead. Configuration string. It specifies
                     things like requested fields and timestamp formats. If
                     migrating from the logpull api, copy the url (full url or
@@ -856,7 +922,8 @@ paths:
                         - 0
                     - type: number
                   nullable: true
-                  description: "Body param: The maximum uncompressed file size of a batch of logs.
+                  description:
+                    "Body param: The maximum uncompressed file size of a batch of logs.
                     This setting value must be between `5 MB` and `1 GB`, or `0`
                     to disable it. Note that you cannot set a minimum file size;
                     this means that log files may be much smaller than this
@@ -868,7 +935,8 @@ paths:
                         - 0
                     - type: number
                   nullable: true
-                  description: "Body param: The maximum interval in seconds for log batches. This
+                  description:
+                    "Body param: The maximum interval in seconds for log batches. This
                     setting must be between 30 and 300 seconds (5 minutes), or
                     `0` to disable it. Note that you cannot specify a minimum
                     interval for log batches; this means that log files may be
@@ -880,7 +948,8 @@ paths:
                         - 0
                     - type: number
                   nullable: true
-                  description: "Body param: The maximum number of log lines per batch. This
+                  description:
+                    "Body param: The maximum number of log lines per batch. This
                     setting must be between 1000 and 1,000,000 lines, or `0` to
                     disable it. Note that you cannot specify a minimum number of
                     log lines per batch; this means that log files may contain
@@ -889,7 +958,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: Optional human readable job name. Not unique.
+                  description:
+                    "Body param: Optional human readable job name. Not unique.
                     Cloudflare suggests. that you set this to a meaningful
                     string, like the domain name, to make it easier to identify
                     your job."
@@ -911,19 +981,22 @@ paths:
                           oneOf:
                             - type: boolean
                           nullable: true
-                          description: If set to true, will cause all occurrences of `${` in the generated
+                          description:
+                            If set to true, will cause all occurrences of `${` in the generated
                             files to be replaced with `x{`.
                         field_delimiter:
                           oneOf:
                             - type: string
                           nullable: true
-                          description: String to join fields. This field be ignored when `record_template`
+                          description:
+                            String to join fields. This field be ignored when `record_template`
                             is set.
                         field_names:
                           type: array
                           items:
                             type: string
-                          description: List of field names to be included in the Logpush output. For the
+                          description:
+                            List of field names to be included in the Logpush output. For the
                             moment, there is no option to add all fields at
                             once, so you must specify all the fields names you
                             are interested in.
@@ -931,14 +1004,16 @@ paths:
                           oneOf:
                             - type: boolean
                           nullable: true
-                          description: If set to true, subrequests will be merged into the parent request.
+                          description:
+                            If set to true, subrequests will be merged into the parent request.
                             Only supported for the `http_requests` dataset.
                         output_type:
                           type: string
                           enum:
                             - ndjson
                             - csv
-                          description: Specifies the output type, such as `ndjson` or `csv`. This sets
+                          description:
+                            Specifies the output type, such as `ndjson` or `csv`. This sets
                             default values for the rest of the settings,
                             depending on the chosen output type. Some formatting
                             rules, like string quoting, are different between
@@ -962,7 +1037,8 @@ paths:
                           oneOf:
                             - type: string
                           nullable: true
-                          description: String to use as template for each record instead of the default
+                          description:
+                            String to use as template for each record instead of the default
                             json key value mapping. All fields used in the
                             template must be present in `field_names` as well,
                             otherwise they will end up as null. Format as a Go
@@ -972,7 +1048,8 @@ paths:
                           oneOf:
                             - type: number
                           nullable: true
-                          description: Floating number to specify sampling rate. Sampling is applied on
+                          description:
+                            Floating number to specify sampling rate. Sampling is applied on
                             top of filtering, and regardless of the current
                             `sample_interval` of the data.
                         timestamp_format:
@@ -983,15 +1060,18 @@ paths:
                             - rfc3339
                             - rfc3339ms
                             - rfc3339ns
-                          description: String to specify the format for timestamps, such as `unixnano`,
+                          description:
+                            String to specify the format for timestamps, such as `unixnano`,
                             `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
                   nullable: true
-                  description: "Body param: The structured replacement for `logpull_options`. When
+                  description:
+                    "Body param: The structured replacement for `logpull_options`. When
                     including this field, the `logpull_option` field will be
                     ignored."
                 ownership_challenge:
                   type: string
-                  description: "Body param: Ownership challenge token to prove destination
+                  description:
+                    "Body param: Ownership challenge token to prove destination
                     ownership."
       responses:
         "200":
@@ -1043,12 +1123,14 @@ paths:
                       - zaraz_events
                       - zero_trust_network_sessions
                     nullable: true
-                    description: Name of the dataset. A list of supported datasets can be found on
+                    description:
+                      Name of the dataset. A list of supported datasets can be found on
                       the [Developer
                       Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
                   destination_conf:
                     type: string
-                    description: Uniquely identifies a resource (such as an s3 bucket) where data.
+                    description:
+                      Uniquely identifies a resource (such as an s3 bucket) where data.
                       will be pushed. Additional configuration parameters
                       supported by the destination may be included.
                   enabled:
@@ -1058,7 +1140,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: "If not null, the job is currently failing. Failures are usually.
+                    description:
+                      "If not null, the job is currently failing. Failures are usually.
                       repetitive (example: no permissions to write to
                       destination bucket). Only the last failure is recorded. On
                       successful execution of a job the error_message and
@@ -1069,7 +1152,8 @@ paths:
                       - high
                       - low
                     nullable: true
-                    description: "@deprecated This field is deprecated. Please use `max_upload_ `
+                    description:
+                      "@deprecated This field is deprecated. Please use `max_upload_ `
                       parameters instead. . The frequency at which Cloudflare
                       sends batches of logs to your destination. Setting
                       frequency to high sends your logs in larger quantities of
@@ -1080,14 +1164,16 @@ paths:
                     enum:
                       - ""
                       - edge
-                    description: The kind parameter (optional) is used to differentiate between
+                    description:
+                      The kind parameter (optional) is used to differentiate between
                       Logpush and Edge Log Delivery jobs (when supported by the
                       dataset).
                   last_complete:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Records the last time for which logs have been successfully pushed.
+                    description:
+                      Records the last time for which logs have been successfully pushed.
                       If the last successful push was for logs range
                       2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the
                       value of this field will be 2018-07-23T10:01:00Z. If the
@@ -1097,7 +1183,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Records the last time the job failed. If not null, the job is
+                    description:
+                      Records the last time the job failed. If not null, the job is
                       currently. failing. If null, the job has either never
                       failed or has run successfully at least once since last
                       failure. See also the error_message field.
@@ -1105,7 +1192,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: "@deprecated This field is deprecated. Use `output_options`
+                    description:
+                      "@deprecated This field is deprecated. Use `output_options`
                       instead. Configuration string. It specifies things like
                       requested fields and timestamp formats. If migrating from
                       the logpull api, copy the url (full url or just the query
@@ -1119,7 +1207,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum uncompressed file size of a batch of logs. This setting
+                    description:
+                      The maximum uncompressed file size of a batch of logs. This setting
                       value must be between `5 MB` and `1 GB`, or `0` to disable
                       it. Note that you cannot set a minimum file size; this
                       means that log files may be much smaller than this batch
@@ -1131,7 +1220,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum interval in seconds for log batches. This setting must
+                    description:
+                      The maximum interval in seconds for log batches. This setting must
                       be between 30 and 300 seconds (5 minutes), or `0` to
                       disable it. Note that you cannot specify a minimum
                       interval for log batches; this means that log files may be
@@ -1143,7 +1233,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum number of log lines per batch. This setting must be
+                    description:
+                      The maximum number of log lines per batch. This setting must be
                       between 1000 and 1,000,000 lines, or `0` to disable it.
                       Note that you cannot specify a minimum number of log lines
                       per batch; this means that log files may contain many
@@ -1152,7 +1243,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Optional human readable job name. Not unique. Cloudflare suggests.
+                    description:
+                      Optional human readable job name. Not unique. Cloudflare suggests.
                       that you set this to a meaningful string, like the domain
                       name, to make it easier to identify your job.
                   output_options:
@@ -1173,19 +1265,22 @@ paths:
                             oneOf:
                               - type: boolean
                             nullable: true
-                            description: If set to true, will cause all occurrences of `${` in the generated
+                            description:
+                              If set to true, will cause all occurrences of `${` in the generated
                               files to be replaced with `x{`.
                           field_delimiter:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: String to join fields. This field be ignored when `record_template`
+                            description:
+                              String to join fields. This field be ignored when `record_template`
                               is set.
                           field_names:
                             type: array
                             items:
                               type: string
-                            description: List of field names to be included in the Logpush output. For the
+                            description:
+                              List of field names to be included in the Logpush output. For the
                               moment, there is no option to add all fields at
                               once, so you must specify all the fields names you
                               are interested in.
@@ -1193,14 +1288,16 @@ paths:
                             oneOf:
                               - type: boolean
                             nullable: true
-                            description: If set to true, subrequests will be merged into the parent request.
+                            description:
+                              If set to true, subrequests will be merged into the parent request.
                               Only supported for the `http_requests` dataset.
                           output_type:
                             type: string
                             enum:
                               - ndjson
                               - csv
-                            description: Specifies the output type, such as `ndjson` or `csv`. This sets
+                            description:
+                              Specifies the output type, such as `ndjson` or `csv`. This sets
                               default values for the rest of the settings,
                               depending on the chosen output type. Some
                               formatting rules, like string quoting, are
@@ -1224,7 +1321,8 @@ paths:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: String to use as template for each record instead of the default
+                            description:
+                              String to use as template for each record instead of the default
                               json key value mapping. All fields used in the
                               template must be present in `field_names` as well,
                               otherwise they will end up as null. Format as a Go
@@ -1234,7 +1332,8 @@ paths:
                             oneOf:
                               - type: number
                             nullable: true
-                            description: Floating number to specify sampling rate. Sampling is applied on
+                            description:
+                              Floating number to specify sampling rate. Sampling is applied on
                               top of filtering, and regardless of the current
                               `sample_interval` of the data.
                           timestamp_format:
@@ -1245,10 +1344,12 @@ paths:
                               - rfc3339
                               - rfc3339ms
                               - rfc3339ns
-                            description: String to specify the format for timestamps, such as `unixnano`,
+                            description:
+                              String to specify the format for timestamps, such as `unixnano`,
                               `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
                     nullable: true
-                    description: The structured replacement for `logpull_options`. When including
+                    description:
+                      The structured replacement for `logpull_options`. When including
                       this field, the `logpull_option` field will be ignored.
       x-distilled-response-path: result
     delete:
@@ -1268,11 +1369,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -1299,14 +1402,16 @@ paths:
         - name: account_id
           in: query
           required: false
-          description: The Account ID to use for this endpoint. Mutually exclusive with
+          description:
+            The Account ID to use for this endpoint. Mutually exclusive with
             the Zone ID.
           schema:
             type: string
         - name: zone_id
           in: query
           required: false
-          description: The Zone ID to use for this endpoint. Mutually exclusive with the
+          description:
+            The Zone ID to use for this endpoint. Mutually exclusive with the
             Account ID.
           schema:
             type: string
@@ -1361,12 +1466,14 @@ paths:
                           - zaraz_events
                           - zero_trust_network_sessions
                         nullable: true
-                        description: Name of the dataset. A list of supported datasets can be found on
+                        description:
+                          Name of the dataset. A list of supported datasets can be found on
                           the [Developer
                           Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
                       destination_conf:
                         type: string
-                        description: Uniquely identifies a resource (such as an s3 bucket) where data.
+                        description:
+                          Uniquely identifies a resource (such as an s3 bucket) where data.
                           will be pushed. Additional configuration parameters
                           supported by the destination may be included.
                       enabled:
@@ -1376,7 +1483,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: "If not null, the job is currently failing. Failures are usually.
+                        description:
+                          "If not null, the job is currently failing. Failures are usually.
                           repetitive (example: no permissions to write to
                           destination bucket). Only the last failure is
                           recorded. On successful execution of a job the
@@ -1387,7 +1495,8 @@ paths:
                           - high
                           - low
                         nullable: true
-                        description: "@deprecated This field is deprecated. Please use `max_upload_ `
+                        description:
+                          "@deprecated This field is deprecated. Please use `max_upload_ `
                           parameters instead. . The frequency at which
                           Cloudflare sends batches of logs to your destination.
                           Setting frequency to high sends your logs in larger
@@ -1398,14 +1507,16 @@ paths:
                         enum:
                           - ""
                           - edge
-                        description: The kind parameter (optional) is used to differentiate between
+                        description:
+                          The kind parameter (optional) is used to differentiate between
                           Logpush and Edge Log Delivery jobs (when supported by
                           the dataset).
                       last_complete:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Records the last time for which logs have been successfully pushed.
+                        description:
+                          Records the last time for which logs have been successfully pushed.
                           If the last successful push was for logs range
                           2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the
                           value of this field will be 2018-07-23T10:01:00Z. If
@@ -1415,7 +1526,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Records the last time the job failed. If not null, the job is
+                        description:
+                          Records the last time the job failed. If not null, the job is
                           currently. failing. If null, the job has either never
                           failed or has run successfully at least once since
                           last failure. See also the error_message field.
@@ -1423,7 +1535,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: "@deprecated This field is deprecated. Use `output_options`
+                        description:
+                          "@deprecated This field is deprecated. Use `output_options`
                           instead. Configuration string. It specifies things
                           like requested fields and timestamp formats. If
                           migrating from the logpull api, copy the url (full url
@@ -1437,7 +1550,8 @@ paths:
                               - 0
                           - type: number
                         nullable: true
-                        description: The maximum uncompressed file size of a batch of logs. This setting
+                        description:
+                          The maximum uncompressed file size of a batch of logs. This setting
                           value must be between `5 MB` and `1 GB`, or `0` to
                           disable it. Note that you cannot set a minimum file
                           size; this means that log files may be much smaller
@@ -1449,7 +1563,8 @@ paths:
                               - 0
                           - type: number
                         nullable: true
-                        description: The maximum interval in seconds for log batches. This setting must
+                        description:
+                          The maximum interval in seconds for log batches. This setting must
                           be between 30 and 300 seconds (5 minutes), or `0` to
                           disable it. Note that you cannot specify a minimum
                           interval for log batches; this means that log files
@@ -1461,7 +1576,8 @@ paths:
                               - 0
                           - type: number
                         nullable: true
-                        description: The maximum number of log lines per batch. This setting must be
+                        description:
+                          The maximum number of log lines per batch. This setting must be
                           between 1000 and 1,000,000 lines, or `0` to disable
                           it. Note that you cannot specify a minimum number of
                           log lines per batch; this means that log files may
@@ -1470,7 +1586,8 @@ paths:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Optional human readable job name. Not unique. Cloudflare suggests.
+                        description:
+                          Optional human readable job name. Not unique. Cloudflare suggests.
                           that you set this to a meaningful string, like the
                           domain name, to make it easier to identify your job.
                       output_options:
@@ -1491,19 +1608,22 @@ paths:
                                 oneOf:
                                   - type: boolean
                                 nullable: true
-                                description: If set to true, will cause all occurrences of `${` in the generated
+                                description:
+                                  If set to true, will cause all occurrences of `${` in the generated
                                   files to be replaced with `x{`.
                               field_delimiter:
                                 oneOf:
                                   - type: string
                                 nullable: true
-                                description: String to join fields. This field be ignored when `record_template`
+                                description:
+                                  String to join fields. This field be ignored when `record_template`
                                   is set.
                               field_names:
                                 type: array
                                 items:
                                   type: string
-                                description: List of field names to be included in the Logpush output. For the
+                                description:
+                                  List of field names to be included in the Logpush output. For the
                                   moment, there is no option to add all fields
                                   at once, so you must specify all the fields
                                   names you are interested in.
@@ -1511,7 +1631,8 @@ paths:
                                 oneOf:
                                   - type: boolean
                                 nullable: true
-                                description: If set to true, subrequests will be merged into the parent request.
+                                description:
+                                  If set to true, subrequests will be merged into the parent request.
                                   Only supported for the `http_requests`
                                   dataset.
                               output_type:
@@ -1519,7 +1640,8 @@ paths:
                                 enum:
                                   - ndjson
                                   - csv
-                                description: Specifies the output type, such as `ndjson` or `csv`. This sets
+                                description:
+                                  Specifies the output type, such as `ndjson` or `csv`. This sets
                                   default values for the rest of the settings,
                                   depending on the chosen output type. Some
                                   formatting rules, like string quoting, are
@@ -1543,7 +1665,8 @@ paths:
                                 oneOf:
                                   - type: string
                                 nullable: true
-                                description: String to use as template for each record instead of the default
+                                description:
+                                  String to use as template for each record instead of the default
                                   json key value mapping. All fields used in the
                                   template must be present in `field_names` as
                                   well, otherwise they will end up as null.
@@ -1554,7 +1677,8 @@ paths:
                                 oneOf:
                                   - type: number
                                 nullable: true
-                                description: Floating number to specify sampling rate. Sampling is applied on
+                                description:
+                                  Floating number to specify sampling rate. Sampling is applied on
                                   top of filtering, and regardless of the
                                   current `sample_interval` of the data.
                               timestamp_format:
@@ -1565,10 +1689,12 @@ paths:
                                   - rfc3339
                                   - rfc3339ms
                                   - rfc3339ns
-                                description: String to specify the format for timestamps, such as `unixnano`,
+                                description:
+                                  String to specify the format for timestamps, such as `unixnano`,
                                   `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
                         nullable: true
-                        description: The structured replacement for `logpull_options`. When including
+                        description:
+                          The structured replacement for `logpull_options`. When including
                           this field, the `logpull_option` field will be
                           ignored.
                 nullable: true
@@ -1580,7 +1706,8 @@ paths:
           - status: 404
     post:
       operationId: createJob
-      description: "Creates a new Logpush job for an account or zone.  @example ```ts
+      description:
+        "Creates a new Logpush job for an account or zone.  @example ```ts
         const logpushJob = await client.logpush.jobs.create({ destination_conf:
         's3://mybucket/logs?region=us-west-2', account_id: 'account_id',
         dataset: 'gateway_dns', filter:
@@ -1598,14 +1725,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -1618,7 +1747,8 @@ paths:
               properties:
                 destination_conf:
                   type: string
-                  description: "Body param: Uniquely identifies a resource (such as an s3 bucket)
+                  description:
+                    "Body param: Uniquely identifies a resource (such as an s3 bucket)
                     where data. will be pushed. Additional configuration
                     parameters supported by the destination may be included."
                 dataset:
@@ -1660,7 +1790,8 @@ paths:
                     - zaraz_events
                     - zero_trust_network_sessions
                   nullable: true
-                  description: "Body param: Name of the dataset. A list of supported datasets can
+                  description:
+                    "Body param: Name of the dataset. A list of supported datasets can
                     be found on the [Developer
                     Docs](https://developers.cloudflare.com/logs/reference/log-\
                     fields/)."
@@ -1671,7 +1802,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: The filters to select the events to include and/or
+                  description:
+                    "Body param: The filters to select the events to include and/or
                     remove from your logs. For more information, refer to
                     [Filters](https://developers.cloudflare.com/logs/reference/\
                     filters/)."
@@ -1681,7 +1813,8 @@ paths:
                     - high
                     - low
                   nullable: true
-                  description: "@deprecated Body param: This field is deprecated. Please use
+                  description:
+                    "@deprecated Body param: This field is deprecated. Please use
                     `max_upload_ ` parameters instead. . The frequency at which
                     Cloudflare sends batches of logs to your destination.
                     Setting frequency to high sends your logs in larger
@@ -1692,14 +1825,16 @@ paths:
                   enum:
                     - ""
                     - edge
-                  description: "Body param: The kind parameter (optional) is used to differentiate
+                  description:
+                    "Body param: The kind parameter (optional) is used to differentiate
                     between Logpush and Edge Log Delivery jobs (when supported
                     by the dataset)."
                 logpull_options:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "@deprecated Body param: This field is deprecated. Use
+                  description:
+                    "@deprecated Body param: This field is deprecated. Use
                     `output_options` instead. Configuration string. It specifies
                     things like requested fields and timestamp formats. If
                     migrating from the logpull api, copy the url (full url or
@@ -1713,7 +1848,8 @@ paths:
                         - 0
                     - type: number
                   nullable: true
-                  description: "Body param: The maximum uncompressed file size of a batch of logs.
+                  description:
+                    "Body param: The maximum uncompressed file size of a batch of logs.
                     This setting value must be between `5 MB` and `1 GB`, or `0`
                     to disable it. Note that you cannot set a minimum file size;
                     this means that log files may be much smaller than this
@@ -1725,7 +1861,8 @@ paths:
                         - 0
                     - type: number
                   nullable: true
-                  description: "Body param: The maximum interval in seconds for log batches. This
+                  description:
+                    "Body param: The maximum interval in seconds for log batches. This
                     setting must be between 30 and 300 seconds (5 minutes), or
                     `0` to disable it. Note that you cannot specify a minimum
                     interval for log batches; this means that log files may be
@@ -1737,7 +1874,8 @@ paths:
                         - 0
                     - type: number
                   nullable: true
-                  description: "Body param: The maximum number of log lines per batch. This
+                  description:
+                    "Body param: The maximum number of log lines per batch. This
                     setting must be between 1000 and 1,000,000 lines, or `0` to
                     disable it. Note that you cannot specify a minimum number of
                     log lines per batch; this means that log files may contain
@@ -1746,7 +1884,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: Optional human readable job name. Not unique.
+                  description:
+                    "Body param: Optional human readable job name. Not unique.
                     Cloudflare suggests. that you set this to a meaningful
                     string, like the domain name, to make it easier to identify
                     your job."
@@ -1768,19 +1907,22 @@ paths:
                           oneOf:
                             - type: boolean
                           nullable: true
-                          description: If set to true, will cause all occurrences of `${` in the generated
+                          description:
+                            If set to true, will cause all occurrences of `${` in the generated
                             files to be replaced with `x{`.
                         field_delimiter:
                           oneOf:
                             - type: string
                           nullable: true
-                          description: String to join fields. This field be ignored when `record_template`
+                          description:
+                            String to join fields. This field be ignored when `record_template`
                             is set.
                         field_names:
                           type: array
                           items:
                             type: string
-                          description: List of field names to be included in the Logpush output. For the
+                          description:
+                            List of field names to be included in the Logpush output. For the
                             moment, there is no option to add all fields at
                             once, so you must specify all the fields names you
                             are interested in.
@@ -1788,14 +1930,16 @@ paths:
                           oneOf:
                             - type: boolean
                           nullable: true
-                          description: If set to true, subrequests will be merged into the parent request.
+                          description:
+                            If set to true, subrequests will be merged into the parent request.
                             Only supported for the `http_requests` dataset.
                         output_type:
                           type: string
                           enum:
                             - ndjson
                             - csv
-                          description: Specifies the output type, such as `ndjson` or `csv`. This sets
+                          description:
+                            Specifies the output type, such as `ndjson` or `csv`. This sets
                             default values for the rest of the settings,
                             depending on the chosen output type. Some formatting
                             rules, like string quoting, are different between
@@ -1819,7 +1963,8 @@ paths:
                           oneOf:
                             - type: string
                           nullable: true
-                          description: String to use as template for each record instead of the default
+                          description:
+                            String to use as template for each record instead of the default
                             json key value mapping. All fields used in the
                             template must be present in `field_names` as well,
                             otherwise they will end up as null. Format as a Go
@@ -1829,7 +1974,8 @@ paths:
                           oneOf:
                             - type: number
                           nullable: true
-                          description: Floating number to specify sampling rate. Sampling is applied on
+                          description:
+                            Floating number to specify sampling rate. Sampling is applied on
                             top of filtering, and regardless of the current
                             `sample_interval` of the data.
                         timestamp_format:
@@ -1840,15 +1986,18 @@ paths:
                             - rfc3339
                             - rfc3339ms
                             - rfc3339ns
-                          description: String to specify the format for timestamps, such as `unixnano`,
+                          description:
+                            String to specify the format for timestamps, such as `unixnano`,
                             `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
                   nullable: true
-                  description: "Body param: The structured replacement for `logpull_options`. When
+                  description:
+                    "Body param: The structured replacement for `logpull_options`. When
                     including this field, the `logpull_option` field will be
                     ignored."
                 ownership_challenge:
                   type: string
-                  description: "Body param: Ownership challenge token to prove destination
+                  description:
+                    "Body param: Ownership challenge token to prove destination
                     ownership."
               required:
                 - destination_conf
@@ -1902,12 +2051,14 @@ paths:
                       - zaraz_events
                       - zero_trust_network_sessions
                     nullable: true
-                    description: Name of the dataset. A list of supported datasets can be found on
+                    description:
+                      Name of the dataset. A list of supported datasets can be found on
                       the [Developer
                       Docs](https://developers.cloudflare.com/logs/reference/log-fields/).
                   destination_conf:
                     type: string
-                    description: Uniquely identifies a resource (such as an s3 bucket) where data.
+                    description:
+                      Uniquely identifies a resource (such as an s3 bucket) where data.
                       will be pushed. Additional configuration parameters
                       supported by the destination may be included.
                   enabled:
@@ -1917,7 +2068,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: "If not null, the job is currently failing. Failures are usually.
+                    description:
+                      "If not null, the job is currently failing. Failures are usually.
                       repetitive (example: no permissions to write to
                       destination bucket). Only the last failure is recorded. On
                       successful execution of a job the error_message and
@@ -1928,7 +2080,8 @@ paths:
                       - high
                       - low
                     nullable: true
-                    description: "@deprecated This field is deprecated. Please use `max_upload_ `
+                    description:
+                      "@deprecated This field is deprecated. Please use `max_upload_ `
                       parameters instead. . The frequency at which Cloudflare
                       sends batches of logs to your destination. Setting
                       frequency to high sends your logs in larger quantities of
@@ -1939,14 +2092,16 @@ paths:
                     enum:
                       - ""
                       - edge
-                    description: The kind parameter (optional) is used to differentiate between
+                    description:
+                      The kind parameter (optional) is used to differentiate between
                       Logpush and Edge Log Delivery jobs (when supported by the
                       dataset).
                   last_complete:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Records the last time for which logs have been successfully pushed.
+                    description:
+                      Records the last time for which logs have been successfully pushed.
                       If the last successful push was for logs range
                       2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the
                       value of this field will be 2018-07-23T10:01:00Z. If the
@@ -1956,7 +2111,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Records the last time the job failed. If not null, the job is
+                    description:
+                      Records the last time the job failed. If not null, the job is
                       currently. failing. If null, the job has either never
                       failed or has run successfully at least once since last
                       failure. See also the error_message field.
@@ -1964,7 +2120,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: "@deprecated This field is deprecated. Use `output_options`
+                    description:
+                      "@deprecated This field is deprecated. Use `output_options`
                       instead. Configuration string. It specifies things like
                       requested fields and timestamp formats. If migrating from
                       the logpull api, copy the url (full url or just the query
@@ -1978,7 +2135,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum uncompressed file size of a batch of logs. This setting
+                    description:
+                      The maximum uncompressed file size of a batch of logs. This setting
                       value must be between `5 MB` and `1 GB`, or `0` to disable
                       it. Note that you cannot set a minimum file size; this
                       means that log files may be much smaller than this batch
@@ -1990,7 +2148,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum interval in seconds for log batches. This setting must
+                    description:
+                      The maximum interval in seconds for log batches. This setting must
                       be between 30 and 300 seconds (5 minutes), or `0` to
                       disable it. Note that you cannot specify a minimum
                       interval for log batches; this means that log files may be
@@ -2002,7 +2161,8 @@ paths:
                           - 0
                       - type: number
                     nullable: true
-                    description: The maximum number of log lines per batch. This setting must be
+                    description:
+                      The maximum number of log lines per batch. This setting must be
                       between 1000 and 1,000,000 lines, or `0` to disable it.
                       Note that you cannot specify a minimum number of log lines
                       per batch; this means that log files may contain many
@@ -2011,7 +2171,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Optional human readable job name. Not unique. Cloudflare suggests.
+                    description:
+                      Optional human readable job name. Not unique. Cloudflare suggests.
                       that you set this to a meaningful string, like the domain
                       name, to make it easier to identify your job.
                   output_options:
@@ -2032,19 +2193,22 @@ paths:
                             oneOf:
                               - type: boolean
                             nullable: true
-                            description: If set to true, will cause all occurrences of `${` in the generated
+                            description:
+                              If set to true, will cause all occurrences of `${` in the generated
                               files to be replaced with `x{`.
                           field_delimiter:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: String to join fields. This field be ignored when `record_template`
+                            description:
+                              String to join fields. This field be ignored when `record_template`
                               is set.
                           field_names:
                             type: array
                             items:
                               type: string
-                            description: List of field names to be included in the Logpush output. For the
+                            description:
+                              List of field names to be included in the Logpush output. For the
                               moment, there is no option to add all fields at
                               once, so you must specify all the fields names you
                               are interested in.
@@ -2052,14 +2216,16 @@ paths:
                             oneOf:
                               - type: boolean
                             nullable: true
-                            description: If set to true, subrequests will be merged into the parent request.
+                            description:
+                              If set to true, subrequests will be merged into the parent request.
                               Only supported for the `http_requests` dataset.
                           output_type:
                             type: string
                             enum:
                               - ndjson
                               - csv
-                            description: Specifies the output type, such as `ndjson` or `csv`. This sets
+                            description:
+                              Specifies the output type, such as `ndjson` or `csv`. This sets
                               default values for the rest of the settings,
                               depending on the chosen output type. Some
                               formatting rules, like string quoting, are
@@ -2083,7 +2249,8 @@ paths:
                             oneOf:
                               - type: string
                             nullable: true
-                            description: String to use as template for each record instead of the default
+                            description:
+                              String to use as template for each record instead of the default
                               json key value mapping. All fields used in the
                               template must be present in `field_names` as well,
                               otherwise they will end up as null. Format as a Go
@@ -2093,7 +2260,8 @@ paths:
                             oneOf:
                               - type: number
                             nullable: true
-                            description: Floating number to specify sampling rate. Sampling is applied on
+                            description:
+                              Floating number to specify sampling rate. Sampling is applied on
                               top of filtering, and regardless of the current
                               `sample_interval` of the data.
                           timestamp_format:
@@ -2104,16 +2272,19 @@ paths:
                               - rfc3339
                               - rfc3339ms
                               - rfc3339ns
-                            description: String to specify the format for timestamps, such as `unixnano`,
+                            description:
+                              String to specify the format for timestamps, such as `unixnano`,
                               `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
                     nullable: true
-                    description: The structured replacement for `logpull_options`. When including
+                    description:
+                      The structured replacement for `logpull_options`. When including
                       this field, the `logpull_option` field will be ignored.
       x-distilled-response-path: result
   /{accountOrZone}/{accountOrZoneId}/logpush/ownership:
     post:
       operationId: createOwnership
-      description: "Gets a new ownership challenge sent to your destination.  @example
+      description:
+        "Gets a new ownership challenge sent to your destination.  @example
         ```ts const ownership = await client.logpush.ownership.create({
         destination_conf: 's3://mybucket/logs?region=us-west-2', account_id:
         'account_id', }); ```"
@@ -2121,14 +2292,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -2141,7 +2314,8 @@ paths:
               properties:
                 destination_conf:
                   type: string
-                  description: "Body param: Uniquely identifies a resource (such as an s3 bucket)
+                  description:
+                    "Body param: Uniquely identifies a resource (such as an s3 bucket)
                     where data. will be pushed. Additional configuration
                     parameters supported by the destination may be included."
               required:
@@ -2164,7 +2338,8 @@ paths:
   /{accountOrZone}/{accountOrZoneId}/logpush/ownership/validate:
     post:
       operationId: validateOwnership
-      description: "Validates ownership challenge of the destination.  @example ```ts
+      description:
+        "Validates ownership challenge of the destination.  @example ```ts
         const ownershipValidation = await client.logpush.ownership.validate({
         destination_conf: 's3://mybucket/logs?region=us-west-2',
         ownership_challenge: '00000000000000000000', account_id: 'account_id',
@@ -2173,14 +2348,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -2193,12 +2370,14 @@ paths:
               properties:
                 destination_conf:
                   type: string
-                  description: "Body param: Uniquely identifies a resource (such as an s3 bucket)
+                  description:
+                    "Body param: Uniquely identifies a resource (such as an s3 bucket)
                     where data. will be pushed. Additional configuration
                     parameters supported by the destination may be included."
                 ownership_challenge:
                   type: string
-                  description: "Body param: Ownership challenge token to prove destination
+                  description:
+                    "Body param: Ownership challenge token to prove destination
                     ownership."
               required:
                 - destination_conf
@@ -2217,7 +2396,8 @@ paths:
   /{accountOrZone}/{accountOrZoneId}/logpush/validate/destination:
     post:
       operationId: destinationValidate
-      description: "Validates destination.  @example ```ts const response = await
+      description:
+        "Validates destination.  @example ```ts const response = await
         client.logpush.validate.destination({ destination_conf:
         's3://mybucket/logs?region=us-west-2', account_id: 'account_id', });
         ```"
@@ -2225,14 +2405,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -2245,7 +2427,8 @@ paths:
               properties:
                 destination_conf:
                   type: string
-                  description: "Body param: Uniquely identifies a resource (such as an s3 bucket)
+                  description:
+                    "Body param: Uniquely identifies a resource (such as an s3 bucket)
                     where data. will be pushed. Additional configuration
                     parameters supported by the destination may be included."
               required:
@@ -2266,7 +2449,8 @@ paths:
   /{accountOrZone}/{accountOrZoneId}/logpush/validate/origin:
     post:
       operationId: originValidate
-      description: "Validates logpull origin with logpull_options.  @example ```ts
+      description:
+        "Validates logpull origin with logpull_options.  @example ```ts
         const response = await client.logpush.validate.origin({ logpull_options:
         'fields=RayID,ClientIP,EdgeStartTimestamp&timestamps=rfc3339',
         account_id: 'account_id', }); ```"
@@ -2274,14 +2458,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -2296,7 +2482,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "@deprecated Body param: This field is deprecated. Use
+                  description:
+                    "@deprecated Body param: This field is deprecated. Use
                     `output_options` instead. Configuration string. It specifies
                     things like requested fields and timestamp formats. If
                     migrating from the logpull api, copy the url (full url or

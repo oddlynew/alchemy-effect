@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateVirtualField", () => {
   it(
     "updates an existing virtual field's expression and description",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-upvf-${testRunId}`;
       const fieldName = `distilled_axiom_upvf_${testRunId}`;
@@ -56,11 +57,11 @@ describe("updateVirtualField", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a virtual-field id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateVirtualField({
@@ -73,7 +74,6 @@ describe("updateVirtualField", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   // Removed: the client-side schema requires dataset/name/expression on

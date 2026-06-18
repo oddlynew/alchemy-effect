@@ -121,7 +121,8 @@ paths:
   /zones/{zone_id}/argo/tiered_caching:
     get:
       operationId: getTieredCaching
-      description: "Tiered Cache works by dividing Cloudflare's data centers into a
+      description:
+        "Tiered Cache works by dividing Cloudflare's data centers into a
         hierarchy of lower-tiers and upper-tiers. If content is not cached in
         lower-tier data centers (generally the ones closest to a visitor), the
         lower-tier must ask an upper-tier to see if it has the content. If the
@@ -185,7 +186,8 @@ paths:
           - status: 403
     patch:
       operationId: patchTieredCaching
-      description: "Tiered Cache works by dividing Cloudflare's data centers into a
+      description:
+        "Tiered Cache works by dividing Cloudflare's data centers into a
         hierarchy of lower-tiers and upper-tiers. If content is not cached in
         lower-tier data centers (generally the ones closest to a visitor), the
         lower-tier must ask an upper-tier to see if it has the content. If the

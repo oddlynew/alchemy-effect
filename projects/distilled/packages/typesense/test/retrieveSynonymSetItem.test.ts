@@ -7,48 +7,43 @@ import { upsertSynonymSetItem } from "../src/operations/upsertSynonymSetItem";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrieveSynonymSetItem", () => {
-  it(
-    "retrieves a synonym set item by id",
-    async () => {
-      const synonymSetName = `distilled-typesense-retsynitem-${testRunId}`;
-      const itemId = `item-${testRunId}`;
+  it("retrieves a synonym set item by id", { timeout: 30_000 }, async () => {
+    const synonymSetName = `distilled-typesense-retsynitem-${testRunId}`;
+    const itemId = `item-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        // Create parent synonym set first.
-        yield* upsertSynonymSet({
-          synonymSetName,
-          items: [],
-        });
+    const effect = Effect.gen(function* () {
+      // Create parent synonym set first.
+      yield* upsertSynonymSet({
+        synonymSetName,
+        items: [],
+      });
 
-        // Add a synonym item to it.
-        yield* upsertSynonymSetItem({
-          synonymSetName,
-          itemId,
-          synonyms: ["sneaker", "shoe", "trainer"],
-        });
+      // Add a synonym item to it.
+      yield* upsertSynonymSetItem({
+        synonymSetName,
+        itemId,
+        synonyms: ["sneaker", "shoe", "trainer"],
+      });
 
-        const result = yield* retrieveSynonymSetItem({
-          synonymSetName,
-          itemId,
-        });
+      const result = yield* retrieveSynonymSetItem({
+        synonymSetName,
+        itemId,
+      });
 
-        expect(result.id).toBe(itemId);
-        expect(Array.isArray(result.synonyms)).toBe(true);
-        expect(result.synonyms).toContain("sneaker");
-        expect(result.synonyms).toContain("shoe");
-      }).pipe(
-        Effect.ensuring(
-          deleteSynonymSet({ synonymSetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(result.id).toBe(itemId);
+      expect(Array.isArray(result.synonyms)).toBe(true);
+      expect(result.synonyms).toContain("sneaker");
+      expect(result.synonyms).toContain("shoe");
+    }).pipe(
+      Effect.ensuring(deleteSynonymSet({ synonymSetName }).pipe(Effect.ignore)),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the synonym set item does not exist",
+    { timeout: 30_000 },
     async () => {
       const synonymSetName = `distilled-typesense-retsynitem-nf-${testRunId}`;
 
@@ -73,6 +68,5 @@ describe("retrieveSynonymSetItem", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 });

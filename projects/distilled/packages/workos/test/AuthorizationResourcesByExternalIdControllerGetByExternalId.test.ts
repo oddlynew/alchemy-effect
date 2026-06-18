@@ -8,6 +8,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuthorizationResourcesByExternalIdControllerGetByExternalId", () => {
   it(
     "retrieves an authorization resource by external id",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -23,11 +24,11 @@ describe("AuthorizationResourcesByExternalIdControllerGetByExternalId", () => {
       expect(typeof result.external_id).toBe("string");
       expect(typeof result.resource_type_slug).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent external id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -53,11 +54,11 @@ describe("AuthorizationResourcesByExternalIdControllerGetByExternalId", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationResourcesByExternalIdControllerGetByExternalId({
@@ -69,6 +70,5 @@ describe("AuthorizationResourcesByExternalIdControllerGetByExternalId", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

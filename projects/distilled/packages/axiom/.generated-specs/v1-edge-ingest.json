@@ -25,14 +25,10 @@
       "post": {
         "security": [
           {
-            "Auth": [
-              "ingest|create"
-            ]
+            "Auth": ["ingest|create"]
           }
         ],
-        "tags": [
-          "ingest"
-        ],
+        "tags": ["ingest"],
         "operationId": "ingestToDataset",
         "parameters": [
           {
@@ -207,10 +203,7 @@
       "FirehoseIngestStatus": {
         "description": "AWS Firehose HTTP endpoint response format",
         "type": "object",
-        "required": [
-          "requestId",
-          "timestamp"
-        ],
+        "required": ["requestId", "timestamp"],
         "properties": {
           "errorMessage": {
             "description": "For failed requests, a message explaining the failure. If a request fails after exhausting all retries, the last instance of the error message is copied to error output S3 bucket if configured.",
@@ -230,10 +223,7 @@
       },
       "IngestFailure": {
         "type": "object",
-        "required": [
-          "error",
-          "timestamp"
-        ],
+        "required": ["error", "timestamp"],
         "properties": {
           "error": {
             "type": "string"

@@ -9,6 +9,7 @@ describe("createRole", () => {
   // Enterprise plans" before validating input.
   it(
     "returns Forbidden on non-Enterprise plans",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         createRole({
@@ -22,6 +23,5 @@ describe("createRole", () => {
 
       expect((error as { _tag: string })._tag).toBe("Forbidden");
     },
-    { timeout: 30_000 },
   );
 });

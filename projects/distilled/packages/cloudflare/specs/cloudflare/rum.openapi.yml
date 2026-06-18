@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/rum/v2/{rulesetId}/rules:
     get:
       operationId: listRules
-      description: "Lists all the rules in a Web Analytics ruleset.  @example ```ts
+      description:
+        "Lists all the rules in a Web Analytics ruleset.  @example ```ts
         const rules = await client.rum.rules.list(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -182,7 +183,8 @@ paths:
   /accounts/{account_id}/rum/v2/{rulesetId}/rule:
     post:
       operationId: createRule
-      description: "Creates a new rule in a Web Analytics ruleset.  @example ```ts
+      description:
+        "Creates a new rule in a Web Analytics ruleset.  @example ```ts
         const rumRule = await client.rum.rules.create(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -210,7 +212,8 @@ paths:
                   description: Body param
                 inclusive:
                   type: boolean
-                  description: "Body param: Whether the rule includes or excludes traffic from
+                  description:
+                    "Body param: Whether the rule includes or excludes traffic from
                     being measured."
                 is_paused:
                   type: boolean
@@ -262,7 +265,8 @@ paths:
   /accounts/{account_id}/rum/v2/{rulesetId}/rule/{ruleId}:
     put:
       operationId: updateRule
-      description: "Updates a rule in a Web Analytics ruleset.  @example ```ts const
+      description:
+        "Updates a rule in a Web Analytics ruleset.  @example ```ts const
         rumRule = await client.rum.rules.update(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415',
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -296,7 +300,8 @@ paths:
                   description: Body param
                 inclusive:
                   type: boolean
-                  description: "Body param: Whether the rule includes or excludes traffic from
+                  description:
+                    "Body param: Whether the rule includes or excludes traffic from
                     being measured."
                 is_paused:
                   type: boolean
@@ -343,7 +348,8 @@ paths:
           - status: 404
     delete:
       operationId: deleteRule
-      description: "Deletes an existing rule from a Web Analytics ruleset.  @example
+      description:
+        "Deletes an existing rule from a Web Analytics ruleset.  @example
         ```ts const rule = await client.rum.rules.delete(
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415',
         'f174e90a-fafe-4643-bbbc-4a0ed4fc8415', { account_id:
@@ -387,7 +393,8 @@ paths:
   /accounts/{account_id}/rum/site_info/{siteId}:
     get:
       operationId: getSiteInfo
-      description: "Retrieves a Web Analytics site.  @example ```ts const site = await
+      description:
+        "Retrieves a Web Analytics site.  @example ```ts const site = await
         client.rum.siteInfo.get( '023e105f4ecef8ad9ca31a8372d0c353', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -412,7 +419,8 @@ paths:
                 properties:
                   auto_install:
                     type: boolean
-                    description: If enabled, the JavaScript snippet is automatically injected for
+                    description:
+                      If enabled, the JavaScript snippet is automatically injected for
                       orange-clouded sites.
                   created:
                     type: string
@@ -476,7 +484,8 @@ paths:
           - status: 403
     put:
       operationId: updateSiteInfo
-      description: "Updates an existing Web Analytics site.  @example ```ts const site
+      description:
+        "Updates an existing Web Analytics site.  @example ```ts const site
         = await client.rum.siteInfo.update( '023e105f4ecef8ad9ca31a8372d0c353',
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -500,18 +509,21 @@ paths:
               properties:
                 auto_install:
                   type: boolean
-                  description: "Body param: If enabled, the JavaScript snippet is automatically
+                  description:
+                    "Body param: If enabled, the JavaScript snippet is automatically
                     injected for orange-clouded sites."
                 enabled:
                   type: boolean
-                  description: "Body param: Enables or disables RUM. This option can be used only
+                  description:
+                    "Body param: Enables or disables RUM. This option can be used only
                     when auto_install is set to true."
                 host:
                   type: string
                   description: "Body param: The hostname to use for gray-clouded sites."
                 lite:
                   type: boolean
-                  description: "Body param: If enabled, the JavaScript snippet will not be
+                  description:
+                    "Body param: If enabled, the JavaScript snippet will not be
                     injected for visitors from the EU."
                 zone_tag:
                   type: string
@@ -526,7 +538,8 @@ paths:
                 properties:
                   auto_install:
                     type: boolean
-                    description: If enabled, the JavaScript snippet is automatically injected for
+                    description:
+                      If enabled, the JavaScript snippet is automatically injected for
                       orange-clouded sites.
                   created:
                     type: string
@@ -590,7 +603,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteSiteInfo
-      description: "Deletes an existing Web Analytics site.  @example ```ts const
+      description:
+        "Deletes an existing Web Analytics site.  @example ```ts const
         siteInfo = await client.rum.siteInfo.delete(
         '023e105f4ecef8ad9ca31a8372d0c353', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -626,7 +640,8 @@ paths:
   /accounts/{account_id}/rum/site_info/list:
     get:
       operationId: listSiteInfos
-      description: "Lists all Web Analytics sites of an account.  @example ```ts //
+      description:
+        "Lists all Web Analytics sites of an account.  @example ```ts //
         Automatically fetches more pages as needed. for await (const site of
         client.rum.siteInfo.list({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', })) { // ... } ```"
@@ -666,7 +681,8 @@ paths:
                 properties:
                   auto_install:
                     type: boolean
-                    description: If enabled, the JavaScript snippet is automatically injected for
+                    description:
+                      If enabled, the JavaScript snippet is automatically injected for
                       orange-clouded sites.
                   created:
                     type: string
@@ -727,7 +743,8 @@ paths:
   /accounts/{account_id}/rum/site_info:
     post:
       operationId: createSiteInfo
-      description: "Creates a new Web Analytics site.  @example ```ts const site =
+      description:
+        "Creates a new Web Analytics site.  @example ```ts const site =
         await client.rum.siteInfo.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -746,7 +763,8 @@ paths:
               properties:
                 auto_install:
                   type: boolean
-                  description: "Body param: If enabled, the JavaScript snippet is automatically
+                  description:
+                    "Body param: If enabled, the JavaScript snippet is automatically
                     injected for orange-clouded sites."
                 host:
                   type: string
@@ -764,7 +782,8 @@ paths:
                 properties:
                   auto_install:
                     type: boolean
-                    description: If enabled, the JavaScript snippet is automatically injected for
+                    description:
+                      If enabled, the JavaScript snippet is automatically injected for
                       orange-clouded sites.
                   created:
                     type: string

@@ -9,6 +9,7 @@ const openaiApiKey = process.env.OPENAI_API_KEY;
 describe("deleteNLSearchModel", () => {
   it(
     "deletes an existing NL search model and returns its id",
+    { timeout: 60_000 },
     async () => {
       // Typesense validates the LLM API key by making a real call when the
       // model is created, so provisioning a model requires OPENAI_API_KEY.
@@ -54,11 +55,11 @@ describe("deleteNLSearchModel", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "fails with NotFound when the NL search model does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteNLSearchModel({
@@ -68,6 +69,5 @@ describe("deleteNLSearchModel", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

@@ -24,11 +24,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -107,11 +109,13 @@ paths:
               properties:
                 account_id:
                   type: string
-                  description: The Account ID to use for this endpoint. Mutually exclusive with
+                  description:
+                    The Account ID to use for this endpoint. Mutually exclusive with
                     the Zone ID.
                 zone_id:
                   type: string
-                  description: The Zone ID to use for this endpoint. Mutually exclusive with the
+                  description:
+                    The Zone ID to use for this endpoint. Mutually exclusive with the
                     Account ID.
       responses:
         "200":
@@ -132,14 +136,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -215,7 +221,8 @@ paths:
       x-distilled-pagination-class: CustomCsrListResponsesV4PagePaginationArray
     post:
       operationId: createCustomCsr
-      description: "Generate a new custom Certificate Signing Request (CSR) for an
+      description:
+        "Generate a new custom Certificate Signing Request (CSR) for an
         account or zone. Cloudflare generates and securely stores the private
         key associated with the CSR.  @example ```ts const customCsr = await
         client.customCsrs.create({ common_name: 'example.com', country: 'US',
@@ -226,14 +233,16 @@ paths:
         - name: account_id
           in: path
           required: true
-          description: "Path param: The Account ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Account ID to use for this endpoint. Mutually
             exclusive with the Zone ID."
           schema:
             type: string
         - name: zone_id
           in: path
           required: true
-          description: "Path param: The Zone ID to use for this endpoint. Mutually
+          description:
+            "Path param: The Zone ID to use for this endpoint. Mutually
             exclusive with the Account ID."
           schema:
             type: string
@@ -246,7 +255,8 @@ paths:
               properties:
                 common_name:
                   type: string
-                  description: "Body param: The common name (domain) for the CSR. Must be at most
+                  description:
+                    "Body param: The common name (domain) for the CSR. Must be at most
                     64 characters."
                 country:
                   type: string
@@ -261,7 +271,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: Subject Alternative Names for the CSR. At least one
+                  description:
+                    "Body param: Subject Alternative Names for the CSR. At least one
                     SAN is required."
                 state:
                   type: string
@@ -274,7 +285,8 @@ paths:
                   enum:
                     - rsa2048
                     - p256v1
-                  description: "Body param: Key algorithm to use for the CSR. Defaults to rsa2048
+                  description:
+                    "Body param: Key algorithm to use for the CSR. Defaults to rsa2048
                     if not specified."
                 name:
                   type: string

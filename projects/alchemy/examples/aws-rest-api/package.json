@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/aws-rest-api"
+    "directory": "projects/alchemy/examples/aws-rest-api"
   },
   "scripts": {
     "build": "tsc -b",
@@ -18,5 +18,8 @@
     "@distilled.cloud/aws": "catalog:",
     "alchemy": "workspace:*",
     "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

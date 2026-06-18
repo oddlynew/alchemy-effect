@@ -257,7 +257,9 @@ const withDataSource = <A, E, R>(
         const result = yield* getGraphqlApi({ apiId });
 
         expect(result.graphqlApi).toBeDefined();
-        expect(result.graphqlApi?.name).toEqual(`distilled-appsync-lifecycle-${testRunId}`);
+        expect(result.graphqlApi?.name).toEqual(
+          `distilled-appsync-lifecycle-${testRunId}`,
+        );
         expect(result.graphqlApi?.authenticationType).toEqual("API_KEY");
 
         // List APIs and verify our API is included

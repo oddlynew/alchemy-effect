@@ -23,7 +23,7 @@ describe("getV1RegionsPostgres", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - lists postgres regions", async () => {
+  it("happy path - lists postgres regions", { timeout: 30_000 }, async () => {
     const result = await runEffect(getV1RegionsPostgres({}));
     expect(result.data).toBeDefined();
     expect(Array.isArray(result.data)).toBe(true);
@@ -33,21 +33,25 @@ describe("getV1RegionsPostgres", () => {
     expect(region.name).toBeDefined();
     expect(region.status).toBeDefined();
     expect(["available", "unavailable"]).toContain(region.status);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - Unauthorized with invalid token", async () => {
-    await Effect.runPromise(
-      getV1RegionsPostgres({}).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(BadTokenLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - Unauthorized with invalid token",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        getV1RegionsPostgres({}).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
+          }),
+          Effect.provide(BadTokenLayer),
+        ),
+      );
+    },
+  );
 });

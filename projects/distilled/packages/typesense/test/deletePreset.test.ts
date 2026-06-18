@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deletePreset", () => {
   it(
     "deletes an existing preset and returns its name",
+    { timeout: 30_000 },
     async () => {
       const presetId = `distilled-typesense-delpreset-${testRunId}`;
 
@@ -30,11 +31,11 @@ describe("deletePreset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the preset does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deletePreset({
@@ -44,6 +45,5 @@ describe("deletePreset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

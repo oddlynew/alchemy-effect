@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthenticationFactorsControllerChallenge", () => {
   it(
     "creates a challenge for an authentication factor",
+    { timeout: 30_000 },
     async () => {
       const challenge = await runEffect(
         Effect.gen(function* () {
@@ -27,11 +28,11 @@ describe("AuthenticationFactorsControllerChallenge", () => {
       expect(typeof challenge.authentication_factor_id).toBe("string");
       expect(typeof challenge.created_at).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent factor id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthenticationFactorsControllerChallenge({
@@ -41,7 +42,5 @@ describe("AuthenticationFactorsControllerChallenge", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
-
 });

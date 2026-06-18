@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Neutral Library",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "types": []
+  }
+}

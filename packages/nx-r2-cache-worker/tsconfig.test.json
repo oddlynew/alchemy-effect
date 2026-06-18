@@ -1,0 +1,11 @@
+{
+  "extends": "@alchemy.run/typescript-config/node.json",
+  "references": [{ "path": "./tsconfig.src.json" }],
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["ES2024", "WebWorker"],
+    "types": ["@cloudflare/workers-types", "bun"],
+    "outDir": ".tsbuild/test"
+  },
+  "include": ["src/**/*.test.ts", "src/**/__tests__/**/*.ts"]
+}

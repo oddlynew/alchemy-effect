@@ -7,10 +7,9 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("ApplicationCredentialsControllerCreate", () => {
   it(
     "creates a new client secret for a Connect Application",
+    { timeout: 30_000 },
     async () => {
-      const list = await runEffect(
-        ApplicationsControllerList({ limit: 1 }),
-      );
+      const list = await runEffect(ApplicationsControllerList({ limit: 1 }));
 
       if (list.data.length === 0) {
         // No seed application available — exercise the operation against a
@@ -36,11 +35,11 @@ describe("ApplicationCredentialsControllerCreate", () => {
       expect(typeof credential.created_at).toBe("string");
       expect(typeof credential.updated_at).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent application id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ApplicationCredentialsControllerCreate({
@@ -50,11 +49,11 @@ describe("ApplicationCredentialsControllerCreate", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the application id is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ApplicationCredentialsControllerCreate({
@@ -64,6 +63,5 @@ describe("ApplicationCredentialsControllerCreate", () => {
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

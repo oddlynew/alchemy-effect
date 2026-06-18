@@ -6,6 +6,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("ExternalAuthControllerCompleteLogin", () => {
   it(
     "completes an external authentication flow and returns a redirect_uri",
+    { timeout: 30_000 },
     async (ctx) => {
       const result = await runOrSkipOnEnvLimitation(
         ctx,
@@ -23,11 +24,11 @@ describe("ExternalAuthControllerCompleteLogin", () => {
       expect(result).toBeDefined();
       expect(typeof result.redirect_uri).toBe("string");
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent external_auth_id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ExternalAuthControllerCompleteLogin({
@@ -41,11 +42,11 @@ describe("ExternalAuthControllerCompleteLogin", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when the user email is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ExternalAuthControllerCompleteLogin({
@@ -59,11 +60,11 @@ describe("ExternalAuthControllerCompleteLogin", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the user email is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         ExternalAuthControllerCompleteLogin({
@@ -77,6 +78,5 @@ describe("ExternalAuthControllerCompleteLogin", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

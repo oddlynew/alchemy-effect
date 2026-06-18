@@ -15,11 +15,7 @@ import { Credentials, CredentialsFromEnv } from "~/credentials";
 import * as Retry from "~/retry";
 import { makeDefault } from "@distilled.cloud/core/retry";
 
-type Provided =
-  | Scope.Scope
-  | HttpClient.HttpClient
-  | Credentials
-  | Retry.Retry;
+type Provided = Scope.Scope | HttpClient.HttpClient | Credentials | Retry.Retry;
 
 const platform = Layer.mergeAll(
   NodeServices.layer,
@@ -54,15 +50,11 @@ export function test(
   const [options = {}, testCase] =
     args.length === 1 ? [undefined, args[0]] : args;
 
-  return it(
-    name,
-    async () => {
-      await Effect.runPromise(
-        provideTestEnv(Effect.scoped(resolveTestCase(testCase))),
-      );
-    },
-    options.timeout ?? 120_000,
-  );
+  return it(name, { timeout: options.timeout ?? 120_000 }, async () => {
+    await Effect.runPromise(
+      provideTestEnv(Effect.scoped(resolveTestCase(testCase))),
+    );
+  });
 }
 
 test.skip = function (
@@ -70,27 +62,24 @@ test.skip = function (
   ...args: [{ timeout?: number }, TestCase] | [TestCase]
 ) {
   const [options = {}] = args.length === 1 ? [undefined] : args;
-  return it.skip(name, () => {}, options.timeout ?? 120_000);
+  return it.skip(name, { timeout: options.timeout ?? 120_000 }, () => {});
 };
 
 test.skipIf = function (condition: boolean): typeof test {
   const skipIfIt = it.skipIf(condition);
   return Object.assign(
-    (
-      name: string,
-      ...args: [{ timeout?: number }, TestCase] | [TestCase]
-    ) => {
+    (name: string, ...args: [{ timeout?: number }, TestCase] | [TestCase]) => {
       const [options = {}, testCase] =
         args.length === 1 ? [undefined, args[0]] : args;
 
       return skipIfIt(
         name,
+        { timeout: options.timeout ?? 120_000 },
         async () => {
           await Effect.runPromise(
             provideTestEnv(Effect.scoped(resolveTestCase(testCase))),
           );
         },
-        options.timeout ?? 120_000,
       );
     },
     { skip: test.skip, skipIf: test.skipIf },

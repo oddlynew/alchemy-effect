@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/aws-static-site"
+    "directory": "projects/alchemy/examples/aws-static-site"
   },
   "type": "module",
   "scripts": {
@@ -20,5 +20,8 @@
     "@effect/platform-node": "catalog:",
     "alchemy": "workspace:*",
     "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

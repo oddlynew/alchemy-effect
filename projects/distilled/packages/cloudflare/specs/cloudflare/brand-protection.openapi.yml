@@ -454,7 +454,8 @@ paths:
         - name: download
           in: query
           required: false
-          description: "Query param: If true, include base64-encoded image data in the
+          description:
+            "Query param: If true, include base64-encoded image data in the
             response"
           schema:
             type: string
@@ -512,19 +513,22 @@ paths:
               properties:
                 image_data:
                   type: string
-                  description: "Body param: Base64 encoded image data. Can include data URI prefix
+                  description:
+                    "Body param: Base64 encoded image data. Can include data URI prefix
                     (e.g., 'data:image/png;base64,...') or just the base64
                     string."
                 similarity_threshold:
                   type: number
-                  description: "Body param: Minimum similarity score (0-1) required for visual
+                  description:
+                    "Body param: Minimum similarity score (0-1) required for visual
                     matches"
                 tag:
                   type: string
                   description: "Body param: Unique identifier for the logo query"
                 search_lookback:
                   type: boolean
-                  description: "Body param: If true, search historic scanned images for matches
+                  description:
+                    "Body param: If true, search historic scanned images for matches
                     above the similarity threshold"
               required:
                 - image_data
@@ -550,7 +554,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries/{queryId}:
     delete:
       operationId: deleteV2Logo
-      description: Delete a saved brand protection logo query. Returns 404 if the
+      description:
+        Delete a saved brand protection logo query. Returns 404 if the
         query ID doesn't exist.
       parameters:
         - name: queryId
@@ -581,7 +586,8 @@ paths:
   /accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/matches:
     get:
       operationId: getV2LogoMatch
-      description: Get paginated list of logo matches for a specific brand protection
+      description:
+        Get paginated list of logo matches for a specific brand protection
         logo query
       parameters:
         - name: account_id
@@ -617,7 +623,8 @@ paths:
         - name: order
           in: query
           required: false
-          description: "Query param: Sort order. Options: 'asc' (ascending) or 'desc'
+          description:
+            "Query param: Sort order. Options: 'asc' (ascending) or 'desc'
             (descending)"
           schema:
             type: string
@@ -627,7 +634,8 @@ paths:
         - name: orderBy
           in: query
           required: false
-          description: "Query param: Column to sort by. Options: 'matchedAt', 'domain',
+          description:
+            "Query param: Column to sort by. Options: 'matchedAt', 'domain',
             'similarityScore', or 'registrar'"
           schema:
             type: string
@@ -706,7 +714,8 @@ paths:
         - name: query_id
           in: query
           required: true
-          description: "Query param: Query ID or comma-separated list of Query IDs. When
+          description:
+            "Query param: Query ID or comma-separated list of Query IDs. When
             multiple IDs are provided, matches are deduplicated across queries
             and each match includes a match_details array with per-match query
             metadata and dismissed state."
@@ -747,7 +756,8 @@ paths:
         - name: order
           in: query
           required: false
-          description: "Query param: Sort order. Options: 'asc' (ascending) or 'desc'
+          description:
+            "Query param: Sort order. Options: 'asc' (ascending) or 'desc'
             (descending)"
           schema:
             type: string
@@ -757,7 +767,8 @@ paths:
         - name: orderBy
           in: query
           required: false
-          description: "Query param: Column to sort by. Options: 'domain', 'first_seen',
+          description:
+            "Query param: Column to sort by. Options: 'domain', 'first_seen',
             or 'registrar'"
           schema:
             type: string
@@ -807,7 +818,8 @@ paths:
                           nullable: true
                         dismissed:
                           type: boolean
-                          description: Whether the match is dismissed. Only present for single-query
+                          description:
+                            Whether the match is dismissed. Only present for single-query
                             requests. For multi-query requests, use the
                             dismissed field in each match_details entry.
                         match_details:
@@ -832,7 +844,8 @@ paths:
                               - match_id
                               - query_id
                               - query_tag
-                          description: Per-match detail objects with query metadata and individual
+                          description:
+                            Per-match detail objects with query metadata and individual
                             dismissed state. Only present when multiple
                             query_ids are requested.
                       required:

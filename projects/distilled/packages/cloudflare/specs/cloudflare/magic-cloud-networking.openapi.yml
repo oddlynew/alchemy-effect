@@ -881,7 +881,8 @@ paths:
   /accounts/{account_id}/magic/cloud/catalog-syncs/{syncId}/refresh:
     post:
       operationId: refreshCatalogSync
-      description: Refresh a Catalog Sync's destination by running the sync policy
+      description:
+        Refresh a Catalog Sync's destination by running the sync policy
         against latest resource catalog (Closed Beta).
       parameters:
         - name: syncId
@@ -3940,7 +3941,8 @@ paths:
                   description: Body param
                 dynamic_routing:
                   type: boolean
-                  description: "Body param: Enables BGP routing. When enabling this feature, set
+                  description:
+                    "Body param: Enables BGP routing. When enabling this feature, set
                     both install_routes_in_cloud and install_routes_in_magic_wan
                     to false."
                 install_routes_in_cloud:
@@ -3973,7 +3975,8 @@ paths:
                   description: Body param
                 cloud_asn:
                   type: number
-                  description: "Body param: Sets the cloud-side ASN. If unset or zero, the cloud's
+                  description:
+                    "Body param: Sets the cloud-side ASN. If unset or zero, the cloud's
                     default ASN takes effect."
                 description:
                   type: string

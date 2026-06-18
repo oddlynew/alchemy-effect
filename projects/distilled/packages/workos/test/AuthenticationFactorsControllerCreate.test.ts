@@ -4,30 +4,27 @@ import { AuthenticationFactorsControllerCreate } from "../src/operations/Authent
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("AuthenticationFactorsControllerCreate", () => {
-  it(
-    "enrolls a TOTP authentication factor",
-    async () => {
-      const factor = await runEffect(
-        AuthenticationFactorsControllerCreate({
-          type: "totp",
-          totp_issuer: `distilled-workos-${testRunId}`,
-          totp_user: `enroll-user-${testRunId}`,
-        }),
-      );
+  it("enrolls a TOTP authentication factor", { timeout: 30_000 }, async () => {
+    const factor = await runEffect(
+      AuthenticationFactorsControllerCreate({
+        type: "totp",
+        totp_issuer: `distilled-workos-${testRunId}`,
+        totp_user: `enroll-user-${testRunId}`,
+      }),
+    );
 
-      expect(factor).toBeDefined();
-      expect(typeof factor.id).toBe("string");
-      expect(factor.type).toBe("totp");
-      expect(factor.totp).toBeDefined();
-      expect(factor.totp?.secret).toBeDefined();
-      expect(typeof factor.totp?.qr_code).toBe("string");
-      expect(typeof factor.totp?.uri).toBe("string");
-    },
-    30_000,
-  );
+    expect(factor).toBeDefined();
+    expect(typeof factor.id).toBe("string");
+    expect(factor.type).toBe("totp");
+    expect(factor.totp).toBeDefined();
+    expect(factor.totp?.secret).toBeDefined();
+    expect(typeof factor.totp?.qr_code).toBe("string");
+    expect(typeof factor.totp?.uri).toBe("string");
+  });
 
   it(
     "fails with UnprocessableEntity when enrolling SMS factor without a phone number",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthenticationFactorsControllerCreate({
@@ -37,6 +34,5 @@ describe("AuthenticationFactorsControllerCreate", () => {
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

@@ -18,6 +18,7 @@ import { runEffect, testRunId } from "./setup";
 describe("ingestToDataset", () => {
   it(
     "accepts an empty ingest request against an existing dataset and returns zero counters",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-ingest-${testRunId}`;
 
@@ -46,11 +47,11 @@ describe("ingestToDataset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns UnprocessableEntity when ingesting without a body (generator limitation)",
+    { timeout: 30_000 },
     async () => {
       // Because the SDK can't model the request body (see note above), we
       // never reach the dataset-lookup stage — axiom rejects with 422
@@ -65,6 +66,5 @@ describe("ingestToDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("UnprocessableEntity");
     },
-    { timeout: 30_000 },
   );
 });

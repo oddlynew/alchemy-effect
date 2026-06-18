@@ -5,44 +5,41 @@ import { getOrgs } from "../src/operations/v2/getOrgs";
 import { runEffect, testRunId } from "./setup";
 
 describe("getOrg", () => {
-  it(
-    "returns an org by id",
-    async () => {
-      // Discover an org we can access via getOrgs; the caller's token must
-      // belong to at least one org.
-      const effect = Effect.gen(function* () {
-        const orgs = yield* getOrgs({});
-        if (orgs.length === 0) {
-          throw new Error(
-            "Test prerequisite: the caller must belong to at least one axiom org.",
-          );
-        }
+  it("returns an org by id", { timeout: 30_000 }, async () => {
+    // Discover an org we can access via getOrgs; the caller's token must
+    // belong to at least one org.
+    const effect = Effect.gen(function* () {
+      const orgs = yield* getOrgs({});
+      if (orgs.length === 0) {
+        throw new Error(
+          "Test prerequisite: the caller must belong to at least one axiom org.",
+        );
+      }
 
-        const target = orgs[0]!;
-        const fetched = yield* getOrg({ id: target.id });
+      const target = orgs[0]!;
+      const fetched = yield* getOrg({ id: target.id });
 
-        expect(fetched.id).toBe(target.id);
-        expect(fetched.name).toBe(target.name);
-        expect(typeof fetched.primaryEmail).toBe("string");
-        expect([
-          "personal",
-          "basicDirect",
-          "teamMonthlyDirect",
-          "teamMonthlyAws",
-          "axiomCloud",
-          "teamPlus",
-          "enterprise",
-          "comped",
-        ]).toContain(fetched.plan);
-      });
+      expect(fetched.id).toBe(target.id);
+      expect(fetched.name).toBe(target.name);
+      expect(typeof fetched.primaryEmail).toBe("string");
+      expect([
+        "personal",
+        "basicDirect",
+        "teamMonthlyDirect",
+        "teamMonthlyAws",
+        "axiomCloud",
+        "teamPlus",
+        "enterprise",
+        "comped",
+      ]).toContain(fetched.plan);
+    });
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "returns InternalServerError for an org id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Probed live: axiom's /v2/orgs/{id} returns 500 (not 404) when the
       // id does not exist. Document the observed behaviour rather than
@@ -53,6 +50,5 @@ describe("getOrg", () => {
 
       expect((error as { _tag: string })._tag).toBe("InternalServerError");
     },
-    { timeout: 30_000 },
   );
 });

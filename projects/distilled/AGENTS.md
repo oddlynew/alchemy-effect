@@ -5,7 +5,7 @@ Effect-native SDKs with exhaustive error typing. We use a TDD-driven approach to
 ## Directory Structure
 
 ```
-distilled/
+projects/distilled/
 ├── packages/
 │   ├── core/             # @distilled.cloud/sdk-core — shared client, traits, errors, categories
 │   ├── aws/              # @distilled.cloud/aws — AWS SDK from Smithy models
@@ -28,7 +28,7 @@ distilled/
 ### Package Layout (each package)
 
 ```
-packages/{name}/
+projects/distilled/packages/{name}/
 ├── src/                  # Source code (generated + hand-written)
 │   ├── client.ts         # API.make/makePaginated factory
 │   ├── traits.ts         # HTTP trait annotations (PathParam, Http, etc.)
@@ -45,7 +45,7 @@ packages/{name}/
 
 ### Core Package
 
-`packages/core` (`@distilled.cloud/sdk-core`) contains shared infrastructure used by all SDKs:
+`projects/distilled/packages/core` (`@distilled.cloud/sdk-core`) contains shared infrastructure used by all SDKs:
 
 - `client.ts` — `API.make()` and `API.makePaginated()` factories that create Effect operations from annotated schemas
 - `traits.ts` — Schema annotations for HTTP bindings (`T.Http`, `T.PathParam`, `T.HttpHeader`, `T.JsonName`, etc.)
@@ -60,28 +60,28 @@ All other packages depend on core via `@distilled.cloud/sdk-core` workspace depe
 
 ## Tools
 
-| Tool | Purpose | Command |
-|------|---------|---------|
-| **Bun** | Runtime, package manager, test runner | `bun install`, `bun run ...` |
-| **tsgo** | Type checking (native TypeScript compiler) | `tsgo` (check), `tsgo -b` (build) |
-| **oxlint** | Linter | `oxlint --fix src` |
-| **oxfmt** | Formatter | `oxfmt --write src`, `oxfmt --check src` |
-| **vitest** | Test framework | `bunx vitest run test` |
-| **Effect** | Core framework | All operations return `Effect<A, E, R>` |
+| Tool       | Purpose                                    | Command                                  |
+| ---------- | ------------------------------------------ | ---------------------------------------- |
+| **Bun**    | Runtime, package manager, test runner      | `bun install`, `bun run ...`             |
+| **tsgo**   | Type checking (native TypeScript compiler) | `tsgo` (check), `tsgo -b` (build)        |
+| **oxlint** | Linter                                     | `oxlint --fix src`                       |
+| **oxfmt**  | Formatter                                  | `oxfmt --write src`, `oxfmt --check src` |
+| **vitest** | Test framework                             | `bunx vitest run test`                   |
+| **Effect** | Core framework                             | All operations return `Effect<A, E, R>`  |
 
 ### Per-Package Scripts
 
 Every package has these scripts:
 
-| Script | Command | Description |
-|--------|---------|-------------|
-| `typecheck` | `tsgo` | Type check only (no emit) |
-| `build` | `tsgo -b` | Build to `lib/` (.js + .d.ts + source maps) |
-| `check` | `tsgo && oxlint src && oxfmt --check src` | Full check (types + lint + format) |
-| `fmt` | `oxfmt --write src` | Format source |
-| `lint` | `oxlint --fix src` | Lint + autofix |
-| `test` | `bunx vitest run test` | Run tests |
-| `generate` | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec |
+| Script      | Command                                                                                     | Description                                 |
+| ----------- | ------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `typecheck` | `tsgo`                                                                                      | Type check only (no emit)                   |
+| `build`     | `tsgo -b`                                                                                   | Build to `lib/` (.js + .d.ts + source maps) |
+| `check`     | `tsgo && oxlint src && oxfmt --check src`                                                   | Full check (types + lint + format)          |
+| `fmt`       | `oxfmt --write src`                                                                         | Format source                               |
+| `lint`      | `oxlint --fix src`                                                                          | Lint + autofix                              |
+| `test`      | `bunx vitest run test`                                                                      | Run tests                                   |
+| `generate`  | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec                        |
 
 ### Root Build
 
@@ -100,6 +100,7 @@ bun run create-sdk <name> --specs <url-or-repo>... [--register-package]
 ```
 
 Examples:
+
 ```bash
 # OpenAPI spec URL → creates distilled-spec-* mirror repo
 bun run create-sdk stripe --specs https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json
@@ -117,20 +118,20 @@ After scaffolding, the `create-sdk` script automatically calls Claude to review 
 
 Each SDK package has vendor API specifications stored as git submodules under `specs/`:
 
-| Package | Submodule(s) | Contents |
-|---------|-------------|----------|
-| `aws` | `specs/api-models-aws`, `specs/aws-sdk-js-v3`, `specs/smithy`, `specs/smithy-typescript` | Smithy models, reference SDK, Smithy spec |
-| `cloudflare` | `specs/cloudflare-typescript` | Cloudflare TypeScript SDK source |
-| `coinbase` | `specs/cdp-sdk` | Coinbase Developer Platform SDK |
-| `fly-io` | `specs/distilled-spec-fly-io` | Fly.io OpenAPI spec |
-| `gcp` | `specs/distilled-spec-gcp` | GCP Discovery Documents |
-| `mongodb-atlas` | `specs/distilled-spec-mongodb-atlas` | MongoDB Atlas OpenAPI spec |
-| `neon` | `specs/distilled-spec-neon` | Neon OpenAPI spec |
-| `planetscale` | `specs/distilled-spec-planetscale` | PlanetScale OpenAPI spec |
-| `prisma-postgres` | `specs/distilled-spec-prisma-postgres` | Prisma Postgres OpenAPI spec |
-| `stripe` | `specs/stripe-openapi` | Stripe OpenAPI spec |
-| `supabase` | `specs/distilled-spec-supabase` | Supabase OpenAPI spec |
-| `turso` | `specs/turso-docs` | Turso API docs |
+| Package           | Submodule(s)                                                                             | Contents                                  |
+| ----------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------- |
+| `aws`             | `specs/api-models-aws`, `specs/aws-sdk-js-v3`, `specs/smithy`, `specs/smithy-typescript` | Smithy models, reference SDK, Smithy spec |
+| `cloudflare`      | `specs/cloudflare-typescript`                                                            | Cloudflare TypeScript SDK source          |
+| `coinbase`        | `specs/cdp-sdk`                                                                          | Coinbase Developer Platform SDK           |
+| `fly-io`          | `specs/distilled-spec-fly-io`                                                            | Fly.io OpenAPI spec                       |
+| `gcp`             | `specs/distilled-spec-gcp`                                                               | GCP Discovery Documents                   |
+| `mongodb-atlas`   | `specs/distilled-spec-mongodb-atlas`                                                     | MongoDB Atlas OpenAPI spec                |
+| `neon`            | `specs/distilled-spec-neon`                                                              | Neon OpenAPI spec                         |
+| `planetscale`     | `specs/distilled-spec-planetscale`                                                       | PlanetScale OpenAPI spec                  |
+| `prisma-postgres` | `specs/distilled-spec-prisma-postgres`                                                   | Prisma Postgres OpenAPI spec              |
+| `stripe`          | `specs/stripe-openapi`                                                                   | Stripe OpenAPI spec                       |
+| `supabase`        | `specs/distilled-spec-supabase`                                                          | Supabase OpenAPI spec                     |
+| `turso`           | `specs/turso-docs`                                                                       | Turso API docs                            |
 
 **Submodules are NOT needed for building or typechecking.** They're only needed for code generation (`bun run generate`), with the exception of `aws` which also needs its submodules for testing.
 
@@ -153,14 +154,14 @@ Each SDK uses a patch system to fix vendor spec inaccuracies. When you encounter
 
 ### Patch Locations
 
-| Package | Patch Format | Location |
-|---------|-------------|----------|
-| `aws` | Smithy error additions | `spec/{service}.json` |
-| `cloudflare` | Expression DSL matchers | `patch/{service}/{operation}.json` |
-| `gcp` | gRPC status matchers | `patch/{service}/{operation}.json` |
-| `neon` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
-| `planetscale` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
-| `prisma-postgres` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
+| Package           | Patch Format            | Location                           |
+| ----------------- | ----------------------- | ---------------------------------- |
+| `aws`             | Smithy error additions  | `spec/{service}.json`              |
+| `cloudflare`      | Expression DSL matchers | `patch/{service}/{operation}.json` |
+| `gcp`             | gRPC status matchers    | `patch/{service}/{operation}.json` |
+| `neon`            | JSON Patch (RFC 6902)   | `specs/*.patch.json`               |
+| `planetscale`     | JSON Patch (RFC 6902)   | `specs/*.patch.json`               |
+| `prisma-postgres` | JSON Patch (RFC 6902)   | `specs/*.patch.json`               |
 
 ## Effect 4 (IMPORTANT)
 
@@ -174,12 +175,12 @@ This project uses **Effect 4** (`effect@4.x`), which is unlikely to be in your t
 
 ### Key Effect 4 API changes (non-exhaustive)
 
-| Effect 3 (old) | Effect 4 (current) | Notes |
-|---|---|---|
-| `Effect.catchAll(fn)` | `Effect.catch(fn)` | `catchAll` does not exist |
-| `Effect.catchTag("Tag", fn)` | `Effect.catch("Tag", fn)` | Catch by tag is via overload |
-| `Effect.retry(schedule)` | `Effect.retry({ schedule })` | Takes options object, not bare schedule |
-| `Effect.retry({ times: 3 })` | `Effect.retry({ schedule: Schedule.recurs(3) })` | Use `Schedule` for retry counts |
+| Effect 3 (old)               | Effect 4 (current)                               | Notes                                   |
+| ---------------------------- | ------------------------------------------------ | --------------------------------------- |
+| `Effect.catchAll(fn)`        | `Effect.catch(fn)`                               | `catchAll` does not exist               |
+| `Effect.catchTag("Tag", fn)` | `Effect.catch("Tag", fn)`                        | Catch by tag is via overload            |
+| `Effect.retry(schedule)`     | `Effect.retry({ schedule })`                     | Takes options object, not bare schedule |
+| `Effect.retry({ times: 3 })` | `Effect.retry({ schedule: Schedule.recurs(3) })` | Use `Schedule` for retry counts         |
 
 The `while` option on `Effect.retry` is useful for retrying only specific errors:
 
@@ -189,16 +190,14 @@ Effect.retry({
   schedule: Schedule.spaced("1 second").pipe(
     Schedule.both(Schedule.recurs(10)),
   ),
-})
+});
 ```
 
 ### Common patterns in this codebase
 
 ```typescript
 // Error catching (Effect 4 — use Effect.catch, NOT Effect.catchAll)
-someOperation().pipe(
-  Effect.catch(() => Effect.succeed(fallback)),
-);
+someOperation().pipe(Effect.catch(() => Effect.succeed(fallback)));
 
 // Retry with schedule
 someOperation().pipe(
@@ -256,7 +255,10 @@ AWS test helpers like `withBucket`, `withQueue`, `withTopic` etc. automatically 
 ```typescript
 import { test, testRunId } from "../test.ts";
 
-const withBucket = <A, E, R>(name: string, testFn: (bucket: string) => Effect.Effect<A, E, R>) =>
+const withBucket = <A, E, R>(
+  name: string,
+  testFn: (bucket: string) => Effect.Effect<A, E, R>,
+) =>
   Effect.gen(function* () {
     const bucket = `${name}-${testRunId}`;
     yield* cleanupBucket(bucket);
@@ -270,10 +272,15 @@ const withBucket = <A, E, R>(name: string, testFn: (bucket: string) => Effect.Ef
 The shared `setup.ts` includes `testRunId` in the project/database name:
 
 ```typescript
-export const testRunId: string = crypto.randomUUID().replace(/-/g, "").slice(0, 8);
+export const testRunId: string = crypto
+  .randomUUID()
+  .replace(/-/g, "")
+  .slice(0, 8);
 
 const getProjectName = (suffix?: string): string =>
-  suffix ? `${TEST_PROJECT_PREFIX}-${suffix}-${testRunId}` : `${TEST_PROJECT_PREFIX}-${testRunId}`;
+  suffix
+    ? `${TEST_PROJECT_PREFIX}-${suffix}-${testRunId}`
+    : `${TEST_PROJECT_PREFIX}-${testRunId}`;
 ```
 
 Sub-resources within a shared project/database also use `testRunId`:
@@ -291,13 +298,17 @@ const branchName = `test-branch-${testRunId}`;
 ```typescript
 it.effect("creates and cleans up resource", () =>
   Effect.gen(function* () {
-    const resource = yield* createResource({ name: `test-resource-${testRunId}` });
+    const resource = yield* createResource({
+      name: `test-resource-${testRunId}`,
+    });
     expect(resource.id).toBeDefined();
   }).pipe(
     Effect.ensuring(
-      deleteResource({ name: `test-resource-${testRunId}` }).pipe(Effect.ignore)
-    )
-  )
+      deleteResource({ name: `test-resource-${testRunId}` }).pipe(
+        Effect.ignore,
+      ),
+    ),
+  ),
 );
 ```
 
@@ -348,6 +359,7 @@ When you automatically open a PR, it MUST follow this structure:
 The summary goes at the very top of the description as plain prose — NO heading above it, no `### Summary`, nothing. The PR title already serves as the title; do not repeat or re-title it. Only add `###` subheadings further down if the description genuinely has multiple sections worth separating.
 
 **Markdown — write it plainly, do not escape:**
+
 - Inline code uses single backticks: `` `MyThing` ``. Block code uses triple backticks. That's it.
 - NEVER pad backticks with spaces (`` ` ` `MyThing` ` ` ``). NEVER escape them. The result looks like garbage and is never what the user wants.
 - When passing a PR body to `gh`, write it to a file and use `--body-file` (or `gh api -F body=@file`). Do NOT inline it in a heredoc you then try to escape — that is what causes the broken backticks.

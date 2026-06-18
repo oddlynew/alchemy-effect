@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUserOrganizationMembershipsControllerDeactivate", () => {
   it(
     "deactivates an active organization membership",
+    { timeout: 90_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 5 }));
 
@@ -56,11 +57,11 @@ describe("UserlandUserOrganizationMembershipsControllerDeactivate", () => {
       expect(typeof result.organization_id).toBe("string");
       expect(typeof result.role.slug).toBe("string");
     },
-    90_000,
   );
 
   it(
     "fails with BadRequest when the id is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerDeactivate({
@@ -69,11 +70,11 @@ describe("UserlandUserOrganizationMembershipsControllerDeactivate", () => {
       );
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerDeactivate({
@@ -82,11 +83,11 @@ describe("UserlandUserOrganizationMembershipsControllerDeactivate", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerDeactivate({
@@ -95,6 +96,5 @@ describe("UserlandUserOrganizationMembershipsControllerDeactivate", () => {
       );
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

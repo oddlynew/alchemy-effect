@@ -4,27 +4,22 @@ import { AuthorizationRolesControllerList } from "../src/operations/Authorizatio
 import { runEffect } from "./setup.ts";
 
 describe("AuthorizationRolesControllerList", () => {
-  it(
-    "lists environment roles",
-    async () => {
-      const result = await runEffect(AuthorizationRolesControllerList({}));
+  it("lists environment roles", { timeout: 30_000 }, async () => {
+    const result = await runEffect(AuthorizationRolesControllerList({}));
 
-      expect(result).toBeDefined();
-      expect(typeof result.object).toBe("string");
-      expect(Array.isArray(result.data)).toBe(true);
+    expect(result).toBeDefined();
+    expect(typeof result.object).toBe("string");
+    expect(Array.isArray(result.data)).toBe(true);
 
-      for (const role of result.data) {
-        expect(typeof role.id).toBe("string");
-        expect(typeof role.slug).toBe("string");
-        expect(typeof role.name).toBe("string");
-        expect(typeof role.resource_type_slug).toBe("string");
-        expect(["EnvironmentRole", "OrganizationRole"]).toContain(role.type);
-        expect(Array.isArray(role.permissions)).toBe(true);
-        expect(typeof role.created_at).toBe("string");
-        expect(typeof role.updated_at).toBe("string");
-      }
-    },
-    30_000,
-  );
-
+    for (const role of result.data) {
+      expect(typeof role.id).toBe("string");
+      expect(typeof role.slug).toBe("string");
+      expect(typeof role.name).toBe("string");
+      expect(typeof role.resource_type_slug).toBe("string");
+      expect(["EnvironmentRole", "OrganizationRole"]).toContain(role.type);
+      expect(Array.isArray(role.permissions)).toBe(true);
+      expect(typeof role.created_at).toBe("string");
+      expect(typeof role.updated_at).toBe("string");
+    }
+  });
 });

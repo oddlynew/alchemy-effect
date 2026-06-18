@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationOrganizationRolePermissionsControllerAddPermission", () => {
   it(
     "fails with BadRequest when the role slug is empty",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -34,11 +35,11 @@ describe("AuthorizationOrganizationRolePermissionsControllerAddPermission", () =
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent role slug",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -63,11 +64,11 @@ describe("AuthorizationOrganizationRolePermissionsControllerAddPermission", () =
 
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolePermissionsControllerAddPermission({
@@ -78,11 +79,11 @@ describe("AuthorizationOrganizationRolePermissionsControllerAddPermission", () =
 
       expect(["Forbidden", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when adding a permission to a built-in environment role",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -107,6 +108,5 @@ describe("AuthorizationOrganizationRolePermissionsControllerAddPermission", () =
 
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    60_000,
   );
 });

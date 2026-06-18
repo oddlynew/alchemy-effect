@@ -54,9 +54,13 @@ import {
 build({}).pipe(
   Effect.catchTags({
     EasBuildFreeTierLimitExceeded: () =>
-      Effect.succeed("Free tier exhausted — upgrade or wait for the next reset."),
-    EasValidationError: (e) => Effect.fail(new Error(`Invalid input: ${e.message}`)),
-    UnknownEasError: (e) => Effect.fail(new Error(`Unknown EAS error: ${e.message}`)),
+      Effect.succeed(
+        "Free tier exhausted — upgrade or wait for the next reset.",
+      ),
+    EasValidationError: (e) =>
+      Effect.fail(new Error(`Invalid input: ${e.message}`)),
+    UnknownEasError: (e) =>
+      Effect.fail(new Error(`Unknown EAS error: ${e.message}`)),
   }),
 );
 ```

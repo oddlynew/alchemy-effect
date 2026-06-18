@@ -11,6 +11,7 @@ describe("getRoleById", () => {
 
   it(
     "returns NotFound for a role id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getRoleById({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -18,6 +19,5 @@ describe("getRoleById", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

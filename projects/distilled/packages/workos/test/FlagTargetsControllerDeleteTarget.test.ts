@@ -7,48 +7,45 @@ import { OrganizationsControllerList } from "../src/operations/OrganizationsCont
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("FlagTargetsControllerDeleteTarget", () => {
-  it(
-    "removes a feature flag target",
-    async () => {
-      const flags = await runEffect(FeatureFlagsControllerList({ limit: 1 }));
-      const orgs = await runEffect(OrganizationsControllerList({ limit: 1 }));
+  it("removes a feature flag target", { timeout: 30_000 }, async () => {
+    const flags = await runEffect(FeatureFlagsControllerList({ limit: 1 }));
+    const orgs = await runEffect(OrganizationsControllerList({ limit: 1 }));
 
-      if (flags.data.length === 0 || orgs.data.length === 0) {
-        // No seed flag or organization — exercise the operation against a
-        // missing target so the call still hits the live API.
-        const error = await runEffect(
-          FlagTargetsControllerDeleteTarget({
-            slug: `feature-flag-does-not-exist-${testRunId}`,
-            resourceId: `org_does_not_exist_${testRunId}`,
-          }).pipe(Effect.flip),
-        );
-        expect(["NotFound", "BadRequest", "Forbidden"]).toContain(error._tag);
-        return;
-      }
-
-      const seedFlag = flags.data[0] as { slug: string };
-      const seedOrg = orgs.data[0] as { id: string };
-
-      // Create a target first so the delete has something to remove.
-      await runEffect(
-        FlagTargetsControllerCreateTarget({
-          slug: seedFlag.slug,
-          resourceId: seedOrg.id,
-        }),
-      );
-
-      await runEffect(
+    if (flags.data.length === 0 || orgs.data.length === 0) {
+      // No seed flag or organization — exercise the operation against a
+      // missing target so the call still hits the live API.
+      const error = await runEffect(
         FlagTargetsControllerDeleteTarget({
-          slug: seedFlag.slug,
-          resourceId: seedOrg.id,
-        }),
+          slug: `feature-flag-does-not-exist-${testRunId}`,
+          resourceId: `org_does_not_exist_${testRunId}`,
+        }).pipe(Effect.flip),
       );
-    },
-    30_000,
-  );
+      expect(["NotFound", "BadRequest", "Forbidden"]).toContain(error._tag);
+      return;
+    }
+
+    const seedFlag = flags.data[0] as { slug: string };
+    const seedOrg = orgs.data[0] as { id: string };
+
+    // Create a target first so the delete has something to remove.
+    await runEffect(
+      FlagTargetsControllerCreateTarget({
+        slug: seedFlag.slug,
+        resourceId: seedOrg.id,
+      }),
+    );
+
+    await runEffect(
+      FlagTargetsControllerDeleteTarget({
+        slug: seedFlag.slug,
+        resourceId: seedOrg.id,
+      }),
+    );
+  });
 
   it(
     "fails with BadRequest when resourceId has no recognized prefix",
+    { timeout: 30_000 },
     async () => {
       const flags = await runEffect(FeatureFlagsControllerList({ limit: 1 }));
       const slug =
@@ -65,11 +62,11 @@ describe("FlagTargetsControllerDeleteTarget", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent feature flag slug",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         FlagTargetsControllerDeleteTarget({
@@ -80,11 +77,11 @@ describe("FlagTargetsControllerDeleteTarget", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with Forbidden when targeting an organization in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const flags = await runEffect(FeatureFlagsControllerList({ limit: 1 }));
       const slug =
@@ -101,6 +98,5 @@ describe("FlagTargetsControllerDeleteTarget", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 });

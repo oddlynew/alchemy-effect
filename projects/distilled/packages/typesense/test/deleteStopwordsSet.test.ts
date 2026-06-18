@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteStopwordsSet", () => {
   it(
     "deletes an existing stopwords set and returns its id",
+    { timeout: 30_000 },
     async () => {
       const setId = `distilled-typesense-delstop-${testRunId}`;
 
@@ -23,11 +24,11 @@ describe("deleteStopwordsSet", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the stopwords set does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteStopwordsSet({
@@ -37,6 +38,5 @@ describe("deleteStopwordsSet", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

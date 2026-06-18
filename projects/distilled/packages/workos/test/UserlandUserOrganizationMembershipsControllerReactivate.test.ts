@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("UserlandUserOrganizationMembershipsControllerReactivate", () => {
   it(
     "reactivates an inactive organization membership",
+    { timeout: 90_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 5 }));
 
@@ -44,7 +45,9 @@ describe("UserlandUserOrganizationMembershipsControllerReactivate", () => {
             id: target.id,
           });
           return yield* UserlandUserOrganizationMembershipsControllerReactivate(
-            { id: target.id },
+            {
+              id: target.id,
+            },
           );
         }).pipe(
           Effect.ensuring(
@@ -61,11 +64,11 @@ describe("UserlandUserOrganizationMembershipsControllerReactivate", () => {
       expect(typeof result.organization_id).toBe("string");
       expect(typeof result.role.slug).toBe("string");
     },
-    90_000,
   );
 
   it(
     "fails with BadRequest when the id is empty",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerReactivate({
@@ -74,11 +77,11 @@ describe("UserlandUserOrganizationMembershipsControllerReactivate", () => {
       );
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with NotFound for a non-existent membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerReactivate({
@@ -87,11 +90,11 @@ describe("UserlandUserOrganizationMembershipsControllerReactivate", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a malformed membership id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUserOrganizationMembershipsControllerReactivate({
@@ -100,6 +103,5 @@ describe("UserlandUserOrganizationMembershipsControllerReactivate", () => {
       );
       expect(["NotFound", "UnprocessableEntity"]).toContain(error._tag);
     },
-    30_000,
   );
 });

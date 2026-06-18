@@ -17,6 +17,7 @@
     "typecheck": "tsc -b"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@cloudflare/vitest-pool-workers": "^0.13.0",
     "@cloudflare/workers-types": "catalog:workers",
     "effect": "catalog:effect",

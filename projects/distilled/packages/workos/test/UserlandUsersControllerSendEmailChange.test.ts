@@ -9,6 +9,7 @@ const typedErrorTags = ["NotFound", "Conflict", "UnprocessableEntity"] as const;
 describe("UserlandUsersControllerSendEmailChange", () => {
   it(
     "sends an email change code, or surfaces a typed error",
+    { timeout: 60_000 },
     async () => {
       // The happy path actually emails a one-time code to the requested
       // address. We pick the first user from the list and request a change
@@ -28,8 +29,7 @@ describe("UserlandUsersControllerSendEmailChange", () => {
           Effect.matchEffect({
             onSuccess: (response) =>
               Effect.succeed({ ok: true as const, response }),
-            onFailure: (error) =>
-              Effect.succeed({ ok: false as const, error }),
+            onFailure: (error) => Effect.succeed({ ok: false as const, error }),
           }),
         ),
       );
@@ -47,11 +47,11 @@ describe("UserlandUsersControllerSendEmailChange", () => {
         expect(typedErrorTags).toContain(result.error._tag);
       }
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent user id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         UserlandUsersControllerSendEmailChange({
@@ -61,11 +61,11 @@ describe("UserlandUsersControllerSendEmailChange", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with a typed Conflict when the new email collides with an existing user",
+    { timeout: 30_000 },
     async () => {
       // Reuse the existing seed user's own email as the new email. The API
       // typically rejects this as a Conflict (or related typed error).
@@ -90,11 +90,11 @@ describe("UserlandUsersControllerSendEmailChange", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with a typed UnprocessableEntity for a malformed new_email",
+    { timeout: 30_000 },
     async () => {
       const users = await runEffect(UserlandUsersControllerList({ limit: 1 }));
       const seedId =
@@ -110,6 +110,5 @@ describe("UserlandUsersControllerSendEmailChange", () => {
       );
       expect(typedErrorTags).toContain(error._tag);
     },
-    30_000,
   );
 });

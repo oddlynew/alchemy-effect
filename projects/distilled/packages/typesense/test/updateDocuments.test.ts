@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateDocuments", () => {
   it(
     "updates documents matching a filter and returns num_updated",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-upddocs-${testRunId}`;
 
@@ -57,11 +58,11 @@ describe("updateDocuments", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when filter_by is malformed",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-upddocs-bad-${testRunId}`;
 
@@ -91,11 +92,11 @@ describe("updateDocuments", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the collection does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         updateDocuments({
@@ -107,6 +108,5 @@ describe("updateDocuments", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

@@ -95,7 +95,7 @@ test.skip = function (
   ...args: [{ timeout?: number }, TestCase] | [TestCase]
 ) {
   const [options = {}] = args.length === 1 ? [undefined] : args;
-  return it.skip(name, () => {}, options.timeout ?? 120_000);
+  return it.skip(name, { timeout: options.timeout ?? 120_000 }, () => {});
 };
 
 /** Run an Effect for use in beforeAll/beforeEach hooks */

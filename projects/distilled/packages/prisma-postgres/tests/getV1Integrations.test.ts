@@ -36,26 +36,30 @@ describe("getV1Integrations", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - lists integrations for a workspace", async () => {
-    const project = getTestProject("integ-list");
-    const workspaceId = project.workspaceId!;
+  it(
+    "happy path - lists integrations for a workspace",
+    { timeout: 30_000 },
+    async () => {
+      const project = getTestProject("integ-list");
+      const workspaceId = project.workspaceId!;
 
-    const result = await runEffect(getV1Integrations({ workspaceId }));
+      const result = await runEffect(getV1Integrations({ workspaceId }));
 
-    expect(result.data).toBeDefined();
-    expect(Array.isArray(result.data)).toBe(true);
-    expect(result.pagination).toBeDefined();
-    expect(typeof result.pagination.hasMore).toBe("boolean");
-    if (result.data.length > 0) {
-      const integration = result.data[0];
-      expect(integration.id).toBeDefined();
-      expect(integration.client).toBeDefined();
-      expect(integration.client.id).toBeDefined();
-      expect(integration.scopes).toBeDefined();
-    }
-  }, 30_000);
+      expect(result.data).toBeDefined();
+      expect(Array.isArray(result.data)).toBe(true);
+      expect(result.pagination).toBeDefined();
+      expect(typeof result.pagination.hasMore).toBe("boolean");
+      if (result.data.length > 0) {
+        const integration = result.data[0];
+        expect(integration.id).toBeDefined();
+        expect(integration.client).toBeDefined();
+        expect(integration.client.id).toBeDefined();
+        expect(integration.scopes).toBeDefined();
+      }
+    },
+  );
 
-  it("happy path - supports limit parameter", async () => {
+  it("happy path - supports limit parameter", { timeout: 30_000 }, async () => {
     const project = getTestProject("integ-list");
     const workspaceId = project.workspaceId!;
 
@@ -65,24 +69,28 @@ describe("getV1Integrations", () => {
 
     expect(result.data).toBeDefined();
     expect(result.data.length).toBeLessThanOrEqual(1);
-  }, 30_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - Unauthorized with invalid token", async () => {
-    const project = getTestProject("integ-list");
-    const workspaceId = project.workspaceId!;
+  it(
+    "error - Unauthorized with invalid token",
+    { timeout: 30_000 },
+    async () => {
+      const project = getTestProject("integ-list");
+      const workspaceId = project.workspaceId!;
 
-    await Effect.runPromise(
-      getV1Integrations({ workspaceId }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(BadTokenLayer),
-      ),
-    );
-  }, 30_000);
+      await Effect.runPromise(
+        getV1Integrations({ workspaceId }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["Unauthorized", "Forbidden"]).toContain((e as any)._tag);
+          }),
+          Effect.provide(BadTokenLayer),
+        ),
+      );
+    },
+  );
 });

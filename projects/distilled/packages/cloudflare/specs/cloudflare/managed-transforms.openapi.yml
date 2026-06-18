@@ -39,7 +39,8 @@ paths:
                               description: Whether the Managed Transform is enabled.
                             has_conflict:
                               type: boolean
-                              description: Whether the Managed Transform conflicts with the currently-enabled
+                              description:
+                                Whether the Managed Transform conflicts with the currently-enabled
                                 Managed Transforms.
                             conflicts_with:
                               type: array
@@ -66,7 +67,8 @@ paths:
                               description: Whether the Managed Transform is enabled.
                             has_conflict:
                               type: boolean
-                              description: Whether the Managed Transform conflicts with the currently-enabled
+                              description:
+                                Whether the Managed Transform conflicts with the currently-enabled
                                 Managed Transforms.
                             conflicts_with:
                               type: array
@@ -155,7 +157,8 @@ paths:
                               description: Whether the Managed Transform is enabled.
                             has_conflict:
                               type: boolean
-                              description: Whether the Managed Transform conflicts with the currently-enabled
+                              description:
+                                Whether the Managed Transform conflicts with the currently-enabled
                                 Managed Transforms.
                             conflicts_with:
                               type: array
@@ -182,7 +185,8 @@ paths:
                               description: Whether the Managed Transform is enabled.
                             has_conflict:
                               type: boolean
-                              description: Whether the Managed Transform conflicts with the currently-enabled
+                              description:
+                                Whether the Managed Transform conflicts with the currently-enabled
                                 Managed Transforms.
                             conflicts_with:
                               type: array

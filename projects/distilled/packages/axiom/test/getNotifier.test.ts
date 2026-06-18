@@ -6,54 +6,51 @@ import { getNotifier } from "../src/operations/v2/getNotifier";
 import { runEffect, testRunId } from "./setup";
 
 describe("getNotifier", () => {
-  it(
-    "returns a notifier by id",
-    async () => {
-      const notifierName = `distilled-axiom-getnotifier-${testRunId}`;
-      let createdId: string | undefined;
+  it("returns a notifier by id", { timeout: 60_000 }, async () => {
+    const notifierName = `distilled-axiom-getnotifier-${testRunId}`;
+    let createdId: string | undefined;
 
-      const effect = Effect.gen(function* () {
-        // Prerequisite: a notifier must exist to fetch.
-        const created = yield* createNotifier({
-          name: notifierName,
-          properties: {
-            email: {
-              emails: [`distilled-test-${testRunId}@example.com`],
-            },
+    const effect = Effect.gen(function* () {
+      // Prerequisite: a notifier must exist to fetch.
+      const created = yield* createNotifier({
+        name: notifierName,
+        properties: {
+          email: {
+            emails: [`distilled-test-${testRunId}@example.com`],
           },
-        });
+        },
+      });
 
-        if (created.id === undefined) {
-          throw new Error(
-            "createNotifier did not return an id; cannot test getNotifier happy path.",
-          );
-        }
-        createdId = created.id;
-
-        const fetched = yield* getNotifier({ id: created.id });
-
-        expect(fetched.id).toBe(created.id);
-        expect(fetched.name).toBe(notifierName);
-        expect(fetched.properties.email?.emails).toContain(
-          `distilled-test-${testRunId}@example.com`,
+      if (created.id === undefined) {
+        throw new Error(
+          "createNotifier did not return an id; cannot test getNotifier happy path.",
         );
-      }).pipe(
-        Effect.ensuring(
-          Effect.gen(function* () {
-            if (createdId !== undefined) {
-              yield* deleteNotifier({ id: createdId }).pipe(Effect.ignore);
-            }
-          }),
-        ),
-      );
+      }
+      createdId = created.id;
 
-      await runEffect(effect);
-    },
-    { timeout: 60_000 },
-  );
+      const fetched = yield* getNotifier({ id: created.id });
+
+      expect(fetched.id).toBe(created.id);
+      expect(fetched.name).toBe(notifierName);
+      expect(fetched.properties.email?.emails).toContain(
+        `distilled-test-${testRunId}@example.com`,
+      );
+    }).pipe(
+      Effect.ensuring(
+        Effect.gen(function* () {
+          if (createdId !== undefined) {
+            yield* deleteNotifier({ id: createdId }).pipe(Effect.ignore);
+          }
+        }),
+      ),
+    );
+
+    await runEffect(effect);
+  });
 
   it(
     "returns NotFound for a well-formed notifier id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Axiom notifier ids are prefixed with `notify_`. A syntactically valid
       // but non-existent id should produce a 404 → NotFound.
@@ -65,6 +62,5 @@ describe("getNotifier", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

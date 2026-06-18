@@ -133,7 +133,11 @@ const paginateAfter = <T, In extends { after?: string; limit?: number }>(
     const all: T[] = [];
     let after: string | null = null;
     do {
-      const res = yield* op({ ...(input as object), limit: 100, after: after ?? undefined } as In);
+      const res = yield* op({
+        ...(input as object),
+        limit: 100,
+        after: after ?? undefined,
+      } as In);
       all.push(...res.data);
       after = res.list_metadata.after;
     } while (after);
@@ -148,7 +152,10 @@ const nukeWebhookEndpoints = (dryRun: boolean, nukeConfig: NukeConfig) =>
   Effect.gen(function* () {
     yield* Console.log(`\n${BOLD}${CYAN}Webhook Endpoints${RESET}`);
 
-    const endpoints = yield* paginateAfter(WebhookEndpointsControllerList, {}).pipe(
+    const endpoints = yield* paginateAfter(
+      WebhookEndpointsControllerList,
+      {},
+    ).pipe(
       Effect.catch(() =>
         Console.log(`  ${RED}Failed to list webhook endpoints${RESET}`).pipe(
           Effect.map(() => [] as Array<{ id: string; endpoint_url: string }>),
@@ -163,7 +170,12 @@ const nukeWebhookEndpoints = (dryRun: boolean, nukeConfig: NukeConfig) =>
 
     for (const ep of endpoints) {
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "WebhookEndpoint", ep.id, ep.endpoint_url);
+      const excluded = isExcluded(
+        nukeConfig,
+        "WebhookEndpoint",
+        ep.id,
+        ep.endpoint_url,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -196,16 +208,25 @@ const nukeApplicationCredentials = (
   appId: string,
 ) =>
   Effect.gen(function* () {
-    const secrets = yield* ApplicationCredentialsControllerList({ id: appId }).pipe(
+    const secrets = yield* ApplicationCredentialsControllerList({
+      id: appId,
+    }).pipe(
       Effect.catch(() =>
         Console.log(
           `    ${RED}Failed to list client secrets for application ${appId}${RESET}`,
-        ).pipe(Effect.map(() => [] as Array<{ id: string; secret_hint: string }>)),
+        ).pipe(
+          Effect.map(() => [] as Array<{ id: string; secret_hint: string }>),
+        ),
       ),
     );
     for (const sec of secrets) {
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "ApplicationCredential", sec.id, sec.secret_hint);
+      const excluded = isExcluded(
+        nukeConfig,
+        "ApplicationCredential",
+        sec.id,
+        sec.secret_hint,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -239,7 +260,9 @@ const nukeApplications = (dryRun: boolean, nukeConfig: NukeConfig) =>
     const apps = yield* paginateAfter(ApplicationsControllerList, {}).pipe(
       Effect.catch(() =>
         Console.log(`  ${RED}Failed to list applications${RESET}`).pipe(
-          Effect.map(() => [] as Array<{ id: string; name: string; client_id: string }>),
+          Effect.map(
+            () => [] as Array<{ id: string; name: string; client_id: string }>,
+          ),
         ),
       ),
     );
@@ -398,9 +421,14 @@ const nukeAuthorizationResources = (dryRun: boolean, nukeConfig: NukeConfig) =>
   Effect.gen(function* () {
     yield* Console.log(`\n${BOLD}${CYAN}Authorization Resources${RESET}`);
 
-    const resources = yield* paginateAfter(AuthorizationResourcesControllerList, {}).pipe(
+    const resources = yield* paginateAfter(
+      AuthorizationResourcesControllerList,
+      {},
+    ).pipe(
       Effect.catch(() =>
-        Console.log(`  ${RED}Failed to list authorization resources${RESET}`).pipe(
+        Console.log(
+          `  ${RED}Failed to list authorization resources${RESET}`,
+        ).pipe(
           Effect.map(
             () =>
               [] as Array<{
@@ -427,7 +455,12 @@ const nukeAuthorizationResources = (dryRun: boolean, nukeConfig: NukeConfig) =>
     // to avoid having to compute a true topological order.
     for (const r of resources) {
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "AuthorizationResource", r.id, r.name);
+      const excluded = isExcluded(
+        nukeConfig,
+        "AuthorizationResource",
+        r.id,
+        r.name,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -457,13 +490,21 @@ const nukeAuthorizationResources = (dryRun: boolean, nukeConfig: NukeConfig) =>
     }
   });
 
-const nukeAuthorizationPermissions = (dryRun: boolean, nukeConfig: NukeConfig) =>
+const nukeAuthorizationPermissions = (
+  dryRun: boolean,
+  nukeConfig: NukeConfig,
+) =>
   Effect.gen(function* () {
     yield* Console.log(`\n${BOLD}${CYAN}Authorization Permissions${RESET}`);
 
-    const permissions = yield* paginateAfter(AuthorizationPermissionsControllerList, {}).pipe(
+    const permissions = yield* paginateAfter(
+      AuthorizationPermissionsControllerList,
+      {},
+    ).pipe(
       Effect.catch(() =>
-        Console.log(`  ${RED}Failed to list authorization permissions${RESET}`).pipe(
+        Console.log(
+          `  ${RED}Failed to list authorization permissions${RESET}`,
+        ).pipe(
           Effect.map(
             () =>
               [] as Array<{
@@ -488,7 +529,12 @@ const nukeAuthorizationPermissions = (dryRun: boolean, nukeConfig: NukeConfig) =
       if (p.system) continue;
 
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "AuthorizationPermission", p.slug, p.name);
+      const excluded = isExcluded(
+        nukeConfig,
+        "AuthorizationPermission",
+        p.slug,
+        p.name,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -623,7 +669,12 @@ const nukeOrganizationRoles = (
       if (role.type !== "OrganizationRole") continue;
 
       totalFound++;
-      const excluded = isExcluded(nukeConfig, "OrganizationRole", role.slug, role.name);
+      const excluded = isExcluded(
+        nukeConfig,
+        "OrganizationRole",
+        role.slug,
+        role.name,
+      );
       if (excluded) {
         totalSkipped++;
         yield* Console.log(
@@ -777,7 +828,9 @@ const nuke = Command.make(
       const mode = config.dryRun
         ? `${YELLOW}DRY RUN${RESET}`
         : `${RED}LIVE${RESET}`;
-      yield* Console.log(`\n${BOLD}WorkOS Nuke${RESET} ${DIM}(${mode}${DIM})${RESET}`);
+      yield* Console.log(
+        `\n${BOLD}WorkOS Nuke${RESET} ${DIM}(${mode}${DIM})${RESET}`,
+      );
 
       if (!config.dryRun) {
         yield* Console.log(

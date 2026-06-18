@@ -8,6 +8,7 @@ import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 describe("AuditLogExportsControllerExports", () => {
   it(
     "creates an audit log export for an organization",
+    { timeout: 60_000 },
     async (ctx) => {
       const rangeEnd = new Date();
       const rangeStart = new Date(rangeEnd.getTime() - 24 * 60 * 60 * 1000);
@@ -39,11 +40,11 @@ describe("AuditLogExportsControllerExports", () => {
         }),
       );
     },
-    60_000,
   );
 
   it(
     "fails with NotFound when the organization does not exist",
+    { timeout: 30_000 },
     async () => {
       const rangeEnd = new Date();
       const rangeStart = new Date(rangeEnd.getTime() - 24 * 60 * 60 * 1000);
@@ -58,11 +59,11 @@ describe("AuditLogExportsControllerExports", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest when range_start is not a valid date",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -88,6 +89,5 @@ describe("AuditLogExportsControllerExports", () => {
 
       expect(error._tag).toBe("BadRequest");
     },
-    60_000,
   );
 });

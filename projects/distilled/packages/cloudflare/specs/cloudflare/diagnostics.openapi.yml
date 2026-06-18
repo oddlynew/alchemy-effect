@@ -351,7 +351,8 @@ paths:
                   type: array
                   items:
                     type: string
-                  description: "Body param: If no source colo names specified, all colos will be
+                  description:
+                    "Body param: If no source colo names specified, all colos will be
                     used. China colos are unavailable for traceroutes."
                 options:
                   type: object
@@ -373,7 +374,8 @@ paths:
                       description: Number of packets sent at each TTL.
                     port:
                       type: number
-                      description: For UDP and TCP, specifies the destination port. For ICMP,
+                      description:
+                        For UDP and TCP, specifies the destination port. For ICMP,
                         specifies the initial ICMP sequence value. Default value
                         0 will choose the best value to use for each protocol.
                     wait_time:
@@ -433,7 +435,8 @@ paths:
                                       type: array
                                       items:
                                         type: string
-                                      description: Field appears if there is an additional annotation printed when the
+                                      description:
+                                        Field appears if there is an additional annotation printed when the
                                         probe returns. Field also appears when
                                         running a GRE+ICMP traceroute to denote
                                         which traceroute a node comes from.

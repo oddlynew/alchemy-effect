@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuditLogEventsControllerCreate", () => {
   it(
     "creates an audit log event for an action with a registered schema",
+    { timeout: 60_000 },
     async () => {
       const actionName = `distilled.workos.event_create.${testRunId}`;
 
@@ -60,11 +61,11 @@ describe("AuditLogEventsControllerCreate", () => {
         }),
       );
     },
-    60_000,
   );
 
   it(
     "fails with NotFound when the organization does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuditLogEventsControllerCreate({
@@ -81,11 +82,11 @@ describe("AuditLogEventsControllerCreate", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity when the event references an unregistered action",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -116,11 +117,11 @@ describe("AuditLogEventsControllerCreate", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with BadRequest when occurred_at is not a valid date",
+    { timeout: 60_000 },
     async () => {
       const actionName = `distilled.workos.event_badrequest.${testRunId}`;
 
@@ -158,6 +159,5 @@ describe("AuditLogEventsControllerCreate", () => {
 
       expect(["BadRequest", "UnprocessableEntity"]).toContain(error._tag);
     },
-    60_000,
   );
 });

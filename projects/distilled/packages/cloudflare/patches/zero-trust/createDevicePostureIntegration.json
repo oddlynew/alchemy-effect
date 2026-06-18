@@ -1,7 +1,10 @@
 {
   "errors": {
     "InvalidPostureIntegrationConfig": [
-      { "status": 400, "message": { "includes": "invalid posture integration request" } }
+      {
+        "status": 400,
+        "message": { "includes": "invalid posture integration request" }
+      }
     ],
     "Forbidden": [{ "status": 403 }]
   }

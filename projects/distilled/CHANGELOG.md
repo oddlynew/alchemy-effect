@@ -423,11 +423,11 @@
 
 ## [v0.16.7](https://github.com/alchemy-run/distilled/releases/tag/v0.16.7) (2026-05-04)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.16.6](https://github.com/alchemy-run/distilled/releases/tag/v0.16.6) (2026-05-04)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.16.5](https://github.com/alchemy-run/distilled/releases/tag/v0.16.5) (2026-05-04)
 
@@ -536,7 +536,7 @@
 
 ## [v0.12.7](https://github.com/alchemy-run/distilled/releases/tag/v0.12.7) (2026-04-28)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.12.6](https://github.com/alchemy-run/distilled/releases/tag/v0.12.6) (2026-04-28)
 
@@ -591,7 +591,7 @@
 
 ## [v0.12.1](https://github.com/alchemy-run/distilled/releases/tag/v0.12.1) (2026-04-26)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.12.0](https://github.com/alchemy-run/distilled/releases/tag/v0.12.0) (2026-04-26)
 
@@ -637,11 +637,11 @@
 
 ## [v0.9.0](https://github.com/alchemy-run/distilled/releases/tag/v0.9.0) (2026-04-13)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.8.0](https://github.com/alchemy-run/distilled/releases/tag/v0.8.0) (2026-04-13)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.7.12](https://github.com/alchemy-run/distilled/releases/tag/v0.7.12) (2026-04-11)
 
@@ -662,11 +662,11 @@
 
 ## [v0.7.10](https://github.com/alchemy-run/distilled/releases/tag/v0.7.10) (2026-04-07)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.7.9](https://github.com/alchemy-run/distilled/releases/tag/v0.7.9) (2026-04-03)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.7.8](https://github.com/alchemy-run/distilled/releases/tag/v0.7.8) (2026-04-03)
 
@@ -689,7 +689,7 @@
 
 ## [v0.7.5](https://github.com/alchemy-run/distilled/releases/tag/v0.7.5) (2026-03-31)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.7.4](https://github.com/alchemy-run/distilled/releases/tag/v0.7.4) (2026-03-31)
 
@@ -710,11 +710,11 @@
 
 ## [v0.7.2](https://github.com/alchemy-run/distilled/releases/tag/v0.7.2) (2026-03-24)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.7.1](https://github.com/alchemy-run/distilled/releases/tag/v0.7.1) (2026-03-24)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.7.0](https://github.com/alchemy-run/distilled/releases/tag/v0.7.0) (2026-03-20)
 
@@ -724,7 +724,7 @@
 
 ## [v0.6.1](https://github.com/alchemy-run/distilled/releases/tag/v0.6.1) (2026-03-18)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.6.0](https://github.com/alchemy-run/distilled/releases/tag/v0.6.0) (2026-03-18)
 
@@ -809,8 +809,8 @@
 
 ## [v0.2.2](https://github.com/alchemy-run/distilled/releases/tag/v0.2.2) (2026-03-11)
 
-*No significant changes*
+_No significant changes_
 
 ## [v0.2.1](https://github.com/alchemy-run/distilled/releases/tag/v0.2.1) (2026-03-11)
 
-*No significant changes*
+_No significant changes_

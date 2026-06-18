@@ -11,6 +11,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createUser", () => {
   it(
     "returns BadRequest when the email is malformed",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         createUser({
@@ -22,11 +23,11 @@ describe("createUser", () => {
 
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 
   it(
     "rejects an unknown role with BadRequest or UnprocessableEntity",
+    { timeout: 30_000 },
     async () => {
       // The account has exceeded its user license (createUser surfaces this
       // as 400 "License limit exceeded" before it gets to role validation),
@@ -42,6 +43,5 @@ describe("createUser", () => {
       const tag = (error as { _tag: string })._tag;
       expect(["BadRequest", "UnprocessableEntity"]).toContain(tag);
     },
-    { timeout: 30_000 },
   );
 });

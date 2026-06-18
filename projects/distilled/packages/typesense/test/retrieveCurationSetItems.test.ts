@@ -7,46 +7,43 @@ import { upsertCurationSetItem } from "../src/operations/upsertCurationSetItem";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrieveCurationSetItems", () => {
-  it(
-    "lists all items in a curation set",
-    async () => {
-      const curationSetName = `distilled-typesense-retcurationitems-${testRunId}`;
-      const itemId = `item-${testRunId}`;
+  it("lists all items in a curation set", { timeout: 30_000 }, async () => {
+    const curationSetName = `distilled-typesense-retcurationitems-${testRunId}`;
+    const itemId = `item-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        yield* upsertCurationSet({
-          curationSetName,
-          items: [],
-          description: "test curation set",
-        });
+    const effect = Effect.gen(function* () {
+      yield* upsertCurationSet({
+        curationSetName,
+        items: [],
+        description: "test curation set",
+      });
 
-        yield* upsertCurationSetItem({
-          curationSetName,
-          itemId,
-          rule: { query: "shoe", match: "exact" },
-          includes: [{ id: "doc-1", position: 1 }],
-        });
+      yield* upsertCurationSetItem({
+        curationSetName,
+        itemId,
+        rule: { query: "shoe", match: "exact" },
+        includes: [{ id: "doc-1", position: 1 }],
+      });
 
-        const result = yield* retrieveCurationSetItems({ curationSetName });
+      const result = yield* retrieveCurationSetItems({ curationSetName });
 
-        expect(Array.isArray(result)).toBe(true);
-        const ours = result.find((i) => i.id === itemId);
-        expect(ours).toBeDefined();
-        expect(ours?.rule.query).toBe("shoe");
-        expect(ours?.rule.match).toBe("exact");
-      }).pipe(
-        Effect.ensuring(
-          deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(Array.isArray(result)).toBe(true);
+      const ours = result.find((i) => i.id === itemId);
+      expect(ours).toBeDefined();
+      expect(ours?.rule.query).toBe("shoe");
+      expect(ours?.rule.match).toBe("exact");
+    }).pipe(
+      Effect.ensuring(
+        deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
+      ),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the curation set does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         retrieveCurationSetItems({
@@ -56,6 +53,5 @@ describe("retrieveCurationSetItems", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

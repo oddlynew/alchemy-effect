@@ -5,32 +5,29 @@ import { RadarStandaloneControllerUpdateRadarAttempt } from "../src/operations/R
 import { runEffect, runOrSkipOnEnvLimitation, testRunId } from "./setup.ts";
 
 describe("RadarStandaloneControllerUpdateRadarAttempt", () => {
-  it(
-    "updates a Radar attempt's status",
-    async (ctx) => {
-      await runOrSkipOnEnvLimitation(
-        ctx,
-        Effect.gen(function* () {
-          const attempt = yield* RadarStandaloneControllerAssess({
-            ip_address: "203.0.113.42",
-            user_agent:
-              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-            email: `distilled-radar-update-${testRunId}@example.com`,
-            auth_method: "Password",
-            action: "login",
-          });
-          return yield* RadarStandaloneControllerUpdateRadarAttempt({
-            id: attempt.attempt_id,
-            attempt_status: "success",
-          });
-        }),
-      );
-    },
-    30_000,
-  );
+  it("updates a Radar attempt's status", { timeout: 30_000 }, async (ctx) => {
+    await runOrSkipOnEnvLimitation(
+      ctx,
+      Effect.gen(function* () {
+        const attempt = yield* RadarStandaloneControllerAssess({
+          ip_address: "203.0.113.42",
+          user_agent:
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+          email: `distilled-radar-update-${testRunId}@example.com`,
+          auth_method: "Password",
+          action: "login",
+        });
+        return yield* RadarStandaloneControllerUpdateRadarAttempt({
+          id: attempt.attempt_id,
+          attempt_status: "success",
+        });
+      }),
+    );
+  });
 
   it(
     "fails with NotFound for a non-existent attempt id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         RadarStandaloneControllerUpdateRadarAttempt({
@@ -40,11 +37,11 @@ describe("RadarStandaloneControllerUpdateRadarAttempt", () => {
       );
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest for an invalid attempt_status value",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -64,6 +61,5 @@ describe("RadarStandaloneControllerUpdateRadarAttempt", () => {
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 });

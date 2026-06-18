@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/cloudflare-tools.git",
-    "directory": "packages/cloudflare-vite-plugin"
+    "directory": "projects/cloudflare-tools/packages/cloudflare-vite-plugin"
   },
   "files": [
     "dist",
@@ -46,6 +46,7 @@
     "@distilled.cloud/cloudflare-rolldown-plugin": "workspace:*"
   },
   "devDependencies": {
+    "@alchemy.run/typescript-config": "workspace:*",
     "@cloudflare/workers-types": "catalog:workers",
     "@distilled.cloud/build-utils": "workspace:*",
     "@distilled.cloud/vendor-workers-shared": "workspace:*",

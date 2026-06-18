@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("upsertPreset", () => {
   it(
     "creates a preset with a multi-search value",
+    { timeout: 30_000 },
     async () => {
       const presetId = `distilled-typesense-upspreset-${testRunId}`;
 
@@ -14,25 +15,21 @@ describe("upsertPreset", () => {
         const result = yield* upsertPreset({
           presetId,
           value: {
-            searches: [
-              { collection: "products", q: "shoe", query_by: "name" },
-            ],
+            searches: [{ collection: "products", q: "shoe", query_by: "name" }],
           },
         });
 
         expect(result.name).toBe(presetId);
         expect(result.value).toBeDefined();
-      }).pipe(
-        Effect.ensuring(deletePreset({ presetId }).pipe(Effect.ignore)),
-      );
+      }).pipe(Effect.ensuring(deletePreset({ presetId }).pipe(Effect.ignore)));
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when the preset value is not an object",
+    { timeout: 30_000 },
     async () => {
       const presetId = `distilled-typesense-upspreset-bad-${testRunId}`;
 
@@ -44,13 +41,10 @@ describe("upsertPreset", () => {
         value: "not-an-object",
       })
         .pipe(Effect.flip)
-        .pipe(
-          Effect.ensuring(deletePreset({ presetId }).pipe(Effect.ignore)),
-        );
+        .pipe(Effect.ensuring(deletePreset({ presetId }).pipe(Effect.ignore)));
 
       const error = await runEffect(effect);
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

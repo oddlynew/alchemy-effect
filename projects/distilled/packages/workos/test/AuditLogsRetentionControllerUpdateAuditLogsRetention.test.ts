@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuditLogsRetentionControllerUpdateAuditLogsRetention", () => {
   it(
     "sets the audit log retention for an organization",
+    { timeout: 60_000 },
     async () => {
       const result = await runEffect(
         Effect.gen(function* () {
@@ -29,11 +30,11 @@ describe("AuditLogsRetentionControllerUpdateAuditLogsRetention", () => {
       expect(result).toBeDefined();
       expect(result.retention_period_in_days).toBe(30);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent organization id",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuditLogsRetentionControllerUpdateAuditLogsRetention({
@@ -43,11 +44,11 @@ describe("AuditLogsRetentionControllerUpdateAuditLogsRetention", () => {
       );
       expect(error._tag).toBe("NotFound");
     },
-    30_000,
   );
 
   it(
     "fails with UnprocessableEntity for a negative retention period",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -68,6 +69,5 @@ describe("AuditLogsRetentionControllerUpdateAuditLogsRetention", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    60_000,
   );
 });

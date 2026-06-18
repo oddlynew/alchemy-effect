@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("RadarStandaloneControllerUpdateRadarList", () => {
   it(
     "adds an email entry to a Radar block list",
+    { timeout: 30_000 },
     async () => {
       const entry = `distilled-radar-list-${testRunId}@example.com`;
       const result = await runEffect(
@@ -38,11 +39,11 @@ describe("RadarStandaloneControllerUpdateRadarList", () => {
       // decode to undefined/object depending on PostHog's response. The
       // call returning without error is sufficient.
     },
-    30_000,
   );
 
   it(
     "fails with BadRequest for a malformed ip_address entry",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         RadarStandaloneControllerUpdateRadarList({
@@ -53,6 +54,5 @@ describe("RadarStandaloneControllerUpdateRadarList", () => {
       );
       expect(error._tag).toBe("BadRequest");
     },
-    30_000,
   );
 });

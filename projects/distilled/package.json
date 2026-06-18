@@ -1,29 +1,6 @@
 {
   "name": "distilled",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "bun --filter '@distilled.cloud/core' build && bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' build",
-    "build:clean": "bun install:clean && bun run build",
-    "clean": "git clean -fqdx . -e .env",
-    "install:clean": "bun clean && bun install",
-    "download:env": "doppler secrets download --no-file --format env > .env",
-    "typecheck": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' typecheck",
-    "fmt": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' fmt",
-    "lint": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' lint",
-    "flint": "bun run fmt && bun run lint",
-    "check": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' check",
-    "test": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' test",
-    "generate": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' generate",
-    "specs:fetch": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:fetch",
-    "specs:update": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:update",
-    "create-sdk": "bun ./scripts/create-sdk.ts",
-    "nuke": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' nuke",
-    "generate-nuke": "bun ./scripts/generate-nuke.ts",
-    "generate-tests": "bun ./scripts/generate-tests.ts",
-    "error-discovery": "bun ./scripts/error-discovery.ts",
-    "prepare": "husky"
-  },
   "workspaces": {
     "packages": [
       "./packages/*",
@@ -57,12 +34,32 @@
       "yaml": "^2.7.1"
     }
   },
+  "type": "module",
+  "scripts": {
+    "build": "bun --filter '@distilled.cloud/core' build && bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' build",
+    "build:clean": "bun install:clean && bun run build",
+    "clean": "git clean -fqdx . -e .env",
+    "install:clean": "bun clean && bun install",
+    "download:env": "doppler secrets download --no-file --format env > .env",
+    "typecheck": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' typecheck",
+    "fmt": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' fmt",
+    "lint": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' lint",
+    "flint": "bun run fmt && bun run lint",
+    "check": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' check",
+    "test": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' test",
+    "generate": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' generate",
+    "specs:fetch": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:fetch",
+    "specs:update": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:update",
+    "create-sdk": "bun ./scripts/create-sdk.ts",
+    "nuke": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' nuke",
+    "generate-nuke": "bun ./scripts/generate-nuke.ts",
+    "generate-tests": "bun ./scripts/generate-tests.ts",
+    "error-discovery": "bun ./scripts/error-discovery.ts",
+    "prepare": "husky"
+  },
   "dependencies": {
     "@effect/platform-bun": "catalog:",
     "effect": "catalog:"
-  },
-  "overrides": {
-    "undici": "7.10.0"
   },
   "devDependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.2.81",
@@ -75,5 +72,8 @@
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "yaml": "catalog:"
+  },
+  "overrides": {
+    "undici": "7.10.0"
   }
 }

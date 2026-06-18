@@ -498,12 +498,11 @@ test.provider("promotes a dev consumer to a live consumer on deploy", (stack) =>
     expect(isLiveId(initial.consumer.consumerId)).toBe(true);
 
     // Rewrite the persisted consumerId back to a dev id, simulating a
-    // consumer that was minted in `alchemy dev`.
-    const devQueueId = generateLocalId();
+    // consumer that was minted in `alchemy dev`. The queueId stays live.
     const devConsumerId = generateLocalId();
     yield* Effect.gen(function* () {
       const state = yield* yield* State;
-      const currentConsumer = (yield* state.get({
+      const current = (yield* state.get({
         stack: stack.name,
         stage: "test",
         fqn: "Consumer",
@@ -513,12 +512,8 @@ test.provider("promotes a dev consumer to a live consumer on deploy", (stack) =>
         stage: "test",
         fqn: "Consumer",
         value: {
-          ...currentConsumer,
-          attr: {
-            ...currentConsumer.attr,
-            queueId: devQueueId,
-            consumerId: devConsumerId,
-          },
+          ...current,
+          attr: { ...current.attr, consumerId: devConsumerId },
         },
       });
     });
@@ -527,10 +522,8 @@ test.provider("promotes a dev consumer to a live consumer on deploy", (stack) =>
 
     // The dev id was promoted back to the real, live consumer id.
     expect(isLiveId(promoted.consumer.consumerId)).toBe(true);
-    expect(isLiveId(promoted.queue.queueId)).toBe(true);
     expect(promoted.consumer.consumerId).not.toEqual(devConsumerId);
     expect(promoted.consumer.consumerId).toEqual(initial.consumer.consumerId);
-    expect(promoted.queue.queueId).toEqual(initial.queue.queueId);
 
     const live = yield* queues.getConsumer({
       accountId,

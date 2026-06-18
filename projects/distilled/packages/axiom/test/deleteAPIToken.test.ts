@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("deleteAPIToken", () => {
   it(
     "deletes an existing API token and subsequent fetches return NotFound",
+    { timeout: 60_000 },
     async () => {
       const tokenName = `distilled-axiom-del-token-${testRunId}`;
       let createdId: string | undefined;
@@ -41,11 +42,11 @@ describe("deleteAPIToken", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for an API token id that does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         deleteAPIToken({ id: `doesnotexist-${testRunId}` }).pipe(Effect.flip),
@@ -53,6 +54,5 @@ describe("deleteAPIToken", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
-    "directory": "examples/aws-vite"
+    "directory": "projects/alchemy/examples/aws-vite"
   },
   "type": "module",
   "scripts": {
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "typescript": "catalog:",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "@alchemy.run/typescript-config": "workspace:*"
   }
 }

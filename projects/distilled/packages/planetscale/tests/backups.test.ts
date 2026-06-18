@@ -355,94 +355,98 @@ describe("backups", () => {
   // ============================================================================
 
   describe("backup lifecycle", () => {
-    it("can create, get, and delete a backup", async () => {
-      const db = getDb();
-      const backupName = `test-backup-${testRunId}`;
-      let createdBackup: { id: string } | null = null;
+    it(
+      "can create, get, and delete a backup",
+      { timeout: 600000 },
+      async () => {
+        const db = getDb();
+        const backupName = `test-backup-${testRunId}`;
+        let createdBackup: { id: string } | null = null;
 
-      try {
-        // Create backup with custom retention
-        const created = await runEffect(
-          createBackup({
-            organization: db.organization,
-            database: db.name,
-            branch: "main",
-            name: backupName,
-            retention_unit: "day",
-            retention_value: 2,
-          }),
-        );
-
-        createdBackup = created;
-        expect(created.id).toBeDefined();
-        expect(created.name).toBe(backupName);
-        expect(created.state).toBeDefined();
-        expect(["pending", "running", "success"]).toContain(created.state);
-
-        // Wait for backup to complete
-        const completed = await runEffect(
-          waitForBackupComplete(db.organization, db.name, "main", created.id),
-        );
-        expect(completed.state).toBe("success");
-
-        // Verify we can get the backup
-        const fetched = await runEffect(
-          getBackup({
-            organization: db.organization,
-            database: db.name,
-            branch: "main",
-            id: created.id,
-          }),
-        );
-        expect(fetched.id).toBe(created.id);
-        expect(fetched.name).toBe(backupName);
-
-        // Delete backup
-        await runEffect(
-          deleteBackup({
-            organization: db.organization,
-            database: db.name,
-            branch: "main",
-            id: created.id,
-          }),
-        );
-
-        // Verify backup is deleted
-        const deletedError = await runEffect(
-          getBackup({
-            organization: db.organization,
-            database: db.name,
-            branch: "main",
-            id: created.id,
-          }).pipe(
-            Effect.matchEffect({
-              onFailure: (e) => Effect.succeed(e),
-              onSuccess: () => Effect.succeed(null),
+        try {
+          // Create backup with custom retention
+          const created = await runEffect(
+            createBackup({
+              organization: db.organization,
+              database: db.name,
+              branch: "main",
+              name: backupName,
+              retention_unit: "day",
+              retention_value: 2,
             }),
-          ),
-        );
+          );
 
-        expect(deletedError).not.toBeNull();
-        expect((deletedError as { _tag: string })._tag).toBe("NotFound");
+          createdBackup = created;
+          expect(created.id).toBeDefined();
+          expect(created.name).toBe(backupName);
+          expect(created.state).toBeDefined();
+          expect(["pending", "running", "success"]).toContain(created.state);
 
-        // Mark as cleaned up so finally doesn't try to delete again
-        createdBackup = null;
-      } finally {
-        // Cleanup in case test failed before deletion
-        if (createdBackup) {
+          // Wait for backup to complete
+          const completed = await runEffect(
+            waitForBackupComplete(db.organization, db.name, "main", created.id),
+          );
+          expect(completed.state).toBe("success");
+
+          // Verify we can get the backup
+          const fetched = await runEffect(
+            getBackup({
+              organization: db.organization,
+              database: db.name,
+              branch: "main",
+              id: created.id,
+            }),
+          );
+          expect(fetched.id).toBe(created.id);
+          expect(fetched.name).toBe(backupName);
+
+          // Delete backup
           await runEffect(
             deleteBackup({
               organization: db.organization,
               database: db.name,
               branch: "main",
-              id: createdBackup.id,
-            }).pipe(Effect.ignore),
+              id: created.id,
+            }),
           );
-        }
-      }
-    }, 600000); // 10 minute timeout for backup creation
 
-    it("can update backup protection status", async () => {
+          // Verify backup is deleted
+          const deletedError = await runEffect(
+            getBackup({
+              organization: db.organization,
+              database: db.name,
+              branch: "main",
+              id: created.id,
+            }).pipe(
+              Effect.matchEffect({
+                onFailure: (e) => Effect.succeed(e),
+                onSuccess: () => Effect.succeed(null),
+              }),
+            ),
+          );
+
+          expect(deletedError).not.toBeNull();
+          expect((deletedError as { _tag: string })._tag).toBe("NotFound");
+
+          // Mark as cleaned up so finally doesn't try to delete again
+          createdBackup = null;
+        } finally {
+          // Cleanup in case test failed before deletion
+          if (createdBackup) {
+            await runEffect(
+              deleteBackup({
+                organization: db.organization,
+                database: db.name,
+                branch: "main",
+                id: createdBackup.id,
+              }).pipe(Effect.ignore),
+            );
+          }
+        }
+      },
+    ); // 10 minute timeout for backup creation
+
+    it("can update backup protection status", { timeout: 600000 }, async () => {
       const db = getDb();
       const backupName = `test-protect-${testRunId}`;
 
@@ -487,7 +491,7 @@ describe("backups", () => {
         // The test database will be deleted anyway, which will clean up the backup
         // Don't try to delete a protected backup as it will fail
       }
-    }, 600000); // 10 minute timeout
+    }); // 10 minute timeout
   });
 
   // ============================================================================

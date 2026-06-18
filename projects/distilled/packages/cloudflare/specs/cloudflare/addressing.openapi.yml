@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/addressing/address_maps/{addressMapId}:
     get:
       operationId: getAddressMap
-      description: "Show a particular address map owned by the account.  @example
+      description:
+        "Show a particular address map owned by the account.  @example
         ```ts const addressMap = await client.addressing.addressMaps.get(
         '055817b111884e0227e1be16a0be6ee0', { account_id:
         '258def64c72dae45f3e4c8516e2111f2' }, ); ```"
@@ -38,11 +39,13 @@ paths:
                     description: Identifier of an Address Map.
                   can_delete:
                     type: boolean
-                    description: If set to false, then the Address Map cannot be deleted via API.
+                    description:
+                      If set to false, then the Address Map cannot be deleted via API.
                       This is true for Cloudflare-managed maps.
                   can_modify_ips:
                     type: boolean
-                    description: If set to false, then the IPs on the Address Map cannot be modified
+                    description:
+                      If set to false, then the IPs on the Address Map cannot be modified
                       via the API. This is true for Cloudflare-managed maps.
                   created_at:
                     type: string
@@ -50,7 +53,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If you have legacy TLS clients which do not send the TLS server
+                    description:
+                      If you have legacy TLS clients which do not send the TLS server
                       name indicator, then you can specify one default SNI on
                       the map. If Cloudflare receives a TLS handshake from a
                       client without an SNI, it will respond with the default
@@ -60,13 +64,15 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An optional description field which may be used to describe the
+                    description:
+                      An optional description field which may be used to describe the
                       types of IPs or zones on the map.
                   enabled:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Whether the Address Map is enabled or not. Cloudflare's DNS will
+                    description:
+                      Whether the Address Map is enabled or not. Cloudflare's DNS will
                       not respond with IP addresses on an Address Map until the
                       map is enabled.
                   ips:
@@ -99,7 +105,8 @@ paths:
                             - zone
                             - account
                           description: The type of the membership.
-                    description: Zones and Accounts which will be assigned IPs on this Address Map.
+                    description:
+                      Zones and Accounts which will be assigned IPs on this Address Map.
                       A zone membership will take priority over an account
                       membership.
                   modified_at:
@@ -143,7 +150,8 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: If you have legacy TLS clients which do not send the
+                  description:
+                    "Body param: If you have legacy TLS clients which do not send the
                     TLS server name indicator, then you can specify one default
                     SNI on the map. If Cloudflare receives a TLS handshake from
                     a client without an SNI, it will respond with the default
@@ -153,13 +161,15 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: An optional description field which may be used to
+                  description:
+                    "Body param: An optional description field which may be used to
                     describe the types of IPs or zones on the map."
                 enabled:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Whether the Address Map is enabled or not.
+                  description:
+                    "Body param: Whether the Address Map is enabled or not.
                     Cloudflare's DNS will not respond with IP addresses on an
                     Address Map until the map is enabled."
       responses:
@@ -175,11 +185,13 @@ paths:
                     description: Identifier of an Address Map.
                   can_delete:
                     type: boolean
-                    description: If set to false, then the Address Map cannot be deleted via API.
+                    description:
+                      If set to false, then the Address Map cannot be deleted via API.
                       This is true for Cloudflare-managed maps.
                   can_modify_ips:
                     type: boolean
-                    description: If set to false, then the IPs on the Address Map cannot be modified
+                    description:
+                      If set to false, then the IPs on the Address Map cannot be modified
                       via the API. This is true for Cloudflare-managed maps.
                   created_at:
                     type: string
@@ -187,7 +199,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If you have legacy TLS clients which do not send the TLS server
+                    description:
+                      If you have legacy TLS clients which do not send the TLS server
                       name indicator, then you can specify one default SNI on
                       the map. If Cloudflare receives a TLS handshake from a
                       client without an SNI, it will respond with the default
@@ -197,13 +210,15 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An optional description field which may be used to describe the
+                    description:
+                      An optional description field which may be used to describe the
                       types of IPs or zones on the map.
                   enabled:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Whether the Address Map is enabled or not. Cloudflare's DNS will
+                    description:
+                      Whether the Address Map is enabled or not. Cloudflare's DNS will
                       not respond with IP addresses on an Address Map until the
                       map is enabled.
                   modified_at:
@@ -227,7 +242,8 @@ paths:
               includes: Could not route
     delete:
       operationId: deleteAddressMap
-      description: "Delete a particular address map owned by the account. An Address
+      description:
+        "Delete a particular address map owned by the account. An Address
         Map must be disabled before it can be deleted.  @example ```ts const
         addressMap = await client.addressing.addressMaps.delete(
         '055817b111884e0227e1be16a0be6ee0', { account_id:
@@ -338,7 +354,8 @@ paths:
   /accounts/{account_id}/addressing/address_maps:
     get:
       operationId: listAddressMaps
-      description: "List all address maps owned by the account.  @example ```ts //
+      description:
+        "List all address maps owned by the account.  @example ```ts //
         Automatically fetches more pages as needed. for await (const addressMap
         of client.addressing.addressMaps.list( { account_id:
         '258def64c72dae45f3e4c8516e2111f2' }, )) { // ... } ```"
@@ -362,11 +379,13 @@ paths:
                     description: Identifier of an Address Map.
                   can_delete:
                     type: boolean
-                    description: If set to false, then the Address Map cannot be deleted via API.
+                    description:
+                      If set to false, then the Address Map cannot be deleted via API.
                       This is true for Cloudflare-managed maps.
                   can_modify_ips:
                     type: boolean
-                    description: If set to false, then the IPs on the Address Map cannot be modified
+                    description:
+                      If set to false, then the IPs on the Address Map cannot be modified
                       via the API. This is true for Cloudflare-managed maps.
                   created_at:
                     type: string
@@ -374,7 +393,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If you have legacy TLS clients which do not send the TLS server
+                    description:
+                      If you have legacy TLS clients which do not send the TLS server
                       name indicator, then you can specify one default SNI on
                       the map. If Cloudflare receives a TLS handshake from a
                       client without an SNI, it will respond with the default
@@ -384,13 +404,15 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An optional description field which may be used to describe the
+                    description:
+                      An optional description field which may be used to describe the
                       types of IPs or zones on the map.
                   enabled:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Whether the Address Map is enabled or not. Cloudflare's DNS will
+                    description:
+                      Whether the Address Map is enabled or not. Cloudflare's DNS will
                       not respond with IP addresses on an Address Map until the
                       map is enabled.
                   modified_at:
@@ -398,7 +420,8 @@ paths:
       x-distilled-pagination-class: AddressMapsSinglePage
     post:
       operationId: createAddressMap
-      description: "Create a new address map under the account.  @example ```ts const
+      description:
+        "Create a new address map under the account.  @example ```ts const
         addressMap = await client.addressing.addressMaps.create({ account_id:
         '258def64c72dae45f3e4c8516e2111f2', }); ```"
       parameters:
@@ -419,13 +442,15 @@ paths:
                   oneOf:
                     - type: string
                   nullable: true
-                  description: "Body param: An optional description field which may be used to
+                  description:
+                    "Body param: An optional description field which may be used to
                     describe the types of IPs or zones on the map."
                 enabled:
                   oneOf:
                     - type: boolean
                   nullable: true
-                  description: "Body param: Whether the Address Map is enabled or not.
+                  description:
+                    "Body param: Whether the Address Map is enabled or not.
                     Cloudflare's DNS will not respond with IP addresses on an
                     Address Map until the map is enabled."
                 ips:
@@ -447,7 +472,8 @@ paths:
                           - zone
                           - account
                         description: The type of the membership.
-                  description: "Body param: Zones and Accounts which will be assigned IPs on this
+                  description:
+                    "Body param: Zones and Accounts which will be assigned IPs on this
                     Address Map. A zone membership will take priority over an
                     account membership."
       responses:
@@ -463,11 +489,13 @@ paths:
                     description: Identifier of an Address Map.
                   can_delete:
                     type: boolean
-                    description: If set to false, then the Address Map cannot be deleted via API.
+                    description:
+                      If set to false, then the Address Map cannot be deleted via API.
                       This is true for Cloudflare-managed maps.
                   can_modify_ips:
                     type: boolean
-                    description: If set to false, then the IPs on the Address Map cannot be modified
+                    description:
+                      If set to false, then the IPs on the Address Map cannot be modified
                       via the API. This is true for Cloudflare-managed maps.
                   created_at:
                     type: string
@@ -475,7 +503,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: If you have legacy TLS clients which do not send the TLS server
+                    description:
+                      If you have legacy TLS clients which do not send the TLS server
                       name indicator, then you can specify one default SNI on
                       the map. If Cloudflare receives a TLS handshake from a
                       client without an SNI, it will respond with the default
@@ -485,13 +514,15 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: An optional description field which may be used to describe the
+                    description:
+                      An optional description field which may be used to describe the
                       types of IPs or zones on the map.
                   enabled:
                     oneOf:
                       - type: boolean
                     nullable: true
-                    description: Whether the Address Map is enabled or not. Cloudflare's DNS will
+                    description:
+                      Whether the Address Map is enabled or not. Cloudflare's DNS will
                       not respond with IP addresses on an Address Map until the
                       map is enabled.
                   ips:
@@ -524,7 +555,8 @@ paths:
                             - zone
                             - account
                           description: The type of the membership.
-                    description: Zones and Accounts which will be assigned IPs on this Address Map.
+                    description:
+                      Zones and Accounts which will be assigned IPs on this Address Map.
                       A zone membership will take priority over an account
                       membership.
                   modified_at:
@@ -544,7 +576,8 @@ paths:
   /accounts/{account_id}/addressing/address_maps/{addressMapId}/accounts/{account_id}:
     put:
       operationId: putAddressMapAccount
-      description: "Add an account as a member of a particular address map.  @example
+      description:
+        "Add an account as a member of a particular address map.  @example
         ```ts const account = await
         client.addressing.addressMaps.accounts.update(
         '055817b111884e0227e1be16a0be6ee0', { account_id:
@@ -888,7 +921,8 @@ paths:
               includes: not_found
     delete:
       operationId: deleteAddressMapIp
-      description: "Remove an IP from a particular address map.  @example ```ts const
+      description:
+        "Remove an IP from a particular address map.  @example ```ts const
         ip = await client.addressing.addressMaps.ips.delete(
         '055817b111884e0227e1be16a0be6ee0', '192.0.2.1', { account_id:
         '258def64c72dae45f3e4c8516e2111f2' }, ); ```"
@@ -1005,7 +1039,8 @@ paths:
   /accounts/{account_id}/addressing/address_maps/{addressMapId}/zones/{zone_id}:
     put:
       operationId: putAddressMapZone
-      description: "Add a zone as a member of a particular address map.  @example
+      description:
+        "Add a zone as a member of a particular address map.  @example
         ```ts const zone = await client.addressing.addressMaps.zones.update(
         '055817b111884e0227e1be16a0be6ee0', { zone_id:
         '8ac8489932db6327334c9b6d58544cfe', account_id:
@@ -1124,7 +1159,8 @@ paths:
               includes: Could not route
     delete:
       operationId: deleteAddressMapZone
-      description: "Remove a zone as a member of a particular address map.  @example
+      description:
+        "Remove a zone as a member of a particular address map.  @example
         ```ts const zone = await client.addressing.addressMaps.zones.delete(
         '055817b111884e0227e1be16a0be6ee0', { zone_id:
         '8ac8489932db6327334c9b6d58544cfe', account_id:
@@ -1239,7 +1275,8 @@ paths:
   /accounts/{account_id}/addressing/loa_documents/{loaDocumentId}/download:
     get:
       operationId: getLoaDocument
-      description: "Download specified LOA document under the account.  @example ```ts
+      description:
+        "Download specified LOA document under the account.  @example ```ts
         const loaDocument = await client.addressing.loaDocuments.get(
         'd933b1530bc56c9953cf8ce166da8004', { account_id:
         '258def64c72dae45f3e4c8516e2111f2' }, );  const content = await
@@ -1269,7 +1306,8 @@ paths:
   /accounts/{account_id}/addressing/loa_documents:
     post:
       operationId: createLoaDocument
-      description: "Submit LOA document (pdf format) under the account.  @example
+      description:
+        "Submit LOA document (pdf format) under the account.  @example
         ```ts const loaDocument = await client.addressing.loaDocuments.create({
         account_id: '258def64c72dae45f3e4c8516e2111f2', loa_document:
         '@document.pdf', }); ```"
@@ -1310,13 +1348,15 @@ paths:
                     description: Identifier of a Cloudflare account.
                   auto_generated:
                     type: boolean
-                    description: Whether the LOA has been auto-generated for the prefix owner by
+                    description:
+                      Whether the LOA has been auto-generated for the prefix owner by
                       Cloudflare.
                   created:
                     type: string
                   filename:
                     type: string
-                    description: Name of LOA document. Max file size 10MB, and supported filetype is
+                    description:
+                      Name of LOA document. Max file size 10MB, and supported filetype is
                       pdf.
                   size_bytes:
                     type: number
@@ -1343,7 +1383,8 @@ paths:
   /accounts/{account_id}/addressing/prefixes/{prefixId}:
     get:
       operationId: getPrefix
-      description: "List a particular prefix owned by the account.  @example ```ts
+      description:
+        "List a particular prefix owned by the account.  @example ```ts
         const prefix = await client.addressing.prefixes.get(
         '2af39739cc4e3b5910c918468bb89828', { account_id:
         '258def64c72dae45f3e4c8516e2111f2' }, ); ```"
@@ -1404,7 +1445,8 @@ paths:
                     type: string
                   delegate_loa_creation:
                     type: boolean
-                    description: Whether Cloudflare is allowed to generate the LOA document on
+                    description:
+                      Whether Cloudflare is allowed to generate the LOA document on
                       behalf of the prefix owner.
                   description:
                     type: string
@@ -1526,7 +1568,8 @@ paths:
                     type: string
                   delegate_loa_creation:
                     type: boolean
-                    description: Whether Cloudflare is allowed to generate the LOA document on
+                    description:
+                      Whether Cloudflare is allowed to generate the LOA document on
                       behalf of the prefix owner.
                   description:
                     type: string
@@ -1581,7 +1624,8 @@ paths:
               includes: Could not route
     delete:
       operationId: deletePrefix
-      description: "Delete an unapproved prefix owned by the account.  @example ```ts
+      description:
+        "Delete an unapproved prefix owned by the account.  @example ```ts
         const prefix = await client.addressing.prefixes.delete(
         '2af39739cc4e3b5910c918468bb89828', { account_id:
         '258def64c72dae45f3e4c8516e2111f2' }, ); ```"
@@ -1725,7 +1769,8 @@ paths:
                     type: string
                   delegate_loa_creation:
                     type: boolean
-                    description: Whether Cloudflare is allowed to generate the LOA document on
+                    description:
+                      Whether Cloudflare is allowed to generate the LOA document on
                       behalf of the prefix owner.
                   description:
                     type: string
@@ -1766,7 +1811,8 @@ paths:
       x-distilled-pagination-class: PrefixesSinglePage
     post:
       operationId: createPrefix
-      description: "Add a new prefix under the account.  @example ```ts const prefix =
+      description:
+        "Add a new prefix under the account.  @example ```ts const prefix =
         await client.addressing.prefixes.create({ account_id:
         '258def64c72dae45f3e4c8516e2111f2', asn: 13335, cidr: '192.0.2.0/24',
         }); ```"
@@ -1786,14 +1832,16 @@ paths:
               properties:
                 asn:
                   type: number
-                  description: "Body param: Autonomous System Number (ASN) the prefix will be
+                  description:
+                    "Body param: Autonomous System Number (ASN) the prefix will be
                     advertised under."
                 cidr:
                   type: string
                   description: "Body param: IP Prefix in Classless Inter-Domain Routing format."
                 delegate_loa_creation:
                   type: boolean
-                  description: "Body param: Whether Cloudflare is allowed to generate the LOA
+                  description:
+                    "Body param: Whether Cloudflare is allowed to generate the LOA
                     document on behalf of the prefix owner."
                 description:
                   type: string
@@ -1851,7 +1899,8 @@ paths:
                     type: string
                   delegate_loa_creation:
                     type: boolean
-                    description: Whether Cloudflare is allowed to generate the LOA document on
+                    description:
+                      Whether Cloudflare is allowed to generate the LOA document on
                       behalf of the prefix owner.
                   description:
                     type: string
@@ -1932,14 +1981,16 @@ paths:
                 properties:
                   advertised:
                     type: boolean
-                    description: Advertisement status of the prefix. If `true`, the BGP route for
+                    description:
+                      Advertisement status of the prefix. If `true`, the BGP route for
                       the prefix is advertised to the Internet. If `false`, the
                       BGP route is withdrawn.
                   advertised_modified_at:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Last time the advertisement status was changed. This field is only
+                    description:
+                      Last time the advertisement status was changed. This field is only
                       not 'null' if on demand is enabled.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -1976,7 +2027,8 @@ paths:
               properties:
                 advertised:
                   type: boolean
-                  description: "Body param: Advertisement status of the prefix. If `true`, the BGP
+                  description:
+                    "Body param: Advertisement status of the prefix. If `true`, the BGP
                     route for the prefix is advertised to the Internet. If
                     `false`, the BGP route is withdrawn."
               required:
@@ -1991,14 +2043,16 @@ paths:
                 properties:
                   advertised:
                     type: boolean
-                    description: Advertisement status of the prefix. If `true`, the BGP route for
+                    description:
+                      Advertisement status of the prefix. If `true`, the BGP route for
                       the prefix is advertised to the Internet. If `false`, the
                       BGP route is withdrawn.
                   advertised_modified_at:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Last time the advertisement status was changed. This field is only
+                    description:
+                      Last time the advertisement status was changed. This field is only
                       not 'null' if on demand is enabled.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -2011,7 +2065,8 @@ paths:
   /accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes/{bgpPrefixId}:
     get:
       operationId: getPrefixBgpPrefix
-      description: "Retrieve a single BGP Prefix according to its identifier  @example
+      description:
+        "Retrieve a single BGP Prefix according to its identifier  @example
         ```ts const bgpPrefix = await
         client.addressing.prefixes.bgpPrefixes.get(
         '2af39739cc4e3b5910c918468bb89828', '7009ba364c7a5760798ceb430e603b74',
@@ -2051,11 +2106,13 @@ paths:
                     description: Autonomous System Number (ASN) the prefix will be advertised under.
                   asn_prepend_count:
                     type: number
-                    description: Number of times to prepend the Cloudflare ASN to the BGP AS-Path
+                    description:
+                      Number of times to prepend the Cloudflare ASN to the BGP AS-Path
                       attribute
                   auto_advertise_withdraw:
                     type: boolean
-                    description: Determines if Cloudflare advertises a BYOIP BGP prefix even when
+                    description:
+                      Determines if Cloudflare advertises a BYOIP BGP prefix even when
                       there is no matching BGP prefix in the Magic routing
                       table. When true, Cloudflare will automatically withdraw
                       the BGP prefix when there are no matching BGP routes, and
@@ -2066,13 +2123,15 @@ paths:
                     properties:
                       enabled:
                         type: boolean
-                        description: Whether control of advertisement of the prefix to the Internet is
+                        description:
+                          Whether control of advertisement of the prefix to the Internet is
                           enabled to be performed via BGP signal
                       modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time BGP signaling control was toggled. This field is null if
+                        description:
+                          Last time BGP signaling control was toggled. This field is null if
                           BGP signaling has never been enabled.
                   cidr:
                     type: string
@@ -2088,21 +2147,25 @@ paths:
                         oneOf:
                           - type: boolean
                         nullable: true
-                        description: Prefix advertisement status to the Internet. This field is only not
+                        description:
+                          Prefix advertisement status to the Internet. This field is only not
                           'null' if on demand is enabled.
                       advertised_modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time the advertisement status was changed. This field is only
+                        description:
+                          Last time the advertisement status was changed. This field is only
                           not 'null' if on demand is enabled.
                       on_demand_enabled:
                         type: boolean
-                        description: Whether advertisement of the prefix to the Internet may be
+                        description:
+                          Whether advertisement of the prefix to the Internet may be
                           dynamically enabled or disabled.
                       on_demand_locked:
                         type: boolean
-                        description: Whether the advertisement status of the prefix is locked, meaning
+                        description:
+                          Whether the advertisement status of the prefix is locked, meaning
                           it cannot be changed.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -2149,11 +2212,13 @@ paths:
               properties:
                 asn_prepend_count:
                   type: number
-                  description: "Body param: Number of times to prepend the Cloudflare ASN to the
+                  description:
+                    "Body param: Number of times to prepend the Cloudflare ASN to the
                     BGP AS-Path attribute"
                 auto_advertise_withdraw:
                   type: boolean
-                  description: "Body param: Determines if Cloudflare advertises a BYOIP BGP prefix
+                  description:
+                    "Body param: Determines if Cloudflare advertises a BYOIP BGP prefix
                     even when there is no matching BGP prefix in the Magic
                     routing table. When true, Cloudflare will automatically
                     withdraw the BGP prefix when there are no matching BGP
@@ -2183,11 +2248,13 @@ paths:
                     description: Autonomous System Number (ASN) the prefix will be advertised under.
                   asn_prepend_count:
                     type: number
-                    description: Number of times to prepend the Cloudflare ASN to the BGP AS-Path
+                    description:
+                      Number of times to prepend the Cloudflare ASN to the BGP AS-Path
                       attribute
                   auto_advertise_withdraw:
                     type: boolean
-                    description: Determines if Cloudflare advertises a BYOIP BGP prefix even when
+                    description:
+                      Determines if Cloudflare advertises a BYOIP BGP prefix even when
                       there is no matching BGP prefix in the Magic routing
                       table. When true, Cloudflare will automatically withdraw
                       the BGP prefix when there are no matching BGP routes, and
@@ -2198,13 +2265,15 @@ paths:
                     properties:
                       enabled:
                         type: boolean
-                        description: Whether control of advertisement of the prefix to the Internet is
+                        description:
+                          Whether control of advertisement of the prefix to the Internet is
                           enabled to be performed via BGP signal
                       modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time BGP signaling control was toggled. This field is null if
+                        description:
+                          Last time BGP signaling control was toggled. This field is null if
                           BGP signaling has never been enabled.
                   cidr:
                     type: string
@@ -2220,21 +2289,25 @@ paths:
                         oneOf:
                           - type: boolean
                         nullable: true
-                        description: Prefix advertisement status to the Internet. This field is only not
+                        description:
+                          Prefix advertisement status to the Internet. This field is only not
                           'null' if on demand is enabled.
                       advertised_modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time the advertisement status was changed. This field is only
+                        description:
+                          Last time the advertisement status was changed. This field is only
                           not 'null' if on demand is enabled.
                       on_demand_enabled:
                         type: boolean
-                        description: Whether advertisement of the prefix to the Internet may be
+                        description:
+                          Whether advertisement of the prefix to the Internet may be
                           dynamically enabled or disabled.
                       on_demand_locked:
                         type: boolean
-                        description: Whether the advertisement status of the prefix is locked, meaning
+                        description:
+                          Whether the advertisement status of the prefix is locked, meaning
                           it cannot be changed.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -2251,7 +2324,8 @@ paths:
   /accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes:
     get:
       operationId: listPrefixBgpPrefixes
-      description: "List all BGP Prefixes within the specified IP Prefix. BGP Prefixes
+      description:
+        "List all BGP Prefixes within the specified IP Prefix. BGP Prefixes
         are used to control which specific subnets are advertised to the
         Internet. It is possible to advertise subnets more specific than an IP
         Prefix by creating more specific BGP Prefixes.  @example ```ts //
@@ -2289,11 +2363,13 @@ paths:
                     description: Autonomous System Number (ASN) the prefix will be advertised under.
                   asn_prepend_count:
                     type: number
-                    description: Number of times to prepend the Cloudflare ASN to the BGP AS-Path
+                    description:
+                      Number of times to prepend the Cloudflare ASN to the BGP AS-Path
                       attribute
                   auto_advertise_withdraw:
                     type: boolean
-                    description: Determines if Cloudflare advertises a BYOIP BGP prefix even when
+                    description:
+                      Determines if Cloudflare advertises a BYOIP BGP prefix even when
                       there is no matching BGP prefix in the Magic routing
                       table. When true, Cloudflare will automatically withdraw
                       the BGP prefix when there are no matching BGP routes, and
@@ -2304,13 +2380,15 @@ paths:
                     properties:
                       enabled:
                         type: boolean
-                        description: Whether control of advertisement of the prefix to the Internet is
+                        description:
+                          Whether control of advertisement of the prefix to the Internet is
                           enabled to be performed via BGP signal
                       modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time BGP signaling control was toggled. This field is null if
+                        description:
+                          Last time BGP signaling control was toggled. This field is null if
                           BGP signaling has never been enabled.
                   cidr:
                     type: string
@@ -2326,21 +2404,25 @@ paths:
                         oneOf:
                           - type: boolean
                         nullable: true
-                        description: Prefix advertisement status to the Internet. This field is only not
+                        description:
+                          Prefix advertisement status to the Internet. This field is only not
                           'null' if on demand is enabled.
                       advertised_modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time the advertisement status was changed. This field is only
+                        description:
+                          Last time the advertisement status was changed. This field is only
                           not 'null' if on demand is enabled.
                       on_demand_enabled:
                         type: boolean
-                        description: Whether advertisement of the prefix to the Internet may be
+                        description:
+                          Whether advertisement of the prefix to the Internet may be
                           dynamically enabled or disabled.
                       on_demand_locked:
                         type: boolean
-                        description: Whether the advertisement status of the prefix is locked, meaning
+                        description:
+                          Whether the advertisement status of the prefix is locked, meaning
                           it cannot be changed.
       x-distilled-pagination-class: BGPPrefixesSinglePage
       x-distilled-errors:
@@ -2354,7 +2436,8 @@ paths:
               includes: Could not route
     post:
       operationId: createPrefixBgpPrefix
-      description: "Create a BGP prefix, controlling the BGP advertisement status of a
+      description:
+        "Create a BGP prefix, controlling the BGP advertisement status of a
         specific subnet. When created, BGP prefixes are initially withdrawn, and
         can be advertised with the Update BGP Prefix API.  @example ```ts const
         bgpPrefix = await client.addressing.prefixes.bgpPrefixes.create(
@@ -2402,11 +2485,13 @@ paths:
                     description: Autonomous System Number (ASN) the prefix will be advertised under.
                   asn_prepend_count:
                     type: number
-                    description: Number of times to prepend the Cloudflare ASN to the BGP AS-Path
+                    description:
+                      Number of times to prepend the Cloudflare ASN to the BGP AS-Path
                       attribute
                   auto_advertise_withdraw:
                     type: boolean
-                    description: Determines if Cloudflare advertises a BYOIP BGP prefix even when
+                    description:
+                      Determines if Cloudflare advertises a BYOIP BGP prefix even when
                       there is no matching BGP prefix in the Magic routing
                       table. When true, Cloudflare will automatically withdraw
                       the BGP prefix when there are no matching BGP routes, and
@@ -2417,13 +2502,15 @@ paths:
                     properties:
                       enabled:
                         type: boolean
-                        description: Whether control of advertisement of the prefix to the Internet is
+                        description:
+                          Whether control of advertisement of the prefix to the Internet is
                           enabled to be performed via BGP signal
                       modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time BGP signaling control was toggled. This field is null if
+                        description:
+                          Last time BGP signaling control was toggled. This field is null if
                           BGP signaling has never been enabled.
                   cidr:
                     type: string
@@ -2439,21 +2526,25 @@ paths:
                         oneOf:
                           - type: boolean
                         nullable: true
-                        description: Prefix advertisement status to the Internet. This field is only not
+                        description:
+                          Prefix advertisement status to the Internet. This field is only not
                           'null' if on demand is enabled.
                       advertised_modified_at:
                         oneOf:
                           - type: string
                         nullable: true
-                        description: Last time the advertisement status was changed. This field is only
+                        description:
+                          Last time the advertisement status was changed. This field is only
                           not 'null' if on demand is enabled.
                       on_demand_enabled:
                         type: boolean
-                        description: Whether advertisement of the prefix to the Internet may be
+                        description:
+                          Whether advertisement of the prefix to the Internet may be
                           dynamically enabled or disabled.
                       on_demand_locked:
                         type: boolean
-                        description: Whether the advertisement status of the prefix is locked, meaning
+                        description:
+                          Whether the advertisement status of the prefix is locked, meaning
                           it cannot be changed.
       x-distilled-response-path: result
       x-distilled-errors:
@@ -2470,7 +2561,8 @@ paths:
   /accounts/{account_id}/addressing/prefixes/{prefixId}/delegations:
     get:
       operationId: listPrefixDelegations
-      description: "List all delegations for a given account IP prefix.  @example
+      description:
+        "List all delegations for a given account IP prefix.  @example
         ```ts // Automatically fetches more pages as needed. for await (const
         delegations of client.addressing.prefixes.delegations.list(
         '2af39739cc4e3b5910c918468bb89828', { account_id:
@@ -2505,7 +2597,8 @@ paths:
                     type: string
                   delegated_account_id:
                     type: string
-                    description: Account identifier for the account to which prefix is being
+                    description:
+                      Account identifier for the account to which prefix is being
                       delegated.
                   modified_at:
                     type: string
@@ -2524,7 +2617,8 @@ paths:
               includes: Could not route
     post:
       operationId: createPrefixDelegation
-      description: "Create a new account delegation for a given IP prefix.  @example
+      description:
+        "Create a new account delegation for a given IP prefix.  @example
         ```ts const delegations = await
         client.addressing.prefixes.delegations.create(
         '2af39739cc4e3b5910c918468bb89828', { account_id:
@@ -2554,7 +2648,8 @@ paths:
                   description: "Body param: IP Prefix in Classless Inter-Domain Routing format."
                 delegated_account_id:
                   type: string
-                  description: "Body param: Account identifier for the account to which prefix is
+                  description:
+                    "Body param: Account identifier for the account to which prefix is
                     being delegated."
               required:
                 - cidr
@@ -2577,7 +2672,8 @@ paths:
                     type: string
                   delegated_account_id:
                     type: string
-                    description: Account identifier for the account to which prefix is being
+                    description:
+                      Account identifier for the account to which prefix is being
                       delegated.
                   modified_at:
                     type: string
@@ -2599,7 +2695,8 @@ paths:
   /accounts/{account_id}/addressing/prefixes/{prefixId}/delegations/{delegationId}:
     delete:
       operationId: deletePrefixDelegation
-      description: "Delete an account delegation for a given IP prefix.  @example
+      description:
+        "Delete an account delegation for a given IP prefix.  @example
         ```ts const delegation = await
         client.addressing.prefixes.delegations.delete(
         '2af39739cc4e3b5910c918468bb89828', 'd933b1530bc56c9953cf8ce166da8004',
@@ -2686,13 +2783,15 @@ paths:
                         enum:
                           - provisioning
                           - active
-                        description: When a binding has been deployed to a majority of Cloudflare
+                        description:
+                          When a binding has been deployed to a majority of Cloudflare
                           datacenters, the binding will become active and can be
                           used with its associated service.
                     description: Status of a Service Binding's deployment to the Cloudflare network
                   service_id:
                     type: string
-                    description: Identifier of a Service on the Cloudflare network. Available
+                    description:
+                      Identifier of a Service on the Cloudflare network. Available
                       services and their IDs may be found in the  List
                       Services  endpoint.
                   service_name:
@@ -2712,7 +2811,8 @@ paths:
               includes: not_found
     delete:
       operationId: deletePrefixServiceBinding
-      description: "Delete a Service Binding  @example ```ts const serviceBinding =
+      description:
+        "Delete a Service Binding  @example ```ts const serviceBinding =
         await client.addressing.prefixes.serviceBindings.delete(
         '2af39739cc4e3b5910c918468bb89828', '0429b49b6a5155297b78e75a44b09e14',
         { account_id: '258def64c72dae45f3e4c8516e2111f2' }, ); ```"
@@ -2802,7 +2902,8 @@ paths:
   /accounts/{account_id}/addressing/prefixes/{prefixId}/bindings:
     get:
       operationId: listPrefixServiceBindings
-      description: "List the Cloudflare services this prefix is currently bound to.
+      description:
+        "List the Cloudflare services this prefix is currently bound to.
         Traffic sent to an address within an IP prefix will be routed to the
         Cloudflare service of the most-specific Service Binding matching the
         address.  Example:  binding `192.0.2.0/24` to Cloudflare Magic Transit
@@ -2847,13 +2948,15 @@ paths:
                         enum:
                           - provisioning
                           - active
-                        description: When a binding has been deployed to a majority of Cloudflare
+                        description:
+                          When a binding has been deployed to a majority of Cloudflare
                           datacenters, the binding will become active and can be
                           used with its associated service.
                     description: Status of a Service Binding's deployment to the Cloudflare network
                   service_id:
                     type: string
-                    description: Identifier of a Service on the Cloudflare network. Available
+                    description:
+                      Identifier of a Service on the Cloudflare network. Available
                       services and their IDs may be found in the  List
                       Services  endpoint.
                   service_name:
@@ -2871,7 +2974,8 @@ paths:
               includes: Could not route
     post:
       operationId: createPrefixServiceBinding
-      description: "Creates a new Service Binding, routing traffic to IPs within the
+      description:
+        "Creates a new Service Binding, routing traffic to IPs within the
         given CIDR to a service running on Cloudflare's network.  NOTE:  The
         first Service Binding created for an IP Prefix must exactly match the IP
         Prefix's CIDR. Subsequent Service Bindings may be created with a
@@ -2906,7 +3010,8 @@ paths:
                   description: "Body param: IP Prefix in Classless Inter-Domain Routing format."
                 service_id:
                   type: string
-                  description: "Body param: Identifier of a Service on the Cloudflare network.
+                  description:
+                    "Body param: Identifier of a Service on the Cloudflare network.
                     Available services and their IDs may be found in the  List
                     Services  endpoint."
               required:
@@ -2934,13 +3039,15 @@ paths:
                         enum:
                           - provisioning
                           - active
-                        description: When a binding has been deployed to a majority of Cloudflare
+                        description:
+                          When a binding has been deployed to a majority of Cloudflare
                           datacenters, the binding will become active and can be
                           used with its associated service.
                     description: Status of a Service Binding's deployment to the Cloudflare network
                   service_id:
                     type: string
-                    description: Identifier of a Service on the Cloudflare network. Available
+                    description:
+                      Identifier of a Service on the Cloudflare network. Available
                       services and their IDs may be found in the  List
                       Services  endpoint.
                   service_name:
@@ -2957,7 +3064,8 @@ paths:
   /zones/{zone_id}/addressing/regional_hostnames/{hostname}:
     get:
       operationId: getRegionalHostname
-      description: "Fetch the configuration for a specific Regional Hostname, within a
+      description:
+        "Fetch the configuration for a specific Regional Hostname, within a
         zone.  @example ```ts const regionalHostname = await
         client.addressing.regionalHostnames.get( 'foo.example.com', { zone_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -2986,7 +3094,8 @@ paths:
                     description: When the regional hostname was created
                   hostname:
                     type: string
-                    description: DNS hostname to be regionalized, must be a subdomain of the zone.
+                    description:
+                      DNS hostname to be regionalized, must be a subdomain of the zone.
                       Wildcards are supported for one level, e.g ` .example.com`
                   region_key:
                     type: string
@@ -3015,7 +3124,8 @@ paths:
               includes: not_found
     patch:
       operationId: patchRegionalHostname
-      description: "Update the configuration for a specific Regional Hostname. Only
+      description:
+        "Update the configuration for a specific Regional Hostname. Only
         the region_key of a hostname is mutable.  @example ```ts const response
         = await client.addressing.regionalHostnames.edit( 'foo.example.com', {
         zone_id: '023e105f4ecef8ad9ca31a8372d0c353', region_key: 'ca', }, );
@@ -3057,7 +3167,8 @@ paths:
                     description: When the regional hostname was created
                   hostname:
                     type: string
-                    description: DNS hostname to be regionalized, must be a subdomain of the zone.
+                    description:
+                      DNS hostname to be regionalized, must be a subdomain of the zone.
                       Wildcards are supported for one level, e.g ` .example.com`
                   region_key:
                     type: string
@@ -3180,7 +3291,8 @@ paths:
   /zones/{zone_id}/addressing/regional_hostnames:
     get:
       operationId: listRegionalHostnames
-      description: "List all Regional Hostnames within a zone.  @example ```ts //
+      description:
+        "List all Regional Hostnames within a zone.  @example ```ts //
         Automatically fetches more pages as needed. for await (const
         regionalHostnameListResponse of
         client.addressing.regionalHostnames.list( { zone_id:
@@ -3205,7 +3317,8 @@ paths:
                     description: When the regional hostname was created
                   hostname:
                     type: string
-                    description: DNS hostname to be regionalized, must be a subdomain of the zone.
+                    description:
+                      DNS hostname to be regionalized, must be a subdomain of the zone.
                       Wildcards are supported for one level, e.g ` .example.com`
                   region_key:
                     type: string
@@ -3224,7 +3337,8 @@ paths:
           - status: 403
     post:
       operationId: createRegionalHostname
-      description: "Create a new Regional Hostname entry. Cloudflare will only use
+      description:
+        "Create a new Regional Hostname entry. Cloudflare will only use
         data centers that are physically located within the chosen region to
         decrypt and service HTTPS traffic. Learn more about [Regional
         Services](https://developers.cloudflare.com/data-localization/regional-\
@@ -3248,7 +3362,8 @@ paths:
               properties:
                 hostname:
                   type: string
-                  description: "Body param: DNS hostname to be regionalized, must be a subdomain
+                  description:
+                    "Body param: DNS hostname to be regionalized, must be a subdomain
                     of the zone. Wildcards are supported for one level, e.g `
                     .example.com`"
                 region_key:
@@ -3256,7 +3371,8 @@ paths:
                   description: "Body param: Identifying key for the region"
                 routing:
                   type: string
-                  description: "Body param: Configure which routing method to use for the regional
+                  description:
+                    "Body param: Configure which routing method to use for the regional
                     hostname"
               required:
                 - hostname
@@ -3274,7 +3390,8 @@ paths:
                     description: When the regional hostname was created
                   hostname:
                     type: string
-                    description: DNS hostname to be regionalized, must be a subdomain of the zone.
+                    description:
+                      DNS hostname to be regionalized, must be a subdomain of the zone.
                       Wildcards are supported for one level, e.g ` .example.com`
                   region_key:
                     type: string
@@ -3334,7 +3451,8 @@ paths:
   /accounts/{account_id}/addressing/services:
     get:
       operationId: listServices
-      description: "Bring-Your-Own IP (BYOIP) prefixes onboarded to Cloudflare must be
+      description:
+        "Bring-Your-Own IP (BYOIP) prefixes onboarded to Cloudflare must be
         bound to a service running on the Cloudflare network to enable a
         Cloudflare product on the IP addresses. This endpoint can be used as a
         reference of available services on the Cloudflare network, and their
@@ -3359,7 +3477,8 @@ paths:
                 properties:
                   id:
                     type: string
-                    description: Identifier of a Service on the Cloudflare network. Available
+                    description:
+                      Identifier of a Service on the Cloudflare network. Available
                       services and their IDs may be found in the  List
                       Services  endpoint.
                   name:

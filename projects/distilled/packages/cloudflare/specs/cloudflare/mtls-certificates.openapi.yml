@@ -45,7 +45,8 @@ paths:
   /accounts/{account_id}/mtls_certificates/{mtlsCertificateId}:
     get:
       operationId: getMtlsCertificate
-      description: "Fetches a single mTLS certificate uploaded to your account. To get
+      description:
+        "Fetches a single mTLS certificate uploaded to your account. To get
         a certificate issued by the Cloudflare managed CA, use the [Client
         Certificate Details
         endpoint](/api/resources/client_certificates/methods/get/).  @example
@@ -89,7 +90,8 @@ paths:
                     description: The certificate authority that issued the certificate.
                   name:
                     type: string
-                    description: Optional unique name for the certificate. Only used for human
+                    description:
+                      Optional unique name for the certificate. Only used for human
                       readability.
                   serial_number:
                     type: string
@@ -103,7 +105,8 @@ paths:
                       - custom
                       - gateway_managed
                       - access_managed
-                    description: The type of the certificate, indicating how it was created and who
+                    description:
+                      The type of the certificate, indicating how it was created and who
                       manages it.
                   uploaded_on:
                     type: string
@@ -117,7 +120,8 @@ paths:
           - status: 404
     delete:
       operationId: deleteMtlsCertificate
-      description: "Deletes the mTLS certificate unless the certificate is in use by
+      description:
+        "Deletes the mTLS certificate unless the certificate is in use by
         one or more Cloudflare services.  @example ```ts const mtlsCertificate =
         await client.mtlsCertificates.delete(
         '023e105f4ecef8ad9ca31a8372d0c353', { account_id:
@@ -159,7 +163,8 @@ paths:
                     description: The certificate authority that issued the certificate.
                   name:
                     type: string
-                    description: Optional unique name for the certificate. Only used for human
+                    description:
+                      Optional unique name for the certificate. Only used for human
                       readability.
                   serial_number:
                     type: string
@@ -173,7 +178,8 @@ paths:
                       - custom
                       - gateway_managed
                       - access_managed
-                    description: The type of the certificate, indicating how it was created and who
+                    description:
+                      The type of the certificate, indicating how it was created and who
                       manages it.
                   uploaded_on:
                     type: string
@@ -192,7 +198,8 @@ paths:
   /accounts/{account_id}/mtls_certificates:
     get:
       operationId: listMtlsCertificates
-      description: "Lists all mTLS certificates uploaded to your account, such as
+      description:
+        "Lists all mTLS certificates uploaded to your account, such as
         Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the
         Cloudflare managed CA, use the [List Client Certificates
         endpoint](/api/resources/client_certificates/methods/list/).  @example
@@ -209,7 +216,8 @@ paths:
         - name: type
           in: query
           required: false
-          description: "Query param: Filters results by certificate type. Multiple types
+          description:
+            "Query param: Filters results by certificate type. Multiple types
             can be comma-separated."
           schema:
             type: array
@@ -244,7 +252,8 @@ paths:
                     description: The certificate authority that issued the certificate.
                   name:
                     type: string
-                    description: Optional unique name for the certificate. Only used for human
+                    description:
+                      Optional unique name for the certificate. Only used for human
                       readability.
                   serial_number:
                     type: string
@@ -258,7 +267,8 @@ paths:
                       - custom
                       - gateway_managed
                       - access_managed
-                    description: The type of the certificate, indicating how it was created and who
+                    description:
+                      The type of the certificate, indicating how it was created and who
                       manages it.
                   uploaded_on:
                     type: string
@@ -309,18 +319,21 @@ paths:
               properties:
                 ca:
                   type: boolean
-                  description: "Body param: Indicates whether the certificate is a CA or leaf
+                  description:
+                    "Body param: Indicates whether the certificate is a CA or leaf
                     certificate."
                 certificates:
                   type: string
                   description: "Body param: The uploaded root CA certificate."
                 name:
                   type: string
-                  description: "Body param: Optional unique name for the certificate. Only used
+                  description:
+                    "Body param: Optional unique name for the certificate. Only used
                     for human readability."
                 private_key:
                   type: string
-                  description: "Body param: The private key for the certificate. This field is
+                  description:
+                    "Body param: The private key for the certificate. This field is
                     only needed for specific use cases such as using a custom
                     certificate with Zero Trust's block page."
               required:
@@ -351,7 +364,8 @@ paths:
                     description: The certificate authority that issued the certificate.
                   name:
                     type: string
-                    description: Optional unique name for the certificate. Only used for human
+                    description:
+                      Optional unique name for the certificate. Only used for human
                       readability.
                   serial_number:
                     type: string
@@ -365,7 +379,8 @@ paths:
                       - custom
                       - gateway_managed
                       - access_managed
-                    description: The type of the certificate, indicating how it was created and who
+                    description:
+                      The type of the certificate, indicating how it was created and who
                       manages it.
                   updated_at:
                     type: string

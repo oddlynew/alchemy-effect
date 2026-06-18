@@ -8,6 +8,7 @@ import { runEffect, testRunId } from "./setup";
 describe("createOrg", () => {
   it(
     "creates a new organization or reports the account's org limit",
+    { timeout: 60_000 },
     async () => {
       // NOTE: the axiom SDK does not expose a deleteOrg operation, so the
       // test account inevitably accumulates orgs across runs and eventually
@@ -37,11 +38,11 @@ describe("createOrg", () => {
         expect((result.e as { _tag: string })._tag).toBe("BadRequest");
       }
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns Unauthorized when the caller's credentials lack org create access",
+    { timeout: 30_000 },
     async () => {
       // Override the shared Credentials layer with a Bearer token that is
       // authenticated but not authorized. Axiom surfaces this as a 401, which the SDK's matchError maps to the typed Unauthorized class.
@@ -64,6 +65,5 @@ describe("createOrg", () => {
 
       expect((error as { _tag: string })._tag).toBe("Unauthorized");
     },
-    { timeout: 30_000 },
   );
 });

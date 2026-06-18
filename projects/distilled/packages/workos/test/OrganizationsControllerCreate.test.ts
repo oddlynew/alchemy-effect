@@ -5,44 +5,41 @@ import { OrganizationsControllerDeleteOrganization } from "../src/operations/Org
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("OrganizationsControllerCreate", () => {
-  it(
-    "creates an organization",
-    async () => {
-      const name = `distilled-workos-orgs-create-${testRunId}`;
-      const result = await runEffect(
-        Effect.gen(function* () {
-          const created = yield* OrganizationsControllerCreate({ name });
-          yield* OrganizationsControllerDeleteOrganization({
-            id: created.id,
-          }).pipe(Effect.ignore);
-          return created;
-        }),
-      );
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-      expect(result.name).toBe(name);
-      expect(Array.isArray(result.domains)).toBe(true);
-      expect(typeof result.created_at).toBe("string");
-      expect(typeof result.updated_at).toBe("string");
-    },
-    30_000,
-  );
+  it("creates an organization", { timeout: 30_000 }, async () => {
+    const name = `distilled-workos-orgs-create-${testRunId}`;
+    const result = await runEffect(
+      Effect.gen(function* () {
+        const created = yield* OrganizationsControllerCreate({ name });
+        yield* OrganizationsControllerDeleteOrganization({
+          id: created.id,
+        }).pipe(Effect.ignore);
+        return created;
+      }),
+    );
+    expect(result).toBeDefined();
+    expect(typeof result.id).toBe("string");
+    expect(result.name).toBe(name);
+    expect(Array.isArray(result.domains)).toBe(true);
+    expect(typeof result.created_at).toBe("string");
+    expect(typeof result.updated_at).toBe("string");
+  });
 
   it(
     "fails with BadRequest when name is missing",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
-        OrganizationsControllerCreate(
-          {} as unknown as { name: string },
-        ).pipe(Effect.flip),
+        OrganizationsControllerCreate({} as unknown as { name: string }).pipe(
+          Effect.flip,
+        ),
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when an external_id is reused",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -65,11 +62,11 @@ describe("OrganizationsControllerCreate", () => {
       );
       expect(["BadRequest", "Conflict"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with UnprocessableEntity for an invalid domain_data state",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         OrganizationsControllerCreate({
@@ -88,6 +85,5 @@ describe("OrganizationsControllerCreate", () => {
       );
       expect(error._tag).toBe("UnprocessableEntity");
     },
-    30_000,
   );
 });

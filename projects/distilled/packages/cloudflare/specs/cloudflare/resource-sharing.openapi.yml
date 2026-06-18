@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/shares/{shareId}/recipients/{recipientId}:
     get:
       operationId: getRecipient
-      description: "Get share recipient by ID.  @example ```ts const recipient = await
+      description:
+        "Get share recipient by ID.  @example ```ts const recipient = await
         client.resourceSharing.recipients.get(
         '3fd85f74b32742f1bff64a85009dda07', '3fd85f74b32742f1bff64a85009dda07',
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -101,7 +102,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteRecipient
-      description: "Deletion is not immediate, an updated share recipient object with
+      description:
+        "Deletion is not immediate, an updated share recipient object with
         a new status will be returned.  @example ```ts const recipient = await
         client.resourceSharing.recipients.delete(
         '3fd85f74b32742f1bff64a85009dda07', '3fd85f74b32742f1bff64a85009dda07',
@@ -288,7 +290,8 @@ paths:
   /accounts/{path_account_id}/shares/{shareId}/recipients:
     post:
       operationId: createRecipient
-      description: "Adds a recipient to a resource share, granting them access to the
+      description:
+        "Adds a recipient to a resource share, granting them access to the
         shared resources.  @example ```ts const recipient = await
         client.resourceSharing.recipients.create(
         '3fd85f74b32742f1bff64a85009dda07', { path_account_id:
@@ -314,7 +317,8 @@ paths:
               properties:
                 body_account_id:
                   type: string
-                  description: "@deprecated This field has been renamed to `recipient_account_id`.
+                  description:
+                    "@deprecated This field has been renamed to `recipient_account_id`.
                     Both names are accepted during the deprecation period."
                 organization_id:
                   type: string
@@ -388,7 +392,8 @@ paths:
   /accounts/{account_id}/shares/{shareId}/resources/{shareResourceId}:
     get:
       operationId: getResource
-      description: "Get share resource by ID.  @example ```ts const resource = await
+      description:
+        "Get share resource by ID.  @example ```ts const resource = await
         client.resourceSharing.resources.get(
         '3fd85f74b32742f1bff64a85009dda07', '023e105f4ecef8ad9ca31a8372d0c353',
         { account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -473,7 +478,8 @@ paths:
           - status: 403
     put:
       operationId: updateResource
-      description: "Update is not immediate, an updated share resource object with a
+      description:
+        "Update is not immediate, an updated share resource object with a
         new status will be returned.  @example ```ts const resource = await
         client.resourceSharing.resources.update(
         '3fd85f74b32742f1bff64a85009dda07', '023e105f4ecef8ad9ca31a8372d0c353',
@@ -570,7 +576,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteResource
-      description: "Deletion is not immediate, an updated share resource object with a
+      description:
+        "Deletion is not immediate, an updated share resource object with a
         new status will be returned.  @example ```ts const resource = await
         client.resourceSharing.resources.delete(
         '3fd85f74b32742f1bff64a85009dda07', '023e105f4ecef8ad9ca31a8372d0c353',
@@ -657,7 +664,8 @@ paths:
   /accounts/{account_id}/shares/{shareId}/resources:
     get:
       operationId: listResources
-      description: "List share resources by share ID.  @example ```ts // Automatically
+      description:
+        "List share resources by share ID.  @example ```ts // Automatically
         fetches more pages as needed. for await (const resourceListResponse of
         client.resourceSharing.resources.list(
         '3fd85f74b32742f1bff64a85009dda07', { account_id:
@@ -771,7 +779,8 @@ paths:
           - status: 403
     post:
       operationId: createResource
-      description: "Adds a resource to an existing share, making it available to share
+      description:
+        "Adds a resource to an existing share, making it available to share
         recipients.  @example ```ts const resource = await
         client.resourceSharing.resources.create(
         '3fd85f74b32742f1bff64a85009dda07', { account_id:
@@ -886,7 +895,8 @@ paths:
   /accounts/{account_id}/shares/{shareId}:
     get:
       operationId: getResourceSharing
-      description: "Fetches share by ID.  @example ```ts const resourceSharing = await
+      description:
+        "Fetches share by ID.  @example ```ts const resourceSharing = await
         client.resourceSharing.get( '3fd85f74b32742f1bff64a85009dda07', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -955,22 +965,26 @@ paths:
                       - organization
                   associated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associated' state. This field is
+                    description:
+                      The number of recipients in the 'associated' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   associating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associating' state. This field is
+                    description:
+                      The number of recipients in the 'associating' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociated' state. This field
+                    description:
+                      The number of recipients in the 'disassociated' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociating' state. This field
+                    description:
+                      The number of recipients in the 'disassociating' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   kind:
@@ -1030,7 +1044,8 @@ paths:
                         - resource_type
                         - resource_version
                         - status
-                    description: A list of resources that are part of the share. This field is only
+                    description:
+                      A list of resources that are part of the share. This field is only
                       included when requested via the 'include_resources'
                       parameter.
                 required:
@@ -1052,7 +1067,8 @@ paths:
           - status: 403
     put:
       operationId: updateResourceSharing
-      description: "Updating is not immediate, an updated share object with a new
+      description:
+        "Updating is not immediate, an updated share object with a new
         status will be returned.  @example ```ts const resourceSharing = await
         client.resourceSharing.update( '3fd85f74b32742f1bff64a85009dda07', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353', name: 'My Shared WAF
@@ -1123,22 +1139,26 @@ paths:
                       - organization
                   associated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associated' state. This field is
+                    description:
+                      The number of recipients in the 'associated' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   associating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associating' state. This field is
+                    description:
+                      The number of recipients in the 'associating' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociated' state. This field
+                    description:
+                      The number of recipients in the 'disassociated' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociating' state. This field
+                    description:
+                      The number of recipients in the 'disassociating' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   kind:
@@ -1198,7 +1218,8 @@ paths:
                         - resource_type
                         - resource_version
                         - status
-                    description: A list of resources that are part of the share. This field is only
+                    description:
+                      A list of resources that are part of the share. This field is only
                       included when requested via the 'include_resources'
                       parameter.
                 required:
@@ -1220,7 +1241,8 @@ paths:
           - status: 403
     delete:
       operationId: deleteResourceSharing
-      description: "Deletion is not immediate, an updated share object with a new
+      description:
+        "Deletion is not immediate, an updated share object with a new
         status will be returned.  @example ```ts const resourceSharing = await
         client.resourceSharing.delete( '3fd85f74b32742f1bff64a85009dda07', {
         account_id: '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -1278,22 +1300,26 @@ paths:
                       - organization
                   associated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associated' state. This field is
+                    description:
+                      The number of recipients in the 'associated' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   associating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associating' state. This field is
+                    description:
+                      The number of recipients in the 'associating' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociated' state. This field
+                    description:
+                      The number of recipients in the 'disassociated' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociating' state. This field
+                    description:
+                      The number of recipients in the 'disassociating' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   kind:
@@ -1353,7 +1379,8 @@ paths:
                         - resource_type
                         - resource_version
                         - status
-                    description: A list of resources that are part of the share. This field is only
+                    description:
+                      A list of resources that are part of the share. This field is only
                       included when requested via the 'include_resources'
                       parameter.
                 required:
@@ -1376,7 +1403,8 @@ paths:
   /accounts/{account_id}/shares:
     get:
       operationId: listResourceSharings
-      description: "Lists all account shares.  @example ```ts // Automatically fetches
+      description:
+        "Lists all account shares.  @example ```ts // Automatically fetches
         more pages as needed. for await (const resourceSharingListResponse of
         client.resourceSharing.list( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, )) { // ... } ```"
@@ -1524,22 +1552,26 @@ paths:
                       - organization
                   associated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associated' state. This field is
+                    description:
+                      The number of recipients in the 'associated' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   associating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associating' state. This field is
+                    description:
+                      The number of recipients in the 'associating' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociated' state. This field
+                    description:
+                      The number of recipients in the 'disassociated' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociating' state. This field
+                    description:
+                      The number of recipients in the 'disassociating' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   kind:
@@ -1599,7 +1631,8 @@ paths:
                         - resource_type
                         - resource_version
                         - status
-                    description: A list of resources that are part of the share. This field is only
+                    description:
+                      A list of resources that are part of the share. This field is only
                       included when requested via the 'include_resources'
                       parameter.
                 required:
@@ -1618,7 +1651,8 @@ paths:
           - status: 403
     post:
       operationId: createResourceSharing
-      description: "Creates a new resource share for sharing Cloudflare resources with
+      description:
+        "Creates a new resource share for sharing Cloudflare resources with
         other accounts or organizations.  @example ```ts const resourceSharing =
         await client.resourceSharing.create( { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', name: 'My Shared WAF Managed Rule',
@@ -1650,7 +1684,8 @@ paths:
                     properties:
                       account_id:
                         type: string
-                        description: "@deprecated This field has been renamed to `recipient_account_id`.
+                        description:
+                          "@deprecated This field has been renamed to `recipient_account_id`.
                           Both names are accepted during the deprecation
                           period."
                       organization_id:
@@ -1735,22 +1770,26 @@ paths:
                       - organization
                   associated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associated' state. This field is
+                    description:
+                      The number of recipients in the 'associated' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   associating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'associating' state. This field is
+                    description:
+                      The number of recipients in the 'associating' state. This field is
                       only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociated_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociated' state. This field
+                    description:
+                      The number of recipients in the 'disassociated' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   disassociating_recipient_count:
                     type: number
-                    description: The number of recipients in the 'disassociating' state. This field
+                    description:
+                      The number of recipients in the 'disassociating' state. This field
                       is only included when requested via the
                       'include_recipient_counts' parameter.
                   kind:
@@ -1810,7 +1849,8 @@ paths:
                         - resource_type
                         - resource_version
                         - status
-                    description: A list of resources that are part of the share. This field is only
+                    description:
+                      A list of resources that are part of the share. This field is only
                       included when requested via the 'include_resources'
                       parameter.
                 required:

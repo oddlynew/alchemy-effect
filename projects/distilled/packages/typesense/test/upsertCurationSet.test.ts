@@ -7,6 +7,7 @@ import { runEffect, testRunId } from "./setup";
 describe("upsertCurationSet", () => {
   it(
     "creates a curation set with one rule item",
+    { timeout: 30_000 },
     async () => {
       const curationSetName = `distilled-typesense-upscuration-${testRunId}`;
 
@@ -35,11 +36,11 @@ describe("upsertCurationSet", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with BadRequest when an item's rule has no condition",
+    { timeout: 30_000 },
     async () => {
       const curationSetName = `distilled-typesense-upscuration-bad-${testRunId}`;
 
@@ -65,6 +66,5 @@ describe("upsertCurationSet", () => {
       const error = await runEffect(effect);
       expect((error as { _tag: string })._tag).toBe("BadRequest");
     },
-    { timeout: 30_000 },
   );
 });

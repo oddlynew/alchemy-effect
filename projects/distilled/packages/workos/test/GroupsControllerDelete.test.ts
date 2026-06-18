@@ -8,43 +8,40 @@ import { OrganizationsControllerDeleteOrganization } from "../src/operations/Org
 import { runEffect, testRunId } from "./setup.ts";
 
 describe("GroupsControllerDelete", () => {
-  it(
-    "deletes a group from an organization",
-    async () => {
-      const findError = await runEffect(
-        Effect.gen(function* () {
-          const org = yield* OrganizationsControllerCreate({
-            name: `distilled-workos-groups-delete-${testRunId}`,
+  it("deletes a group from an organization", { timeout: 60_000 }, async () => {
+    const findError = await runEffect(
+      Effect.gen(function* () {
+        const org = yield* OrganizationsControllerCreate({
+          name: `distilled-workos-groups-delete-${testRunId}`,
+        });
+        return yield* Effect.gen(function* () {
+          const created = yield* GroupsControllerCreate({
+            organizationId: org.id,
+            name: `distilled-group-delete-${testRunId}`,
           });
-          return yield* Effect.gen(function* () {
-            const created = yield* GroupsControllerCreate({
-              organizationId: org.id,
-              name: `distilled-group-delete-${testRunId}`,
-            });
-            yield* GroupsControllerDelete({
-              organizationId: org.id,
-              groupId: created.id,
-            });
-            return yield* GroupsControllerGet({
-              organizationId: org.id,
-              groupId: created.id,
-            });
-          }).pipe(
-            Effect.ensuring(
-              OrganizationsControllerDeleteOrganization({
-                id: org.id,
-              }).pipe(Effect.ignore),
-            ),
-          );
-        }).pipe(Effect.flip),
-      );
-      expect(["NotFound", "TooManyRequests"]).toContain(findError._tag);
-    },
-    60_000,
-  );
+          yield* GroupsControllerDelete({
+            organizationId: org.id,
+            groupId: created.id,
+          });
+          return yield* GroupsControllerGet({
+            organizationId: org.id,
+            groupId: created.id,
+          });
+        }).pipe(
+          Effect.ensuring(
+            OrganizationsControllerDeleteOrganization({
+              id: org.id,
+            }).pipe(Effect.ignore),
+          ),
+        );
+      }).pipe(Effect.flip),
+    );
+    expect(["NotFound", "TooManyRequests"]).toContain(findError._tag);
+  });
 
   it(
     "fails with NotFound for a non-existent group id",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -65,11 +62,11 @@ describe("GroupsControllerDelete", () => {
       );
       expect(["NotFound", "TooManyRequests"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when deleting a group in a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         GroupsControllerDelete({
@@ -81,6 +78,5 @@ describe("GroupsControllerDelete", () => {
         error._tag,
       );
     },
-    30_000,
   );
 });

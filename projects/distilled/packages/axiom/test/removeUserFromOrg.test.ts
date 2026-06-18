@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("removeUserFromOrg", () => {
   it(
     "returns InternalServerError for a user id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Probed live: axiom's DELETE /v2/users/{id} returns 500 (not 404)
       // when the id doesn't resolve. Document the observed behaviour.
@@ -20,6 +21,5 @@ describe("removeUserFromOrg", () => {
 
       expect((error as { _tag: string })._tag).toBe("InternalServerError");
     },
-    { timeout: 30_000 },
   );
 });

@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup.ts";
 describe("AuthorizationOrganizationRolesControllerDelete", () => {
   it(
     "fails with BadRequest when the role slug is empty",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -32,11 +33,11 @@ describe("AuthorizationOrganizationRolesControllerDelete", () => {
 
       expect(["BadRequest", "NotFound"]).toContain(error._tag);
     },
-    60_000,
   );
 
   it(
     "fails with NotFound for a non-existent role slug",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -59,11 +60,11 @@ describe("AuthorizationOrganizationRolesControllerDelete", () => {
 
       expect(error._tag).toBe("NotFound");
     },
-    60_000,
   );
 
   it(
     "fails with Forbidden when the organization belongs to a different tenant",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         AuthorizationOrganizationRolesControllerDelete({
@@ -74,11 +75,11 @@ describe("AuthorizationOrganizationRolesControllerDelete", () => {
 
       expect(["Forbidden", "NotFound"]).toContain(error._tag);
     },
-    30_000,
   );
 
   it(
     "fails with Conflict when deleting a built-in environment role",
+    { timeout: 60_000 },
     async () => {
       const error = await runEffect(
         Effect.gen(function* () {
@@ -101,6 +102,5 @@ describe("AuthorizationOrganizationRolesControllerDelete", () => {
 
       expect(["Conflict", "NotFound"]).toContain(error._tag);
     },
-    60_000,
   );
 });

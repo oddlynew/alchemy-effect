@@ -6,35 +6,28 @@ import { upsertPreset } from "../src/operations/upsertPreset";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrievePreset", () => {
-  it(
-    "retrieves a preset by id",
-    async () => {
-      const presetId = `distilled-typesense-retpreset-${testRunId}`;
+  it("retrieves a preset by id", { timeout: 30_000 }, async () => {
+    const presetId = `distilled-typesense-retpreset-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        yield* upsertPreset({
-          presetId,
-          value: {
-            searches: [
-              { collection: "products", q: "shoe", query_by: "name" },
-            ],
-          },
-        });
+    const effect = Effect.gen(function* () {
+      yield* upsertPreset({
+        presetId,
+        value: {
+          searches: [{ collection: "products", q: "shoe", query_by: "name" }],
+        },
+      });
 
-        const result = yield* retrievePreset({ presetId });
-        expect(result.name).toBe(presetId);
-        expect(result.value).toBeDefined();
-      }).pipe(
-        Effect.ensuring(deletePreset({ presetId }).pipe(Effect.ignore)),
-      );
+      const result = yield* retrievePreset({ presetId });
+      expect(result.name).toBe(presetId);
+      expect(result.value).toBeDefined();
+    }).pipe(Effect.ensuring(deletePreset({ presetId }).pipe(Effect.ignore)));
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the preset does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         retrievePreset({
@@ -44,6 +37,5 @@ describe("retrievePreset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

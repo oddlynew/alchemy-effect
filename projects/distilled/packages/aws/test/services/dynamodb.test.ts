@@ -72,7 +72,9 @@ const getTableArn = (tableName: string) =>
         : Effect.fail(new Error("Table ARN not available yet")),
     ),
     Effect.retry(retrySchedule),
-    Effect.mapError(() => new Error(`Table ARN not available for ${tableName}`)),
+    Effect.mapError(
+      () => new Error(`Table ARN not available for ${tableName}`),
+    ),
   );
 
 const withTable = <A, E, R>(

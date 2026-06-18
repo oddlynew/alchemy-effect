@@ -9,7 +9,8 @@ paths:
   /accounts/{account_id}/images/v1/{imageId}:
     get:
       operationId: getV1
-      description: "Fetch details for a single image.  @example ```ts const image =
+      description:
+        "Fetch details for a single image.  @example ```ts const image =
         await client.images.v1.get('image_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -44,12 +45,14 @@ paths:
                     type: string
                     description: Image file name.
                   meta:
-                    description: User modifiable key-value store. Can be used for keeping references
+                    description:
+                      User modifiable key-value store. Can be used for keeping references
                       to another system of record for managing images. Metadata
                       must not exceed 1024 bytes.
                   requireSignedURLs:
                     type: boolean
-                    description: Indicates whether the image can be a accessed only using it's UID.
+                    description:
+                      Indicates whether the image can be a accessed only using it's UID.
                       If set to true, a signed token needs to be generated with
                       a signing key to view the image.
                   uploaded:
@@ -68,7 +71,8 @@ paths:
           - code: 5404
     patch:
       operationId: patchV1
-      description: "Update image access control. On access control change, all copies
+      description:
+        "Update image access control. On access control change, all copies
         of the image are purged from cache.  @example ```ts const image = await
         client.images.v1.edit('image_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -95,12 +99,14 @@ paths:
                   type: string
                   description: "Body param: Can set the creator field with an internal user ID."
                 metadata:
-                  description: "Body param: User modifiable key-value store. Can be used for
+                  description:
+                    "Body param: User modifiable key-value store. Can be used for
                     keeping references to another system of record for managing
                     images. No change if not specified."
                 requireSignedURLs:
                   type: boolean
-                  description: "Body param: Indicates whether the image can be accessed using only
+                  description:
+                    "Body param: Indicates whether the image can be accessed using only
                     its UID. If set to `true`, a signed token needs to be
                     generated with a signing key to view the image. Returns a
                     new UID on a change. No change if not specified."
@@ -124,12 +130,14 @@ paths:
                     type: string
                     description: Image file name.
                   meta:
-                    description: User modifiable key-value store. Can be used for keeping references
+                    description:
+                      User modifiable key-value store. Can be used for keeping references
                       to another system of record for managing images. Metadata
                       must not exceed 1024 bytes.
                   requireSignedURLs:
                     type: boolean
-                    description: Indicates whether the image can be a accessed only using it's UID.
+                    description:
+                      Indicates whether the image can be a accessed only using it's UID.
                       If set to true, a signed token needs to be generated with
                       a signing key to view the image.
                   uploaded:
@@ -148,7 +156,8 @@ paths:
           - code: 5404
     delete:
       operationId: deleteV1
-      description: "Delete an image on Cloudflare Images. On success, all copies of
+      description:
+        "Delete an image on Cloudflare Images. On success, all copies of
         the image are deleted and purged from cache.  @example ```ts const v1 =
         await client.images.v1.delete('image_id', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -179,7 +188,8 @@ paths:
   /accounts/{account_id}/images/v1:
     get:
       operationId: listV1s
-      description: List up to 100 images with one request. Use the optional parameters
+      description:
+        List up to 100 images with one request. Use the optional parameters
         below to get a specific range of images.  @deprecated
       parameters:
         - name: account_id
@@ -201,7 +211,8 @@ paths:
         - name: creator
           in: query
           required: false
-          description: 'Query param: Internal user ID set within the creator field.
+          description:
+            'Query param: Internal user ID set within the creator field.
             Setting to empty string "" will return images where creator field is
             not set'
           schema:
@@ -233,12 +244,14 @@ paths:
                           type: string
                           description: Image file name.
                         meta:
-                          description: User modifiable key-value store. Can be used for keeping references
+                          description:
+                            User modifiable key-value store. Can be used for keeping references
                             to another system of record for managing images.
                             Metadata must not exceed 1024 bytes.
                         requireSignedURLs:
                           type: boolean
-                          description: Indicates whether the image can be a accessed only using it's UID.
+                          description:
+                            Indicates whether the image can be a accessed only using it's UID.
                             If set to true, a signed token needs to be generated
                             with a signing key to view the image.
                         uploaded:
@@ -255,7 +268,8 @@ paths:
           - code: 5403
     post:
       operationId: createV1
-      description: "Upload an image with up to 10 Megabytes using a single HTTP POST
+      description:
+        "Upload an image with up to 10 Megabytes using a single HTTP POST
         (multipart/form-data) request. An image can be uploaded by sending an
         image file or passing an accessible to an API url.  @example ```ts const
         image = await client.images.v1.create({ account_id:
@@ -283,19 +297,23 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: "Body param: An image binary data. Only needed when type is
+                  description:
+                    "Body param: An image binary data. Only needed when type is
                     uploading a file."
                 metadata:
-                  description: "Body param: User modifiable key-value store. Can use used for
+                  description:
+                    "Body param: User modifiable key-value store. Can use used for
                     keeping references to another system of record for managing
                     images."
                 requireSignedURLs:
                   type: boolean
-                  description: "Body param: Indicates whether the image requires a signature token
+                  description:
+                    "Body param: Indicates whether the image requires a signature token
                     for the access."
                 url:
                   type: string
-                  description: "Body param: A URL to fetch an image from origin. Only needed when
+                  description:
+                    "Body param: A URL to fetch an image from origin. Only needed when
                     type is uploading from a URL."
       responses:
         "200":
@@ -317,12 +335,14 @@ paths:
                     type: string
                     description: Image file name.
                   meta:
-                    description: User modifiable key-value store. Can be used for keeping references
+                    description:
+                      User modifiable key-value store. Can be used for keeping references
                       to another system of record for managing images. Metadata
                       must not exceed 1024 bytes.
                   requireSignedURLs:
                     type: boolean
-                    description: Indicates whether the image can be a accessed only using it's UID.
+                    description:
+                      Indicates whether the image can be a accessed only using it's UID.
                       If set to true, a signed token needs to be generated with
                       a signing key to view the image.
                   uploaded:
@@ -340,7 +360,8 @@ paths:
   /accounts/{account_id}/images/v1/{imageId}/blob:
     get:
       operationId: getV1Blob
-      description: "Fetch base image. For most images this will be the originally
+      description:
+        "Fetch base image. For most images this will be the originally
         uploaded file. For larger images it can be a near-lossless version of
         the original.  @example ```ts const blob = await
         client.images.v1.blobs.get('image_id', { account_id:
@@ -369,7 +390,8 @@ paths:
   /accounts/{account_id}/images/v1/keys:
     get:
       operationId: listV1Keys
-      description: "Lists your signing keys. These can be found on your Cloudflare
+      description:
+        "Lists your signing keys. These can be found on your Cloudflare
         Images dashboard.  @example ```ts const keys = await
         client.images.v1.keys.list({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -406,7 +428,8 @@ paths:
   /accounts/{account_id}/images/v1/keys/{signingKeyName}:
     put:
       operationId: putV1Key
-      description: "Create a new signing key with specified name. Returns all keys
+      description:
+        "Create a new signing key with specified name. Returns all keys
         available.  @example ```ts const key = await
         client.images.v1.keys.update('someKey', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
@@ -492,7 +515,8 @@ paths:
   /accounts/{account_id}/images/v1/stats:
     get:
       operationId: getV1Stat
-      description: "Fetch image statistics details for Cloudflare Images. The returned
+      description:
+        "Fetch image statistics details for Cloudflare Images. The returned
         statistics detail storage usage, including the current image count vs
         this account's allowance.  @example ```ts const stat = await
         client.images.v1.stats.get({ account_id:
@@ -528,7 +552,8 @@ paths:
   /accounts/{account_id}/images/v1/variants/{variantId}:
     get:
       operationId: getV1Variant
-      description: "Fetch details for a single variant.  @example ```ts const variant
+      description:
+        "Fetch details for a single variant.  @example ```ts const variant
         = await client.images.v1.variants.get( 'hero', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
       parameters:
@@ -567,7 +592,8 @@ paths:
                               - cover
                               - crop
                               - pad
-                            description: The fit property describes how the width and height dimensions
+                            description:
+                              The fit property describes how the width and height dimensions
                               should be interpreted.
                           height:
                             type: number
@@ -590,7 +616,8 @@ paths:
                         description: Allows you to define image resizing sizes for different use cases.
                       neverRequireSignedURLs:
                         type: boolean
-                        description: Indicates whether the variant can access an image without a
+                        description:
+                          Indicates whether the variant can access an image without a
                           signature, regardless of image access control.
                     required:
                       - id
@@ -608,7 +635,8 @@ paths:
               includes: not found
     patch:
       operationId: patchV1Variant
-      description: "Updating a variant purges the cache for all images associated with
+      description:
+        "Updating a variant purges the cache for all images associated with
         the variant.  @example ```ts const response = await
         client.images.v1.variants.edit( 'hero', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', options: { fit: 'scale-down',
@@ -643,7 +671,8 @@ paths:
                         - cover
                         - crop
                         - pad
-                      description: The fit property describes how the width and height dimensions
+                      description:
+                        The fit property describes how the width and height dimensions
                         should be interpreted.
                     height:
                       type: number
@@ -663,11 +692,13 @@ paths:
                     - height
                     - metadata
                     - width
-                  description: "Body param: Allows you to define image resizing sizes for
+                  description:
+                    "Body param: Allows you to define image resizing sizes for
                     different use cases."
                 neverRequireSignedURLs:
                   type: boolean
-                  description: "Body param: Indicates whether the variant can access an image
+                  description:
+                    "Body param: Indicates whether the variant can access an image
                     without a signature, regardless of image access control."
               required:
                 - options
@@ -695,7 +726,8 @@ paths:
                               - cover
                               - crop
                               - pad
-                            description: The fit property describes how the width and height dimensions
+                            description:
+                              The fit property describes how the width and height dimensions
                               should be interpreted.
                           height:
                             type: number
@@ -718,7 +750,8 @@ paths:
                         description: Allows you to define image resizing sizes for different use cases.
                       neverRequireSignedURLs:
                         type: boolean
-                        description: Indicates whether the variant can access an image without a
+                        description:
+                          Indicates whether the variant can access an image without a
                           signature, regardless of image access control.
                     required:
                       - id
@@ -733,7 +766,8 @@ paths:
           - code: 5401
     delete:
       operationId: deleteV1Variant
-      description: "Deleting a variant purges the cache for all images associated with
+      description:
+        "Deleting a variant purges the cache for all images associated with
         the variant.  @example ```ts const variant = await
         client.images.v1.variants.delete( 'hero', { account_id:
         '023e105f4ecef8ad9ca31a8372d0c353' }, ); ```"
@@ -766,7 +800,8 @@ paths:
   /accounts/{account_id}/images/v1/variants:
     get:
       operationId: listV1Variants
-      description: "Lists existing variants.  @example ```ts const variant = await
+      description:
+        "Lists existing variants.  @example ```ts const variant = await
         client.images.v1.variants.list({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', }); ```"
       parameters:
@@ -797,7 +832,8 @@ paths:
                           - cover
                           - crop
                           - pad
-                        description: The fit property describes how the width and height dimensions
+                        description:
+                          The fit property describes how the width and height dimensions
                           should be interpreted.
                       height:
                         type: number
@@ -820,7 +856,8 @@ paths:
                     description: Allows you to define image resizing sizes for different use cases.
                   neverRequireSignedURLs:
                     type: boolean
-                    description: Indicates whether the variant can access an image without a
+                    description:
+                      Indicates whether the variant can access an image without a
                       signature, regardless of image access control.
                   variants:
                     type: object
@@ -831,7 +868,8 @@ paths:
           - code: 5403
     post:
       operationId: createV1Variant
-      description: "Specify variants that allow you to resize images for different use
+      description:
+        "Specify variants that allow you to resize images for different use
         cases.  @example ```ts const variant = await
         client.images.v1.variants.create({ account_id:
         '023e105f4ecef8ad9ca31a8372d0c353', id: 'hero', options: { fit:
@@ -864,7 +902,8 @@ paths:
                         - cover
                         - crop
                         - pad
-                      description: The fit property describes how the width and height dimensions
+                      description:
+                        The fit property describes how the width and height dimensions
                         should be interpreted.
                     height:
                       type: number
@@ -884,11 +923,13 @@ paths:
                     - height
                     - metadata
                     - width
-                  description: "Body param: Allows you to define image resizing sizes for
+                  description:
+                    "Body param: Allows you to define image resizing sizes for
                     different use cases."
                 neverRequireSignedURLs:
                   type: boolean
-                  description: "Body param: Indicates whether the variant can access an image
+                  description:
+                    "Body param: Indicates whether the variant can access an image
                     without a signature, regardless of image access control."
               required:
                 - id
@@ -917,7 +958,8 @@ paths:
                               - cover
                               - crop
                               - pad
-                            description: The fit property describes how the width and height dimensions
+                            description:
+                              The fit property describes how the width and height dimensions
                               should be interpreted.
                           height:
                             type: number
@@ -940,7 +982,8 @@ paths:
                         description: Allows you to define image resizing sizes for different use cases.
                       neverRequireSignedURLs:
                         type: boolean
-                        description: Indicates whether the variant can access an image without a
+                        description:
+                          Indicates whether the variant can access an image without a
                           signature, regardless of image access control.
                     required:
                       - id
@@ -956,7 +999,8 @@ paths:
   /accounts/{account_id}/images/v2:
     get:
       operationId: listV2s
-      description: "List up to 10000 images with up to 1000 results per page. Use the
+      description:
+        "List up to 10000 images with up to 1000 results per page. Use the
         optional parameters below to get a specific range of images. Pagination
         is supported via continuation_token.    Metadata Filtering
         (Optional):    You can optionally filter images by custom metadata
@@ -988,7 +1032,8 @@ paths:
         - name: continuation_token
           in: query
           required: false
-          description: "Query param: Continuation token to fetch next page. Passed as a
+          description:
+            "Query param: Continuation token to fetch next page. Passed as a
             query param when requesting List V2 api endpoint."
           schema:
             oneOf:
@@ -997,7 +1042,8 @@ paths:
         - name: creator
           in: query
           required: false
-          description: 'Query param: Internal user ID set within the creator field.
+          description:
+            'Query param: Internal user ID set within the creator field.
             Setting to empty string "" will return images where creator field is
             not set'
           schema:
@@ -1013,7 +1059,8 @@ paths:
             properties:
               <field>[<operator>]:
                 type: string
-                description: "Optional metadata filter(s). Multiple filters can be combined with
+                description:
+                  "Optional metadata filter(s). Multiple filters can be combined with
                   AND logic.    Operators:    - `eq`, `eq:string`, `eq:number`,
                   `eq:boolean` - Exact match - `in`, `in:string`, `in:number` -
                   Match any value in pipe-separated list    Examples:    -
@@ -1047,7 +1094,8 @@ paths:
                     oneOf:
                       - type: string
                     nullable: true
-                    description: Continuation token to fetch next page. Passed as a query param when
+                    description:
+                      Continuation token to fetch next page. Passed as a query param when
                       requesting List V2 api endpoint.
                   images:
                     type: array
@@ -1066,12 +1114,14 @@ paths:
                           type: string
                           description: Image file name.
                         meta:
-                          description: User modifiable key-value store. Can be used for keeping references
+                          description:
+                            User modifiable key-value store. Can be used for keeping references
                             to another system of record for managing images.
                             Metadata must not exceed 1024 bytes.
                         requireSignedURLs:
                           type: boolean
-                          description: Indicates whether the image can be a accessed only using it's UID.
+                          description:
+                            Indicates whether the image can be a accessed only using it's UID.
                             If set to true, a signed token needs to be generated
                             with a signing key to view the image.
                         uploaded:
@@ -1089,7 +1139,8 @@ paths:
   /accounts/{account_id}/images/v2/direct_upload:
     post:
       operationId: createV2DirectUpload
-      description: "Direct uploads allow users to upload images without API keys. A
+      description:
+        "Direct uploads allow users to upload images without API keys. A
         common use case are web apps, client-side applications, or mobile
         devices where users upload content directly to Cloudflare Images. This
         method creates a draft record for a future image. It returns an upload
@@ -1115,7 +1166,8 @@ paths:
               properties:
                 id:
                   type: string
-                  description: "Body param: Optional Image Custom ID. Up to 1024 chars. Can
+                  description:
+                    "Body param: Optional Image Custom ID. Up to 1024 chars. Can
                     include any number of subpaths, and utf8 characters. Cannot
                     start nor end with a / (forward slash). Cannot be a UUID."
                 creator:
@@ -1123,15 +1175,18 @@ paths:
                   description: "Body param: Can set the creator field with an internal user ID."
                 expiry:
                   type: string
-                  description: "Body param: The date after which the upload will not be accepted.
+                  description:
+                    "Body param: The date after which the upload will not be accepted.
                     Minimum: Now + 2 minutes. Maximum: Now + 6 hours."
                 metadata:
-                  description: "Body param: User modifiable key-value store. Can be used for
+                  description:
+                    "Body param: User modifiable key-value store. Can be used for
                     keeping references to another system of record, for managing
                     images."
                 requireSignedURLs:
                   type: boolean
-                  description: "Body param: Indicates whether the image requires a signature token
+                  description:
+                    "Body param: Indicates whether the image requires a signature token
                     to be accessed."
       responses:
         "200":
@@ -1146,7 +1201,8 @@ paths:
                     description: Image unique identifier.
                   uploadURL:
                     type: string
-                    description: The URL the unauthenticated upload can be performed to using a
+                    description:
+                      The URL the unauthenticated upload can be performed to using a
                       single HTTP POST (multipart/form-data) request.
       x-distilled-response-path: result
       x-distilled-errors:

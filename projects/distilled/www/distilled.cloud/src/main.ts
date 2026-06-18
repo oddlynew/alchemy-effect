@@ -205,17 +205,15 @@ async function init() {
   }
 
   // Feature code blocks
-  document
-    .querySelectorAll<HTMLElement>("[data-code]")
-    .forEach((el) => {
-      const key = el.dataset.code!;
-      if (codeExamples[key]) {
-        el.innerHTML = highlighter.codeToHtml(codeExamples[key], {
-          lang: "typescript",
-          theme: "distilled",
-        });
-      }
-    });
+  document.querySelectorAll<HTMLElement>("[data-code]").forEach((el) => {
+    const key = el.dataset.code!;
+    if (codeExamples[key]) {
+      el.innerHTML = highlighter.codeToHtml(codeExamples[key], {
+        lang: "typescript",
+        theme: "distilled",
+      });
+    }
+  });
 }
 
 init();

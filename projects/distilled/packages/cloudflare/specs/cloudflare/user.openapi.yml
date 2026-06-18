@@ -46,12 +46,14 @@ paths:
                 description: Filters by the email address of the actor that made the change.
               ip:
                 type: string
-                description: Filters by the IP address of the request that made the change by
+                description:
+                  Filters by the IP address of the request that made the change by
                   specific IP address or valid CIDR Range.
         - name: before
           in: query
           required: false
-          description: Limits the returned results to logs older than the specified date.
+          description:
+            Limits the returned results to logs older than the specified date.
             A `full-date` that conforms to RFC3339.
           schema: {}
         - name: direction
@@ -78,7 +80,8 @@ paths:
         - name: since
           in: query
           required: false
-          description: Limits the returned results to logs newer than the specified date.
+          description:
+            Limits the returned results to logs newer than the specified date.
             A `full-date` that conforms to RFC3339.
           schema: {}
         - name: zone
@@ -115,7 +118,8 @@ paths:
                     properties:
                       id:
                         type: string
-                        description: The ID of the actor that performed the action. If a user performed
+                        description:
+                          The ID of the actor that performed the action. If a user performed
                           the action, this will be their User ID.
                       email:
                         type: string
@@ -129,13 +133,15 @@ paths:
                           - user
                           - admin
                           - Cloudflare
-                        description: The type of actor, whether a User, Cloudflare Admin, or an
+                        description:
+                          The type of actor, whether a User, Cloudflare Admin, or an
                           Automated System.
                   interface:
                     type: string
                     description: The source of the event.
                   metadata:
-                    description: An object which can lend more context to the action being logged.
+                    description:
+                      An object which can lend more context to the action being logged.
                       This is a flexible value and varies between different
                       actions.
                   newValue:
@@ -158,11 +164,13 @@ paths:
                         description: An identifier for the resource that was affected by the action.
                       type:
                         type: string
-                        description: A short string that describes the resource that was affected by the
+                        description:
+                          A short string that describes the resource that was affected by the
                           action.
                   when:
                     type: string
-                    description: A UTC RFC3339 timestamp that specifies when the action being logged
+                    description:
+                      A UTC RFC3339 timestamp that specifies when the action being logged
                       occured.
       x-distilled-pagination-class: AuditLogsV4PagePaginationArray
   /user/billing/history:
@@ -346,7 +354,8 @@ paths:
   /user/invites/{inviteId}:
     get:
       operationId: getInvite
-      description: Gets the details of an invitation.  @example ```ts const invite =
+      description:
+        Gets the details of an invitation.  @example ```ts const invite =
         await client.user.invites.get( '4f5f0c14a2a41d5063dd301b2f829f04', );
         ```
       parameters:
@@ -410,7 +419,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchInvite
-      description: "Responds to an invitation.  @example ```ts const invite = await
+      description:
+        "Responds to an invitation.  @example ```ts const invite = await
         client.user.invites.edit( '4f5f0c14a2a41d5063dd301b2f829f04', { status:
         'accepted' }, ); ```"
       parameters:
@@ -490,7 +500,8 @@ paths:
   /user/invites:
     get:
       operationId: listInvites
-      description: Lists all invitations associated with my user.  @example ```ts //
+      description:
+        Lists all invitations associated with my user.  @example ```ts //
         Automatically fetches more pages as needed. for await (const invite of
         client.user.invites.list()) { // ... } ```
       responses:
@@ -634,7 +645,8 @@ paths:
         - name: status
           in: query
           required: false
-          description: Whether the user is a member of the organization or has an
+          description:
+            Whether the user is a member of the organization or has an
             inivitation pending.
           schema:
             type: string
@@ -670,7 +682,8 @@ paths:
                     enum:
                       - member
                       - invited
-                    description: Whether the user is a member of the organization or has an
+                    description:
+                      Whether the user is a member of the organization or has an
                       invitation pending.
       x-distilled-pagination-class: OrganizationsV4PagePaginationArray
   /user/subscriptions:
@@ -695,11 +708,13 @@ paths:
                     description: The monetary unit in which pricing information is displayed.
                   current_period_end:
                     type: string
-                    description: The end of the current period and also when the next billing is
+                    description:
+                      The end of the current period and also when the next billing is
                       due.
                   current_period_start:
                     type: string
-                    description: When the current billing period started. May match
+                    description:
+                      When the current billing period started. May match
                       initial_period_start if this is the first period.
                   frequency:
                     type: string
@@ -737,7 +752,8 @@ paths:
                         description: Whether this rate plan is managed externally from Cloudflare.
                       is_contract:
                         type: boolean
-                        description: Whether a rate plan is enterprise-based (or newly adopted term
+                        description:
+                          Whether a rate plan is enterprise-based (or newly adopted term
                           contract).
                       public_name:
                         type: string
@@ -749,7 +765,8 @@ paths:
                         type: array
                         items:
                           type: string
-                        description: The list of sets this rate plan applies to. Returns array of
+                        description:
+                          The list of sets this rate plan applies to. Returns array of
                           strings.
                     description: The rate plan applied to the subscription.
                   state:
@@ -767,7 +784,8 @@ paths:
   /user/subscriptions/{identifier}:
     put:
       operationId: putSubscription
-      description: Updates a user's subscriptions.  @example ```ts const subscription
+      description:
+        Updates a user's subscriptions.  @example ```ts const subscription
         = await client.user.subscriptions.update(
         '506e3185e9c882d175a2d0cb0093d9f2', ); ```
       parameters:
@@ -816,7 +834,8 @@ paths:
                       description: Whether this rate plan is managed externally from Cloudflare.
                     is_contract:
                       type: boolean
-                      description: Whether a rate plan is enterprise-based (or newly adopted term
+                      description:
+                        Whether a rate plan is enterprise-based (or newly adopted term
                         contract).
                     public_name:
                       type: string
@@ -828,7 +847,8 @@ paths:
                       type: array
                       items:
                         type: string
-                      description: The list of sets this rate plan applies to. Returns array of
+                      description:
+                        The list of sets this rate plan applies to. Returns array of
                         strings.
                   description: The rate plan applied to the subscription.
       responses:
@@ -840,7 +860,8 @@ paths:
       x-distilled-response-path: result
     delete:
       operationId: deleteSubscription
-      description: Deletes a user's subscription.  @example ```ts const subscription =
+      description:
+        Deletes a user's subscription.  @example ```ts const subscription =
         await client.user.subscriptions.delete(
         '506e3185e9c882d175a2d0cb0093d9f2', ); ```
       parameters:
@@ -863,7 +884,8 @@ paths:
   /user/tokens/{tokenId}:
     get:
       operationId: getToken
-      description: Get information about a specific token.  @example ```ts const token
+      description:
+        Get information about a specific token.  @example ```ts const token
         = await client.user.tokens.get( 'ed17574386854bf78a67040be0a770b0', );
         ```
       parameters:
@@ -902,7 +924,8 @@ paths:
                         description: Client IP restrictions.
                   expires_on:
                     type: string
-                    description: The expiration time on or after which the JWT MUST NOT be accepted
+                    description:
+                      The expiration time on or after which the JWT MUST NOT be accepted
                       for processing.
                   issued_on:
                     type: string
@@ -918,7 +941,8 @@ paths:
                     description: Token name.
                   not_before:
                     type: string
-                    description: The time before which the token MUST NOT be accepted for
+                    description:
+                      The time before which the token MUST NOT be accepted for
                       processing.
                   policies:
                     type: array
@@ -981,7 +1005,8 @@ paths:
           - code: 1003
     put:
       operationId: updateToken
-      description: "Update an existing token.  @example ```ts const token = await
+      description:
+        "Update an existing token.  @example ```ts const token = await
         client.user.tokens.update( 'ed17574386854bf78a67040be0a770b0', { name:
         'readonly token', policies: [ { effect: 'allow', permission_groups: [ {
         id: 'c8fed203ed3043cba015a93ad1616f1f' }, { id:
@@ -1061,11 +1086,13 @@ paths:
                       description: Client IP restrictions.
                 expires_on:
                   type: string
-                  description: The expiration time on or after which the JWT MUST NOT be accepted
+                  description:
+                    The expiration time on or after which the JWT MUST NOT be accepted
                     for processing.
                 not_before:
                   type: string
-                  description: The time before which the token MUST NOT be accepted for
+                  description:
+                    The time before which the token MUST NOT be accepted for
                     processing.
                 status:
                   type: string
@@ -1107,7 +1134,8 @@ paths:
                         description: Client IP restrictions.
                   expires_on:
                     type: string
-                    description: The expiration time on or after which the JWT MUST NOT be accepted
+                    description:
+                      The expiration time on or after which the JWT MUST NOT be accepted
                       for processing.
                   issued_on:
                     type: string
@@ -1123,7 +1151,8 @@ paths:
                     description: Token name.
                   not_before:
                     type: string
-                    description: The time before which the token MUST NOT be accepted for
+                    description:
+                      The time before which the token MUST NOT be accepted for
                       processing.
                   policies:
                     type: array
@@ -1274,7 +1303,8 @@ paths:
                         description: Client IP restrictions.
                   expires_on:
                     type: string
-                    description: The expiration time on or after which the JWT MUST NOT be accepted
+                    description:
+                      The expiration time on or after which the JWT MUST NOT be accepted
                       for processing.
                   issued_on:
                     type: string
@@ -1290,7 +1320,8 @@ paths:
                     description: Token name.
                   not_before:
                     type: string
-                    description: The time before which the token MUST NOT be accepted for
+                    description:
+                      The time before which the token MUST NOT be accepted for
                       processing.
                   policies:
                     type: array
@@ -1348,7 +1379,8 @@ paths:
       x-distilled-pagination-class: TokensV4PagePaginationArray
     post:
       operationId: createToken
-      description: "Create a new access token.  @example ```ts const token = await
+      description:
+        "Create a new access token.  @example ```ts const token = await
         client.user.tokens.create({ name: 'readonly token', policies: [ {
         effect: 'allow', permission_groups: [ { id:
         'c8fed203ed3043cba015a93ad1616f1f' }, { id:
@@ -1422,11 +1454,13 @@ paths:
                       description: Client IP restrictions.
                 expires_on:
                   type: string
-                  description: The expiration time on or after which the JWT MUST NOT be accepted
+                  description:
+                    The expiration time on or after which the JWT MUST NOT be accepted
                     for processing.
                 not_before:
                   type: string
-                  description: The time before which the token MUST NOT be accepted for
+                  description:
+                    The time before which the token MUST NOT be accepted for
                     processing.
               required:
                 - name
@@ -1461,7 +1495,8 @@ paths:
                         description: Client IP restrictions.
                   expires_on:
                     type: string
-                    description: The expiration time on or after which the JWT MUST NOT be accepted
+                    description:
+                      The expiration time on or after which the JWT MUST NOT be accepted
                       for processing.
                   issued_on:
                     type: string
@@ -1477,7 +1512,8 @@ paths:
                     description: Token name.
                   not_before:
                     type: string
-                    description: The time before which the token MUST NOT be accepted for
+                    description:
+                      The time before which the token MUST NOT be accepted for
                       processing.
                   policies:
                     type: array
@@ -1550,7 +1586,8 @@ paths:
   /user/tokens/verify:
     get:
       operationId: verifyToken
-      description: Test whether a token works.  @example ```ts const response = await
+      description:
+        Test whether a token works.  @example ```ts const response = await
         client.user.tokens.verify(); ```
       responses:
         "200":
@@ -1572,11 +1609,13 @@ paths:
                     description: Status of the token.
                   expires_on:
                     type: string
-                    description: The expiration time on or after which the JWT MUST NOT be accepted
+                    description:
+                      The expiration time on or after which the JWT MUST NOT be accepted
                       for processing.
                   not_before:
                     type: string
-                    description: The time before which the token MUST NOT be accepted for
+                    description:
+                      The time before which the token MUST NOT be accepted for
                       processing.
                 required:
                   - id
@@ -1592,14 +1631,16 @@ paths:
         - name: name
           in: query
           required: false
-          description: Filter by the name of the permission group. The value must be
+          description:
+            Filter by the name of the permission group. The value must be
             URL-encoded.
           schema:
             type: string
         - name: scope
           in: query
           required: false
-          description: Filter by the scope of the permission group. The value must be
+          description:
+            Filter by the scope of the permission group. The value must be
             URL-encoded.
           schema:
             type: string
@@ -1631,7 +1672,8 @@ paths:
   /user/tokens/{tokenId}/value:
     put:
       operationId: putTokenValue
-      description: Roll the token secret.  @example ```ts const tokenValue = await
+      description:
+        Roll the token secret.  @example ```ts const tokenValue = await
         client.user.tokens.value.update( 'ed17574386854bf78a67040be0a770b0', {},
         ); ```
       parameters:
@@ -1726,7 +1768,8 @@ paths:
                           enum:
                             - member
                             - invited
-                          description: Whether the user is a member of the organization or has an
+                          description:
+                            Whether the user is a member of the organization or has an
                             invitation pending.
                   suspended:
                     type: boolean
@@ -1738,11 +1781,13 @@ paths:
                     description: User's telephone number
                   two_factor_authentication_enabled:
                     type: boolean
-                    description: Indicates whether two-factor authentication is enabled for the user
+                    description:
+                      Indicates whether two-factor authentication is enabled for the user
                       account. Does not apply to API authentication.
                   two_factor_authentication_locked:
                     type: boolean
-                    description: Indicates whether two-factor authentication is required by one of
+                    description:
+                      Indicates whether two-factor authentication is required by one of
                       the accounts that the user is a member of.
                   zipcode:
                     oneOf:
@@ -1755,7 +1800,8 @@ paths:
       x-distilled-response-path: result
     patch:
       operationId: patchUser
-      description: Edit part of your user details.  @example ```ts const response =
+      description:
+        Edit part of your user details.  @example ```ts const response =
         await client.user.edit(); ```
       requestBody:
         required: false
@@ -1858,7 +1904,8 @@ paths:
                           enum:
                             - member
                             - invited
-                          description: Whether the user is a member of the organization or has an
+                          description:
+                            Whether the user is a member of the organization or has an
                             invitation pending.
                   suspended:
                     type: boolean
@@ -1870,11 +1917,13 @@ paths:
                     description: User's telephone number
                   two_factor_authentication_enabled:
                     type: boolean
-                    description: Indicates whether two-factor authentication is enabled for the user
+                    description:
+                      Indicates whether two-factor authentication is enabled for the user
                       account. Does not apply to API authentication.
                   two_factor_authentication_locked:
                     type: boolean
-                    description: Indicates whether two-factor authentication is required by one of
+                    description:
+                      Indicates whether two-factor authentication is required by one of
                       the accounts that the user is a member of.
                   zipcode:
                     oneOf:

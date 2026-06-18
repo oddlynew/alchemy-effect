@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("updateMonitor", () => {
   it(
     "updates an existing monitor and returns the refreshed record",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-upmon-${testRunId}`;
       const monitorName = `distilled-axiom-upmon-${testRunId}`;
@@ -65,11 +66,11 @@ describe("updateMonitor", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound for a well-formed monitor id that does not exist",
+    { timeout: 30_000 },
     async () => {
       // Axiom monitor ids are prefixed with `mon_`. A syntactically valid
       // but non-existent id should produce a 404 → NotFound. Provide a full
@@ -89,7 +90,6 @@ describe("updateMonitor", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 
   // Removed: the client-side schema requires name/type, so

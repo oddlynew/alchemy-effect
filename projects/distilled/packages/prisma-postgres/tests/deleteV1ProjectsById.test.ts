@@ -10,7 +10,7 @@ describe("deleteV1ProjectsById", () => {
   // Happy path
   // ============================================================================
 
-  it("happy path - deletes a project", async () => {
+  it("happy path - deletes a project", { timeout: 60_000 }, async () => {
     const projectName = `distilled-prisma-proj-del-${testRunId}`;
 
     await runEffect(
@@ -33,35 +33,45 @@ describe("deleteV1ProjectsById", () => {
         expect((err as any)._tag).toBe("NotFound");
       }),
     );
-  }, 60_000);
+  });
 
   // ============================================================================
   // Error tests
   // ============================================================================
 
-  it("error - NotFound for non-existent project id", async () => {
-    await Effect.runPromise(
-      deleteV1ProjectsById({ id: "non-existent-proj-id-00000000" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["NotFound", "UnprocessableEntity"]).toContain((e as any)._tag);
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - NotFound for non-existent project id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1ProjectsById({ id: "non-existent-proj-id-00000000" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["NotFound", "UnprocessableEntity"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 
-  it("error - BadRequest or UnprocessableEntity for malformed id", async () => {
-    await Effect.runPromise(
-      deleteV1ProjectsById({ id: "" }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          expect(["BadRequest", "UnprocessableEntity", "NotFound"]).toContain(
-            (e as any)._tag,
-          );
-        }),
-        Effect.provide(TestLayer),
-      ),
-    );
-  }, 30_000);
+  it(
+    "error - BadRequest or UnprocessableEntity for malformed id",
+    { timeout: 30_000 },
+    async () => {
+      await Effect.runPromise(
+        deleteV1ProjectsById({ id: "" }).pipe(
+          Effect.flip,
+          Effect.map((e) => {
+            expect(["BadRequest", "UnprocessableEntity", "NotFound"]).toContain(
+              (e as any)._tag,
+            );
+          }),
+          Effect.provide(TestLayer),
+        ),
+      );
+    },
+  );
 });

@@ -6,42 +6,39 @@ import { upsertCurationSet } from "../src/operations/upsertCurationSet";
 import { runEffect, testRunId } from "./setup";
 
 describe("retrieveCurationSet", () => {
-  it(
-    "retrieves a curation set by name",
-    async () => {
-      const curationSetName = `distilled-typesense-retcuration-${testRunId}`;
+  it("retrieves a curation set by name", { timeout: 30_000 }, async () => {
+    const curationSetName = `distilled-typesense-retcuration-${testRunId}`;
 
-      const effect = Effect.gen(function* () {
-        yield* upsertCurationSet({
-          curationSetName,
-          items: [
-            {
-              rule: { query: "shoe", match: "exact" },
-              includes: [{ id: "doc-1", position: 1 }],
-            },
-          ],
-          description: "test curation set",
-        });
+    const effect = Effect.gen(function* () {
+      yield* upsertCurationSet({
+        curationSetName,
+        items: [
+          {
+            rule: { query: "shoe", match: "exact" },
+            includes: [{ id: "doc-1", position: 1 }],
+          },
+        ],
+        description: "test curation set",
+      });
 
-        const result = yield* retrieveCurationSet({ curationSetName });
+      const result = yield* retrieveCurationSet({ curationSetName });
 
-        expect(result.name).toBe(curationSetName);
-        expect(Array.isArray(result.items)).toBe(true);
-        expect(result.items.length).toBe(1);
-        expect(result.items[0]?.rule.query).toBe("shoe");
-      }).pipe(
-        Effect.ensuring(
-          deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
-        ),
-      );
+      expect(result.name).toBe(curationSetName);
+      expect(Array.isArray(result.items)).toBe(true);
+      expect(result.items.length).toBe(1);
+      expect(result.items[0]?.rule.query).toBe("shoe");
+    }).pipe(
+      Effect.ensuring(
+        deleteCurationSet({ curationSetName }).pipe(Effect.ignore),
+      ),
+    );
 
-      await runEffect(effect);
-    },
-    { timeout: 30_000 },
-  );
+    await runEffect(effect);
+  });
 
   it(
     "fails with NotFound when the curation set does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         retrieveCurationSet({
@@ -51,6 +48,5 @@ describe("retrieveCurationSet", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

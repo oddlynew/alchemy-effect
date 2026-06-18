@@ -30,7 +30,8 @@ paths:
         - name: order
           in: query
           required: false
-          description: 'Query param: Step ordering: "asc" (default, oldest first) or
+          description:
+            'Query param: Step ordering: "asc" (default, oldest first) or
             "desc" (newest first).'
           schema:
             type: string
@@ -40,7 +41,8 @@ paths:
         - name: simple
           in: query
           required: false
-          description: "Query param: When true, omits step details and returns only
+          description:
+            "Query param: When true, omits step details and returns only
             metadata with step_count."
           schema:
             type: boolean
@@ -188,7 +190,8 @@ paths:
                                   type: string
                                   enum:
                                     - output
-                                  description: When set to 'output', step output is redacted from log and step
+                                  description:
+                                    When set to 'output', step output is redacted from log and step
                                     output responses.
                               required:
                                 - retries
@@ -387,7 +390,8 @@ paths:
         - name: cursor
           in: query
           required: false
-          description: "Query param: Opaque token for cursor-based pagination. Mutually
+          description:
+            "Query param: Opaque token for cursor-based pagination. Mutually
             exclusive with `page`."
           schema:
             type: string
@@ -525,13 +529,15 @@ paths:
                       oneOf:
                         - type: number
                         - type: string
-                      description: Specifies the duration in milliseconds or as a string like '5
+                      description:
+                        Specifies the duration in milliseconds or as a string like '5
                         minutes'.
                     success_retention:
                       oneOf:
                         - type: number
                         - type: string
-                      description: Specifies the duration in milliseconds or as a string like '5
+                      description:
+                        Specifies the duration in milliseconds or as a string like '5
                         minutes'.
                   description: Body param
                 params:
@@ -619,13 +625,15 @@ paths:
                         oneOf:
                           - type: number
                           - type: string
-                        description: Specifies the duration in milliseconds or as a string like '5
+                        description:
+                          Specifies the duration in milliseconds or as a string like '5
                           minutes'.
                       success_retention:
                         oneOf:
                           - type: number
                           - type: string
-                        description: Specifies the duration in milliseconds or as a string like '5
+                        description:
+                          Specifies the duration in milliseconds or as a string like '5
                           minutes'.
                   params: {}
       responses:
@@ -680,7 +688,8 @@ paths:
   /accounts/{account_id}/workflows/{workflowName}/instances/{instanceId}/step:
     get:
       operationId: stepInstance
-      description: Retrieves the full, untruncated output for a specific step on a
+      description:
+        Retrieves the full, untruncated output for a specific step on a
         workflow instance. Returns a flat status-shaped JSON body with step
         `status` ('running' | 'waiting' | 'complete' | 'errored'), `error`
         (nullable), and `output` (the step value, or null while
@@ -709,14 +718,16 @@ paths:
         - name: name
           in: query
           required: true
-          description: "Query param: Exact step name from the instance logs response,
+          description:
+            "Query param: Exact step name from the instance logs response,
             including the generated counter suffix."
           schema:
             type: string
         - name: type
           in: query
           required: true
-          description: "Query param: Step type to disambiguate step.do and waitForEvent
+          description:
+            "Query param: Step type to disambiguate step.do and waitForEvent
             entries that share the same name."
           schema:
             type: string
@@ -726,7 +737,8 @@ paths:
         - name: attempt
           in: query
           required: false
-          description: "Query param: Specific attempt number to retrieve output or error
+          description:
+            "Query param: Specific attempt number to retrieve output or error
             for."
           schema:
             type: number
@@ -764,7 +776,8 @@ paths:
                       - waiting
                       - rollingBack
                   output:
-                    description: Full step output or waitForEvent payload without truncation.
+                    description:
+                      Full step output or waitForEvent payload without truncation.
                       Sensitive outputs are returned as '[REDACTED]'. Populated
                       when status='complete'. May be a ReadableStream when the
                       step returned one from step.do; stream outputs are served
@@ -776,7 +789,8 @@ paths:
   /accounts/{account_id}/workflows/{workflowName}/instances/{instanceId}/events/{eventType}:
     post:
       operationId: createInstanceEvent
-      description: Sends an event to a running workflow instance to trigger state
+      description:
+        Sends an event to a running workflow instance to trigger state
         transitions.
       parameters:
         - name: workflowName
@@ -824,7 +838,8 @@ paths:
   /accounts/{account_id}/workflows/{workflowName}/instances/{instanceId}/status:
     patch:
       operationId: patchInstanceStatus
-      description: Changes the execution status of a workflow instance (e.g., pause,
+      description:
+        Changes the execution status of a workflow instance (e.g., pause,
         resume, terminate).
       parameters:
         - name: workflowName
@@ -1731,7 +1746,8 @@ paths:
           - code: 7003
     delete:
       operationId: deleteWorkflow
-      description: Deletes a Workflow. This only deletes the Workflow and does not
+      description:
+        Deletes a Workflow. This only deletes the Workflow and does not
         delete or modify any Worker associated to this Workflow or bounded to
         it.
       parameters:

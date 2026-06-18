@@ -9,6 +9,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getFieldForDataset", () => {
   it(
     "returns a field by name for an existing dataset",
+    { timeout: 120_000 },
     async () => {
       const datasetName = `distilled-axiom-getfield-${testRunId}`;
 
@@ -60,11 +61,11 @@ describe("getFieldForDataset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 120_000 },
   );
 
   it(
     "returns NotFound for a field name that does not exist on the dataset",
+    { timeout: 60_000 },
     async () => {
       const datasetName = `distilled-axiom-getfield-404-${testRunId}`;
 
@@ -105,11 +106,11 @@ describe("getFieldForDataset", () => {
 
       await runEffect(effect);
     },
-    { timeout: 60_000 },
   );
 
   it(
     "returns NotFound when the dataset itself does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getFieldForDataset({
@@ -120,6 +121,5 @@ describe("getFieldForDataset", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

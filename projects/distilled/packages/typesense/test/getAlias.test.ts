@@ -10,6 +10,7 @@ import { runEffect, testRunId } from "./setup";
 describe("getAlias", () => {
   it(
     "retrieves an existing alias and returns its name + target collection",
+    { timeout: 30_000 },
     async () => {
       const collectionName = `distilled-typesense-getalias-col-${testRunId}`;
       const aliasName = `distilled-typesense-getalias-${testRunId}`;
@@ -38,11 +39,11 @@ describe("getAlias", () => {
 
       await runEffect(effect);
     },
-    { timeout: 30_000 },
   );
 
   it(
     "fails with NotFound when the alias does not exist",
+    { timeout: 30_000 },
     async () => {
       const error = await runEffect(
         getAlias({
@@ -52,6 +53,5 @@ describe("getAlias", () => {
 
       expect((error as { _tag: string })._tag).toBe("NotFound");
     },
-    { timeout: 30_000 },
   );
 });

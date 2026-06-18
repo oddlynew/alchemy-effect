@@ -45,7 +45,8 @@ import { getGroupCluster } from "@distilled.cloud/mongodb-atlas/Operations";
 getGroupCluster({ groupId: "my-project", clusterName: "missing" }).pipe(
   Effect.catchTags({
     NotFound: () => Effect.succeed(null),
-    UnknownMongodbAtlasError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),
+    UnknownMongodbAtlasError: (e) =>
+      Effect.fail(new Error(`Unknown: ${e.message}`)),
   }),
 );
 ```
