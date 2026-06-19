@@ -162,6 +162,10 @@ instead of through `bun run build`. The monorepo CI exposed an Nx/Bun package-sc
 process-lifecycle edge where `nx:run-script` could finish the build graph successfully and still
 exit 130 after GitHub cleaned up an orphan Bun script process.
 
+The hosted production build also uses `--parallel=1`: the large generated SDK emits can run in
+parallel on local developer machines, but the hosted Linux runner terminates concurrent `tsgo -b`
+provider builds. Typecheck and lint still use `--parallel=3`.
+
 Distilled's existing `check` scripts still include `oxfmt --check src`, but the imported generated
 AWS/GCP clients have pre-existing formatter drift. The migration CI therefore runs `lint`
 instead of `check`; a future baseline cleanup can format generated clients and promote `check` once

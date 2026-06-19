@@ -47,7 +47,7 @@ bun nx show projects --affected \
   --files=projects/alchemy/packages/alchemy/src/index.ts,projects/distilled/packages/stripe/src/index.ts
 
 export NX_PRODUCTION_EXCLUDE='@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
-bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+bun nx affected -t build --parallel=1 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 
@@ -127,7 +127,7 @@ bun nx typecheck nx-r2-cache-worker
 bun nx test nx-r2-cache-worker
 bun nx lint nx-r2-cache-worker
 export NX_PRODUCTION_EXCLUDE='@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
-bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+bun nx affected -t build --parallel=1 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 git diff --check

@@ -45,7 +45,7 @@ as one project graph rather than as three standalone checkouts.
 | Type check a project | `bun nx typecheck <project>` |
 | Lint a project | `bun nx lint <project>` |
 | Run a focused test | `bun nx test <project> --run <path>` |
-| Build affected production graph | `bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
+| Build affected production graph | `bun nx affected -t build --parallel=1 --exclude="$NX_PRODUCTION_EXCLUDE"` |
 | Type check affected production graph | `bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
 | Lint affected production graph | `bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
 | Format repo code | `bun oxfmt ./packages ./projects` |
@@ -942,7 +942,7 @@ by CI:
 
 ```bash
 export NX_PRODUCTION_EXCLUDE='@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
-bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+bun nx affected -t build --parallel=1 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 ```
