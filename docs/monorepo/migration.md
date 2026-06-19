@@ -198,21 +198,24 @@ bun nx release patch --groups=cloudflare-tools --dry-run --skip-publish
 
 Those commands already preview package version bumps and changelog entries from the merged commit
 history. They intentionally mirror the current release lines: `alchemy` continues from
-`2.0.0-beta.57` to `2.0.0-beta.58`, `distilled` continues from `0.25.2` to `0.25.3`, and
+`2.0.0-beta.57` to `2.0.0-beta.58`, `distilled` continues from `0.26.1` to `0.26.2`, and
 `cloudflare-tools` continues from `0.11.2` to `0.11.3`.
 
-The imported Distilled and Cloudflare Tools groups require monorepo baseline tags at the final
-cutover commit:
+The imported Distilled and Cloudflare Tools groups require monorepo baseline tags on commits that
+represent each group's latest published release:
 
 ```bash
-git tag -a distilled-v0.25.2 HEAD -m "distilled monorepo baseline 0.25.2"
+git tag -a distilled-v0.26.1 HEAD -m "distilled monorepo baseline 0.26.1"
 git tag -a cloudflare-tools-v0.11.2 HEAD -m "cloudflare-tools monorepo baseline 0.11.2"
 ```
 
 Those tags keep the first monorepo-native patch release clean. Placing the tags on the old imported
 release commits is not enough after merging unrelated histories: Nx would still include the
-Alchemy-side history in the changelog range. `--first-release` is therefore not the production
-cutover path; it should be reserved for intentionally new release groups without a prior baseline.
+Alchemy-side history in the changelog range. If a source repo has unreleased commits after its latest
+published version, keep that group's baseline on the monorepo ancestor that matches the latest
+published release so the first monorepo patch includes those commits. `--first-release` is therefore
+not the production cutover path; it should be reserved for intentionally new release groups without a
+prior baseline.
 
 Removing `--dry-run` and `--skip-publish` is the production publish step once npm/GitHub release
 credentials are intentionally wired for the monorepo.

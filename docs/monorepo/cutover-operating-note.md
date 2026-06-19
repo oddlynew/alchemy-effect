@@ -114,7 +114,7 @@ git -C /tmp/cloudflare-tools-prefix filter-repo --to-subdirectory-filter project
 
 By default, import branch history first and create the release baseline tags after the final merge.
 If full old tag history is imported, rename non-Alchemy tags with a deliberately reviewed mapping so
-different repositories cannot collide on generic tags such as `v0.25.2`.
+different repositories cannot collide on generic tags such as `v0.26.1`.
 
 Then create the replacement branch by merging the rewritten histories:
 
@@ -166,8 +166,8 @@ For each source repo:
 3. For Distilled and Cloudflare Tools, re-run the same prefix rewrite into the same final path, then
    merge the rewritten branch into `codex/monorepo-clean-history`.
 4. Resolve conflicts only where the monorepo branch and upstream both touched the same files.
-5. Move the imported baseline tags (`distilled-v0.25.2`, `cloudflare-tools-v0.11.2`) to the new
-   final cutover commit.
+5. Move each imported baseline tag to the monorepo commit that represents that group's latest
+   published release.
 6. Run affected validation and release dry-runs.
 
 For Alchemy, preserve the upstream remote and merge normally:
@@ -198,10 +198,14 @@ Because the rewrite is deterministic, previously imported commits should stay co
 only new upstream commits should be merged. If that does not hold, stop and inspect the rewrite
 inputs before continuing.
 
-After any resync, keep the imported release baselines on the latest final cutover commit:
+After any resync, keep each imported release baseline on the monorepo commit that represents the
+latest published version for that release group. If upstream `main` only adds already-published
+release commits, move the baseline forward. If upstream `main` includes unreleased commits after the
+last published version, keep the baseline before those commits so the first monorepo release includes
+them in its version and changelog range.
 
 ```bash
-git tag -f -a distilled-v0.25.2 HEAD -m "distilled monorepo baseline 0.25.2"
+git tag -f -a distilled-v0.26.1 HEAD -m "distilled monorepo baseline 0.26.1"
 git tag -f -a cloudflare-tools-v0.11.2 HEAD -m "cloudflare-tools monorepo baseline 0.11.2"
 ```
 
@@ -214,7 +218,7 @@ The replacement repository should preserve current release lines:
 
 ```text
 alchemy:          2.0.0-beta.57 -> 2.0.0-beta.58
-distilled:        0.25.2        -> 0.25.3
+distilled:        0.26.1        -> 0.26.2
 cloudflare-tools: 0.11.2        -> 0.11.3
 ```
 
@@ -222,20 +226,25 @@ The cutover branch should carry baseline tags that match the new release groups:
 
 ```text
 v2.0.0-beta.57
-distilled-v0.25.2
+distilled-v0.26.1
 cloudflare-tools-v0.11.2
 ```
 
-For imported repositories, create the namespaced baseline tags on the final monorepo cutover commit,
-not on the old standalone release commit. A tag on the pre-merge imported side leaves the unrelated
-Alchemy side of the merge outside the tag ancestry, which makes Nx's changelog range include the
-whole Alchemy history. A cutover baseline tag says: "this merged monorepo state is the published
-0.25.2 / 0.11.2 baseline; only commits after this point belong in the next changelog."
+For imported repositories, create the namespaced baseline tags on a monorepo commit, not on the old
+standalone release commit. A tag on the pre-merge imported side leaves the unrelated Alchemy side of
+the merge outside the tag ancestry, which makes Nx's changelog range include the whole Alchemy
+history. A cutover baseline tag says: "this merged monorepo state is the published 0.26.1 / 0.11.2
+baseline for this release group; only commits after this point belong in the next changelog."
 
 ```bash
-git tag -a distilled-v0.25.2 HEAD -m "distilled monorepo baseline 0.25.2"
+git tag -a distilled-v0.26.1 HEAD -m "distilled monorepo baseline 0.26.1"
 git tag -a cloudflare-tools-v0.11.2 HEAD -m "cloudflare-tools monorepo baseline 0.11.2"
 ```
+
+In the current sync, Distilled has advanced to the published `0.26.1` release, so
+`distilled-v0.26.1` should point at the synced monorepo state. Cloudflare Tools has commits after its
+latest published `0.11.2`, so `cloudflare-tools-v0.11.2` should remain on the monorepo ancestor that
+matches that release; the next Cloudflare Tools dry-run should then propose `0.11.3`.
 
 The existing Alchemy `v2.0.0-beta.57` tag already works when the replacement is based on the
 current `alchemy-effect` repository. If maintainers create a brand-new repository instead of
@@ -272,14 +281,21 @@ bun nx release patch --groups=cloudflare-tools --dry-run --skip-publish
 - A newly landed upstream commit from Distilled or Cloudflare-tools can be synced through the
   documented prefix-rewrite flow.
 
+Long-lived fork feature work stays maintainable if it is layered after the clean sync line. Keep
+`codex/monorepo-clean-history` limited to upstream imports plus monorepo infrastructure. Put local
+product features on dogfood or topic branches that merge the clean branch periodically. The sync is
+then mechanical most of the time: new upstream commits merge through the same prefixed-history path,
+and conflicts only appear where local features and upstream both edited the same final-path files.
+
 ## Maintainer Cutover Runbook
 
 Use this only after the branch topology and validation checks pass:
 
 1. Announce a short write freeze on `alchemy-effect`, `distilled`, and `cloudflare-tools`.
 2. Fetch each source repository and perform one final sync into `codex/monorepo-clean-history`.
-3. Create or move the imported-group baseline tags onto the final cutover commit:
-   `distilled-v0.25.2` and `cloudflare-tools-v0.11.2`.
+3. Create or move the imported-group baseline tags onto the monorepo commits that represent the
+   latest published release for each group: currently `distilled-v0.26.1` and
+   `cloudflare-tools-v0.11.2`.
 4. Re-run the topology, history, Nx, and release dry-run checks above.
 5. Decide whether the replacement lives in the existing `alchemy-effect` repository or a new repo.
 6. Configure repository settings before opening the branch for normal work:
