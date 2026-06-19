@@ -156,6 +156,10 @@ Distilled's test syntax has been updated for Vitest 4, and the branch explicitly
 `nx-r2-cache-worker` tests in CI because that package is new repo infrastructure. Broader package
 tests can be promoted into the required CI gate once each target is hermetic.
 
+The hosted production build currently uses `--parallel=1` because the generated Distilled SDK
+providers are large emitting builds. Typecheck and lint still use `--parallel=3`, where the task
+shape is lighter and does not emit generated `lib/` artifacts.
+
 Distilled's existing `check` scripts still include `oxfmt --check src`, but the imported generated
 AWS/GCP clients have pre-existing formatter drift. The migration CI therefore runs `lint`
 instead of `check`; a future baseline cleanup can format generated clients and promote `check` once
