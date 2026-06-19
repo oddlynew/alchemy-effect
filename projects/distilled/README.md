@@ -194,7 +194,7 @@ release artifacts, publishes to npm, and pushes the release commit/tags.
 ### CI
 
 Root CI uses Nx affected validation. For broad local checks, run
-`bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` and the matching
+`bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` and the matching
 `lint` or `build` target from the repository root.
 
 ## Contributing

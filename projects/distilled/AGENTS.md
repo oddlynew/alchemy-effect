@@ -11,8 +11,8 @@ commands, and formatting rules. The notes below describe Distilled-specific SDK 
   - `bun nx typecheck @oddlynew/distilled-stripe`
   - `bun nx lint @oddlynew/distilled-cloudflare`
   - `bun nx test @oddlynew/distilled-aws`
-- For broad changes, use the production affected commands from the root, for example
-  `bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"`.
+- For broad changes, use the validation affected commands from the root, for example
+  `bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"`.
 - Package-local scripts still exist for generation and debugging. Prefer the Nx form from the root
   when available, for example `bun nx run @oddlynew/distilled-stripe:generate`.
 - Do not use the imported standalone root scripts as the default validation path; they are retained
@@ -124,7 +124,7 @@ bun nx build @oddlynew/distilled-stripe
 
 Core must be built before other packages because provider packages depend on its emitted
 declarations. Nx models that dependency ordering through the project graph, so use
-`bun nx build <project>` or the affected production helper instead of the old standalone root build.
+`bun nx build <project>` or the affected validation helper instead of the old standalone root build.
 
 ### Scaffolding a New SDK
 

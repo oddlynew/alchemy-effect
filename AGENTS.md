@@ -45,9 +45,9 @@ as one project graph rather than as three standalone checkouts.
 | Type check a project | `bun nx typecheck <project>` |
 | Lint a project | `bun nx lint <project>` |
 | Run a focused test | `bun nx test <project> --run <path>` |
-| Build affected production graph | `bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
-| Type check affected production graph | `bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
-| Lint affected production graph | `bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
+| Build affected validation graph | `bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
+| Type check affected validation graph | `bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
+| Lint affected validation graph | `bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
 | Format repo code | `bun oxfmt .` |
 | Preview Alchemy release | `bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish` |
 | Preview alchemy-node-utils release | `bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish` |
@@ -69,8 +69,8 @@ as one project graph rather than as three standalone checkouts.
 - Allowed scopes are inferred from workspace package/Nx project names plus the general scopes
   `alchemy`, `cloudflare-tools`, `ci`, `deps`, `distilled`, `nx`, `release`, and `repo`.
 - The `pre-push` hook runs `oxfmt --check`, affected lint, affected typecheck, and affected tests
-  with the production exclude boundary. Use `NX_PRODUCTION_EXCLUDE` to override that boundary when
-  intentionally testing a normally-excluded example, fixture, or website project.
+  with the validation exclude boundary. Use `NX_VALIDATION_EXCLUDE` to override that boundary when
+  intentionally testing a normally-excluded example or fixture project.
 
 ## Architecture map
 
@@ -923,7 +923,7 @@ bindings and the runtime-specific layer handles the subscription mechanics.
 
 # Validation Workflow
 
-The monorepo's default interface is Nx. Prefer project targets and affected production targets over
+The monorepo's default interface is Nx. Prefer project targets and affected validation targets over
 raw `tsgo`, `tsc`, `vitest`, or `oxlint` invocations.
 
 ## Focused project validation
@@ -944,16 +944,16 @@ bun nx lint @oddlynew/alchemy
 bun nx test @oddlynew/alchemy -- test/Cloudflare/R2/Bucket.test.ts
 ```
 
-## Affected production validation
+## Affected validation
 
-For broad monorepo changes, use plain Nx affected commands with the same production exclusion used
+For broad monorepo changes, use plain Nx affected commands with the same validation exclusion used
 by CI:
 
 ```bash
-export NX_PRODUCTION_EXCLUDE='@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
-bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
-bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
-bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+export NX_VALIDATION_EXCLUDE='@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 ```
 
 ## Live resource tests
