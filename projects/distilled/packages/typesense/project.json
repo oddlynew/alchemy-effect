@@ -1,0 +1,19 @@
+{
+  "name": "@oddlynew/distilled-typesense",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsgo -b",
+        "cwd": "{projectRoot}"
+      },
+      "outputs": [
+        "{projectRoot}/lib",
+        "{projectRoot}/.tsbuild",
+        "{projectRoot}/tsconfig.tsbuildinfo"
+      ],
+      "cache": true,
+      "dependsOn": ["^build"]
+    }
+  }
+}

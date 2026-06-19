@@ -156,9 +156,11 @@ Distilled's test syntax has been updated for Vitest 4, and the branch explicitly
 `nx-r2-cache-worker` tests in CI because that package is new repo infrastructure. Broader package
 tests can be promoted into the required CI gate once each target is hermetic.
 
-The hosted production build currently uses `--parallel=1` because the generated Distilled SDK
-providers are large emitting builds. Typecheck and lint still use `--parallel=3`, where the task
-shape is lighter and does not emit generated `lib/` artifacts.
+The generated Distilled SDK provider packages keep their package-level `build` scripts for direct
+human use, but each provider has a small `project.json` build target so Nx runs `tsgo -b` directly
+instead of through `bun run build`. The monorepo CI exposed an Nx/Bun package-script
+process-lifecycle edge where `nx:run-script` could finish the build graph successfully and still
+exit 130 after GitHub cleaned up an orphan Bun script process.
 
 Distilled's existing `check` scripts still include `oxfmt --check src`, but the imported generated
 AWS/GCP clients have pre-existing formatter drift. The migration CI therefore runs `lint`
