@@ -157,7 +157,7 @@ jobs:
           doppler run --project "$DOPPLER_PROJECT" --config "$DOPPLER_CONFIG"
           -- bun alchemy destroy --stage "$STAGE" --yes
         env:
-          DOPPLER_PROJECT: alchemy-v2
+          DOPPLER_PROJECT: alchemy-effect-fork
           DOPPLER_CONFIG: dev
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
           PULL_REQUEST: ${{ github.event.number }}

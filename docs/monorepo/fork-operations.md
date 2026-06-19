@@ -86,6 +86,40 @@ git diff --check
 The excluded website, examples, and fixtures remain in the Nx graph and can be run directly. They
 are not part of the default production gate because not all of them are hermetic yet.
 
+## Deployable Stacks
+
+Deployable Alchemy stacks are Nx projects. Avoid root-level deploy aliases; use the project target
+directly so build dependencies, affected selection, and target metadata stay visible to Nx.
+
+General form:
+
+```bash
+bun nx plan <project>
+bun nx deploy <project>
+bun nx destroy <project>
+bun nx logs <project>
+```
+
+Use environment variables to select credentials and stages:
+
+```bash
+STAGE=prod DOPPLER_CONFIG=prd ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-otel
+DOPPLER_CONFIG=prd ALCHEMY_PROFILE=admin bun nx deploy @oddlynew/alchemy-github-secrets
+STAGE=prod ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-website
+DOPPLER_CONFIG=prd bun nx deploy nx-r2-cache-worker
+```
+
+`@oddlynew/alchemy-github-secrets` is a private bootstrap stack. It writes GitHub Actions secrets
+and variables for this fork, including the Doppler token, CI Cloudflare account/token values, PR
+package publishing token, and AWS OIDC role metadata. Because it can mint or publish privileged CI
+credentials, run it intentionally with the `admin` Alchemy profile rather than through broad affected
+deployment.
+
+`bun nx affected -t deploy` is technically available, but it should not be the default production
+operator path. Use affected targets for validation and, where useful, protected preview planning.
+Production infrastructure deploys should remain explicit project selections or protected workflow
+jobs that use affected only as their selector.
+
 ## Release Operations
 
 `nx.json` models four public release groups:
@@ -146,11 +180,41 @@ bun nx plan nx-r2-cache-worker
 bun nx deploy nx-r2-cache-worker
 ```
 
+The dogfood fork uses Doppler project `alchemy-effect-fork`. The real production config is `prd`.
+Keep the cache Worker secrets in Doppler and let deployment commands inject them from there. For
+local inspection or manual tooling, `bun download:env:prd` writes an uncommitted `.env.prd` file; it
+is a convenience file, not the source of truth.
+
 CI cache variables:
 
 - `NX_R2_CACHE_SERVER_URL` as a repository variable;
 - `NX_R2_CACHE_BRANCH_TOKEN` as a repository secret available to PR/branch CI;
 - `NX_R2_CACHE_TRUSTED_TOKEN` as an environment secret available only to protected `main` pushes.
+
+If a cache deployment is stuck in `replaced` state after moving accounts, do not run a broad state
+clear or destroy. The old replacement edge can point at a Worker in the previous Cloudflare account,
+which makes destroy fail on that account's delete endpoint. Inspect the cache stack only, then clear
+and redeploy only that stack/stage:
+
+```bash
+doppler run --project alchemy-effect-fork --config prd -- \
+  bun alchemy state get packages/nx-r2-cache-worker/alchemy.run.ts \
+    --stack nx-r2-cache-worker \
+    --stage prod \
+    --fqn NxR2CacheWorker
+
+doppler run --project alchemy-effect-fork --config prd -- \
+  bun alchemy state clear packages/nx-r2-cache-worker/alchemy.run.ts \
+    --stack nx-r2-cache-worker \
+    --stage prod \
+    --yes
+
+DOPPLER_CONFIG=prd bun nx deploy nx-r2-cache-worker
+```
+
+After the repair, `DOPPLER_CONFIG=prd bun nx plan nx-r2-cache-worker` should report only noops.
+Delete any orphaned cache Worker from the current account only after confirming it is not the Worker
+recorded in state.
 
 The cache topology is two-tier:
 

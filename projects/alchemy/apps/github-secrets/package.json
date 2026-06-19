@@ -16,7 +16,7 @@
   "nx": {
     "name": "@oddlynew/alchemy-github-secrets",
     "doppler": {
-      "project": "alchemy-v2"
+      "project": "alchemy-effect-fork"
     }
   }
 }

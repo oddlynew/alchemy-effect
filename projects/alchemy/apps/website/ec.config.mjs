@@ -1,5 +1,4 @@
 import { defineEcConfig } from "@astrojs/starlight/expressive-code";
-import ecTwoSlash from "expressive-code-twoslash";
 import { alchemyWalnutTheme } from "./plugins/alchemy-walnut-theme.mjs";
 import { capitalizedIdentifierColor } from "./plugins/capitalized-identifier-color.mjs";
 import {
@@ -16,34 +15,42 @@ const baseUrl = new URL("../../../../", import.meta.url).pathname;
 // enabled so pages still render and the build-time link checkers can run.
 const fast = !!process.env.DOCS_FAST;
 
-const twoslashPlugins = [
-  twoslashDiffPrefixStrip(),
-  ecTwoSlash({
-    instanceConfigs: {
-      twoslash: {
-        explicitTrigger: true,
-        languages: ["ts", "tsx", "typescript"],
-      },
-    },
-    twoslashOptions: {
-      customTags: ["error", "warn", "log", "annotate"],
-      compilerOptions: {
-        moduleResolution: /** @type {any} */ (100), // Bundler
-        module: /** @type {any} */ (99), // ESNext
-        target: /** @type {any} */ (9), // ES2022
-        strict: true,
-        types: ["bun"],
-        baseUrl,
-        paths: {
-          alchemy: ["./projects/alchemy/packages/alchemy/src/index.ts"],
-          "@oddlynew/alchemy/*": ["./projects/alchemy/packages/alchemy/src/*"],
-        },
-      },
-    },
-  }),
-  twoslashDiffPrefixAnnotate(),
-  twoslashErrorTransform(),
-];
+const twoslashPlugins = fast
+  ? []
+  : await (async () => {
+      const { default: ecTwoSlash } = await import("expressive-code-twoslash");
+
+      return [
+        twoslashDiffPrefixStrip(),
+        ecTwoSlash({
+          instanceConfigs: {
+            twoslash: {
+              explicitTrigger: true,
+              languages: ["ts", "tsx", "typescript"],
+            },
+          },
+          twoslashOptions: {
+            customTags: ["error", "warn", "log", "annotate"],
+            compilerOptions: {
+              moduleResolution: /** @type {any} */ (100), // Bundler
+              module: /** @type {any} */ (99), // ESNext
+              target: /** @type {any} */ (9), // ES2022
+              strict: true,
+              types: ["bun"],
+              baseUrl,
+              paths: {
+                alchemy: ["./projects/alchemy/packages/alchemy/src/index.ts"],
+                "@oddlynew/alchemy/*": [
+                  "./projects/alchemy/packages/alchemy/src/*",
+                ],
+              },
+            },
+          },
+        }),
+        twoslashDiffPrefixAnnotate(),
+        twoslashErrorTransform(),
+      ];
+    })();
 
 export default defineEcConfig({
   themes: [alchemyWalnutTheme],

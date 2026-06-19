@@ -25,10 +25,10 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "dev": "doppler run --project alchemy-v2 --config ${DOPPLER_CONFIG:-dev} -- alchemy dev alchemy.run.ts --stage ${STAGE:-dev}",
-    "deploy": "./scripts/with-prod-guard.sh doppler run --project alchemy-v2 --config prod -- alchemy deploy alchemy.run.ts --adopt --yes --stage prod",
-    "destroy": "./scripts/with-prod-guard.sh doppler run --project alchemy-v2 --config prod -- alchemy destroy alchemy.run.ts ${CI:+--yes} --stage prod",
-    "plan": "doppler run --project alchemy-v2 --config prod -- alchemy plan alchemy.run.ts --stage prod",
+    "dev": "doppler run --project ${DOPPLER_PROJECT:-alchemy-effect-fork} --config ${DOPPLER_CONFIG:-dev} -- alchemy dev alchemy.run.ts --stage ${STAGE:-dev}",
+    "deploy": "./scripts/with-prod-guard.sh doppler run --project ${DOPPLER_PROJECT:-alchemy-effect-fork} --config ${DOPPLER_CONFIG:-prd} -- alchemy deploy alchemy.run.ts --adopt --yes --stage prod",
+    "destroy": "./scripts/with-prod-guard.sh doppler run --project ${DOPPLER_PROJECT:-alchemy-effect-fork} --config ${DOPPLER_CONFIG:-prd} -- alchemy destroy alchemy.run.ts ${CI:+--yes} --stage prod",
+    "plan": "doppler run --project ${DOPPLER_PROJECT:-alchemy-effect-fork} --config ${DOPPLER_CONFIG:-prd} -- alchemy plan alchemy.run.ts --stage prod",
     "test": "vitest run"
   },
   "devDependencies": {
@@ -48,6 +48,9 @@
   },
   "nx": {
     "name": "nx-r2-cache-worker",
+    "doppler": {
+      "project": "alchemy-effect-fork"
+    },
     "tags": [
       "type:app",
       "scope:alchemy",

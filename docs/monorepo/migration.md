@@ -61,14 +61,15 @@ projects/
 
 Each package root remains an Nx project through its `package.json`. For example:
 
-| Package root                                                     | Nx project name                                | Release group       |
-| ---------------------------------------------------------------- | ---------------------------------------------- | ------------------- |
-| `projects/alchemy/apps/otel`                                     | `alchemy-otel`                                 | private, no release |
-| `projects/alchemy/packages/alchemy`                              | `@oddlynew/alchemy`                           | `alchemy`           |
-| `packages/alchemy-node-utils`                                            | `@oddlynew/alchemy-node-utils`                        | `alchemy-node-utils`        |
-| `projects/distilled/packages/stripe`                             | `@oddlynew/distilled-stripe`                      | `distilled`         |
-| `projects/cloudflare-tools/packages/cloudflare-vite-plugin`       | `@oddlynew/distilled-cloudflare-vite-plugin`      | `cloudflare-tools`  |
-| `projects/cloudflare-tools/packages/tools/test`                  | `@oddlynew/distilled-test-utils`                  | private, no release |
+| Package root                                               | Nx project name                                      | Release group        |
+| ---------------------------------------------------------- | ---------------------------------------------------- | -------------------- |
+| `projects/alchemy/apps/github-secrets`                     | `@oddlynew/alchemy-github-secrets`                   | private bootstrap    |
+| `projects/alchemy/apps/otel`                               | `@oddlynew/alchemy-otel`                             | private, no release  |
+| `projects/alchemy/packages/alchemy`                        | `@oddlynew/alchemy`                                  | `alchemy`            |
+| `packages/alchemy-node-utils`                              | `@oddlynew/alchemy-node-utils`                       | `alchemy-node-utils` |
+| `projects/distilled/packages/stripe`                       | `@oddlynew/distilled-stripe`                         | `distilled`          |
+| `projects/cloudflare-tools/packages/cloudflare-vite-plugin` | `@oddlynew/distilled-cloudflare-vite-plugin`         | `cloudflare-tools`   |
+| `projects/cloudflare-tools/packages/tools/test`            | `@oddlynew/distilled-test-utils`                     | private, no release  |
 
 This lets Nx answer the important questions while the filesystem also communicates ownership:
 
@@ -298,13 +299,17 @@ cache.
 
 The Worker owns two EU R2 buckets:
 
-- `alchemy-run-nx-cache-trusted`, with a 90 day lifecycle.
-- `alchemy-run-nx-cache-branches`, with a 30 day lifecycle.
+- `oddlynew-alchemy-nx-cache-trusted`, with a 90 day lifecycle.
+- `oddlynew-alchemy-nx-cache-branches`, with a 30 day lifecycle.
 
 The Worker requires `NX_R2_CACHE_TRUSTED_TOKEN` and `NX_R2_CACHE_BRANCH_TOKEN` in the Doppler
-`alchemy-v2` production config before deployment. After deployment, set
+`alchemy-effect-fork` prd config before deployment. After deployment, set
 `NX_R2_CACHE_SERVER_URL` to the Worker URL. The branch token can write only under
 `/branches/<namespace>`; the trusted token can write only under `/trusted`.
+
+For local inspection, `bun download:env:prd` can write those Doppler values to an uncommitted
+`.env.prd` file. Doppler remains the source of truth; deployment scripts inject secrets directly
+with `doppler run`.
 
 ## Fork Activation Plan
 

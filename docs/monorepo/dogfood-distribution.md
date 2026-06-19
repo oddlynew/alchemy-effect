@@ -88,7 +88,8 @@ Required credentials for the full loop:
 
 - npm publishing for the `@oddlynew` scope, preferably through GitHub Actions trusted publishing;
 - release bot credentials for pushing version/changelog commits and tags;
-- `NX_R2_CACHE_SERVER_URL`, `NX_R2_CACHE_BRANCH_TOKEN`, and `NX_R2_CACHE_TRUSTED_TOKEN`;
+- `NX_R2_CACHE_SERVER_URL`, plus `NX_R2_CACHE_BRANCH_TOKEN` and
+  `NX_R2_CACHE_TRUSTED_TOKEN` stored in Doppler project `alchemy-effect-fork`, config `prd`;
 - Cloudflare account credentials for the cache Worker and any live Alchemy validation stacks;
 - provider-specific test credentials only for tests that are deliberately promoted into required CI.
 

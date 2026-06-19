@@ -8,7 +8,7 @@ export const TrustedCacheBucket: Effect.Effect<
   never,
   Cloudflare.Providers
 > = Cloudflare.R2Bucket("TrustedCacheBucket", {
-  name: "alchemy-run-nx-cache-trusted",
+  name: "oddlynew-alchemy-nx-cache-trusted",
   jurisdiction: "eu",
   locationHint: "weur",
   lifecycleRules: [
@@ -30,7 +30,7 @@ export const BranchCacheBucket: Effect.Effect<
   never,
   Cloudflare.Providers
 > = Cloudflare.R2Bucket("BranchCacheBucket", {
-  name: "alchemy-run-nx-cache-branches",
+  name: "oddlynew-alchemy-nx-cache-branches",
   jurisdiction: "eu",
   locationHint: "weur",
   lifecycleRules: [

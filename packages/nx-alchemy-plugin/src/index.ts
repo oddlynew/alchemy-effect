@@ -13,6 +13,7 @@ export interface AlchemyPluginOptions {
   deployTargetName?: string;
   destroyTargetName?: string;
   planTargetName?: string;
+  logsTargetName?: string;
 }
 
 /**
@@ -125,12 +126,15 @@ function extractDopplerConfig(
  * Wrap a command with Doppler if configuration exists
  *
  * Config selection:
- * 1. DOPPLER_CONFIG env var (explicit override for any config: prod, staging, qa, etc.)
- * 2. Defaults to "dev" (safe default)
+ * 1. DOPPLER_PROJECT env var (explicit project override for forks)
+ * 2. DOPPLER_CONFIG env var (explicit config override for any config: prd, staging, qa, etc.)
+ * 3. Defaults to the package's configured project and the "dev" config
  *
  * Examples:
  * - nx deploy project uses the "dev" config
- * - DOPPLER_CONFIG=prod nx deploy uses the "prod" config
+ * - DOPPLER_CONFIG=prd nx deploy uses the "prd" config
+ * - DOPPLER_PROJECT=my-fork nx deploy uses another Doppler project
+ * - ALCHEMY_PROFILE=admin nx deploy uses another Alchemy auth profile
  * - DOPPLER_CONFIG=staging nx dev uses the "staging" config
  */
 function wrapWithDoppler(
@@ -141,10 +145,12 @@ function wrapWithDoppler(
     return command;
   }
 
+  const projectSelection = `\${DOPPLER_PROJECT:-${dopplerConfig.project}}`;
+
   // Always default to "dev" config, override with DOPPLER_CONFIG env var
   const configSelection = "${DOPPLER_CONFIG:-dev}";
 
-  return `doppler run --project ${dopplerConfig.project} --config ${configSelection} -- ${command}`;
+  return `doppler run --project ${projectSelection} --config ${configSelection} -- ${command}`;
 }
 
 /**
@@ -164,15 +170,17 @@ function wrapWithDoppler(
  *   confirmation. dev never prompts (the CLI hardcodes yes internally).
  */
 function alchemyCommand(
-  subcommand: "dev" | "deploy" | "destroy" | "plan",
+  subcommand: "dev" | "deploy" | "destroy" | "plan" | "logs",
 ): string {
   const flags = {
     dev: "",
     deploy: " --adopt --yes",
     destroy: " ${CI:+--yes}",
     plan: "",
+    logs: "",
   }[subcommand];
-  return `bunx alchemy ${subcommand} alchemy.run.ts${flags} --stage \${STAGE:-dev}`;
+  const profileSelection = "${ALCHEMY_PROFILE:-default}";
+  return `bunx alchemy ${subcommand} alchemy.run.ts${flags} --profile ${profileSelection} --stage \${STAGE:-dev}`;
 }
 
 function createTargets(
@@ -183,6 +191,7 @@ function createTargets(
   const deployTargetName = options.deployTargetName || "deploy";
   const destroyTargetName = options.destroyTargetName || "destroy";
   const planTargetName = options.planTargetName || "plan";
+  const logsTargetName = options.logsTargetName || "logs";
 
   const targets: Record<string, TargetConfiguration> = {};
 
@@ -225,6 +234,15 @@ function createTargets(
     executor: "nx:run-commands",
     options: {
       command: wrapWithDoppler(alchemyCommand("plan"), dopplerConfig),
+      cwd: "{projectRoot}",
+    },
+    cache: false,
+  };
+
+  targets[logsTargetName] = {
+    executor: "nx:run-commands",
+    options: {
+      command: wrapWithDoppler(alchemyCommand("logs"), dopplerConfig),
       cwd: "{projectRoot}",
     },
     cache: false,

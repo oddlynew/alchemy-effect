@@ -17,7 +17,7 @@
   "nx": {
     "name": "@oddlynew/alchemy-pr-package-app",
     "doppler": {
-      "project": "alchemy-v2"
+      "project": "alchemy-effect-fork"
     }
   }
 }
