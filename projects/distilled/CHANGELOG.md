@@ -1,3 +1,14 @@
+## v0.26.1
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **cloudflare**: Patch page-rules, pages and schema-validaton &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(90b60)</samp>](https://github.com/alchemy-run/distilled/commit/90b6028d0)
+- **coinbase**: Type errors &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(72aab)</samp>](https://github.com/alchemy-run/distilled/commit/72aab01f5)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.26.0...HEAD)
+
+---
+
 ## v0.26.0
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
