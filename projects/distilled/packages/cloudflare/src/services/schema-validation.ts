@@ -56,6 +56,14 @@ export class UnentitledMitigationAction extends T.applyErrorMatchers(
   [{ code: 11400 }],
 ) {}
 
+export class ZonePurged extends T.applyErrorMatchers(
+  Schema.TaggedErrorClass<ZonePurged>()("ZonePurged", {
+    code: Schema.Number,
+    message: Schema.String,
+  }),
+  [{ message: { includes: "has been purged" } }],
+) {}
+
 // =============================================================================
 // Schema
 // =============================================================================
@@ -232,7 +240,7 @@ export const ListSchemasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
     }).pipe(Schema.encodeKeys({ result: "result", resultInfo: "result_info" })),
 ) as unknown as Schema.Schema<ListSchemasResponse>;
 
-export type ListSchemasError = DefaultErrors;
+export type ListSchemasError = DefaultErrors | ZonePurged | Forbidden;
 
 export const listSchemas: API.PaginatedOperationMethod<
   ListSchemasRequest,
@@ -242,7 +250,7 @@ export const listSchemas: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSchemasRequest,
   output: ListSchemasResponse,
-  errors: [],
+  errors: [ZonePurged, Forbidden],
   pagination: {
     mode: "page",
     inputToken: "page",

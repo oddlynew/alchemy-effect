@@ -1,3 +1,35 @@
+## v0.26.1
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **cloudflare**: Patch page-rules, pages and schema-validaton &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(90b60)</samp>](https://github.com/alchemy-run/distilled/commit/90b6028d0)
+- **coinbase**: Type errors &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(72aab)</samp>](https://github.com/alchemy-run/distilled/commit/72aab01f5)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.26.0...HEAD)
+
+---
+
+## v0.26.0
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **cloudflare**: Namespace-scoped AI Search instance operations &nbsp;-&nbsp; by **Sam Goodwin** and **Cursor** [<samp>(6fc19)</samp>](https://github.com/alchemy-run/distilled/commit/6fc191fa6)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **aws**:
+  - Make Route53 + CloudFront list-response members optional &nbsp;-&nbsp; by **Sam Goodwin** in https://github.com/alchemy-run/distilled/issues/351 [<samp>(88cec)</samp>](https://github.com/alchemy-run/distilled/commit/88cec23de)
+  - Override COMMON_ERRORS with operation errors &nbsp;-&nbsp; by **Sam Goodwin** [<samp>(3a982)</samp>](https://github.com/alchemy-run/distilled/commit/3a9822f4c)
+- **cloudflare**:
+  - Make error classes tree-shakeable out of Worker bundles &nbsp;-&nbsp; by **Michael K** in https://github.com/alchemy-run/distilled/issues/352 [<samp>(61a84)</samp>](https://github.com/alchemy-run/distilled/commit/61a84be97)
+  - Type AI Search web-crawler domain-ownership error &nbsp;-&nbsp; by **Sam Goodwin** and **Cursor** [<samp>(f68ba)</samp>](https://github.com/alchemy-run/distilled/commit/f68bae75d)
+- **coinbase**:
+  - Sign CDP requests with URI &nbsp;-&nbsp; by **Harry Solovay** in https://github.com/alchemy-run/distilled/issues/353 [<samp>(6cbea)</samp>](https://github.com/alchemy-run/distilled/commit/6cbea6e8a)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/alchemy-run/distilled/compare/v0.25.2...HEAD)
+
+---
+
 ## v0.25.2
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features

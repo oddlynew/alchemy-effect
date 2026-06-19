@@ -227,23 +227,27 @@ bun nx release patch --groups=cloudflare-tools --dry-run --skip-publish
 Those commands already preview package version bumps and changelog entries from the merged commit
 history. They intentionally mirror the current release lines: `@oddlynew/alchemy` continues from
 `2.0.0-beta.57` to `2.0.0-beta.58`, `@oddlynew/alchemy-node-utils` continues from `0.0.5` to `0.0.6`,
-the Distilled release group continues from `0.25.2` to `0.25.3`, and the Cloudflare Tools release
+the Distilled release group continues from `0.26.1` to `0.26.2`, and the Cloudflare Tools release
 group continues from `0.11.2` to `0.11.3`.
 
-The dogfood release groups require monorepo baseline tags at the fork-namespace commit:
+The dogfood release groups require monorepo baseline tags on commits that represent each group's
+latest published release:
 
 ```bash
 git tag -a "@oddlynew/alchemy@2.0.0-beta.57" HEAD -m "oddlynew alchemy dogfood baseline 2.0.0-beta.57"
 git tag -a "@oddlynew/alchemy-node-utils@0.0.5" HEAD -m "oddlynew alchemy-node-utils dogfood baseline 0.0.5"
-git tag -a "@oddlynew/distilled@0.25.2" HEAD -m "oddlynew distilled dogfood baseline 0.25.2"
+git tag -a "@oddlynew/distilled@0.26.1" HEAD -m "oddlynew distilled dogfood baseline 0.26.1"
 git tag -a "@oddlynew/cloudflare-tools@0.11.2" HEAD -m "oddlynew cloudflare tools dogfood baseline 0.11.2"
 ```
 
 The `@oddlynew/distilled@...` and `@oddlynew/cloudflare-tools@...` tags are release-group tags, not
 aggregate npm packages. They keep the first monorepo-native patch release clean. Placing the tags on the old imported
 release commits is not enough after merging unrelated histories: Nx would still include the
-Alchemy-side history in the changelog range. `--first-release` is therefore not the production
-cutover path; it should be reserved for intentionally new release groups without a prior baseline.
+Alchemy-side history in the changelog range. If a source repo has unreleased commits after its latest
+published version, keep that group's baseline on the monorepo ancestor that matches the latest
+published release so the first monorepo patch includes those commits. `--first-release` is therefore
+not the production cutover path; it should be reserved for intentionally new release groups without a
+prior baseline.
 
 Removing `--dry-run` and `--skip-publish` is the production publish step once npm/GitHub release
 credentials are intentionally wired for the monorepo.

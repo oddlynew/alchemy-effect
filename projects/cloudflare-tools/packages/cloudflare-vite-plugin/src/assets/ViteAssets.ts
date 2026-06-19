@@ -82,7 +82,7 @@ export const ViteAssetsLive = (viteDevServer: vite.ViteDevServer) =>
                 },
               },
             ],
-            middleware: [
+            middlewares: [
               {
                 name: "assets:router",
                 worker: {
@@ -101,6 +101,7 @@ export const ViteAssetsLive = (viteDevServer: vite.ViteDevServer) =>
                   modules: modulesToWorkerd(RouterWorker.modules),
                 },
                 upstreamBindingName: "USER_WORKER",
+                order: -1,
               },
             ],
             api: { isConfigured: true },

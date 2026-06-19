@@ -63,11 +63,11 @@ graph, one cached validation path, and one release plan.
 The GitHub `release` workflow uses the same release groups. It defaults to dry-run and uses
 continuation defaults by group: `alchemy` continues the beta prerelease line, while `alchemy-node-utils`,
 `distilled`, and `cloudflare-tools` continue stable patch releases. Dogfood releases require scoped
-monorepo baseline tags such as `@oddlynew/distilled@0.25.2` and
-`@oddlynew/cloudflare-tools@0.11.2` on the fork-namespace commit, so the first monorepo patch
-release produces a clean version-bump range instead of replaying imported history. Disabling dry-run
-is the explicit approval for the workflow to publish, and the workflow refuses non-dry releases from
-any branch other than `main`.
+monorepo baseline tags such as `@oddlynew/distilled@0.26.1` and
+`@oddlynew/cloudflare-tools@0.11.2` on dogfood commits that represent each group's latest published
+release, so the first monorepo patch release produces a clean version-bump range instead of
+replaying imported history. Disabling dry-run is the explicit approval for the workflow to publish,
+and the workflow refuses non-dry releases from any branch other than `main`.
 
 ## Source Layout
 

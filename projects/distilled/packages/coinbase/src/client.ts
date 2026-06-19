@@ -30,23 +30,23 @@
  *
  * Errors are dispatched first by `errorType`, then by HTTP status code.
  */
+import { makeAPI } from "@oddlynew/distilled-core/client";
+import { parseRetryAfterForStatus } from "@oddlynew/distilled-core/retry-after";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as crypto from "node:crypto";
-import { makeAPI, type ApiErrorClass } from "@oddlynew/distilled-core/client";
-import { parseRetryAfterForStatus } from "@oddlynew/distilled-core/retry-after";
-import { Retry } from "./retry.ts";
-import {
-  HTTP_STATUS_MAP,
-  COINBASE_HTTP_STATUS_MAP,
-  ERROR_TYPE_MAP,
-  STANDARD_ERROR_TYPE_MAP,
-  UnknownCoinbaseError,
-  CoinbaseParseError,
-} from "./errors.ts";
 import type { Config } from "./credentials.ts";
 import { Credentials } from "./credentials.ts";
+import {
+  COINBASE_HTTP_STATUS_MAP,
+  CoinbaseParseError,
+  ERROR_TYPE_MAP,
+  HTTP_STATUS_MAP,
+  STANDARD_ERROR_TYPE_MAP,
+  UnknownCoinbaseError,
+} from "./errors.ts";
+import { Retry } from "./retry.ts";
 
 // Re-export for convenience
 export { UnknownCoinbaseError } from "./errors.ts";
@@ -222,15 +222,15 @@ const CoinbaseErrorResponse = Schema.Struct({
 const matchError = (
   status: number,
   errorBody: unknown,
-  _errors?: readonly ApiErrorClass[],
+  _errors?: readonly unknown[],
   headers?: Record<string, string | undefined>,
-): Effect.Effect<never, unknown> => {
+): Effect.Effect<unknown, unknown> => {
   if (
     errorBody &&
     typeof errorBody === "object" &&
     ("isValid" in errorBody || "success" in errorBody)
   ) {
-    return Effect.fail(new UnknownCoinbaseError({ body: errorBody }));
+    return Effect.succeed(errorBody);
   }
 
   try {
@@ -300,12 +300,12 @@ const matchError = (
  *
  * Uses JWT bearer token authentication signed with your CDP API Key Secret.
  */
-export const API = makeAPI<Config>({
-  credentials: Credentials,
-  getBaseUrl: (creds) => creds.apiBaseUrl,
+export const API = makeAPI<Credentials>({
+  credentials: Credentials as any,
+  getBaseUrl: (creds: any) => (creds as Config).apiBaseUrl,
   getAuthHeaders: () => ({}),
   getRequestHeaders: (_requestOptions, { method, parts, credentials }) => {
-    const c = credentials;
+    const c = credentials as any;
     const baseUrl = new URL(c.apiBaseUrl);
     const uri = `${baseUrl.host}${baseUrl.pathname}${parts.path}`;
     const jwt = generateJwt(
@@ -318,7 +318,7 @@ export const API = makeAPI<Config>({
       Authorization: `Bearer ${jwt}`,
     };
   },
-  matchError,
+  matchError: matchError as any,
   ParseError: CoinbaseParseError as any,
   retry: Retry as any,
 });

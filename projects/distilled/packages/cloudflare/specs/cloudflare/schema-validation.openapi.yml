@@ -248,6 +248,12 @@ paths:
                   - schema_id
                   - source
       x-distilled-pagination-class: PublicSchemasV4PagePaginationArray
+      x-distilled-errors:
+        ZonePurged:
+          - message:
+              includes: has been purged
+        Forbidden:
+          - status: 403
     post:
       operationId: createSchema
       description:

@@ -274,7 +274,7 @@ export const AssetsLive = Layer.effect(
               },
             },
           ],
-          middleware: [
+          middlewares: [
             {
               name: "assets:router",
               worker: {
@@ -295,6 +295,7 @@ export const AssetsLive = Layer.effect(
                 modules: formatInternalWorkerModules(RouterWorker),
               },
               upstreamBindingName: "USER_WORKER",
+              order: -1,
             },
           ],
           api: {
