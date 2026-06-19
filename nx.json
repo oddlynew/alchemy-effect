@@ -5,10 +5,7 @@
     "autoExit": true
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "{workspaceRoot}/bun.lock"
-    ],
+    "default": ["{projectRoot}/**/*", "{workspaceRoot}/bun.lock"],
     "taskSources": [
       "default",
       "!{projectRoot}/**/*.md",
@@ -44,9 +41,7 @@
         }
       },
       "alchemy-node-utils": {
-        "projects": [
-          "@oddlynew/alchemy-node-utils"
-        ],
+        "projects": ["@oddlynew/alchemy-node-utils"],
         "projectsRelationship": "fixed",
         "releaseTag": {
           "pattern": "@oddlynew/alchemy-node-utils@{version}"
@@ -116,13 +111,8 @@
   "targetDefaults": [
     {
       "target": "build",
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
       "outputs": [
         "{projectRoot}/lib",
         "{projectRoot}/dist",
@@ -134,13 +124,8 @@
     },
     {
       "target": "typecheck",
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "taskSources",
-        "^production"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["taskSources", "^production"],
       "outputs": [
         "{projectRoot}/.cache",
         "{projectRoot}/.tsbuild",
@@ -150,10 +135,7 @@
     },
     {
       "target": "test",
-      "dependsOn": [
-        "build",
-        "^build"
-      ],
+      "dependsOn": ["build", "^build"],
       "inputs": [
         "taskSources",
         "^production",
@@ -166,9 +148,7 @@
     },
     {
       "target": "lint",
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": ["^build"],
       "inputs": [
         "taskSources",
         "^production",
@@ -183,24 +163,17 @@
       "target": "dev",
       "cache": false,
       "continuous": true,
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     {
       "target": "deploy",
       "cache": false,
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     },
     {
       "target": "nx-release-publish",
       "cache": false,
-      "dependsOn": [
-        "build",
-        "^build"
-      ]
+      "dependsOn": ["build", "^build"]
     },
     {
       "target": "destroy",

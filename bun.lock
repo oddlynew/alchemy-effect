@@ -219,7 +219,7 @@
       },
       "devDependencies": {
         "astro-broken-links-checker": "^1.1.0",
-        "typescript": "catalog:",
+        "typescript": "5.9.3",
         "zod": "^3",
       },
     },
@@ -694,13 +694,13 @@
         "@libsql/client": "catalog:",
         "@octokit/rest": "^22.0.1",
         "@octokit/webhooks": "^14.2.0",
-        "@oddlynew/alchemy-node-utils": "catalog:",
+        "@oddlynew/alchemy-node-utils": "workspace:*",
         "@oddlynew/distilled-aws": "workspace:*",
         "@oddlynew/distilled-axiom": "workspace:*",
         "@oddlynew/distilled-cloudflare": "workspace:*",
-        "@oddlynew/distilled-cloudflare-rolldown-plugin": "catalog:",
-        "@oddlynew/distilled-cloudflare-runtime": "catalog:",
-        "@oddlynew/distilled-cloudflare-vite-plugin": "catalog:",
+        "@oddlynew/distilled-cloudflare-rolldown-plugin": "workspace:*",
+        "@oddlynew/distilled-cloudflare-runtime": "workspace:*",
+        "@oddlynew/distilled-cloudflare-vite-plugin": "workspace:*",
         "@oddlynew/distilled-core": "workspace:*",
         "@oddlynew/distilled-neon": "workspace:*",
         "@oddlynew/distilled-planetscale": "workspace:*",
@@ -920,7 +920,7 @@
       "name": "@oddlynew/distilled-cloudflare-runtime",
       "version": "0.11.2",
       "dependencies": {
-        "@oddlynew/alchemy-node-utils": "catalog:",
+        "@oddlynew/alchemy-node-utils": "workspace:*",
         "workerd": "catalog:workers",
       },
       "devDependencies": {
@@ -942,7 +942,7 @@
       "peerDependencies": {
         "@effect/platform-bun": "catalog:effect",
         "@effect/platform-node": "catalog:effect",
-        "@oddlynew/distilled-cloudflare": "catalog:",
+        "@oddlynew/distilled-cloudflare": "workspace:*",
         "effect": "catalog:effect",
       },
       "optionalPeers": [
@@ -972,7 +972,7 @@
       "peerDependencies": {
         "@effect/platform-bun": "catalog:effect",
         "@effect/platform-node": "catalog:effect",
-        "@oddlynew/distilled-cloudflare": "catalog:",
+        "@oddlynew/distilled-cloudflare": "workspace:*",
         "@oddlynew/distilled-cloudflare-runtime": "workspace:*",
         "effect": "catalog:effect",
         "vite": "^7.0.0 || ^8.0.0",
@@ -1009,7 +1009,7 @@
       "devDependencies": {
         "@cloudflare/vitest-pool-workers": "^0.13.0",
         "@cloudflare/workers-types": "catalog:workers",
-        "@oddlynew/alchemy-node-utils": "catalog:",
+        "@oddlynew/alchemy-node-utils": "workspace:*",
         "@oddlynew/alchemy-typescript-config": "workspace:*",
         "@types/node": "*",
         "effect": "catalog:effect",
@@ -5578,6 +5578,8 @@
     "@oddlynew/alchemy-nx-tsdown-plugin/tsdown": ["tsdown@0.22.2", "", { "dependencies": { "ansis": "^4.3.1", "cac": "^7.0.0", "defu": "^6.1.7", "empathic": "^2.0.1", "hookable": "^6.1.1", "import-without-cache": "^0.4.0", "obug": "^2.1.1", "picomatch": "^4.0.4", "rolldown": "~1.1.0", "rolldown-plugin-dts": "^0.25.2", "semver": "^7.8.1", "tinyexec": "^1.2.4", "tinyglobby": "^0.2.17", "tree-kill": "^1.2.2", "unconfig-core": "^7.5.0" }, "peerDependencies": { "@arethetypeswrong/core": "^0.18.1", "@tsdown/css": "0.22.2", "@tsdown/exe": "0.22.2", "@vitejs/devtools": "*", "publint": "^0.3.8", "tsx": "*", "typescript": "^5.0.0 || ^6.0.0", "unplugin-unused": "^0.5.0", "unrun": "*" }, "optionalPeers": ["@arethetypeswrong/core", "@tsdown/css", "@tsdown/exe", "@vitejs/devtools", "publint", "tsx", "typescript", "unplugin-unused", "unrun"], "bin": { "tsdown": "./dist/run.mjs" } }, "sha512-VX9gsyKXsTnBZjnIM4jsHl9aRv+GfgkE/k1hQslilaBfZMlaw3JuGR+6yhiU0QxWBtOCDnTjwOSoXzgB7Rr50g=="],
 
     "@oddlynew/alchemy-nx-tsgo-plugin/tsdown": ["tsdown@0.22.2", "", { "dependencies": { "ansis": "^4.3.1", "cac": "^7.0.0", "defu": "^6.1.7", "empathic": "^2.0.1", "hookable": "^6.1.1", "import-without-cache": "^0.4.0", "obug": "^2.1.1", "picomatch": "^4.0.4", "rolldown": "~1.1.0", "rolldown-plugin-dts": "^0.25.2", "semver": "^7.8.1", "tinyexec": "^1.2.4", "tinyglobby": "^0.2.17", "tree-kill": "^1.2.2", "unconfig-core": "^7.5.0" }, "peerDependencies": { "@arethetypeswrong/core": "^0.18.1", "@tsdown/css": "0.22.2", "@tsdown/exe": "0.22.2", "@vitejs/devtools": "*", "publint": "^0.3.8", "tsx": "*", "typescript": "^5.0.0 || ^6.0.0", "unplugin-unused": "^0.5.0", "unrun": "*" }, "optionalPeers": ["@arethetypeswrong/core", "@tsdown/css", "@tsdown/exe", "@vitejs/devtools", "publint", "tsx", "typescript", "unplugin-unused", "unrun"], "bin": { "tsdown": "./dist/run.mjs" } }, "sha512-VX9gsyKXsTnBZjnIM4jsHl9aRv+GfgkE/k1hQslilaBfZMlaw3JuGR+6yhiU0QxWBtOCDnTjwOSoXzgB7Rr50g=="],
+
+    "@oddlynew/alchemy-website/typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "@oddlynew/cloudflare-tools/@types/node": ["@types/node@24.13.2", "", { "dependencies": { "undici-types": "~7.18.0" } }, "sha512-fRa09kZTgu8o71KFcDjUFuc7F+dEbZYZmkI0mg5YBTRs0yMKjYHsq/c0urDKeDb+D5qVgXOdFcuu+DZPKOITwA=="],
 

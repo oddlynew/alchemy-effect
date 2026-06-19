@@ -1,4 +1,4 @@
-name: nx validate
+name: CI
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: nx-validate-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
@@ -26,7 +26,7 @@ env:
   NX_PRODUCTION_EXCLUDE: "@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
 
 jobs:
-  affected:
+  ci:
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     # Public fork PRs are controlled by GitHub's workflow-approval setting;
     # keep this on `pull_request`, not `pull_request_target`, because this job
@@ -65,7 +65,9 @@ jobs:
         if: github.event_name == 'pull_request'
         run: .github/scripts/lint-pr-commits.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
 
+      - run: bun oxfmt --check .
       - run: bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
       - run: bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
       - run: bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+      - run: bun nx run @oddlynew/alchemy-website:docs:check
       - run: bun nx test nx-r2-cache-worker
