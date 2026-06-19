@@ -143,7 +143,9 @@ jobs:
 
       - name: Bootstrap Cloudflare state store
         if: env.SHOULD_DEPLOY == 'true'
-        run: bunx alchemy cloudflare bootstrap --profile "$ALCHEMY_PROFILE"
+        run: |-
+          bun nx build @oddlynew/alchemy
+          bunx alchemy cloudflare bootstrap --profile "$ALCHEMY_PROFILE"
         env:
           ALCHEMY_PROFILE: ${{ env.IS_PROD_DEPLOY == 'true' && 'prod' || 'preview' }}
           CLOUDFLARE_API_TOKEN: ${{ env.IS_PROD_DEPLOY == 'true' && secrets.PROD_CLOUDFLARE_API_TOKEN || secrets.TEST_CLOUDFLARE_API_TOKEN }}
