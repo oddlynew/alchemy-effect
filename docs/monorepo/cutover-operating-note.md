@@ -166,7 +166,9 @@ For each source repo:
 3. For Distilled and Cloudflare Tools, re-run the same prefix rewrite into the same final path, then
    merge the rewritten branch into `codex/monorepo-clean-history`.
 4. Resolve conflicts only where the monorepo branch and upstream both touched the same files.
-5. Run affected validation and release dry-runs.
+5. Move the imported baseline tags (`distilled-v0.25.2`, `cloudflare-tools-v0.11.2`) to the new
+   final cutover commit.
+6. Run affected validation and release dry-runs.
 
 For Alchemy, preserve the upstream remote and merge normally:
 
@@ -195,6 +197,16 @@ git merge distilled-prefix/main
 Because the rewrite is deterministic, previously imported commits should stay common ancestors and
 only new upstream commits should be merged. If that does not hold, stop and inspect the rewrite
 inputs before continuing.
+
+After any resync, keep the imported release baselines on the latest final cutover commit:
+
+```bash
+git tag -f -a distilled-v0.25.2 HEAD -m "distilled monorepo baseline 0.25.2"
+git tag -f -a cloudflare-tools-v0.11.2 HEAD -m "cloudflare-tools monorepo baseline 0.11.2"
+```
+
+Do this before running release dry-runs. Otherwise Nx will treat the migration-sync commits
+themselves as unreleased package history for Distilled or Cloudflare Tools.
 
 ## Release Baselines
 
