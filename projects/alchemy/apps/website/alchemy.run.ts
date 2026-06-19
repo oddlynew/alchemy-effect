@@ -8,19 +8,18 @@ import * as Layer from "effect/Layer";
 export type WorkerEnv = Cloudflare.InferEnv<typeof Website>;
 
 const REPO = { owner: "oddlynew", repository: "alchemy-effect" } as const;
+const productionDomain = process.env.ALCHEMY_WEBSITE_DOMAIN || undefined;
+const productionWorkerName =
+  process.env.ALCHEMY_WEBSITE_WORKER_NAME || undefined;
 
 const Website = Cloudflare.StaticSite(
   "Website",
   Alchemy.Stack.useSync((stack) => ({
     command: "bun run build",
-    name:
-      stack.stage === "prod"
-        ? // FUCK: i deleted state lol, let's adopt this to avoid potential DNS prop issue
-          "alchemyeffectwebsite-worker-prod-piyvp3qw7565vvin"
-        : undefined,
+    name: stack.stage === "prod" ? productionWorkerName : undefined,
     main: "./src/worker.ts",
     outdir: "dist",
-    domain: stack.stage === "prod" ? "v2.alchemy.run" : undefined,
+    domain: stack.stage === "prod" ? productionDomain : undefined,
     memo: {
       include: [
         "src/**",

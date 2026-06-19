@@ -127,6 +127,11 @@ regular deploy path intentionally does not auto-bootstrap in CI, so a new Cloudf
 either run `alchemy cloudflare bootstrap` once or rely on the protected main deploy job to run that
 idempotent bootstrap step with the configured GitHub environment secrets.
 
+The production website custom domain is fork-specific. Set the GitHub Actions variable
+`ALCHEMY_WEBSITE_DOMAIN` only after the configured Cloudflare account owns the parent zone. Leave it
+unset to deploy the Worker without a custom domain. `ALCHEMY_WEBSITE_WORKER_NAME` is also optional
+and only needed when adopting an existing production Worker name.
+
 ## Release Operations
 
 `nx.json` models four public release groups:
