@@ -4,7 +4,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsgo -b",
+        "command": "tsgo -b --checkers 1 --builders 1",
         "cwd": "{projectRoot}"
       },
       "outputs": [

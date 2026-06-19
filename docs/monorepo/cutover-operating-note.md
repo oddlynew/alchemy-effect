@@ -258,7 +258,7 @@ The cutover branch is ready to show as a replacement repository when all of thes
 - `git log --follow -- projects/alchemy/packages/alchemy/package.json` walks into Alchemy release
   history.
 - `bun nx show projects` succeeds.
-- `bun nx affected -t build --parallel=1 --exclude="$NX_PRODUCTION_EXCLUDE"` succeeds.
+- `bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` succeeds.
 - `bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` succeeds.
 - `bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` succeeds.
 - Release dry-runs continue the existing release lines:

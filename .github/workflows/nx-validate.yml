@@ -62,7 +62,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: .github/scripts/lint-pr-commits.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
 
-      - run: bun nx affected -t build --parallel=1 --exclude="$NX_PRODUCTION_EXCLUDE"
+      - run: bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
       - run: bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
       - run: bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
       - run: bun nx test nx-r2-cache-worker
