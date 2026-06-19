@@ -21,10 +21,10 @@ bun nx lint @oddlynew/distilled-cloudflare-runtime
 bun nx test @oddlynew/distilled-cloudflare-runtime
 ```
 
-For broad changes, use the production affected helper from the root:
+For broad changes, use the production affected commands from the root:
 
 ```bash
-.github/scripts/run-affected-production-target.ts typecheck --parallel=6
+bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 ```
 
 Package-local scripts are retained for package behavior and historical compatibility, but they are

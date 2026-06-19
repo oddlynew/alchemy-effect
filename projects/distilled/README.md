@@ -62,7 +62,7 @@ Distilled now lives in the Alchemy monorepo under `projects/distilled`.
 
 ```bash
 # Clone the replacement monorepo
-git clone https://github.com/alchemy-run/alchemy-effect.git
+git clone https://github.com/oddlynew/alchemy-effect.git
 cd alchemy-effect
 
 # Install dependencies
@@ -187,8 +187,8 @@ release artifacts, publishes to npm, and pushes the release commit/tags.
 ### CI
 
 Root CI uses Nx affected validation. For broad local checks, run
-`.github/scripts/run-affected-production-target.ts typecheck --parallel=6` and the matching `lint`
-or `build` target from the repository root.
+`bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` and the matching
+`lint` or `build` target from the repository root.
 
 ## Contributing
 

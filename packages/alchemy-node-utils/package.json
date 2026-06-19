@@ -3,6 +3,11 @@
   "version": "0.0.5",
   "description": "Node.js utilities shared by the Oddlynew Alchemy distribution.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oddlynew/alchemy-effect.git",
+    "directory": "packages/alchemy-node-utils"
+  },
   "type": "module",
   "sideEffects": false,
   "files": [

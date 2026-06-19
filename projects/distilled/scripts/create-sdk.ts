@@ -785,7 +785,7 @@ const scaffoldPackage = (
             version: "0.2.0-alpha",
             repository: {
               type: "git",
-              url: "https://github.com/alchemy-run/alchemy-effect",
+              url: "https://github.com/oddlynew/alchemy-effect",
               directory: `projects/distilled/packages/${name}`,
             },
             type: "module",

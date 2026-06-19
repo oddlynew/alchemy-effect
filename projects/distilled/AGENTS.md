@@ -11,8 +11,8 @@ commands, and formatting rules. The notes below describe Distilled-specific SDK 
   - `bun nx typecheck @oddlynew/distilled-stripe`
   - `bun nx lint @oddlynew/distilled-cloudflare`
   - `bun nx test @oddlynew/distilled-aws`
-- For broad changes, use the production affected helper from the root:
-  `.github/scripts/run-affected-production-target.ts typecheck --parallel=6`.
+- For broad changes, use the production affected commands from the root, for example
+  `bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"`.
 - Package-local scripts still exist for generation and debugging. Prefer the Nx form from the root
   when available, for example `bun nx run @oddlynew/distilled-stripe:generate`.
 - Do not use the imported standalone root scripts as the default validation path; they are retained
@@ -41,7 +41,6 @@ projects/distilled/
 │   ├── supabase/         # @oddlynew/distilled-supabase — Supabase SDK from OpenAPI spec
 │   └── turso/            # @oddlynew/distilled-turso — Turso SDK from OpenAPI spec
 ├── scripts/              # Root-level scripts (create-sdk.ts, bump.ts, etc.)
-├── AGENTS.md             # Distilled-specific agent notes
 └── AGENTS.md             # This file
 ```
 

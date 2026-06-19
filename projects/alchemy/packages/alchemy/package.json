@@ -6,7 +6,7 @@
   "author": "Sam Goodwin <sam@alchemy.run>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agcty/alchemy-effect.git",
+    "url": "git+https://github.com/oddlynew/alchemy-effect.git",
     "directory": "projects/alchemy/packages/alchemy"
   },
   "bin": {

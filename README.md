@@ -6,7 +6,7 @@
 
 <br />
 
-[![npm](https://img.shields.io/npm/v/alchemy?style=flat-square&color=3f5a2a&label=alchemy)](https://www.npmjs.com/package/alchemy)
+[![npm](https://img.shields.io/npm/v/%40oddlynew%2Falchemy?style=flat-square&color=3f5a2a&label=%40oddlynew%2Falchemy)](https://www.npmjs.com/package/@oddlynew/alchemy)
 [![license](https://img.shields.io/badge/license-Apache%202.0-3f5a2a?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
 [![discord](https://img.shields.io/badge/discord-join-3f5a2a?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/jwKw8dBJdN)
 
@@ -50,7 +50,7 @@ One `bind()` wires the binding, env var, and typed connection — at deploy time
 - **Same code, every stage.** Local dev, `plan` / `deploy`, smoke tests, and CI all share one mental model.
 
 ```sh
-bun add alchemy@next effect@next
+bun add @oddlynew/alchemy@next effect@next
 ```
 
 ## Bootstrap with an AI coding agent

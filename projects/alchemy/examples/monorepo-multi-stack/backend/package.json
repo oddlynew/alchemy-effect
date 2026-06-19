@@ -7,7 +7,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alchemy-run/alchemy-effect.git",
+    "url": "git+https://github.com/oddlynew/alchemy-effect.git",
     "directory": "projects/alchemy/examples/monorepo-multi-stack/backend"
   },
   "dependencies": {

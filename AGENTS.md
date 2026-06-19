@@ -48,7 +48,7 @@ as one project graph rather than as three standalone checkouts.
 | Build affected production graph | `bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
 | Type check affected production graph | `bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
 | Lint affected production graph | `bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
-| Format repo code | `bun oxfmt ./packages ./projects` |
+| Format repo code | `bun oxfmt .` |
 | Preview Alchemy release | `bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish` |
 | Preview alchemy-node-utils release | `bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish` |
 | Preview Distilled release | `bun nx release patch --groups=distilled --dry-run --skip-publish` |
@@ -59,9 +59,9 @@ as one project graph rather than as three standalone checkouts.
 1. Identify the Nx project or projects touched by the change with `bun nx show projects` and
    `bun nx show project <project> --json`.
 2. Run the focused target for each touched project, usually `build`, `typecheck`, `lint`, or `test`.
-3. For broad integration changes, run the affected production target script instead of manually
+3. For broad integration changes, run the affected production target commands instead of manually
    guessing every downstream package.
-4. Format changed code with `bun oxfmt ./packages ./projects` and run `git diff --check`.
+4. Format changed code with `bun oxfmt .` and run `git diff --check`.
 
 ## Architecture map
 

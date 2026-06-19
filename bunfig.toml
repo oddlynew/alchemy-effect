@@ -1,13 +1,19 @@
 [install]
+# Keep installs deterministic and compatible with the Nx workspace layout.
+linker = "hoisted"
+registry = "https://registry.npmjs.org"
+frozenLockfile = false
+optional = true
+dev = true
+
+# Avoid resolving packages published in the last 72 hours unless the package is
+# part of the fast-moving Effect, TypeScript, or dogfood release surface.
 minimumReleaseAge = 259200
 minimumReleaseAgeExcludes = [
   "@oddlynew/distilled-aws",
   "@oddlynew/distilled-axiom",
   "@oddlynew/distilled-cloudflare-rolldown-plugin",
-  "@oddlynew/distilled-cloudflare-rolldown-plugin",
   "@oddlynew/distilled-cloudflare-runtime",
-  "@oddlynew/distilled-cloudflare-runtime",
-  "@oddlynew/distilled-cloudflare-vite-plugin",
   "@oddlynew/distilled-cloudflare-vite-plugin",
   "@oddlynew/distilled-cloudflare",
   "@oddlynew/distilled-core",
