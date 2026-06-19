@@ -14,6 +14,7 @@ permissions:
 
 env:
   NODE_VERSION: "24"
+  NX_PRODUCTION_EXCLUDE: "@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
 
 jobs:
   docs-check:
@@ -43,5 +44,5 @@ jobs:
           restore-keys: bun-${{ runner.os }}-
 
       - run: bun install --frozen-lockfile
-      - run: .github/scripts/run-affected-production-target.ts typecheck --parallel=3
+      - run: bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
       - run: bun run docs:check

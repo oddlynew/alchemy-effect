@@ -23,6 +23,7 @@ permissions:
 
 env:
   NODE_VERSION: "24"
+  NX_PRODUCTION_EXCLUDE: "@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
 
 jobs:
   affected:
@@ -61,7 +62,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: .github/scripts/lint-pr-commits.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
 
-      - run: .github/scripts/run-affected-production-target.ts build --parallel=3
-      - run: .github/scripts/run-affected-production-target.ts typecheck --parallel=3
-      - run: .github/scripts/run-affected-production-target.ts lint --parallel=3
+      - run: bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+      - run: bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+      - run: bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
       - run: bun nx test nx-r2-cache-worker

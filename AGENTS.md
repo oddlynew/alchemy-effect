@@ -45,9 +45,9 @@ as one project graph rather than as three standalone checkouts.
 | Type check a project | `bun nx typecheck <project>` |
 | Lint a project | `bun nx lint <project>` |
 | Run a focused test | `bun nx test <project> --run <path>` |
-| Build affected production graph | `.github/scripts/run-affected-production-target.ts build --parallel=3` |
-| Type check affected production graph | `.github/scripts/run-affected-production-target.ts typecheck --parallel=3` |
-| Lint affected production graph | `.github/scripts/run-affected-production-target.ts lint --parallel=3` |
+| Build affected production graph | `bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
+| Type check affected production graph | `bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
+| Lint affected production graph | `bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"` |
 | Format repo code | `bun oxfmt ./packages ./projects` |
 | Preview Alchemy release | `bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish` |
 | Preview alchemy-node-utils release | `bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish` |
@@ -937,12 +937,14 @@ bun nx test @oddlynew/alchemy -- test/Cloudflare/R2/Bucket.test.ts
 
 ## Affected production validation
 
-For broad monorepo changes, use the production target helper so Nx computes the graph:
+For broad monorepo changes, use plain Nx affected commands with the same production exclusion used
+by CI:
 
 ```bash
-.github/scripts/run-affected-production-target.ts build --parallel=3
-.github/scripts/run-affected-production-target.ts typecheck --parallel=3
-.github/scripts/run-affected-production-target.ts lint --parallel=3
+export NX_PRODUCTION_EXCLUDE='@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 ```
 
 ## Live resource tests
