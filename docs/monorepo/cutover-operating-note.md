@@ -37,6 +37,22 @@ come from separate repositories. That gives both properties maintainers need:
 - GitHub sees the branch as ahead-only from `alchemy-run/alchemy-effect:main`.
 - Distilled and Cloudflare Tools files live at their final paths for their imported history.
 
+## Expected GitHub Compare Count
+
+GitHub should show the clean branch as `0 behind` the current `alchemy-run/alchemy-effect:main`,
+but the `ahead` count will be large. That is expected: it includes the complete prefixed histories
+for Distilled and Cloudflare Tools, not just the hand-written monorepo migration commits.
+
+The exact numbers will change as source repositories receive new commits, are re-synced, or receive
+additional cutover documentation commits. The desired topology is stable: no commits behind upstream
+Alchemy, with the ahead count mostly explained by imported repository history. To inspect the
+current split, compare the full ahead count with the first-parent cutover commits:
+
+```bash
+git rev-list --left-right --count origin/main...HEAD
+git rev-list --count origin/main..HEAD --first-parent
+```
+
 ## What The Unified Build Surfaced
 
 The monorepo build caught integration issues that were easy to miss while the repositories resolved
