@@ -265,6 +265,7 @@ The cutover branch is ready to show as a replacement repository when all of thes
 
 ```bash
 bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish
+bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish
 bun nx release patch --groups=distilled --dry-run --skip-publish
 bun nx release patch --groups=cloudflare-tools --dry-run --skip-publish
 ```

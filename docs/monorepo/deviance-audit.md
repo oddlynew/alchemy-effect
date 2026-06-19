@@ -11,7 +11,8 @@ target architecture and which ones are follow-up work.
 
 There is no known structural blocker after the current cleanup pass. The repo has a coherent Nx
 project graph, package identities are under the `@oddlynew` namespace, CI runs affected
-build/typecheck/lint with the R2 cache hook, and release groups are modeled in Nx.
+build/typecheck/lint with the R2 cache hook, release groups are modeled in Nx, and the second audit
+round fixed dogfood-specific package export and workflow trust blockers.
 
 The main remaining operational gap is test promotion. CI currently runs the new
 `nx-r2-cache-worker` tests, but it does not yet require affected hermetic package tests for Alchemy,
@@ -53,6 +54,20 @@ This audit fixed stale residue that would make the dogfood branch look less cohe
 - Fixed `@oddlynew/alchemy-nx-tsgo-plugin` typecheck inference to run
   `bun tsgo --build --emitDeclarationOnly` instead of `tsgo --noEmit -p tsconfig.json`. The old
   command could pass on solution-style `tsconfig.json` files with `files: []`.
+- Retargeted dogfood infra stacks that create GitHub comments, repo secrets, and repo variables from
+  `alchemy-run/alchemy-effect` to `oddlynew/alchemy-effect`.
+- Hardened the website workflow so prod Cloudflare credentials are selected only for exact
+  main-branch prod deploys; preview cleanup now requires the preview label and checks out `main`
+  rather than closed PR code before using Doppler.
+- Removed generated API tokens from Alchemy stack outputs that are printed by deploy commands.
+- Stopped `scripts/install` from exporting every `.env` value into a remote shell installer.
+- Pinned `nrwl/nx-set-shas` by commit SHA.
+- Fixed broken exact package exports in `@oddlynew/alchemy` and included Distilled core generator
+  scripts in the `@oddlynew/distilled-core` package tarball.
+- Updated current website navigation/edit links to the Oddlynew fork while leaving historical
+  release-note links on upstream.
+- Replaced stale Cloudflare Tools aggregate `oxfmt format` / `oxlint lint` command shapes and
+  removed a stale website README description of the old Zola/Pagefind pipeline.
 
 ## Transitional Differences
 
@@ -66,9 +81,13 @@ fully polished long-term replacement.
 | TypeScript config strictness | Shared config is cleaner than the imported repos, but still less strict than Oddlynew's mature baseline. | Tighten after imported package drift is resolved, not during the structural migration. |
 | Example and fixture targets | Examples and Cloudflare Tools fixtures still keep package-local scripts and are excluded from production CI. | Decide which examples are hermetic smoke tests, then infer or model them as first-class Nx targets. |
 | Root Alchemy smoke test | `test/smoke.test.ts` remains at the repository root. | Either keep it documented as cross-product smoke infrastructure or move it under `projects/alchemy` with a dedicated Nx target. |
-| Website links | Current marketing/docs pages still contain upstream GitHub links in many places. | For a public Oddlynew distribution website, update current navigation and install docs while preserving historical release-note links. |
+| Website links | Historical docs and blog pages still contain upstream GitHub links. Current navigation and edit links point at Oddlynew. | Keep historical release provenance upstream; only rewrite active dogfood navigation, install, and edit links. |
 | Distilled explicit build targets | Generated packages use many small `project.json` files. | If the pattern stabilizes, move it into the custom Nx plugin so package roots stay script-first. |
 | Release automation | Release is manual `workflow_dispatch`. | After the first successful dogfood publish, switch to automatic release from protected `main` if the team wants Oddlynew-style always-release behavior. |
+| `pr-package` reusable workflow | The caller pins `alchemy-run/actions`, but the reusable workflow remains an external trust dependency and may contain nested mutable defaults. | Fork or vendor the reusable workflow before using inherited publish secrets for a fully independent dogfood package preview path. |
+| Npm provenance | Release workflow sets `NPM_CONFIG_PROVENANCE=true`, but the first real Bun/Nx publish still needs attestation verification. | After the first publish, verify npm provenance/attestations and document the exact trusted-publishing setup. |
+| Package docs/licenses | Some public package tarballs rely on manifest license metadata and do not ship package-local README/LICENSE files. | Add package-local README/license coverage for every public package if npm presentation quality becomes part of the dogfood demo. |
+| Live cloud permissions | GitHub OIDC and generated Cloudflare API tokens remain broad enough for live-provider validation. | Narrow after deciding which live tests/deploys are required gates; keep broad tokens out of normal PR paths. |
 
 ## Follow-Up Verification
 

@@ -197,7 +197,7 @@ handlers now use `Effect.catch` and re-fail unknown errors.
 
 ## Release Groups
 
-`nx.json` models the three public release surfaces separately:
+`nx.json` models the four public release surfaces separately:
 
 - `alchemy`: `@oddlynew/alchemy`, `@oddlynew/alchemy-better-auth`, `@oddlynew/alchemy-pr-package`
 - `alchemy-node-utils`: the shared `@oddlynew/alchemy-node-utils` package used by Alchemy and Cloudflare Tools
@@ -309,7 +309,7 @@ The Worker requires `NX_R2_CACHE_TRUSTED_TOKEN` and `NX_R2_CACHE_BRANCH_TOKEN` i
    cache and `main` uses trusted cache.
 4. Run affected builds on integration PRs that touch both `alchemy` and `distilled`.
 5. Create or update the imported-group baseline tags on the final cutover commit.
-6. Run the Nx release dry-runs for all three groups and approve the generated version/changelog
+6. Run the Nx release dry-runs for all release groups and approve the generated version/changelog
    plan.
 7. Remove `--dry-run` / `--skip-publish` from the chosen release command when npm/GitHub
    credentials are intentionally wired for the monorepo.

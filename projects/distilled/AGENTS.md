@@ -29,17 +29,24 @@ projects/distilled/
 ├── packages/
 │   ├── core/             # @oddlynew/distilled-core — shared client, traits, errors, categories
 │   ├── aws/              # @oddlynew/distilled-aws — AWS SDK from Smithy models
+│   ├── axiom/            # @oddlynew/distilled-axiom — Axiom SDK from OpenAPI spec
+│   ├── azure/            # @oddlynew/distilled-azure — Azure SDK from OpenAPI specs
 │   ├── cloudflare/       # @oddlynew/distilled-cloudflare — Cloudflare SDK from TypeScript SDK
 │   ├── coinbase/         # @oddlynew/distilled-coinbase — Coinbase CDP SDK from OpenAPI spec
+│   ├── expo-eas/         # @oddlynew/distilled-expo-eas — Expo EAS SDK from OpenAPI spec
 │   ├── fly-io/           # @oddlynew/distilled-fly-io — Fly.io SDK from OpenAPI spec
 │   ├── gcp/              # @oddlynew/distilled-gcp — GCP SDK from Discovery Documents
+│   ├── kubernetes/       # @oddlynew/distilled-kubernetes — Kubernetes SDK from OpenAPI spec
 │   ├── mongodb-atlas/    # @oddlynew/distilled-mongodb-atlas — MongoDB Atlas SDK from OpenAPI spec
 │   ├── neon/             # @oddlynew/distilled-neon — Neon SDK from OpenAPI spec
 │   ├── planetscale/      # @oddlynew/distilled-planetscale — PlanetScale SDK from OpenAPI spec
+│   ├── posthog/          # @oddlynew/distilled-posthog — PostHog SDK from OpenAPI spec
 │   ├── prisma-postgres/  # @oddlynew/distilled-prisma-postgres — Prisma Postgres SDK from OpenAPI spec
 │   ├── stripe/           # @oddlynew/distilled-stripe — Stripe SDK from OpenAPI spec
 │   ├── supabase/         # @oddlynew/distilled-supabase — Supabase SDK from OpenAPI spec
-│   └── turso/            # @oddlynew/distilled-turso — Turso SDK from OpenAPI spec
+│   ├── turso/            # @oddlynew/distilled-turso — Turso SDK from OpenAPI spec
+│   ├── typesense/        # @oddlynew/distilled-typesense — Typesense SDK from OpenAPI spec
+│   └── workos/           # @oddlynew/distilled-workos — WorkOS SDK from OpenAPI spec
 ├── scripts/              # Root-level scripts (create-sdk.ts, bump.ts, etc.)
 └── AGENTS.md             # This file
 ```

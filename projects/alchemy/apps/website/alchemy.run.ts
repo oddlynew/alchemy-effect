@@ -7,6 +7,8 @@ import * as Layer from "effect/Layer";
 
 export type WorkerEnv = Cloudflare.InferEnv<typeof Website>;
 
+const REPO = { owner: "oddlynew", repository: "alchemy-effect" } as const;
+
 const Website = Cloudflare.StaticSite(
   "Website",
   Alchemy.Stack.useSync((stack) => ({
@@ -52,8 +54,7 @@ export default Alchemy.Stack(
 
     if (stage.startsWith("pr-")) {
       yield* GitHub.Comment("preview-comment", {
-        owner: "alchemy-run",
-        repository: "alchemy-effect",
+        ...REPO,
         issueNumber: Number(process.env.PULL_REQUEST),
         body: Output.interpolate`
           ## Website Preview Deployed
@@ -67,7 +68,7 @@ export default Alchemy.Stack(
             // commit on `pull_request` events, which is not what
             // anyone wants to see in the comment.
             process.env.BUILD_SHA
-              ? `[\`${process.env.BUILD_SHA.slice(0, 7)}\`](https://github.com/alchemy-run/alchemy-effect/commit/${process.env.BUILD_SHA})`
+              ? `[\`${process.env.BUILD_SHA.slice(0, 7)}\`](https://github.com/${REPO.owner}/${REPO.repository}/commit/${process.env.BUILD_SHA})`
               : "unknown"
           }.
 

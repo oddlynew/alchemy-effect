@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-# Load secrets from ./.env if the file exists
-if [[ -f .env ]]; then
-  set -o allexport
-  source .env
-  set +o allexport
-fi
-
 # Installs system dependencies required for this project
 
 UPDATE=0
@@ -35,4 +28,15 @@ install_brew() {
 
 install_brew rg ripgrep
 install_brew localstack localstack/tap/localstack-cli
-localstack auth set-token $LOCALSTACK_TOKEN 2>&1 > /dev/null
+
+if [[ -z "${LOCALSTACK_TOKEN:-}" && -f .env ]]; then
+  LOCALSTACK_TOKEN="$(grep -E '^LOCALSTACK_TOKEN=' .env | tail -n 1 | cut -d= -f2-)"
+  LOCALSTACK_TOKEN="${LOCALSTACK_TOKEN%\"}"
+  LOCALSTACK_TOKEN="${LOCALSTACK_TOKEN#\"}"
+fi
+
+if [[ -n "${LOCALSTACK_TOKEN:-}" ]]; then
+  localstack auth set-token "$LOCALSTACK_TOKEN" >/dev/null 2>&1
+else
+  echo "LOCALSTACK_TOKEN is not set; skipping LocalStack auth."
+fi

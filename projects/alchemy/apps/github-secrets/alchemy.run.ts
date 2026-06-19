@@ -3,13 +3,11 @@ import * as AWS from "@oddlynew/alchemy/AWS";
 import * as Cloudflare from "@oddlynew/alchemy/Cloudflare";
 import * as GitHub from "@oddlynew/alchemy/GitHub";
 import * as Neon from "@oddlynew/alchemy/Neon";
-import * as Output from "@oddlynew/alchemy/Output";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
 
-const REPO = { owner: "alchemy-run", repository: "alchemy-effect" } as const;
+const REPO = { owner: "oddlynew", repository: "alchemy-effect" } as const;
 
 export default Alchemy.Stack(
   "AlchemyGitHubSecrets",
@@ -121,13 +119,7 @@ export default Alchemy.Stack(
     });
 
     return {
-      TEST_CLOUDFLARE_API_TOKEN: TEST_CLOUDFLARE_API_TOKEN.value.pipe(
-        Output.map(Redacted.value),
-      ),
       TEST_CLOUDFLARE_ACCOUNT_ID: TEST_CLOUDFLARE_ACCOUNT_ID,
-      PROD_CLOUDFLARE_API_TOKEN: PROD_CLOUDFLARE_API_TOKEN.value.pipe(
-        Output.map(Redacted.value),
-      ),
       PROD_CLOUDFLARE_ACCOUNT_ID: PROD_CLOUDFLARE_ACCOUNT_ID,
       AWS_ROLE_ARN: role.roleArn,
       AWS_REGION: AWS_REGION,

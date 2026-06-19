@@ -223,7 +223,7 @@ export default defineConfig({
         {
           icon: "github",
           label: "GitHub",
-          href: "https://github.com/alchemy-run/alchemy-effect",
+          href: "https://github.com/oddlynew/alchemy-effect",
         },
         {
           icon: "discord",
@@ -233,7 +233,7 @@ export default defineConfig({
       ],
       editLink: {
         baseUrl:
-          "https://github.com/alchemy-run/alchemy-effect/edit/main/projects/alchemy/apps/website",
+          "https://github.com/oddlynew/alchemy-effect/edit/main/projects/alchemy/apps/website",
       },
       sidebar: [
         { label: "What is Alchemy?", link: "/what-is-alchemy" },

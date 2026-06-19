@@ -1,4 +1,4 @@
-# @oddlynew/distilled-sdk-core
+# @oddlynew/distilled-core
 
 Shared infrastructure for all Distilled SDKs. Provides the client factory, HTTP trait annotations, error classes, error categories, pagination utilities, and retry policies.
 
@@ -19,12 +19,12 @@ This package is not intended to be used directly. It's a dependency of the provi
 
 ```typescript
 // Provider packages import from core like this:
-import { makeAPI } from "@oddlynew/distilled-sdk-core/client";
-import * as T from "@oddlynew/distilled-sdk-core/traits";
-import { NotFound, Forbidden } from "@oddlynew/distilled-sdk-core/errors";
-import * as Category from "@oddlynew/distilled-sdk-core/category";
+import { makeAPI } from "@oddlynew/distilled-core/client";
+import * as T from "@oddlynew/distilled-core/traits";
+import { NotFound, Forbidden } from "@oddlynew/distilled-core/errors";
+import * as Category from "@oddlynew/distilled-core/category";
 ```
 
 ## License
 
-MIT
+Apache-2.0

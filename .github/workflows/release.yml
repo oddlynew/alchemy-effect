@@ -53,6 +53,7 @@ env:
 jobs:
   release:
     runs-on: ubuntu-large
+    environment: ${{ inputs['dry-run'] == false && 'production' || '' }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:

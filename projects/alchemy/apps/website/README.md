@@ -4,16 +4,14 @@ This workspace contains the customer-facing docs site for Alchemy Effect.
 
 ## Build Pipeline
 
-The site is intentionally split into independent steps:
+The site is an Astro/Starlight app. The build currently runs these steps:
 
-1. `bun run build:reference` generates Zola-compatible API reference pages from the TypeScript source tree.
-2. `bun run build:assets` compiles the shared Tailwind CSS and the custom browser JavaScript bundle.
-3. `bun run build:site` renders the site with Zola.
-4. `bun run build:search` indexes the built HTML with Pagefind.
-5. `alchemy.run.ts` deploys the final `dist/` directory through `Cloudflare.StaticSite(...)`.
+1. `bun run build:reference` generates provider API reference pages from the TypeScript source tree.
+2. `bun run build:llms` generates the `llms.txt` artifacts.
+3. `astro build` renders the docs site into `dist/`.
+4. `alchemy.run.ts` deploys the final `dist/` directory through `Cloudflare.StaticSite(...)`.
 
-This keeps the large markdown corpus on a Rust-first rendering path while still
-allowing a modern custom UI.
+`bun run build` runs the full pipeline with the Node heap size required by the docs corpus.
 
 ## Local Commands
 
@@ -24,16 +22,5 @@ allowing a modern custom UI.
 
 ## Benchmark Snapshot
 
-Measured locally on 2026-04-02:
-
-- API reference generation: about `2.2s`
-- Tailwind + browser bundle build: about `0.9s`
-- Zola render: about `0.6s`
-- Pagefind indexing: about `0.3s`
-- Total built files in `dist/`: `693`
-- Total built bytes in `dist/`: `3,120,670`
-- Pagefind files: `350`
-- Pagefind bytes: `633,383`
-
-These numbers should be treated as a baseline for future changes to the docs
-pipeline.
+The previous Zola/Pagefind benchmark no longer applies. Re-record a fresh Astro baseline after the
+dogfood website deploy path is stable.

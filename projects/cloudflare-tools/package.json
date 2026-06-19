@@ -14,10 +14,10 @@
   },
   "type": "module",
   "scripts": {
-    "format": "oxfmt format --check .",
-    "format:write": "oxfmt format .",
-    "lint": "oxlint lint . --ignore-pattern 'workers-sdk'",
-    "lint:write": "oxlint lint . --ignore-pattern 'workers-sdk' --fix",
+    "format": "oxfmt --check .",
+    "format:write": "oxfmt .",
+    "lint": "oxlint . --ignore-pattern 'workers-sdk'",
+    "lint:write": "oxlint . --ignore-pattern 'workers-sdk' --fix",
     "submodules:init": "git submodule update --init --recursive",
     "submodules:update": "git submodule update --remote --recursive"
   },

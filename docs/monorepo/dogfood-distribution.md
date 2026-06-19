@@ -62,7 +62,7 @@ The target release loop is the Oddlynew shape:
 2. Deployment or live-provider checks run where a project requires them.
 3. `bun nx release` computes versions from conventional commits.
 4. Nx writes package changelogs and tags.
-5. Nx publishes the public packages to npm with provenance.
+5. Nx publishes the public packages to npm with provenance enabled.
 
 Dogfood release tags are scoped to the fork identities:
 
@@ -71,9 +71,9 @@ Dogfood release tags are scoped to the fork identities:
 - `@oddlynew/distilled@<version>`
 - `@oddlynew/cloudflare-tools@<version>`
 
-The dogfood branch may start with a manual `workflow_dispatch` release while credentials and npm
-scope ownership are being proven. Once the first real release is reliable, prefer automatic release
-from the protected dogfood `main` branch after CI succeeds.
+The dogfood branch may start with a manual `workflow_dispatch` release while credentials, npm
+scope ownership, and npm provenance attestations are being proven. Once the first real release is
+reliable, prefer automatic release from the protected dogfood `main` branch after CI succeeds.
 
 Required credentials for the full loop:
 

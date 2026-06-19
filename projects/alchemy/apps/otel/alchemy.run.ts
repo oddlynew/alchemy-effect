@@ -82,7 +82,7 @@ export default Alchemy.Stack(
 
     if (process.env.SYNC_GITHUB_SECRETS === "1") {
       yield* GitHub.Secrets({
-        owner: "alchemy-run",
+        owner: "oddlynew",
         repository: "alchemy-effect",
         secrets: {
           AXIOM_DATASET_TRACES: traces.name,

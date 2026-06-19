@@ -17,7 +17,7 @@ These packages:
 - Run `build`, `typecheck`, and `test` scripts (see [Scripts](#scripts) below).
 - Conform to the repo's `oxlint` + `oxfmt` rules. Where upstream patterns can't
   be made compliant trivially, narrow rule overrides live in
-  [`.oxlintrc.json`](../../.oxlintrc.json) scoped to `packages/vendor/*/src/**`.
+  [`oxlint.ts`](../../oxlint.ts) scoped to `packages/vendor/*/src/**`.
 
 ## Layout convention
 
@@ -197,8 +197,8 @@ The example below assumes the upstream lives at
    ```bash
    bun install
    bun nx run-many -t typecheck test --projects @oddlynew/distilled-vendor-<upstream>
-   bunx oxlint lint packages/vendor/<upstream>
-   bunx oxfmt format --check packages/vendor/<upstream>
+   bunx oxlint packages/vendor/<upstream>
+   bunx oxfmt --check packages/vendor/<upstream>
    ```
 
    If any tests fail against vanilla upstream source, that's a signal something
@@ -207,7 +207,7 @@ The example below assumes the upstream lives at
 
    If `oxlint` flags upstream patterns that aren't trivially fixable, add the
    specific rules to the existing `packages/vendor/*/src/**/*.ts` override
-   block in [`.oxlintrc.json`](../../.oxlintrc.json) rather than disabling them
+   block in [`oxlint.config.ts`](../../oxlint.config.ts) rather than disabling them
    globally.
 
 7. **Record the upstream commit SHA** in the package's `README.md`. When the

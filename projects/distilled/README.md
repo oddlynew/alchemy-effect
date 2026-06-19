@@ -44,17 +44,24 @@ existing work. Use `bun scripts/create-sdk.ts --help` for skip/resume flags.
 | ------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [`@oddlynew/distilled-core`](./packages/core)                       | Shared client, traits, errors, and categories                    |
 | [`@oddlynew/distilled-aws`](./packages/aws)                         | AWS SDK from Smithy models (S3, Lambda, DynamoDB, 200+ services) |
+| [`@oddlynew/distilled-axiom`](./packages/axiom)                     | Axiom SDK from OpenAPI spec                                      |
+| [`@oddlynew/distilled-azure`](./packages/azure)                     | Azure SDK from OpenAPI specs                                     |
 | [`@oddlynew/distilled-cloudflare`](./packages/cloudflare)           | Cloudflare SDK (Workers, R2, KV, D1, Queues, DNS)                |
 | [`@oddlynew/distilled-coinbase`](./packages/coinbase)               | Coinbase CDP SDK (EVM/Solana wallets, swaps, faucets, onramp)    |
+| [`@oddlynew/distilled-expo-eas`](./packages/expo-eas)               | Expo EAS SDK from OpenAPI spec                                   |
 | [`@oddlynew/distilled-fly-io`](./packages/fly-io)                   | Fly.io SDK from OpenAPI spec                                     |
 | [`@oddlynew/distilled-gcp`](./packages/gcp)                         | GCP SDK from Discovery Documents                                 |
+| [`@oddlynew/distilled-kubernetes`](./packages/kubernetes)           | Kubernetes SDK from OpenAPI spec                                 |
 | [`@oddlynew/distilled-mongodb-atlas`](./packages/mongodb-atlas)     | MongoDB Atlas SDK from OpenAPI spec                              |
 | [`@oddlynew/distilled-neon`](./packages/neon)                       | Neon serverless Postgres SDK from OpenAPI spec                   |
 | [`@oddlynew/distilled-planetscale`](./packages/planetscale)         | PlanetScale MySQL SDK from OpenAPI spec                          |
+| [`@oddlynew/distilled-posthog`](./packages/posthog)                 | PostHog SDK from OpenAPI spec                                    |
 | [`@oddlynew/distilled-prisma-postgres`](./packages/prisma-postgres) | Prisma Postgres SDK from OpenAPI spec                            |
 | [`@oddlynew/distilled-stripe`](./packages/stripe)                   | Stripe SDK from OpenAPI spec                                     |
 | [`@oddlynew/distilled-supabase`](./packages/supabase)               | Supabase Management API SDK from OpenAPI spec                    |
 | [`@oddlynew/distilled-turso`](./packages/turso)                     | Turso SDK from OpenAPI spec                                      |
+| [`@oddlynew/distilled-typesense`](./packages/typesense)             | Typesense SDK from OpenAPI spec                                  |
+| [`@oddlynew/distilled-workos`](./packages/workos)                   | WorkOS SDK from OpenAPI spec                                     |
 
 ## Getting Started
 
