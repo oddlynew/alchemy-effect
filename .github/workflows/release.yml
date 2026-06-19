@@ -52,7 +52,9 @@ env:
 
 jobs:
   release:
-    runs-on: ubuntu-large
+    runs-on:
+      group: "Default Larger Runners"
+      labels: "ubuntu-large"
     timeout-minutes: 15
     environment: ${{ inputs['dry-run'] == false && 'production' || '' }}
     steps:

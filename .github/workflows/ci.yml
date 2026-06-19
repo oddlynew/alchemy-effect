@@ -42,7 +42,9 @@ jobs:
     # Public fork PRs are controlled by GitHub's workflow-approval setting;
     # keep this on `pull_request`, not `pull_request_target`, because this job
     # checks out and executes PR code.
-    runs-on: ubuntu-large
+    runs-on:
+      group: "Default Larger Runners"
+      labels: "ubuntu-large"
     timeout-minutes: 15
     environment: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'production' || '' }}
     env:
