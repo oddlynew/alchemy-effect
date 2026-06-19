@@ -22,7 +22,7 @@ export interface Tool<
     [p in keyof ToolParameters<Refs[number]>]: ToolParameters<Refs[number]>[p];
   };
   impl: (props: this["params"]) => Effect.Effect<any, any, any>;
-  new (): Tool;
+  new (): Tool<Name, Refs>;
   <Err = never, Req = never>(
     impl: Effect.Effect<
       (props: this["params"]) => Effect.Effect<any>,

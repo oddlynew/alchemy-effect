@@ -331,7 +331,7 @@ export const Container: Platform<
   layer: <Shape>(
     containerEff: Container.Bound<Shape>,
     options?: ContainerStartupOptions,
-  ) => Layer.Layer<Container.Bound<Shape>, never, DurableObjectState>;
+  ) => Layer.Layer<Container.Running<Shape>, never, DurableObjectState>;
 } = Platform(
   "Cloudflare.Container",
   {

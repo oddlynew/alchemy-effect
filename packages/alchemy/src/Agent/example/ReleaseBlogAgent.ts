@@ -1,14 +1,16 @@
 import * as Layer from "effect/Layer";
 
-import * as Cloudflare from "../../Cloudflare/index.ts";
 import { DevBox } from "./DevBox.ts";
 import { Bash } from "./tools/Bash.ts";
 import { Eval, EvalLive } from "./tools/Eval.ts";
-import { EditFile, ReadFile, WriteFile } from "./tools/Fs.ts";
+import { EditFile, ReadFile, WriteFile, WriteFileDevBox } from "./tools/Fs.ts";
 import { Grep, GrepLive } from "./tools/Grep.ts";
 import { Sql, SqlDurableObjectLive } from "./tools/Sql.ts";
 
-export class ReleaseBlogAgent extends Cloudflare.Agent<ReleaseBlogAgent>()(
+import * as Cloudflare from "../../Cloudflare/index.ts";
+import * as Alchemy from "../index.ts";
+
+export class ReleaseBlogAgent extends Alchemy.Agent<ReleaseBlogAgent>()(
   "ReleaseBlogger",
 )`
 You are the Release Blogger. Your job is to turn a merged pull request into a
@@ -34,20 +36,23 @@ To do your job:
 
 Always write in the voice of the existing beta posts. Keep it tight.` {}
 
-export const ReleaseBlogAgentLive = ReleaseBlogAgent.layer(function* () {
-  const loader = yield* Cloudflare.WorkerLoader("WorkerLoader");
-  const dev = yield* Cloudflare.Container.bind(DevBox);
+export const ReleaseBlogAgentCloudflare = Cloudflare.Agent(ReleaseBlogAgent)(
+  function* () {
+    const loader = yield* Cloudflare.WorkerLoader("WorkerLoader");
+    const dev = yield* Cloudflare.Container.bind(DevBox);
 
-  return this.pipe(
-    Layer.provide(EvalLive),
-    Layer.provide(GrepLive),
-    Layer.provide(SqlDurableObjectLive),
-    Layer.provide(Cloudflare.layerChatDurableObject),
-    Layer.provide(Cloudflare.WorkerLoader.layer(loader)),
-    Layer.provide(
-      Cloudflare.Container.layer(dev, {
-        enableInternet: true,
-      }),
-    ),
-  );
-});
+    return this.pipe(
+      Layer.provide(EvalLive),
+      Layer.provide(GrepLive),
+      Layer.provide(WriteFileDevBox),
+      Layer.provide(SqlDurableObjectLive),
+      Layer.provide(Cloudflare.layerChatDurableObject),
+      Layer.provide(Cloudflare.WorkerLoader.layer(loader)),
+      Layer.provide(
+        Cloudflare.Container.layer(dev, {
+          enableInternet: true,
+        }),
+      ),
+    );
+  },
+);
