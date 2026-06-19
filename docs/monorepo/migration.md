@@ -162,10 +162,11 @@ instead of through `bun run build`. The monorepo CI exposed an Nx/Bun package-sc
 process-lifecycle edge where `nx:run-script` could finish the build graph successfully and still
 exit 130 after GitHub cleaned up an orphan Bun script process.
 
-Generated Distilled provider builds set Nx `parallelism: false`. Nx still runs the affected
-production build with `--parallel=3`, but the very large generated SDK emits do not run alongside
-other tasks on the same hosted Linux runner. That keeps the resource constraint on the projects
-that need it instead of serializing the whole workflow.
+Generated Distilled provider builds set Nx `parallelism: false` and run `tsgo -b --checkers 1
+--builders 1`. Nx still runs the affected production build with `--parallel=3`, but the very large
+generated SDK emits do not run alongside other tasks on the same hosted Linux runner, and each emit
+limits TypeScript's own worker fan-out. That keeps the resource constraint on the projects that
+need it instead of serializing the whole workflow.
 
 Distilled's existing `check` scripts still include `oxfmt --check src`, but the imported generated
 AWS/GCP clients have pre-existing formatter drift. The migration CI therefore runs `lint`
