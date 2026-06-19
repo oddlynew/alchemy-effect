@@ -30,7 +30,7 @@ These are intentional differences from the Oddlynew app monorepo.
 | Release shape | Keep separate Nx release groups for Alchemy, alchemy-node-utils, Distilled, and Cloudflare Tools. | The upstream repos already have separate version lines. Dogfood publishing should prove grouped releases without forcing one global version. |
 | Large runner | Use `ubuntu-large` for CI and release. | Distilled generated SDK builds, especially GCP, exceed the margin of the default runner. The project-level build targets still limit concurrency where needed. |
 | Fork PR safety | Keep CI on `pull_request`, with GitHub fork-workflow approval protecting larger runner cost. | The workflow executes PR code, so `pull_request_target` would be the wrong trust model for validation. |
-| Production affected exclude | Exclude aggregate roots, website, examples, and fixtures from production affected build/typecheck/lint. | Those projects remain in the graph and can be run directly, but they are not all hermetic production package gates yet. |
+| Production affected exclude | Exclude website, examples, and fixtures from production affected build/typecheck/lint. | Those projects remain in the graph and can be run directly, but they are not all hermetic production package gates yet. Distilled and Cloudflare Tools package leaves are part of the default affected gate. |
 | Distilled `project.json` build overrides | Keep generated SDK package build targets explicit. | Some generated packages need serialized or file-by-file emit behavior that is not yet generic enough for inference. |
 | `pr-package.yml` upstream workflow | Keep the pinned `alchemy-run/actions` reusable workflow for now. | It is an external dependency, not executable inline repo code. Forking it is only necessary when dogfood independence matters more than staying close to upstream. |
 | Historical docs links | Leave old blog/changelog links pointing at upstream unless they are current dogfood instructions. | Historical release notes should keep pointing to the original issues and PRs; rewriting them would distort provenance. |
@@ -64,6 +64,8 @@ This audit fixed stale residue that would make the dogfood branch look less cohe
 - Pinned `nrwl/nx-set-shas` by commit SHA.
 - Set `GOMAXPROCS=4` in CI so type-aware `oxlint`/`tsgolint` runs do not over-fan-out on the
   large runner.
+- Removed imported product-root aggregate package manifests so every workspace `package.json` maps
+  to a real package, app, example, fixture, or repo infrastructure project.
 - Fixed broken exact package exports in `@oddlynew/alchemy` and included Distilled core generator
   scripts in the `@oddlynew/distilled-core` package tarball.
 - Updated current website navigation/edit links to the Oddlynew fork while leaving historical
@@ -107,7 +109,7 @@ git diff --check
 For CI-shape validation, use the same affected commands as the workflow:
 
 ```bash
-export NX_PRODUCTION_EXCLUDE="@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
+export NX_PRODUCTION_EXCLUDE="@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
 bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"

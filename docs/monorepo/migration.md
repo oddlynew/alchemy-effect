@@ -142,18 +142,18 @@ when they want stricter linting across the merged workspace.
 
 CI runs Nx affected checks for production/package projects, not every demo surface. `build`,
 `typecheck`, and `lint` validation use direct `bun nx affected` commands with
-`NX_PRODUCTION_EXCLUDE` to skip aggregate and non-hermetic project-name patterns:
+`NX_PRODUCTION_EXCLUDE` to skip non-hermetic project-name patterns:
 
-- `@oddlynew/distilled`
-- `@oddlynew/cloudflare-tools`
 - `@oddlynew/alchemy-website`
 - `@oddlynew/alchemy-example-*`
 - `@oddlynew/cloudflare-tools-fixture-*`
 
-Those projects still appear in the Nx graph and can be run directly. The exclusion belongs in the
-workflow rather than a wrapper script so the branch keeps the Oddlynew-style `bun nx affected`
-surface while making the temporary CI boundary visible. Test suites are also not promoted wholesale
-yet: several imported package tests exercise live external services and require provider secrets.
+Those projects still appear in the Nx graph and can be run directly. Distilled and Cloudflare Tools
+aggregate roots are not workspace projects; their package leaves are validated directly by Nx. The
+exclusion belongs in the workflow rather than a wrapper script so the branch keeps the Oddlynew-style
+`bun nx affected` surface while making the temporary CI boundary visible. Test suites are also not
+promoted wholesale yet: several imported package tests exercise live external services and require
+provider secrets.
 Distilled's test syntax has been updated for Vitest 4, and the branch explicitly runs the new
 `nx-r2-cache-worker` tests in CI because that package is new repo infrastructure. Broader package
 tests can be promoted into the required CI gate once each target is hermetic.
@@ -227,8 +227,8 @@ bun nx release patch --groups=cloudflare-tools --dry-run --skip-publish
 Those commands already preview package version bumps and changelog entries from the merged commit
 history. They intentionally mirror the current release lines: `@oddlynew/alchemy` continues from
 `2.0.0-beta.57` to `2.0.0-beta.58`, `@oddlynew/alchemy-node-utils` continues from `0.0.5` to `0.0.6`,
-`@oddlynew/distilled` continues from `0.25.2` to `0.25.3`, and `@oddlynew/cloudflare-tools`
-continues from `0.11.2` to `0.11.3`.
+the Distilled release group continues from `0.25.2` to `0.25.3`, and the Cloudflare Tools release
+group continues from `0.11.2` to `0.11.3`.
 
 The dogfood release groups require monorepo baseline tags at the fork-namespace commit:
 
@@ -239,7 +239,8 @@ git tag -a "@oddlynew/distilled@0.25.2" HEAD -m "oddlynew distilled dogfood base
 git tag -a "@oddlynew/cloudflare-tools@0.11.2" HEAD -m "oddlynew cloudflare tools dogfood baseline 0.11.2"
 ```
 
-Those tags keep the first monorepo-native patch release clean. Placing the tags on the old imported
+The `@oddlynew/distilled@...` and `@oddlynew/cloudflare-tools@...` tags are release-group tags, not
+aggregate npm packages. They keep the first monorepo-native patch release clean. Placing the tags on the old imported
 release commits is not enough after merging unrelated histories: Nx would still include the
 Alchemy-side history in the changelog range. `--first-release` is therefore not the production
 cutover path; it should be reserved for intentionally new release groups without a prior baseline.

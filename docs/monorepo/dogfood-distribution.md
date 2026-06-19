@@ -64,7 +64,8 @@ The target release loop is the Oddlynew shape:
 4. Nx writes package changelogs and tags.
 5. Nx publishes the public packages to npm with provenance enabled.
 
-Dogfood release tags are scoped to the fork identities:
+Dogfood release tags are scoped to the fork identities. `@oddlynew/distilled@...` and
+`@oddlynew/cloudflare-tools@...` are release-group tags, not aggregate npm packages:
 
 - `@oddlynew/alchemy@<version>`
 - `@oddlynew/alchemy-node-utils@<version>`

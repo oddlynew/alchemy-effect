@@ -941,7 +941,7 @@ For broad monorepo changes, use plain Nx affected commands with the same product
 by CI:
 
 ```bash
-export NX_PRODUCTION_EXCLUDE='@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+export NX_PRODUCTION_EXCLUDE='@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
 bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
 bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"

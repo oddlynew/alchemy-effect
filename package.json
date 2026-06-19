@@ -62,10 +62,8 @@
       "projects/alchemy/examples/*",
       "projects/alchemy/examples/monorepo-single-stack/*",
       "projects/alchemy/examples/monorepo-multi-stack/*",
-      "projects/distilled",
       "projects/distilled/packages/*",
       "projects/distilled/www/*",
-      "projects/cloudflare-tools",
       "projects/cloudflare-tools/packages/*",
       "projects/cloudflare-tools/packages/vendor/*",
       "projects/cloudflare-tools/packages/tools/*",
@@ -155,6 +153,7 @@
   },
   "devDependencies": {
     "@oddlynew/alchemy-pr-package": "workspace:*",
+    "@anthropic-ai/claude-agent-sdk": "^0.2.81",
     "@ark/attest": "^0.56.0",
     "@cloudflare/puppeteer": "^1.1.0",
     "@oddlynew/distilled-cloudflare": "workspace:*",
