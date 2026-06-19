@@ -51,24 +51,3 @@ export const ReleaseBlogAgentLive = ReleaseBlogAgent.layer(function* () {
     ),
   );
 });
-
-export const ReleaseBlogAgentLive2 = Cloudflare.makeAgent(
-  ReleaseBlogAgent,
-  function* () {
-    const loader = yield* Cloudflare.WorkerLoader("WorkerLoader");
-    const dev = yield* Cloudflare.Container.bind(DevBox);
-
-    return this.pipe(
-      Layer.provide(EvalLive),
-      Layer.provide(GrepLive),
-      Layer.provide(SqlDurableObjectLive),
-      Layer.provide(Cloudflare.layerChatDurableObject),
-      Layer.provide(Cloudflare.WorkerLoader.layer(loader)),
-      Layer.provide(
-        Cloudflare.Container.layer(dev, {
-          enableInternet: true,
-        }),
-      ),
-    );
-  },
-);
