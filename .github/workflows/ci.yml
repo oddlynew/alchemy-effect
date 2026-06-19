@@ -23,6 +23,7 @@ permissions:
 
 env:
   NODE_VERSION: "24"
+  GOMAXPROCS: "4"
   NX_PRODUCTION_EXCLUDE: "@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
 
 jobs:

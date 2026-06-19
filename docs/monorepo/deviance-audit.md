@@ -62,6 +62,8 @@ This audit fixed stale residue that would make the dogfood branch look less cohe
 - Removed generated API tokens from Alchemy stack outputs that are printed by deploy commands.
 - Stopped `scripts/install` from exporting every `.env` value into a remote shell installer.
 - Pinned `nrwl/nx-set-shas` by commit SHA.
+- Set `GOMAXPROCS=4` in CI so type-aware `oxlint`/`tsgolint` runs do not over-fan-out on the
+  large runner.
 - Fixed broken exact package exports in `@oddlynew/alchemy` and included Distilled core generator
   scripts in the `@oddlynew/distilled-core` package tarball.
 - Updated current website navigation/edit links to the Oddlynew fork while leaving historical
