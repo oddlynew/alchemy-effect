@@ -1,8 +1,6 @@
 name: pr-package
 
 on:
-  push:
-    branches: [main]
   pull_request:
     # `labeled` so adding the `force-ci` label re-triggers the run. We
     # intentionally do NOT listen to `closed` — pr-package tags persist

@@ -18,7 +18,17 @@ const fast = !!process.env.DOCS_FAST;
 const twoslashPlugins = fast
   ? []
   : await (async () => {
-      const { default: ecTwoSlash } = await import("expressive-code-twoslash");
+      let ecTwoSlash;
+      try {
+        ({ default: ecTwoSlash } = await import("expressive-code-twoslash"));
+      } catch (error) {
+        console.warn(
+          `[docs] expressive-code-twoslash disabled: ${
+            error instanceof Error ? error.message : String(error)
+          }`,
+        );
+        return [];
+      }
 
       return [
         twoslashDiffPrefixStrip(),
