@@ -28,9 +28,10 @@ env:
 jobs:
   affected:
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
-    # Fork PRs still get validation, but stay on standard hosted runners so outside
-    # contributors cannot allocate the larger runner.
-    runs-on: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-latest' || 'ubuntu-large' }}
+    # Public fork PRs are controlled by GitHub's workflow-approval setting;
+    # keep this on `pull_request`, not `pull_request_target`, because this job
+    # checks out and executes PR code.
+    runs-on: ubuntu-large
     environment: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'production' || '' }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
