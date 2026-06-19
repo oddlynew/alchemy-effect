@@ -4,8 +4,8 @@ Last audited: 2026-06-19.
 
 This note records where the Oddlynew dogfood monorepo intentionally differs from the Oddlynew
 monorepo baseline, where the difference is transitional, and what was cleaned up. The purpose is to
-make the branch easy to review: a maintainer should be able to tell which choices are part of the
-target architecture and which ones are follow-up work.
+make the branch easy to operate: collaborators should be able to tell which choices are part of the
+target fork architecture and which ones are follow-up work.
 
 ## Current Verdict
 
@@ -75,8 +75,8 @@ This audit fixed stale residue that would make the dogfood branch look less cohe
 
 ## Transitional Differences
 
-These should not block dogfooding, but they should be revisited before presenting the branch as a
-fully polished long-term replacement.
+These should not block dogfooding, but they should be revisited before treating the branch as a
+fully independent long-term fork.
 
 | Area | Current state | Target state |
 | --- | --- | --- |
@@ -90,7 +90,7 @@ fully polished long-term replacement.
 | Release automation | Release is manual `workflow_dispatch`. | After the first successful dogfood publish, switch to automatic release from protected `main` if the team wants Oddlynew-style always-release behavior. |
 | `pr-package` reusable workflow | The caller pins `alchemy-run/actions`, but the reusable workflow remains an external trust dependency and may contain nested mutable defaults. | Fork or vendor the reusable workflow before using inherited publish secrets for a fully independent dogfood package preview path. |
 | Npm provenance | Release workflow sets `NPM_CONFIG_PROVENANCE=true`, but the first real Bun/Nx publish still needs attestation verification. | After the first publish, verify npm provenance/attestations and document the exact trusted-publishing setup. |
-| Package docs/licenses | Some public package tarballs rely on manifest license metadata and do not ship package-local README/LICENSE files. | Add package-local README/license coverage for every public package if npm presentation quality becomes part of the dogfood demo. |
+| Package docs/licenses | Some public package tarballs rely on manifest license metadata and do not ship package-local README/LICENSE files. | Add package-local README/license coverage for every public package before the fork is treated as a polished npm distribution. |
 | Live cloud permissions | GitHub OIDC and generated Cloudflare API tokens remain broad enough for live-provider validation. | Narrow after deciding which live tests/deploys are required gates; keep broad tokens out of normal PR paths. |
 
 ## Follow-Up Verification

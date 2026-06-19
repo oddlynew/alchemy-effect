@@ -1,13 +1,14 @@
 # Docs
 
-This directory is for repo-level maintainer documentation. Product docs for Alchemy users live in
+This directory is for repo-level fork and migration operations. Product docs for Alchemy users live in
 [`projects/alchemy/apps/website/src/content/docs`](../projects/alchemy/apps/website/src/content/docs).
 
 | Topic | Location |
 | --- | --- |
 | Monorepo migration overview | [`monorepo/migration.md`](./monorepo/migration.md) |
-| Maintainer-facing summary | [`monorepo/maintainer-summary.md`](./monorepo/maintainer-summary.md) |
-| Clean replacement-repo cutover | [`monorepo/cutover-operating-note.md`](./monorepo/cutover-operating-note.md) |
+| Fork operations | [`monorepo/fork-operations.md`](./monorepo/fork-operations.md) |
+| Clean-history sync procedure | [`monorepo/clean-history-operating-note.md`](./monorepo/clean-history-operating-note.md) |
+| Dogfood distribution model | [`monorepo/dogfood-distribution.md`](./monorepo/dogfood-distribution.md) |
 | Dogfood deviance audit | [`monorepo/deviance-audit.md`](./monorepo/deviance-audit.md) |
 | Provider factory catalog notes | [`provider-catalog/README.md`](./provider-catalog/README.md) |
 | Agent and contributor guidance | [`../AGENTS.md`](../AGENTS.md) |

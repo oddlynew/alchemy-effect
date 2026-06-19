@@ -1,17 +1,18 @@
-# Monorepo Cutover Operating Note
+# Clean-History Operating Note
 
-This note defines the target shape for a production replacement repository that maintainers can
-adopt as the new home for `alchemy-effect`, `distilled`, and `cloudflare-tools`.
+This note defines the clean-history lane for the monorepo fork. The lane keeps Alchemy commit
+identity intact, imports Distilled and Cloudflare Tools through deterministic prefix rewrites, and
+provides the upstream-sync base that dogfood/main can merge.
 
-The current `codex/monorepo-clean-history` branch is the production-shaped rebuild. It starts from
+The current `codex/monorepo-clean-history` branch is the production-shaped clean lane. It starts from
 the real `alchemy-run/alchemy-effect` `main` commit, moves Alchemy into `projects/alchemy` with a
 normal rename commit, and imports Distilled and Cloudflare Tools with deterministic prefix-rewritten
 histories.
 
 ## Target Invariant
 
-The replacement repository should behave as if each source repository had always lived at its final
-monorepo path:
+The clean lane should behave as if each source repository had always lived at its final monorepo
+path:
 
 ```text
 projects/alchemy/...
@@ -31,8 +32,8 @@ The first linear-history attempt prefix-rewrote Alchemy itself. That made the fi
 clean, but it changed every Alchemy commit SHA. GitHub therefore had no common Alchemy commit
 identity to compare against and reported the branch as both far ahead and far behind upstream.
 
-The production branch should preserve Alchemy commit identities and only rewrite the histories that
-come from separate repositories. That gives both properties maintainers need:
+The clean branch should preserve Alchemy commit identities and only rewrite the histories that come
+from separate repositories. That gives both properties the fork needs:
 
 - GitHub sees the branch as ahead-only from `alchemy-run/alchemy-effect:main`.
 - Distilled and Cloudflare Tools files live at their final paths for their imported history.
@@ -44,9 +45,9 @@ but the `ahead` count will be large. That is expected: it includes the complete 
 for Distilled and Cloudflare Tools, not just the hand-written monorepo migration commits.
 
 The exact numbers will change as source repositories receive new commits, are re-synced, or receive
-additional cutover documentation commits. The desired topology is stable: no commits behind upstream
+additional clean-history documentation commits. The desired topology is stable: no commits behind upstream
 Alchemy, with the ahead count mostly explained by imported repository history. To inspect the
-current split, compare the full ahead count with the first-parent cutover commits:
+current split, compare the full ahead count with the first-parent clean-history commits:
 
 ```bash
 git rev-list --left-right --count origin/main...HEAD
@@ -59,12 +60,12 @@ The monorepo build caught integration issues that were easy to miss while the re
 their toolchains separately:
 
 - Alchemy's current Cloudflare SDK types and Effect's stricter `catchTag` signature disagree on a
-  few runtime Cloudflare error tags (`InvalidZoneIdentifier`, `ZonePurged`). The production branch
-  keeps the runtime behavior and switches those handlers to `Effect.catch` with explicit `_tag`
-  checks, re-failing unknown errors.
+  few runtime Cloudflare error tags (`InvalidZoneIdentifier`, `ZonePurged`). The clean lane keeps
+  the runtime behavior and switches those handlers to `Effect.catch` with explicit `_tag` checks,
+  re-failing unknown errors.
 - Cloudflare Tools' `tsdown` declaration build was resolving `rolldown-plugin-dts` against the
   root TypeScript 7 RC package, while that plugin's JavaScript TypeScript path supports TypeScript
-  5/6. The production branch moves the Cloudflare Tools declaration builds to
+  5/6. The clean lane moves the Cloudflare Tools declaration builds to
   `dts: { tsgo: true }`, matching the Oddlynew monorepo standard and avoiding a root TypeScript
   downgrade.
 - Downstream consumers such as the Nx R2 cache Worker fail immediately if Cloudflare Tools
@@ -80,15 +81,14 @@ codex/monorepo-production-migration
 codex/monorepo-linear-history
 ```
 
-Use the clean rebuild branch for the replacement path:
+Use the clean rebuild branch for the upstream-sync path:
 
 ```text
 codex/monorepo-clean-history
 ```
 
-The new branch should be force-updatable while it is being prepared. Do not open it as the final PR
-until the history import, monorepo infrastructure, sync procedure, and release dry-runs are all
-verified.
+The branch can be force-updated while it is being prepared. Do not merge it into dogfood/main until
+the history import, monorepo infrastructure, sync procedure, and release dry-runs are all verified.
 
 ## Rebuild Procedure
 
@@ -116,7 +116,7 @@ By default, import branch history first and create the release baseline tags aft
 If full old tag history is imported, rename non-Alchemy tags with a deliberately reviewed mapping so
 different repositories cannot collide on generic tags such as `v0.26.1`.
 
-Then create the replacement branch by merging the rewritten histories:
+Then create the clean-history branch by merging the rewritten histories:
 
 ```bash
 git clone /tmp/alchemy-effect-source.git /tmp/alchemy-monorepo-clean
@@ -154,9 +154,9 @@ Prefer replaying coherent commits from the prototype branch where possible. If a
 conflict-heavy because paths differ, port the final file contents intentionally and keep the commit
 message scoped to the monorepo concern.
 
-## Syncing New Upstream Commits During Migration
+## Syncing New Upstream Commits
 
-While the cutover branch is being prepared, source repositories may receive new commits. The sync
+While the clean-history branch is being prepared, source repositories may receive new commits. The sync
 process must be deterministic and repeatable.
 
 For each source repo:
@@ -214,7 +214,7 @@ themselves as unreleased package history for Distilled or Cloudflare Tools.
 
 ## Release Baselines
 
-The replacement repository should preserve current release lines:
+The clean-history lane should preserve current release lines:
 
 ```text
 alchemy:          2.0.0-beta.57 -> 2.0.0-beta.58
@@ -222,7 +222,7 @@ distilled:        0.26.1        -> 0.26.2
 cloudflare-tools: 0.11.2        -> 0.11.3
 ```
 
-The cutover branch should carry baseline tags that match the new release groups:
+The clean-history branch should carry baseline tags that match the release groups:
 
 ```text
 v2.0.0-beta.57
@@ -233,7 +233,7 @@ cloudflare-tools-v0.11.2
 For imported repositories, create the namespaced baseline tags on a monorepo commit, not on the old
 standalone release commit. A tag on the pre-merge imported side leaves the unrelated Alchemy side of
 the merge outside the tag ancestry, which makes Nx's changelog range include the whole Alchemy
-history. A cutover baseline tag says: "this merged monorepo state is the published 0.26.1 / 0.11.2
+history. A clean-history baseline tag says: "this merged monorepo state is the published 0.26.1 / 0.11.2
 baseline for this release group; only commits after this point belong in the next changelog."
 
 ```bash
@@ -246,17 +246,17 @@ In the current sync, Distilled has advanced to the published `0.26.1` release, s
 latest published `0.11.2`, so `cloudflare-tools-v0.11.2` should remain on the monorepo ancestor that
 matches that release; the next Cloudflare Tools dry-run should then propose `0.11.3`.
 
-The existing Alchemy `v2.0.0-beta.57` tag already works when the replacement is based on the
-current `alchemy-effect` repository. If maintainers create a brand-new repository instead of
-cutting over the existing one, push that Alchemy tag as well.
+The existing Alchemy `v2.0.0-beta.57` tag already works when the clean lane is based on the current
+`alchemy-effect` repository. If this fork is later promoted into a brand-new repository, push that
+Alchemy tag as well.
 
-Do not use `--first-release` for the imported groups during production cutover. It is useful for a
+Do not use `--first-release` for the imported groups during fork activation. It is useful for a
 brand-new release group with no meaningful prior baseline, but here it produces a synthetic
 changelog from too much merged history.
 
 ## Acceptance Checks
 
-The cutover branch is ready to show as a replacement repository when all of these are true:
+The clean-history branch is ready to merge into dogfood/main when all of these are true:
 
 - `git merge-base --is-ancestor origin/main HEAD` succeeds.
 - `git rev-list --left-right --count origin/main...HEAD` prints `0 <ahead-count>`.
@@ -288,18 +288,18 @@ product features on dogfood or topic branches that merge the clean branch period
 then mechanical most of the time: new upstream commits merge through the same prefixed-history path,
 and conflicts only appear where local features and upstream both edited the same final-path files.
 
-## Maintainer Cutover Runbook
+## Clean-History Promotion Runbook
 
 Use this only after the branch topology and validation checks pass:
 
-1. Announce a short write freeze on `alchemy-effect`, `distilled`, and `cloudflare-tools`.
+1. Pause dogfood feature merges that touch upstream-owned files.
 2. Fetch each source repository and perform one final sync into `codex/monorepo-clean-history`.
 3. Create or move the imported-group baseline tags onto the monorepo commits that represent the
    latest published release for each group: currently `distilled-v0.26.1` and
    `cloudflare-tools-v0.11.2`.
 4. Re-run the topology, history, Nx, and release dry-run checks above.
-5. Decide whether the replacement lives in the existing `alchemy-effect` repository or a new repo.
-6. Configure repository settings before opening the branch for normal work:
+5. Decide whether dogfood/main remains in this fork or is promoted into a new repository.
+6. Configure repository settings before opening dogfood/main for normal work:
    - default branch target;
    - branch protection and required checks for the Nx validation workflow;
    - Actions permissions for `contents: write` and OIDC;
@@ -309,15 +309,15 @@ Use this only after the branch topology and validation checks pass:
 7. Configure npm trusted publishing for each public package against the final GitHub repository and
    `release` workflow.
 8. Push the clean branch and the exact baseline tags only; do not bulk-push imported generic tags.
-9. Make the branch the default branch only after the final validation run passes.
-10. Keep the old standalone Distilled and Cloudflare Tools repositories read-only until the first
-   monorepo release succeeds, then archive or redirect them.
+9. Promote dogfood/main only after the final validation run passes.
+10. Keep upstream standalone repositories as the sync source; do not treat dogfood changes as
+   upstream source-of-truth changes unless they are intentionally contributed back.
 
-## Non-Goals For The First Cutover
+## Non-Goals For First Activation
 
-Do not block the replacement repository on unrelated cleanup:
+Do not block fork activation on unrelated cleanup:
 
-- enabling every imported demo or live-service test as required CI;
+- enabling every imported example or live-service test as required CI;
 - reformatting generated SDK output unless required for touched files;
 - changing package names;
 - changing release policy beyond preserving the current release lines;
@@ -325,11 +325,9 @@ Do not block the replacement repository on unrelated cleanup:
 
 ## Open Decisions
 
-- Whether the final repository should live under the existing `alchemy-effect` repository or a new
-  repository.
-- Whether old standalone repositories are archived immediately after the first monorepo release or
-  kept read-only for a transition period.
+- Whether the active dogfood branch should stay in this fork or be promoted into a new repository.
+- Whether local dogfood fixes are always contributed upstream first or can live only in the fork.
 - Whether release baseline tags are imported from old repos or created as new monorepo tags during
-  cutover.
-- Whether `version.updateDependents` remains `"never"` for the first cutover or moves to `"auto"`
+  activation.
+- Whether `version.updateDependents` remains `"never"` for the first activation or moves to `"auto"`
   after the release-tag policy is proven.

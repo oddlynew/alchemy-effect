@@ -1,8 +1,8 @@
 # Monorepo Migration
 
-For the short maintainer-facing case, see [`maintainer-summary.md`](./maintainer-summary.md).
-For the clean replacement-repository cutover procedure, see
-[`cutover-operating-note.md`](./cutover-operating-note.md).
+For day-to-day fork operation, see [`fork-operations.md`](./fork-operations.md).
+For the clean-history sync procedure, see
+[`clean-history-operating-note.md`](./clean-history-operating-note.md).
 For the Oddlynew-owned fork distribution track, see
 [`dogfood-distribution.md`](./dogfood-distribution.md).
 For the current dogfood branch audit against Oddlynew monorepo standards, see
@@ -135,12 +135,12 @@ The shared package intentionally exposes two presets:
   rules, while keeping category-level type-aware checks as warnings/off by default like Oddlynew's
   baseline.
 
-That preserves current generated-code behavior while still giving maintainers one package to evolve
-when they want stricter linting across the merged workspace.
+That preserves current generated-code behavior while still giving the fork one package to evolve
+when stricter linting is ready across the merged workspace.
 
 ## Validation Scope
 
-CI runs Nx affected checks for production/package projects, not every demo surface. `build`,
+CI runs Nx affected checks for production/package projects, not every example surface. `build`,
 `typecheck`, and `lint` validation use direct `bun nx affected` commands with
 `NX_PRODUCTION_EXCLUDE` to skip non-hermetic project-name patterns:
 
@@ -211,9 +211,9 @@ commits and create matching per-project changelog entries.
 Cross-group dependent bumps are intentionally disabled in this branch with
 `version.updateDependents: "never"`. Nx can model dependent bumps across release groups, but the
 current Alchemy tag history plus the unscoped `alchemy` package name exposes an Nx 23 RC resolver
-edge case when a Cloudflare-tools release tries to pull `alchemy` in as a dependent. The safe
-cutover is to first land fixed release groups, then switch `updateDependents` to `"auto"` after the
-tag policy is finalized or the resolver issue is fixed.
+edge case when a Cloudflare-tools release tries to pull `alchemy` in as a dependent. The safe fork
+activation path is to first land fixed release groups, then switch `updateDependents` to `"auto"`
+after the tag policy is finalized or the resolver issue is fixed.
 
 Nx release is configured for conventional commits and per-project changelogs:
 
@@ -246,14 +246,14 @@ release commits is not enough after merging unrelated histories: Nx would still 
 Alchemy-side history in the changelog range. If a source repo has unreleased commits after its latest
 published version, keep that group's baseline on the monorepo ancestor that matches the latest
 published release so the first monorepo patch includes those commits. `--first-release` is therefore
-not the production cutover path; it should be reserved for intentionally new release groups without a
+not the fork activation path; it should be reserved for intentionally new release groups without a
 prior baseline.
 
 Removing `--dry-run` and `--skip-publish` is the production publish step once npm/GitHub release
 credentials are intentionally wired for the monorepo.
 
 The `release` GitHub workflow exposes the same release groups as a manual workflow dispatch. It
-defaults to dry-run, chooses the same continuation specifier by group unless maintainers override it,
+defaults to dry-run, chooses the same continuation specifier by group unless the operator overrides it,
 and refuses normal releases if the matching dogfood baseline tag is missing. Non-dry
 releases are refused unless the workflow is dispatched from `main`; when they do run, the workflow
 passes `--yes` to Nx release, publishes through each package's `nx-release-publish` target after its
@@ -306,16 +306,18 @@ The Worker requires `NX_R2_CACHE_TRUSTED_TOKEN` and `NX_R2_CACHE_BRANCH_TOKEN` i
 `NX_R2_CACHE_SERVER_URL` to the Worker URL. The branch token can write only under
 `/branches/<namespace>`; the trusted token can write only under `/trusted`.
 
-## Cutover Plan
+## Fork Activation Plan
 
-1. Land the monorepo branch without changing publish ownership.
+1. Promote the dogfood branch to the active fork branch.
 2. Run `bun install` and verify `bun nx show projects` in CI.
 3. Deploy `nx-r2-cache-worker`, add cache variables and secrets, then confirm PR runs use branch
    cache and `main` uses trusted cache.
 4. Run affected builds on integration PRs that touch both `alchemy` and `distilled`.
-5. Create or update the imported-group baseline tags on the final cutover commit.
+5. Create or update the imported-group baseline tags on the dogfood commit that represents the
+   latest published state.
 6. Run the Nx release dry-runs for all release groups and approve the generated version/changelog
    plan.
 7. Remove `--dry-run` / `--skip-publish` from the chosen release command when npm/GitHub
    credentials are intentionally wired for the monorepo.
-8. Archive or redirect the old standalone repos after the first monorepo release succeeds.
+8. After the first monorepo release succeeds, point downstream consumers at the `@oddlynew/*`
+   packages and keep upstream sync flowing through `codex/monorepo-clean-history`.

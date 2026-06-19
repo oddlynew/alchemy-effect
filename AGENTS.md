@@ -10,8 +10,8 @@ as one project graph rather than as three standalone checkouts.
 | --- | --- |
 | Docs index | [`docs/index.md`](./docs/index.md) |
 | Monorepo migration overview | [`docs/monorepo/migration.md`](./docs/monorepo/migration.md) |
-| Maintainer-facing summary | [`docs/monorepo/maintainer-summary.md`](./docs/monorepo/maintainer-summary.md) |
-| Clean cutover/sync procedure | [`docs/monorepo/cutover-operating-note.md`](./docs/monorepo/cutover-operating-note.md) |
+| Fork operations | [`docs/monorepo/fork-operations.md`](./docs/monorepo/fork-operations.md) |
+| Clean-history sync procedure | [`docs/monorepo/clean-history-operating-note.md`](./docs/monorepo/clean-history-operating-note.md) |
 | Alchemy package source | [`projects/alchemy/packages/alchemy/src`](./projects/alchemy/packages/alchemy/src) |
 | Alchemy public docs source | [`projects/alchemy/apps/website/src/content/docs`](./projects/alchemy/apps/website/src/content/docs) |
 | Generated provider API docs | [`projects/alchemy/apps/website/src/content/docs/providers`](./projects/alchemy/apps/website/src/content/docs/providers) |
@@ -82,7 +82,7 @@ projects/
   cloudflare-tools/
     packages/                     # Cloudflare runtime/build tooling
 docs/
-  monorepo/                       # Maintainer and migration notes
+  monorepo/                       # Fork and migration operations
 ```
 
 # Alchemy Resource Doctrine

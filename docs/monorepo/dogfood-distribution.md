@@ -2,15 +2,15 @@
 
 This note defines the fork track for using the monorepo as an Oddlynew-owned distribution of
 Alchemy, Distilled, and Cloudflare Tools. It is intentionally separate from
-[`cutover-operating-note.md`](./cutover-operating-note.md), which describes the clean upstream
-replacement branch.
+[`clean-history-operating-note.md`](./clean-history-operating-note.md), which describes the
+clean-history sync lane.
 
 ## Branch Roles
 
 Keep two branches with different promises:
 
 ```text
-codex/monorepo-clean-history   # upstream adoption candidate
+codex/monorepo-clean-history   # upstream sync and clean-history lane
 codex/monorepo-dogfood         # Oddlynew-owned fork distribution
 ```
 
@@ -19,11 +19,11 @@ After the Oddlynew fork is promoted, `main` should become the dogfood line. Unti
 
 ```text
 main                           # future Oddlynew dogfood branch
-codex/monorepo-clean-history   # upstream adoption and sync branch
+codex/monorepo-clean-history   # upstream sync and clean-history lane
 ```
 
-The clean branch should stay easy for Alchemy maintainers to evaluate. It keeps upstream package
-names, upstream release lines, imported histories, and monorepo infrastructure. It should not carry
+The clean branch should stay mechanically comparable to upstream. It keeps upstream package names,
+upstream release lines, imported histories, and monorepo infrastructure. It should not carry
 Oddlynew package names, dogfood feature work, or fork-specific publishing behavior.
 
 The dogfood branch is allowed to diverge. It should prove the full cycle: one monorepo, one affected
@@ -100,7 +100,7 @@ the clean upstream-sync point. The expected flow is:
 ```bash
 git switch codex/monorepo-clean-history
 # sync upstream Alchemy, Distilled, and Cloudflare Tools
-# run cutover acceptance checks
+# run clean-history acceptance checks
 
 git switch codex/monorepo-dogfood
 git merge codex/monorepo-clean-history
@@ -108,7 +108,7 @@ git merge codex/monorepo-clean-history
 # run dogfood CI/release dry-runs
 ```
 
-This keeps the maintainer candidate branch unpolluted while still letting the dogfood branch move
+This keeps the clean-history lane unpolluted while still letting the dogfood branch move
 fast, publish real packages, and accumulate real cross-repo feature work.
 
 ## Periodic Upstream Sync
@@ -117,14 +117,14 @@ Treat upstream sync as a normal maintenance loop, not as a one-off migration ste
 is two lanes:
 
 - clean lane: imports upstream Alchemy, Distilled, and Cloudflare Tools, plus only monorepo
-  infrastructure needed for maintainers to adopt the shape;
+  infrastructure needed to preserve the monorepo shape;
 - dogfood lane: merges the clean lane and carries Oddlynew package names, publishing configuration,
   CI hardening, and product work.
 
 Do not sync upstream repositories directly into the dogfood lane. Always update
 `codex/monorepo-clean-history` first, validate it, then merge that branch into dogfood. This keeps a
-branch that can be shown to Alchemy maintainers without Oddlynew-specific product choices, and it
-also gives dogfood one clear integration point for upstream changes.
+branch that can be compared against upstream without Oddlynew-specific product choices, and it gives
+dogfood one clear integration point for upstream changes.
 
 Recommended cadence:
 
@@ -145,7 +145,7 @@ git fetch origin main
 git merge origin/main
 
 # Distilled and Cloudflare Tools are re-imported through deterministic prefix rewrites.
-# See cutover-operating-note.md for the exact filter-repo commands.
+# See clean-history-operating-note.md for the exact filter-repo commands.
 git fetch distilled-prefix-latest main
 git merge distilled-prefix-latest/main
 
@@ -195,13 +195,13 @@ branches onto the updated dogfood lane. Conflict cost should stay proportional t
 both upstream and dogfood edited the same final file, resolve it once in dogfood; unrelated
 Oddlynew-only features should keep applying normally.
 
-## What To Show Maintainers
+## Using The Two Branches
 
-Use both branches in the conversation:
+Use the branches for different operational jobs:
 
-- clean branch: "Here is the adoption-ready monorepo with your package names and history intact."
-- dogfood branch: "Here is the same architecture running as an active fork with CI, cache, releases,
-  Cloudflare validation, and real feature velocity."
+- clean branch: upstream sync, history import checks, and package-name-neutral architecture changes.
+- dogfood branch: real fork work, `@oddlynew/*` package identity, CI, cache, releases, Cloudflare
+  validation, and feature branches.
 
-That gives maintainers a low-risk migration path and a concrete proof that the monorepo shape is not
-only tidy, but operationally faster.
+Keep this split even after dogfood becomes `main`. The clean branch is the durable upstream-sync
+interface; dogfood/main is the branch that proves the fork works as a production monorepo.
