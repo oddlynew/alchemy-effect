@@ -196,7 +196,7 @@ The example below assumes the upstream lives at
 
    ```bash
    bun install
-   bun run turbo run typecheck test --filter @oddlynew/distilled-vendor-<upstream>
+   bun nx run-many -t typecheck test --projects @oddlynew/distilled-vendor-<upstream>
    bunx oxlint lint packages/vendor/<upstream>
    bunx oxfmt format --check packages/vendor/<upstream>
    ```

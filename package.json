@@ -8,6 +8,7 @@
     "url": "https://github.com/agcty/alchemy-effect"
   },
   "type": "module",
+  "packageManager": "bun@1.3.13",
   "module": "./lib/index.js",
   "scripts": {
     "audit:service": "bun scripts/audit-service.ts",

@@ -1,2 +1,0 @@
-bun fmt
-git update-index --again
