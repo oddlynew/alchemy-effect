@@ -63,6 +63,15 @@ as one project graph rather than as three standalone checkouts.
    guessing every downstream package.
 4. Format changed code with `bun oxfmt .` and run `git diff --check`.
 
+## Commits And Hooks
+
+- Commit messages must use conventional commits with a non-empty scope.
+- Allowed scopes are inferred from workspace package/Nx project names plus the general scopes
+  `alchemy`, `cloudflare-tools`, `ci`, `deps`, `distilled`, `nx`, `release`, and `repo`.
+- The `pre-push` hook runs `oxfmt --check`, affected lint, affected typecheck, and affected tests
+  with the production exclude boundary. Use `NX_PRODUCTION_EXCLUDE` to override that boundary when
+  intentionally testing a normally-excluded example, fixture, or website project.
+
 ## Architecture map
 
 ```text

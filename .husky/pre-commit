@@ -1,2 +1,16 @@
-bun format
-git update-index --again
+#!/bin/sh
+set -e
+
+TMPDIR=$(mktemp -d)
+trap 'rm -rf "$TMPDIR"' EXIT
+
+git diff --name-only | sort -u > "$TMPDIR/before"
+
+bunx oxfmt .
+
+git diff --name-only | sort -u > "$TMPDIR/after"
+NEW_FORMATTED=$(comm -23 "$TMPDIR/after" "$TMPDIR/before")
+
+if [ -n "$NEW_FORMATTED" ]; then
+  echo "$NEW_FORMATTED" | xargs git add
+fi
