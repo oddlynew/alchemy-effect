@@ -167,7 +167,7 @@ inputs before continuing.
 The replacement repository should preserve current release lines:
 
 ```text
-alchemy:          2.0.0-beta.56 -> 2.0.0-beta.57
+alchemy:          2.0.0-beta.57 -> 2.0.0-beta.58
 distilled:        0.25.2        -> 0.25.3
 cloudflare-tools: 0.11.2        -> 0.11.3
 ```
@@ -175,7 +175,7 @@ cloudflare-tools: 0.11.2        -> 0.11.3
 The cutover branch should carry baseline tags that match the new release groups:
 
 ```text
-v2.0.0-beta.56
+v2.0.0-beta.57
 distilled-v0.25.2
 cloudflare-tools-v0.11.2
 ```
@@ -191,7 +191,7 @@ git tag -a distilled-v0.25.2 HEAD -m "distilled monorepo baseline 0.25.2"
 git tag -a cloudflare-tools-v0.11.2 HEAD -m "cloudflare-tools monorepo baseline 0.11.2"
 ```
 
-The existing Alchemy `v2.0.0-beta.56` tag already works when the replacement is based on the
+The existing Alchemy `v2.0.0-beta.57` tag already works when the replacement is based on the
 current `alchemy-effect` repository. If maintainers create a brand-new repository instead of
 cutting over the existing one, push that Alchemy tag as well.
 
