@@ -4387,6 +4387,10 @@ paths:
       x-distilled-errors:
         Forbidden:
           - status: 403
+        InvalidZoneIdentifier:
+          - status: 400
+            message:
+              includes: Invalid zone identifier
     post:
       operationId: createPageRule
       description:

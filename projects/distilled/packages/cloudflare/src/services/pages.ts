@@ -232,7 +232,7 @@ export interface GetProjectResponse {
   createdOn: string;
   /** Configs for deployments in a project. */
   deploymentConfigs: {
-    preview: {
+    preview?: {
       alwaysUseLatestCompatibilityDate: boolean;
       buildImageMajorVersion: number;
       compatibilityDate: string;
@@ -255,8 +255,8 @@ export interface GetProjectResponse {
       services?: Record<string, unknown> | null;
       vectorizeBindings?: Record<string, unknown> | null;
       wranglerConfigHash?: string | null;
-    };
-    production: {
+    } | null;
+    production?: {
       alwaysUseLatestCompatibilityDate: boolean;
       buildImageMajorVersion: number;
       compatibilityDate: string;
@@ -279,7 +279,7 @@ export interface GetProjectResponse {
       services?: Record<string, unknown> | null;
       vectorizeBindings?: Record<string, unknown> | null;
       wranglerConfigHash?: string | null;
-    };
+    } | null;
   };
   /** Framework the project is using. */
   framework: string;
@@ -620,269 +620,279 @@ export const GetProjectResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
       ]),
       createdOn: Schema.String,
       deploymentConfigs: Schema.Struct({
-        preview: Schema.Struct({
-          alwaysUseLatestCompatibilityDate: Schema.Boolean,
-          buildImageMajorVersion: Schema.Number,
-          compatibilityDate: Schema.String,
-          compatibilityFlags: Schema.Array(Schema.String),
-          envVars: Schema.Union([
-            Schema.Record(Schema.String, Schema.Unknown),
+        preview: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              alwaysUseLatestCompatibilityDate: Schema.Boolean,
+              buildImageMajorVersion: Schema.Number,
+              compatibilityDate: Schema.String,
+              compatibilityFlags: Schema.Array(Schema.String),
+              envVars: Schema.Union([
+                Schema.Record(Schema.String, Schema.Unknown),
+                Schema.Null,
+              ]),
+              failOpen: Schema.Boolean,
+              usageModel: Schema.Union([
+                Schema.Literals(["standard", "bundled", "unbound"]),
+                Schema.String,
+              ]),
+              aiBindings: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              analyticsEngineDatasets: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              browsers: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              d1Databases: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              durableObjectNamespaces: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              hyperdriveBindings: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              kvNamespaces: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              limits: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    cpuMs: Schema.Number,
+                  }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+                  Schema.Null,
+                ]),
+              ),
+              mtlsCertificates: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              placement: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    mode: Schema.String,
+                  }),
+                  Schema.Null,
+                ]),
+              ),
+              queueProducers: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              r2Buckets: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              services: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              vectorizeBindings: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              wranglerConfigHash: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                alwaysUseLatestCompatibilityDate:
+                  "always_use_latest_compatibility_date",
+                buildImageMajorVersion: "build_image_major_version",
+                compatibilityDate: "compatibility_date",
+                compatibilityFlags: "compatibility_flags",
+                envVars: "env_vars",
+                failOpen: "fail_open",
+                usageModel: "usage_model",
+                aiBindings: "ai_bindings",
+                analyticsEngineDatasets: "analytics_engine_datasets",
+                browsers: "browsers",
+                d1Databases: "d1_databases",
+                durableObjectNamespaces: "durable_object_namespaces",
+                hyperdriveBindings: "hyperdrive_bindings",
+                kvNamespaces: "kv_namespaces",
+                limits: "limits",
+                mtlsCertificates: "mtls_certificates",
+                placement: "placement",
+                queueProducers: "queue_producers",
+                r2Buckets: "r2_buckets",
+                services: "services",
+                vectorizeBindings: "vectorize_bindings",
+                wranglerConfigHash: "wrangler_config_hash",
+              }),
+            ),
             Schema.Null,
           ]),
-          failOpen: Schema.Boolean,
-          usageModel: Schema.Union([
-            Schema.Literals(["standard", "bundled", "unbound"]),
-            Schema.String,
-          ]),
-          aiBindings: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          analyticsEngineDatasets: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          browsers: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          d1Databases: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          durableObjectNamespaces: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          hyperdriveBindings: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          kvNamespaces: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          limits: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                cpuMs: Schema.Number,
-              }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
-              Schema.Null,
-            ]),
-          ),
-          mtlsCertificates: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          placement: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                mode: Schema.String,
-              }),
-              Schema.Null,
-            ]),
-          ),
-          queueProducers: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          r2Buckets: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          services: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          vectorizeBindings: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          wranglerConfigHash: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            alwaysUseLatestCompatibilityDate:
-              "always_use_latest_compatibility_date",
-            buildImageMajorVersion: "build_image_major_version",
-            compatibilityDate: "compatibility_date",
-            compatibilityFlags: "compatibility_flags",
-            envVars: "env_vars",
-            failOpen: "fail_open",
-            usageModel: "usage_model",
-            aiBindings: "ai_bindings",
-            analyticsEngineDatasets: "analytics_engine_datasets",
-            browsers: "browsers",
-            d1Databases: "d1_databases",
-            durableObjectNamespaces: "durable_object_namespaces",
-            hyperdriveBindings: "hyperdrive_bindings",
-            kvNamespaces: "kv_namespaces",
-            limits: "limits",
-            mtlsCertificates: "mtls_certificates",
-            placement: "placement",
-            queueProducers: "queue_producers",
-            r2Buckets: "r2_buckets",
-            services: "services",
-            vectorizeBindings: "vectorize_bindings",
-            wranglerConfigHash: "wrangler_config_hash",
-          }),
         ),
-        production: Schema.Struct({
-          alwaysUseLatestCompatibilityDate: Schema.Boolean,
-          buildImageMajorVersion: Schema.Number,
-          compatibilityDate: Schema.String,
-          compatibilityFlags: Schema.Array(Schema.String),
-          envVars: Schema.Union([
-            Schema.Record(Schema.String, Schema.Unknown),
+        production: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              alwaysUseLatestCompatibilityDate: Schema.Boolean,
+              buildImageMajorVersion: Schema.Number,
+              compatibilityDate: Schema.String,
+              compatibilityFlags: Schema.Array(Schema.String),
+              envVars: Schema.Union([
+                Schema.Record(Schema.String, Schema.Unknown),
+                Schema.Null,
+              ]),
+              failOpen: Schema.Boolean,
+              usageModel: Schema.Union([
+                Schema.Literals(["standard", "bundled", "unbound"]),
+                Schema.String,
+              ]),
+              aiBindings: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              analyticsEngineDatasets: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              browsers: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              d1Databases: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              durableObjectNamespaces: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              hyperdriveBindings: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              kvNamespaces: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              limits: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    cpuMs: Schema.Number,
+                  }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+                  Schema.Null,
+                ]),
+              ),
+              mtlsCertificates: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              placement: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    mode: Schema.String,
+                  }),
+                  Schema.Null,
+                ]),
+              ),
+              queueProducers: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              r2Buckets: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              services: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              vectorizeBindings: Schema.optional(
+                Schema.Union([
+                  Schema.Record(Schema.String, Schema.Unknown),
+                  Schema.Null,
+                ]),
+              ),
+              wranglerConfigHash: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                alwaysUseLatestCompatibilityDate:
+                  "always_use_latest_compatibility_date",
+                buildImageMajorVersion: "build_image_major_version",
+                compatibilityDate: "compatibility_date",
+                compatibilityFlags: "compatibility_flags",
+                envVars: "env_vars",
+                failOpen: "fail_open",
+                usageModel: "usage_model",
+                aiBindings: "ai_bindings",
+                analyticsEngineDatasets: "analytics_engine_datasets",
+                browsers: "browsers",
+                d1Databases: "d1_databases",
+                durableObjectNamespaces: "durable_object_namespaces",
+                hyperdriveBindings: "hyperdrive_bindings",
+                kvNamespaces: "kv_namespaces",
+                limits: "limits",
+                mtlsCertificates: "mtls_certificates",
+                placement: "placement",
+                queueProducers: "queue_producers",
+                r2Buckets: "r2_buckets",
+                services: "services",
+                vectorizeBindings: "vectorize_bindings",
+                wranglerConfigHash: "wrangler_config_hash",
+              }),
+            ),
             Schema.Null,
           ]),
-          failOpen: Schema.Boolean,
-          usageModel: Schema.Union([
-            Schema.Literals(["standard", "bundled", "unbound"]),
-            Schema.String,
-          ]),
-          aiBindings: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          analyticsEngineDatasets: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          browsers: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          d1Databases: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          durableObjectNamespaces: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          hyperdriveBindings: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          kvNamespaces: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          limits: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                cpuMs: Schema.Number,
-              }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
-              Schema.Null,
-            ]),
-          ),
-          mtlsCertificates: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          placement: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                mode: Schema.String,
-              }),
-              Schema.Null,
-            ]),
-          ),
-          queueProducers: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          r2Buckets: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          services: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          vectorizeBindings: Schema.optional(
-            Schema.Union([
-              Schema.Record(Schema.String, Schema.Unknown),
-              Schema.Null,
-            ]),
-          ),
-          wranglerConfigHash: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            alwaysUseLatestCompatibilityDate:
-              "always_use_latest_compatibility_date",
-            buildImageMajorVersion: "build_image_major_version",
-            compatibilityDate: "compatibility_date",
-            compatibilityFlags: "compatibility_flags",
-            envVars: "env_vars",
-            failOpen: "fail_open",
-            usageModel: "usage_model",
-            aiBindings: "ai_bindings",
-            analyticsEngineDatasets: "analytics_engine_datasets",
-            browsers: "browsers",
-            d1Databases: "d1_databases",
-            durableObjectNamespaces: "durable_object_namespaces",
-            hyperdriveBindings: "hyperdrive_bindings",
-            kvNamespaces: "kv_namespaces",
-            limits: "limits",
-            mtlsCertificates: "mtls_certificates",
-            placement: "placement",
-            queueProducers: "queue_producers",
-            r2Buckets: "r2_buckets",
-            services: "services",
-            vectorizeBindings: "vectorize_bindings",
-            wranglerConfigHash: "wrangler_config_hash",
-          }),
         ),
       }),
       framework: Schema.String,
@@ -1315,7 +1325,7 @@ export interface ListProjectsResponse {
     } | null;
     createdOn: string;
     deploymentConfigs: {
-      preview: {
+      preview?: {
         alwaysUseLatestCompatibilityDate: boolean;
         buildImageMajorVersion: number;
         compatibilityDate: string;
@@ -1338,8 +1348,8 @@ export interface ListProjectsResponse {
         services?: Record<string, unknown> | null;
         vectorizeBindings?: Record<string, unknown> | null;
         wranglerConfigHash?: string | null;
-      };
-      production: {
+      } | null;
+      production?: {
         alwaysUseLatestCompatibilityDate: boolean;
         buildImageMajorVersion: number;
         compatibilityDate: string;
@@ -1362,7 +1372,7 @@ export interface ListProjectsResponse {
         services?: Record<string, unknown> | null;
         vectorizeBindings?: Record<string, unknown> | null;
         wranglerConfigHash?: string | null;
-      };
+      } | null;
     };
     framework: string;
     frameworkVersion: string;
@@ -1700,269 +1710,279 @@ export const ListProjectsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
           ]),
           createdOn: Schema.String,
           deploymentConfigs: Schema.Struct({
-            preview: Schema.Struct({
-              alwaysUseLatestCompatibilityDate: Schema.Boolean,
-              buildImageMajorVersion: Schema.Number,
-              compatibilityDate: Schema.String,
-              compatibilityFlags: Schema.Array(Schema.String),
-              envVars: Schema.Union([
-                Schema.Record(Schema.String, Schema.Unknown),
+            preview: Schema.optional(
+              Schema.Union([
+                Schema.Struct({
+                  alwaysUseLatestCompatibilityDate: Schema.Boolean,
+                  buildImageMajorVersion: Schema.Number,
+                  compatibilityDate: Schema.String,
+                  compatibilityFlags: Schema.Array(Schema.String),
+                  envVars: Schema.Union([
+                    Schema.Record(Schema.String, Schema.Unknown),
+                    Schema.Null,
+                  ]),
+                  failOpen: Schema.Boolean,
+                  usageModel: Schema.Union([
+                    Schema.Literals(["standard", "bundled", "unbound"]),
+                    Schema.String,
+                  ]),
+                  aiBindings: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  analyticsEngineDatasets: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  browsers: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  d1Databases: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  durableObjectNamespaces: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  hyperdriveBindings: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  kvNamespaces: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  limits: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        cpuMs: Schema.Number,
+                      }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+                      Schema.Null,
+                    ]),
+                  ),
+                  mtlsCertificates: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  placement: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        mode: Schema.String,
+                      }),
+                      Schema.Null,
+                    ]),
+                  ),
+                  queueProducers: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  r2Buckets: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  services: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  vectorizeBindings: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  wranglerConfigHash: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    alwaysUseLatestCompatibilityDate:
+                      "always_use_latest_compatibility_date",
+                    buildImageMajorVersion: "build_image_major_version",
+                    compatibilityDate: "compatibility_date",
+                    compatibilityFlags: "compatibility_flags",
+                    envVars: "env_vars",
+                    failOpen: "fail_open",
+                    usageModel: "usage_model",
+                    aiBindings: "ai_bindings",
+                    analyticsEngineDatasets: "analytics_engine_datasets",
+                    browsers: "browsers",
+                    d1Databases: "d1_databases",
+                    durableObjectNamespaces: "durable_object_namespaces",
+                    hyperdriveBindings: "hyperdrive_bindings",
+                    kvNamespaces: "kv_namespaces",
+                    limits: "limits",
+                    mtlsCertificates: "mtls_certificates",
+                    placement: "placement",
+                    queueProducers: "queue_producers",
+                    r2Buckets: "r2_buckets",
+                    services: "services",
+                    vectorizeBindings: "vectorize_bindings",
+                    wranglerConfigHash: "wrangler_config_hash",
+                  }),
+                ),
                 Schema.Null,
               ]),
-              failOpen: Schema.Boolean,
-              usageModel: Schema.Union([
-                Schema.Literals(["standard", "bundled", "unbound"]),
-                Schema.String,
-              ]),
-              aiBindings: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              analyticsEngineDatasets: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              browsers: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              d1Databases: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              durableObjectNamespaces: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              hyperdriveBindings: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              kvNamespaces: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              limits: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    cpuMs: Schema.Number,
-                  }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
-                  Schema.Null,
-                ]),
-              ),
-              mtlsCertificates: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              placement: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    mode: Schema.String,
-                  }),
-                  Schema.Null,
-                ]),
-              ),
-              queueProducers: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              r2Buckets: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              services: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              vectorizeBindings: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              wranglerConfigHash: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                alwaysUseLatestCompatibilityDate:
-                  "always_use_latest_compatibility_date",
-                buildImageMajorVersion: "build_image_major_version",
-                compatibilityDate: "compatibility_date",
-                compatibilityFlags: "compatibility_flags",
-                envVars: "env_vars",
-                failOpen: "fail_open",
-                usageModel: "usage_model",
-                aiBindings: "ai_bindings",
-                analyticsEngineDatasets: "analytics_engine_datasets",
-                browsers: "browsers",
-                d1Databases: "d1_databases",
-                durableObjectNamespaces: "durable_object_namespaces",
-                hyperdriveBindings: "hyperdrive_bindings",
-                kvNamespaces: "kv_namespaces",
-                limits: "limits",
-                mtlsCertificates: "mtls_certificates",
-                placement: "placement",
-                queueProducers: "queue_producers",
-                r2Buckets: "r2_buckets",
-                services: "services",
-                vectorizeBindings: "vectorize_bindings",
-                wranglerConfigHash: "wrangler_config_hash",
-              }),
             ),
-            production: Schema.Struct({
-              alwaysUseLatestCompatibilityDate: Schema.Boolean,
-              buildImageMajorVersion: Schema.Number,
-              compatibilityDate: Schema.String,
-              compatibilityFlags: Schema.Array(Schema.String),
-              envVars: Schema.Union([
-                Schema.Record(Schema.String, Schema.Unknown),
+            production: Schema.optional(
+              Schema.Union([
+                Schema.Struct({
+                  alwaysUseLatestCompatibilityDate: Schema.Boolean,
+                  buildImageMajorVersion: Schema.Number,
+                  compatibilityDate: Schema.String,
+                  compatibilityFlags: Schema.Array(Schema.String),
+                  envVars: Schema.Union([
+                    Schema.Record(Schema.String, Schema.Unknown),
+                    Schema.Null,
+                  ]),
+                  failOpen: Schema.Boolean,
+                  usageModel: Schema.Union([
+                    Schema.Literals(["standard", "bundled", "unbound"]),
+                    Schema.String,
+                  ]),
+                  aiBindings: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  analyticsEngineDatasets: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  browsers: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  d1Databases: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  durableObjectNamespaces: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  hyperdriveBindings: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  kvNamespaces: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  limits: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        cpuMs: Schema.Number,
+                      }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+                      Schema.Null,
+                    ]),
+                  ),
+                  mtlsCertificates: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  placement: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        mode: Schema.String,
+                      }),
+                      Schema.Null,
+                    ]),
+                  ),
+                  queueProducers: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  r2Buckets: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  services: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  vectorizeBindings: Schema.optional(
+                    Schema.Union([
+                      Schema.Record(Schema.String, Schema.Unknown),
+                      Schema.Null,
+                    ]),
+                  ),
+                  wranglerConfigHash: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    alwaysUseLatestCompatibilityDate:
+                      "always_use_latest_compatibility_date",
+                    buildImageMajorVersion: "build_image_major_version",
+                    compatibilityDate: "compatibility_date",
+                    compatibilityFlags: "compatibility_flags",
+                    envVars: "env_vars",
+                    failOpen: "fail_open",
+                    usageModel: "usage_model",
+                    aiBindings: "ai_bindings",
+                    analyticsEngineDatasets: "analytics_engine_datasets",
+                    browsers: "browsers",
+                    d1Databases: "d1_databases",
+                    durableObjectNamespaces: "durable_object_namespaces",
+                    hyperdriveBindings: "hyperdrive_bindings",
+                    kvNamespaces: "kv_namespaces",
+                    limits: "limits",
+                    mtlsCertificates: "mtls_certificates",
+                    placement: "placement",
+                    queueProducers: "queue_producers",
+                    r2Buckets: "r2_buckets",
+                    services: "services",
+                    vectorizeBindings: "vectorize_bindings",
+                    wranglerConfigHash: "wrangler_config_hash",
+                  }),
+                ),
                 Schema.Null,
               ]),
-              failOpen: Schema.Boolean,
-              usageModel: Schema.Union([
-                Schema.Literals(["standard", "bundled", "unbound"]),
-                Schema.String,
-              ]),
-              aiBindings: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              analyticsEngineDatasets: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              browsers: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              d1Databases: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              durableObjectNamespaces: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              hyperdriveBindings: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              kvNamespaces: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              limits: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    cpuMs: Schema.Number,
-                  }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
-                  Schema.Null,
-                ]),
-              ),
-              mtlsCertificates: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              placement: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    mode: Schema.String,
-                  }),
-                  Schema.Null,
-                ]),
-              ),
-              queueProducers: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              r2Buckets: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              services: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              vectorizeBindings: Schema.optional(
-                Schema.Union([
-                  Schema.Record(Schema.String, Schema.Unknown),
-                  Schema.Null,
-                ]),
-              ),
-              wranglerConfigHash: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                alwaysUseLatestCompatibilityDate:
-                  "always_use_latest_compatibility_date",
-                buildImageMajorVersion: "build_image_major_version",
-                compatibilityDate: "compatibility_date",
-                compatibilityFlags: "compatibility_flags",
-                envVars: "env_vars",
-                failOpen: "fail_open",
-                usageModel: "usage_model",
-                aiBindings: "ai_bindings",
-                analyticsEngineDatasets: "analytics_engine_datasets",
-                browsers: "browsers",
-                d1Databases: "d1_databases",
-                durableObjectNamespaces: "durable_object_namespaces",
-                hyperdriveBindings: "hyperdrive_bindings",
-                kvNamespaces: "kv_namespaces",
-                limits: "limits",
-                mtlsCertificates: "mtls_certificates",
-                placement: "placement",
-                queueProducers: "queue_producers",
-                r2Buckets: "r2_buckets",
-                services: "services",
-                vectorizeBindings: "vectorize_bindings",
-                wranglerConfigHash: "wrangler_config_hash",
-              }),
             ),
           }),
           framework: Schema.String,
