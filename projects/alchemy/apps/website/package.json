@@ -9,7 +9,34 @@
     "directory": "projects/alchemy/apps/website"
   },
   "nx": {
-    "tags": ["deploy:ci"]
+    "tags": ["deploy:ci"],
+    "targets": {
+      "build": {
+        "inputs": [
+          "websiteSources",
+          "^production",
+          "{workspaceRoot}/scripts/generate-api-reference.ts"
+        ],
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.astro",
+          "{projectRoot}/src/content/docs/providers",
+          "{projectRoot}/src/generated",
+          "{projectRoot}/assets/fonts"
+        ],
+        "cache": true
+      },
+      "docs:check": {
+        "dependsOn": ["^build"],
+        "inputs": [
+          "websiteSources",
+          "^production",
+          "{workspaceRoot}/scripts/generate-api-reference.ts"
+        ],
+        "outputs": [],
+        "cache": true
+      }
+    }
   },
   "type": "module",
   "scripts": {
