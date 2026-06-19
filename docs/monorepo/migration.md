@@ -143,9 +143,8 @@ when stricter linting is ready across the merged workspace.
 
 CI runs Nx affected checks for production/package projects, not every example surface. `build`,
 `typecheck`, and `lint` validation use direct `bun nx affected` commands with
-`NX_PRODUCTION_EXCLUDE` to skip non-hermetic project-name patterns:
+`NX_VALIDATION_EXCLUDE` to skip non-hermetic project-name patterns:
 
-- `@oddlynew/alchemy-website`
 - `@oddlynew/alchemy-example-*`
 - `@oddlynew/cloudflare-tools-fixture-*`
 
@@ -154,10 +153,9 @@ aggregate roots are not workspace projects; their package leaves are validated d
 exclusion belongs in the workflow rather than a wrapper script so the branch keeps the Oddlynew-style
 `bun nx affected` surface while making the temporary CI boundary visible. Test suites are also not
 promoted wholesale yet: several imported package tests exercise live external services and require
-provider secrets.
-Distilled's test syntax has been updated for Vitest 4, and the branch explicitly runs the new
-`nx-r2-cache-worker` tests in CI because that package is new repo infrastructure. Broader package
-tests can be promoted into the required CI gate once each target is hermetic.
+provider secrets. CI runs affected tests for projects tagged `test:ci`; the new
+`nx-r2-cache-worker` package is tagged because it is hermetic repo infrastructure. Broader package
+tests can be promoted into the required CI gate by adding `test:ci` once each target is hermetic.
 
 The generated Distilled SDK provider packages keep their package-level `build` scripts for direct
 human use, but each provider has a small `project.json` build target so Nx runs `tsgo -b` directly

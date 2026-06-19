@@ -54,7 +54,8 @@
     "tags": [
       "type:app",
       "scope:alchemy",
-      "domain:nx"
+      "domain:nx",
+      "test:ci"
     ]
   }
 }
