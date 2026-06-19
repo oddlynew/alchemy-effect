@@ -162,11 +162,21 @@ instead of through `bun run build`. The monorepo CI exposed an Nx/Bun package-sc
 process-lifecycle edge where `nx:run-script` could finish the build graph successfully and still
 exit 130 after GitHub cleaned up an orphan Bun script process.
 
-Generated Distilled provider builds set Nx `parallelism: false` and run `tsgo -b --checkers 1
---builders 1`. Nx still runs the affected production build with `--parallel=3`, but the very large
-generated SDK emits do not run alongside other tasks on the same hosted Linux runner, and each emit
-limits TypeScript's own worker fan-out. That keeps the resource constraint on the projects that
-need it instead of serializing the whole workflow.
+Generated Distilled provider builds set Nx `parallelism: false` and usually run
+`tsgo -b --checkers 1 --builders 1`. Nx still runs the affected production build with
+`--parallel=3`, but the large generated SDK emits do not run alongside other tasks on the same
+hosted Linux runner, and each emit limits TypeScript's own worker fan-out. That keeps the resource
+constraint on the projects that need it instead of serializing the whole workflow.
+
+`@oddlynew/distilled-gcp` is intentionally different. Its generated source is about 2.18M lines,
+and the monorepo CI surfaced that whole-package TypeScript emit is the wrong unit of work for that
+SDK on standard GitHub runners: TS7 native `tsgo` and `tsc` both exceeded runner memory on the
+largest generated files, and TS5 only survived with heap sizes too close to the runner ceiling.
+The GCP Nx `build` and `typecheck` targets therefore use
+`projects/distilled/scripts/build-generated-package.ts`, which emits JS and declarations one source
+file at a time through the `typescript5` compiler API with `noCheck/noResolve`. This preserves the
+published `lib/` shape while avoiding a multi-million-line TypeScript program. Its CI lint target
+also uses `oxlint src` instead of the package's type-aware lint script for the same reason.
 
 Distilled's existing `check` scripts still include `oxfmt --check src`, but the imported generated
 AWS/GCP clients have pre-existing formatter drift. The migration CI therefore runs `lint`

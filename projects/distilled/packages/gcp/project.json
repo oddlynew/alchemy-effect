@@ -4,14 +4,32 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsgo -b --checkers 1 --builders 1",
+        "command": "bun ../../scripts/build-generated-package.ts .",
         "cwd": "{projectRoot}"
       },
-      "outputs": [
-        "{projectRoot}/lib",
-        "{projectRoot}/.tsbuild",
-        "{projectRoot}/tsconfig.tsbuildinfo"
-      ],
+      "outputs": ["{projectRoot}/lib"],
+      "cache": true,
+      "dependsOn": ["^build"],
+      "parallelism": false
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun ../../scripts/build-generated-package.ts . --declarations-only",
+        "cwd": "{projectRoot}"
+      },
+      "outputs": ["{projectRoot}/lib"],
+      "cache": true,
+      "dependsOn": ["^build"],
+      "parallelism": false
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "oxlint src",
+        "cwd": "{projectRoot}"
+      },
+      "outputs": [],
       "cache": true,
       "dependsOn": ["^build"],
       "parallelism": false

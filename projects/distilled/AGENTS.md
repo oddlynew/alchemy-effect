@@ -103,6 +103,12 @@ Every package has these scripts:
 | `test`      | `bunx vitest run test`                                                                      | Run tests                                   |
 | `generate`  | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec                        |
 
+`@oddlynew/distilled-gcp` is the exception in Nx. Its generated source is large enough that
+whole-package `tsgo -b` exceeds standard CI runner memory, so its Nx `build` and `typecheck` targets
+use `projects/distilled/scripts/build-generated-package.ts` to emit JS and declarations one file at
+a time. Keep the package scripts as imported upstream intent, but use `bun nx build
+@oddlynew/distilled-gcp` / `bun nx typecheck @oddlynew/distilled-gcp` in the monorepo.
+
 ### Monorepo Build
 
 ```bash

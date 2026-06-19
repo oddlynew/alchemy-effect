@@ -187,7 +187,8 @@
     "@commitlint/config-conventional": "catalog:",
     "@nx/devkit": "catalog:",
     "@nx/js": "catalog:",
-    "@oddlynew/alchemy-typescript-config": "workspace:*"
+    "@oddlynew/alchemy-typescript-config": "workspace:*",
+    "typescript5": "npm:typescript@5.9.3"
   },
   "trustedDependencies": [
     "@oddlynew/alchemy-nx-alchemy-plugin",
