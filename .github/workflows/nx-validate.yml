@@ -61,7 +61,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: .github/scripts/lint-pr-commits.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
 
-      - run: .github/scripts/run-affected-production-target.ts build --parallel=6
-      - run: .github/scripts/run-affected-production-target.ts typecheck --parallel=6
-      - run: .github/scripts/run-affected-production-target.ts lint --parallel=6
+      - run: .github/scripts/run-affected-production-target.ts build --parallel=3
+      - run: .github/scripts/run-affected-production-target.ts typecheck --parallel=3
+      - run: .github/scripts/run-affected-production-target.ts lint --parallel=3
       - run: bun nx test nx-r2-cache-worker
