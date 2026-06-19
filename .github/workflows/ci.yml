@@ -141,6 +141,14 @@ jobs:
         timeout-minutes: 10
         run: bun nx affected -t test --exclude="$NX_CI_TEST_EXCLUDE" --parallel=3
 
+      - name: Bootstrap Cloudflare state store
+        if: env.SHOULD_DEPLOY == 'true'
+        run: bunx alchemy cloudflare bootstrap --profile "$ALCHEMY_PROFILE"
+        env:
+          ALCHEMY_PROFILE: ${{ env.IS_PROD_DEPLOY == 'true' && 'prod' || 'preview' }}
+          CLOUDFLARE_API_TOKEN: ${{ env.IS_PROD_DEPLOY == 'true' && secrets.PROD_CLOUDFLARE_API_TOKEN || secrets.TEST_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.IS_PROD_DEPLOY == 'true' && secrets.PROD_CLOUDFLARE_ACCOUNT_ID || secrets.TEST_CLOUDFLARE_ACCOUNT_ID }}
+
       - name: Generate bot token
         if: env.SHOULD_DEPLOY == 'true' && env.BOT_APP_CONFIGURED == 'true'
         id: bot-token
@@ -167,6 +175,7 @@ jobs:
         if: env.SHOULD_DEPLOY == 'true'
         run: bun nx run-many -t deploy --projects=tag:deploy:ci --parallel=1
         env:
+          ALCHEMY_PROFILE: ${{ env.IS_PROD_DEPLOY == 'true' && 'prod' || 'preview' }}
           PULL_REQUEST: ${{ github.event.number }}
           CLOUDFLARE_API_TOKEN: ${{ env.IS_PROD_DEPLOY == 'true' && secrets.PROD_CLOUDFLARE_API_TOKEN || secrets.TEST_CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ env.IS_PROD_DEPLOY == 'true' && secrets.PROD_CLOUDFLARE_ACCOUNT_ID || secrets.TEST_CLOUDFLARE_ACCOUNT_ID }}

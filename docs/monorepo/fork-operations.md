@@ -73,18 +73,20 @@ bun nx test <project> --run
 For branch-level validation, use the same production/package boundary as CI:
 
 ```bash
-export NX_PRODUCTION_EXCLUDE='@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+export NX_VALIDATION_EXCLUDE='@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
 
-GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
-GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
-GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t test --parallel=3 --exclude='*,!tag:test:ci'
 
 bun oxfmt --check .
 git diff --check
 ```
 
-The excluded website, examples, and fixtures remain in the Nx graph and can be run directly. They
-are not part of the default production gate because not all of them are hermetic yet.
+The excluded examples and fixtures remain in the Nx graph and can be run directly. They are not
+part of the default production gate because not all of them are hermetic yet. CI test promotion is
+tag-based: add `test:ci` to hermetic packages when they should join the required affected test gate.
 
 ## Deployable Stacks
 
@@ -103,9 +105,9 @@ bun nx logs <project>
 Use environment variables to select credentials and stages:
 
 ```bash
-STAGE=prod DOPPLER_CONFIG=prd ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-otel
-DOPPLER_CONFIG=prd ALCHEMY_PROFILE=admin bun nx deploy @oddlynew/alchemy-github-secrets
-STAGE=prod ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-website
+doppler run --project alchemy-effect-fork --config prd -- env STAGE=prod ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-otel
+doppler run --project alchemy-effect-fork --config prd -- env ALCHEMY_PROFILE=admin bun nx deploy @oddlynew/alchemy-github-secrets
+doppler run --project alchemy-effect-fork --config prd -- env STAGE=prod ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-website
 DOPPLER_CONFIG=prd bun nx deploy nx-r2-cache-worker
 ```
 
@@ -119,6 +121,11 @@ deployment.
 operator path. Use affected targets for validation and, where useful, protected preview planning.
 Production infrastructure deploys should remain explicit project selections or protected workflow
 jobs that use affected only as their selector.
+
+The CI deploy job bootstraps the Cloudflare state store before running `nx deploy`. Alchemy's
+regular deploy path intentionally does not auto-bootstrap in CI, so a new Cloudflare account must
+either run `alchemy cloudflare bootstrap` once or rely on the protected main deploy job to run that
+idempotent bootstrap step with the configured GitHub environment secrets.
 
 ## Release Operations
 
