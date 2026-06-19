@@ -14,6 +14,14 @@ codex/monorepo-clean-history   # upstream adoption candidate
 codex/monorepo-dogfood         # Oddlynew-owned fork distribution
 ```
 
+After the Oddlynew fork is promoted, `main` should become the dogfood line. Until that happens,
+`codex/monorepo-dogfood` plays the role that `main` will later play:
+
+```text
+main                           # future Oddlynew dogfood branch
+codex/monorepo-clean-history   # upstream adoption and sync branch
+```
+
 The clean branch should stay easy for Alchemy maintainers to evaluate. It keeps upstream package
 names, upstream release lines, imported histories, and monorepo infrastructure. It should not carry
 Oddlynew package names, dogfood feature work, or fork-specific publishing behavior.
@@ -102,6 +110,90 @@ git merge codex/monorepo-clean-history
 
 This keeps the maintainer candidate branch unpolluted while still letting the dogfood branch move
 fast, publish real packages, and accumulate real cross-repo feature work.
+
+## Periodic Upstream Sync
+
+Treat upstream sync as a normal maintenance loop, not as a one-off migration step. The stable model
+is two lanes:
+
+- clean lane: imports upstream Alchemy, Distilled, and Cloudflare Tools, plus only monorepo
+  infrastructure needed for maintainers to adopt the shape;
+- dogfood lane: merges the clean lane and carries Oddlynew package names, publishing configuration,
+  CI hardening, and product work.
+
+Do not sync upstream repositories directly into the dogfood lane. Always update
+`codex/monorepo-clean-history` first, validate it, then merge that branch into dogfood. This keeps a
+branch that can be shown to Alchemy maintainers without Oddlynew-specific product choices, and it
+also gives dogfood one clear integration point for upstream changes.
+
+Recommended cadence:
+
+- run the sync before starting any feature that is likely to touch upstream-owned files;
+- run it again before publishing a dogfood release;
+- run it whenever upstream Alchemy, Distilled, or Cloudflare Tools cuts a release that we want to
+  consume;
+- avoid letting dogfood drift for weeks if active upstream development is happening in the same
+  files we are changing.
+
+Clean-lane sync procedure:
+
+```bash
+git switch codex/monorepo-clean-history
+
+# Alchemy keeps commit identity, so merge it normally.
+git fetch origin main
+git merge origin/main
+
+# Distilled and Cloudflare Tools are re-imported through deterministic prefix rewrites.
+# See cutover-operating-note.md for the exact filter-repo commands.
+git fetch distilled-prefix-latest main
+git merge distilled-prefix-latest/main
+
+git fetch cloudflare-tools-prefix-latest main
+git merge cloudflare-tools-prefix-latest/main
+```
+
+After resolving conflicts on the clean lane, update imported release baseline tags only when the
+new upstream commits represent already-published releases. If upstream includes unreleased commits,
+keep the previous baseline before those commits so the next monorepo release includes them in the
+changelog range.
+
+Dogfood merge procedure:
+
+```bash
+git switch main # or codex/monorepo-dogfood until the fork is promoted
+git merge codex/monorepo-clean-history
+```
+
+Expected dogfood conflicts are usually package identity conflicts: package names, workspace
+dependencies, repository URLs, release-tag names, and imports that changed from upstream scopes to
+`@oddlynew/*`. Resolve those in favor of the dogfood identity while preserving the upstream source
+change that caused the conflict.
+
+Run the dogfood verification before publishing or building features on top:
+
+```bash
+bun install --frozen-lockfile
+
+export NX_PRODUCTION_EXCLUDE='@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+
+bun oxfmt --check .
+git diff --check
+
+bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish
+bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish
+bun nx release patch --groups=distilled --dry-run --skip-publish
+bun nx release patch --groups=cloudflare-tools --dry-run --skip-publish
+```
+
+Feature work remains maintainable on top of this as long as it is layered on dogfood/topic branches.
+When upstream advances, sync clean history again, merge it into dogfood, then rebase or merge feature
+branches onto the updated dogfood lane. Conflict cost should stay proportional to real overlap: if
+both upstream and dogfood edited the same final file, resolve it once in dogfood; unrelated
+Oddlynew-only features should keep applying normally.
 
 ## What To Show Maintainers
 
