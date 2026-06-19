@@ -46,13 +46,14 @@ export function createPlugin<TName extends string, A = any>(
     vite: (options: CloudflarePluginOptions) => {
       const plugin = make(options);
       if (!plugin) return null;
+      const shared = plugin.shared as Omit<vite.Plugin<A>, "name"> | undefined;
       return {
         name,
         sharedDuringBuild: true,
         applyToEnvironment(environment) {
           return environment.name !== "client";
         },
-        ...plugin.shared,
+        ...shared,
         ...plugin.vite,
       } as vite.Plugin;
     },

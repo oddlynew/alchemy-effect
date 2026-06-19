@@ -203,13 +203,17 @@ export const PageRuleProvider = () =>
             Effect.map((rules) =>
               rules.map((rule) => toAttributes(rule as ObservedRule, zone.id)),
             ),
-            // Skip plan-gated zones (`Forbidden`) and zones Cloudflare rejects
-            // with "Invalid zone identifier" (e.g. pending/partial-setup zones
-            // that don't accept the page-rules endpoint) — they contribute no
-            // rules and shouldn't fail the whole account enumeration.
-            Effect.catchTag(["Forbidden", "InvalidZoneIdentifier"], () =>
-              Effect.succeed([]),
-            ),
+            Effect.catch((error) => {
+              const tag = (error as { _tag: string })._tag;
+              // Skip plan-gated zones (`Forbidden`) and zones Cloudflare rejects
+              // with "Invalid zone identifier" (e.g. pending/partial-setup zones
+              // that don't accept the page-rules endpoint) — they contribute no
+              // rules and shouldn't fail the whole account enumeration.
+              if (tag === "Forbidden" || tag === "InvalidZoneIdentifier") {
+                return Effect.succeed<PageRuleAttributes[]>([]);
+              }
+              return Effect.fail(error);
+            }),
           ),
         { concurrency: 10 },
       );

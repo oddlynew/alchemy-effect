@@ -298,14 +298,22 @@ export const SchemaValidationSchemaProvider = () =>
                   ),
                 ),
               ),
-              // Skip zones schema-validation can't enumerate: `InvalidRoute`
-              // (feature not available on the zone), `ZonePurged` (the
-              // account-wide zone listing can momentarily include a zone that
-              // has since been purged), and `Forbidden` (the scoped token /
-              // zone plan doesn't grant schema-validation access).
-              Effect.catchTag(["InvalidRoute", "ZonePurged", "Forbidden"], () =>
-                Effect.succeed<SchemaValidationSchemaAttributes[]>([]),
-              ),
+              Effect.catch((error) => {
+                const tag = (error as { _tag: string })._tag;
+                // Skip zones schema-validation can't enumerate: `InvalidRoute`
+                // (feature not available on the zone), `ZonePurged` (the
+                // account-wide zone listing can momentarily include a zone that
+                // has since been purged), and `Forbidden` (the scoped token /
+                // zone plan doesn't grant schema-validation access).
+                if (
+                  tag === "InvalidRoute" ||
+                  tag === "ZonePurged" ||
+                  tag === "Forbidden"
+                ) {
+                  return Effect.succeed<SchemaValidationSchemaAttributes[]>([]);
+                }
+                return Effect.fail(error);
+              }),
             ),
         { concurrency: 10 },
       );

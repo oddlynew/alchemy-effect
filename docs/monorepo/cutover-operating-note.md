@@ -37,6 +37,24 @@ come from separate repositories. That gives both properties maintainers need:
 - GitHub sees the branch as ahead-only from `alchemy-run/alchemy-effect:main`.
 - Distilled and Cloudflare Tools files live at their final paths for their imported history.
 
+## What The Unified Build Surfaced
+
+The monorepo build caught integration issues that were easy to miss while the repositories resolved
+their toolchains separately:
+
+- Alchemy's current Cloudflare SDK types and Effect's stricter `catchTag` signature disagree on a
+  few runtime Cloudflare error tags (`InvalidZoneIdentifier`, `ZonePurged`). The production branch
+  keeps the runtime behavior and switches those handlers to `Effect.catch` with explicit `_tag`
+  checks, re-failing unknown errors.
+- Cloudflare Tools' `tsdown` declaration build was resolving `rolldown-plugin-dts` against the
+  root TypeScript 7 RC package, while that plugin's JavaScript TypeScript path supports TypeScript
+  5/6. The production branch moves the Cloudflare Tools declaration builds to
+  `dts: { tsgo: true }`, matching the Oddlynew monorepo standard and avoiding a root TypeScript
+  downgrade.
+- Downstream consumers such as the Nx R2 cache Worker fail immediately if Cloudflare Tools
+  declarations are not emitted. That is useful signal: an integration PR touching Alchemy and
+  Cloudflare Tools now proves the affected dependency chain in one workspace.
+
 ## Branch Strategy
 
 Keep the earlier prototype branches as references only:

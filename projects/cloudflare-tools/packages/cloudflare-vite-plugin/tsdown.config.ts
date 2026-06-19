@@ -29,7 +29,7 @@ export default defineConfig([
     outDir: "dist/node",
     tsconfig: "tsconfig.node.json",
     unbundle: true,
-    dts: true,
+    dts: { tsgo: true },
     shims: false,
     target: "esnext",
     format: "esm",

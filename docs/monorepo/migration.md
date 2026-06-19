@@ -159,6 +159,16 @@ AWS/GCP clients have pre-existing formatter drift. The migration CI therefore ru
 instead of `check`; a future baseline cleanup can format generated clients and promote `check` once
 that diff is reviewed separately.
 
+The unified build also intentionally surfaces cross-repo toolchain drift. In the standalone
+Cloudflare Tools repository, declaration builds could resolve a local TypeScript/toolchain shape
+independently from Alchemy. In the monorepo, the shared root exposed that `rolldown-plugin-dts`
+cannot use its JavaScript TypeScript path against the TypeScript 7 RC package. The branch fixes that
+by using `dts: { tsgo: true }` for the Cloudflare Tools `tsdown` declaration builds, which matches
+Oddlynew's package build standard and keeps the workspace on the modern TypeScript/native-preview
+path. The same verification run caught typed Alchemy handlers whose `catchTag` lists included
+runtime Cloudflare error tags that the generated SDK error unions do not currently declare; those
+handlers now use `Effect.catch` and re-fail unknown errors.
+
 ## Release Groups
 
 `nx.json` models the three public release surfaces separately:
