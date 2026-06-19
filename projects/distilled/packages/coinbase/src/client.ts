@@ -30,23 +30,23 @@
  *
  * Errors are dispatched first by `errorType`, then by HTTP status code.
  */
+import { makeAPI } from "@distilled.cloud/core/client";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as crypto from "node:crypto";
-import { makeAPI } from "@distilled.cloud/core/client";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import { Retry } from "./retry.ts";
-import {
-  HTTP_STATUS_MAP,
-  COINBASE_HTTP_STATUS_MAP,
-  ERROR_TYPE_MAP,
-  STANDARD_ERROR_TYPE_MAP,
-  UnknownCoinbaseError,
-  CoinbaseParseError,
-} from "./errors.ts";
 import type { Config } from "./credentials.ts";
 import { Credentials } from "./credentials.ts";
+import {
+  COINBASE_HTTP_STATUS_MAP,
+  CoinbaseParseError,
+  ERROR_TYPE_MAP,
+  HTTP_STATUS_MAP,
+  STANDARD_ERROR_TYPE_MAP,
+  UnknownCoinbaseError,
+} from "./errors.ts";
+import { Retry } from "./retry.ts";
 
 // Re-export for convenience
 export { UnknownCoinbaseError } from "./errors.ts";
@@ -305,7 +305,7 @@ export const API = makeAPI<Credentials>({
   getBaseUrl: (creds: any) => (creds as Config).apiBaseUrl,
   getAuthHeaders: () => ({}),
   getRequestHeaders: (_requestOptions, { method, parts, credentials }) => {
-    const c = credentials as Config;
+    const c = credentials as any;
     const baseUrl = new URL(c.apiBaseUrl);
     const uri = `${baseUrl.host}${baseUrl.pathname}${parts.path}`;
     const jwt = generateJwt(
@@ -318,7 +318,7 @@ export const API = makeAPI<Credentials>({
       Authorization: `Bearer ${jwt}`,
     };
   },
-  matchError,
+  matchError: matchError as any,
   ParseError: CoinbaseParseError as any,
   retry: Retry as any,
 });
