@@ -37,7 +37,7 @@ jobs:
       (github.event_name != 'pull_request' || github.event.pull_request.draft == false) &&
       (
         github.event.action != 'labeled' ||
-        contains(github.event.pull_request.labels.*.name, 'deploy-website')
+        contains(github.event.pull_request.labels.*.name, 'deploy-preview')
       )
     # Public fork PRs are controlled by GitHub's workflow-approval setting;
     # keep this on `pull_request`, not `pull_request_target`, because this job
@@ -47,13 +47,13 @@ jobs:
     environment: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'production' || '' }}
     env:
       BOT_APP_CONFIGURED: ${{ secrets.ALCHEMY_VERSION_BOT_ID != '' && secrets.ALCHEMY_VERSION_BOT_PRIVATE_KEY != '' }}
-      SHOULD_DEPLOY_WEBSITE: >-
+      SHOULD_DEPLOY: >-
         ${{
           (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
           (
             github.event_name == 'pull_request' &&
             github.event.pull_request.head.repo.full_name == github.repository &&
-            contains(github.event.pull_request.labels.*.name, 'deploy-website')
+            contains(github.event.pull_request.labels.*.name, 'deploy-preview')
           )
         }}
     steps:
@@ -107,7 +107,7 @@ jobs:
         if: github.event.action != 'labeled'
 
       - name: Generate bot token
-        if: env.SHOULD_DEPLOY_WEBSITE == 'true' && env.BOT_APP_CONFIGURED == 'true'
+        if: env.SHOULD_DEPLOY == 'true' && env.BOT_APP_CONFIGURED == 'true'
         id: bot-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
@@ -115,7 +115,7 @@ jobs:
           private-key: ${{ secrets.ALCHEMY_VERSION_BOT_PRIVATE_KEY }}
 
       - name: Guard production deploy
-        if: env.SHOULD_DEPLOY_WEBSITE == 'true'
+        if: env.SHOULD_DEPLOY == 'true'
         shell: bash
         run: |-
           if [ "${STAGE}" = "prod" ] && [ "${GITHUB_REF}" != "refs/heads/main" ]; then
@@ -128,9 +128,9 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy website
-        if: env.SHOULD_DEPLOY_WEBSITE == 'true'
-        run: bun nx deploy @oddlynew/alchemy-website
+      - name: Deploy tagged apps
+        if: env.SHOULD_DEPLOY == 'true'
+        run: bun nx run-many -t deploy --projects=tag:deploy:ci --parallel=1
         env:
           PULL_REQUEST: ${{ github.event.number }}
           CLOUDFLARE_API_TOKEN: ${{ env.IS_PROD_DEPLOY == 'true' && secrets.PROD_CLOUDFLARE_API_TOKEN || secrets.TEST_CLOUDFLARE_API_TOKEN }}

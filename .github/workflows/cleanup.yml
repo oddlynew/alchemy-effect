@@ -15,7 +15,7 @@ jobs:
   cleanup:
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
-      contains(github.event.pull_request.labels.*.name, 'deploy-website')
+      contains(github.event.pull_request.labels.*.name, 'deploy-preview')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -52,10 +52,10 @@ jobs:
             exit 1
           fi
 
-      - name: Destroy website preview
+      - name: Destroy tagged app previews
         run: >-
           doppler run --project "$DOPPLER_PROJECT" --config "$DOPPLER_CONFIG"
-          -- bun nx destroy @oddlynew/alchemy-website
+          -- bun nx run-many -t destroy --projects=tag:deploy:ci --parallel=1
         env:
           DOPPLER_PROJECT: alchemy-effect-fork
           DOPPLER_CONFIG: dev
