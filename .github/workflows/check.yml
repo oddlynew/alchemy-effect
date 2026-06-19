@@ -43,5 +43,5 @@ jobs:
           restore-keys: bun-${{ runner.os }}-
 
       - run: bun install --frozen-lockfile
-      - run: .github/scripts/run-affected-production-target.ts typecheck --parallel=6
+      - run: .github/scripts/run-affected-production-target.ts typecheck --parallel=3
       - run: bun run docs:check

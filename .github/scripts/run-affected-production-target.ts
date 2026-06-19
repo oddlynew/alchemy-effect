@@ -5,6 +5,9 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+// Avoid Bun's package-runner signal handling around long Nx CI runs.
+const nodeBin = Bun.which("node") ?? "node";
+const nxCli = resolve(workspaceRoot, "node_modules/nx/dist/bin/nx.js");
 const [target, ...targetArgs] = Bun.argv.slice(2);
 
 if (!target) {
@@ -27,8 +30,8 @@ const excludedRootPrefixes = [
   "projects/alchemy/packages/alchemy/test/",
 ];
 
-const run = (args: string[], options?: { inherit?: boolean }) => {
-  const result = spawnSync("bun", args, {
+const runNx = (args: string[], options?: { inherit?: boolean }) => {
+  const result = spawnSync(nodeBin, [nxCli, ...args], {
     cwd: workspaceRoot,
     encoding: "utf8",
     stdio: options?.inherit ? "inherit" : "pipe",
@@ -55,8 +58,7 @@ const isNonHermeticRoot = (root: string) =>
   root.includes("/test/fixtures/");
 
 const affected = JSON.parse(
-  run([
-    "nx",
+  runNx([
     "show",
     "projects",
     "--affected",
@@ -70,7 +72,7 @@ const skipped: Array<{ name: string; root: string }> = [];
 
 for (const project of affected) {
   const details = JSON.parse(
-    run(["nx", "show", "project", project, "--json"]),
+    runNx(["show", "project", project, "--json"]),
   ) as {
     root?: string;
   };
@@ -104,9 +106,8 @@ if (selected.length === 0) {
   process.exit(0);
 }
 
-run(
+runNx(
   [
-    "nx",
     "run-many",
     "-t",
     target,

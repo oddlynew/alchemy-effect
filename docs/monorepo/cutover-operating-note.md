@@ -258,9 +258,9 @@ The cutover branch is ready to show as a replacement repository when all of thes
 - `git log --follow -- projects/alchemy/packages/alchemy/package.json` walks into Alchemy release
   history.
 - `bun nx show projects` succeeds.
-- `.github/scripts/run-affected-production-target.ts build --parallel=6` succeeds.
-- `.github/scripts/run-affected-production-target.ts typecheck --parallel=6` succeeds.
-- `.github/scripts/run-affected-production-target.ts lint --parallel=6` succeeds.
+- `.github/scripts/run-affected-production-target.ts build --parallel=3` succeeds.
+- `.github/scripts/run-affected-production-target.ts typecheck --parallel=3` succeeds.
+- `.github/scripts/run-affected-production-target.ts lint --parallel=3` succeeds.
 - Release dry-runs continue the existing release lines:
 
 ```bash

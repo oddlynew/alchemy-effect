@@ -45,9 +45,9 @@ as one project graph rather than as three standalone checkouts.
 | Type check a project | `bun nx typecheck <project>` |
 | Lint a project | `bun nx lint <project>` |
 | Run a focused test | `bun nx test <project> --run <path>` |
-| Build affected production graph | `.github/scripts/run-affected-production-target.ts build --parallel=6` |
-| Type check affected production graph | `.github/scripts/run-affected-production-target.ts typecheck --parallel=6` |
-| Lint affected production graph | `.github/scripts/run-affected-production-target.ts lint --parallel=6` |
+| Build affected production graph | `.github/scripts/run-affected-production-target.ts build --parallel=3` |
+| Type check affected production graph | `.github/scripts/run-affected-production-target.ts typecheck --parallel=3` |
+| Lint affected production graph | `.github/scripts/run-affected-production-target.ts lint --parallel=3` |
 | Format repo code | `bun oxfmt ./packages ./projects` |
 | Preview Alchemy release | `bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish` |
 | Preview alchemy-node-utils release | `bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish` |
@@ -940,9 +940,9 @@ bun nx test @oddlynew/alchemy -- test/Cloudflare/R2/Bucket.test.ts
 For broad monorepo changes, use the production target helper so Nx computes the graph:
 
 ```bash
-.github/scripts/run-affected-production-target.ts build --parallel=6
-.github/scripts/run-affected-production-target.ts typecheck --parallel=6
-.github/scripts/run-affected-production-target.ts lint --parallel=6
+.github/scripts/run-affected-production-target.ts build --parallel=3
+.github/scripts/run-affected-production-target.ts typecheck --parallel=3
+.github/scripts/run-affected-production-target.ts lint --parallel=3
 ```
 
 ## Live resource tests

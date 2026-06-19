@@ -46,9 +46,9 @@ $EDITOR projects/distilled/packages/stripe/src/index.ts
 bun nx show projects --affected \
   --files=projects/alchemy/packages/alchemy/src/index.ts,projects/distilled/packages/stripe/src/index.ts
 
-.github/scripts/run-affected-production-target.ts build --parallel=6
-.github/scripts/run-affected-production-target.ts typecheck --parallel=6
-.github/scripts/run-affected-production-target.ts lint --parallel=6
+.github/scripts/run-affected-production-target.ts build --parallel=3
+.github/scripts/run-affected-production-target.ts typecheck --parallel=3
+.github/scripts/run-affected-production-target.ts lint --parallel=3
 
 bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish
 bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish
@@ -125,9 +125,9 @@ bun nx build nx-r2-cache-worker
 bun nx typecheck nx-r2-cache-worker
 bun nx test nx-r2-cache-worker
 bun nx lint nx-r2-cache-worker
-.github/scripts/run-affected-production-target.ts build --parallel=6
-.github/scripts/run-affected-production-target.ts typecheck --parallel=6
-.github/scripts/run-affected-production-target.ts lint --parallel=6
+.github/scripts/run-affected-production-target.ts build --parallel=3
+.github/scripts/run-affected-production-target.ts typecheck --parallel=3
+.github/scripts/run-affected-production-target.ts lint --parallel=3
 git diff --check
 bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish
 bun nx release patch --groups=alchemy-node-utils --dry-run --skip-publish
