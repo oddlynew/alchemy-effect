@@ -608,9 +608,6 @@ paths:
                           - fail_open
                           - usage_model
                         description: Configs for production deploys.
-                    required:
-                      - preview
-                      - production
                     description: Configs for deployments in a project.
                   framework:
                     type: string

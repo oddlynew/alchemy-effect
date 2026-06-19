@@ -8,7 +8,9 @@
       "result[].canonical_deployment.source": {
         "optional": true,
         "nullable": true
-      }
+      },
+      "result[].deployment_configs.preview": { "optional": true },
+      "result[].deployment_configs.production": { "optional": true }
     }
   }
 }

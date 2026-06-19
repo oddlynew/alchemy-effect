@@ -4136,6 +4136,10 @@ paths:
       x-distilled-errors:
         Forbidden:
           - status: 403
+        InvalidZoneIdentifier:
+          - status: 400
+            message:
+              includes: Invalid zone identifier
     post:
       operationId: createPageRule
       description: "Creates a new Page Rule.  @example ```ts const pageRule = await

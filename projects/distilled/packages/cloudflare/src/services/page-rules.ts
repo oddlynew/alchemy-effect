@@ -24,6 +24,14 @@ export class Forbidden extends T.applyErrorMatchers(
   [{ status: 403 }],
 ) {}
 
+export class InvalidZoneIdentifier extends T.applyErrorMatchers(
+  Schema.TaggedErrorClass<InvalidZoneIdentifier>()("InvalidZoneIdentifier", {
+    code: Schema.Number,
+    message: Schema.String,
+  }),
+  [{ status: 400, message: { includes: "Invalid zone identifier" } }],
+) {}
+
 export class PageRuleNotFound extends T.applyErrorMatchers(
   Schema.TaggedErrorClass<PageRuleNotFound>()("PageRuleNotFound", {
     code: Schema.Number,
@@ -1611,7 +1619,10 @@ export const ListPageRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(
     ).pipe(T.ResponsePath("result")),
 ) as unknown as Schema.Schema<ListPageRulesResponse>;
 
-export type ListPageRulesError = DefaultErrors | Forbidden;
+export type ListPageRulesError =
+  | DefaultErrors
+  | Forbidden
+  | InvalidZoneIdentifier;
 
 export const listPageRules: API.OperationMethod<
   ListPageRulesRequest,
@@ -1621,7 +1632,7 @@ export const listPageRules: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: ListPageRulesRequest,
   output: ListPageRulesResponse,
-  errors: [Forbidden],
+  errors: [Forbidden, InvalidZoneIdentifier],
 }));
 
 export interface CreatePageRuleRequest {
