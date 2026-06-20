@@ -26,6 +26,7 @@ permissions:
 env:
   NODE_VERSION: "24"
   GOMAXPROCS: "4"
+  NX_DAEMON: "false"
   NX_VALIDATION_EXCLUDE: "@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
   NX_VALIDATION_BUILD_EXCLUDE: "@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
   NX_CI_TEST_EXCLUDE: "*,!tag:test:ci"
@@ -110,19 +111,19 @@ jobs:
         if: github.event.action != 'labeled'
 
       - name: Build affected projects
-        run: bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"
+        run: bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE" --outputStyle=static
         if: github.event.action != 'labeled'
 
       - name: Check affected docs sites
-        run: bun nx affected -t docs:check --parallel=1
+        run: bun nx affected -t docs:check --parallel=1 --outputStyle=static
         if: github.event.action != 'labeled'
 
       - name: Typecheck affected projects
-        run: bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+        run: bun nx affected -t typecheck --parallel=2 --exclude="$NX_VALIDATION_EXCLUDE" --outputStyle=static
         if: github.event.action != 'labeled'
 
       - name: Lint affected projects
-        run: bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+        run: bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE" --outputStyle=static
         if: github.event.action != 'labeled'
 
       - name: Check if CI tests are affected
@@ -144,7 +145,7 @@ jobs:
       - name: Test affected projects
         if: github.event.action != 'labeled' && steps.check-tests.outputs.needed == 'true'
         timeout-minutes: 10
-        run: bun nx affected -t test --exclude="$NX_CI_TEST_EXCLUDE" --parallel=3
+        run: bun nx affected -t test --exclude="$NX_CI_TEST_EXCLUDE" --parallel=3 --outputStyle=static
 
       - name: Bootstrap Cloudflare state store
         if: env.SHOULD_DEPLOY == 'true'
