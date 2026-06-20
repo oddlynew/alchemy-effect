@@ -20,15 +20,6 @@
       "!{projectRoot}/test/**",
       "!{projectRoot}/vitest.config.*",
       "!{projectRoot}/playwright.config.*"
-    ],
-    "websiteSources": [
-      "default",
-      "!{projectRoot}/.astro/**",
-      "!{projectRoot}/dist/**",
-      "!{projectRoot}/node_modules/**",
-      "!{projectRoot}/src/content/docs/providers/**",
-      "!{projectRoot}/src/generated/**",
-      "!{projectRoot}/assets/fonts/**"
     ]
   },
   "pluginsConfig": {

@@ -13,7 +13,14 @@
     "targets": {
       "build": {
         "inputs": [
-          "websiteSources",
+          "{projectRoot}/**/*",
+          "{workspaceRoot}/bun.lock",
+          "!{projectRoot}/.astro/**",
+          "!{projectRoot}/dist/**",
+          "!{projectRoot}/node_modules/**",
+          "!{projectRoot}/src/content/docs/providers/**",
+          "!{projectRoot}/src/generated/**",
+          "!{projectRoot}/assets/fonts/**",
           "^production",
           "{workspaceRoot}/scripts/generate-api-reference.ts"
         ],
@@ -29,7 +36,14 @@
       "docs:check": {
         "dependsOn": ["^build"],
         "inputs": [
-          "websiteSources",
+          "{projectRoot}/**/*",
+          "{workspaceRoot}/bun.lock",
+          "!{projectRoot}/.astro/**",
+          "!{projectRoot}/dist/**",
+          "!{projectRoot}/node_modules/**",
+          "!{projectRoot}/src/content/docs/providers/**",
+          "!{projectRoot}/src/generated/**",
+          "!{projectRoot}/assets/fonts/**",
           "^production",
           "{workspaceRoot}/scripts/generate-api-reference.ts"
         ],
