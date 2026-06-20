@@ -33,14 +33,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "build": "tsdown",
-    "build:clean": "rm -rf dist && bun run build",
-    "dev": "tsdown --watch",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "prepublishOnly": "bun run build:clean"
-  },
   "dependencies": {
     "@oddlynew/distilled-cloudflare-rolldown-plugin": "workspace:*"
   },

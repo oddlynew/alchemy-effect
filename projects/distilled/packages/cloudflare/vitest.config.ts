@@ -6,6 +6,7 @@ config({ path: resolve(__dirname, ".env") });
 
 export default {
   test: {
+    passWithNoTests: true,
     include: ["test/**/*.test.ts"],
     testTimeout: 120000,
     // Cloudflare's API exhibits broad cross-endpoint flakiness (intermittent

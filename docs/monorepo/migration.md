@@ -89,7 +89,10 @@ The repo includes private Nx plugins under `packages/nx-*-plugin`:
   `tsconfig.json` for the default type-aware mode, and has no existing `lint` package script or
   project target.
 - `@oddlynew/alchemy-nx-alchemy-plugin` adds `dev`, `deploy`, `destroy`, and `plan` when a project has
-  `alchemy.run.ts`.
+- `alchemy.run.ts`. Package metadata can pin command defaults such as Doppler config or deployment
+  stage.
+- `@nx/vitest` adds `test` when a project has `vitest.config.ts`; the workspace config runs Vitest in
+  one-shot mode instead of watch mode.
 
 That keeps package `package.json` files focused on package behavior while Nx owns orchestration.
 For this migration branch, lockfile changes intentionally mark all projects affected. Nx's smarter

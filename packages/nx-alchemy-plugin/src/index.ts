@@ -26,6 +26,31 @@ export interface DopplerConfig {
   project: string;
 }
 
+export interface AlchemyCommandConfig {
+  /**
+   * Default Doppler config for this command. DOPPLER_CONFIG still overrides it.
+   */
+  dopplerConfig?: string;
+
+  /**
+   * Default stage for this command. STAGE still overrides it.
+   */
+  stage?: string;
+
+  /**
+   * Stage for shared infrastructure that must not be overridden by STAGE.
+   */
+  fixedStage?: string;
+}
+
+export interface AlchemyConfig {
+  dev?: AlchemyCommandConfig;
+  deploy?: AlchemyCommandConfig;
+  destroy?: AlchemyCommandConfig;
+  plan?: AlchemyCommandConfig;
+  logs?: AlchemyCommandConfig;
+}
+
 /**
  * Extended package.json with Nx metadata
  */
@@ -35,6 +60,7 @@ interface PackageJson {
     name?: string;
     tags?: string[];
     doppler?: DopplerConfig;
+    alchemy?: AlchemyConfig;
   };
 }
 
@@ -76,11 +102,11 @@ async function createNodesInternal(
       return {};
     }
 
-    // Read Doppler config from package.json
-    const dopplerConfig = extractDopplerConfig(packageJsonPath);
+    // Read Alchemy deployment config from package.json
+    const alchemyConfig = extractAlchemyConfig(packageJsonPath);
 
     // Create targets
-    const targets = createTargets(options, dopplerConfig);
+    const targets = createTargets(options, alchemyConfig);
 
     const projectConfiguration: ProjectConfiguration = {
       root: projectRoot,
@@ -103,22 +129,26 @@ async function createNodesInternal(
 }
 
 /**
- * Extract Doppler configuration from package.json
+ * Extract Alchemy target configuration from package.json
  */
-function extractDopplerConfig(
-  packageJsonPath: string,
-): DopplerConfig | undefined {
+function extractAlchemyConfig(packageJsonPath: string): {
+  doppler?: DopplerConfig;
+  alchemy?: AlchemyConfig;
+} {
   try {
     if (!existsSync(packageJsonPath)) {
-      return undefined;
+      return {};
     }
 
     const content = readFileSync(packageJsonPath, "utf-8");
     const packageJson: PackageJson = JSON.parse(content);
 
-    return packageJson.nx?.doppler;
+    return {
+      doppler: packageJson.nx?.doppler,
+      alchemy: packageJson.nx?.alchemy,
+    };
   } catch {
-    return undefined;
+    return {};
   }
 }
 
@@ -140,6 +170,7 @@ function extractDopplerConfig(
 function wrapWithDoppler(
   command: string,
   dopplerConfig: DopplerConfig | undefined,
+  commandConfig: AlchemyCommandConfig,
 ): string {
   if (!dopplerConfig) {
     return command;
@@ -147,8 +178,7 @@ function wrapWithDoppler(
 
   const projectSelection = `\${DOPPLER_PROJECT:-${dopplerConfig.project}}`;
 
-  // Always default to "dev" config, override with DOPPLER_CONFIG env var
-  const configSelection = "${DOPPLER_CONFIG:-dev}";
+  const configSelection = `\${DOPPLER_CONFIG:-${commandConfig.dopplerConfig ?? "dev"}}`;
 
   return `doppler run --project ${projectSelection} --config ${configSelection} -- ${command}`;
 }
@@ -171,6 +201,7 @@ function wrapWithDoppler(
  */
 function alchemyCommand(
   subcommand: "dev" | "deploy" | "destroy" | "plan" | "logs",
+  commandConfig: AlchemyCommandConfig,
 ): string {
   const flags = {
     dev: "",
@@ -180,12 +211,37 @@ function alchemyCommand(
     logs: "",
   }[subcommand];
   const profileSelection = "${ALCHEMY_PROFILE:-default}";
-  return `bunx alchemy ${subcommand} alchemy.run.ts${flags} --profile ${profileSelection} --stage \${STAGE:-dev}`;
+  const stageSelection =
+    commandConfig.fixedStage ?? `\${STAGE:-${commandConfig.stage ?? "dev"}}`;
+  return `bunx alchemy ${subcommand} alchemy.run.ts${flags} --profile ${profileSelection} --stage ${stageSelection}`;
+}
+
+function commandConfig(
+  alchemyConfig: AlchemyConfig | undefined,
+  subcommand: "dev" | "deploy" | "destroy" | "plan" | "logs",
+): AlchemyCommandConfig {
+  return alchemyConfig?.[subcommand] ?? {};
+}
+
+function commandWithContext(
+  subcommand: "dev" | "deploy" | "destroy" | "plan" | "logs",
+  dopplerConfig: DopplerConfig | undefined,
+  alchemyConfig: AlchemyConfig | undefined,
+): string {
+  const config = commandConfig(alchemyConfig, subcommand);
+  return wrapWithDoppler(
+    alchemyCommand(subcommand, config),
+    dopplerConfig,
+    config,
+  );
 }
 
 function createTargets(
   options: AlchemyPluginOptions,
-  dopplerConfig: DopplerConfig | undefined,
+  config: {
+    doppler?: DopplerConfig;
+    alchemy?: AlchemyConfig;
+  },
 ): Record<string, TargetConfiguration> {
   const devTargetName = options.devTargetName || "dev";
   const deployTargetName = options.deployTargetName || "deploy";
@@ -201,7 +257,7 @@ function createTargets(
   targets[devTargetName] = {
     executor: "nx:run-commands",
     options: {
-      command: wrapWithDoppler(alchemyCommand("dev"), dopplerConfig),
+      command: commandWithContext("dev", config.doppler, config.alchemy),
       cwd: "{projectRoot}",
     },
     cache: false,
@@ -211,7 +267,7 @@ function createTargets(
   targets[deployTargetName] = {
     executor: "nx:run-commands",
     options: {
-      command: wrapWithDoppler(alchemyCommand("deploy"), dopplerConfig),
+      command: commandWithContext("deploy", config.doppler, config.alchemy),
       cwd: "{projectRoot}",
     },
     cache: false,
@@ -224,7 +280,7 @@ function createTargets(
   targets[destroyTargetName] = {
     executor: "nx:run-commands",
     options: {
-      command: wrapWithDoppler(alchemyCommand("destroy"), dopplerConfig),
+      command: commandWithContext("destroy", config.doppler, config.alchemy),
       cwd: "{projectRoot}",
     },
     cache: false,
@@ -233,7 +289,7 @@ function createTargets(
   targets[planTargetName] = {
     executor: "nx:run-commands",
     options: {
-      command: wrapWithDoppler(alchemyCommand("plan"), dopplerConfig),
+      command: commandWithContext("plan", config.doppler, config.alchemy),
       cwd: "{projectRoot}",
     },
     cache: false,
@@ -242,7 +298,7 @@ function createTargets(
   targets[logsTargetName] = {
     executor: "nx:run-commands",
     options: {
-      command: wrapWithDoppler(alchemyCommand("logs"), dopplerConfig),
+      command: commandWithContext("logs", config.doppler, config.alchemy),
       cwd: "{projectRoot}",
     },
     cache: false,

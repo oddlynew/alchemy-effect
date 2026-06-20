@@ -7,9 +7,6 @@
     "./miniflare": "./src/miniflare.ts",
     "./miniflare-module": "./src/miniflare-module.ts"
   },
-  "scripts": {
-    "dev": "tsgo -b tsconfig.src.json --watch"
-  },
   "dependencies": {
     "miniflare": "catalog:workers"
   },
