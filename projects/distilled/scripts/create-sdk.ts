@@ -842,7 +842,6 @@ const scaffoldPackage = (
             scripts: {
               build: "tsgo -b tsconfig.build.json --noCheck",
               fmt: "oxfmt --write src",
-              test: "bunx vitest run test --passWithNoTests",
               generate:
                 "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
               "specs:fetch":
@@ -1430,7 +1429,7 @@ const updateTestYml = (
 // ============================================================================
 //
 // After the Claude agent finishes credentials.ts, we know which environment
-// variables the SDK reads. Append a `bun run test` step + matching `env:`
+// variables the SDK reads. Append a Nx test step + matching `env:`
 // block to the ci-{name} job so CI runs the integration tests with the
 // secrets piped in.
 //
@@ -1531,7 +1530,7 @@ const wireTestEnvVars = (
       : content.length;
     const block = content.slice(blockStart, blockEnd);
 
-    if (block.includes("bun run test")) {
+    if (block.includes("bun run test") || block.includes("bun nx test")) {
       yield* Console.log(
         `\n⚠️  ci-${name} already has a test step, skipping test env wiring`,
       );
@@ -1547,8 +1546,7 @@ const wireTestEnvVars = (
       .map((v) => `          ${v}: \${{ secrets.${v} }}`)
       .join("\n");
 
-    const testStep = `      - run: bun run test
-        working-directory: packages/${name}
+    const testStep = `      - run: bun nx test @oddlynew/distilled-${name}
         env:
 ${envLines}`;
 
@@ -2115,7 +2113,7 @@ Next steps:
   1. Review the generated code in packages/${config.name}/src/
   2. Update credentials.ts with correct API base URL and auth scheme
   3. Add API key secrets to GitHub repository settings
-  4. Run tests: cd packages/${config.name} && bun run test
+  4. Run tests: bun nx test @oddlynew/distilled-${config.name}
   5. Update the website: add the new SDK card to www/distilled.cloud/index.html (SDK section)
 `);
       stats.print();

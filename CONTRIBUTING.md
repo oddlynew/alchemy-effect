@@ -15,7 +15,7 @@ Use the workspace-pinned Nx through Bun:
 bun nx build <project>
 bun nx typecheck <project>
 bun nx lint <project>
-bun nx test <project> --run
+bun nx test <project>
 ```
 
 For broad production-package checks, use the same affected shape as CI:

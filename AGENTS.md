@@ -4,6 +4,22 @@ This is a Bun/Nx TypeScript monorepo for `alchemy-effect`, `distilled`, and `clo
 Alchemy-specific resource provider doctrine still lives in this file, but the repo is now operated
 as one project graph rather than as three standalone checkouts.
 
+## Fork Discipline
+
+This repository is a living `@oddlynew/*` fork of the `alchemy-run` repositories:
+
+- `alchemy-run/alchemy-effect` lives under `projects/alchemy`;
+- `alchemy-run/distilled` lives under `projects/distilled`;
+- `alchemy-run/cloudflare-tools` lives under `projects/cloudflare-tools`.
+
+Keep upstream compatibility in mind when changing product code. Before large work in any imported
+area, check whether the corresponding upstream repo has new commits and prefer bringing those
+through the clean-history sync lane before layering fork-specific changes. The fork can improve
+tooling, release automation, package names, and cross-repo integration, but it should not casually
+diverge from upstream Alchemy, Distilled, or Cloudflare Tools architecture. If a fork change is
+intentionally different from upstream, make that reason visible in the PR or in
+[`docs/monorepo/fork-operations.md`](./docs/monorepo/fork-operations.md).
+
 ## Where to find things
 
 | You're looking for | Go to |
@@ -44,7 +60,7 @@ as one project graph rather than as three standalone checkouts.
 | Build a project | `bun nx build <project>` |
 | Type check a project | `bun nx typecheck <project>` |
 | Lint a project | `bun nx lint <project>` |
-| Run a focused test | `bun nx test <project> --run <path>` |
+| Run a focused test | `bun nx test <project> -- <path>` |
 | Build affected validation graph | `bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
 | Type check affected validation graph | `bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
 | Lint affected validation graph | `bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
@@ -933,7 +949,7 @@ raw `tsgo`, `tsc`, `vitest`, or `oxlint` invocations.
 bun nx build <project>
 bun nx typecheck <project>
 bun nx lint <project>
-bun nx test <project> --run <path>
+bun nx test <project> -- <path>
 ```
 
 Examples:

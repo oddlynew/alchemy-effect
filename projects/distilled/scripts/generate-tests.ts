@@ -53,6 +53,7 @@ function buildPrompt(
   reset?: boolean,
 ): string {
   const pkgDir = `packages/${provider}`;
+  const projectName = `@oddlynew/distilled-${provider}`;
 
   const scopeDescription = operation
     ? `Your goal is to generate comprehensive tests for the \`${operation}\` operation.`
@@ -76,9 +77,9 @@ generate tests following the rules below.
 
 After writing, run the tests to verify they pass:
 \`\`\`
-bun run test -- --run ${operation}
+bun nx test ${projectName} -- ${operation}
 \`\`\`
-from ${pkgDir}/. If tests fail, fix and re-run.`
+from the monorepo root. If tests fail, fix and re-run.`
     : `
 ### Step 3: Generate tests for each resource type
 ${
@@ -103,9 +104,9 @@ If you write a test file with only happy paths, go back and add error tests.**
 
 After writing all tests, run the full test suite to verify:
 \`\`\`
-bun run test
+bun nx test ${projectName}
 \`\`\`
-from ${pkgDir}/. If tests fail, fix and re-run.`;
+from the monorepo root. If tests fail, fix and re-run.`;
 
   return `
 You are a test generation agent for the ${provider} SDK in the Distilled monorepo.
@@ -411,7 +412,7 @@ This is a BUG in the SDK, not expected behavior. Your job is to FIX it.
 
 1. **Run with \`DEBUG=1\`** to see the raw HTTP error response:
    \`\`\`
-   DEBUG=1 bun run test -- --run operationName 2>&1 | head -100
+   DEBUG=1 bun nx test ${projectName} -- operationName 2>&1 | head -100
    \`\`\`
 
 2. **Identify the root cause** — common causes:
@@ -1001,7 +1002,7 @@ const generateTests = Command.make(
         );
         yield* runAgent(
           {
-            prompt: `Run the full test suite for ${pkgDir}/ with \`bun run test\` from that directory. If any tests fail, fix them and re-run until they pass. Report a summary of total tests, passed, and failed.`,
+            prompt: `Run the full test suite for ${pkgDir}/ with \`bun nx test @oddlynew/distilled-${config.provider}\` from the monorepo root. If any tests fail, fix them and re-run until they pass. Report a summary of total tests, passed, and failed.`,
             cwd: root,
             resume: sessionId,
             systemPromptAppend,
