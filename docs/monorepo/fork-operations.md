@@ -175,9 +175,11 @@ aggregate npm packages. They keep Nx's changelog range focused on commits after 
 state. Do not place these tags only on old imported-side release commits; after merging unrelated
 histories, that can make Nx include unrelated Alchemy history in the changelog range.
 
-The GitHub `release` workflow exposes the same release groups as manual `workflow_dispatch`. It
-defaults to dry-run, refuses non-dry releases outside `main`, verifies the matching dogfood baseline
-tag, runs each package's build before publish, and pushes the release commit and tags.
+The GitHub `release` workflow publishes npm `latest` through a daily release train from protected
+`main`. It also exposes manual `workflow_dispatch` for dry-runs and hotfix releases. Non-dry
+releases are refused outside `main`, the workflow verifies the matching dogfood baseline tag, skips
+groups with no relevant changes unless `force` is set, runs each package's build before publish, and
+pushes the release commit and tags.
 
 ## Remote Cache
 
@@ -263,7 +265,6 @@ The fork is operational, but these areas are still deliberate hardening follow-u
 - required CI does not yet run all affected hermetic package tests;
 - live-provider tests need explicit credentials and should stay out of normal PR paths until each is
   scoped;
-- release is still manual `workflow_dispatch`; automatic release from protected `main` can come
-  after the first real dogfood publish is proven;
-- `pr-package.yml` still calls a pinned upstream reusable workflow and should be forked or vendored
-  before using inherited publish secrets as a fully independent preview-package path.
+- first real npm publish still needs provenance verification in the `@oddlynew` scope;
+- no PR preview package publishing path is configured; use the daily/manual `latest` train for npm
+  distribution.

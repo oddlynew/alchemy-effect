@@ -80,9 +80,9 @@ Dogfood release tags are scoped to the fork identities. `@oddlynew/distilled@...
 - `@oddlynew/distilled@<version>`
 - `@oddlynew/cloudflare-tools@<version>`
 
-The dogfood branch may start with a manual `workflow_dispatch` release while credentials, npm
-scope ownership, and npm provenance attestations are being proven. Once the first real release is
-reliable, prefer automatic release from the protected dogfood `main` branch after CI succeeds.
+The dogfood branch publishes npm `latest` through one Nx release workflow. It runs as a daily train
+from protected `main`, skips release groups with no relevant package changes since their last
+dogfood tag, and keeps manual `workflow_dispatch` for dry-runs and hotfix releases.
 
 Required credentials for the full loop:
 

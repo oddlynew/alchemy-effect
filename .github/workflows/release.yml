@@ -7,14 +7,15 @@ on:
         description: Release group to version and publish.
         required: true
         type: choice
-        default: alchemy
+        default: all
         options:
+          - all
           - alchemy
           - alchemy-node-utils
           - distilled
           - cloudflare-tools
       specifier:
-        description: Release specifier. Empty uses the group default.
+        description: Optional release specifier. Empty lets Nx infer from conventional commits.
         required: false
         type: string
         default: ""
@@ -23,6 +24,11 @@ on:
         required: true
         type: boolean
         default: true
+      force:
+        description: Release selected groups even when the path gate finds no relevant changes.
+        required: true
+        type: boolean
+        default: false
       first-release:
         description: Use --first-release. Dogfood groups should normally use scoped baseline tags instead.
         required: true
@@ -32,13 +38,16 @@ on:
           - "true"
           - "false"
       preid:
-        description: Optional prerelease identifier, for example beta.
+        description: Prerelease identifier for prerelease lines such as Alchemy's beta line.
         required: false
         type: string
         default: beta
+  schedule:
+    # Daily 06:17 UTC release train for npm latest.
+    - cron: "17 6 * * *"
 
 concurrency:
-  group: release-${{ github.ref }}-${{ inputs.group }}
+  group: release-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' && inputs.group || 'scheduled' }}
   cancel-in-progress: false
 
 permissions:
@@ -56,7 +65,7 @@ jobs:
       group: "Default Larger Runners"
       labels: "ubuntu-large"
     timeout-minutes: 15
-    environment: ${{ inputs['dry-run'] == false && 'production' || '' }}
+    environment: ${{ (github.event_name == 'schedule' || inputs['dry-run'] == false) && 'production' || '' }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -78,78 +87,166 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Run Nx release
+      - name: Run Nx release train
         shell: bash
         env:
-          RELEASE_GROUP: ${{ inputs.group }}
-          SPECIFIER: ${{ inputs.specifier }}
-          DRY_RUN: ${{ inputs['dry-run'] }}
-          FIRST_RELEASE: ${{ inputs['first-release'] }}
-          PREID: ${{ inputs.preid }}
+          INPUT_GROUP: ${{ github.event_name == 'workflow_dispatch' && inputs.group || 'all' }}
+          INPUT_SPECIFIER: ${{ github.event_name == 'workflow_dispatch' && inputs.specifier || '' }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs['dry-run'] || 'false' }}
+          FORCE_RELEASE: ${{ github.event_name == 'workflow_dispatch' && inputs.force || 'false' }}
+          FIRST_RELEASE: ${{ github.event_name == 'workflow_dispatch' && inputs['first-release'] || 'false' }}
+          PREID: ${{ github.event_name == 'workflow_dispatch' && inputs.preid || 'beta' }}
         run: |
           set -euo pipefail
 
+          all_groups=(alchemy alchemy-node-utils distilled cloudflare-tools)
+
           if [ "${DRY_RUN}" != "true" ] && [ "${GITHUB_REF}" != "refs/heads/${RELEASE_BRANCH}" ]; then
-            echo "Refusing to publish ${RELEASE_GROUP} from ${GITHUB_REF}; non-dry releases must run from ${RELEASE_BRANCH}." >&2
+            echo "Refusing to publish from ${GITHUB_REF}; non-dry releases must run from ${RELEASE_BRANCH}." >&2
             exit 1
           fi
 
-          if [ -z "${SPECIFIER}" ]; then
-            case "${RELEASE_GROUP}" in
-              alchemy)
-                SPECIFIER="prerelease"
-                ;;
-              alchemy-node-utils | distilled | cloudflare-tools)
-                SPECIFIER="patch"
-                ;;
-            esac
-          fi
-
-          args=(release "${SPECIFIER}" "--groups=${RELEASE_GROUP}")
-
-          case "${RELEASE_GROUP}" in
-            alchemy)
-              release_tag_pattern="@oddlynew/alchemy@*"
+          case "${INPUT_GROUP}" in
+            all)
+              release_groups=("${all_groups[@]}")
               ;;
-            alchemy-node-utils)
-              release_tag_pattern="@oddlynew/alchemy-node-utils@*"
-              ;;
-            distilled)
-              release_tag_pattern="@oddlynew/distilled@*"
-              ;;
-            cloudflare-tools)
-              release_tag_pattern="@oddlynew/cloudflare-tools@*"
-              ;;
-          esac
-
-          if [ "${DRY_RUN}" = "true" ]; then
-            args+=(--dry-run --skip-publish)
-          else
-            args+=(--yes)
-          fi
-
-          case "${FIRST_RELEASE}" in
-            true)
-              args+=(--first-release)
-              ;;
-            false)
-              if ! git tag --list "${release_tag_pattern}" | grep -q .; then
-                echo "Missing ${RELEASE_GROUP} dogfood baseline tag matching ${release_tag_pattern}." >&2
-                echo "Create the dogfood baseline tag before running a normal release, or explicitly set first-release=true." >&2
-                exit 1
-              fi
+            alchemy | alchemy-node-utils | distilled | cloudflare-tools)
+              release_groups=("${INPUT_GROUP}")
               ;;
             *)
-              echo "Unsupported first-release value: ${FIRST_RELEASE}" >&2
+              echo "Unsupported release group: ${INPUT_GROUP}" >&2
               exit 1
               ;;
           esac
 
-          if [ -n "${PREID}" ] && [ "${SPECIFIER}" = "prerelease" ]; then
-            args+=(--preid "${PREID}")
-          fi
+          release_tag_pattern() {
+            case "$1" in
+              alchemy)
+                echo "@oddlynew/alchemy@*"
+                ;;
+              alchemy-node-utils)
+                echo "@oddlynew/alchemy-node-utils@*"
+                ;;
+              distilled)
+                echo "@oddlynew/distilled@*"
+                ;;
+              cloudflare-tools)
+                echo "@oddlynew/cloudflare-tools@*"
+                ;;
+              *)
+                return 1
+                ;;
+            esac
+          }
 
-          bun nx "${args[@]}"
+          group_paths() {
+            case "$1" in
+              alchemy)
+                printf '%s\n' \
+                  "projects/alchemy/packages/alchemy" \
+                  "projects/alchemy/packages/better-auth" \
+                  "projects/alchemy/packages/pr-package"
+                ;;
+              alchemy-node-utils)
+                printf '%s\n' "packages/alchemy-node-utils"
+                ;;
+              distilled)
+                printf '%s\n' \
+                  "projects/distilled/packages" \
+                  "projects/distilled/tsconfig.json"
+                ;;
+              cloudflare-tools)
+                printf '%s\n' \
+                  "projects/cloudflare-tools/packages" \
+                  "projects/cloudflare-tools/tsconfig.json"
+                ;;
+              *)
+                return 1
+                ;;
+            esac
+          }
+
+          shared_release_inputs() {
+            printf '%s\n' \
+              "package.json" \
+              "bun.lock" \
+              "bunfig.toml"
+          }
+
+          latest_group_tag() {
+            git tag --list "$(release_tag_pattern "$1")" --sort=-version:refname | head -n 1
+          }
+
+          has_relevant_changes() {
+            local group="$1"
+            local tag="$2"
+            local paths=()
+
+            while IFS= read -r path; do
+              paths+=("${path}")
+            done < <(
+              group_paths "${group}"
+              shared_release_inputs
+            )
+
+            ! git diff --quiet "${tag}..HEAD" -- "${paths[@]}"
+          }
+
+          released_any=false
+
+          for release_group in "${release_groups[@]}"; do
+            release_tag="$(latest_group_tag "${release_group}")"
+
+            if [ -z "${release_tag}" ]; then
+              if [ "${FIRST_RELEASE}" != "true" ]; then
+                echo "Missing ${release_group} dogfood baseline tag matching $(release_tag_pattern "${release_group}")." >&2
+                echo "Create the dogfood baseline tag before running a normal release, or explicitly set first-release=true." >&2
+                exit 1
+              fi
+            elif [ "${FORCE_RELEASE}" != "true" ] && ! has_relevant_changes "${release_group}" "${release_tag}"; then
+              echo "Skipping ${release_group}; no relevant changes since ${release_tag}."
+              continue
+            fi
+
+            args=(release)
+
+            if [ -n "${INPUT_SPECIFIER}" ]; then
+              args+=("${INPUT_SPECIFIER}")
+            fi
+
+            args+=("--groups=${release_group}")
+
+            if [ "${DRY_RUN}" = "true" ]; then
+              args+=(--dry-run --skip-publish)
+            else
+              args+=(--yes)
+            fi
+
+            case "${FIRST_RELEASE}" in
+              true)
+                args+=(--first-release)
+                ;;
+              false)
+                ;;
+              *)
+                echo "Unsupported first-release value: ${FIRST_RELEASE}" >&2
+                exit 1
+                ;;
+            esac
+
+            if [ -n "${PREID}" ] && [ "${release_group}" = "alchemy" ]; then
+              args+=(--preid "${PREID}")
+            fi
+
+            echo "Running: bun nx ${args[*]}"
+            bun nx "${args[@]}"
+            released_any=true
+          done
+
+          if [ "${released_any}" != "true" ]; then
+            echo "No release groups had relevant changes."
+            exit 0
+          fi
 
           if [ "${DRY_RUN}" != "true" ]; then
             git push origin "HEAD:${GITHUB_REF_NAME}" --follow-tags
