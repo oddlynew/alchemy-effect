@@ -320,7 +320,7 @@ with `doppler run`.
    latest published state.
 6. Run the Nx release dry-runs for all release groups and approve the generated version/changelog
    plan.
-7. Remove `--dry-run` / `--skip-publish` from the chosen release command when npm/GitHub
-   credentials are intentionally wired for the monorepo.
+7. Enable the scheduled `release` workflow once npm/GitHub credentials are intentionally wired for
+   the monorepo, then use manual dispatch for dry-runs and hotfixes.
 8. After the first monorepo release succeeds, point downstream consumers at the `@oddlynew/*`
    packages and keep upstream sync flowing through `codex/monorepo-clean-history`.
