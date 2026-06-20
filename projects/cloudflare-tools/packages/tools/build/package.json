@@ -7,7 +7,6 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsgo -b tsconfig.src.json --emitDeclarationOnly --noCheck",
     "dev": "tsgo -b tsconfig.src.json --watch"
   },
   "devDependencies": {

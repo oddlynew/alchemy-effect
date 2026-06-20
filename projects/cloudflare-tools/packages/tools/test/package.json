@@ -8,7 +8,6 @@
     "./miniflare-module": "./src/miniflare-module.ts"
   },
   "scripts": {
-    "build": "tsgo -b tsconfig.src.json --emitDeclarationOnly --noCheck",
     "dev": "tsgo -b tsconfig.src.json --watch"
   },
   "dependencies": {
