@@ -221,7 +221,7 @@ edge case when a Cloudflare-tools release tries to pull `alchemy` in as a depend
 activation path is to first land fixed release groups, then switch `updateDependents` to `"auto"`
 after the tag policy is finalized or the resolver issue is fixed.
 
-Nx release is configured for conventional commits and per-project changelogs:
+Nx release is configured for scoped conventional commits and per-project changelogs:
 
 ```bash
 bun nx release prerelease --groups=alchemy --dry-run --preid beta --skip-publish
@@ -235,6 +235,11 @@ history. They intentionally mirror the current release lines: `@oddlynew/alchemy
 `2.0.0-beta.57` to `2.0.0-beta.58`, `@oddlynew/alchemy-node-utils` continues from `0.0.5` to `0.0.6`,
 the Distilled release group continues from `0.26.1` to `0.26.2`, and the Cloudflare Tools release
 group continues from `0.11.2` to `0.11.3`.
+
+Commit scope matters. Product changes should use a matching package or release-group scope so Nx can
+route the bump and changelog entry. Repo plumbing should use non-release types such as `chore`,
+`ci`, or `docs`; otherwise a root-level `fix` can legitimately become a patch release for the
+affected graph.
 
 The dogfood release groups require monorepo baseline tags on commits that represent each group's
 latest published release:

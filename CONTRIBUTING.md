@@ -36,5 +36,7 @@ bun nx affected -t test --parallel=3 --exclude='*,!tag:test:ci'
 - Current dogfood deviations and follow-ups live in
   [`docs/monorepo/deviance-audit.md`](./docs/monorepo/deviance-audit.md).
 - Release dry-runs are documented in [`docs/monorepo/migration.md`](./docs/monorepo/migration.md#release-groups).
+- Conventional commit scopes feed Nx Release, so use package/release-group scopes for product
+  changes and non-release types for repo plumbing.
 
 Run `bun oxfmt .` before committing.

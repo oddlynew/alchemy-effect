@@ -72,6 +72,11 @@ The target release loop is the Oddlynew shape:
 4. Nx writes package changelogs and tags.
 5. Nx publishes the public packages to npm with provenance enabled.
 
+Nx Release uses conventional commit scopes when deciding which release groups receive a version bump
+and changelog entry. Product changes should use the relevant package or release-group scope. Repo
+plumbing should use `chore`, `ci`, or `docs` so CI/cache/docs work does not become a package patch
+release by accident.
+
 Dogfood release tags are scoped to the fork identities. `@oddlynew/distilled@...` and
 `@oddlynew/cloudflare-tools@...` are release-group tags, not aggregate npm packages:
 
@@ -83,6 +88,11 @@ Dogfood release tags are scoped to the fork identities. `@oddlynew/distilled@...
 The dogfood branch publishes npm `latest` through one Nx release workflow. It runs as a daily train
 from protected `main`, skips release groups with no relevant package changes since their last
 dogfood tag, and keeps manual `workflow_dispatch` for dry-runs and hotfix releases.
+
+The first dogfood publish is a bootstrap release. Its baseline tags intentionally mark the latest
+upstream-compatible package versions, so the first fork-native versions may include monorepo
+activation and CI/cache changes in their changelog ranges. After that publish creates new
+`@oddlynew/*` release tags, the daily train narrows to changes after those tags.
 
 Required credentials for the full loop:
 
