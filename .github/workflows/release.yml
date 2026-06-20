@@ -89,8 +89,9 @@ jobs:
         if: github.event_name == 'schedule' || inputs['dry-run'] == false
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.RELEASE_APP_ID }}
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
           private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write
 
       - name: Configure release git identity
         env:
