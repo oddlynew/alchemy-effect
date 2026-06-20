@@ -124,7 +124,7 @@
     },
     {
       "target": "typecheck",
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^typecheck"],
       "inputs": ["taskSources", "^production"],
       "outputs": [
         "{projectRoot}/.cache",

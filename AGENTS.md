@@ -68,9 +68,10 @@ as one project graph rather than as three standalone checkouts.
 - Commit messages must use conventional commits with a non-empty scope.
 - Allowed scopes are inferred from workspace package/Nx project names plus the general scopes
   `alchemy`, `cloudflare-tools`, `ci`, `deps`, `distilled`, `nx`, `release`, and `repo`.
-- The `pre-push` hook runs `oxfmt --check`, affected lint, affected typecheck, and affected tests
-  with the validation exclude boundary. Use `NX_VALIDATION_EXCLUDE` to override that boundary when
-  intentionally testing a normally-excluded example or fixture project.
+- The `pre-push` hook runs `oxfmt --check`, affected lint, affected typecheck, and affected
+  `test:ci`-tagged tests. Use `NX_VALIDATION_EXCLUDE` to override the lint/typecheck boundary when
+  intentionally validating a normally-excluded example or fixture project, and `NX_CI_TEST_EXCLUDE`
+  when intentionally promoting or narrowing automatic test selection.
 
 ## Architecture map
 

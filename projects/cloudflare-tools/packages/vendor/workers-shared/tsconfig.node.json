@@ -3,15 +3,22 @@
   "include": ["src/node/**/*.ts", "src/index.ts"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": ".cache/tsconfig.node.tsbuildinfo",
-    "outDir": ".cache/node",
+    "tsBuildInfoFile": ".tsbuild/node.tsbuildinfo",
+    "outDir": ".tsbuild/node",
     "rootDir": "src",
     "emitDeclarationOnly": true,
     "module": "Preserve",
     "moduleResolution": "bundler",
     "types": ["node"],
     "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true
+    "noImplicitOverride": true,
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedDeclarations": false
   },
-  "references": [{ "path": "./tsconfig.shared.json" }]
+  "references": [
+    {
+      "path": "./tsconfig.shared.json"
+    }
+  ]
 }

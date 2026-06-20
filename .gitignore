@@ -10,6 +10,8 @@ dist/
 .env.*
 !.env.example
 *.tsbuildinfo
+.tsbuild/
+**/.tsbuild/
 .claude/
 .alchemy/
 # !.alchemy/github:alchemy/

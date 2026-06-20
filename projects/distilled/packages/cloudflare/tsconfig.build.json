@@ -1,0 +1,15 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/node.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "composite": true,
+    "noEmit": false,
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "tsBuildInfoFile": ".tsbuild/build.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts"]
+}

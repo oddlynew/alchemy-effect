@@ -13,8 +13,7 @@
   },
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc -b"
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.13.0",

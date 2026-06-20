@@ -95,25 +95,32 @@ All other packages depend on core via the `@oddlynew/distilled-core` workspace d
 | **vitest** | Test framework                             | `bunx vitest run test`                   |
 | **Effect** | Core framework                             | All operations return `Effect<A, E, R>`  |
 
-### Per-Package Scripts
+### Package Scripts And Nx Targets
 
-Every package has these scripts:
+Package scripts are intentionally smaller in the monorepo than they were in the standalone repo.
+Use Nx from the repository root for validation, because shared plugins infer the standard
+`typecheck` and `lint` targets from each package's `tsconfig.json` and oxlint config.
 
-| Script      | Command                                                                                     | Description                                 |
-| ----------- | ------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| `typecheck` | `tsgo`                                                                                      | Type check only (no emit)                   |
-| `build`     | `tsgo -b`                                                                                   | Build to `lib/` (.js + .d.ts + source maps) |
-| `check`     | `tsgo && oxlint src && oxfmt --check src`                                                   | Full check (types + lint + format)          |
-| `fmt`       | `oxfmt --write src`                                                                         | Format source                               |
-| `lint`      | `oxlint --fix src`                                                                          | Lint + autofix                              |
-| `test`      | `bunx vitest run test`                                                                      | Run tests                                   |
-| `generate`  | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec                        |
+| Script     | Command                                                                                     | Description                                 |
+| ---------- | ------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `build`    | `tsgo -b tsconfig.build.json --noCheck`                                                     | Build to `lib/` (.js + .d.ts + source maps) |
+| `fmt`      | `oxfmt --write src`                                                                         | Format source                               |
+| `test`     | `bunx vitest run test`                                                                      | Run tests                                   |
+| `generate` | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec                        |
 
 `@oddlynew/distilled-gcp` is the exception in Nx. Its generated source is large enough that
-whole-package `tsgo -b` exceeds standard CI runner memory, so its Nx `build` and `typecheck` targets
-use `projects/distilled/scripts/build-generated-package.ts` to emit JS and declarations one file at
-a time. Keep the package scripts as imported upstream intent, but use `bun nx build
-@oddlynew/distilled-gcp` / `bun nx typecheck @oddlynew/distilled-gcp` in the monorepo.
+whole-package `tsgo -b` exceeds standard CI runner memory, so its Nx `build` target uses
+`projects/distilled/scripts/build-generated-package.ts` to emit JS and declarations one file at a
+time. Its `typecheck` target remains inferred from `tsconfig.src.json`, and its custom lint target
+uses `oxlint src` to avoid loading the generated package as a type-aware program.
+
+Each generated package uses this TypeScript shape:
+
+- `tsconfig.json` is a solution file for Nx inference.
+- `tsconfig.dev.json` covers package-local tooling/config files.
+- `tsconfig.src.json` emits declaration-only validation output to `.tsbuild/`.
+- `tsconfig.build.json` emits publishable package output to `lib/`, except GCP which uses the
+  file-by-file build script.
 
 ### Monorepo Build
 

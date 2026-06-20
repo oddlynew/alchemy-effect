@@ -1,15 +1,14 @@
 {
-  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
-  "include": ["tsdown.config.ts", "vitest.config.ts", "scripts"],
-  "compilerOptions": {
-    "tsBuildInfoFile": ".cache/tsconfig.tsbuildinfo",
-    "composite": false,
-    "noEmit": true,
-    "types": ["node"]
-  },
+  "files": [],
   "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "./tsconfig.workers.json" },
-    { "path": "./tsconfig.test.json" }
+    {
+      "path": "./tsconfig.dev.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.workers.json"
+    }
   ]
 }

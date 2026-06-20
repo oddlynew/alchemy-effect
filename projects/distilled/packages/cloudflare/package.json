@@ -54,13 +54,9 @@
     "access": "public"
   },
   "scripts": {
-    "typecheck": "tsgo",
-    "build": "tsgo -b",
+    "build": "tsgo -b tsconfig.build.json --noCheck",
     "download:env": "doppler secrets download --no-file --format env > .env",
     "fmt": "oxfmt --write src",
-    "lint": "oxlint --type-aware src",
-    "lint:fix": "oxlint --fix src",
-    "check": "tsgo && oxlint src && oxfmt --check src",
     "test": "vitest run --exclude specs --passWithNoTests",
     "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
     "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/cloudflare-typescript && git -C specs/cloudflare-typescript checkout -- .",

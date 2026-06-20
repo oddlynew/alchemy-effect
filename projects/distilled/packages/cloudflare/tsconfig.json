@@ -1,18 +1,11 @@
 {
-  "extends": "@oddlynew/alchemy-typescript-config/node.json",
-  "include": ["src/**/*.ts"],
-  "compilerOptions": {
-    "composite": true,
-    "outDir": "./lib",
-    "rootDir": "./src",
-    "lib": ["ESNext", "DOM"],
-    "paths": {
-      "~/*": ["./src/*"]
-    }
-  },
+  "files": [],
   "references": [
     {
-      "path": "../core"
+      "path": "./tsconfig.dev.json"
+    },
+    {
+      "path": "./tsconfig.src.json"
     }
   ]
 }

@@ -157,32 +157,36 @@ provider secrets. CI runs affected tests for projects tagged `test:ci`; the new
 `nx-r2-cache-worker` package is tagged because it is hermetic repo infrastructure. Broader package
 tests can be promoted into the required CI gate by adding `test:ci` once each target is hermetic.
 
-The generated Distilled SDK provider packages keep their package-level `build` scripts for direct
-human use, but each provider has a small `project.json` build target so Nx runs `tsgo -b` directly
-instead of through `bun run build`. The monorepo CI exposed an Nx/Bun package-script
-process-lifecycle edge where `nx:run-script` could finish the build graph successfully and still
-exit 130 after GitHub cleaned up an orphan Bun script process.
+Generated Distilled SDK provider packages follow the same TypeScript split used by the rest of the
+fork: `tsconfig.json` is a solution file for inferred Nx `typecheck`, `tsconfig.src.json` emits
+declarations into `.tsbuild/` for validation, and `tsconfig.build.json` emits publishable JS and
+declarations into `lib/`. They keep package-level `build` scripts for direct human use, but each
+provider has a small `project.json` build target so Nx runs the package emit directly instead of
+through `bun run build`. The monorepo CI exposed an Nx/Bun package-script process-lifecycle edge
+where `nx:run-script` could finish the build graph successfully and still exit 130 after GitHub
+cleaned up an orphan Bun script process.
 
 Generated Distilled provider builds set Nx `parallelism: false` and usually run
-`tsgo -b --checkers 1 --builders 1`. Nx still runs the affected production build with
-`--parallel=3`, but the large generated SDK emits do not run alongside other tasks on the same
-hosted Linux runner, and each emit limits TypeScript's own worker fan-out. That keeps the resource
-constraint on the projects that need it instead of serializing the whole workflow.
+`tsgo -b tsconfig.build.json --noCheck --checkers 1 --builders 1`. Nx still runs the affected
+production build with `--parallel=3`, but the large generated SDK emits do not run alongside other
+tasks on the same hosted Linux runner, and each emit limits TypeScript's own worker fan-out. That
+keeps the resource constraint on the projects that need it instead of serializing the whole
+workflow.
 
 `@oddlynew/distilled-gcp` is intentionally different. Its generated source is about 2.18M lines,
 and the monorepo CI surfaced that whole-package TypeScript emit is the wrong unit of work for that
 SDK on standard GitHub runners: TS7 native `tsgo` and `tsc` both exceeded runner memory on the
 largest generated files, and TS5 only survived with heap sizes too close to the runner ceiling.
-The GCP Nx `build` and `typecheck` targets therefore use
-`projects/distilled/scripts/build-generated-package.ts`, which emits JS and declarations one source
-file at a time through the `typescript5` compiler API with `noCheck/noResolve`. This preserves the
-published `lib/` shape while avoiding a multi-million-line TypeScript program. Its CI lint target
-also uses `oxlint src` instead of the package's type-aware lint script for the same reason.
+The GCP Nx `build` target therefore uses `projects/distilled/scripts/build-generated-package.ts`,
+which emits JS and declarations one source file at a time through the `typescript5` compiler API
+with `noCheck/noResolve`. This preserves the published `lib/` shape while avoiding a
+multi-million-line TypeScript emit. Its `typecheck` target is still inferred from
+`tsconfig.src.json` so it follows the same validation path as the rest of the repo, and its CI lint
+target uses `oxlint src` instead of type-aware lint for the same generated-size reason.
 
-Distilled's existing `check` scripts still include `oxfmt --check src`, but the imported generated
-AWS/GCP clients have pre-existing formatter drift. The migration CI therefore runs `lint`
-instead of `check`; a future baseline cleanup can format generated clients and promote `check` once
-that diff is reviewed separately.
+Distilled's imported generated AWS/GCP clients have pre-existing formatter drift. The migration CI
+therefore runs inferred `lint` instead of package-level `check`; a future baseline cleanup can
+format generated clients and promote formatting checks once that diff is reviewed separately.
 
 The unified build also intentionally surfaces cross-repo toolchain drift. In the standalone
 Cloudflare Tools repository, declaration builds could resolve a local TypeScript/toolchain shape

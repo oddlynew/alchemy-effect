@@ -53,12 +53,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "dev": "tsc --watch",
+    "build": "tsc -p tsconfig.build.json --noCheck",
+    "clean": "rm -rf dist .tsbuild tsconfig.tsbuildinfo",
+    "dev": "tsc -p tsconfig.build.json --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
     "prepublishOnly": "bun run clean && bun run build"
   },
   "dependencies": {

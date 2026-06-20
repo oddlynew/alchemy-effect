@@ -1,0 +1,20 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@opentui/solid",
+    "composite": true,
+    "noEmit": false,
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "tsBuildInfoFile": ".tsbuild/build.tsbuildinfo"
+  },
+  "include": ["package.json", "src/**/*.ts", "src/**/*.tsx", "src/**/*.json"]
+}

@@ -2,14 +2,16 @@
 set -e
 
 NX_VALIDATION_EXCLUDE="${NX_VALIDATION_EXCLUDE:-@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*}"
+NX_CI_TEST_EXCLUDE="${NX_CI_TEST_EXCLUDE:-*,!tag:test:ci}"
 GOMAXPROCS="${GOMAXPROCS:-4}"
 NX_DAEMON="${NX_DAEMON:-false}"
 
 export NX_VALIDATION_EXCLUDE
+export NX_CI_TEST_EXCLUDE
 export GOMAXPROCS
 export NX_DAEMON
 
 bun oxfmt . --check
 bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
-bun nx affected -t test --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE" -- --run
+bun nx affected -t test --parallel=3 --exclude="$NX_CI_TEST_EXCLUDE" -- --run

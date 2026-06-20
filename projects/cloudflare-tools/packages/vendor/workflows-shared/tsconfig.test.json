@@ -1,0 +1,21 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    }
+  ],
+  "compilerOptions": {
+    "types": ["@cloudflare/workers-types/experimental", "@cloudflare/vitest-pool-workers/types"],
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "noUncheckedIndexedAccess": false,
+    "noImplicitOverride": false,
+    "composite": true,
+    "outDir": ".tsbuild/test",
+    "rootDir": ".",
+    "isolatedDeclarations": false,
+    "tsBuildInfoFile": ".tsbuild/test.tsbuildinfo"
+  },
+  "include": ["tests/**/*.ts"]
+}

@@ -1,0 +1,22 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "isolatedDeclarations": false,
+    "outDir": ".tsbuild/src",
+    "rootDir": "src",
+    "tsBuildInfoFile": ".tsbuild/src.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/__tests__/**/*.ts",
+    "**/__tests__/**/*.tsx",
+    "test/**",
+    "tests/**"
+  ]
+}

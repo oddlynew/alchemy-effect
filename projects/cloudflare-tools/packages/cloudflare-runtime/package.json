@@ -110,8 +110,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc -b"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@oddlynew/alchemy-node-utils": "workspace:*",

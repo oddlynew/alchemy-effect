@@ -1,0 +1,10 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/node.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": ".tsbuild/dev",
+    "tsBuildInfoFile": ".tsbuild/dev.tsbuildinfo",
+    "types": ["node"]
+  },
+  "include": ["tsdown.config.ts", "oxlint.config.ts"]
+}

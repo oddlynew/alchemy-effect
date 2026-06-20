@@ -1,40 +1,14 @@
 {
-  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
-  "include": ["package.json", "src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
-  "compilerOptions": {
-    "composite": true,
-    "noEmit": false,
-    "outDir": "./lib",
-    "rootDir": "./src",
-    "module": "Preserve",
-    "moduleResolution": "Bundler",
-    "target": "ESNext",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    // Solid is the default JSX runtime in this package; React files opt in per-file.
-    "jsx": "react-jsx",
-    "jsxImportSource": "@opentui/solid",
-    "lib": ["DOM", "DOM.Iterable", "ES2023"]
-  },
+  "files": [],
   "references": [
     {
-      "path": "../../../distilled/packages/aws/tsconfig.json"
+      "path": "./tsconfig.dev.json"
     },
     {
-      "path": "../../../distilled/packages/cloudflare/tsconfig.json"
+      "path": "./tsconfig.src.json"
     },
     {
-      "path": "../../../distilled/packages/planetscale/tsconfig.json"
-    },
-    {
-      "path": "../../../distilled/packages/core/tsconfig.json"
-    },
-    {
-      "path": "../../../distilled/packages/neon/tsconfig.json"
-    },
-    {
-      "path": "../../../distilled/packages/axiom/tsconfig.json"
+      "path": "./tsconfig.bin.json"
     }
   ]
 }

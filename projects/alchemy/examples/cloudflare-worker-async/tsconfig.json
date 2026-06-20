@@ -12,10 +12,10 @@
   },
   "references": [
     {
-      "path": "../../packages/alchemy/tsconfig.json"
+      "path": "../../packages/alchemy/tsconfig.src.json"
     },
     {
-      "path": "../../packages/better-auth/tsconfig.json"
+      "path": "../../packages/better-auth/tsconfig.src.json"
     }
   ]
 }

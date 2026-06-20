@@ -3,8 +3,8 @@
   "include": ["src/shared/**/*.ts"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": ".cache/tsconfig.shared.tsbuildinfo",
-    "outDir": ".cache/shared",
+    "tsBuildInfoFile": ".tsbuild/shared.tsbuildinfo",
+    "outDir": ".tsbuild/shared",
     "rootDir": "src",
     "emitDeclarationOnly": true,
     "module": "Preserve",
@@ -15,6 +15,9 @@
       "node"
     ],
     "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true
+    "noImplicitOverride": true,
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedDeclarations": false
   }
 }

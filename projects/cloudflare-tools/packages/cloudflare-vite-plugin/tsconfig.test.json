@@ -3,12 +3,18 @@
   "include": ["test"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": ".cache/tsconfig.test.tsbuildinfo",
-    "outDir": ".cache/test",
+    "tsBuildInfoFile": ".tsbuild/test.tsbuildinfo",
+    "outDir": ".tsbuild/test",
     "types": ["node"],
     "paths": {
       "#/*": ["./src/*"]
-    }
+    },
+    "rootDir": ".",
+    "isolatedDeclarations": false
   },
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
