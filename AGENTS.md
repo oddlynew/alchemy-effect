@@ -25,9 +25,9 @@ as one project graph rather than as three standalone checkouts.
 - **Run `bun install` in a fresh worktree.** Nx, Bun catalogs, and workspace package resolution depend
   on this checkout's `node_modules`.
 - **Prefer Nx targets over raw tool commands.** Use `bun nx build <project>`,
-  `bun nx typecheck <project>`, `bun nx lint <project>`, and `bun nx test <project> --run`.
-- **Vitest needs run mode.** Direct `vitest` can watch forever; Nx test commands should include
-  `--run` unless a project script already invokes `vitest run`.
+  `bun nx typecheck <project>`, `bun nx lint <project>`, and `bun nx test <project>`.
+- **Vitest needs run mode.** Nx infers `test` with `@nx/vitest` in run mode. Direct `vitest`
+  invocations must still use `vitest run`.
 - **Generated provider docs are not source.** Edit JSDoc in
   `projects/alchemy/packages/alchemy/src/**/*.ts`, then regenerate docs.
 - **Resource-factory agents have stricter rules.** Inside the factory workflow below, individual

@@ -211,6 +211,20 @@
       }
     },
     {
+      "plugin": "@nx/vitest",
+      "exclude": [
+        ".vendor/**",
+        "projects/alchemy/examples/**",
+        "projects/cloudflare-tools/fixtures/**",
+        "projects/cloudflare-tools/workers-sdk/**",
+        "projects/distilled/packages/*/specs/**"
+      ],
+      "options": {
+        "testTargetName": "test",
+        "testMode": "run"
+      }
+    },
+    {
       "plugin": "@oddlynew/alchemy-nx-alchemy-plugin",
       "exclude": [
         ".vendor/**",

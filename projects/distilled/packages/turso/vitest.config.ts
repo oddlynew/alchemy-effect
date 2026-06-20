@@ -5,6 +5,7 @@ config({ path: resolve(__dirname, "../../.env") });
 
 export default {
   test: {
+    passWithNoTests: true,
     exclude: ["**/specs/**", "**/node_modules/**", "**/.ai-workspace/**"],
   },
 };

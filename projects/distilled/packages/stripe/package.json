@@ -73,7 +73,6 @@
     "build": "tsgo -b tsconfig.build.json --noCheck",
     "fmt": "oxfmt --write src",
     "nuke": "bun scripts/nuke.ts",
-    "test": "bunx vitest run test --exclude specs --passWithNoTests",
     "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
     "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/stripe-openapi && git -C specs/stripe-openapi checkout -- .",
     "specs:update": "git -C specs/stripe-openapi fetch && git -C specs/stripe-openapi checkout master && git -C specs/stripe-openapi pull"

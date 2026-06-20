@@ -79,8 +79,7 @@
   },
   "scripts": {
     "build": "tsgo -b tsconfig.build.json --noCheck",
-    "fmt": "oxfmt --write src",
-    "test": "bunx vitest run test --exclude specs --passWithNoTests"
+    "fmt": "oxfmt --write src"
   },
   "devDependencies": {
     "@oddlynew/alchemy-typescript-config": "workspace:*",

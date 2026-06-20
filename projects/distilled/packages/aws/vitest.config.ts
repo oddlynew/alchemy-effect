@@ -5,6 +5,7 @@ config({ path: resolve(__dirname, "../../.env") });
 
 export default {
   test: {
+    passWithNoTests: true,
     include: ["test/**/*.test.ts"],
     globalSetup: ["test/global-setup.ts"],
     setupFiles: ["test/setup.ts"],

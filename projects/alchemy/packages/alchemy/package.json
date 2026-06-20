@@ -20,11 +20,8 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "dev": "tsdown --watch",
     "build": "tsgo -b tsconfig.build.json --noCheck && tsgo -b tsconfig.bin.json --noCheck && bun bundle",
     "bundle": "tsdown",
-    "bundle:watch": "tsdown --watch",
-    "test": "vitest run",
     "test:benchmark": "tsx --tsconfig tsconfig.test.json test/types.benchmark.ts",
     "nuke": "cd ../../ && bun nuke"
   },

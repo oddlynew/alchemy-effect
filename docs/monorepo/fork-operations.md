@@ -108,8 +108,11 @@ Use environment variables to select credentials and stages:
 doppler run --project alchemy-effect-fork --config prd -- env STAGE=prod ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-otel
 doppler run --project alchemy-effect-fork --config prd -- env ALCHEMY_PROFILE=admin bun nx deploy @oddlynew/alchemy-github-secrets
 doppler run --project alchemy-effect-fork --config prd -- env STAGE=prod ALCHEMY_PROFILE=prod bun nx deploy @oddlynew/alchemy-website
-DOPPLER_CONFIG=prd bun nx deploy nx-r2-cache-worker
+bun nx deploy nx-r2-cache-worker
 ```
+
+`nx-r2-cache-worker` is shared cache infrastructure. Its package metadata pins deploy, destroy, and
+plan to the `prd` Doppler config and the `prod` Alchemy stage.
 
 `@oddlynew/alchemy-github-secrets` is a private bootstrap stack. It writes GitHub Actions secrets
 and variables for this fork, including the Doppler token, CI Cloudflare account/token values, PR
@@ -233,12 +236,11 @@ doppler run --project alchemy-effect-fork --config prd -- \
     --stage prod \
     --yes
 
-DOPPLER_CONFIG=prd bun nx deploy nx-r2-cache-worker
+bun nx deploy nx-r2-cache-worker
 ```
 
-After the repair, `DOPPLER_CONFIG=prd bun nx plan nx-r2-cache-worker` should report only noops.
-Delete any orphaned cache Worker from the current account only after confirming it is not the Worker
-recorded in state.
+After the repair, `bun nx plan nx-r2-cache-worker` should report only noops. Delete any orphaned
+cache Worker from the current account only after confirming it is not the Worker recorded in state.
 
 The cache topology is two-tier:
 

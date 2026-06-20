@@ -9,6 +9,7 @@ export default defineConfig([
   {
     entry: ["src/**/*.worker.ts"],
     outDir: "dist/workers",
+    clean: true,
     tsconfig: "tsconfig.workers.json",
     format: "esm",
     minify: {
@@ -27,6 +28,7 @@ export default defineConfig([
     entry: ["src/**/*.ts", "!src/**/*.worker.ts", "!src/global.d.ts"],
     exports: false,
     outDir: "dist/node",
+    clean: false,
     tsconfig: "tsconfig.node.json",
     unbundle: true,
     dts: { tsgo: true },

@@ -42,9 +42,6 @@
     },
     "./package.json": "./package.json"
   },
-  "scripts": {
-    "build": "tsdown"
-  },
   "publishConfig": {
     "access": "public"
   },

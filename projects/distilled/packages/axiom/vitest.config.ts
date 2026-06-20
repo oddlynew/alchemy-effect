@@ -6,6 +6,7 @@ config({ path: resolve(__dirname, ".env") });
 
 export default {
   test: {
+    passWithNoTests: true,
     include: ["test/**/*.test.ts"],
     testTimeout: 120000,
     // Axiom enforces a 10-requests-per-second rate limit per org on the
