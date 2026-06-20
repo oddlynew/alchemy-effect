@@ -5,6 +5,14 @@ Cloudflare Tools now lives under `projects/cloudflare-tools` in the Alchemy mono
 commands, and formatting rules. The notes below describe Cloudflare Tools-specific package and
 runtime conventions.
 
+## Upstream Fork Discipline
+
+This directory is imported from `alchemy-run/cloudflare-tools` through the monorepo clean-history
+lane. Before broad runtime, bundling, or fixture changes, check upstream Cloudflare Tools for new
+commits and bring them in through the documented prefix-sync flow. Fork-specific changes are allowed,
+but they should preserve Cloudflare Tools' architecture unless the PR explicitly explains the
+deviation.
+
 ## Overview
 
 - Package manager: `bun`

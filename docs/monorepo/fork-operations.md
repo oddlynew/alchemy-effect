@@ -24,6 +24,14 @@ changes should land in `codex/monorepo-clean-history` first, then be merged into
 fork-specific package names, release tags, and publishing configuration isolated from the
 upstream-sync lane.
 
+Treat this fork as an active distribution, not a one-time copy. The fork may carry `@oddlynew/*`
+package names, Nx automation, release automation, and integration changes, but imported product code
+should stay architecturally close to upstream `alchemy-run/alchemy-effect`,
+`alchemy-run/distilled`, and `alchemy-run/cloudflare-tools`. Before broad work in an imported area,
+check the matching upstream repository and sync new upstream commits through the clean-history lane
+first when practical. When the fork intentionally diverges, document the reason in the PR or in this
+operations note so future syncs can preserve the choice instead of treating it as drift.
+
 ## Source Layout
 
 Root `packages/` is reserved for shared packages and monorepo infrastructure:
@@ -67,7 +75,7 @@ For normal package work:
 bun nx build <project>
 bun nx typecheck <project>
 bun nx lint <project>
-bun nx test <project> --run
+bun nx test <project>
 ```
 
 For branch-level validation, use the same production/package boundary as CI:

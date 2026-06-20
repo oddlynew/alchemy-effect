@@ -62,19 +62,15 @@ packages/vendor/<upstream-name>/
 
 ## Scripts
 
-Every vendored package exposes the same script surface:
+Vendored packages are Nx projects. Use the inferred project targets from the repository root:
 
-| Script       | Command      | Purpose                                                                                                            |
-| ------------ | ------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `build`      | `tsc -b`     | Walks the project references and emits `.d.ts` declarations into `.cache/` so consumer packages can resolve types. |
-| `typecheck`  | `tsc`        | Type-checks against the solution config without emit. Faster feedback than `build` during development.             |
-| `test`       | `vitest run` | Runs all four vitest projects once (see [Testing](#testing)).                                                      |
-| `test:watch` | `vitest`     | Re-runs affected tests on change.                                                                                  |
+| Script      | Command                                                      | Purpose                                                       |
+| ----------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
+| `typecheck` | `bun nx typecheck @oddlynew/distilled-vendor-workers-shared` | Type-checks against the solution config.                      |
+| `test`      | `bun nx test @oddlynew/distilled-vendor-workers-shared`      | Runs all four vitest projects once (see [Testing](#testing)). |
 
-The `build` / `typecheck` split exists because consumer packages (e.g.
-`@oddlynew/distilled-cloudflare-runtime`) use TypeScript project references and
-need our emitted `.d.ts` files, while local development wants the fast
-no-emit `tsc` invocation.
+Consumer packages (e.g. `@oddlynew/distilled-cloudflare-runtime`) depend on this package through
+the monorepo project graph, so prefer Nx targets over raw `tsc` or `vitest` invocations.
 
 ## Testing
 

@@ -4,6 +4,13 @@ Distilled now lives under `projects/distilled` in the Alchemy monorepo. The root
 [`AGENTS.md`](../../AGENTS.md) owns repository-wide workflow, Nx usage, CI validation, release
 commands, and formatting rules. The notes below describe Distilled-specific SDK conventions.
 
+## Upstream Fork Discipline
+
+This directory is imported from `alchemy-run/distilled` through the monorepo clean-history lane.
+Before broad SDK generator, runtime, or package-layout changes, check upstream Distilled for new
+commits and bring them in through the documented prefix-sync flow. Fork-specific changes are allowed,
+but they should preserve Distilled's architecture unless the PR explicitly explains the deviation.
+
 ## Monorepo Workflow
 
 - Use `bun nx` from the repository root for validation and builds. Examples:
@@ -92,7 +99,7 @@ All other packages depend on core via the `@oddlynew/distilled-core` workspace d
 | **tsgo**   | Type checking (native TypeScript compiler) | `tsgo` (check), `tsgo -b` (build)        |
 | **oxlint** | Linter                                     | `oxlint --fix src`                       |
 | **oxfmt**  | Formatter                                  | `oxfmt --write src`, `oxfmt --check src` |
-| **vitest** | Test framework                             | `bunx vitest run test`                   |
+| **vitest** | Test framework                             | `bun nx test <project>`                  |
 | **Effect** | Core framework                             | All operations return `Effect<A, E, R>`  |
 
 ### Package Scripts And Nx Targets
@@ -105,7 +112,6 @@ Use Nx from the repository root for validation, because shared plugins infer the
 | ---------- | ------------------------------------------------------------------------------------------- | ------------------------------------------- |
 | `build`    | `tsgo -b tsconfig.build.json --noCheck`                                                     | Build to `lib/` (.js + .d.ts + source maps) |
 | `fmt`      | `oxfmt --write src`                                                                         | Format source                               |
-| `test`     | `bunx vitest run test`                                                                      | Run tests                                   |
 | `generate` | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec                        |
 
 `@oddlynew/distilled-gcp` is the exception in Nx. Its generated source is large enough that
