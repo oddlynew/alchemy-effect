@@ -28,6 +28,7 @@ intentionally different from upstream, make that reason visible in the PR or in
 | Monorepo migration overview | [`docs/monorepo/migration.md`](./docs/monorepo/migration.md) |
 | Fork operations | [`docs/monorepo/fork-operations.md`](./docs/monorepo/fork-operations.md) |
 | Clean-history sync procedure | [`docs/monorepo/clean-history-operating-note.md`](./docs/monorepo/clean-history-operating-note.md) |
+| Two-track fork strategy | [`docs/monorepo/two-track-strategy.md`](./docs/monorepo/two-track-strategy.md) |
 | Alchemy package source | [`projects/alchemy/packages/alchemy/src`](./projects/alchemy/packages/alchemy/src) |
 | Alchemy public docs source | [`projects/alchemy/apps/website/src/content/docs`](./projects/alchemy/apps/website/src/content/docs) |
 | Generated provider API docs | [`projects/alchemy/apps/website/src/content/docs/providers`](./projects/alchemy/apps/website/src/content/docs/providers) |
