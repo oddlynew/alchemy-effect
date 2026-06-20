@@ -87,6 +87,8 @@ dogfood tag, and keeps manual `workflow_dispatch` for dry-runs and hotfix releas
 Required credentials for the full loop:
 
 - npm publishing for the `@oddlynew` scope, preferably through GitHub Actions trusted publishing;
+- `NPM_TOKEN` as a temporary production environment secret only for the first bootstrap publish,
+  then remove it after trusted publishing is configured;
 - release bot credentials for pushing version/changelog commits and tags: store
   `RELEASE_APP_ID` as a GitHub Actions production environment variable and
   `RELEASE_APP_PRIVATE_KEY` as a production environment secret;
