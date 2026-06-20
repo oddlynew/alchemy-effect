@@ -445,7 +445,7 @@ This is a BUG in the SDK, not expected behavior. Your job is to FIX it.
    - For Cloudflare: add an error matcher to \`patches/{service}/{operation}.json\`
    - For AWS: add the error to \`patches/{service}.json\`
 
-5. **Regenerate** if you modified patches: \`bun run generate\`
+5. **Regenerate** if you modified patches: \`bun nx run @oddlynew/distilled-${provider}:generate\`
 
 6. **Verify the fix**: re-run the failing test and confirm the error now comes
    back as a typed error (e.g. \`Unauthorized\`, \`NotFound\`, \`BadRequest\`)

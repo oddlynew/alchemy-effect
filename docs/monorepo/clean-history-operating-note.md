@@ -267,7 +267,9 @@ The clean-history branch is ready to merge into dogfood/main when all of these a
 - `git log --follow -- projects/alchemy/packages/alchemy/package.json` walks into Alchemy release
   history.
 - `bun nx show projects` succeeds.
-- `bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` succeeds.
+- `NX_VALIDATION_EXCLUDE` and `NX_VALIDATION_BUILD_EXCLUDE` are set as documented in
+  `docs/monorepo/fork-operations.md`.
+- `bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"` succeeds.
 - `bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` succeeds.
 - `bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` succeeds.
 - Release dry-runs continue the existing release lines:

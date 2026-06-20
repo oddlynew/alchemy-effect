@@ -117,7 +117,8 @@ For CI-shape validation, use the same affected commands as the workflow:
 
 ```bash
 export NX_VALIDATION_EXCLUDE="@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
-bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+export NX_VALIDATION_BUILD_EXCLUDE="@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
+bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 bun nx affected -t test --exclude='*,!tag:test:ci' --parallel=3

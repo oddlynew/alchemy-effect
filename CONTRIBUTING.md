@@ -21,10 +21,12 @@ bun nx test <project>
 For broad production-package checks, use the same affected shape as CI:
 
 ```bash
-export NX_PRODUCTION_EXCLUDE="@oddlynew/distilled,@oddlynew/cloudflare-tools,@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
-bun nx affected -t build --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
-bun nx affected -t typecheck --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
-bun nx affected -t lint --parallel=3 --exclude="$NX_PRODUCTION_EXCLUDE"
+export NX_VALIDATION_EXCLUDE="@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
+export NX_VALIDATION_BUILD_EXCLUDE="@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*"
+bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"
+bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+bun nx affected -t test --parallel=3 --exclude='*,!tag:test:ci'
 ```
 
 ## Maintainer Notes
