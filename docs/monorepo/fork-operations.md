@@ -181,6 +181,12 @@ releases are refused outside `main`, the workflow verifies the matching dogfood 
 groups with no relevant changes unless `force` is set, runs each package's build before publish, and
 pushes the release commit and tags.
 
+Release writes use a GitHub App token, not the default `GITHUB_TOKEN`, so the resulting
+version/changelog commit and tags are authored by the release bot and can trigger normal downstream
+automation. Store `RELEASE_APP_ID` as a production environment variable and
+`RELEASE_APP_PRIVATE_KEY` as a production environment secret in GitHub Actions. Keep runtime and
+infrastructure values in Doppler instead.
+
 ## Remote Cache
 
 Local Nx caching works with no secrets. Remote cache is opt-in through environment variables so fork

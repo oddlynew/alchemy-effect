@@ -87,7 +87,9 @@ dogfood tag, and keeps manual `workflow_dispatch` for dry-runs and hotfix releas
 Required credentials for the full loop:
 
 - npm publishing for the `@oddlynew` scope, preferably through GitHub Actions trusted publishing;
-- release bot credentials for pushing version/changelog commits and tags;
+- release bot credentials for pushing version/changelog commits and tags: store
+  `RELEASE_APP_ID` as a GitHub Actions production environment variable and
+  `RELEASE_APP_PRIVATE_KEY` as a production environment secret;
 - `NX_R2_CACHE_SERVER_URL`, plus `NX_R2_CACHE_BRANCH_TOKEN` and
   `NX_R2_CACHE_TRUSTED_TOKEN` stored in Doppler project `alchemy-effect-fork`, config `prd`;
 - Cloudflare account credentials for the cache Worker and any live Alchemy validation stacks;
