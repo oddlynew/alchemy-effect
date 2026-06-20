@@ -187,6 +187,10 @@ automation. Store `RELEASE_APP_ID` as a production environment variable and
 `RELEASE_APP_PRIVATE_KEY` as a production environment secret in GitHub Actions. Keep runtime and
 infrastructure values in Doppler instead.
 
+For the first npm publish, use a short-lived production environment secret named `NPM_TOKEN` because
+the `@oddlynew/*` packages do not exist on npm yet. After the bootstrap publish, configure npm
+trusted publishing for the packages and remove `NPM_TOKEN`.
+
 ## Remote Cache
 
 Local Nx caching works with no secrets. Remote cache is opt-in through environment variables so fork

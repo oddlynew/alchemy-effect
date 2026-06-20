@@ -321,7 +321,7 @@ with `doppler run`.
 6. Run the Nx release dry-runs for all release groups and approve the generated version/changelog
    plan.
 7. Enable the scheduled `release` workflow once npm/GitHub credentials are intentionally wired for
-   the monorepo, including the production environment release-bot variable/secret pair, then use
-   manual dispatch for dry-runs and hotfixes.
+   the monorepo, including the production environment release-bot variable/secret pair and temporary
+   bootstrap `NPM_TOKEN`, then use manual dispatch for dry-runs and hotfixes.
 8. After the first monorepo release succeeds, point downstream consumers at the `@oddlynew/*`
    packages and keep upstream sync flowing through `codex/monorepo-clean-history`.
