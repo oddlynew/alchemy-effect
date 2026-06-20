@@ -16,7 +16,7 @@ const config = {
   outRoot: path.join(websiteRoot, "src/content/docs/providers"),
   tsConfig: path.join(
     import.meta.dir,
-    "../projects/alchemy/packages/alchemy/tsconfig.json",
+    "../projects/alchemy/packages/alchemy/tsconfig.src.json",
   ),
 };
 
