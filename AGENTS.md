@@ -84,6 +84,9 @@ intentionally different from upstream, make that reason visible in the PR or in
 - Commit messages must use conventional commits with a non-empty scope.
 - Allowed scopes are inferred from workspace package/Nx project names plus the general scopes
   `alchemy`, `cloudflare-tools`, `ci`, `deps`, `distilled`, `nx`, `release`, and `repo`.
+- Nx Release uses commit scopes to route version bumps and package changelog entries. Use package or
+  release-group scopes for user-visible product changes, and use `chore`, `ci`, or `docs` types for
+  repo plumbing that should not publish a package patch.
 - The `pre-push` hook runs `oxfmt --check`, affected lint, affected typecheck, and affected
   `test:ci`-tagged tests. Use `NX_VALIDATION_EXCLUDE` to override the lint/typecheck boundary when
   intentionally validating a normally-excluded example or fixture project, and `NX_CI_TEST_EXCLUDE`

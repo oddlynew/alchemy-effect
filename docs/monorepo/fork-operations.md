@@ -172,6 +172,15 @@ Current continuation lines:
 @oddlynew/cloudflare-tools group: 0.11.2       -> 0.11.3
 ```
 
+Nx Release uses conventional commit scopes. Product fixes should use the relevant package or
+release-group scope. Repo plumbing should use `chore`, `ci`, or `docs` so it does not become a
+package patch release just because it touched root config.
+
+The first dogfood publish is expected to be a bootstrap release. The baseline tags mark the latest
+upstream-compatible package versions, so the first fork-native versions can include monorepo
+activation work in their changelog ranges. New release tags from that publish become the tighter
+baseline for the next daily train.
+
 The dogfood release groups require scoped monorepo baseline tags on commits that represent each
 group's latest published release:
 
