@@ -178,7 +178,9 @@ Each SDK package has vendor API specifications stored as git submodules under `s
 | `supabase`        | `specs/distilled-spec-supabase`                                                          | Supabase OpenAPI spec                     |
 | `turso`           | `specs/turso-docs`                                                                       | Turso API docs                            |
 
-**Submodules are NOT needed for building or typechecking.** They're only needed for code generation (`bun run generate`), with the exception of `aws` which also needs its submodules for testing.
+**Submodules are NOT needed for building or typechecking.** They're only needed for code generation
+(`bun nx run @oddlynew/distilled-<provider>:generate`), with the exception of `aws` which also
+needs its submodules for testing.
 
 ```bash
 # Fetch specs for a package (only needed for generation)
@@ -194,8 +196,7 @@ Each SDK uses a patch system to fix vendor spec inaccuracies. When you encounter
 
 1. Run the test with `DEBUG=1` to see the raw error response
 2. Add the error to the appropriate patch file
-3. Regenerate: `bun nx run @oddlynew/distilled-<provider>:generate` from the repo root, or
-   `bun run generate` from the package directory
+3. Regenerate: `bun nx run @oddlynew/distilled-<provider>:generate`
 4. Import the new typed error and update the test
 
 ### Patch Locations

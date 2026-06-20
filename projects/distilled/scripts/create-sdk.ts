@@ -33,12 +33,17 @@ import { initMetadata, metadataPromptSection } from "./lib/metadata.ts";
 // ============================================================================
 
 /** Unified error type for both shell commands and filesystem operations. */
-type SdkError = CommandError | PlatformError.PlatformError;
+type SdkError = CommandError | ConfigError | PlatformError.PlatformError;
 
 class CommandError extends Data.TaggedError("CommandError")<{
   readonly command: string;
   readonly code: number;
   readonly stderr: string;
+}> {}
+
+class ConfigError extends Data.TaggedError("ConfigError")<{
+  readonly message: string;
+  readonly cause?: unknown;
 }> {}
 
 // ============================================================================
@@ -1311,7 +1316,7 @@ export { SensitiveString, SensitiveNullableString } from "./sensitive.ts";
     // --- src/operations/index.ts (placeholder) ---
     yield* writeIfNotExists(
       path.join(operationsDir, "index.ts"),
-      `// Generated operations will be placed here by the code generator.\n// Run \`bun run generate\` to populate this directory.\n`,
+      `// Generated operations will be placed here by the code generator.\n// Run \`bun nx run @oddlynew/distilled-${name}:generate\` to populate this directory.\n`,
     );
 
     // --- scripts/generate.ts ---
@@ -1346,415 +1351,63 @@ throw new Error(
   });
 
 // ============================================================================
-// Step 4: Update CI Workflows
+// Step 4: Register Monorepo Metadata
 // ============================================================================
 
-const updateTestYml = (
+const updateRootNxReleaseGroup = (
   root: string,
   name: string,
-): Effect.Effect<
-  void,
-  PlatformError.PlatformError,
-  FileSystem.FileSystem | Path.Path
-> =>
+): Effect.Effect<void, SdkError, FileSystem.FileSystem | Path.Path> =>
   Effect.gen(function* () {
     const path = yield* Path.Path;
     const fs = yield* FileSystem.FileSystem;
-    const testYmlPath = path.join(root, ".github", "workflows", "test.yml");
-    const exists = yield* fs.exists(testYmlPath);
-    if (!exists) {
+    const workspaceRoot = path.resolve(root, "../..");
+    const nxJsonPath = path.join(workspaceRoot, "nx.json");
+    const projectName = `@oddlynew/distilled-${name}`;
+
+    const content = yield* fs.readFileString(nxJsonPath);
+    let nxJson: {
+      release?: {
+        groups?: {
+          distilled?: {
+            projects?: string[];
+          };
+        };
+      };
+    };
+    try {
+      nxJson = JSON.parse(content);
+    } catch (cause) {
+      return yield* new ConfigError({
+        message: `Could not parse ${nxJsonPath}`,
+        cause,
+      });
+    }
+
+    const projects = nxJson.release?.groups?.distilled?.projects;
+    if (!Array.isArray(projects)) {
+      return yield* new ConfigError({
+        message: `${nxJsonPath} is missing release.groups.distilled.projects`,
+      });
+    }
+
+    if (projects.includes(projectName)) {
       yield* Console.log(
-        "\n⚠️  standalone test.yml not found; root Nx validation owns CI in the monorepo, skipping",
-      );
-      return;
-    }
-    let content = yield* fs.readFileString(testYmlPath);
-
-    if (content.includes(`ci-${name}:`)) {
-      yield* Console.log(`\n⚠️  test.yml already has ci-${name}, skipping`);
-      return;
-    }
-
-    yield* Console.log(`\n📝 Updating test.yml with ci-${name} job`);
-
-    // Match the LAST output line in the detect-changes outputs block. The
-    // current format is `name: ${{ steps.force.outputs.all || steps.changes.outputs.name }}`
-    // (with the force-ci escape hatch). The negative lookahead pins to the
-    // tail of the block so we splice after the last entry regardless of name.
-    const outputLineRegex =
-      /(      [a-z0-9-]+: \$\{\{ steps\.force\.outputs\.all \|\| steps\.changes\.outputs\.[a-z0-9-]+ \}\})(?![\s\S]*      [a-z0-9-]+: \$\{\{ steps\.force\.outputs\.all \|\| steps\.changes\.outputs)/;
-    const outputsMatch = content.match(outputLineRegex);
-    if (outputsMatch) {
-      content = content.replace(
-        outputsMatch[1],
-        `${outputsMatch[1]}\n      ${name}: \${{ steps.force.outputs.all || steps.changes.outputs.${name} }}`,
-      );
-    }
-
-    // Splice after the last paths-filter block.
-    const filtersRegex =
-      /(            [a-z0-9-]+:\n              - 'packages\/[a-z0-9-]+\/\*\*'\n              - 'packages\/core\/\*\*')(?![\s\S]*            [a-z0-9-]+:\n              - 'packages\/[a-z0-9-]+\/\*\*'\n              - 'packages\/core\/\*\*')/;
-    const filtersMatch = content.match(filtersRegex);
-    if (filtersMatch) {
-      content = content.replace(
-        filtersMatch[1],
-        `${filtersMatch[1]}\n            ${name}:\n              - 'packages/${name}/**'\n              - 'packages/core/**'`,
-      );
-    }
-
-    const newJob = `
-  ci-${name}:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.${name} == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - run: bun install
-      - run: bun run build
-        working-directory: packages/core
-      - run: bun run check
-        working-directory: packages/${name}`;
-
-    content = content.trimEnd() + "\n" + newJob + "\n";
-
-    yield* fs.writeFileString(testYmlPath, content);
-    yield* Console.log(`  ✅ Added ci-${name} job to test.yml`);
-  });
-
-// ============================================================================
-// Post-agent: Wire test env vars
-// ============================================================================
-//
-// After the Claude agent finishes credentials.ts, we know which environment
-// variables the SDK reads. Append a Nx test step + matching `env:`
-// block to the ci-{name} job so CI runs the integration tests with the
-// secrets piped in.
-//
-// `process.env.DEBUG` is universal noise — skip it. Anything else gets wired.
-
-const ENV_VARS_TO_IGNORE = new Set(["DEBUG", "NODE_ENV", "CI"]);
-
-const wireTestEnvVars = (
-  root: string,
-  name: string,
-): Effect.Effect<
-  void,
-  PlatformError.PlatformError,
-  FileSystem.FileSystem | Path.Path
-> =>
-  Effect.gen(function* () {
-    const path = yield* Path.Path;
-    const fs = yield* FileSystem.FileSystem;
-
-    const credentialsPath = path.join(
-      root,
-      "packages",
-      name,
-      "src",
-      "credentials.ts",
-    );
-
-    const credentialsExists = yield* fs.exists(credentialsPath);
-    if (!credentialsExists) {
-      yield* Console.log(
-        `\n⚠️  credentials.ts not found for ${name}, skipping test env wiring`,
+        `\n⚠️  nx.json already includes ${projectName} in the distilled release group, skipping`,
       );
       return;
     }
 
-    const credentialsContent = yield* fs.readFileString(credentialsPath);
+    projects.push(projectName);
+    projects.sort((a, b) => a.localeCompare(b));
 
-    // Also pick up env vars referenced from the package's test setup file(s),
-    // since some SDKs (e.g. posthog) need POSTHOG_PROJECT_ID at runtime
-    // beyond the auth token.
-    const envSources = [credentialsContent];
-    for (const dir of ["test", "tests"]) {
-      for (const file of ["test.ts", "setup.ts"]) {
-        const p = path.join(root, "packages", name, dir, file);
-        if (yield* fs.exists(p)) {
-          envSources.push(yield* fs.readFileString(p));
-        }
-      }
-    }
-
-    const envVars = new Set<string>();
-    const re = /process\.env\.([A-Z][A-Z0-9_]*)/g;
-    for (const source of envSources) {
-      let match: RegExpExecArray | null;
-      while ((match = re.exec(source)) !== null) {
-        const varName = match[1];
-        if (!ENV_VARS_TO_IGNORE.has(varName)) {
-          envVars.add(varName);
-        }
-      }
-    }
-
-    if (envVars.size === 0) {
-      yield* Console.log(
-        `\n⚠️  No env vars found in ${name}/src/credentials.ts — skipping test env wiring`,
-      );
-      return;
-    }
-
-    const testYmlPath = path.join(root, ".github", "workflows", "test.yml");
-    const exists = yield* fs.exists(testYmlPath);
-    if (!exists) {
-      yield* Console.log(
-        "\n⚠️  standalone test.yml not found; root Nx validation owns CI in the monorepo, skipping test env wiring",
-      );
-      return;
-    }
-    let content = yield* fs.readFileString(testYmlPath);
-
-    // Find the `ci-{name}:` job block. It runs from `  ci-{name}:` (2-space
-    // indent at start of line) up to the next `  ci-` line or end of file.
-    const jobHeader = `  ci-${name}:`;
-    const headerIdx = content.indexOf(`\n${jobHeader}\n`);
-    if (headerIdx === -1) {
-      yield* Console.log(
-        `\n⚠️  ci-${name} block not found in test.yml — skipping test env wiring`,
-      );
-      return;
-    }
-
-    // Find the end of the ci-{name} block (next `  ci-` or EOF).
-    const blockStart = headerIdx + 1;
-    const nextJobMatch = content
-      .slice(blockStart + jobHeader.length)
-      .match(/\n  ci-[a-z0-9-]+:\n/);
-    const blockEnd = nextJobMatch
-      ? blockStart + jobHeader.length + nextJobMatch.index!
-      : content.length;
-    const block = content.slice(blockStart, blockEnd);
-
-    if (block.includes("bun run test") || block.includes("bun nx test")) {
-      yield* Console.log(
-        `\n⚠️  ci-${name} already has a test step, skipping test env wiring`,
-      );
-      return;
-    }
-
-    yield* Console.log(
-      `\n📝 Wiring test env vars into ci-${name}: ${Array.from(envVars).sort().join(", ")}`,
-    );
-
-    const sortedVars = Array.from(envVars).sort();
-    const envLines = sortedVars
-      .map((v) => `          ${v}: \${{ secrets.${v} }}`)
-      .join("\n");
-
-    const testStep = `      - run: bun nx test @oddlynew/distilled-${name}
-        env:
-${envLines}`;
-
-    // Append the test step at the end of the block, preserving any trailing
-    // blank line that separates jobs.
-    const trimmedBlock = block.replace(/\n+$/, "");
-    const newBlock = `${trimmedBlock}\n${testStep}\n`;
-    const trailingBlanks = block.length - trimmedBlock.length;
-    const replacement =
-      newBlock + (trailingBlanks > 0 ? "\n".repeat(trailingBlanks - 1) : "");
-
-    content =
-      content.slice(0, blockStart) + replacement + content.slice(blockEnd);
-
-    yield* fs.writeFileString(testYmlPath, content);
-    yield* Console.log(
-      `  ✅ Added test step to ci-${name} with env: ${sortedVars.join(", ")}`,
+    yield* fs.writeFileString(
+      nxJsonPath,
+      `${JSON.stringify(nxJson, null, 2)}\n`,
     );
     yield* Console.log(
-      `  ⚠️  Make sure these secrets exist in GitHub Actions: ${sortedVars.join(", ")}`,
+      `\n✅ Added ${projectName} to root nx.json distilled release group`,
     );
-  });
-
-const updatePkgPrYml = (
-  root: string,
-  name: string,
-): Effect.Effect<
-  void,
-  PlatformError.PlatformError,
-  FileSystem.FileSystem | Path.Path
-> =>
-  Effect.gen(function* () {
-    const path = yield* Path.Path;
-    const fs = yield* FileSystem.FileSystem;
-    const ymlPath = path.join(root, ".github", "workflows", "pr-package.yml");
-    const exists = yield* fs.exists(ymlPath);
-    if (!exists) {
-      yield* Console.log(
-        "\n⚠️  standalone pr-package.yml not found; root pr-package workflow owns previews in the monorepo, skipping",
-      );
-      return;
-    }
-    let content = yield* fs.readFileString(ymlPath);
-
-    // The new pr-package.yml uses a matrix driven by the paths-filter output,
-    // so adding a package only requires registering it in the force-ci "all"
-    // array and adding a paths-filter entry.
-    const filterHeader = `            ${name}:`;
-    if (content.includes(filterHeader)) {
-      yield* Console.log(
-        `\n⚠️  pr-package.yml already has filter for ${name}, skipping`,
-      );
-      return;
-    }
-
-    yield* Console.log(`\n📝 Updating pr-package.yml with ${name}`);
-
-    // Append to the force-ci "all" JSON array.
-    const allMatch = content.match(/(\s+all=')(\[[^\]]+\])(')/);
-    if (allMatch) {
-      const arr: string[] = JSON.parse(allMatch[2]);
-      if (!arr.includes(name)) {
-        arr.push(name);
-        content = content.replace(
-          allMatch[0],
-          `${allMatch[1]}${JSON.stringify(arr)}${allMatch[3]}`,
-        );
-      }
-    }
-
-    // Append a paths-filter entry after the last existing filter. We anchor on
-    // the last block ending with `'packages/core/**'` (negative lookahead pins
-    // to the tail).
-    const filterEntry = `\n            ${name}:\n              - 'packages/${name}/**'\n              - 'packages/core/**'`;
-    const lastFilterRegex =
-      /(\n            [a-z0-9-]+:\n              - 'packages\/[a-z0-9-]+\/\*\*'\n              - 'packages\/core\/\*\*')(?![\s\S]*\n            [a-z0-9-]+:\n              - 'packages\/[a-z0-9-]+\/\*\*'\n              - 'packages\/core\/\*\*')/;
-    const lastFilterMatch = content.match(lastFilterRegex);
-    if (lastFilterMatch) {
-      content = content.replace(
-        lastFilterMatch[0],
-        `${lastFilterMatch[0]}${filterEntry}`,
-      );
-    }
-
-    yield* fs.writeFileString(ymlPath, content);
-    yield* Console.log(`  ✅ Added ${name} to pr-package.yml`);
-  });
-
-const updateReleaseYml = (
-  root: string,
-  name: string,
-): Effect.Effect<
-  void,
-  PlatformError.PlatformError,
-  FileSystem.FileSystem | Path.Path
-> =>
-  Effect.gen(function* () {
-    const path = yield* Path.Path;
-    const fs = yield* FileSystem.FileSystem;
-    const ymlPath = path.join(root, ".github", "workflows", "release.yml");
-    const exists = yield* fs.exists(ymlPath);
-    if (!exists) {
-      yield* Console.log(
-        "\n⚠️  standalone release.yml not found; add the package to the root Nx release group if it should publish, skipping",
-      );
-      return;
-    }
-    let content = yield* fs.readFileString(ymlPath);
-
-    const matrixLine = `          - ${name}\n`;
-    const artifactLine = `    packages/${name}/package.json\n`;
-    const alreadyInMatrix = content.includes(matrixLine);
-    const alreadyInArtifacts = content.includes(artifactLine);
-
-    if (alreadyInMatrix && alreadyInArtifacts) {
-      yield* Console.log(
-        `\n⚠️  release.yml already includes ${name}, skipping`,
-      );
-      return;
-    }
-
-    yield* Console.log(`\n📝 Updating release.yml with ${name}`);
-
-    // Insert into BUMP_ARTIFACT_PATHS (sorted alphabetically by path). The
-    // block is bounded by the literal `bun.lock` line, so we splice in before
-    // it and rely on a follow-up sort pass to keep ordering tidy if needed.
-    if (!alreadyInArtifacts) {
-      const artifactsAnchor = "    bun.lock\n";
-      if (content.includes(artifactsAnchor)) {
-        content = content.replace(
-          artifactsAnchor,
-          `${artifactLine}${artifactsAnchor}`,
-        );
-      }
-    }
-
-    // Insert into the publish-sdk matrix list. Anchor on the `steps:` line
-    // that follows the matrix block so we splice before it.
-    if (!alreadyInMatrix) {
-      const matrixEndAnchor =
-        /(    strategy:[\s\S]*?package:\n(?:          - [a-z0-9-]+\n)+)(    steps:)/;
-      const m = content.match(matrixEndAnchor);
-      if (m) {
-        content = content.replace(matrixEndAnchor, `$1${matrixLine}$2`);
-      }
-    }
-
-    yield* fs.writeFileString(ymlPath, content);
-    yield* Console.log(`  ✅ Added ${name} to release.yml`);
-  });
-
-const updateNukeYml = (
-  root: string,
-  name: string,
-): Effect.Effect<
-  void,
-  PlatformError.PlatformError,
-  FileSystem.FileSystem | Path.Path
-> =>
-  Effect.gen(function* () {
-    const path = yield* Path.Path;
-    const fs = yield* FileSystem.FileSystem;
-    const ymlPath = path.join(root, ".github", "workflows", "nuke.yml");
-    const exists = yield* fs.exists(ymlPath);
-    if (!exists) {
-      yield* Console.log(`\n⚠️  nuke.yml not found, skipping`);
-      return;
-    }
-    let content = yield* fs.readFileString(ymlPath);
-
-    const inputHeader = `      ${name}:`;
-    if (content.includes(inputHeader)) {
-      yield* Console.log(
-        `\n⚠️  nuke.yml already has input for ${name}, skipping`,
-      );
-      return;
-    }
-
-    yield* Console.log(`\n📝 Updating nuke.yml with ${name} input`);
-
-    // Splice a workflow_dispatch input after the last existing one. The block
-    // ends with the `jobs:` key, so anchor on the last input + `default: false`.
-    const lastInputRegex =
-      /(      [a-z0-9-]+:\n        description: "[^"]+"\n        type: boolean\n        default: false\n)(?![\s\S]*      [a-z0-9-]+:\n        description: "[^"]+"\n        type: boolean\n        default: false\n)/;
-    const description = name
-      .split("-")
-      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-      .join(" ");
-    const newInput = `      ${name}:\n        description: "${description}"\n        type: boolean\n        default: false\n`;
-    const m = content.match(lastInputRegex);
-    if (m) {
-      content = content.replace(lastInputRegex, `$1${newInput}`);
-    }
-
-    // Also append to the validate-inputs check so the workflow doesn't reject
-    // a run that selected only this SDK.
-    const validateRegex =
-      /(\s+&& "\$\{\{ inputs\.[a-z0-9-]+ \}\}" != "true" \\)\n(             \]\];)/;
-    const vMatch = content.match(validateRegex);
-    if (vMatch) {
-      content = content.replace(
-        validateRegex,
-        `$1\n             && "\${{ inputs.${name} }}" != "true" \\\n$2`,
-      );
-    }
-
-    yield* fs.writeFileString(ymlPath, content);
-    yield* Console.log(`  ✅ Added ${name} to nuke.yml`);
   });
 
 // ============================================================================
@@ -1771,14 +1424,16 @@ const installAndGenerate = (
 > =>
   Effect.gen(function* () {
     const path = yield* Path.Path;
+    const workspaceRoot = path.resolve(root, "../..");
     const pkgDir = path.join(root, "packages", name);
+    const projectName = `@oddlynew/distilled-${name}`;
 
     yield* Console.log("\n📦 Running bun install...");
-    yield* exec("bun", ["install"], { cwd: root });
+    yield* exec("bun", ["install"], { cwd: workspaceRoot });
 
     yield* Console.log("\n🔨 Building core...");
-    yield* exec("bun", ["run", "build"], {
-      cwd: path.join(root, "packages", "core"),
+    yield* exec("bun", ["nx", "build", "@oddlynew/distilled-core"], {
+      cwd: workspaceRoot,
     });
 
     yield* Console.log("\n🔧 Fetching specs...");
@@ -1788,8 +1443,8 @@ const installAndGenerate = (
     });
 
     yield* Console.log("\n⚡ Running code generation...");
-    yield* exec("bun", ["run", "generate"], {
-      cwd: pkgDir,
+    yield* exec("bun", ["nx", "run", `${projectName}:generate`], {
+      cwd: workspaceRoot,
       ignoreError: true,
     });
 
@@ -1887,7 +1542,7 @@ packages/${name}/src/operations/ only has a placeholder index.ts. The scaffolded
 
 After you figure out the spec format in Step 0:
 1. Rewrite packages/${name}/scripts/generate.ts to work with whatever spec format you found in the submodule
-2. Run \`bun run generate\` from packages/${name}/
+2. Run \`bun nx run @oddlynew/distilled-${name}:generate\`
 3. List packages/${name}/src/operations/ — it MUST have more than just index.ts
 4. If still empty, debug the generator and fix it.
 `
@@ -1903,7 +1558,7 @@ The scaffolded generate.ts is a placeholder that throws an error. Based on what 
 - If Smithy: study packages/aws/scripts/generate.ts
 - If something else: write a custom generator
 
-Run \`bun run generate\` from packages/${name}/ and confirm operations were generated (more than just index.ts in src/operations/).
+Run \`bun nx run @oddlynew/distilled-${name}:generate\` and confirm operations were generated (more than just index.ts in packages/${name}/src/operations/).
 
 ## Step 2: Update credentials.ts
 
@@ -1952,10 +1607,10 @@ Use REAL operation names from the generated src/operations/ files. Read the oper
 
 ## Step 6: Final verification
 
-Run these commands from packages/${name}/ and they MUST all pass:
-1. \`bun run generate\` — must exit 0
-2. \`ls src/operations/\` — must show MORE than just index.ts
-3. \`bun run typecheck\` — must exit 0
+Run these commands and checks, and they MUST all pass:
+1. \`bun nx run @oddlynew/distilled-${name}:generate\` — must exit 0
+2. \`ls packages/${name}/src/operations/\` — must show MORE than just index.ts
+3. \`bun nx typecheck @oddlynew/distilled-${name}\` — must exit 0
 
 If any fail, fix and retry until all pass.
 
@@ -2087,11 +1742,8 @@ const createSdk = Command.make(
       // Step 2: Scaffold the SDK package
       yield* scaffoldPackage(root, config.name, specInfo, note);
 
-      // Step 3: Update CI workflows
-      yield* updateTestYml(root, config.name);
-      yield* updatePkgPrYml(root, config.name);
-      yield* updateReleaseYml(root, config.name);
-      yield* updateNukeYml(root, config.name);
+      // Step 3: Register package in monorepo metadata
+      yield* updateRootNxReleaseGroup(root, config.name);
 
       // Step 4: Install dependencies and run generator
       yield* installAndGenerate(root, config.name);
@@ -2099,9 +1751,6 @@ const createSdk = Command.make(
       // Step 5: Refine with Claude agent
       const stats = new AgentStatsAccumulator();
       yield* refineWithClaude(root, config.name, specInfo, stats, note);
-
-      // Step 6: Wire test env vars into test.yml now that credentials.ts is final
-      yield* wireTestEnvVars(root, config.name);
 
       yield* Console.log(`
 ✨ SDK package created successfully!
@@ -2112,7 +1761,7 @@ const createSdk = Command.make(
 Next steps:
   1. Review the generated code in packages/${config.name}/src/
   2. Update credentials.ts with correct API base URL and auth scheme
-  3. Add API key secrets to GitHub repository settings
+  3. Add API credentials only if live tests need to run locally or in a promoted CI target
   4. Run tests: bun nx test @oddlynew/distilled-${config.name}
   5. Update the website: add the new SDK card to www/distilled.cloud/index.html (SDK section)
 `);

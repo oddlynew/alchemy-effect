@@ -61,7 +61,7 @@ intentionally different from upstream, make that reason visible in the PR or in
 | Type check a project | `bun nx typecheck <project>` |
 | Lint a project | `bun nx lint <project>` |
 | Run a focused test | `bun nx test <project> -- <path>` |
-| Build affected validation graph | `bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
+| Build affected validation graph | `bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"` |
 | Type check affected validation graph | `bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
 | Lint affected validation graph | `bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"` |
 | Format repo code | `bun oxfmt .` |
@@ -968,7 +968,8 @@ by CI:
 
 ```bash
 export NX_VALIDATION_EXCLUDE='@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
-bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+export NX_VALIDATION_BUILD_EXCLUDE='@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"
 bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 ```

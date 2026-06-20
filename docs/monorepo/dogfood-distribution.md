@@ -181,7 +181,8 @@ Run the dogfood verification before publishing or building features on top:
 bun install --frozen-lockfile
 
 export NX_VALIDATION_EXCLUDE='@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
-GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+export NX_VALIDATION_BUILD_EXCLUDE='@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"
 GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 

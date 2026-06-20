@@ -82,8 +82,9 @@ For branch-level validation, use the same production/package boundary as CI:
 
 ```bash
 export NX_VALIDATION_EXCLUDE='@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
+export NX_VALIDATION_BUILD_EXCLUDE='@oddlynew/alchemy-website,@oddlynew/alchemy-example-*,@oddlynew/cloudflare-tools-fixture-*'
 
-GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
+GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE"
 GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t typecheck --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t lint --parallel=3 --exclude="$NX_VALIDATION_EXCLUDE"
 GOMAXPROCS=4 NX_DAEMON=false bun nx affected -t test --parallel=3 --exclude='*,!tag:test:ci'
