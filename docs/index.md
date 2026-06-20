@@ -9,6 +9,7 @@ This directory is for repo-level fork and migration operations. Product docs for
 | Fork operations | [`monorepo/fork-operations.md`](./monorepo/fork-operations.md) |
 | Clean-history sync procedure | [`monorepo/clean-history-operating-note.md`](./monorepo/clean-history-operating-note.md) |
 | Dogfood distribution model | [`monorepo/dogfood-distribution.md`](./monorepo/dogfood-distribution.md) |
+| Two-track fork strategy | [`monorepo/two-track-strategy.md`](./monorepo/two-track-strategy.md) |
 | Dogfood deviance audit | [`monorepo/deviance-audit.md`](./monorepo/deviance-audit.md) |
 | Provider factory catalog notes | [`provider-catalog/README.md`](./provider-catalog/README.md) |
 | Agent and contributor guidance | [`../AGENTS.md`](../AGENTS.md) |

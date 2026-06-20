@@ -33,6 +33,8 @@ bun nx affected -t test --parallel=3 --exclude='*,!tag:test:ci'
 
 - Agent and command guidance lives in [`AGENTS.md`](./AGENTS.md).
 - Monorepo migration notes live in [`docs/monorepo/migration.md`](./docs/monorepo/migration.md).
+- The maintainer-facing fork vs. Oddlynew-owned source split is documented in
+  [`docs/monorepo/two-track-strategy.md`](./docs/monorepo/two-track-strategy.md).
 - Current dogfood deviations and follow-ups live in
   [`docs/monorepo/deviance-audit.md`](./docs/monorepo/deviance-audit.md).
 - Release dry-runs are documented in [`docs/monorepo/migration.md`](./docs/monorepo/migration.md#release-groups).
