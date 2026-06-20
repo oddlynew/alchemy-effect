@@ -9,7 +9,7 @@
   },
   "references": [
     {
-      "path": "../../packages/pr-package/tsconfig.json"
+      "path": "../../packages/pr-package/tsconfig.src.json"
     }
   ]
 }

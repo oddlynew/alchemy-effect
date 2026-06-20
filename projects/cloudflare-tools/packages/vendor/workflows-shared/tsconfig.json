@@ -1,16 +1,11 @@
 {
-  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
-  "compilerOptions": {
-    "composite": true,
-    "tsBuildInfoFile": ".cache/tsconfig.tsbuildinfo",
-    "outDir": ".cache/out",
-    "rootDir": ".",
-    "emitDeclarationOnly": true,
-    "module": "Preserve",
-    "moduleResolution": "bundler",
-    "types": ["@cloudflare/workers-types/experimental", "@cloudflare/vitest-pool-workers/types"],
-    "noUncheckedIndexedAccess": false,
-    "noImplicitOverride": false
-  }
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.dev.json"
+    },
+    {
+      "path": "./tsconfig.src.json"
+    }
+  ]
 }

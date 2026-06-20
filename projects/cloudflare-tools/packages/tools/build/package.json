@@ -7,8 +7,8 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
+    "build": "tsgo -b tsconfig.src.json --emitDeclarationOnly --noCheck",
+    "dev": "tsgo -b tsconfig.src.json --watch"
   },
   "devDependencies": {
     "@oddlynew/alchemy-typescript-config": "workspace:*",

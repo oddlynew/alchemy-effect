@@ -1,0 +1,10 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": ".tsbuild/dev",
+    "tsBuildInfoFile": ".tsbuild/dev.tsbuildinfo",
+    "types": ["node"]
+  },
+  "include": ["vitest.config.ts"]
+}

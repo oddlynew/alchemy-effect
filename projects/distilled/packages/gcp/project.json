@@ -12,17 +12,6 @@
       "dependsOn": ["^build"],
       "parallelism": false
     },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "bun ../../scripts/build-generated-package.ts . --declarations-only",
-        "cwd": "{projectRoot}"
-      },
-      "outputs": ["{projectRoot}/lib"],
-      "cache": true,
-      "dependsOn": ["^build"],
-      "parallelism": false
-    },
     "lint": {
       "executor": "nx:run-commands",
       "options": {

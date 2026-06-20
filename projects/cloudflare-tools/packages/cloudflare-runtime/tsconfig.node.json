@@ -4,9 +4,12 @@
   "exclude": ["src/internal/workers.d.ts", "src/**/*.worker.ts"],
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": ".cache/tsconfig.node.tsbuildinfo",
-    "outDir": ".cache/node",
+    "tsBuildInfoFile": ".tsbuild/node.tsbuildinfo",
+    "outDir": ".tsbuild/node",
     "rootDir": "src",
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedDeclarations": false
   }
 }

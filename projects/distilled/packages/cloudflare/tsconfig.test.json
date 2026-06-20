@@ -1,13 +1,29 @@
 {
   "extends": "@oddlynew/alchemy-typescript-config/node.json",
-  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    }
+  ],
   "compilerOptions": {
-    "composite": true,
-    "rootDir": ".",
-    "noEmit": true,
     "lib": ["ESNext", "DOM"],
     "paths": {
       "~/*": ["./src/*"]
-    }
-  }
+    },
+    "composite": true,
+    "outDir": ".tsbuild/test",
+    "rootDir": ".",
+    "isolatedDeclarations": false,
+    "tsBuildInfoFile": ".tsbuild/test.tsbuildinfo"
+  },
+  "include": [
+    "test/**/*.ts",
+    "test/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/__tests__/**/*.ts",
+    "src/**/__tests__/**/*.tsx"
+  ]
 }

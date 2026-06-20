@@ -1,11 +1,8 @@
 {
-  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
-  "include": ["src/**/*"],
-  "exclude": ["dist"],
-  "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src",
-    "composite": false,
-    "noEmit": true
-  }
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    }
+  ]
 }

@@ -54,6 +54,14 @@ This audit fixed stale residue that would make the dogfood branch look less cohe
 - Fixed `@oddlynew/alchemy-nx-tsgo-plugin` typecheck inference to run
   `bun tsgo --build --emitDeclarationOnly` instead of `tsgo --noEmit -p tsconfig.json`. The old
   command could pass on solution-style `tsconfig.json` files with `files: []`.
+- Normalized package TypeScript configs to solution-style `tsconfig.json` files with explicit
+  `tsconfig.dev.json`, `tsconfig.src.json`, and package-specific build configs where needed. Nx now
+  infers package `typecheck` targets instead of duplicating package-level scripts.
+- Removed package-level `typecheck`, `check`, and `lint` scripts from imported package roots so
+  validation goes through the shared Nx/oxlint/tsgo plugins. Package-local `build`, `test`, and
+  generation scripts remain where they describe package behavior.
+- Updated the Distilled SDK generator to scaffold the same solution/source/build TypeScript config
+  split for new provider packages.
 - Retargeted dogfood infra stacks that create GitHub comments, repo secrets, and repo variables from
   `alchemy-run/alchemy-effect` to `oddlynew/alchemy-effect`.
 - Hardened the website workflow so prod Cloudflare credentials are selected only for exact
@@ -82,11 +90,11 @@ fully independent long-term fork.
 | --- | --- | --- |
 | Tests in CI | CI runs affected tests for projects tagged `test:ci`; only cache-worker is tagged today. | Promote affected hermetic package tests by adding `test:ci`, then add opt-in live-provider jobs for credentialed environments. |
 | Oxlint hygiene plugins | `@oddlynew/alchemy-oxlint-config` does not yet include Oddlynew's custom workspace-hygiene plugins. | Port the plugins once generated/imported code exceptions are known, then ratchet rules package by package. |
-| TypeScript config strictness | Shared config is cleaner than the imported repos, but still less strict than Oddlynew's mature baseline. | Tighten after imported package drift is resolved, not during the structural migration. |
+| TypeScript config strictness | Package configs now use Oddlynew-style solution/source/build boundaries, but the shared compiler options are still less strict than Oddlynew's mature baseline. | Tighten after imported package drift is resolved, not during the structural migration. |
 | Example and fixture targets | Examples and Cloudflare Tools fixtures still keep package-local scripts and are excluded from production CI. | Decide which examples are hermetic smoke tests, then infer or model them as first-class Nx targets. |
 | Root Alchemy smoke test | `test/smoke.test.ts` remains at the repository root. | Either keep it documented as cross-product smoke infrastructure or move it under `projects/alchemy` with a dedicated Nx target. |
 | Website links | Historical docs and blog pages still contain upstream GitHub links. Current navigation and edit links point at Oddlynew. | Keep historical release provenance upstream; only rewrite active dogfood navigation, install, and edit links. |
-| Distilled explicit build targets | Generated packages use many small `project.json` files. | If the pattern stabilizes, move it into the custom Nx plugin so package roots stay script-first. |
+| Distilled explicit build targets | Generated packages use small `project.json` files for serialized `tsconfig.build.json` emits. | If the pattern stabilizes, move it into the custom Nx plugin so package roots stay script-first. |
 | Release automation | Release runs as a daily npm `latest` train from protected `main`, with manual dispatch for dry-runs and hotfixes. | Verify the first real publish, then keep the daily cadence unless package volume or maintainer preference changes. |
 | Npm provenance | Release workflow sets `NPM_CONFIG_PROVENANCE=true`, but the first real Bun/Nx publish still needs attestation verification. | After the first publish, verify npm provenance/attestations and document the exact trusted-publishing setup. |
 | Package docs/licenses | Some public package tarballs rely on manifest license metadata and do not ship package-local README/LICENSE files. | Add package-local README/license coverage for every public package before the fork is treated as a polished npm distribution. |

@@ -840,11 +840,8 @@ const scaffoldPackage = (
               },
             },
             scripts: {
-              typecheck: "tsgo",
-              build: "tsgo -b",
+              build: "tsgo -b tsconfig.build.json --noCheck",
               fmt: "oxfmt --write src",
-              lint: "oxlint --fix src",
-              check: "tsgo && oxlint src && oxfmt --check src",
               test: "bunx vitest run test --passWithNoTests",
               generate:
                 "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
@@ -885,16 +882,11 @@ const scaffoldPackage = (
         tsconfigPath,
         JSON.stringify(
           {
-            extends: "@oddlynew/alchemy-typescript-config/node.json",
-            include: ["src/**/*.ts"],
-            compilerOptions: {
-              outDir: "./lib",
-              rootDir: "./src",
-              paths: {
-                "~/*": ["./src/*"],
-              },
-            },
-            references: [{ path: "../core" }],
+            files: [],
+            references: [
+              { path: "./tsconfig.dev.json" },
+              { path: "./tsconfig.src.json" },
+            ],
           },
           null,
           2,
@@ -903,6 +895,103 @@ const scaffoldPackage = (
       yield* Console.log("  ✅ tsconfig.json");
     } else {
       yield* Console.log("  ⚠️  tsconfig.json already exists, skipping");
+    }
+
+    // --- tsconfig.dev.json ---
+    const tsconfigDevPath = path.join(pkgDir, "tsconfig.dev.json");
+    const tsconfigDevExists = yield* fs.exists(tsconfigDevPath);
+    if (!tsconfigDevExists) {
+      yield* fs.writeFileString(
+        tsconfigDevPath,
+        JSON.stringify(
+          {
+            extends: "@oddlynew/alchemy-typescript-config/node.json",
+            compilerOptions: {
+              composite: true,
+              outDir: ".tsbuild/dev",
+              tsBuildInfoFile: ".tsbuild/dev.tsbuildinfo",
+              types: ["node"],
+            },
+            include: ["vitest.config.ts"],
+          },
+          null,
+          2,
+        ),
+      );
+      yield* Console.log("  ✅ tsconfig.dev.json");
+    } else {
+      yield* Console.log("  ⚠️  tsconfig.dev.json already exists, skipping");
+    }
+
+    // --- tsconfig.src.json ---
+    const tsconfigSrcPath = path.join(pkgDir, "tsconfig.src.json");
+    const tsconfigSrcExists = yield* fs.exists(tsconfigSrcPath);
+    if (!tsconfigSrcExists) {
+      yield* fs.writeFileString(
+        tsconfigSrcPath,
+        JSON.stringify(
+          {
+            extends: "@oddlynew/alchemy-typescript-config/node.json",
+            compilerOptions: {
+              paths: {
+                "~/*": ["./src/*"],
+              },
+              composite: true,
+              declaration: true,
+              declarationMap: true,
+              emitDeclarationOnly: true,
+              isolatedDeclarations: false,
+              outDir: ".tsbuild/src",
+              rootDir: "src",
+              tsBuildInfoFile: ".tsbuild/src.tsbuildinfo",
+            },
+            include: ["src/**/*.ts"],
+            exclude: [
+              "**/*.test.ts",
+              "**/*.test.tsx",
+              "**/__tests__/**/*.ts",
+              "**/__tests__/**/*.tsx",
+              "test/**",
+              "tests/**",
+            ],
+          },
+          null,
+          2,
+        ),
+      );
+      yield* Console.log("  ✅ tsconfig.src.json");
+    } else {
+      yield* Console.log("  ⚠️  tsconfig.src.json already exists, skipping");
+    }
+
+    // --- tsconfig.build.json ---
+    const tsconfigBuildPath = path.join(pkgDir, "tsconfig.build.json");
+    const tsconfigBuildExists = yield* fs.exists(tsconfigBuildPath);
+    if (!tsconfigBuildExists) {
+      yield* fs.writeFileString(
+        tsconfigBuildPath,
+        JSON.stringify(
+          {
+            extends: "@oddlynew/alchemy-typescript-config/node.json",
+            compilerOptions: {
+              paths: {
+                "~/*": ["./src/*"],
+              },
+              composite: true,
+              noEmit: false,
+              outDir: "./lib",
+              rootDir: "./src",
+              tsBuildInfoFile: ".tsbuild/build.tsbuildinfo",
+            },
+            include: ["src/**/*.ts"],
+          },
+          null,
+          2,
+        ),
+      );
+      yield* Console.log("  ✅ tsconfig.build.json");
+    } else {
+      yield* Console.log("  ⚠️  tsconfig.build.json already exists, skipping");
     }
 
     // --- tsconfig.test.json ---
@@ -914,14 +1003,27 @@ const scaffoldPackage = (
         JSON.stringify(
           {
             extends: "@oddlynew/alchemy-typescript-config/node.json",
-            include: ["src/**/*.ts", "test/**/*.ts"],
+            references: [{ path: "./tsconfig.src.json" }],
             compilerOptions: {
-              rootDir: ".",
-              noEmit: true,
               paths: {
                 "~/*": ["./src/*"],
               },
+              composite: true,
+              outDir: ".tsbuild/test",
+              rootDir: ".",
+              isolatedDeclarations: false,
+              tsBuildInfoFile: ".tsbuild/test.tsbuildinfo",
             },
+            include: [
+              "test/**/*.ts",
+              "test/**/*.tsx",
+              "tests/**/*.ts",
+              "tests/**/*.tsx",
+              "src/**/*.test.ts",
+              "src/**/*.test.tsx",
+              "src/**/__tests__/**/*.ts",
+              "src/**/__tests__/**/*.tsx",
+            ],
           },
           null,
           2,

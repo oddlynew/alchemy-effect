@@ -4,6 +4,11 @@ import * as vite from "vite";
 import type { FetchFunctionOptions } from "vite/module-runner";
 import { ENVIRONMENT_NAME_HEADER, INIT_PATH } from "./module-runner/constants.shared";
 
+type BunWebSocketConstructor = new (
+  address: string | URL,
+  options: { headers: Record<string, string> },
+) => WebSocket;
+
 export class DistilledDevEnvironment extends vite.DevEnvironment {
   transport: HotChannel;
 
@@ -20,7 +25,7 @@ export class DistilledDevEnvironment extends vite.DevEnvironment {
     const url = new URL(address);
     url.protocol = "ws";
     url.pathname = INIT_PATH;
-    const ws = new WebSocket(url, {
+    const ws = new (WebSocket as unknown as BunWebSocketConstructor)(url, {
       headers: {
         [ENVIRONMENT_NAME_HEADER]: this.name,
       },
@@ -30,7 +35,7 @@ export class DistilledDevEnvironment extends vite.DevEnvironment {
         resolve();
       });
       ws.addEventListener("error", (event) => {
-        reject(event.error);
+        reject("error" in event ? event.error : event);
       });
     });
     this.transport.ws = ws;

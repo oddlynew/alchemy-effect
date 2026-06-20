@@ -8,8 +8,8 @@
     "./miniflare-module": "./src/miniflare-module.ts"
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
+    "build": "tsgo -b tsconfig.src.json --emitDeclarationOnly --noCheck",
+    "dev": "tsgo -b tsconfig.src.json --watch"
   },
   "dependencies": {
     "miniflare": "catalog:workers"

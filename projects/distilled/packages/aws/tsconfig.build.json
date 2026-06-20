@@ -1,0 +1,12 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/node.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "composite": true,
+    "noEmit": false,
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "tsBuildInfoFile": ".tsbuild/build.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts", "src/**/*.json"]
+}

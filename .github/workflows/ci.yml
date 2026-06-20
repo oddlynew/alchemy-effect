@@ -55,7 +55,7 @@ jobs:
     runs-on:
       group: "Default Larger Runners"
       labels: "ubuntu-large"
-    timeout-minutes: 15
+    timeout-minutes: 45
     environment: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'production' || '' }}
     env:
       BOT_APP_CONFIGURED: ${{ secrets.ALCHEMY_VERSION_BOT_ID != '' && secrets.ALCHEMY_VERSION_BOT_PRIVATE_KEY != '' }}

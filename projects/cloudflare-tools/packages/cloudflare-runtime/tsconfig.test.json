@@ -1,0 +1,20 @@
+{
+  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.workers.json"
+    }
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "outDir": ".tsbuild/test",
+    "rootDir": ".",
+    "isolatedDeclarations": false,
+    "tsBuildInfoFile": ".tsbuild/test.tsbuildinfo",
+    "types": ["node", "@cloudflare/workers-types/experimental"]
+  },
+  "include": ["test/**/*.ts"]
+}

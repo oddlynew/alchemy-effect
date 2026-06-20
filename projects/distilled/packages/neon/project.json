@@ -4,14 +4,10 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "tsgo -b --checkers 1 --builders 1",
+        "command": "tsgo -b tsconfig.build.json --noCheck --checkers 1 --builders 1",
         "cwd": "{projectRoot}"
       },
-      "outputs": [
-        "{projectRoot}/lib",
-        "{projectRoot}/.tsbuild",
-        "{projectRoot}/tsconfig.tsbuildinfo"
-      ],
+      "outputs": ["{projectRoot}/lib", "{projectRoot}/.tsbuild"],
       "cache": true,
       "dependsOn": ["^build"],
       "parallelism": false

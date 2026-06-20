@@ -1,10 +1,14 @@
 {
-  "extends": "@oddlynew/alchemy-typescript-config/bun.json",
-  "include": ["tsdown.config.ts", "scripts"],
-  "compilerOptions": {
-    "tsBuildInfoFile": ".cache/tsconfig.tsbuildinfo",
-    "composite": false,
-    "noEmit": true
-  },
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.workers.json" }]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.dev.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.workers.json"
+    }
+  ]
 }

@@ -13,11 +13,12 @@
       "@/*": ["./src/*"]
     },
     "lib": ["DOM", "DOM.Iterable", "ES2023"],
-    "rewriteRelativeImportExtensions": true
+    "rewriteRelativeImportExtensions": true,
+    "tsBuildInfoFile": ".tsbuild/bin.tsbuildinfo"
   },
   "references": [
     {
-      "path": "./tsconfig.json"
+      "path": "./tsconfig.src.json"
     }
   ]
 }
