@@ -562,6 +562,45 @@ export const QueueConsumerProviderLocal = () =>
     LOCAL_ENTRY_URL,
     Effect.gen(function* () {
       const localRuntimeState = yield* LocalRuntimeState;
+      const reloadWorker = Effect.fnUntraced(function* (
+        scriptName: string,
+        reason: string,
+      ) {
+        const registration = MutableHashMap.get(
+          localRuntimeState.workerReloads,
+          scriptName,
+        ).pipe(Option.getOrUndefined);
+        if (registration) {
+          yield* registration.reload(reason);
+        } else {
+          MutableHashMap.set(
+            localRuntimeState.pendingWorkerReloads,
+            scriptName,
+            reason,
+          );
+        }
+      });
+      const syncConsumer = Effect.fnUntraced(function* (
+        consumer: QueueConsumer["Attributes"],
+        reason: string,
+        fallbackPrevious?: QueueConsumer["Attributes"],
+      ) {
+        const previous =
+          MutableHashMap.get(
+            localRuntimeState.queueConsumers,
+            consumer.consumerId,
+          ).pipe(Option.getOrUndefined) ?? fallbackPrevious;
+        MutableHashMap.set(
+          localRuntimeState.queueConsumers,
+          consumer.consumerId,
+          consumer,
+        );
+        if (queueConsumerEquals(previous, consumer)) return;
+        if (previous && previous.scriptName !== consumer.scriptName) {
+          yield* reloadWorker(previous.scriptName, reason);
+        }
+        yield* reloadWorker(consumer.scriptName, reason);
+      });
       return {
         list: () =>
           Effect.sync(() =>
@@ -587,11 +626,7 @@ export const QueueConsumerProviderLocal = () =>
           }
           // If the resource is a noop, add it to the local runtime state so it's available downstream.
           // We do it here instead of in the reconcile function so it doesn't appear as an update.
-          MutableHashMap.set(
-            localRuntimeState.queueConsumers,
-            output.consumerId,
-            output,
-          );
+          yield* syncConsumer(output, "queue consumer restored");
           return { action: "noop" };
         }),
         read: Effect.fn(function* ({ output }) {
@@ -611,22 +646,36 @@ export const QueueConsumerProviderLocal = () =>
             accountId,
             settings: news.settings,
           };
-          MutableHashMap.set(
-            localRuntimeState.queueConsumers,
-            consumer.consumerId,
-            consumer,
-          );
+          yield* syncConsumer(consumer, "queue consumer changed", output);
           return consumer;
         }),
         delete: Effect.fn(function* ({ output }) {
+          const previous =
+            MutableHashMap.get(
+              localRuntimeState.queueConsumers,
+              output.consumerId,
+            ).pipe(Option.getOrUndefined) ?? output;
           MutableHashMap.remove(
             localRuntimeState.queueConsumers,
             output.consumerId,
           );
+          yield* reloadWorker(previous.scriptName, "queue consumer deleted");
         }),
       };
     }),
   );
+
+const queueConsumerEquals = (
+  left: QueueConsumer["Attributes"] | undefined,
+  right: QueueConsumer["Attributes"],
+) =>
+  left !== undefined &&
+  left.consumerId === right.consumerId &&
+  left.queueId === right.queueId &&
+  left.scriptName === right.scriptName &&
+  left.accountId === right.accountId &&
+  left.deadLetterQueue === right.deadLetterQueue &&
+  JSON.stringify(left.settings ?? {}) === JSON.stringify(right.settings ?? {});
 
 export const QueueConsumerProvider = () =>
   ProviderLayer.select({

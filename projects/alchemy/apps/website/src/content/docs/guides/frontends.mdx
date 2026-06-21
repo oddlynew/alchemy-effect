@@ -1,21 +1,28 @@
 ---
 title: Frontend frameworks
-description: Deploy Vite-based frameworks (TanStack Start, Astro, SolidStart, Nuxt, React) and any custom-built static site (Hugo, Eleventy) to Cloudflare with one declaration.
+description: Deploy Vite-based frameworks (TanStack Start, SolidStart, Nuxt, React) and any custom-built static site (Astro, Hugo, Eleventy) to Cloudflare with one declaration.
 sidebar:
   order: 5
 ---
 
-`Cloudflare.Vite` covers TanStack Start, Astro, SolidStart, Nuxt, and
-plain React. `Cloudflare.StaticSite` wraps any custom build pipeline
-— Hugo, Eleventy, mdBook, Jekyll. One declaration. Alchemy builds
-and deploys to Cloudflare.
+`Cloudflare.Vite` covers apps where Alchemy can own the Vite dev/build
+call directly, such as TanStack Start, SolidStart, Nuxt, and plain React.
+`Cloudflare.StaticSite` wraps frameworks with their own CLI or adapter
+pipeline — Astro, Hugo, Eleventy, mdBook, Jekyll. One declaration.
+Alchemy builds and deploys to Cloudflare.
 
 ## Vite-based frameworks
 
-`Cloudflare.Vite` uses Cloudflare's Vite plugin to build the server
-bundle and client assets in one `vite build`. No manual entrypoint,
-no Wrangler config, no asset directory plumbing. Inputs are
+`Cloudflare.Vite` injects Alchemy's Cloudflare Vite integration to
+build the server bundle and client assets in one `vite build`. No
+manual entrypoint, no Wrangler config, no asset directory plumbing. Inputs are
 content-hashed so unchanged projects skip the build entirely.
+
+Keep your app's `vite.config.ts` focused on framework and app plugins.
+Do not add `@cloudflare/vite-plugin` or
+`@oddlynew/distilled-cloudflare-vite-plugin` yourself; `Cloudflare.Vite`
+injects the Cloudflare integration when Alchemy runs Vite for dev and
+deploy.
 
 **TanStack Start (SSR)**
 
@@ -25,15 +32,6 @@ import * as Cloudflare from "@oddlynew/alchemy/Cloudflare";
 export const App = Cloudflare.Vite("App", {
   compatibility: { flags: ["nodejs_compat"] },
 });
-```
-
-**Astro**
-
-```typescript
-import * as Cloudflare from "@oddlynew/alchemy/Cloudflare";
-
-// Astro builds via Vite — one declaration, static or SSR.
-export const Site = Cloudflare.Vite("Site");
 ```
 
 **React + Vite**
@@ -53,11 +51,31 @@ export const App = Cloudflare.Vite("App");
   `.gitignore` by default). Unchanged projects skip both build and
   deploy.
 
+## Astro and static sites
+
+For static Astro sites, use `Cloudflare.StaticSite` and let Astro own
+its build pipeline:
+
+```typescript
+import * as Cloudflare from "@oddlynew/alchemy/Cloudflare";
+
+export const Site = Cloudflare.StaticSite("Site", {
+  command: "bun astro build",
+  outdir: "dist",
+});
+```
+
+Astro is built on Vite, but its CLI and adapter pipeline still own the
+build orchestration. `Cloudflare.Vite` interacts with Vite
+programmatically, which does not currently match that Astro pipeline well.
+Prefer `Cloudflare.StaticSite` unless you have a tested SSR-specific
+adapter path.
+
 ## Static sites with any build pipeline
 
-For everything Vite doesn't build, `Cloudflare.StaticSite` runs a
-shell command, hashes the output directory, and deploys the result
-as a Worker with static assets:
+For sites where a framework CLI should own the build, `Cloudflare.StaticSite`
+runs a shell command, hashes the output directory, and deploys the result as
+a Worker with static assets:
 
 ```typescript
 import * as Cloudflare from "@oddlynew/alchemy/Cloudflare";
@@ -77,7 +95,8 @@ of files.
 
 The Worker that powers your SSR app can bind to R2, KV, D1,
 DynamoDB — anything you've declared elsewhere in the stack. Server
-functions and loaders read a typed `env` with no extra wiring.
+functions, loaders, and route handlers read a typed `env` with no
+extra wiring.
 
 ```typescript
 // Frontend Workers can bind to backend resources.
@@ -92,3 +111,9 @@ export const App = Cloudflare.Vite("App", {
 //   env.Bucket.get(key)   // typed via Cloudflare.InferEnv
 //   env.DB.prepare(sql)
 ```
+
+During `alchemy dev`, Vite still owns the framework dev server and HMR
+loop. Alchemy starts the Worker locally and injects the runtime
+bindings declared in `env`. Local-capable bindings such as Durable
+Objects run locally; remote-capable bindings such as R2, KV, and D1
+connect to the real Cloudflare resources.

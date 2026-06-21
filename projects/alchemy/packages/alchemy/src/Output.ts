@@ -7,7 +7,12 @@ import type { Pipeable } from "effect/Pipeable";
 import * as Redacted from "effect/Redacted";
 import { SingleShotGen } from "effect/Utils";
 import { getRefMetadata, isRef, type Ref } from "./Ref.ts";
-import { isResource, type Resource, type ResourceLike } from "./Resource.ts";
+import {
+  isResource,
+  isResourceEffect,
+  type Resource,
+  type ResourceLike,
+} from "./Resource.ts";
 import { RuntimeContext, sanitizeKey } from "./RuntimeContext.ts";
 import { Stack } from "./Stack.ts";
 import { Stage } from "./Stage.ts";
@@ -649,6 +654,18 @@ export const evaluate: <A, Req = never>(
       // Resolve Config against the deploy environment — see resolveInput in
       // Plan.ts for rationale. `Config.redacted` resolves to a `Redacted`,
       // which stays opaque via the branch below.
+      return yield* evaluate(yield* expr, upstream);
+    } else if (isResourceEffect(expr)) {
+      // Non-class resource references (`const db = Hyperdrive("db", …)`)
+      // stay opaque to evaluation — see resolveInput in Plan.ts for
+      // rationale.
+      return expr;
+    } else if (Effect.isEffect(expr) && typeof expr !== "function") {
+      // Per-field Effect inputs — see resolveInput in Plan.ts for rationale.
+      // Resolving here keeps apply-time props symmetric with plan-time
+      // resolution (and stops the object walk below from shredding an Effect
+      // into a plain `{"~effect/Effect/args": ...}` object). Function-form
+      // Effects (resource classes, `Binding.Policy` tags) stay opaque.
       return yield* evaluate(yield* expr, upstream);
     } else if (Duration.isDuration(expr) || Redacted.isRedacted(expr)) {
       // Opaque value — see resolveInput in Plan.ts for rationale.

@@ -778,6 +778,7 @@ export const providers = () =>
         LoadBalancer.LoadBalancerMonitorGroupProvider(),
         LoadBalancer.LoadBalancerPoolProvider(),
         Build.CommandProvider(),
+        Build.ExecProvider(),
         KeyPairProvider(),
         RandomProvider(),
       ),

@@ -31,9 +31,12 @@ Three things happen:
    emulation, no fidelity gaps.
 2. **Workers run locally in workerd** — your code executes in
    workerd, the same runtime used in production. A proxy routes
-   requests between the cloud and your local process.
-3. **File changes hot reload** — edit your code and the Worker
-   rebuilds instantly.
+   requests to your local process.
+3. **Vite apps use Vite's dev server** — `Cloudflare.Vite` starts a
+   real Vite server behind Alchemy's local Worker proxy, so client and
+   server module edits are served by Vite.
+4. **Worker changes hot reload** — non-Vite Workers rebuild and restart
+   locally when their source changes.
 
 ## Hot module reloading
 
@@ -51,6 +54,12 @@ Three things happen:
 - Cloud resources stay deployed across reloads — only your
   application code is rebuilt
 - Edit, save, refresh
+
+For `Cloudflare.Vite`, Vite owns the framework dev server and HMR
+loop. Alchemy owns the resource graph and Worker binding configuration
+around that Vite dev server. If you change `alchemy.run.ts` so a Vite
+Worker receives a different binding, `alchemy dev` re-applies the stack
+and restarts the local Worker with the updated binding set.
 
 ## Why not emulate everything?
 
@@ -85,6 +94,40 @@ Resources adapt their behavior in dev mode:
 
 Each resource's provider checks `ALCHEMY_PHASE` (set to `dev`) and
 adjusts accordingly.
+
+## Binding behavior
+
+Bindings are still declared on the Worker with `env`; that is the same
+object your Worker receives as its runtime `env` parameter. In local
+development Alchemy maps each binding to the closest Cloudflare runtime
+behavior. Common examples include:
+
+| Example binding kind                 | `alchemy dev` behavior                 |
+| ------------------------------------ | -------------------------------------- |
+| Durable Objects, Workflows, Queues   | local runtime binding                  |
+| Static assets, text/json/data/wasm   | local runtime binding                  |
+| Service bindings between Workers     | local Worker-to-Worker binding         |
+| R2, KV, D1, AI, Images, Vectorize    | remote-backed Cloudflare binding       |
+| Secrets Store and secret key handles | unsupported in local mode              |
+
+Plain `secret_text` bindings still bind locally; Secrets Store and
+secret-key handles do not.
+
+This gives Vite apps the same runtime shape in dev and deploy:
+
+```typescript
+const bucket = yield* Cloudflare.R2Bucket("Uploads");
+
+const app = yield* Cloudflare.Vite("App", {
+  env: {
+    BUCKET: bucket,
+  },
+});
+```
+
+In the Worker, `env.BUCKET` is the standard Cloudflare R2 binding. In
+`alchemy dev` it talks to the real bucket while the Worker code and
+Vite HMR stay local.
 
 ## Custom port
 

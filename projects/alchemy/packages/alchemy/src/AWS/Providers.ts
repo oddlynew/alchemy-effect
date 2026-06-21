@@ -18,6 +18,7 @@ import * as Schedule from "effect/Schedule";
 import * as HttpClientError from "effect/unstable/http/HttpClientError";
 import { CredentialsStoreLive } from "../Auth/Credentials.ts";
 import { Command, CommandProvider } from "../Build/Command.ts";
+import { ExecProvider } from "../Build/Exec.ts";
 import { KeyPair, KeyPairProvider } from "../KeyPair.ts";
 import * as Provider from "../Provider.ts";
 import { Random, RandomProvider } from "../Random.ts";
@@ -590,6 +591,7 @@ export const providers = () =>
     Layer.provideMerge(
       Layer.mergeAll(
         CommandProvider(),
+        ExecProvider(),
         KeyPairProvider(),
         RandomProvider(),
         Assets.AssetsLive,

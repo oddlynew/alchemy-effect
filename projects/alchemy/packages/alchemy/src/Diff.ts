@@ -3,7 +3,7 @@ import * as Redacted from "effect/Redacted";
 import type { Input } from "./Input.ts";
 import * as Output from "./Output.ts";
 import type { BindingNode } from "./Plan.ts";
-import type { ResourceBinding } from "./Resource.ts";
+import { isResourceEffect, type ResourceBinding } from "./Resource.ts";
 import { isPrimitive } from "./Util/data.ts";
 
 export type Diff = NoopDiff | UpdateDiff | ReplaceDiff;
@@ -45,6 +45,10 @@ export const isResolved = <T>(value: Input<T>): value is T =>
 
 const _hasUnresolved = (value: unknown): boolean => {
   if (value == null || isPrimitive(value)) return false;
+  // Non-class resource references are permanently opaque — `resolveInput`
+  // never executes them (see Plan.ts) — so they don't make props
+  // "unresolved": a provider's diff can still run against the rest.
+  if (isResourceEffect(value)) return false;
   if (Output.isExpr(value) || Effect.isEffect(value)) return true;
   if (Array.isArray(value)) return value.some(_hasUnresolved);
   if (typeof value === "object") {

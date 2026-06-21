@@ -1,0 +1,25 @@
+{
+  "name": "@oddlynew/alchemy-fixture-tanstack-dev-bindings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "alchemy dev",
+    "destroy": "alchemy destroy"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.167.4",
+    "@tanstack/react-start": "^1.166.15",
+    "@oddlynew/alchemy": "workspace:*",
+    "effect": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "typescript": "^5.9.3",
+    "vite": "catalog:"
+  }
+}

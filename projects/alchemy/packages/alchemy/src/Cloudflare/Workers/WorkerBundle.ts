@@ -273,7 +273,12 @@ export const readPrebuiltWorkerBundle = Effect.fnUntraced(function* (
       ),
     );
     const hash = yield* sha256(content);
-    return { path: name, content, hash } satisfies Bundle.BundleFile;
+    return {
+      path: name,
+      content,
+      hash,
+      contentType: Bundle.contentTypeFromPath(name),
+    } satisfies Bundle.BundleFile;
   });
 
   return yield* readModuleFile(entryName).pipe(

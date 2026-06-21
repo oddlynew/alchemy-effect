@@ -1,0 +1,30 @@
+{
+  "name": "@oddlynew/cloudflare-tools-fixture-react-router-rsc",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 3200",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-router": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:workers",
+    "@oddlynew/distilled-cloudflare-runtime": "workspace:*",
+    "@oddlynew/distilled-cloudflare-vite-plugin": "workspace:*",
+    "@tailwindcss/typography": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "@vitejs/plugin-rsc": "catalog:",
+    "tailwindcss": "catalog:",
+    "vite": "catalog:"
+  }
+}

@@ -5,7 +5,9 @@ import { Stack } from "@/Stack";
 import { Stage } from "@/Stage";
 import { inMemoryState } from "@/State/InMemoryState";
 import type { ResourceState } from "@/State/ResourceState";
+import { effectClass } from "@/Util/effect";
 import { describe, expect, it } from "@effect/vitest";
+import { Bucket } from "./test.resources.ts";
 import * as Cause from "effect/Cause";
 import * as Config from "effect/Config";
 import * as ConfigProvider from "effect/ConfigProvider";
@@ -163,6 +165,105 @@ describe("Output.evaluate", () => {
           expect(
             Redacted.value(result as unknown as Redacted.Redacted<string>),
           ).toBe("hunter2");
+        }),
+      ),
+    );
+  });
+
+  describe("per-field Effect inputs", () => {
+    it.effect("resolves a raw Effect value at the top level", () =>
+      provideState(
+        Effect.gen(function* () {
+          const result = yield* Output.evaluate(Effect.succeed(1337), {});
+          expect(result).toBe(1337);
+        }),
+      ),
+    );
+
+    it.effect("resolves an Effect value nested inside an object", () =>
+      provideState(
+        Effect.gen(function* () {
+          const result = yield* Output.evaluate(
+            { domain: Effect.succeed("example.com"), url: false },
+            {},
+          );
+          expect(result).toEqual({ domain: "example.com", url: false });
+        }),
+      ),
+    );
+
+    it.effect("resolves an Effect value nested inside an array", () =>
+      provideState(
+        Effect.gen(function* () {
+          const [result] = yield* Output.evaluate([Effect.succeed(42)], {});
+          expect(result).toBe(42);
+        }),
+      ),
+    );
+
+    it.effect("an Effect resolving to undefined yields undefined", () =>
+      provideState(
+        Effect.gen(function* () {
+          const result = yield* Output.evaluate(
+            { domain: Effect.succeed(undefined) },
+            {},
+          );
+          expect(result.domain).toBeUndefined();
+        }),
+      ),
+    );
+
+    it.effect("resolves recursively into the Effect's result", () =>
+      provideState(
+        Effect.gen(function* () {
+          const result = yield* Output.evaluate(
+            Effect.succeed({ nested: Effect.succeed("x") }),
+            {},
+          );
+          expect(result).toEqual({ nested: "x" });
+        }),
+      ),
+    );
+
+    it.effect("an Effect resolving to a Redacted keeps it wrapped", () =>
+      provideState(
+        Effect.gen(function* () {
+          const result = yield* Output.evaluate(
+            Effect.succeed(Redacted.make("hunter2")),
+            {},
+          );
+          expect(Redacted.isRedacted(result)).toBe(true);
+          expect(
+            Redacted.value(result as unknown as Redacted.Redacted<string>),
+          ).toBe("hunter2");
+        }),
+      ),
+    );
+
+    it.effect("function-form Effects (effect classes) stay opaque", () =>
+      provideState(
+        Effect.gen(function* () {
+          // Resource classes, `Binding.Policy` tags, and `effectClass`
+          // constructors are real Effects (`Effect.isEffect(X)` is true)
+          // but are carried in props as class references (e.g. Worker
+          // `exports`) — evaluate must not run them.
+          const cls = effectClass(Effect.succeed("must-not-run"));
+          const result = yield* Output.evaluate({ exports: { X: cls } }, {});
+          expect(result.exports.X).toBe(cls);
+        }),
+      ),
+    );
+
+    it.effect("non-class resource references stay opaque", () =>
+      provideState(
+        Effect.gen(function* () {
+          // `const db = Hyperdrive("db", …)` returns an object-form Effect
+          // too, but it is a handle to a stack resource — evaluate must
+          // not run it (execution outside the construction phase would
+          // mint a phantom resource under a different FQN).
+          const ref = Bucket("A", {});
+          const result = yield* Output.evaluate({ env: { DB: ref } }, {});
+          expect(result.env.DB).toBe(ref);
         }),
       ),
     );

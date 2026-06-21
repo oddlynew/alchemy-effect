@@ -7,7 +7,6 @@ import type { ConfigError } from "effect/Config";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
-import * as Path from "effect/Path";
 import * as Predicate from "effect/Predicate";
 import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
@@ -25,6 +24,7 @@ import { Platform, type Main, type PlatformProps } from "../../Platform.ts";
 import * as Provider from "../../Provider.ts";
 import { Resource, type ResourceBinding } from "../../Resource.ts";
 import { Stack } from "../../Stack.ts";
+import { sha256Object } from "../../Util/sha256.ts";
 import { CloudflareEnvironment } from "../CloudflareEnvironment.ts";
 import type { HyperdriveDevOrigin } from "../Hyperdrive/Hyperdrive.ts";
 import { CloudflareLogs } from "../Logs.ts";
@@ -42,6 +42,7 @@ import {
 } from "./DurableObjectNamespace.ts";
 import { LocalWorkerProvider } from "./LocalWorkerProvider.ts";
 import { Request } from "./Request.ts";
+import type * as Vite from "./Vite.ts";
 import {
   bindWorkerAsyncBindings,
   getCronBindings,
@@ -208,10 +209,13 @@ export interface WorkerProps<
     enabled?: boolean;
     previewsEnabled?: boolean;
   };
-  /** @internal used by Cloudflare.Vite resource */
+  /**
+   * @internal Used by `Cloudflare.Vite`; not a stable public Worker API.
+   */
   vite?: {
     rootDir?: string;
     memo?: MemoOptions;
+    viteEnvironment?: Vite.CloudflareVitePluginOptionsWithAssets["viteEnvironment"];
   };
   logpush?: boolean;
   /**
@@ -379,6 +383,13 @@ export type Worker<Bindings extends WorkerBindings = any> = Resource<
   },
   Providers
 >;
+
+type ResolvedViteBuildInputs = {
+  compatibility: ReturnType<typeof getCompatibility>;
+  env: Record<string, unknown>;
+  pluginOptions: Vite.CloudflareVitePluginOptionsWithAssets;
+  input: string;
+};
 
 /**
  * A Cloudflare Worker host with deploy-time binding support and runtime export
@@ -814,8 +825,6 @@ export const LiveWorkerProvider = () =>
   Provider.effect(
     Worker,
     Effect.gen(function* () {
-      const path = yield* Path.Path;
-
       const bundler = yield* WorkerBundle;
       const stack = yield* Stack;
 
@@ -1234,56 +1243,141 @@ export const LiveWorkerProvider = () =>
           crypto.createHash("sha256").update(script).digest("hex"),
         );
 
-      const viteBuild = Effect.fn(function* (props: WorkerProps) {
+      const resolveViteBuildEnvValue = Effect.fnUntraced(function* (
+        value: unknown,
+      ) {
+        const materialized = Effect.isEffect(value)
+          ? yield* value as Effect.Effect<unknown>
+          : value;
+        const resolved = Redacted.isRedacted(materialized)
+          ? Redacted.value(materialized)
+          : materialized;
+        return typeof resolved === "string" ||
+          typeof resolved === "number" ||
+          typeof resolved === "boolean" ||
+          resolved === null
+          ? resolved
+          : undefined;
+      });
+
+      const resolveViteBuildEnv = Effect.fnUntraced(function* (
+        env: WorkerProps["env"],
+      ) {
+        return Object.fromEntries(
+          (yield* Effect.all(
+            Object.entries(env ?? {})
+              .filter(([key]) => key.startsWith("VITE_"))
+              .map(
+                Effect.fnUntraced(function* ([key, value]) {
+                  return [key, yield* resolveViteBuildEnvValue(value)];
+                }),
+              ),
+          )).filter(([_, value]) => value !== undefined),
+        );
+      });
+
+      const vitePluginOptions = (
+        props: WorkerProps,
+        compatibility: ReturnType<typeof getCompatibility>,
+      ): Vite.CloudflareVitePluginOptionsWithAssets => ({
+        compatibilityDate: compatibility.date,
+        compatibilityFlags: compatibility.flags,
+        assets: viteAssetRoutingOptions(props.assets),
+        viteEnvironment: props.vite?.viteEnvironment,
+      });
+
+      const resolveViteBuildInputs = Effect.fnUntraced(function* (
+        props: WorkerProps,
+      ) {
         const compatibility = getCompatibility(props);
+        const [sources, env] = yield* Effect.all(
+          [
+            // hashDirectory expects `{ cwd, memo }`. The vite props
+            // store the project root under `rootDir`, so map it
+            // here. Without this, `cwd` falls back to
+            // `process.cwd()` and the input hash is computed over
+            // the wrong directory tree (often the entire monorepo
+            // root), making it both slow and unable to detect
+            // changes scoped to the actual Vite project.
+            hashDirectory({
+              cwd: props.vite?.rootDir,
+              memo: props.vite?.memo,
+            }),
+            resolveViteBuildEnv(props.env),
+          ],
+          { concurrency: "unbounded" },
+        );
+        const pluginOptions = vitePluginOptions(props, compatibility);
+        const input = yield* sha256Object({
+          sources,
+          buildEnv: env,
+          pluginOptions,
+        });
+        return {
+          compatibility,
+          env,
+          pluginOptions,
+          input,
+        } satisfies ResolvedViteBuildInputs;
+      });
+
+      const viteBuild = Effect.fnUntraced(function* (
+        props: WorkerProps,
+        inputs: ResolvedViteBuildInputs,
+      ) {
         // Loaded lazily: `./Vite.ts` pulls in `@oddlynew/distilled-cloudflare-vite-plugin`
         // (~0.5s), which is only needed for vite-based workers at build time —
         // not for every Worker definition at module-load time.
         const Vite = yield* Effect.promise(() => import("./Vite.ts"));
-        const { assetsDirectory, serverBundle } = yield* Vite.viteBuild(
+        const build = yield* Vite.viteBuild(
           props.vite?.rootDir,
-          Object.fromEntries(
-            (yield* Effect.all(
-              Object.entries(props.env ?? {}).map(
-                Effect.fn(function* ([key, value]) {
-                  return [
-                    key,
-                    typeof value === "string"
-                      ? value
-                      : Redacted.isRedacted(value) &&
-                          typeof Redacted.value(value) === "string"
-                        ? Redacted.value(value)
-                        : Effect.isEffect(value)
-                          ? yield* value as Effect.Effect<any>
-                          : undefined,
-                  ];
-                }),
-              ),
-            )).filter(([_, value]) => value !== undefined),
-          ),
-          {
-            compatibilityDate: compatibility.date,
-            compatibilityFlags: compatibility.flags,
-          },
+          inputs.env,
+          inputs.pluginOptions,
         );
 
-        if (!assetsDirectory && !serverBundle) {
+        if (build.distilled) {
+          yield* validateDistilledBuildCompatibility(
+            build.distilled.manifest,
+            inputs.compatibility,
+          );
+        }
+
+        const assetsDirectory =
+          build.distilled?.assetsDirectory ?? build.assetsDirectory;
+        const serverBundle = build.serverBundle;
+        const manifestBundle = build.distilled?.bundle;
+
+        if (!manifestBundle && serverBundle) {
+          return yield* Effect.die(
+            new Error(
+              "Vite build produced a Worker output without __distilled-build.json. " +
+                "Alchemy needs the distilled build manifest to deploy the complete Worker module set; " +
+                "check the Cloudflare Vite plugin version, viteEnvironment topology, and custom build.outDir settings.",
+            ),
+          );
+        }
+
+        if (!assetsDirectory && !serverBundle && !manifestBundle) {
           return yield* Effect.die(
             new Error("Vite build produced neither server nor client output"),
           );
         }
+        const assetConfig = build.distilled?.manifest.assets
+          ? yield* mergeDistilledAssetConfig(
+              props.assets,
+              build.distilled.manifest.assets,
+            )
+          : workerAssetConfig(props.assets);
         const [assets, bundle] = yield* Effect.all(
           [
             assetsDirectory
               ? readAssets({
-                  ...(props.assets && typeof props.assets !== "string"
-                    ? props.assets
-                    : undefined),
+                  ...assetConfig,
                   directory: assetsDirectory,
                 })
               : Effect.succeed(undefined),
-            serverBundle
-              ? Bundle.bundleOutputFromRolldownOutputBundle(serverBundle)
+            manifestBundle
+              ? Effect.succeed(manifestBundle)
               : Effect.succeed(undefined),
           ],
           { concurrency: "unbounded" },
@@ -1310,30 +1404,22 @@ export const LiveWorkerProvider = () =>
             return {
               assets,
               bundle: {
-                files: [{ path: "main.js", content: props.script }],
+                files: [
+                  {
+                    path: "main.js",
+                    content: props.script,
+                    hash: bundleHash,
+                    contentType: "application/javascript+module",
+                  },
+                ],
                 hash: bundleHash,
               },
             };
           }
           if (props.vite) {
-            const [{ assets, bundle }, input] = yield* Effect.all(
-              [
-                viteBuild(props),
-                // hashDirectory expects `{ cwd, memo }`. The vite props
-                // store the project root under `rootDir`, so map it
-                // here. Without this, `cwd` falls back to
-                // `process.cwd()` and the input hash is computed over
-                // the wrong directory tree (often the entire monorepo
-                // root), making it both slow and unable to detect
-                // changes scoped to the actual Vite project.
-                hashDirectory({
-                  cwd: props.vite.rootDir,
-                  memo: props.vite.memo,
-                }),
-              ],
-              { concurrency: "unbounded" },
-            );
-            return { assets, bundle, input };
+            const inputs = yield* resolveViteBuildInputs(props);
+            const { assets, bundle } = yield* viteBuild(props, inputs);
+            return { assets, bundle, input: inputs.input };
           }
           const [assets, bundle] = yield* Effect.all(
             [
@@ -1353,7 +1439,8 @@ export const LiveWorkerProvider = () =>
               files: bundle?.files.map(
                 (file) =>
                   new File([file.content as BlobPart], file.path, {
-                    type: contentTypeFromExtension(path.extname(file.path)),
+                    type:
+                      file.contentType ?? Bundle.contentTypeFromPath(file.path),
                   }),
               ),
             },
@@ -1845,11 +1932,8 @@ export const LiveWorkerProvider = () =>
           return assetsHash !== output.hash?.assets;
         }
         if (props.vite) {
-          const input = yield* hashDirectory({
-            cwd: props.vite.rootDir,
-            memo: props.vite.memo,
-          });
-          return input !== output.hash?.input;
+          const inputs = yield* resolveViteBuildInputs(props);
+          return inputs.input !== output.hash?.input;
         }
         const bundleHash = yield* prepareBundle(id, props).pipe(
           Effect.map((b) => b.hash),
@@ -2418,28 +2502,122 @@ export const LiveWorkerProvider = () =>
     }),
   );
 
-const contentTypeFromExtension = (extension: string) => {
-  switch (extension) {
-    case ".wasm":
-      return "application/wasm";
-    case ".txt":
-    case ".html":
-    case ".sql":
-    case ".custom":
-      return "text/plain";
-    case ".bin":
-      return "application/octet-stream";
-    case ".mjs":
-    case ".js":
-      return "application/javascript+module";
-    case ".cjs":
-      return "application/javascript";
-    case ".map":
-      return "application/source-map";
-    default:
-      return "application/octet-stream";
+type ViteAssetRoutingOptions = NonNullable<
+  Vite.CloudflareVitePluginOptionsWithAssets["assets"]
+>;
+
+const viteAssetRoutingOptions = (
+  assets: WorkerProps["assets"],
+): ViteAssetRoutingOptions | undefined => {
+  if (!assets || typeof assets === "string") {
+    return undefined;
   }
+  return {
+    ...(assets.htmlHandling !== undefined
+      ? {
+          htmlHandling:
+            assets.htmlHandling as ViteAssetRoutingOptions["htmlHandling"],
+        }
+      : {}),
+    ...(assets.notFoundHandling !== undefined
+      ? {
+          notFoundHandling:
+            assets.notFoundHandling as ViteAssetRoutingOptions["notFoundHandling"],
+        }
+      : {}),
+    ...(assets.runWorkerFirst !== undefined
+      ? { runWorkerFirst: assets.runWorkerFirst }
+      : {}),
+  };
 };
+
+const workerAssetConfig = (assets: WorkerProps["assets"]) => {
+  if (!assets || typeof assets === "string") {
+    return undefined;
+  }
+  const { directory: _, ...config } = assets;
+  if (Predicate.hasProperty(config, "hash")) {
+    const { hash: _, ...configWithoutHash } = config;
+    return configWithoutHash;
+  }
+  return config;
+};
+
+const mergeDistilledAssetConfig = (
+  assets: WorkerProps["assets"],
+  manifestAssets: NonNullable<Vite.DistilledBuildManifest["assets"]>,
+) =>
+  Effect.try({
+    try: () => {
+      const manifestConfig = {
+        ...(manifestAssets.htmlHandling !== undefined
+          ? { htmlHandling: manifestAssets.htmlHandling }
+          : {}),
+        ...(manifestAssets.notFoundHandling !== undefined
+          ? { notFoundHandling: manifestAssets.notFoundHandling }
+          : {}),
+        ...(manifestAssets.runWorkerFirst !== undefined
+          ? { runWorkerFirst: manifestAssets.runWorkerFirst }
+          : {}),
+      };
+      const propsConfig = workerAssetConfig(assets) ?? {};
+      for (const key of [
+        "htmlHandling",
+        "notFoundHandling",
+        "runWorkerFirst",
+      ] as const) {
+        if (
+          key in propsConfig &&
+          key in manifestConfig &&
+          JSON.stringify(propsConfig[key]) !==
+            JSON.stringify(manifestConfig[key])
+        ) {
+          throw new Error(
+            `Distilled build manifest asset ${key} does not match Cloudflare.Vite assets.${key}`,
+          );
+        }
+      }
+      return {
+        ...manifestConfig,
+        ...propsConfig,
+      };
+    },
+    catch: errorFromUnknown,
+  });
+
+const validateDistilledBuildCompatibility = (
+  manifest: Vite.DistilledBuildManifest,
+  compatibility: ReturnType<typeof getCompatibility>,
+) =>
+  Effect.try({
+    try: () => {
+      const worker = manifest.workers.app;
+      if (worker.compatibilityDate !== compatibility.date) {
+        throw new Error(
+          `Distilled build manifest compatibilityDate ${JSON.stringify(
+            worker.compatibilityDate,
+          )} does not match deploy compatibilityDate ${JSON.stringify(
+            compatibility.date,
+          )}`,
+        );
+      }
+      const manifestFlags = [...(worker.compatibilityFlags ?? [])].sort();
+      const deployFlags = [...compatibility.flags].sort();
+      if (JSON.stringify(manifestFlags) !== JSON.stringify(deployFlags)) {
+        throw new Error(
+          `Distilled build manifest compatibilityFlags ${JSON.stringify(
+            manifestFlags,
+          )} do not match deploy compatibilityFlags ${JSON.stringify(
+            deployFlags,
+          )}`,
+        );
+      }
+    },
+    catch: errorFromUnknown,
+  });
+
+const errorFromUnknown = (cause: unknown) =>
+  cause instanceof Error ? cause : new Error(String(cause));
 
 function bumpMigrationTagVersion(
   oldTag: string | undefined,

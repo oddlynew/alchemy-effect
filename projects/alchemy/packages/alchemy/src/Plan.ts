@@ -38,6 +38,7 @@ import {
 } from "./Provider.ts";
 import {
   isResource,
+  isResourceEffect,
   type ResourceBinding,
   type ResourceLike,
 } from "./Resource.ts";
@@ -375,7 +376,10 @@ export const make = <A>(
           ));
       });
 
-    const resolveInput = (input: any): Effect.Effect<any, Config.ConfigError> =>
+    // The error channel is `unknown` because per-field Effect inputs
+    // (`Input<T>` admits `Effect<T, any, any>`) surface their own failures,
+    // which are not statically known here.
+    const resolveInput = (input: any): Effect.Effect<any, unknown> =>
       Effect.gen(function* () {
         if (!input) {
           return input;
@@ -389,6 +393,26 @@ export const make = <A>(
           // `Config.redacted` resolves to a `Redacted`, which stays opaque via
           // the branch below.
           return yield* resolveInput(yield* input);
+        } else if (isResourceEffect(input)) {
+          // Non-class resource references (`const db = Hyperdrive("db", …)`)
+          // are Effects too, but they are handles to stack resources, not
+          // per-field values. Executing one here would re-derive its FQN
+          // from the ambient namespace (none at plan time) and mint a
+          // phantom resource. They stay opaque — the construction phase
+          // (e.g. Worker env binding registration) already consumed them.
+          return input;
+        } else if (Effect.isEffect(input) && typeof input !== "function") {
+          // Per-field Effect inputs (e.g. `Stack.useSync(...)`) — `Input<T>`
+          // admits `Effect<T>` for any prop, so run the effect and resolve
+          // into its result, mirroring the Config branch above. Function-form
+          // Effects (resource classes, `effectClass` constructors,
+          // `Binding.Policy` tags) stay opaque: they are class references
+          // carried in props (e.g. Worker `exports`), not per-field values.
+          // Requirements are erased here — the effect runs against the
+          // ambient plan context (see the Requirements TODO on `Input`).
+          return yield* resolveInput(
+            yield* input as Effect.Effect<unknown, unknown>,
+          );
         } else if (Duration.isDuration(input) || Redacted.isRedacted(input)) {
           // Opaque values that are resolved downstream. We don't walk them
           // because it would strip their prototype, resulting in a plain object
