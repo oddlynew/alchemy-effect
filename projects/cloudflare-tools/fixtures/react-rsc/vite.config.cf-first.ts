@@ -11,6 +11,9 @@ import { defineConfig } from "vite";
 // is set-membership (React's own `exports` ordering decides), so `react-server`
 // being present is what matters, not its index in the conditions array.
 export default defineConfig({
+  resolve: {
+    dedupe: ["react", "react-dom"],
+  },
   plugins: [
     cloudflare({
       main: "./src/framework/entry.rsc.tsx",

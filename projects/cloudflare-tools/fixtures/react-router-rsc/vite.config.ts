@@ -13,6 +13,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
   clearScreen: false,
   build: { minify: false },
+  resolve: {
+    dedupe: ["react", "react-dom"],
+  },
   plugins: [
     tailwindcss(),
     {

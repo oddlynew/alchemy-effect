@@ -12,6 +12,9 @@ import { defineConfig } from "vite";
 // request handler. `serverHandler: false` tells plugin-rsc not to mount its
 // own Node dev middleware, so requests route into workerd instead.
 export default defineConfig({
+  resolve: {
+    dedupe: ["react", "react-dom"],
+  },
   plugins: [
     rsc({ serverHandler: false }),
     react(),
