@@ -47,7 +47,7 @@
     },
     "packages/alchemy-node-utils": {
       "name": "@oddlynew/alchemy-node-utils",
-      "version": "0.0.5",
+      "version": "0.0.6",
       "devDependencies": {
         "@oddlynew/alchemy-oxlint-config": "workspace:*",
         "@oddlynew/alchemy-typescript-config": "workspace:*",

@@ -1,6 +1,6 @@
 {
   "name": "@oddlynew/alchemy-node-utils",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Node.js utilities shared by the Oddlynew Alchemy distribution.",
   "license": "MIT",
   "repository": {
