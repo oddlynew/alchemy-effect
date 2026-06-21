@@ -3,7 +3,8 @@
   "include": ["package.json", "test"],
   "exclude": [
     "test/Local/fixtures/rpc-server-entry.ts",
-    "test/Local/fixtures/rpc-spawner-parent.ts"
+    "test/Local/fixtures/rpc-spawner-parent.ts",
+    "test/Cloudflare/Website/react-router-rsc-fixture"
   ],
   "compilerOptions": {
     "module": "Preserve",

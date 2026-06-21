@@ -216,13 +216,14 @@ const web = yield* Cloudflare.Vite("Website", {
 ```
 
 Your existing `vite.config.ts`, plugins, aliases, and `tsconfig`
-are all preserved — Alchemy merges its Cloudflare integration on
-top of your config. Two things to check first:
+are all preserved — Alchemy injects its Cloudflare integration when
+it runs Vite. Two things to check first:
 
-:::caution[Remove @cloudflare/vite-plugin if present]
-Remove @cloudflare/vite-plugin if present from your `vite.config.ts`.
-Alchemy ships its own Cloudflare integration and is **not compatible** with `@cloudflare/vite-plugin`.
-
+:::caution[Remove Cloudflare Vite plugins if present]
+Remove `@cloudflare/vite-plugin` or
+`@oddlynew/distilled-cloudflare-vite-plugin` if present from your
+`vite.config.ts`. Alchemy ships its own Cloudflare integration and
+injects it when `Cloudflare.Vite` runs Vite.
 
 ```diff lang="typescript"
 // vite.config.ts
@@ -316,9 +317,10 @@ its API share one origin in dev, just like they do in production:
 ```
 
 Edit `src/main.tsx`, save, and the browser updates without a full
-reload. Backend resources (R2 buckets, D1 databases, service
-bindings) are the **real** cloud resources — only your application
-code runs locally, so there's no emulation fidelity gap.
+reload. Remote-backed account resources such as R2 buckets, D1
+databases, and KV namespaces are the **real** cloud resources. Service
+bindings between Workers in the same dev stack stay local
+Worker-to-Worker bindings.
 
 The build-time env injection works the same in dev — `VITE_`-prefixed
 entries are inlined as `import.meta.env.<KEY>`, and `Output` values
@@ -380,9 +382,9 @@ handle to those resources.
 
 The walkthrough below uses a TanStack Start route handler because
 a pure SPA only ships static assets — there's no server-side `env`
-to call. The same `bindings` map and the same three call patterns
-work in any Vite framework that exposes server routes (SolidStart,
-Astro SSR, etc.).
+to call. The same `env` map and the same three call patterns work in
+any Vite framework that exposes server routes (SolidStart, Astro SSR,
+etc.).
 
 Start with the simplest backend: an R2 bucket.
 
@@ -399,7 +401,7 @@ something binds to it.
 
 ## Bind the bucket to your worker
 
-Add the bucket to the Vite worker's `bindings` map:
+Add the bucket to the Vite worker's `env` map:
 
 ```diff lang="typescript"
 // alchemy.run.ts

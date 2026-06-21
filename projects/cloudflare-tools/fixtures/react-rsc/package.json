@@ -1,0 +1,28 @@
+{
+  "name": "@oddlynew/cloudflare-tools-fixture-react-rsc",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 3100",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:workers",
+    "@oddlynew/distilled-cloudflare-runtime": "workspace:*",
+    "@oddlynew/distilled-cloudflare-vite-plugin": "workspace:*",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "@vitejs/plugin-rsc": "catalog:",
+    "rsc-html-stream": "catalog:",
+    "vite": "catalog:"
+  }
+}

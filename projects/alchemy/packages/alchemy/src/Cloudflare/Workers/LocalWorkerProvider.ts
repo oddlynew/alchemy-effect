@@ -57,7 +57,7 @@ import * as Schema from "effect/Schema";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import type * as Bundle from "../../Bundle/Bundle.ts";
-import { isResolved } from "../../Diff.ts";
+import { havePropsChanged, isResolved } from "../../Diff.ts";
 import * as RpcProvider from "../../Local/RpcProvider.ts";
 import type { ResourceBinding } from "../../Resource.ts";
 import { Stack } from "../../Stack.ts";
@@ -83,6 +83,18 @@ export class WorkerValidationError extends Schema.TaggedErrorClass<WorkerValidat
     value: Schema.Unknown,
   },
 ) {}
+
+const normalizeLocalUrl = (url: string | URL) =>
+  url.toString().replace(/\/$/, "");
+
+const normalizeWorkerDevOptions = (dev: WorkerPropsWithDev["dev"]) => {
+  const options = dev ?? {};
+  return {
+    ...options,
+    // This is the default. Vite and cloudflare-runtime will retry if unavailable, unless `strictPort` is true.
+    port: options.port ?? 1337,
+  };
+};
 
 export const LocalWorkerProvider = () =>
   RpcProvider.effect(
@@ -241,21 +253,30 @@ export const LocalWorkerProvider = () =>
         const { accountId } = yield* yield* CloudflareEnvironment;
         const name = yield* createWorkerName(id, props.name);
         const compatibility = getCompatibility(props);
+        const nativeBindingNames = new Set(
+          bindings.flatMap(({ data }) =>
+            (data.bindings ?? []).map((binding) => binding.name),
+          ),
+        );
         const workerBindings: BindingHook<BindingServices>[] = [
           Text.local("ALCHEMY_PHASE", "runtime"),
           Text.local("ALCHEMY_STACK_NAME", stack.name),
           Text.local("ALCHEMY_STAGE", stack.stage),
           Text.local("ALCHEMY_CLOUDFLARE_ACCOUNT_ID", accountId),
-          ...Object.entries(props.env ?? {}).map(([key, value]) => {
+          ...Object.entries(props.env ?? {}).flatMap(([key, value]) => {
+            if (nativeBindingNames.has(key) || value === undefined) return [];
             const unredacted = Redacted.isRedacted(value)
               ? Redacted.value(value)
               : value;
-            return typeof unredacted === "string"
-              ? Text.local(key, unredacted)
-              : Json.local(key, unredacted);
+            return [
+              typeof unredacted === "string"
+                ? Text.local(key, unredacted)
+                : Json.local(key, unredacted),
+            ];
           }),
           ...(props.assets || props.vite ? [Assets.local("ASSETS")] : []),
         ];
+        const bindingModes: RuntimeBindingMode[] = [];
         const durableObjectNamespaces: Record<
           string,
           RuntimeDurableObjectNamespace & { uniqueKey: string }
@@ -280,6 +301,7 @@ export const LocalWorkerProvider = () =>
                 uniqueKey: namespaceId,
                 sql: true,
               };
+              bindingModes.push(runtimeBindingMode(binding));
               workerBindings.push(
                 yield* toRuntimeBinding({
                   ...binding,
@@ -287,6 +309,7 @@ export const LocalWorkerProvider = () =>
                 }),
               );
             } else {
+              bindingModes.push(runtimeBindingMode(binding));
               workerBindings.push(yield* toRuntimeBinding(binding));
             }
           }
@@ -330,6 +353,7 @@ export const LocalWorkerProvider = () =>
           compatibility,
           workerBindings,
           durableObjectNamespaces: Object.values(durableObjectNamespaces),
+          bindingModes,
           hyperdrives,
           env: props.env,
           bundleOptions: {
@@ -343,11 +367,7 @@ export const LocalWorkerProvider = () =>
             extraOptions: props.build,
           } satisfies WorkerBundleOptions,
           assets: props.assets,
-          dev: {
-            ...props.dev,
-            // This is the default. Vite and cloudflare-runtime will retry if unavailable, unless `strictPort` is true.
-            port: props.dev?.port ?? 1337,
-          },
+          dev: normalizeWorkerDevOptions(props.dev),
         };
       });
 
@@ -357,6 +377,7 @@ export const LocalWorkerProvider = () =>
         let start = Date.now();
         let status: "start" | "update" = "start";
         const proxy = yield* maybeStartProxy(worker.id, worker.dev);
+        yield* logBindingModes(worker);
         yield* bundler.watch(worker.bundleOptions).pipe(
           Stream.tap((event) => {
             if (event._tag === "Start") {
@@ -403,24 +424,26 @@ export const LocalWorkerProvider = () =>
           Stream.runDrain,
           Effect.forkScoped,
         );
-        return proxy.url;
+        return normalizeLocalUrl(proxy.url);
       });
 
       const runVite = Effect.fnUntraced(function* (
         worker: WorkerConfig,
-        rootDir: string | undefined,
+        vite: NonNullable<WorkerProps["vite"]>,
       ) {
         const proxy = yield* maybeStartProxy(worker.id, worker.dev);
+        yield* logBindingModes(worker);
         yield* proxy.unset().pipe(Effect.forkChild);
         // Loaded lazily: `./Vite.ts` pulls in `@oddlynew/distilled-cloudflare-vite-plugin`
         // (~0.5s); only needed when running a vite dev server.
         const Vite = yield* Effect.promise(() => import("./Vite.ts"));
         const devServer = yield* Vite.viteDev(
-          rootDir,
+          vite.rootDir,
           worker.env ?? {},
           {
             compatibilityDate: worker.compatibility.date,
             compatibilityFlags: worker.compatibility.flags,
+            viteEnvironment: vite.viteEnvironment,
             worker: {
               name: worker.name,
               bindings: worker.workerBindings,
@@ -434,17 +457,24 @@ export const LocalWorkerProvider = () =>
           { port: 0 },
         );
         yield* proxy.set(new URL(devServer.resolvedUrls!.local[0]));
-        return proxy.url;
+        return normalizeLocalUrl(proxy.url);
       });
 
       const rootScope = yield* Effect.scope;
       const workerdScopes = new Map<string, Scope.Closeable>();
 
       const context = yield* Effect.context<RuntimeServices>();
+      type WorkerInstanceOptions = {
+        id: string;
+        props: WorkerPropsWithDev;
+        bindings: ResourceBinding<Worker["Binding"]>[];
+        config: WorkerConfig;
+      };
       const instances = new Map<
         string,
         {
           hash: number;
+          options: WorkerInstanceOptions;
           fiber: Fiber.Fiber<
             Worker["Attributes"],
             Bundle.BundleError | WorkerValidationError | RuntimeError
@@ -453,16 +483,110 @@ export const LocalWorkerProvider = () =>
         }
       >();
 
-      const runInstance = Effect.fn(function* (options: {
-        id: string;
-        props: WorkerPropsWithDev;
-        bindings: ResourceBinding<Worker["Binding"]>[];
-      }) {
+      const stableAttributes = (
+        id: string,
+        output: Worker["Attributes"] | undefined,
+        name: string,
+        dev: WorkerPropsWithDev["dev"],
+      ) => {
+        const stables: string[] = [];
+        if (output?.workerName === name) {
+          stables.push("workerName");
+        }
+        const existingProxy = proxyInstances.get(id);
+        if (
+          output?.url &&
+          existingProxy &&
+          Equal.equals(
+            existingProxy.serverOptions,
+            normalizeWorkerDevOptions(dev),
+          )
+        ) {
+          stables.push("url", "domains");
+        }
+        return stables.length > 0 ? stables : undefined;
+      };
+
+      const stableStubAttributes = (
+        output: Worker["Attributes"] | undefined,
+        name: string,
+        dev: false | string,
+      ) => {
+        const stables: string[] = [];
+        if (output?.workerName === name) {
+          stables.push("workerName");
+        }
+        const expectedUrl = dev || undefined;
+        if (output?.url === expectedUrl) {
+          stables.push("url");
+        }
+        if (output?.domains && output.domains.length === 0) {
+          stables.push("domains");
+        }
+        return stables.length > 0 ? stables : undefined;
+      };
+
+      const stopInstance = Effect.fn(function* (
+        id: string,
+        options: {
+          stopProxy?: boolean;
+          unregisterReload?: boolean;
+          unsetProxy?: boolean;
+        } = {},
+      ) {
+        const existing = instances.get(id);
+        if (existing) {
+          yield* Fiber.interrupt(existing.fiber);
+          yield* Scope.close(existing.scope, Exit.void);
+          instances.delete(id);
+          if (options.unregisterReload !== false) {
+            MutableHashMap.remove(
+              localRuntimeState.workerReloads,
+              existing.options.config.name,
+            );
+          }
+        }
+        const workerdScope = workerdScopes.get(id);
+        if (workerdScope) {
+          yield* Scope.close(workerdScope, Exit.void);
+          workerdScopes.delete(id);
+        }
+        if (options.unsetProxy) {
+          const proxy = proxyInstances.get(id);
+          if (proxy) {
+            yield* proxy.instance.unset().pipe(Effect.ignore);
+          }
+        }
+        if (options.stopProxy !== false) {
+          yield* stopProxy(id);
+        }
+      });
+
+      const takePendingReload = (scriptName: string) => {
+        const reason = MutableHashMap.get(
+          localRuntimeState.pendingWorkerReloads,
+          scriptName,
+        ).pipe(Option.getOrUndefined);
+        if (reason !== undefined) {
+          MutableHashMap.remove(
+            localRuntimeState.pendingWorkerReloads,
+            scriptName,
+          );
+        }
+        return reason;
+      };
+
+      let restartInstance: (
+        id: string,
+        scriptName: string,
+        reason: string,
+      ) => Effect.Effect<Worker["Attributes"] | void, unknown, any>;
+
+      const runInstance = Effect.fn(function* (options: WorkerInstanceOptions) {
         const { accountId } = yield* yield* CloudflareEnvironment;
-        const { props, bindings } = options;
-        const config = yield* buildConfig(options);
+        const { props, bindings, config } = options;
         const url = yield* (
-          props.vite ? runVite(config, props.vite.rootDir) : runWorker(config)
+          props.vite ? runVite(config, props.vite) : runWorker(config)
         ).pipe(Effect.map((url) => url.toString()));
         return {
           workerId: config.name,
@@ -484,6 +608,77 @@ export const LocalWorkerProvider = () =>
         } satisfies Worker["Attributes"];
       });
 
+      const startInstance = Effect.fn(function* (
+        options: WorkerInstanceOptions,
+        hash: number,
+      ) {
+        MutableHashMap.set(
+          localRuntimeState.workerReloads,
+          options.config.name,
+          {
+            id: options.id,
+            reload: (reason) =>
+              restartInstance(options.id, options.config.name, reason).pipe(
+                Effect.asVoid,
+              ),
+          },
+        );
+        const scope = yield* Scope.fork(rootScope);
+        const fiber = yield* runInstance(options).pipe(
+          Effect.forkDetach,
+          Scope.provide(scope),
+        );
+        instances.set(options.id, { hash, options, fiber, scope });
+        const pendingReason = takePendingReload(options.config.name);
+        if (pendingReason !== undefined) {
+          const restarted = yield* restartInstance(
+            options.id,
+            options.config.name,
+            pendingReason,
+          );
+          if (restarted !== undefined) {
+            return restarted;
+          }
+        }
+        return yield* Fiber.join(fiber).pipe(
+          Effect.onExit((exit) =>
+            Effect.sync(() => {
+              if (exit._tag === "Failure") {
+                instances.delete(options.id);
+                MutableHashMap.remove(
+                  localRuntimeState.workerReloads,
+                  options.config.name,
+                );
+              }
+            }),
+          ),
+        );
+      });
+
+      restartInstance = Effect.fn(function* (
+        id: string,
+        scriptName: string,
+        reason: string,
+      ) {
+        const existing = instances.get(id);
+        if (!existing) {
+          MutableHashMap.set(
+            localRuntimeState.pendingWorkerReloads,
+            scriptName,
+            reason,
+          );
+          return;
+        }
+        yield* Effect.log(`[${id}] Restarting local Worker: ${reason}`);
+        const { hash, options } = existing;
+        yield* stopInstance(id, {
+          stopProxy: false,
+          unregisterReload: false,
+          unsetProxy: true,
+        });
+        return yield* startInstance(options, hash);
+      });
+
       return {
         // Local dev provider: there is no cloud enumeration API. The set of
         // locally running Workers is the in-memory `instances` map; each
@@ -495,21 +690,51 @@ export const LocalWorkerProvider = () =>
             (instance) => Fiber.join(instance.fiber),
             { concurrency: "unbounded" },
           ),
-        diff: Effect.fn(function* ({ id, news, newBindings, output }) {
+        diff: Effect.fn(function* ({
+          id,
+          olds,
+          news,
+          oldBindings,
+          newBindings,
+          output,
+        }) {
           if (!isResolved(news) || !isResolved(newBindings)) return undefined;
+          if (news.dev === false || typeof news.dev === "string") {
+            const name = yield* createWorkerName(id, news.name);
+            const bindingsChanged =
+              JSON.stringify(oldBindings ?? []) !== JSON.stringify(newBindings);
+            const expectedUrl = news.dev || undefined;
+            if (
+              !havePropsChanged(olds, news) &&
+              !bindingsChanged &&
+              output?.workerName === name &&
+              output?.url === expectedUrl
+            ) {
+              return { action: "noop" };
+            }
+            return {
+              action: "update",
+              stables: stableStubAttributes(output, name, news.dev),
+            };
+          }
           const options = {
             id,
-            props: news,
+            props: news as WorkerPropsWithDev,
             bindings: newBindings,
           };
-          const hash = Hash.structure(options);
+          const hash = yield* buildInstanceHash({ ...options, stack });
           if (instances.get(options.id)?.hash === hash) {
             return { action: "noop" };
           }
           const name = yield* createWorkerName(id, news.name);
           return {
             action: "update",
-            stables: output?.workerName === name ? ["workerName"] : undefined,
+            stables: stableAttributes(
+              options.id,
+              output,
+              name,
+              options.props.dev,
+            ),
           };
         }),
         precreate: Effect.fn(function* ({ id, news, bindings }) {
@@ -558,12 +783,7 @@ export const LocalWorkerProvider = () =>
           // running workerd / proxy behind it.
           if (news.dev === false || typeof news.dev === "string") {
             const { accountId } = yield* yield* CloudflareEnvironment;
-            const existing = instances.get(id);
-            if (existing) {
-              yield* Fiber.interrupt(existing.fiber);
-              yield* Scope.close(existing.scope, Exit.void);
-              instances.delete(id);
-            }
+            yield* stopInstance(id);
             const name = yield* createWorkerName(id, news.name);
             return {
               workerId: name,
@@ -578,7 +798,9 @@ export const LocalWorkerProvider = () =>
             } satisfies Worker["Attributes"];
           }
           const options = { id, props: news as WorkerPropsWithDev, bindings };
-          const hash = Hash.structure(options);
+          const config = yield* buildConfig(options);
+          const hash = yield* buildInstanceHash({ ...options, stack });
+          const instanceOptions = { ...options, config };
           const existing = instances.get(options.id);
           if (existing) {
             if (existing.hash === hash) {
@@ -590,37 +812,161 @@ export const LocalWorkerProvider = () =>
             yield* Effect.log(
               `[${options.id}] Changes detected, interrupting existing instance`,
             );
-            yield* Fiber.interrupt(existing.fiber);
-            yield* Scope.close(existing.scope, Exit.void);
-            instances.delete(options.id);
+            yield* stopInstance(options.id, {
+              stopProxy: false,
+              unsetProxy: true,
+            });
           }
-          const scope = yield* Scope.fork(rootScope);
-          const fiber = yield* runInstance(options).pipe(
-            Effect.forkDetach,
-            Scope.provide(scope),
-          );
-          instances.set(options.id, { hash, fiber, scope });
-          return yield* Fiber.join(fiber).pipe(
-            Effect.onExit((exit) =>
-              Effect.sync(() => {
-                if (exit._tag === "Failure") {
-                  instances.delete(options.id);
-                }
-              }),
-            ),
-          );
+          return yield* startInstance(instanceOptions, hash);
         }),
         delete: Effect.fn(function* ({ id }) {
-          const existing = instances.get(id);
-          if (existing) {
-            yield* Fiber.interrupt(existing.fiber);
-            yield* Scope.close(existing.scope, Exit.void);
-            instances.delete(id);
-          }
+          yield* stopInstance(id);
         }),
       };
     }),
   );
+
+type RuntimeBindingMode = {
+  binding: string;
+  type: WorkerBinding["type"];
+  mode: "local" | "remote" | "unsupported";
+};
+
+const buildInstanceHash = Effect.fn(function* ({
+  id,
+  props,
+  bindings,
+  stack,
+}: {
+  id: string;
+  props: WorkerProps;
+  bindings: ResourceBinding<Worker["Binding"]>[];
+  stack: {
+    name: string;
+    stage: string;
+  };
+}) {
+  const name = yield* createWorkerName(id, props.name);
+  const nativeBindingNames = new Set(
+    bindings.flatMap(({ data }) =>
+      (data.bindings ?? []).map((binding) => binding.name),
+    ),
+  );
+  return Hash.structure({
+    id,
+    name,
+    compatibility: getCompatibility(props),
+    env: Object.fromEntries(
+      Object.entries(props.env ?? {}).flatMap(([key, value]) => {
+        if (nativeBindingNames.has(key) || value === undefined) return [];
+        return [
+          [key, Redacted.isRedacted(value) ? Redacted.value(value) : value],
+        ];
+      }),
+    ),
+    nativeBindings: bindings.map(({ sid, data }) => ({
+      sid,
+      bindings: data.bindings,
+      hyperdrives: normalizeHashHyperdrives(data.hyperdrives),
+      crons: data.crons,
+      containers: data.containers,
+    })),
+    assets: props.assets,
+    bundleOptions: {
+      main: props.main,
+      isExternal: props.isExternal,
+      exports: props.exports,
+      build: props.build,
+    },
+    dev: props.dev,
+    vite: props.vite,
+    crons: props.crons,
+    stack: {
+      name: stack.name,
+      stage: stack.stage,
+    },
+  });
+});
+
+const normalizeHashHyperdrives = (
+  hyperdrives:
+    | Record<string, Record<string, unknown> & { password: unknown }>
+    | undefined,
+) =>
+  hyperdrives
+    ? Object.fromEntries(
+        Object.entries(hyperdrives).map(([id, origin]) => [
+          id,
+          {
+            ...origin,
+            password: Redacted.isRedacted(origin.password)
+              ? Redacted.value(origin.password)
+              : origin.password,
+          },
+        ]),
+      )
+    : undefined;
+
+const logBindingModes = (worker: {
+  id: string;
+  bindingModes: ReadonlyArray<RuntimeBindingMode>;
+}) =>
+  worker.bindingModes.length === 0
+    ? Effect.void
+    : Effect.log(
+        `[${worker.id}] Local binding modes: ${worker.bindingModes
+          .map(({ binding, type, mode }) => `${binding} (${type}, ${mode})`)
+          .join(", ")}`,
+      );
+
+const runtimeBindingMode = (binding: WorkerBinding): RuntimeBindingMode => ({
+  binding: binding.name,
+  type: binding.type,
+  mode: runtimeBindingModeValue(binding),
+});
+
+const runtimeBindingModeValue = (
+  binding: WorkerBinding,
+): RuntimeBindingMode["mode"] => {
+  switch (binding.type) {
+    case "ai":
+    case "artifacts":
+    case "browser":
+    case "d1":
+    case "dispatch_namespace":
+    case "flagship":
+    case "images":
+    case "kv_namespace":
+    case "mtls_certificate":
+    case "pipelines":
+    case "r2_bucket":
+    case "send_email":
+    case "vectorize":
+      return "remote";
+    case "analytics_engine":
+    case "assets":
+    case "data_blob":
+    case "durable_object_namespace":
+    case "hyperdrive":
+    case "json":
+    case "plain_text":
+    case "queue":
+    case "ratelimit":
+    case "secret_text":
+    case "service":
+    case "text_blob":
+    case "version_metadata":
+    case "wasm_module":
+    case "worker_loader":
+    case "workflow":
+      return "local";
+    case "inherit":
+    case "secret_key":
+    case "secrets_store_secret":
+    default:
+      return "unsupported";
+  }
+};
 
 export const toRuntimeBinding = Effect.fnUntraced(function* (b: WorkerBinding) {
   const unsupported = () =>

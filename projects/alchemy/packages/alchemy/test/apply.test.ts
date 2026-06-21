@@ -18,6 +18,7 @@ import * as Redacted from "effect/Redacted";
 import {
   ArtifactProbe,
   BindingTarget,
+  Bucket,
   DeletedBindingRegressionTarget,
   DurationResource,
   Function,
@@ -4611,6 +4612,154 @@ describe("Duration round-trip through state", () => {
         }>("Timer");
         expect(Duration.isDuration(persisted.attr.computedTimeout)).toBe(true);
         expect(Duration.toMillis(persisted.attr.computedTimeout)).toBe(16_000);
+      }),
+  );
+});
+
+describe("per-field Effect props", () => {
+  // Stage-conditional props expressed as per-field Effects
+  // (`Stack.useSync(...)`) are the only shape that keeps class-form
+  // `InferEnv` literal inference while varying values per stage. The engine
+  // must resolve them before any provider lifecycle method reads the props.
+  test.provider(
+    "a Stack.useSync prop resolves before the provider sees it",
+    (stack) =>
+      Effect.gen(function* () {
+        const seen: unknown[] = [];
+        const capture = {
+          create: (id: string, props: TestResourceProps) =>
+            Effect.sync(() => {
+              if (id === "A") seen.push(props.string);
+            }),
+        };
+
+        const output = yield* TestResource("A", {
+          string: Stack.useSync((s) =>
+            s.stage === "test" ? `from-${s.stage}` : undefined,
+          ) as any,
+        }).pipe(stack.deploy, hook(capture));
+
+        expect(output.string).toBe("from-test");
+        expect(seen).toHaveLength(1);
+        expect(Effect.isEffect(seen[0])).toBe(false);
+        expect(seen[0]).toBe("from-test");
+
+        // The persisted props must hold the concrete value, not a
+        // shredded Effect object.
+        const persisted = yield* getState<{
+          props: TestResourceProps;
+        }>("A");
+        expect(persisted.props.string).toBe("from-test");
+      }),
+  );
+
+  test.provider(
+    "a Stack.useSync prop resolving to undefined arrives as a real undefined",
+    (stack) =>
+      Effect.gen(function* () {
+        // The Worker `domain` case: an unresolved Effect object is truthy,
+        // so a stage where the value resolves to `undefined` would wrongly
+        // enter reconciliation (and crash the API client). A resolved
+        // `undefined` keeps provider skip-guards working.
+        const seen: unknown[] = [];
+        const capture = {
+          create: (id: string, props: TestResourceProps) =>
+            Effect.sync(() => {
+              if (id === "A") seen.push(props.string);
+            }),
+        };
+
+        const output = yield* TestResource("A", {
+          string: Stack.useSync((s) =>
+            s.stage === "prod" ? "prod-only" : undefined,
+          ) as any,
+        }).pipe(stack.deploy, hook(capture));
+
+        expect(seen).toHaveLength(1);
+        expect(seen[0]).toBeUndefined();
+        // Provider fell through its `news.string ?? id` default — the
+        // undefined was a genuine undefined, not a truthy Effect object.
+        expect(output.string).toBe("A");
+      }),
+  );
+
+  // Non-class resource references (`const db = Cloudflare.Hyperdrive("db",
+  // …)`) are Effects too. They must NOT be executed by input resolution:
+  // re-running the constructor outside the construction phase re-derives the
+  // FQN from the ambient namespace (none at plan/apply time) and mints a
+  // phantom resource — `MissingSourceError: Source <id> not found`.
+  test.provider(
+    "a resource reference in another resource's props stays opaque",
+    (stack) =>
+      Effect.gen(function* () {
+        const seen: unknown[] = [];
+        const capture = {
+          create: (id: string, props: TestResourceProps) =>
+            Effect.sync(() => {
+              if (id === "B") seen.push(props.object?.string);
+            }),
+        };
+
+        // Hoisted reference, the way an app hoists
+        // `const db = Cloudflare.Hyperdrive("db", …)`.
+        const bucket = Bucket("Bucket", {});
+
+        yield* Effect.gen(function* () {
+          // Register the reference under a namespace — the way a Worker's
+          // env binding values are registered inside the composite's
+          // `Namespace.push(id)` scope. Executing the reference outside
+          // this scope would compute FQN "Bucket" instead of "NS/Bucket".
+          const Site = Construct.fn(function* (_id: string, _props: {}) {
+            return yield* bucket;
+          });
+          yield* Site("NS", {});
+          yield* TestResource("B", {
+            string: "x",
+            object: { string: bucket as any },
+          });
+        }).pipe(stack.deploy, hook(capture));
+
+        // The deploy converged, and the reference reached the provider as
+        // the same un-executed Effect object — no phantom resource, no
+        // MissingSourceError.
+        expect(seen).toHaveLength(1);
+        expect(seen[0]).toBe(bucket);
+      }),
+  );
+
+  test.provider(
+    "a plain Effect wrapping a resource reference resolves through the reference",
+    (stack) =>
+      Effect.gen(function* () {
+        const seen: unknown[] = [];
+        const capture = {
+          create: (id: string, props: TestResourceProps) =>
+            Effect.sync(() => {
+              if (id === "B") seen.push(props.string);
+            }),
+        };
+
+        // The `AI_GATEWAY_ID: Effect.map(aiGateway, g => g.gatewayId)`
+        // shape: a plain (unbranded) Effect wrapping a resource reference.
+        // Resolving it executes the wrapper — the wrapped reference must
+        // return the resource registered during construction (under
+        // "NS/Bucket"), not mint a phantom root-level "Bucket".
+        const bucket = Bucket("Bucket", {});
+
+        const output = yield* Effect.gen(function* () {
+          const Site = Construct.fn(function* (_id: string, _props: {}) {
+            return yield* bucket;
+          });
+          yield* Site("NS", {});
+          return yield* TestResource("B", {
+            string: Effect.map(bucket, (b) => b.name) as any,
+          });
+        }).pipe(stack.deploy, hook(capture));
+
+        // The wrapper resolved to the real resource's attribute and the
+        // provider saw the concrete value.
+        expect(seen).toEqual(["Bucket"]);
+        expect(output.string).toBe("Bucket");
       }),
   );
 });

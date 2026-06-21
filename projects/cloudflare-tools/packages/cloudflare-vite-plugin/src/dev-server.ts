@@ -1,3 +1,4 @@
+import { workerEnvironments } from "@oddlynew/distilled-cloudflare-rolldown-plugin/options";
 import type { BindingHooks, Module, RuntimeServices } from "@oddlynew/distilled-cloudflare-runtime";
 import { layerRuntime, Runtime } from "@oddlynew/distilled-cloudflare-runtime";
 import {
@@ -7,7 +8,7 @@ import {
   UnsafeEval,
 } from "@oddlynew/distilled-cloudflare-runtime/bindings";
 import * as Credentials from "@oddlynew/distilled-cloudflare/Credentials";
-import type * as Context from "effect/Context";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
@@ -22,7 +23,7 @@ import * as ModuleRunnerWorker from "worker:./module-runner/module-runner.worker
 import * as WrapperWorker from "worker:./module-runner/wrapper.worker.ts";
 import * as ViteAssets from "./assets/ViteAssets";
 import { ENVIRONMENT_NAME_HEADER } from "./module-runner/constants.shared.ts";
-import type { CloudflareVitePluginOptions } from "./plugin";
+import type { CloudflareVitePluginOptions } from "./options";
 
 export type ServerHandle = Awaited<ReturnType<typeof startServer>>;
 
@@ -36,9 +37,14 @@ export const startServer = async <B extends BindingHooks = BindingHooks>(
   context: Context.Context<RuntimeServices>,
 ) => {
   const scope = Scope.makeUnsafe();
-  const address = await serve(options, entry, server).pipe(
-    Effect.provide(ViteAssets.ViteAssetsLive(server)),
+  const assetsContext = await ViteAssets.ViteAssetsLive(server).pipe(
+    Layer.buildWithScope(scope),
     Effect.provide(context),
+    Effect.runPromise,
+  );
+  const devContext = Context.merge(context, assetsContext);
+  const address = await serve(options, entry, server).pipe(
+    Effect.provideContext(devContext),
     Scope.provide(scope),
     Effect.runPromise,
   );
@@ -103,7 +109,9 @@ const serve = Effect.fn(function* <B extends BindingHooks = BindingHooks>(
         className: "ModuleRunnerDO",
       }),
       Json.local("__DISTILLED_ENVIRONMENT__", {
-        environmentName: "ssr",
+        // The Worker runs the entry environment (the `rsc` env for RSC apps,
+        // `ssr` otherwise); its module runner imports the entry from here.
+        environmentName: workerEnvironments(options).entry,
         entryId: entry.id,
         entryName: entry.name,
       }),

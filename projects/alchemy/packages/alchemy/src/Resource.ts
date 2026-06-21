@@ -125,6 +125,21 @@ export const isResource = (value: any): value is ResourceLike => {
   return typeof value === "object" && value !== null && "Type" in value;
 };
 
+// Registered with `Symbol.for` (like `alchemy/Expr`) so the brand survives
+// duplicate alchemy module instances in one process.
+export const ResourceEffectSymbol = Symbol.for("alchemy/ResourceEffect");
+
+/**
+ * True for the Effect returned by a non-class resource call
+ * (`const db = Hyperdrive("db", props)`). Such an Effect is a *reference*
+ * to a stack resource, not a per-field value: input resolution
+ * (`resolveInput` in Plan.ts, `Output.evaluate`) must leave it opaque
+ * instead of executing it — execution outside the construction phase would
+ * re-derive the FQN from the ambient namespace and mint a phantom resource.
+ */
+export const isResourceEffect = (value: unknown): boolean =>
+  typeof value === "object" && value !== null && ResourceEffectSymbol in value;
+
 export type Resource<
   Type extends string = any,
   Props extends object | undefined = any,
@@ -174,115 +189,136 @@ export function Resource<R extends ResourceLike>(
   const constructor = (
     id: string,
     props: Props | Effect.Effect<Props> | undefined,
-  ) =>
-    Effect.gen(function* () {
-      const stack = yield* Stack;
-      const namespace = yield* CurrentNamespace;
-      const fqn = toFqn(namespace, id);
+  ) => {
+    // One constructor call denotes one resource per stack. The FQN-keyed
+    // memo below only collapses re-executions that see the same ambient
+    // namespace; this per-effect memo also covers re-executions *outside*
+    // the construction phase (e.g. a per-field Effect like
+    // `Effect.map(dbRole, …)` resolved by Plan/Apply re-runs the wrapped
+    // reference with no namespace in scope), which would otherwise
+    // re-derive a different FQN and mint a phantom resource.
+    const memo = new WeakMap<object, R>();
+    return Object.assign(
+      Effect.gen(function* () {
+        const stack = yield* Stack;
+        const memoized = memo.get(stack);
+        if (memoized) {
+          return memoized;
+        }
+        const namespace = yield* CurrentNamespace;
+        const fqn = toFqn(namespace, id);
 
-      const existing = stack.resources[fqn];
-      if (existing) {
-        // // TODO(sam): check if props are different and die
-        return existing;
-      }
-      const bind = (
-        ...args:
-          | [sid: string, data: R["Binding"]]
-          | [template: TemplateStringsArray, ...args: any[]]
-      ) =>
-        typeof args[0] === "string"
-          ? Effect.gen(function* () {
-              const [sid, data] = args as [sid: string, data: R["Binding"]];
-              (stack.bindings[fqn] ??= []).push({
-                sid,
-                data,
-              });
-              return undefined;
-            })
-          : (data: R["Binding"]) => {
-              const stringifyBindArg = (arg: any): string | undefined => {
-                if (arg === undefined) {
-                  return undefined;
-                }
+        const existing = stack.resources[fqn];
+        if (existing) {
+          // // TODO(sam): check if props are different and die
+          memo.set(stack, existing as R);
+          return existing;
+        }
+        const bind = (
+          ...args:
+            | [sid: string, data: R["Binding"]]
+            | [template: TemplateStringsArray, ...args: any[]]
+        ) =>
+          typeof args[0] === "string"
+            ? Effect.gen(function* () {
+                const [sid, data] = args as [sid: string, data: R["Binding"]];
+                (stack.bindings[fqn] ??= []).push({
+                  sid,
+                  data,
+                });
+                return undefined;
+              })
+            : (data: R["Binding"]) => {
+                const stringifyBindArg = (arg: any): string | undefined => {
+                  if (arg === undefined) {
+                    return undefined;
+                  }
 
-                if (Array.isArray(arg)) {
-                  return arg
-                    .flatMap((item) => {
-                      const stringified = stringifyBindArg(item);
-                      return stringified === undefined ? [] : [stringified];
+                  if (Array.isArray(arg)) {
+                    return arg
+                      .flatMap((item) => {
+                        const stringified = stringifyBindArg(item);
+                        return stringified === undefined ? [] : [stringified];
+                      })
+                      .join(", ");
+                  }
+
+                  if (
+                    arg &&
+                    (typeof arg === "object" || typeof arg === "function")
+                  ) {
+                    if (
+                      "LogicalId" in arg &&
+                      typeof arg.LogicalId === "string"
+                    ) {
+                      return arg.LogicalId;
+                    }
+
+                    if ("id" in arg && typeof arg.id === "string") {
+                      return arg.id;
+                    }
+                  }
+
+                  return String(arg);
+                };
+
+                return bind(
+                  `${(args[0] as TemplateStringsArray)
+                    .flatMap((text, i) => {
+                      const stringified = stringifyBindArg(args[i + 1]);
+                      return stringified !== undefined
+                        ? [text, stringified]
+                        : [text];
                     })
-                    .join(", ");
-                }
-
-                if (
-                  arg &&
-                  (typeof arg === "object" || typeof arg === "function")
-                ) {
-                  if ("LogicalId" in arg && typeof arg.LogicalId === "string") {
-                    return arg.LogicalId;
-                  }
-
-                  if ("id" in arg && typeof arg.id === "string") {
-                    return arg.id;
-                  }
-                }
-
-                return String(arg);
+                    .join("")}`,
+                  data,
+                );
               };
 
-              return bind(
-                `${(args[0] as TemplateStringsArray)
-                  .flatMap((text, i) => {
-                    const stringified = stringifyBindArg(args[i + 1]);
-                    return stringified !== undefined
-                      ? [text, stringified]
-                      : [text];
-                  })
-                  .join("")}`,
-                data,
-              );
-            };
+        const target: any = {
+          Type: type,
+          Namespace: namespace,
+          FQN: fqn,
+          LogicalId: id,
+          Props: props,
+          Provider: ProviderTag as Provider<any>,
+          RemovalPolicy: yield* Effect.serviceOption(RemovalPolicy).pipe(
+            Effect.map(Option.getOrElse(() => defaultRemovalPolicy)),
+          ),
+          Adopt: yield* Effect.serviceOption(AdoptPolicy).pipe(
+            Effect.map(Option.getOrUndefined),
+          ),
+          bind,
+          toString(this: typeof target) {
+            return `Resource<${this.Type}>(${this.LogicalId})`;
+          },
+          [Symbol.toPrimitive](this: typeof target, hint: string) {
+            return hint === "number" ? NaN : this.toString();
+          },
+        };
 
-      const target: any = {
-        Type: type,
-        Namespace: namespace,
-        FQN: fqn,
-        LogicalId: id,
-        Props: props,
-        Provider: ProviderTag as Provider<any>,
-        RemovalPolicy: yield* Effect.serviceOption(RemovalPolicy).pipe(
-          Effect.map(Option.getOrElse(() => defaultRemovalPolicy)),
-        ),
-        Adopt: yield* Effect.serviceOption(AdoptPolicy).pipe(
-          Effect.map(Option.getOrUndefined),
-        ),
-        bind,
-        toString(this: typeof target) {
-          return `Resource<${this.Type}>(${this.LogicalId})`;
-        },
-        [Symbol.toPrimitive](this: typeof target, hint: string) {
-          return hint === "number" ? NaN : this.toString();
-        },
-      };
-
-      const Resource: R = (stack.resources[fqn] = new Proxy(target, {
-        set: (t, prop, value) => {
-          t[prop as keyof typeof t] = value;
-          return true;
-        },
-        get: (t, prop) =>
-          typeof prop === "symbol" || prop in t
-            ? t[prop as keyof typeof t]
-            : new Output.PropExpr<any, string>(Output.of(Resource), prop),
-      })) as R;
-      Resource.Props = Effect.isEffect(props)
-        ? yield* props.pipe(
-            Effect.provideService(Self, Resource),
-            Effect.provideService(Self(type), Resource),
-          )
-        : props;
-      return Resource;
-    });
+        const Resource: R = (stack.resources[fqn] = new Proxy(target, {
+          set: (t, prop, value) => {
+            t[prop as keyof typeof t] = value;
+            return true;
+          },
+          get: (t, prop) =>
+            typeof prop === "symbol" || prop in t
+              ? t[prop as keyof typeof t]
+              : new Output.PropExpr<any, string>(Output.of(Resource), prop),
+        })) as R;
+        Resource.Props = Effect.isEffect(props)
+          ? yield* props.pipe(
+              Effect.provideService(Self, Resource),
+              Effect.provideService(Self(type), Resource),
+            )
+          : props;
+        memo.set(stack, Resource);
+        return Resource;
+      }),
+      { [ResourceEffectSymbol]: true },
+    );
+  };
 
   const ProviderTag = Provider(type);
 

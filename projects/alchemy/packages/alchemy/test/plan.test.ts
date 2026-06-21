@@ -2552,6 +2552,127 @@ describe("Config props are resolved through plan", () => {
   );
 });
 
+describe("per-field Effect props are resolved through plan", () => {
+  test(
+    "an Effect prop is resolved to its concrete value in the plan",
+    Effect.gen(function* () {
+      const plan = yield* Effect.gen(function* () {
+        yield* TestResource("A", {
+          string: Effect.succeed("resolved-effect-value") as any,
+        });
+      }).pipe(makePlan);
+
+      const node: any = plan.resources.A!;
+      expect(node.action).toBe("create");
+      const props = node.props as TestResourceProps;
+      expect(Effect.isEffect(props.string)).toBe(false);
+      expect(props.string).toBe("resolved-effect-value");
+    }),
+  );
+
+  test(
+    "an Effect prop resolving to undefined lands as undefined",
+    Effect.gen(function* () {
+      // The domain-shaped case from the Worker provider: an unresolved
+      // Effect is truthy, so a stage-conditional prop that should be
+      // "off" would wrongly enter reconciliation. A resolved `undefined`
+      // keeps provider guards like `domain === undefined` working.
+      const plan = yield* Effect.gen(function* () {
+        yield* TestResource("A", {
+          string: Effect.succeed(undefined) as any,
+        });
+      }).pipe(makePlan);
+
+      const node: any = plan.resources.A!;
+      expect(node.action).toBe("create");
+      const props = node.props as TestResourceProps;
+      expect(props.string).toBeUndefined();
+    }),
+  );
+
+  test(
+    "an Effect nested inside an object prop is resolved in the plan",
+    Effect.gen(function* () {
+      const plan = yield* Effect.gen(function* () {
+        yield* TestResource("A", {
+          object: { string: Effect.succeed("nested") as any },
+        });
+      }).pipe(makePlan);
+
+      const node: any = plan.resources.A!;
+      expect(node.action).toBe("create");
+      const props = node.props as TestResourceProps;
+      expect(props.object).toEqual({ string: "nested" });
+    }),
+  );
+
+  test(
+    "diff observes resolved Effect props (noop when value is unchanged)",
+    Effect.gen(function* () {
+      yield* seed({
+        A: {
+          instanceId,
+          providerVersion: 0,
+          logicalId: "A",
+          fqn: "A",
+          namespace: undefined,
+          resourceType: "Test.TestResource",
+          status: "created",
+          props: {
+            string: "same",
+          },
+          attr: {
+            string: "same",
+            stringArray: [],
+            stableString: "A",
+            stableArray: ["A"],
+            replaceString: undefined,
+            redacted: undefined,
+            redactedArray: undefined,
+          },
+          downstream: [],
+          bindings: [],
+        },
+      });
+      // If the Effect reached `diff` unresolved, the provider's
+      // `isResolved(news)` guard would bail and the engine would fall back
+      // to a conservative prop-hash comparison against the raw Effect —
+      // producing a spurious update. A noop proves diff saw the value.
+      const plan = yield* Effect.gen(function* () {
+        yield* TestResource("A", {
+          string: Effect.succeed("same") as any,
+        });
+      }).pipe(makePlan);
+
+      expect(plan.resources.A!.action).toBe("noop");
+    }),
+  );
+
+  test(
+    "a resource reference prop stays opaque in the plan",
+    Effect.gen(function* () {
+      // Non-class resource reference (`const db = Hyperdrive("db", …)`) —
+      // an Effect, but a handle to a stack resource. resolveInput must not
+      // execute it: outside the construction phase the ambient namespace
+      // differs, so execution would mint a phantom resource.
+      const bucket = Bucket("A", {});
+      const plan = yield* Effect.gen(function* () {
+        yield* bucket;
+        yield* TestResource("B", {
+          object: { string: bucket as any },
+        });
+      }).pipe(makePlan);
+
+      // No phantom resource appeared in the plan.
+      expect(Object.keys(plan.resources).sort()).toEqual(["A", "B"]);
+      const node: any = plan.resources.B!;
+      const props = node.props as TestResourceProps;
+      // Same reference, un-executed.
+      expect(props.object!.string).toBe(bucket as any);
+    }),
+  );
+});
+
 describe("Redacted props/outputs are preserved through plan", () => {
   test(
     "Redacted prop on a new resource is preserved as a Redacted in the plan",

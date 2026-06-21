@@ -4,6 +4,7 @@ import * as Queue from "effect/Queue";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import assert from "node:assert";
+import nodePath from "node:path";
 import * as rolldown from "rolldown";
 import { sha256, sha256Object } from "../Util/sha256.ts";
 import {
@@ -57,6 +58,7 @@ export interface BundleFile {
   readonly path: string;
   readonly content: string | Uint8Array<ArrayBufferLike>;
   readonly hash: string;
+  readonly contentType?: string;
 }
 
 export class BundleError extends Schema.TaggedErrorClass<BundleError>()(
@@ -319,11 +321,37 @@ export function bundleOutputFromFiles(
       files.map((file) => ({
         path: file.path,
         hash: file.hash,
+        contentType: file.contentType,
       })),
     ),
     (hash) => ({ files, hash }),
   );
 }
+
+export const contentTypeFromPath = (filePath: string) => {
+  switch (nodePath.extname(filePath)) {
+    case ".wasm":
+      return "application/wasm";
+    case ".txt":
+    case ".html":
+    case ".sql":
+    case ".custom":
+      return "text/plain";
+    case ".bin":
+      return "application/octet-stream";
+    case ".json":
+      return "application/json";
+    case ".mjs":
+    case ".js":
+      return "application/javascript+module";
+    case ".cjs":
+      return "application/javascript";
+    case ".map":
+      return "application/source-map";
+    default:
+      return "application/octet-stream";
+  }
+};
 
 function bundleFileFromOutputChunk(
   chunk: rolldown.OutputChunk | rolldown.OutputAsset,
@@ -334,12 +362,14 @@ function bundleFileFromOutputChunk(
         path: chunk.fileName,
         content: chunk.code,
         hash,
+        contentType: contentTypeFromPath(chunk.fileName),
       }));
     case "asset":
       return Effect.map(sha256(chunk.source), (hash) => ({
         path: chunk.fileName,
         content: chunk.source,
         hash,
+        contentType: contentTypeFromPath(chunk.fileName),
       }));
   }
 }

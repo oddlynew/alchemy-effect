@@ -10,6 +10,11 @@ import { CloudflareEnvironment } from "./CloudflareEnvironment.ts";
 import type { Queue } from "./Queue/Queue.ts";
 import type { QueueConsumer } from "./Queue/QueueConsumer.ts";
 
+export type LocalWorkerReload = {
+  readonly id: string;
+  readonly reload: (reason: string) => Effect.Effect<void, unknown, any>;
+};
+
 export const LOCAL_ENTRY_URL = import.meta.resolve(
   // `import.meta.resolve(<string>)` is a runtime API — TypeScript's
   // `rewriteRelativeImportExtensions` does NOT touch the string literal, so
@@ -32,6 +37,14 @@ export class LocalRuntimeState extends Context.Service<
       QueueConsumer["Attributes"]["consumerId"],
       QueueConsumer["Attributes"]
     >;
+    readonly workerReloads: MutableHashMap.MutableHashMap<
+      string,
+      LocalWorkerReload
+    >;
+    readonly pendingWorkerReloads: MutableHashMap.MutableHashMap<
+      string,
+      string
+    >;
   }
 >()("alchemy/cloudflare/LocalRuntimeState") {}
 
@@ -40,6 +53,8 @@ const LocalRuntimeStateLive = Layer.succeed(
   LocalRuntimeState.of({
     queues: MutableHashMap.empty(),
     queueConsumers: MutableHashMap.empty(),
+    workerReloads: MutableHashMap.empty(),
+    pendingWorkerReloads: MutableHashMap.empty(),
   }),
 );
 

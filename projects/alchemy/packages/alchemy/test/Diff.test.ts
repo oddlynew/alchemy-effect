@@ -1,6 +1,8 @@
-import { deepEqual, havePropsChanged } from "@/Diff";
+import { deepEqual, havePropsChanged, isResolved } from "@/Diff";
 import { describe, expect, test } from "@effect/vitest";
+import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import { Bucket } from "./test.resources.ts";
 
 describe("Diff", () => {
   describe("havePropsChanged with Redacted values", () => {
@@ -106,6 +108,18 @@ describe("Diff", () => {
           { secret: Redacted.make("b") },
         ),
       ).toBe(false);
+    });
+  });
+
+  describe("isResolved with Effect-valued props", () => {
+    test("a per-field Effect input counts as unresolved", () => {
+      expect(isResolved({ domain: Effect.succeed("example.com") })).toBe(false);
+    });
+
+    test("a non-class resource reference counts as resolved (opaque)", () => {
+      // `resolveInput` never executes resource references (see Plan.ts),
+      // so their presence must not disable a provider's custom diff.
+      expect(isResolved({ env: { DB: Bucket("A", {}) } })).toBe(true);
     });
   });
 });
