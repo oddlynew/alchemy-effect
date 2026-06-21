@@ -14,10 +14,13 @@ project graph, package identities are under the `@oddlynew` namespace, CI runs a
 build/typecheck/lint with the R2 cache hook, release groups are modeled in Nx, and the second audit
 round fixed dogfood-specific package export and workflow trust blockers.
 
-The main remaining operational gap is broad test promotion. CI now runs affected tests for projects
-tagged `test:ci`; the cache worker is the first tagged project. It does not yet require every
-Alchemy, Distilled, or Cloudflare Tools test target because many imported tests exercise live
-provider APIs, but adding `test:ci` to hermetic packages is the highest-value next hardening step.
+The main remaining operational gaps are broad test promotion and website-docs gating. CI now runs
+affected tests for projects tagged `test:ci`; the cache worker is the first tagged project. It does
+not yet require every Alchemy, Distilled, or Cloudflare Tools test target because many imported
+tests exercise live provider APIs, but adding `test:ci` to hermetic packages is the highest-value
+next hardening step. The imported Alchemy website docs build remains available as an Nx target, but
+is not currently a required fork PR gate because it dominates CI time and the fork is not relying on
+website publishing as the core dogfood proof yet.
 
 ## Warranted Deviations
 
@@ -31,7 +34,7 @@ These are intentional differences from the Oddlynew app monorepo.
 | Large runner | Use `ubuntu-large` for CI and release. | Distilled generated SDK builds, especially GCP, exceed the margin of the default runner. The project-level build targets still limit concurrency where needed. |
 | Fork PR safety | Keep CI on `pull_request`, with GitHub fork-workflow approval protecting larger runner cost. | The workflow executes PR code, so `pull_request_target` would be the wrong trust model for validation. |
 | Validation affected exclude | Exclude examples and fixtures from affected build/typecheck/lint. | Those projects remain in the graph and can be run directly, but they are not all hermetic validation gates yet. Distilled and Cloudflare Tools package leaves are part of the default affected gate. |
-| Website cache inputs | Override `@oddlynew/alchemy-website` `build` and `docs:check` inputs inline and validate website changes with `docs:check` in CI. | The global `production` input intentionally ignores Markdown for library builds, but the website output depends on MD/MDX docs and generated provider docs. The inline inputs include content while excluding generated docs, `.astro`, `dist`, and downloaded fonts from the hash; full build still runs through deploy. |
+| Website cache inputs | Override `@oddlynew/alchemy-website` `build` and `docs:check` inputs inline, but keep `docs:check` manual for now. | The global `production` input intentionally ignores Markdown for library builds, but the website output depends on MD/MDX docs and generated provider docs. The inline inputs include content while excluding generated docs, `.astro`, `dist`, and downloaded fonts from the hash; the target remains available for deliberate website validation without making every fork PR wait for the full Astro/Starlight docs build. |
 | Distilled `project.json` build overrides | Keep generated SDK package build targets explicit. | Some generated packages need serialized or file-by-file emit behavior that is not yet generic enough for inference. |
 | Historical docs links | Leave old blog/changelog links pointing at upstream unless they are current dogfood instructions. | Historical release notes should keep pointing to the original issues and PRs; rewriting them would distort provenance. |
 
@@ -92,6 +95,7 @@ fully independent long-term fork.
 | Oxlint hygiene plugins | `@oddlynew/alchemy-oxlint-config` does not yet include Oddlynew's custom workspace-hygiene plugins. | Port the plugins once generated/imported code exceptions are known, then ratchet rules package by package. |
 | TypeScript config strictness | Package configs now use Oddlynew-style solution/source/build boundaries, but the shared compiler options are still less strict than Oddlynew's mature baseline. | Tighten after imported package drift is resolved, not during the structural migration. |
 | Example and fixture targets | Examples and Cloudflare Tools fixtures still keep package-local scripts and are excluded from production CI. | Decide which examples are hermetic smoke tests, then infer or model them as first-class Nx targets. |
+| Website docs gate | `@oddlynew/alchemy-website` still has a cacheable `docs:check` target, but CI does not run it by default. | Re-enable it as a separate `ubuntu-latest` docs job, or keep it manual, once website publishing matters to the fork's required validation story. |
 | Root Alchemy smoke test | `test/smoke.test.ts` remains at the repository root. | Either keep it documented as cross-product smoke infrastructure or move it under `projects/alchemy` with a dedicated Nx target. |
 | Website links | Historical docs and blog pages still contain upstream GitHub links. Current navigation and edit links point at Oddlynew. | Keep historical release provenance upstream; only rewrite active dogfood navigation, install, and edit links. |
 | Distilled explicit build targets | Generated packages use small `project.json` files for serialized `tsconfig.build.json` emits. | If the pattern stabilizes, move it into the custom Nx plugin so package roots stay script-first. |
