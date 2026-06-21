@@ -114,9 +114,11 @@ jobs:
         run: bun nx affected -t build --parallel=3 --exclude="$NX_VALIDATION_BUILD_EXCLUDE" --outputStyle=static
         if: github.event.action != 'labeled'
 
-      - name: Check affected docs sites
-        run: bun nx affected -t docs:check --parallel=1 --outputStyle=static
-        if: github.event.action != 'labeled'
+      # The imported Alchemy website docs build is intentionally not a required
+      # fork PR gate yet. It regenerates provider reference pages and runs a
+      # full Astro/Starlight build, which currently dominates CI time. Keep the
+      # Nx target available for deliberate website validation:
+      # `bun nx docs:check @oddlynew/alchemy-website`.
 
       - name: Typecheck affected projects
         run: bun nx affected -t typecheck --parallel=2 --exclude="$NX_VALIDATION_EXCLUDE" --outputStyle=static
