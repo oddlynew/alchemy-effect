@@ -280,6 +280,6 @@ jobs:
               exit 1
             fi
 
-            git -c "http.https://github.com/.extraheader=AUTHORIZATION: bearer ${RELEASE_APP_TOKEN}" \
-              push origin "HEAD:${GITHUB_REF_NAME}" --follow-tags
+            git remote set-url origin "https://x-access-token:${RELEASE_APP_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push origin "HEAD:${GITHUB_REF_NAME}" --follow-tags
           fi
