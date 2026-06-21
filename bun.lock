@@ -1024,7 +1024,7 @@
     },
     "projects/distilled/packages/aws": {
       "name": "@oddlynew/distilled-aws",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@aws-crypto/crc32": "catalog:",
         "@aws-crypto/util": "catalog:",
@@ -1056,7 +1056,7 @@
     },
     "projects/distilled/packages/axiom": {
       "name": "@oddlynew/distilled-axiom",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1073,7 +1073,7 @@
     },
     "projects/distilled/packages/azure": {
       "name": "@oddlynew/distilled-azure",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1090,7 +1090,7 @@
     },
     "projects/distilled/packages/cloudflare": {
       "name": "@oddlynew/distilled-cloudflare",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1110,7 +1110,7 @@
     },
     "projects/distilled/packages/coinbase": {
       "name": "@oddlynew/distilled-coinbase",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1128,7 +1128,7 @@
     },
     "projects/distilled/packages/core": {
       "name": "@oddlynew/distilled-core",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "devDependencies": {
         "@oddlynew/alchemy-typescript-config": "workspace:*",
         "@types/bun": "catalog:",
@@ -1142,7 +1142,7 @@
     },
     "projects/distilled/packages/expo-eas": {
       "name": "@oddlynew/distilled-expo-eas",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1159,7 +1159,7 @@
     },
     "projects/distilled/packages/fly-io": {
       "name": "@oddlynew/distilled-fly-io",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1176,7 +1176,7 @@
     },
     "projects/distilled/packages/gcp": {
       "name": "@oddlynew/distilled-gcp",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1193,7 +1193,7 @@
     },
     "projects/distilled/packages/kubernetes": {
       "name": "@oddlynew/distilled-kubernetes",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1210,7 +1210,7 @@
     },
     "projects/distilled/packages/mongodb-atlas": {
       "name": "@oddlynew/distilled-mongodb-atlas",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1227,7 +1227,7 @@
     },
     "projects/distilled/packages/neon": {
       "name": "@oddlynew/distilled-neon",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1244,7 +1244,7 @@
     },
     "projects/distilled/packages/planetscale": {
       "name": "@oddlynew/distilled-planetscale",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1261,7 +1261,7 @@
     },
     "projects/distilled/packages/posthog": {
       "name": "@oddlynew/distilled-posthog",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1280,7 +1280,7 @@
     },
     "projects/distilled/packages/prisma-postgres": {
       "name": "@oddlynew/distilled-prisma-postgres",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1297,7 +1297,7 @@
     },
     "projects/distilled/packages/stripe": {
       "name": "@oddlynew/distilled-stripe",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1314,7 +1314,7 @@
     },
     "projects/distilled/packages/supabase": {
       "name": "@oddlynew/distilled-supabase",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1331,7 +1331,7 @@
     },
     "projects/distilled/packages/turso": {
       "name": "@oddlynew/distilled-turso",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1348,7 +1348,7 @@
     },
     "projects/distilled/packages/typesense": {
       "name": "@oddlynew/distilled-typesense",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
@@ -1366,7 +1366,7 @@
     },
     "projects/distilled/packages/workos": {
       "name": "@oddlynew/distilled-workos",
-      "version": "0.26.1",
+      "version": "0.26.2",
       "dependencies": {
         "@oddlynew/distilled-core": "workspace:*",
       },
