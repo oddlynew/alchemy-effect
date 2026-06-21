@@ -1,6 +1,6 @@
 {
   "name": "@oddlynew/distilled-cloudflare-rolldown-plugin",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "Rolldown plugin for Cloudflare Workers.",
   "keywords": [
     "cloudflare",

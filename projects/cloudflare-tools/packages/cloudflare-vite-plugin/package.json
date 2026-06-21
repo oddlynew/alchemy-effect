@@ -1,6 +1,6 @@
 {
   "name": "@oddlynew/distilled-cloudflare-vite-plugin",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "homepage": "https://github.com/oddlynew/alchemy-effect/tree/main/projects/cloudflare-tools/packages/cloudflare-vite-plugin#readme",
   "bugs": {
     "url": "https://github.com/oddlynew/alchemy-effect/issues"

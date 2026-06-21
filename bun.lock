@@ -881,7 +881,7 @@
     },
     "projects/cloudflare-tools/packages/cloudflare-rolldown-plugin": {
       "name": "@oddlynew/distilled-cloudflare-rolldown-plugin",
-      "version": "0.11.2",
+      "version": "0.11.3",
       "dependencies": {
         "@cloudflare/unenv-preset": "^2.16.0",
         "magic-string": "^0.30.21",
@@ -907,7 +907,7 @@
     },
     "projects/cloudflare-tools/packages/cloudflare-runtime": {
       "name": "@oddlynew/distilled-cloudflare-runtime",
-      "version": "0.11.2",
+      "version": "0.11.3",
       "dependencies": {
         "@oddlynew/alchemy-node-utils": "workspace:*",
         "workerd": "catalog:workers",
@@ -941,7 +941,7 @@
     },
     "projects/cloudflare-tools/packages/cloudflare-vite-plugin": {
       "name": "@oddlynew/distilled-cloudflare-vite-plugin",
-      "version": "0.11.2",
+      "version": "0.11.3",
       "dependencies": {
         "@oddlynew/distilled-cloudflare-rolldown-plugin": "workspace:*",
       },
