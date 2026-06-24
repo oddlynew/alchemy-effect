@@ -102,6 +102,10 @@ tag-based: add `test:ci` to hermetic packages when they should join the required
 Deployable Alchemy stacks are Nx projects. Avoid root-level deploy aliases; use the project target
 directly so build dependencies, affected selection, and target metadata stay visible to Nx.
 
+For PR preview validation, add the `deploy-preview` label to a same-repository PR. CI deploys the
+tagged app projects with `STAGE=pr-<number>`, and the cleanup workflow destroys that preview stage
+when the PR closes.
+
 General form:
 
 ```bash
